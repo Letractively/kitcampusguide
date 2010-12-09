@@ -419,7 +419,7 @@
           <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UiMWpgFpEeCulbM3qAyglg" x="10032" y="3564"/>
         </children>
         <styles xmi:type="umlnotation:UMLComponentStyle" xmi:id="_Nw5m0QFaEeCZPdbU2rHD2w" fontName="Segoe UI" showStereotype="Label" showWhiteBox="true"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Nw5m0gFaEeCZPdbU2rHD2w" x="5676" y="10164" width="10924" height="3088"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Nw5m0gFaEeCZPdbU2rHD2w" x="11220" y="9240" width="10924" height="3088"/>
       </children>
       <children xmi:id="_nILYIAFaEeCZPdbU2rHD2w" element="_nHk7MAFaEeCZPdbU2rHD2w">
         <children xmi:id="_nIUiEAFaEeCZPdbU2rHD2w" type="ImageCompartment">
@@ -1110,14 +1110,14 @@
   </packagedElement>
   <packagedElement xmi:type="uml:Interface" xmi:id="_tBxQcP7jEd-TYvUfdcfJew" name="POIDB">
     <ownedOperation xmi:id="_CyBQsP7kEd-TYvUfdcfJew" name="getPOIsByQuery">
-      <ownedParameter xmi:id="_FH_CgP7kEd-TYvUfdcfJew" name="query"/>
+      <ownedParameter xmi:id="_FH_CgP7kEd-TYvUfdcfJew" name="query" type="_bHg64AOEEeCrOvZN_bFqcg"/>
       <ownedParameter xmi:id="_KE3zQP7kEd-TYvUfdcfJew" name="Parameter1" type="_GVf-gP7kEd-TYvUfdcfJew" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:id="_K9tfwP7kEd-TYvUfdcfJew" name="getPOIByID">
       <ownedParameter xmi:id="_N0_18P7kEd-TYvUfdcfJew" name="id">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
-      <ownedParameter xmi:id="_N0_18f7kEd-TYvUfdcfJew" name="Parameter1" direction="return"/>
+      <ownedParameter xmi:id="_N0_18f7kEd-TYvUfdcfJew" name="Parameter1" type="_XlepcAOCEeCrOvZN_bFqcg" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:id="_N-X0YP7kEd-TYvUfdcfJew" name="getPOIsBySearch">
       <ownedParameter xmi:id="_TNrK0P7kEd-TYvUfdcfJew" name="searchTerm">
@@ -1186,10 +1186,8 @@
   </packagedElement>
   <packagedElement xmi:type="uml:Interface" xmi:id="_SSSikP-SEd-SSMh68JUudA" name="POISource">
     <ownedOperation xmi:id="_VnotwP-SEd-SSMh68JUudA" name="getPOIsBySection">
-      <ownedParameter xmi:id="_Xgu9YP-SEd-SSMh68JUudA" name="section"/>
-      <ownedParameter xmi:id="_ck1oIAFNEeCZPdbU2rHD2w" name="mapID">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
-      </ownedParameter>
+      <ownedParameter xmi:id="_Xgu9YP-SEd-SSMh68JUudA" name="section" type="_R9eNMAOEEeCrOvZN_bFqcg"/>
+      <ownedParameter xmi:id="_ck1oIAFNEeCZPdbU2rHD2w" name="map" type="_K_3DYAObEeCjwLQP0BbVsw"/>
       <ownedParameter xmi:id="_ck1oIQFNEeCZPdbU2rHD2w" name="categories" type="_ST9mgP7iEd-TYvUfdcfJew"/>
       <ownedParameter xmi:id="_Xgu9Yf-SEd-SSMh68JUudA" name="Parameter1" type="_GVf-gP7kEd-TYvUfdcfJew" direction="return"/>
     </ownedOperation>
@@ -1204,12 +1202,10 @@
       <ownedParameter xmi:id="_XGbz0AFPEeCZPdbU2rHD2w" name="id">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
-      <ownedParameter xmi:id="_Z3oUkP-YEd-SSMh68JUudA" name="Parameter1" direction="return"/>
+      <ownedParameter xmi:id="_Z3oUkP-YEd-SSMh68JUudA" name="Parameter1" type="_XlepcAOCEeCrOvZN_bFqcg" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:id="_Xzc0gP_TEd-nEIMf3P4rZg" name="getPOIsByBuilding">
-      <ownedParameter xmi:id="_tBTSUP_TEd-nEIMf3P4rZg" name="id">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-      </ownedParameter>
+      <ownedParameter xmi:id="_tBTSUP_TEd-nEIMf3P4rZg" name="building" type="_4Q26gAOCEeCrOvZN_bFqcg"/>
       <ownedParameter xmi:id="_Z5sloAFPEeCZPdbU2rHD2w" name="categories" type="_ST9mgP7iEd-TYvUfdcfJew"/>
       <ownedParameter xmi:id="_tBT5YP_TEd-nEIMf3P4rZg" name="Parameter1" type="_GVf-gP7kEd-TYvUfdcfJew" direction="return"/>
     </ownedOperation>
@@ -1256,9 +1252,9 @@
   </packagedElement>
   <packagedElement xmi:type="uml:Interface" xmi:id="_3-IZ0P-zEd-nEIMf3P4rZg" name="Routing">
     <ownedOperation xmi:id="_5uCRMP-zEd-nEIMf3P4rZg" name="calcRoute">
-      <ownedParameter xmi:id="__JdYEP-zEd-nEIMf3P4rZg" name="routeFrom"/>
-      <ownedParameter xmi:id="_cWKgsAFSEeCZPdbU2rHD2w" name="routeTo"/>
-      <ownedParameter xmi:id="__JdYEf-zEd-nEIMf3P4rZg" name="Parameter1" direction="return"/>
+      <ownedParameter xmi:id="__JdYEP-zEd-nEIMf3P4rZg" name="routeFrom" type="_tqlp8AODEeCrOvZN_bFqcg"/>
+      <ownedParameter xmi:id="_cWKgsAFSEeCZPdbU2rHD2w" name="routeTo" type="_tqlp8AODEeCrOvZN_bFqcg"/>
+      <ownedParameter xmi:id="__JdYEf-zEd-nEIMf3P4rZg" name="Parameter1" type="_4AeDMAOEEeCrOvZN_bFqcg" direction="return"/>
     </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Interface" xmi:id="_HvCGwP-0Ed-nEIMf3P4rZg" name="TranslationModel" clientDependency="_xwtFYANwEeCUxuo3kUOafA">
@@ -1338,44 +1334,23 @@
     </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Interface" xmi:id="_hmvSUP-5Ed-nEIMf3P4rZg" name="MapModel" clientDependency="_oPemwANwEeCUxuo3kUOafA">
-    <ownedOperation xmi:id="_hmvSX_-5Ed-nEIMf3P4rZg" name="setMapID">
-      <ownedParameter xmi:id="_hmvSYP-5Ed-nEIMf3P4rZg" name="id">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
-      </ownedParameter>
+    <ownedOperation xmi:id="_hmvSX_-5Ed-nEIMf3P4rZg" name="setMap">
+      <ownedParameter xmi:id="_hmvSYP-5Ed-nEIMf3P4rZg" name="map" type="_K_3DYAObEeCjwLQP0BbVsw"/>
     </ownedOperation>
-    <ownedOperation xmi:id="_SlYRUP_MEd-nEIMf3P4rZg" name="getMapID">
-      <ownedParameter xmi:id="_T1B7UP_MEd-nEIMf3P4rZg" name="Parameter1" direction="return">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
-      </ownedParameter>
+    <ownedOperation xmi:id="_SlYRUP_MEd-nEIMf3P4rZg" name="getMap">
+      <ownedParameter xmi:id="_T1B7UP_MEd-nEIMf3P4rZg" name="Parameter1" type="_K_3DYAObEeCjwLQP0BbVsw" direction="return"/>
     </ownedOperation>
-    <ownedOperation xmi:id="_iTu6EAFMEeCZPdbU2rHD2w" name="setBuildingID">
-      <ownedParameter xmi:id="_jvFdwAFMEeCZPdbU2rHD2w" name="id">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-      </ownedParameter>
+    <ownedOperation xmi:id="_iTu6EAFMEeCZPdbU2rHD2w" name="setBuilding">
+      <ownedParameter xmi:id="_jvFdwAFMEeCZPdbU2rHD2w" name="building" type="_4Q26gAOCEeCrOvZN_bFqcg"/>
     </ownedOperation>
-    <ownedOperation xmi:id="_s8XawAFOEeCZPdbU2rHD2w" name="getBuildingID">
-      <ownedParameter xmi:id="_uunbgAFOEeCZPdbU2rHD2w" name="Parameter1" direction="return">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-      </ownedParameter>
-    </ownedOperation>
-    <ownedOperation xmi:id="_hmvSUf-5Ed-nEIMf3P4rZg" name="setZoom">
-      <ownedParameter xmi:id="_hmvSUv-5Ed-nEIMf3P4rZg" name="zoom">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
-      </ownedParameter>
-    </ownedOperation>
-    <ownedOperation xmi:id="_OrlDUP_OEd-nEIMf3P4rZg" name="getZoom">
-      <ownedParameter xmi:id="_Pf1x0P_OEd-nEIMf3P4rZg" name="Parameter1" direction="return">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
-      </ownedParameter>
+    <ownedOperation xmi:id="_s8XawAFOEeCZPdbU2rHD2w" name="getBuilding">
+      <ownedParameter xmi:id="_uunbgAFOEeCZPdbU2rHD2w" name="Parameter1" type="_4Q26gAOCEeCrOvZN_bFqcg" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:id="_hmvSVf-5Ed-nEIMf3P4rZg" name="setMapSection">
       <ownedParameter xmi:id="_hmvSVv-5Ed-nEIMf3P4rZg" name="mapSection"/>
     </ownedOperation>
     <ownedOperation xmi:id="_D9_xMP_MEd-nEIMf3P4rZg" name="getMapSection">
-      <ownedParameter xmi:id="_GPQpMP_MEd-nEIMf3P4rZg" name="Parameter1" direction="return"/>
-    </ownedOperation>
-    <ownedOperation xmi:id="_hmvSU_-5Ed-nEIMf3P4rZg" name="setMapSectionByCenter*">
-      <ownedParameter xmi:id="_hmvSVP-5Ed-nEIMf3P4rZg" name="mapPostion"/>
+      <ownedParameter xmi:id="_GPQpMP_MEd-nEIMf3P4rZg" name="Parameter1" type="_R9eNMAOEEeCrOvZN_bFqcg" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:id="_hmvSV_-5Ed-nEIMf3P4rZg" name="setPOIs">
       <ownedParameter xmi:id="_hmvSWP-5Ed-nEIMf3P4rZg" name="pois" type="_8rX_gP_IEd-nEIMf3P4rZg"/>
@@ -1384,42 +1359,38 @@
       <ownedParameter xmi:id="_m-QysAFQEeCZPdbU2rHD2w" name="Parameter1" type="_8rX_gP_IEd-nEIMf3P4rZg" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:id="_hmvSWf-5Ed-nEIMf3P4rZg" name="setHighlightedPOI">
-      <ownedParameter xmi:id="_hmvSWv-5Ed-nEIMf3P4rZg" name="id">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-      </ownedParameter>
+      <ownedParameter xmi:id="_hmvSWv-5Ed-nEIMf3P4rZg" name="poi" type="_XlepcAOCEeCrOvZN_bFqcg"/>
     </ownedOperation>
     <ownedOperation xmi:id="_iDIjUP_NEd-nEIMf3P4rZg" name="getHighlightedPOI">
-      <ownedParameter xmi:id="_jIXtEP_NEd-nEIMf3P4rZg" name="Parameter1" direction="return">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-      </ownedParameter>
+      <ownedParameter xmi:id="_jIXtEP_NEd-nEIMf3P4rZg" name="Parameter1" type="_XlepcAOCEeCrOvZN_bFqcg" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:id="_7Bf0UAFMEeCZPdbU2rHD2w" name="setMarkerFrom">
-      <ownedParameter xmi:id="_9DikkAFMEeCZPdbU2rHD2w" name="from"/>
+      <ownedParameter xmi:id="_9DikkAFMEeCZPdbU2rHD2w" name="from" type="_tqlp8AODEeCrOvZN_bFqcg"/>
     </ownedOperation>
     <ownedOperation xmi:id="_AWWZIAFNEeCZPdbU2rHD2w" name="getMarkerFrom">
-      <ownedParameter xmi:id="_BZAI8AFNEeCZPdbU2rHD2w" name="Parameter1" direction="return"/>
+      <ownedParameter xmi:id="_BZAI8AFNEeCZPdbU2rHD2w" name="Parameter1" type="_tqlp8AODEeCrOvZN_bFqcg" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:id="_9fEC8AFMEeCZPdbU2rHD2w" name="setMarkerTo">
-      <ownedParameter xmi:id="__2EWkAFMEeCZPdbU2rHD2w" name="to"/>
+      <ownedParameter xmi:id="__2EWkAFMEeCZPdbU2rHD2w" name="to" type="_tqlp8AODEeCrOvZN_bFqcg"/>
     </ownedOperation>
     <ownedOperation xmi:id="_BhVlkAFNEeCZPdbU2rHD2w" name="getMarkerTo">
-      <ownedParameter xmi:id="_Cx-HAAFNEeCZPdbU2rHD2w" name="Parameter1" direction="return"/>
+      <ownedParameter xmi:id="_Cx-HAAFNEeCZPdbU2rHD2w" name="Parameter1" type="_tqlp8AODEeCrOvZN_bFqcg" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:id="_hmvSXf-5Ed-nEIMf3P4rZg" name="setRoute">
-      <ownedParameter xmi:id="_hmvSXv-5Ed-nEIMf3P4rZg" name="route"/>
+      <ownedParameter xmi:id="_hmvSXv-5Ed-nEIMf3P4rZg" name="route" type="_4AeDMAOEEeCrOvZN_bFqcg"/>
     </ownedOperation>
     <ownedOperation xmi:id="_RU9yUP_MEd-nEIMf3P4rZg" name="getRoute">
-      <ownedParameter xmi:id="_SMqPUP_MEd-nEIMf3P4rZg" name="Parameter1" direction="return"/>
+      <ownedParameter xmi:id="_SMqPUP_MEd-nEIMf3P4rZg" name="Parameter1" type="_4AeDMAOEEeCrOvZN_bFqcg" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:id="_lG3JAAFMEeCZPdbU2rHD2w" name="createList">
-      <ownedParameter xmi:id="_sWcVIAFMEeCZPdbU2rHD2w" name="listPOI"/>
+      <ownedParameter xmi:id="_sWcVIAFMEeCZPdbU2rHD2w" name="listPOI" type="_XlepcAOCEeCrOvZN_bFqcg"/>
       <ownedParameter xmi:id="_0W0FAAFMEeCZPdbU2rHD2w" name="list" type="_GVf-gP7kEd-TYvUfdcfJew"/>
     </ownedOperation>
     <ownedOperation xmi:id="_1B0J0AFMEeCZPdbU2rHD2w" name="getList">
       <ownedParameter xmi:id="_2ZS6IAFMEeCZPdbU2rHD2w" name="Parameter1" type="_GVf-gP7kEd-TYvUfdcfJew" direction="return"/>
     </ownedOperation>
-    <ownedOperation xmi:id="_2tExwAFMEeCZPdbU2rHD2w" name="getListPOI*">
-      <ownedParameter xmi:id="_4xybgAFMEeCZPdbU2rHD2w" name="Parameter1" direction="return"/>
+    <ownedOperation xmi:id="_2tExwAFMEeCZPdbU2rHD2w" name="getListPOI">
+      <ownedParameter xmi:id="_4xybgAFMEeCZPdbU2rHD2w" name="Parameter1" type="_XlepcAOCEeCrOvZN_bFqcg" direction="return"/>
     </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Interface" xmi:id="_3qh5oP-5Ed-nEIMf3P4rZg" name="InputModel" clientDependency="_qYDc0ANwEeCUxuo3kUOafA">
@@ -1501,18 +1472,15 @@
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
       </ownedParameter>
       <ownedParameter xmi:id="_3ZXPIP_PEd-nEIMf3P4rZg" name="buildingID">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-      </ownedParameter>
-      <ownedParameter xmi:id="_3ZWoEP_PEd-nEIMf3P4rZg" name="zoom">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
       </ownedParameter>
-      <ownedParameter xmi:id="_CufUUP_QEd-nEIMf3P4rZg" name="mapSection"/>
+      <ownedParameter xmi:id="_CufUUP_QEd-nEIMf3P4rZg" name="mapSection" type="_R9eNMAOEEeCrOvZN_bFqcg"/>
       <ownedParameter xmi:id="_CuetQP_QEd-nEIMf3P4rZg" name="poiID">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
-      <ownedParameter xmi:id="_ExPy8AFUEeCZPdbU2rHD2w" name="markerFrom"/>
-      <ownedParameter xmi:id="_ExPy8QFUEeCZPdbU2rHD2w" name="markerTo"/>
-      <ownedParameter xmi:id="_J_FNEP_QEd-nEIMf3P4rZg" name="route"/>
+      <ownedParameter xmi:id="_ExPy8AFUEeCZPdbU2rHD2w" name="markerFrom" type="_tqlp8AODEeCrOvZN_bFqcg"/>
+      <ownedParameter xmi:id="_ExPy8QFUEeCZPdbU2rHD2w" name="markerTo" type="_tqlp8AODEeCrOvZN_bFqcg"/>
+      <ownedParameter xmi:id="_J_FNEP_QEd-nEIMf3P4rZg" name="route" type="_4AeDMAOEEeCrOvZN_bFqcg"/>
       <ownedParameter xmi:id="_zHK0cP-_Ed-nEIMf3P4rZg" name="Parameter1" direction="return">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
@@ -1522,18 +1490,15 @@
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
       </ownedParameter>
       <ownedParameter xmi:id="_M_52cQFUEeCZPdbU2rHD2w" name="buildingID">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-      </ownedParameter>
-      <ownedParameter xmi:id="_M_52cgFUEeCZPdbU2rHD2w" name="zoom">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
       </ownedParameter>
-      <ownedParameter xmi:id="_M_52cwFUEeCZPdbU2rHD2w" name="mapSection"/>
+      <ownedParameter xmi:id="_M_52cwFUEeCZPdbU2rHD2w" name="mapSection" type="_R9eNMAOEEeCrOvZN_bFqcg"/>
       <ownedParameter xmi:id="_M_52dAFUEeCZPdbU2rHD2w" name="poiID">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
-      <ownedParameter xmi:id="_M_52dQFUEeCZPdbU2rHD2w" name="markerFrom"/>
-      <ownedParameter xmi:id="_M_52dgFUEeCZPdbU2rHD2w" name="markerTo"/>
-      <ownedParameter xmi:id="_M_52dwFUEeCZPdbU2rHD2w" name="route"/>
+      <ownedParameter xmi:id="_M_52dQFUEeCZPdbU2rHD2w" name="markerFrom" type="_tqlp8AODEeCrOvZN_bFqcg"/>
+      <ownedParameter xmi:id="_M_52dgFUEeCZPdbU2rHD2w" name="markerTo" type="_tqlp8AODEeCrOvZN_bFqcg"/>
+      <ownedParameter xmi:id="_M_52dwFUEeCZPdbU2rHD2w" name="route" type="_4AeDMAOEEeCrOvZN_bFqcg"/>
       <ownedParameter xmi:id="_0T2qAP-_Ed-nEIMf3P4rZg" name="Parameter1" direction="return">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
@@ -1682,16 +1647,11 @@
     </ownedOperation>
     <ownedOperation xmi:id="_XXr_EAFTEeCZPdbU2rHD2w" name="getBuildingID">
       <ownedParameter xmi:id="_YWnsgAFTEeCZPdbU2rHD2w" name="Parameter1" direction="return">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-      </ownedParameter>
-    </ownedOperation>
-    <ownedOperation xmi:id="_r3xtMP_NEd-nEIMf3P4rZg" name="getZoom">
-      <ownedParameter xmi:id="_gCPNIf_OEd-nEIMf3P4rZg" name="Parameter1" direction="return">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
       </ownedParameter>
     </ownedOperation>
     <ownedOperation xmi:id="_YZa3EP_NEd-nEIMf3P4rZg" name="getMapSection">
-      <ownedParameter xmi:id="_afXP4P_NEd-nEIMf3P4rZg" name="Parameter1" direction="return"/>
+      <ownedParameter xmi:id="_afXP4P_NEd-nEIMf3P4rZg" name="Parameter1" type="_R9eNMAOEEeCrOvZN_bFqcg" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:id="_a8M84P_NEd-nEIMf3P4rZg" name="getHighlightedPOI">
       <ownedParameter xmi:id="_fF3g8P_NEd-nEIMf3P4rZg" name="Parameter1" direction="return">
@@ -1699,13 +1659,13 @@
       </ownedParameter>
     </ownedOperation>
     <ownedOperation xmi:id="_jnaZgP_NEd-nEIMf3P4rZg" name="getMarkerFrom">
-      <ownedParameter xmi:id="_lskIIP_NEd-nEIMf3P4rZg" name="Parameter1" direction="return"/>
+      <ownedParameter xmi:id="_lskIIP_NEd-nEIMf3P4rZg" name="Parameter1" type="_tqlp8AODEeCrOvZN_bFqcg" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:id="_g2O9IAFTEeCZPdbU2rHD2w" name="getMarkerTo">
-      <ownedParameter xmi:id="_iB9wcAFTEeCZPdbU2rHD2w" name="Parameter1" direction="return"/>
+      <ownedParameter xmi:id="_iB9wcAFTEeCZPdbU2rHD2w" name="Parameter1" type="_tqlp8AODEeCrOvZN_bFqcg" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:id="_maLcEP_NEd-nEIMf3P4rZg" name="getRoute">
-      <ownedParameter xmi:id="_ohZAMP_NEd-nEIMf3P4rZg" name="Parameter1" direction="return"/>
+      <ownedParameter xmi:id="_ohZAMP_NEd-nEIMf3P4rZg" name="Parameter1" type="_4AeDMAOEEeCrOvZN_bFqcg" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:id="_khpXsP_OEd-nEIMf3P4rZg" name="Import">
       <ownedParameter xmi:id="_l-qIQP_OEd-nEIMf3P4rZg" name="url">
@@ -2048,6 +2008,9 @@
       <ownedParameter xmi:id="_mUUccAOCEeCrOvZN_bFqcg" name="Parameter1" type="_4Q26gAOCEeCrOvZN_bFqcg" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:id="_nSLL0AOCEeCrOvZN_bFqcg" name="POI">
+      <ownedParameter xmi:id="_QGN1AAOiEeCMHtsu7TgEhw" name="id">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+      </ownedParameter>
       <ownedParameter xmi:id="_neyEcAOCEeCrOvZN_bFqcg" name="name">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
