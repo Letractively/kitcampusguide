@@ -413,7 +413,7 @@
         <children xmi:id="_G4BUMAOvEeCMHtsu7TgEhw" type="InterfaceProvided" element="_VEyKVAOuEeCMHtsu7TgEhw">
           <children xmi:id="_G4BUMwOvEeCMHtsu7TgEhw" type="InterfaceProvidedLabel">
             <children xmi:id="_G4BUNQOvEeCMHtsu7TgEhw" type="InterfaceProvidedLabelTextCompartment"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_G4BUNAOvEeCMHtsu7TgEhw" x="-196" y="1373"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_G4BUNAOvEeCMHtsu7TgEhw" x="-328" y="581"/>
           </children>
           <styles xmi:type="umlnotation:UMLShapeStyle" xmi:id="_G4BUMQOvEeCMHtsu7TgEhw" fontName="Segoe UI" fontHeight="8" showStereotype="Label"/>
           <layoutConstraint xmi:type="notation:Bounds" xmi:id="_G4BUMgOvEeCMHtsu7TgEhw" x="924" y="-924"/>
@@ -2340,7 +2340,6 @@
   <packagedElement xmi:type="uml:Component" xmi:id="_uXsaMAFXEeCZPdbU2rHD2w" name="CoordinateManager" clientDependency="_ymwboAFXEeCZPdbU2rHD2w">
     <interfaceRealization xmi:id="_ymwboAFXEeCZPdbU2rHD2w" supplier="_vV-hAAFPEeCZPdbU2rHD2w" client="_uXsaMAFXEeCZPdbU2rHD2w" contract="_vV-hAAFPEeCZPdbU2rHD2w"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Interface" xmi:id="_SDpD0AFZEeCZPdbU2rHD2w" name="ViewModel"/>
   <packagedElement xmi:type="uml:Component" xmi:id="_NwJ_8AFaEeCZPdbU2rHD2w" name="Controller" clientDependency="_F9QVEAOvEeCMHtsu7TgEhw _G34KQAOvEeCMHtsu7TgEhw _Hrf_kAOvEeCMHtsu7TgEhw _Ij4ZEAOvEeCMHtsu7TgEhw _dm6G8AOvEeCMHtsu7TgEhw _e4lKMAOvEeCMHtsu7TgEhw _ftsNQAOvEeCMHtsu7TgEhw _ghnkkAOvEeCMHtsu7TgEhw _iCeTUAOvEeCMHtsu7TgEhw _i5hQEAOvEeCMHtsu7TgEhw _jtlxUAOvEeCMHtsu7TgEhw _pyMYEAOvEeCMHtsu7TgEhw _qUQjUAOvEeCMHtsu7TgEhw _m4JPgAO0EeCMHtsu7TgEhw _ntmQ0AO0EeCMHtsu7TgEhw">
     <eAnnotations xmi:id="_UZP-AAOCEeCrOvZN_bFqcg" source="uml2.diagrams"/>
     <interfaceRealization xmi:id="_F9QVEAOvEeCMHtsu7TgEhw" supplier="_VEyKXQOuEeCMHtsu7TgEhw" client="_NwJ_8AFaEeCZPdbU2rHD2w" contract="_VEyKXQOuEeCMHtsu7TgEhw"/>
@@ -2348,7 +2347,6 @@
     <interfaceRealization xmi:id="_Hrf_kAOvEeCMHtsu7TgEhw" supplier="_VEyKYQOuEeCMHtsu7TgEhw" client="_NwJ_8AFaEeCZPdbU2rHD2w" contract="_VEyKYQOuEeCMHtsu7TgEhw"/>
     <interfaceRealization xmi:id="_Ij4ZEAOvEeCMHtsu7TgEhw" supplier="_VEyKUAOuEeCMHtsu7TgEhw" client="_NwJ_8AFaEeCZPdbU2rHD2w" contract="_VEyKUAOuEeCMHtsu7TgEhw"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Interface" xmi:id="_larUgAFaEeCZPdbU2rHD2w" name="ApplicationLogic"/>
   <packagedElement xmi:type="uml:Component" xmi:id="_nHk7MAFaEeCZPdbU2rHD2w" name="ApplicationLogic" clientDependency="_A1feIAO8EeCoP5pIWvV_ig _D7atQAO8EeCoP5pIWvV_ig _ExwfYAO8EeCoP5pIWvV_ig _FoO0YAO8EeCoP5pIWvV_ig _F_hTAAO8EeCoP5pIWvV_ig _CYa0AAO9EeCoP5pIWvV_ig">
     <eAnnotations xmi:id="_ocelsAFnEeCulbM3qAyglg" source="uml2.diagrams">
       <contents xmi:type="notation:Diagram" xmi:id="_ocelsQFnEeCulbM3qAyglg" type="Structure" element="_nHk7MAFaEeCZPdbU2rHD2w" name="Strukturdiagramm1" measurementUnit="Himetric">
@@ -2429,14 +2427,6 @@
     <interfaceRealization xmi:id="_FoO0YAO8EeCoP5pIWvV_ig" supplier="_wZklwP-_Ed-nEIMf3P4rZg" client="_nHk7MAFaEeCZPdbU2rHD2w" contract="_wZklwP-_Ed-nEIMf3P4rZg"/>
     <interfaceRealization xmi:id="_F_hTAAO8EeCoP5pIWvV_ig" supplier="_Xg23YP_NEd-nEIMf3P4rZg" client="_nHk7MAFaEeCZPdbU2rHD2w" contract="_Xg23YP_NEd-nEIMf3P4rZg"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Interface" xmi:id="_0BRxgAFaEeCZPdbU2rHD2w" name="Controller" clientDependency="_27EG4ANvEeCUxuo3kUOafA _B_ZXAANwEeCUxuo3kUOafA">
-    <ownedOperation xmi:id="_1O73cAFaEeCZPdbU2rHD2w" name="handleEvent">
-      <ownedParameter xmi:id="_5jW6AAFaEeCZPdbU2rHD2w" name="event" type="_55YNUAFaEeCZPdbU2rHD2w"/>
-    </ownedOperation>
-  </packagedElement>
-  <packagedElement xmi:type="uml:Interface" xmi:id="_FFSFEAFbEeCZPdbU2rHD2w" name="DataBase">
-    <ownedOperation xmi:id="_KQ5OUAFbEeCZPdbU2rHD2w" name="getData"/>
-  </packagedElement>
   <packagedElement xmi:type="uml:Component" xmi:id="_IEdL8AFbEeCZPdbU2rHD2w" name="DataBase" clientDependency="_3JrqsAO8EeCoP5pIWvV_ig">
     <eAnnotations xmi:id="_bwyO0AFqEeCulbM3qAyglg" source="uml2.diagrams">
       <contents xmi:type="notation:Diagram" xmi:id="_bwyO0QFqEeCulbM3qAyglg" type="Structure" element="_IEdL8AFbEeCZPdbU2rHD2w" name="Strukturdiagramm1" measurementUnit="Himetric">
@@ -2481,8 +2471,6 @@
   <packagedElement xmi:type="uml:Usage" xmi:id="_OBE1oANvEeCUxuo3kUOafA" supplier="_3qh5oP-5Ed-nEIMf3P4rZg" client="_YqIbUP_HEd-nEIMf3P4rZg"/>
   <packagedElement xmi:type="uml:Usage" xmi:id="_O5dPIANvEeCUxuo3kUOafA" supplier="_FJgnQP-6Ed-nEIMf3P4rZg" client="_YqIbUP_HEd-nEIMf3P4rZg"/>
   <packagedElement xmi:type="uml:Usage" xmi:id="_Pn4bYANvEeCUxuo3kUOafA" supplier="_HvCGwP-0Ed-nEIMf3P4rZg" client="_YqIbUP_HEd-nEIMf3P4rZg"/>
-  <packagedElement xmi:type="uml:Usage" xmi:id="_27EG4ANvEeCUxuo3kUOafA" supplier="_0BRxgAFaEeCZPdbU2rHD2w" client="_0BRxgAFaEeCZPdbU2rHD2w"/>
-  <packagedElement xmi:type="uml:Usage" xmi:id="_B_ZXAANwEeCUxuo3kUOafA" supplier="_0BRxgAFaEeCZPdbU2rHD2w" client="_0BRxgAFaEeCZPdbU2rHD2w"/>
   <packagedElement xmi:type="uml:Usage" xmi:id="_oPemwANwEeCUxuo3kUOafA" supplier="_hmvSUP-5Ed-nEIMf3P4rZg" client="_hmvSUP-5Ed-nEIMf3P4rZg"/>
   <packagedElement xmi:type="uml:Usage" xmi:id="_qYDc0ANwEeCUxuo3kUOafA" supplier="_3qh5oP-5Ed-nEIMf3P4rZg" client="_3qh5oP-5Ed-nEIMf3P4rZg"/>
   <packagedElement xmi:type="uml:Usage" xmi:id="_uS46sANwEeCUxuo3kUOafA" supplier="_FJgnQP-6Ed-nEIMf3P4rZg" client="_FJgnQP-6Ed-nEIMf3P4rZg"/>
