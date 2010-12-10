@@ -1439,28 +1439,6 @@
         <styles xmi:type="umlnotation:UMLShapeStyle" xmi:id="_N19w8QRjEeCe5szfq9YbWw" fontName="Segoe UI" showStereotype="Label"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_N19w8gRjEeCe5szfq9YbWw" x="1980" y="6600"/>
       </children>
-      <children xmi:id="_cGPtwARlEeCe5szfq9YbWw" element="_R9eNMAOEEeCrOvZN_bFqcg">
-        <children xmi:id="_cGQU0ARlEeCe5szfq9YbWw" type="ImageCompartment">
-          <layoutConstraint xmi:type="notation:Size" xmi:id="_cGQU0QRlEeCe5szfq9YbWw" width="1320" height="1320"/>
-        </children>
-        <children xmi:id="_cGQ74ARlEeCe5szfq9YbWw" type="Stereotype"/>
-        <children xmi:id="_cGRi8ARlEeCe5szfq9YbWw" type="Name"/>
-        <children xmi:id="_cGRi8QRlEeCe5szfq9YbWw" type="Parent"/>
-        <children xmi:id="_cGSKAARlEeCe5szfq9YbWw" type="AttributeCompartment">
-          <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_cGSKAQRlEeCe5szfq9YbWw"/>
-        </children>
-        <children xmi:id="_cGSKAgRlEeCe5szfq9YbWw" type="OperationCompartment">
-          <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_cGSKAwRlEeCe5szfq9YbWw"/>
-        </children>
-        <children xmi:id="_cGSxEARlEeCe5szfq9YbWw" visible="false" type="SignalCompartment">
-          <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_cGSxEQRlEeCe5szfq9YbWw"/>
-        </children>
-        <children xmi:id="_cGTYIARlEeCe5szfq9YbWw" visible="false" type="StructureCompartment">
-          <styles xmi:type="umlnotation:UMLShapeCompartmentStyle" xmi:id="_cGTYIQRlEeCe5szfq9YbWw"/>
-        </children>
-        <styles xmi:type="umlnotation:UMLShapeStyle" xmi:id="_cGPtwQRlEeCe5szfq9YbWw" fontName="Segoe UI" showStereotype="Label"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_cGPtwgRlEeCe5szfq9YbWw" x="2857" y="2910"/>
-      </children>
       <styles xmi:type="umlnotation:UMLDiagramStyle" xmi:id="_aa22wQNkEeCUxuo3kUOafA"/>
       <element xsi:nil="true"/>
     </contents>
@@ -2727,6 +2705,9 @@
     </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_bHg64AOEEeCrOvZN_bFqcg" name="POIQuery">
+    <ownedAttribute xmi:id="_n3VgwARmEeCe5szfq9YbWw" name="section" visibility="private" type="_R9eNMAOEEeCrOvZN_bFqcg"/>
+    <ownedAttribute xmi:id="_suNwIARmEeCe5szfq9YbWw" name="maps" visibility="private" type="_BJkW4AOfEeCjwLQP0BbVsw"/>
+    <ownedAttribute xmi:id="_uYwmYARmEeCe5szfq9YbWw" name="categories" visibility="private" type="_ST9mgP7iEd-TYvUfdcfJew"/>
     <ownedOperation xmi:id="_hpWQMAOEEeCrOvZN_bFqcg" name="getSection">
       <ownedParameter xmi:id="_hwGYcAOEEeCrOvZN_bFqcg" name="Parameter1" type="_R9eNMAOEEeCrOvZN_bFqcg" direction="return"/>
     </ownedOperation>
