@@ -2,14 +2,20 @@ package edu.kit.cm.kitcampusguide.standardtypes;
 
 import java.util.List;
 
+/**
+ * Represents a Map.
+ * Consists of an id and a name.
+ * @author frederik.diehl@student.kit.edu
+ *
+ */
 public class Map {
 	private int id;
 	private String name;
 	private static List<Map> maps;
 	
 	/**
-	 * Creates a new Map.
-	 * @param id ID of the new Map. Is required to be singular for a correct result.
+	 * Creates a new <code>Map</code>.
+	 * @param id ID of the new Map. Is required to be unique for a correct result.
 	 * @param name Name of the Map.
 	 */
 	public Map(int id, String name) {
@@ -37,7 +43,7 @@ public class Map {
 	/**
 	 * Returns the Map with the id id. If there are two Maps with this id, only one is returned.
 	 * @param id The Map with this ID will be returned.
-	 * @return A Map with the ID id.
+	 * @return A Map with the ID id or <code>null</code> if no such Map exists.
 	 */
 	public static Map getMapByID(int id) {
 		Map result = null;
