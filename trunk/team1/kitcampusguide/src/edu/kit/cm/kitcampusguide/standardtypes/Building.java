@@ -4,24 +4,34 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Represents a Building. Saves the Maps representing the floors, which of these is the groundfloor and the POI representing the Building
- * @author frederik.diehl@student.kit.edu
+ * Represents a building. 
+ * Saves the maps representing the floors, which of these is the ground floor and the POI representing the building
+ * @author fred
  *
  */
 public class Building {
+	/** Saves the ID of the building.*/
 	private final int id;
+	
+	/** Saves the floors from lowest to highest.*/
 	private final List<Map> floors;
+	
+	/** Saves the index of the ground floor in the list saved in <code>floors</code>.*/
 	private final int groundfloorIndex;
+	
+	/** Saves the POI representing the building.*/
 	private final POI buildingPOI;
+	
+	/** Saves a collection of all buildings.*/
 	private static Collection<Building> allBuildings;
 	
 	/**
-	 * Constructs a new Building.
-	 * The Building needs the following parameters:
+	 * Constructs a new building.
+	 * The building needs the following parameters:
 	 * @param id The id of the building, needs to be unique.
 	 * @param floors The maps representing the floors from lowest to highest.
 	 * @param groundfloorIndex The index of the ground floor in <code>floors</code>.
-	 * @param buildingPOI The POI representing the Building.
+	 * @param buildingPOI The POI representing the building.
 	 */
 	Building(int id, List<Map> floors, int groundfloorIndex, POI buildingPOI) {
 		this.id = id;
@@ -32,42 +42,42 @@ public class Building {
 	}
 	
 	/**
-	 * Returns the ID of the Building.
-	 * @return The ID of the Building.
+	 * Returns the ID of the building.
+	 * @return The ID of the building.
 	 */
 	public int getID() {
 		return id;
 	}
 	
 	/**
-	 * Returns the maps representing the floors of the Building.
-	 * @return The maps representing the floors of the Building.
+	 * Returns the maps representing the floors of the building.
+	 * @return The maps representing the floors of the building.
 	 */
 	public List<Map> getFloors() {
 		return floors;
 	}
 	
 	/**
-	 * Returns the index of the ground floor in the List gotten by <code>getFloors</code>.
-	 * @return The index of the ground floor in the List gotten by <code>getFloors</code>.
+	 * Returns the index of the ground floor in the list gotten by <code>getFloors</code>.
+	 * @return The index of the ground floor in the list gotten by <code>getFloors</code>.
 	 */
 	public int getGroundFloorIndex() {
 		return groundfloorIndex;
 	}
 	
 	/**
-	 * Returns the POI representing the Building.
-	 * @return The POI representing the Building.
+	 * Returns the POI representing the building.
+	 * @return The POI representing the building.
 	 */
 	public POI getBuildingPOI() {
 		return buildingPOI;
 	}
 	
 	/**
-	 * Returns the Building specified by ID.
-	 * If there are two Buildings with <code>id</code>, only one of them is returned.
-	 * @param id The ID the Building given back has.
-	 * @return The Building specified by ID or <code>null</code>, if no such building exists.
+	 * Returns the building specified by <code>id</code>.
+	 * If there are two buildings with <code>id</code>, only one of them is returned. No guarantee of this is given in future versions.
+	 * @param id The ID the building given back has.
+	 * @return The building specified by ID or <code>null</code>, if no such building exists.
 	 */
 	public static Building getBuildingByID(int id) {
 		Building result = null;
