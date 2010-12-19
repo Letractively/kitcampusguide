@@ -4,18 +4,31 @@ import java.util.Collection;
 
 /**
  * Represents a POI.
- * Saves the id, the name, the description and  the position of the POI.
- * Also stores the map the POI lies on and a collection of the categories the POI lies in. 
- * @author frederik.diehl@student.kit.edu
+ * Saves the id, the name, the description and  the position of the POI. Also stores the map the POI lies on and a collection of the categories the POI lies in. 
+ * @author fred
  *
  */
 public class POI {
+	
+	/** Saves the ID of the POI.*/
 	private final String id;
+	
+	/** Saves the name of the POI.*/
 	private final String name;
+	
+	/** Saves the description of the POI.*/
 	private final String description;
+	
+	/** Saves the position of the POI.*/
 	private final WorldPosition position;
+	
+	/** Saves the map the POI lies on.*/
 	private final Map map;
+	
+	/** Saves the ID of the building represented by the POI or <code>null</code> if the POI doesn't represent a building.*/
 	private final Integer buildingID;
+	
+	/** Saves the categories the POI lies in.*/
 	private final Collection<Category> categories;
 	
 	/**

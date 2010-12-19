@@ -3,20 +3,26 @@ package edu.kit.cm.kitcampusguide.standardtypes;
 import java.util.List;
 
 /**
- * Represents a Map.
- * Consists of an id and a name.
- * @author frederik.diehl@student.kit.edu
+ * Represents a map.
+ * Saves an id and a name.
+ * @author fred
  *
  */
 public class Map {
+	
+	/** Saves the id of the map.*/
 	private int id;
+	
+	/** Saves the name of the map*/
 	private String name;
+	
+	/** Saves a list of all maps.*/
 	private static List<Map> maps;
 	
 	/**
-	 * Creates a new <code>Map</code>.
-	 * @param id ID of the new Map. Is required to be unique for a correct result.
-	 * @param name Name of the Map.
+	 * Creates a new map.
+	 * @param id ID of the new map. Is required to be unique for a correct result.
+	 * @param name Name of the map.
 	 */
 	public Map(int id, String name) {
 		this.id = id;
@@ -25,25 +31,26 @@ public class Map {
 	}
 	
 	/**
-	 * Returns the ID of this Map.
-	 * @return the ID of this Map.
+	 * Returns the ID of this map.
+	 * @return the ID of this map.
 	 */
 	public int getID() {
 		return id;
 	}
 	
 	/**
-	 * Returns the Name of this Map.
-	 * @return the Name of this Map.
+	 * Returns the name of this map.
+	 * @return the name of this map.
 	 */
 	public String getName() {
 		return name;
 	}
 	
 	/**
-	 * Returns the Map with the id id. If there are two Maps with this id, only one is returned.
-	 * @param id The Map with this ID will be returned.
-	 * @return A Map with the ID id or <code>null</code> if no such Map exists.
+	 * Returns the map with the ID <code>id</code>. 
+	 * If there are two maps with this id, only one is returned. However, no guarantee of this is given for future versions.
+	 * @param id The map with this ID will be returned.
+	 * @return A map with the ID <code>id</code> or <code>null</code> if no such map exists.
 	 */
 	public static Map getMapByID(int id) {
 		Map result = null;

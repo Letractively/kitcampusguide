@@ -4,14 +4,22 @@ import java.util.List;
 
 /**
  * Represents a route.
- * Saves the waypoints and a boundingBox.
- * @author frederik.diehl@student.kit.edu
+ * Saves the waypoints defining the route and a bounding box.
+ * @author fred
  *
  */
 public class Route {
+	
+	/** Saves the position the route starts at.*/
 	private final MapPosition start;
+	
+	/** Saves the position the route ends at.*/
 	private final MapPosition end;
+	
+	/** Saves the waypoints defining the route*/
 	private final List<MapPosition> waypoints;
+	
+	/** Saves the bounding box the route lies in.*/
 	private final MapSection boundingBox;
 	
 	/**
@@ -26,16 +34,16 @@ public class Route {
 	}
 	
 	/**
-	 * Returns the MapPosition at which the Route begins.
-	 * @return The MapPosition at which the Route begins.
+	 * Returns the MapPosition at which the route begins.
+	 * @return The MapPosition at which the route begins.
 	 */
 	public MapPosition getStart() {
 		return start;
 	}
 	
 	/**
-	 * Returns the MapPosition at which the Route ends.
-	 * @return The MapPosition at which the Route ends.
+	 * Returns the MapPosition at which the route ends.
+	 * @return The MapPosition at which the route ends.
 	 */
 	public MapPosition getEnd() {
 		return end;
@@ -60,8 +68,8 @@ public class Route {
 	/**
 	 * Constructs a bounding box from the waypoints already saved in <code>waypoints</code>.
 	 * The whole route lies in it.
-	 * If the route traverses the 180° meridian, the MapSection is wrong.
-	 * @return A bounding box built from waypoints.
+	 * If the route traverses the 180° meridian, the bounding box is wrong.
+	 * @return A bounding box built from <code>waypoints</code>.
 	 */
 	private MapSection calculateBoundingBox() {
 		double northMax = waypoints.get(0).getLatitude();
