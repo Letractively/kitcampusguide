@@ -65,4 +65,7 @@
 	<listener>
 		<listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
 	</listener>
+	<welcome-file-list>
+		<welcome-file>/faces/index.xhtml</welcome-file>
+	</welcome-file-list>
 </web-app>
