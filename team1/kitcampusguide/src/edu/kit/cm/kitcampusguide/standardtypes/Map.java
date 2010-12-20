@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
-import java.util.List;
+import java.util.Collection;
+import org.apache.log4j.Logger;
 
 /**
  * Represents a map.
@@ -9,20 +10,19 @@ import java.util.List;
  *
  */
 public class Map {
-	
 	/** Saves the id of the map.*/
 	private int id;
 	
 	/** Saves the name of the map*/
 	private String name;
 	
-	/** Saves a list of all maps.*/
-	private static List<Map> maps;
+	/** Saves a collection of all maps.*/
+	private static Collection<Map> maps;
 	
 	/**
 	 * Creates a new map.
-	 * @param id ID of the new map. Is required to be unique for a correct result.
-	 * @param name Name of the map.
+	 * @param id ID of the new map. Is required to be unique for a correct result. However, this is not tested.
+	 * @param name Name of the map. Required not to be <code>null</code>.
 	 */
 	public Map(int id, String name) {
 		this.id = id;
@@ -54,9 +54,9 @@ public class Map {
 	 */
 	public static Map getMapByID(int id) {
 		Map result = null;
-		for (int i = 0; i < maps.size(); i++) {
-			if (maps.get(i).id == id) {
-				result = maps.get(i);
+		for (Map momMap : maps) {
+			if (momMap.getID() == id) {
+				result = momMap;
 				break;
 			}
 		}
