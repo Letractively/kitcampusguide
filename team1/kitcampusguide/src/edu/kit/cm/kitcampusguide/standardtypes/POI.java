@@ -4,12 +4,11 @@ import java.util.Collection;
 
 /**
  * Represents a POI.
- * Saves the id, the name, the description and  the position of the POI. Also stores the map the POI lies on and a collection of the categories the POI lies in. 
+ * Saves the <code>id</code>, the <code>name</code>, the <code>description</code> and  the {@link WorldPosition} of the POI. Also stores the {@link Map map} the POI lies on, a collection of the {@link Category categories} the POI lies in and the {@link Building building} the POI represents. 
  * @author fred
  *
  */
-public class POI {
-	
+public class POI {	
 	/** Saves the ID of the POI.*/
 	private final String id;
 	
@@ -19,27 +18,27 @@ public class POI {
 	/** Saves the description of the POI.*/
 	private final String description;
 	
-	/** Saves the position of the POI.*/
+	/** Saves the {@link WorldPosition position} of the POI.*/
 	private final WorldPosition position;
 	
-	/** Saves the map the POI lies on.*/
+	/** Saves the {@link Map map} the POI lies on.*/
 	private final Map map;
 	
-	/** Saves the ID of the building represented by the POI or <code>null</code> if the POI doesn't represent a building.*/
+	/** Saves the ID of the {@link Building building} represented by the POI or <code>null</code> if the POI doesn't represent a building.*/
 	private final Integer buildingID;
 	
-	/** Saves the categories the POI lies in.*/
+	/** Saves the {@link Category categories} the POI lies in.*/
 	private final Collection<Category> categories;
 	
 	/**
 	 * Constructs a new POI.
-	 * @param id The id the POI has. Should be unique.
+	 * @param id The ID the POI has. Should be unique. However, this is not tested.
 	 * @param name The name of the POI.
 	 * @param description The description of the POI.
-	 * @param position The position of the POI.
-	 * @param map The map the POI lies on.
-	 * @param buildingID The id of the building represented by the POI or <code>null</code>, if the POI doesn't represent a building.
-	 * @param categories A collection of the categories the POI lies in.
+	 * @param position The {@link WorldPosition position} of the POI.
+	 * @param map The {@link Map map} the POI lies on.
+	 * @param buildingID The id of the {@link Building building} represented by the POI or <code>null</code>, if the POI doesn't represent a {@link Building building}.
+	 * @param categories A collection of the {@link Category categories} the POI lies in.
 	 */
 	public POI(String id, String name, String description, WorldPosition position, Map map, int buildingID, Collection<Category> categories) {
 		this.id = id;
@@ -76,32 +75,32 @@ public class POI {
 	}
 	
 	/**
-	 * Returns the position of the POI.
-	 * @return The Position of the POI.
+	 * Returns the {@link WorldPosition position} of the POI.
+	 * @return The {@link WorldPosition position} of the POI.
 	 */
 	public WorldPosition getPosition() {
 		return position;
 	}
 	
 	/**
-	 * Returns the map the POI lies on.
-	 * @return The map the POI lies on.
+	 * Returns the {@link Map map} the POI lies on.
+	 * @return The {@link Map map} the POI lies on.
 	 */
 	public Map getMap() {
 		return map;
 	}
 	
 	/**
-	 * Returns the building the POI represents.
-	 * @return The building the POI represents or <code>null</code> if the POI doesn't represent any.
+	 * Returns the {@link Building building} the POI represents.
+	 * @return The {@link Building building} the POI represents or <code>null</code> if the POI doesn't represent any.
 	 */
 	public Building getBuildung() {
 		return Building.getBuildingByID(buildingID);
 	}
 	
 	/**
-	 * Returns a collection of the categories the POI lies in.
-	 * @return A collection of the categories the POI lies in.
+	 * Returns a collection of the {@link Category categories} the POI lies in.
+	 * @return A collection of the {@link Category categories} the POI lies in.
 	 */
 	public Collection<Category> getCategories() {
 		return categories;

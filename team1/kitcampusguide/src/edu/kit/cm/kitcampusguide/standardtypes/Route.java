@@ -4,27 +4,26 @@ import java.util.List;
 
 /**
  * Represents a route.
- * Saves the waypoints defining the route and a bounding box.
+ * Saves the {@link MapPosition waypoints} defining the route and a {@link MapSection bounding box.}
  * @author fred
  *
  */
 public class Route {
-	
-	/** Saves the position the route starts at.*/
+	/** Saves the {@link MapPosition position} the route starts at.*/
 	private final MapPosition start;
 	
-	/** Saves the position the route ends at.*/
+	/** Saves the {@link MapPosition position} the route ends at.*/
 	private final MapPosition end;
 	
-	/** Saves the waypoints defining the route*/
+	/** Saves the {@link MapPosition waypoints} defining the route*/
 	private final List<MapPosition> waypoints;
 	
-	/** Saves the bounding box the route lies in.*/
+	/** Saves the {@link MapSection bounding box} the route lies in.*/
 	private final MapSection boundingBox;
 	
 	/**
 	 * Constructs a new route.
-	 * @param waypoints The MapPositions defining the route.
+	 * @param waypoints The {@link MapPosition MapPositions} defining the route.
 	 */
 	public Route(List<MapPosition> waypoints) {
 		this.waypoints = waypoints;
@@ -34,42 +33,42 @@ public class Route {
 	}
 	
 	/**
-	 * Returns the MapPosition at which the route begins.
-	 * @return The MapPosition at which the route begins.
+	 * Returns the {@link MapPosition} at which the route begins.
+	 * @return The {@link MapPosition} at which the route begins.
 	 */
 	public MapPosition getStart() {
 		return start;
 	}
 	
 	/**
-	 * Returns the MapPosition at which the route ends.
-	 * @return The MapPosition at which the route ends.
+	 * Returns the {@link MapPosition} at which the route ends.
+	 * @return The {@link MapPosition} at which the route ends.
 	 */
 	public MapPosition getEnd() {
 		return end;
 	}
 	
 	/**
-	 * Returns a list of MapPositions defining the route.
-	 * @return A list of MapPositions defining the route.
+	 * Returns a list of {@link MapPosition MapPositions} defining the route.
+	 * @return A list of {@link MapPosition MapPositions} defining the route.
 	 */
 	public List<MapPosition> getWaypoints() {
 		return waypoints;
 	}
 	
 	/**
-	 * Returns the bounding box of the route.
-	 * @return The bounding box of the route.
+	 * Returns the {@link MapSection bounding box} of the route.
+	 * @return The {@link MapSection bounding box} of the route.
 	 */
 	public MapSection getBoundingBox() {
 		return boundingBox;
 	}
 
 	/**
-	 * Constructs a bounding box from the waypoints already saved in <code>waypoints</code>.
+	 * Constructs a {@link MapSection bounding box} from the {@link MapPosition waypoints} already saved in <code>waypoints</code>.
 	 * The whole route lies in it.
 	 * If the route traverses the 180° meridian, the bounding box is wrong.
-	 * @return A bounding box built from <code>waypoints</code>.
+	 * @return A {@link MapPosition bounding box} built from <code>waypoints</code>.
 	 */
 	private MapSection calculateBoundingBox() {
 		double northMax = waypoints.get(0).getLatitude();

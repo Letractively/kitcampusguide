@@ -1,7 +1,6 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
 import java.util.Collection;
-import org.apache.log4j.Logger;
 
 /**
  * Represents a map.
