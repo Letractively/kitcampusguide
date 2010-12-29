@@ -1,13 +1,13 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
+
 /**
  * Represents a position in the world.
- * Saves the longitude and latitude.
+ * Saves the <code>longitude</code> and <code>latitude</code>.
  * @author fred
  *
  */
 public class WorldPosition {
-	
 	/** Saves the longitude of the position.*/
 	private final double longitude;
 	

@@ -1,12 +1,12 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
 /**
- * Represents a section of a map.
+ * Represents a section of a {@link Map map}.
  * Saves the northwest and southeast corner.
  * @author fred
  *
  */
-public class MapSection {
+public class MapSection {	
 	/** Saves the north west corner of the section.*/
 	private final WorldPosition northwestCorner;
 	
@@ -14,9 +14,9 @@ public class MapSection {
 	private final WorldPosition southeastCorner;
 	
 	/**
-	 * Constructs a new <code>MapSection</code> from two positions.
-	 * @param pos1 The first position.
-	 * @param pos2 The second position.
+	 * Constructs a new <code>MapSection</code> from two {@link WorldPosition}.
+	 * @param pos1 The first {@link WorldPosition}.
+	 * @param pos2 The second {@link WorldPosition}.
 	 */
 	public MapSection(WorldPosition pos1, WorldPosition pos2) {
 		double northMax = pos1.getLatitude();
@@ -41,7 +41,7 @@ public class MapSection {
 	
 	/**
 	 * Returns the north west corner.
-	 * @return A <code>WorldPosition</code> representing the north west corner.
+	 * @return A {@link WorldPosition} representing the north west corner.
 	 */
 	public WorldPosition getNorthWest() {
 		return northwestCorner;
@@ -49,7 +49,7 @@ public class MapSection {
 	
 	/**
 	 * Returns the south east corner.
-	 * @return A <code>WorldPosition</code> representing the south east corner.
+	 * @return A {@link WorldPosition} representing the south east corner.
 	 */
 	public WorldPosition getSouthEast() {
 		return southeastCorner;

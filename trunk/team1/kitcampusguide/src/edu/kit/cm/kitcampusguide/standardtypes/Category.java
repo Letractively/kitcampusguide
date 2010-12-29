@@ -5,25 +5,24 @@ import java.util.Collections;
 
 /**
  * Represents categories.
- * Saves the respective id, the name and gives functions to get categories.
+ * Saves the respective <code>id</code>, the <code>name</code> and gives functions to get categories.
  * @author fred
  *
  */
-public class Category {
-	
+public class Category {	
 	/** Saves the id of the category*/
 	private final int id;
 	
 	/** Saves the name of the category*/
 	private final String name;
 	
-	/** Saves the categories the POI lies in*/
+	/** Saves all categories.*/
 	private static Collection<Category> categories;
 	
 	/**
 	 * Constructs a new category.
 	 * Adds it to the collection of categories.
-	 * @param id The ID the new category should have. Must be unique.
+	 * @param id The ID the new category should have. Must be unique. However, this is not tested.
 	 * @param name The name of the new category.
 	 */
 	public Category(int id, String name) {
