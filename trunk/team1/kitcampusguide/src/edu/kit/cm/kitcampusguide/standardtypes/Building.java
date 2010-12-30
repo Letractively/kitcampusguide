@@ -1,6 +1,8 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,7 +38,7 @@ public class Building {
 	 */
 	Building(int id, List<Map> floors, int groundfloorIndex, POI buildingPOI) {
 		this.id = id;
-		this.floors = floors;
+		this.floors = new ArrayList<Map>(floors);
 		this.groundfloorIndex = groundfloorIndex;
 		this.buildingPOI = buildingPOI;
 		allBuildings.add(this);
@@ -55,7 +57,7 @@ public class Building {
 	 * @return The {@link Map maps} representing the floors of the building.
 	 */
 	public List<Map> getFloors() {
-		return floors;
+		return Collections.unmodifiableList(floors);
 	}
 	
 	/**
