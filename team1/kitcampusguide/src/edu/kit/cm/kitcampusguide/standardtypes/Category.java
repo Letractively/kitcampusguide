@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -62,7 +63,7 @@ public class Category {
 	 * @return A collection of the categories with an ID in <code>ids</code>.
 	 */
 	public static Collection<Category> getCategoriesByIDs(Collection<Integer> ids) {
-		Collection<Category> result = Collections.emptyList();
+		Collection<Category> result = new ArrayList<Category>(ids.size());
 		for (Category c : getAllCategories()) {
 			if (ids.contains(c.getID())) {
 				result.add(c);
