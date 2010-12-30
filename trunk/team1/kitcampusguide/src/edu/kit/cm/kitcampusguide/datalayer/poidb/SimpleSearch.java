@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 /**
  * Implements a simple search algorithm which will only find POIs whose names
  * match exactly the search term.
@@ -21,6 +23,7 @@ public class SimpleSearch implements POIDBSearcher {
 	@Override
 	public List<Integer> getIDs(String text, String dbURL) {
 		Connection connection;
+		Logger logger = Logger.getLogger(getClass());
 		try {
 			connection = DriverManager.getConnection(dbURL);
 			String query = "SELECT id FROM POIDB WHERE name = ?";
@@ -32,10 +35,11 @@ public class SimpleSearch implements POIDBSearcher {
 			while (resultSet.next()) {
 				result.add(resultSet.getInt(1));
 			}
+			logger.debug(String.format("%d match(es) found. Search for \"%s\"",
+					result.size(), text));
 			return result;
 		} catch (SQLException e) {
-			// TODO: Log this correctly
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			return Collections.emptyList();
 		}
 	}

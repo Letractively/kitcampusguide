@@ -12,6 +12,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import edu.kit.cm.kitcampusguide.standardtypes.Category;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
@@ -80,8 +82,9 @@ public class DefaultPOIDB implements POIDB {
 		if (instance != null) {
 			throw new IllegalStateException("Database already instantiated.");
 		}
-		instance = new DefaultPOIDB(dbURL, searcher, create); {
-		}
+		Logger logger = Logger.getLogger(DefaultPOIDB.class);
+		instance = new DefaultPOIDB(dbURL, searcher, create);
+		logger.info("DefaultPOIDB initialized");
 	}
 	
 	/**
@@ -108,7 +111,7 @@ public class DefaultPOIDB implements POIDB {
 		if (name == null || description == null || position == null) {
 			throw new NullPointerException();
 		}
-		
+		Logger logger = Logger.getLogger(getClass());
 		try {
 			String query = "INSERT INTO POIDB (name, description, "
 					+ "lon, lat, mapid, buildingid) VALUES (?,?,?,?,?,?)";
@@ -139,8 +142,9 @@ public class DefaultPOIDB implements POIDB {
 			statement.executeBatch();
 			statement.close();
 			connection2.close();
+			logger.debug("POI \"" + name + "\" added (ID:" + poiID + ")");
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			return false;
 		}
 		return true;
@@ -174,6 +178,8 @@ public class DefaultPOIDB implements POIDB {
 		
 		List<POI> returnList;
 		// Execute the Query
+		Logger logger = Logger.getLogger(getClass());
+		logger.debug("Generated Query: " + queryString);
 		try {
 			Connection connection = getConnection();
 			Statement statement = connection.createStatement();
@@ -187,8 +193,7 @@ public class DefaultPOIDB implements POIDB {
 			connection.close();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			returnList = Collections.<POI> emptyList();
 		}
 		return returnList;
@@ -205,8 +210,8 @@ public class DefaultPOIDB implements POIDB {
 			statement.execute(query);
 			result = getPOIByResultSet(statement.getResultSet());
 		} catch (SQLException e) {
-			e.printStackTrace();
-			// TODO: Log exception
+			Logger logger = Logger.getLogger(getClass());
+			logger.error(e.getMessage(), e);
 		}
 		return result;
 	}
@@ -250,11 +255,14 @@ public class DefaultPOIDB implements POIDB {
 	 * they exist.
 	 */
 	private void removeTables() throws SQLException {
+		Logger logger = Logger.getLogger(getClass());
 		Statement statement = getConnection().createStatement();
 		String query = "DROP TABLE IF EXISTS POIDB";
 		statement.execute(query);
+		logger.info("POIDB deleted");
 		query = "DROP TABLE IF EXISTS CATEGORY";
 		statement.execute(query);
+		logger.info("CATEGORY deleted");
 	}
 
 	/**
@@ -263,6 +271,7 @@ public class DefaultPOIDB implements POIDB {
 	 */
 	private void createTables() throws SQLException {
 
+		Logger logger = Logger.getLogger(getClass());
 		Statement statement = getConnection().createStatement();
 		
 		String query = "CREATE TABLE POIDB " 
@@ -275,6 +284,7 @@ public class DefaultPOIDB implements POIDB {
 			+ "buildingid INTEGER,"
 			+ "PRIMARY KEY ( id ))";
 		statement.execute(query);
+		logger.info("POIDB table created");
 		
 		query = "CREATE TABLE CATEGORY "
 			+ "(id INTEGER not NULL,"
@@ -282,7 +292,7 @@ public class DefaultPOIDB implements POIDB {
 			+ "categoryid INTEGER not NULL," 
 			+ "PRIMARY KEY ( id ))";
 		statement.execute(query);
-		
+		logger.info("CATEGORY table created");
 	}
 
 	/**
@@ -301,7 +311,6 @@ public class DefaultPOIDB implements POIDB {
 		whereClause.append(" AND ");
 		whereClause.append(nw.getLongitude());
 		whereClause.append(')');
-		
 	}
 
 	/**
