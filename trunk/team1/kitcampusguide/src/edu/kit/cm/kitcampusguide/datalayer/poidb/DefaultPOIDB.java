@@ -30,6 +30,8 @@ import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
  */
 public class DefaultPOIDB implements POIDB {
 
+	private static POIDB instance;
+
 	/**
 	 * Stores the database's URL.
 	 */
@@ -41,9 +43,22 @@ public class DefaultPOIDB implements POIDB {
 	private POIDBSearcher searcher;
 	
 	/**
-	 * Creates a new <code>DefaultPOIDB</code> working with a given database.
+	 * Returns the single instance of <code>DefaultPOIDB</code>.
+	 * @return a {@link DefaultPOIDB}
+	 */
+	public static POIDB getInstance() {
+		if (instance == null) {
+			throw new IllegalStateException(
+					"The POIDB must be initialised before.");
+		}
+		return instance;
+	}
+
+	/**
+	 * Initializes a <code>DefaultPOIDB</code> working with a given database.
 	 * The tables are created if necessary, in this case write access is needed.<br />
-	 * An appropriate JDBC driver must be registered.
+	 * An appropriate JDBC driver must be registered. Additionally, the caller
+	 * has to specify the used search algorithm.
 	 * 
 	 * @param dbURL
 	 *            the database URL, see {@link DriverManager#getConnection}
@@ -51,21 +66,21 @@ public class DefaultPOIDB implements POIDB {
 	 *            <code>true</code>, if the method should create all required
 	 *            tables. <b>If the tables have been created before they will be
 	 *            overriden!</b>
+	 * @param searcher
+	 *            the search algorithm which is used by this database.
 	 * @throws SQLException
 	 *             if a database error occurred
 	 * @throws NullPointerException
-	 *             if <code>dbURL</code> is <code>null</code>
+	 *             if <code>dbURL</code> or <code>searcher</code> is
+	 *             <code>null</code>
+	 * @throws IllegalStateException
+	 *             if the POIDB is already initialized
 	 */
-	public DefaultPOIDB(String dbURL, POIDBSearcher searcher, boolean create)
-			throws SQLException {
-		if (dbURL == null || searcher == null) {
-			throw new NullPointerException();
+	public static void init(String dbURL, POIDBSearcher searcher, boolean create) throws SQLException {
+		if (instance != null) {
+			throw new IllegalStateException("Database already instantiated.");
 		}
-		this.dbURL = dbURL;
-		this.searcher = searcher;
-		if (create) {
-			removeTables();
-			createTables();
+		instance = new DefaultPOIDB(dbURL, searcher, create); {
 		}
 	}
 	
@@ -205,6 +220,22 @@ public class DefaultPOIDB implements POIDB {
 			result.add(getPOIByID(id.toString()));
 		}
 		return result;
+	}
+
+	/**
+	 * See {@link DefaultPOIDB#init(String, POIDBSearcher, boolean)} 
+	 */
+	private DefaultPOIDB(String dbURL, POIDBSearcher searcher, boolean create)
+			throws SQLException {
+		if (dbURL == null || searcher == null) {
+			throw new NullPointerException();
+		}
+		this.dbURL = dbURL;
+		this.searcher = searcher;
+		if (create) {
+			removeTables();
+			createTables();
+		}
 	}
 
 	/**
