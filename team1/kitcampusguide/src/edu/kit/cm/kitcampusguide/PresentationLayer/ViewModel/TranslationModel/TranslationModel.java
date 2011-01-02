@@ -2,6 +2,10 @@ package edu.kit.cm.kitcampusguide.PresentationLayer.ViewModel.TranslationModel;
 
 import java.util.List;
 
+/**
+ * This class manages the language for a single user and therefore uses the {@link LanguageManager} and {@link Language} classes.
+ * @author Fred
+ */
 public class TranslationModel {
 	/** Stores the current language.*/
 	private Language currentLanguage;
@@ -20,14 +24,17 @@ public class TranslationModel {
 	/**
 	 * Translates the {@link String} <code>key</code> in the current language.
 	 * If there is no value for <code>key</code> in the current language the corresponding value from
-	 * the default language will be used. Returns <code>null</code> only if there is no value for <code>key</code> in both the current and the default language.
+	 * the default language will be used. If there is no translation defined in the default language either, <code>key</code> is returned.
 	 * @param key The key identifying the text to be translated.
-	 * @return The text corresponding to <code>key</code> in the current language or the default language or <code>null</code> if it doesn't exist in either.
+	 * @return The text corresponding to <code>key</code> in the current language or the default language or <code>key</code>.
 	 */
 	public String tr(String key) {
 		String result = currentLanguage.tr(key);
 		if (result == null) {
 			result = manager.getDefaultLanguage().tr(key);
+			if (result == null) {
+				result = key;
+			}
 		}
 		return result;
 	}

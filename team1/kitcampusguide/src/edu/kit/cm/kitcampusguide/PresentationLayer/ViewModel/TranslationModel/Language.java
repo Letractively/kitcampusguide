@@ -1,9 +1,17 @@
 package edu.kit.cm.kitcampusguide.PresentationLayer.ViewModel.TranslationModel;
 import java.io.IOException;
 import java.util.HashMap;
-import org.jdom.*;
+import java.util.List;
+
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
+/**
+ * Represents a language.
+ * @author Fred
+ */
 class Language {
 	/** Stores the keys and values for the translation.*/ 
 	private HashMap<String, String> translateMap;
@@ -13,7 +21,7 @@ class Language {
 	
 	/**
 	 * Translates the <code>key</code> in the language represented by this class.
-	 * Returns <code>null</code> if there ist no translation for this key.
+	 * Returns <code>null</code> if there is no translation for this key.
 	 * @param key The key to be translated.
 	 * @return The translation or <code>null</code>.
 	 */
@@ -36,25 +44,31 @@ class Language {
 	 */
 	Language(String filename) {
 		translateMap = new HashMap<String, String>();
-		SAXBuilder builder = new SAXBuilder();
 		try {
-			Document doc = builder.build(filename);
-			Element root = doc.getRootElement();
-			constructLanguage(root);
-		} catch (JDOMException e) {
-			e.printStackTrace();
+			Document document = new SAXBuilder().build(filename);
+			constructLanguage(document);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JDOMException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		
 	}
 
-	private void constructLanguage(Element root) {
-		Element child = (Element) root.getChildren().get(0);
-		name = child.getValue();
-		for (int i = 1; i < root.getChildren().size(); i++) {
-			child = (Element) root.getChildren().get(i);
-			translateMap.put(child.getName(), child.getValue());	
+	/**
+	 * Constructs this language from the xml-document <code>document</code>.
+	 * @param document The document the language is to be constructed from.
+	 */
+	private void constructLanguage(Document document) {
+		name = document.getRootElement().getAttributeValue("name");
+		List<Element> entries = document.getRootElement().getChildren("entry");
+		for (Element entry : entries) {
+			String key = entry.getAttributeValue("key");
+			String value = entry.getValue();
+			translateMap.put(key, value);
 		}
 	}
 }
