@@ -1,4 +1,4 @@
-package edu.kit.cm.kitcampusguide.ApplicationLogic.Routing;
+package edu.kit.cm.kitcampusguide.applicationlogic.routing;
 import edu.kit.cm.kitcampusguide.standardtypes.*;
 
 public class RoutingStrategy {
