@@ -4,10 +4,10 @@ import edu.kit.cm.kitcampusguide.standardtypes.*;
 class RoutingGraph {
 	
 	/** Stores the vertices and the corresponding edgeArray-positions. Required to be verticesCount + 1 dummy element*/
-	public int[] verticesArray; //TODO: Change back to private (all)
-	public int[] edgeArray;
-	public double[] weightArray;
-	public MapPosition[] positionArray;
+	private int[] verticesArray;
+	private int[] edgeArray;
+	private double[] weightArray;
+	private MapPosition[] positionArray;
 	private static RoutingGraph instance;
 	
 	/**
@@ -58,7 +58,7 @@ class RoutingGraph {
 		return positionArray[vertice];
 	}
 	
-	public double calculateDistance(MapPosition pos1, MapPosition pos2) {
+	private double calculateDistance(MapPosition pos1, MapPosition pos2) {
 		double result = Double.POSITIVE_INFINITY;
 		if (pos1.getMap().equals(pos2.getMap())) {
 			result = sqr(pos1.getLatitude() - pos2.getLatitude());
