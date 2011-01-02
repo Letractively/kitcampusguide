@@ -1,4 +1,5 @@
 package edu.kit.cm.kitcampusguide.applicationlogic.routing;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -53,6 +54,7 @@ class DijkstraRouting {
 				for (int i = 0; i < routingGraph.getVerticesCount(); i++) {
 					if (visited[i] == false) {
 						currentVertice = i;
+						break;
 					}
 				}
 				for (int i = currentVertice; i < routingGraph.getVerticesCount(); i++) {
@@ -62,12 +64,13 @@ class DijkstraRouting {
 				}
 			}
 		}
-		List<MapPosition> waypoints = Collections.emptyList();
+		List<MapPosition> waypoints = new ArrayList<MapPosition>();
 		Integer tmp = toVertice;
 		while(previous[tmp] != null) {
 			waypoints.add(routingGraph.getPositionFromVertice(tmp));
 			tmp = previous[tmp];
 		}
+		waypoints.add(from);
 		Collections.reverse(waypoints);
 		return new Route(waypoints);
 	}
