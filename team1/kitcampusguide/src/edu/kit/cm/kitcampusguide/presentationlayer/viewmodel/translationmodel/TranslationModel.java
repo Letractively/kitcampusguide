@@ -1,4 +1,4 @@
-package edu.kit.cm.kitcampusguide.PresentationLayer.ViewModel.TranslationModel;
+package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel;
 
 import java.util.List;
 

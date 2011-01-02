@@ -1,4 +1,4 @@
-package edu.kit.cm.kitcampusguide.PresentationLayer.ViewModel.TranslationModel;
+package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
