@@ -2,7 +2,6 @@ package edu.kit.cm.kitcampusguide.standardtypes;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 /**
  * Represents categories.
@@ -18,7 +17,7 @@ public class Category {
 	private final String name;
 	
 	/** Saves all categories.*/
-	private static Collection<Category> categories;
+	private static Collection<Category> categories = new ArrayList<Category>();
 	
 	/**
 	 * Constructs a new category.
