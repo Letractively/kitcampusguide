@@ -40,7 +40,7 @@ public class POI {
 	 * @param buildingID The id of the {@link Building building} represented by the POI or <code>null</code>, if the POI doesn't represent a {@link Building building}.
 	 * @param categories A collection of the {@link Category categories} the POI lies in.
 	 */
-	public POI(String id, String name, String description, WorldPosition position, Map map, int buildingID, Collection<Category> categories) {
+	public POI(String id, String name, String description, WorldPosition position, Map map, Integer buildingID, Collection<Category> categories) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
