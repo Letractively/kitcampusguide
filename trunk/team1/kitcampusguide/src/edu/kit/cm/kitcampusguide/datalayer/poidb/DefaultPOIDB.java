@@ -307,9 +307,9 @@ public class DefaultPOIDB implements POIDB {
 		whereClause.append(" AND ");
 		whereClause.append(se.getLatitude());
 		whereClause.append(" AND lon BETWEEN ");
-		whereClause.append(se.getLongitude());
-		whereClause.append(" AND ");
 		whereClause.append(nw.getLongitude());
+		whereClause.append(" AND ");
+		whereClause.append(se.getLongitude());
 		whereClause.append(')');
 	}
 
