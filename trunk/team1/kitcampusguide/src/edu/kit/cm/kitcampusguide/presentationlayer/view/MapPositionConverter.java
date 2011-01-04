@@ -5,10 +5,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
-import org.json.simple.JSONObject;
-
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
-import edu.kit.cm.kitcampusguide.standardtypes.Route;
 
 /**
  * Converts a {@link MapPosition} into a JSON formatted <code>String</code>. The
