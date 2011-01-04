@@ -8,6 +8,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
+import org.apache.commons.beanutils.ConversionException;
 import org.json.simple.JSONArray;
 
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
@@ -30,11 +31,14 @@ public class POIListConverter implements Converter {
 		if (arg2 == null) {
 			return "";
 		}
-		Collection<POI> pois = (List<POI>) arg2;
+		if (!(arg2 instanceof Collection<?>)) {
+			throw new ConversionException("Can only convert collections of POIs");
+		}
+		
+		Collection<POI> pois = (Collection<POI>) arg2;
 		JSONArray list = new JSONArray();
-		POIConverter pcon = new POIConverter();
 		for (POI p : pois) {
-			list.add(pcon.convertPOI(p));
+			list.add(JSONConversionHelper.convertPOI(p));
 		}
 		return list.toString();
 	}
