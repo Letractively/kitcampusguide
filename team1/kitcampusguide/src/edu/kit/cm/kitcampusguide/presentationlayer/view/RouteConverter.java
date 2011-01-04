@@ -9,7 +9,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
-import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.Route;
 
 /**
