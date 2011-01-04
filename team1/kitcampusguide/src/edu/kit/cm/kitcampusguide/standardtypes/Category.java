@@ -2,6 +2,7 @@ package edu.kit.cm.kitcampusguide.standardtypes;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Represents categories.
@@ -52,7 +53,7 @@ public class Category {
 	 * @return A collection containing all categories.
 	 */
 	public static Collection<Category> getAllCategories() {
-		return categories;
+		return Collections.unmodifiableCollection(categories);
 	}
 	
 	/**

@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -16,7 +17,7 @@ public class Map {
 	private String name;
 	
 	/** Saves a collection of all maps.*/
-	private static Collection<Map> maps;
+	private static Collection<Map> maps = new ArrayList<Map>();
 	
 	/**
 	 * Creates a new map.
