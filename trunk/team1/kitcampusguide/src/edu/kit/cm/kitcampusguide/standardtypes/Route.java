@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class Route {
 	 * @param waypoints The {@link MapPosition MapPositions} defining the route.
 	 */
 	public Route(List<MapPosition> waypoints) {
-		this.waypoints = waypoints;
+		this.waypoints = Collections.unmodifiableList(waypoints);
 		this.start = waypoints.get(0);
 		this.end = waypoints.get(waypoints.size() - 1);
 		this.boundingBox = calculateBoundingBox();
@@ -53,7 +54,7 @@ public class Route {
 	 * @return A list of {@link MapPosition MapPositions} defining the route.
 	 */
 	public List<MapPosition> getWaypoints() {
-		return waypoints;
+		return Collections.unmodifiableList(waypoints);
 	}
 	
 	/**
@@ -67,7 +68,7 @@ public class Route {
 	/**
 	 * Constructs a {@link MapSection bounding box} from the {@link MapPosition waypoints} already saved in <code>waypoints</code>.
 	 * The whole route lies in it.
-	 * If the route traverses the 180° meridian, the bounding box is wrong.
+	 * If the route traverses the 180ï¿½ meridian, the bounding box is wrong.
 	 * @return A {@link MapPosition bounding box} built from <code>waypoints</code>.
 	 */
 	private MapSection calculateBoundingBox() {

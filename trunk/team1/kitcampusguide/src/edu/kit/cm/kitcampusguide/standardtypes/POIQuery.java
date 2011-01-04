@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Represents a query for a {@link POI} request.
@@ -52,6 +53,6 @@ public class POIQuery {
 	 * @return A collection of {@link Category categories} by which will be filtered. Can return <code>null</code>
 	 */
 	public Collection<Category> getCategories() {
-		return categories;
+		return Collections.unmodifiableCollection(categories);
 	}
 }
