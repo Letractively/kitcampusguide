@@ -43,7 +43,6 @@ public class MapSectionConverter implements Converter {
 		if (arg0 == null || arg1 == null) {
 			throw new NullPointerException();
 		}
-		
 		if (arg2 == null) {
 			return "";
 		}
