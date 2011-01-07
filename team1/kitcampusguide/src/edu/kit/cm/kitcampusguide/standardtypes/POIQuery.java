@@ -53,6 +53,7 @@ public class POIQuery {
 	 * @return A collection of {@link Category categories} by which will be filtered. Can return <code>null</code>
 	 */
 	public Collection<Category> getCategories() {
-		return Collections.unmodifiableCollection(categories);
+		return (categories == null) ? null : Collections
+				.unmodifiableCollection(categories);
 	}
 }
