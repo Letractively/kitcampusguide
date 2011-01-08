@@ -5,24 +5,16 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import edu.kit.cm.kitcampusguide.standardtypes.Map;
+import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 
-import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
-
-public class MapSectionConverter implements Converter {
+// TODO
+public class MapConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2)
 			throws ConverterException {
-		if (arg0 == null || arg1 == null || arg2 == null) {
-			throw new NullPointerException();
-		}
-		if (arg2 == "") {
-			return null;
-		}
-		return JSONConversionHelper.getMapSection((JSONObject) JSONValue
-				.parse(arg2));
+		throw new ConverterException(new UnsupportedOperationException());
 	}
 
 	@Override
@@ -34,11 +26,11 @@ public class MapSectionConverter implements Converter {
 		if (arg2 == null) {
 			return "";
 		}
-		if (!(arg2 instanceof MapSection)) {
-			throw new ConverterException("Can only convert MapSection (class: "
+		if (!(arg2 instanceof Map)) {
+			throw new ConverterException("Can only convert Maps (class: "
 					+ arg2.getClass().getName() + ", value: " + arg2 + ")");
 		}
-		return JSONConversionHelper.convertMapSection((MapSection) arg2)
-				.toJSONString();
+		return JSONConversionHelper.convertMap((Map) arg2).toJSONString();
 	}
+
 }

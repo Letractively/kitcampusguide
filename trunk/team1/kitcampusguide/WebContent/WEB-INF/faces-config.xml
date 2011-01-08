@@ -35,6 +35,18 @@
 		<converter-id>mapPositionConverter</converter-id>
 		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.MapPositionConverter</converter-class>
 	</converter>
+	<converter>
+		<description>Converts a Map into a JSON formatted String.</description>
+		<display-name>MapConverter</display-name>
+		<converter-id>mapConverter</converter-id>
+		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.MapConverter</converter-class>
+	</converter>
+	<converter>
+		<description>Converts a building into a JSON formatted String</description>
+		<display-name>BuildingConverter</display-name>
+		<converter-id>buildingConverter</converter-id>
+		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.BuildingConverter</converter-class>
+	</converter>
 	<managed-bean>
 		<managed-bean-name>mapModel</managed-bean-name>
 		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.view.MapModel</managed-bean-class>
