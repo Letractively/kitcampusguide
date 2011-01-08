@@ -16,10 +16,10 @@ public class WorldPosition {
 	
 	/**
 	 * Constructs a new <code>WorldPosition</code> from the longitude and latitude.
-	 * @param longitude The longitude of the position. 
 	 * @param latitude The latitude of the position.
+	 * @param longitude The longitude of the position. 
 	 */
-	public WorldPosition(double longitude, double latitude) {
+	public WorldPosition(double latitude, double longitude) {
 		this.longitude = longitude;
 		this.latitude = latitude;
 	}

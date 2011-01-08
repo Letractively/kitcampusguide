@@ -17,8 +17,8 @@ public class MapPosition  extends WorldPosition {
 	 * @param latitude The latitude of the position.
 	 * @param map The {@link Map map} the position lies on.
 	 */
-	public MapPosition(double longitude, double latitude, Map map) {
-		super(longitude, latitude);
+	public MapPosition(double latitude, double longitude, Map map) {
+		super(latitude, longitude);
 		this.map = map;
 	}
 

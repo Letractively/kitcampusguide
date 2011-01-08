@@ -75,7 +75,7 @@ public class JSONConversionHelper {
 	static WorldPosition getWorldPosition(JSONObject object) {
 		double latitude = (Double) object.get("latitude");
 		double longitude = (Double) object.get("longitude");
-		return new WorldPosition(longitude, latitude);
+		return new WorldPosition(latitude, longitude);
 	}
 
 	static JSONObject convertMapSection(MapSection mapSection) {

@@ -376,7 +376,7 @@ public class DefaultPOIDB implements POIDB {
 		}
 		
 		return new POI(String.valueOf(id), name, description,
-				new WorldPosition(lon, lat), Map.getMapByID(mapID), buildingID,
+				new WorldPosition(lat, lon), Map.getMapByID(mapID), buildingID,
 				Category.getCategoriesByIDs(categoryIDs));
 	}	
 }

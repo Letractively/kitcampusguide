@@ -81,7 +81,7 @@ class RoutingGraph {
 						if (tmp.getAttribute("mapID") != null) {
 							poiMap = Map.getMapByID(Integer.parseInt(tmp.getAttributeValue("mapID")));
 						}
-						positionList.add(new MapPosition(lon, lat, poiMap));
+						positionList.add(new MapPosition(lat, lon, poiMap));
 						counter++;
 					}
 				}
