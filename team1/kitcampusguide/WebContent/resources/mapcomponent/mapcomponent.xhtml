@@ -37,9 +37,12 @@
 	</cc:interface>
 	<cc:implementation>
 		<h:outputScript target="head" library="mapcomponent"
-			name="mapcomponent.js" />
+			name="mapstraction.js" />
 		<h:outputScript target="head" library="mapcomponent"
-			name="openlayers.js" />
+			name="mapcomponent.js" />
+			<script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js" />
+<!--		<h:outputScript target="head" library="mapcomponent"-->
+<!--			name="openlayers.js" />-->
 		<h:outputStylesheet target="head" library="mapcomponent"
 			name="map.css" />
 		<h:outputScript target="head" library="javax.faces" name="jsf.js" />
@@ -48,6 +51,12 @@
 			<h:inputText id="mapSection" value="#{cc.attrs.mapSection}">
 				<f:converter converterId="mapSectionConverter" />
 			</h:inputText>
+			<h:outputText id="map" value="#{cc.attrs.map}" class="hidden">
+				<f:converter converterId="mapConverter" />
+			</h:outputText>
+			<h:outputText id="building" value="#{cc.attrs.building}" class="hidden">
+				<f:converter converterId="buildingConverter" />
+			</h:outputText>
 			<h:outputText id="POIs" value="#{cc.attrs.POIs}" class="hidden">
 				<f:converter converterId="poiListConverter" />
 			</h:outputText>
@@ -71,7 +80,7 @@
 			</h:outputText>
 		</h:form>
 		<script type="text/javascript">
-			initMap('#{cc.clientId}');
+			new KITCampusMap('#{cc.clientId}');
 		</script>
 	</cc:implementation>
 </ui:component>

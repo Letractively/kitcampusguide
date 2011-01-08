@@ -13,7 +13,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.Route;
 
 /**
  * Converts a {@link Route} into a JSON formatted <code>String</code>. The
- * convertion of an appropriate String into a <code>Route</code> is not
+ * conversion of an appropriate String into a <code>Route</code> is not
  * supported.
  * 
  * @author Stefan
