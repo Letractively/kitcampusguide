@@ -1,0 +1,71 @@
+@CHARSET "ISO-8859-1";
+
+<
+html> <head><!--body {
+	font: 100% Verdana, Arial, Helvetica, sans-serif;
+	color: black;
+	background-color: white;
+	}
+
+/* Zurücksetzen der Innen- und Außenabstände */
+* {
+	margin: 0;
+	padding: 0;
+}
+
+#page {
+	width:100%;
+	margin: 0 auto;
+}
+
+#kitcampus {
+	height: 500px;
+	width: 1000px;
+	background-image: url(img.jpg);
+}
+
+#bar {
+	height: 104px;
+	width: 996px;
+	background-color: #CCFFCC;
+	border-color: green;
+	border-width: 2px;
+	border-style: solid;
+}
+
+#kitlogo {
+	width: 200px;
+	float: left;
+	background-color: #CCFFCC;
+	padding-top: 5px;
+}
+
+#input {
+	width: 650px;
+	float: left;
+	background-color: #CCFFCC;
+	padding-top: 5px;
+}
+
+#navigation {
+	width: 150px;
+	text-align: right;
+	margin-left: 840px;
+	background-color: #CCFFCC;
+	padding-right: 5px;
+	padding-top: 5px;
+}
+
+#filter {
+	width: 150px;
+	margin-left: 840px;
+	background-color: #CCFFCC;
+	border-color: green;
+	border-width: 2px;
+	border-style: solid;
+}
+
+-->
+</style>
+</head>
+</html>
