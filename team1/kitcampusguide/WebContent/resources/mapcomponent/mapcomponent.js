@@ -1,9 +1,19 @@
+/**
+ * Is called when the map is initiated after loading the page. The method loads
+ * an OpenLayers map into a dom-Element (usually a div) with the relative id
+ * ":map".
+ * 
+ * @param clientId
+ *            the jsf map component's id
+ * @returns {KITCampusMap} a newly created KITCampusMap instance.
+ */
 function KITCampusMap(clientId) {
 	this.clientId = clientId;
 	this.mapElement = document.getElementById(clientId + ":map");
 	this.form = document.getElementById(clientId + ":form");
 	this.model = new Object();
 
+	// This initialization is mainly taken from mapstraction
 	this.map = new OpenLayers.Map(this.mapElement.id, {
 		maxExtent : new OpenLayers.Bounds(-20037508.34, -20037508.34,
 				20037508.34, 20037508.34),
@@ -18,13 +28,13 @@ function KITCampusMap(clientId) {
 		}
 	});
 
-	// Init vector layer for route
-	this.routeLayer = new OpenLayers.Layer.Vector("route", null);
-	this.map.addLayer(this.routeLayer);
-
 	this.applyChanges();
 }
 
+/**
+ * Restricts the allowed zoom levels to some given bounds.
+ * @param event the event given by OpenLayers.
+ */
 KITCampusMap.prototype.handleZoomEnd = function(event) {
 	// TODO: Store the max. min zoom level in the map objects
 	if (this.map.getZoom() < 14) {
@@ -34,6 +44,12 @@ KITCampusMap.prototype.handleZoomEnd = function(event) {
 	}
 };
 
+/**
+ * This method is called whenever the current map section was changed, for example
+ * by panning or zooming. The method will start an Ajax call to inform the server
+ * about the change of the map section.
+ * @param event the event object given by OpenLayers
+ */
 KITCampusMap.prototype.handleMove = function(event) {
 	// Submit the new map section to the server
 	var input = document.getElementById(this.form.id + ":mapSection");
@@ -48,13 +64,19 @@ KITCampusMap.prototype.handleMove = function(event) {
 	});
 };
 
+/**
+ * This methods reads all data from the input fields and updates the appropriate
+ * map elements.
+ */
 KITCampusMap.prototype.applyChanges = function() {
-	this.model.pois = JSON.parse(document.getElementById(this.clientId
-			+ ":form:POIs").firstChild.data);
-	this.model.map = JSON.parse(document.getElementById(this.clientId
-			+ ":form:map").firstChild.data);
-	this.model.route = JSON.parse(document.getElementById(this.clientId
-			+ ":form:route").firstChild.data);
+	this.model.pois = JSON.parse(this.getFormElement("POIs").firstChild.data);
+	this.model.map = JSON.parse(this.getFormElement("map").firstChild.data);
+	if (this.getFormElement("route").firstChild) {
+		this.model.route = JSON.parse(this.getFormElement("route").firstChild.data);
+	}
+	else {
+		this.model.route = null;
+	}
 
 	if (!this.mapLayer)
 		this.setMapLayer();
@@ -62,8 +84,13 @@ KITCampusMap.prototype.applyChanges = function() {
 	this.setRoute();
 };
 
+KITCampusMap.prototype.getFormElement = function(relativeId) {
+	return document.getElementById(this.clientId + ":form:" + relativeId);
+};
+
 /**
- * Sets all POI markers.
+ * Sets markers for the given set of POIs. If no marker layer exists, a new
+ * layer is created. The POI list must be stored in this.model.pois
  */
 KITCampusMap.prototype.setPOIs = function() {
 	var m = this.model;
@@ -79,19 +106,31 @@ KITCampusMap.prototype.setPOIs = function() {
 	}
 };
 
+/**
+ * Draws the current route in a vector layer. The vector layer is created if
+ * necessary. The route must be set in this.model.route
+ */
 KITCampusMap.prototype.setRoute = function() {
-	var pointList = [];
-	var wp = this.model.route.waypoints;
-	for ( var p = 0; p < wp.length; ++p) {
-		var lonlat = this.transformWorldPosition(wp[p]);
-		pointList.push(new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat));
+	if (!this.routeLayer) {
+		// Init vector layer for route
+		this.routeLayer = new OpenLayers.Layer.Vector("route", null);
+		this.map.addLayer(this.routeLayer);
+
 	}
-
-	var routeFeature = new OpenLayers.Feature.Vector(
-			new OpenLayers.Geometry.LineString(pointList), null, null);
-
 	this.routeLayer.removeAllFeatures();
+	if (this.model.route != null) {
+		var pointList = [];
+		var wp = this.model.route.waypoints;
+		for ( var p = 0; p < wp.length; ++p) {
+			var lonlat = this.transformWorldPosition(wp[p]);
+			pointList
+					.push(new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat));
+		}
+	
+		var routeFeature = new OpenLayers.Feature.Vector(
+				new OpenLayers.Geometry.LineString(pointList), null, null);
 	this.routeLayer.addFeatures([ routeFeature ]);
+	}
 };
 
 /**
@@ -115,7 +154,7 @@ KITCampusMap.prototype.createPOIMarker = function(poi) {
 /**
  * Creates the main map layer. It will show the current map's tileset referenced
  * by its tiles URL. Navigation will be restricted to the current map's bounding
- * box.
+ * box. The current map must be stored in this.model.map.
  */
 KITCampusMap.prototype.setMapLayer = function() {
 	if (this.mapLayer) {
@@ -178,23 +217,25 @@ KITCampusMap.prototype.untransformLonLat = function(lonlat) {
 	lat = 180 / Math.PI
 			* (2 * Math.atan(Math.exp(lat * Math.PI / 180)) - Math.PI / 2);
 
-	var result = new Object();
-	result.longitude = lon;
-	result.latitude = lat;
-	return result;
+	return {
+		longitude : lon,
+		latitude : lat
+	};
 };
 
 /**
  * Converts an OpenLayers.Bounds instance to an appropriate MapSection.
- * @param bounds an Openlayers.Bounds instance
+ * 
+ * @param bounds
+ *            an Openlayers.Bounds instance
  * @returns a MapSection
  */
 KITCampusMap.prototype.untransformBounds = function(bounds) {
 	var coords = bounds.toArray();
 	var nw = new OpenLayers.LonLat(coords[0], coords[3]);
 	var se = new OpenLayers.LonLat(coords[2], coords[1]);
-	var result = new Object();
-	result.northWest = this.untransformLonLat(nw);
-	result.southEast = this.untransformLonLat(se);
-	return result;
+	return {
+		northWest : this.untransformLonLat(nw),
+		southEast : this.untransformLonLat(se)
+	};
 };
