@@ -1,35 +1,51 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:p="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
-<link href="design.css" type="text/css" rel="stylesheet" />
-<head>
-<div id="page"></div>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>KITCampusGuide</title>
-</head>
-<body style="height: 176px;">
-<div id="kitcampus" ></div>
-<div id="bar">
-	<div id="kitlogo">
-		<img src="kit_logo_de_farbe_positiv.jpg" alt="KITLogo" height="75"/>
-	</div>
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:map="http://java.sun.com/jsf/composite/mapcomponent"
+	xmlns:c="http://java.sun.com/jsf/core">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>KITCampusGuide</title>
+	<h:outputStylesheet library="design" name="design.css" target="head" />
+</h:head>
+<h:body>
+	<map:mapcomponent map="#{mapModel.map}" POIs="#{mapModel.POIs}"
+		building="#{mapModel.building}" mapSection="#{mapModel.mapSection}"
+		highlightedPOI="#{mapModel.highlightedPOI}"
+		markerFrom="#{mapModel.markerFrom}" markerTo="#{mapModel.markerTo}"
+		route="#{mapModel.route}" buildingPOI="#{mapModel.buildingPOI}"
+		buildingPOIList="#{mapModel.buildingPOIList}">
+		<c:valueChangeListener for="mapSectionListener"
+			type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapSectionChangedListener" />
+		<!--  TODO: Add appropriate action listeners -->
+	</map:mapcomponent>
+	<div id="bar">
+	<div id="kitlogo"><img src="kit_logo_de_farbe_positiv.jpg"
+		alt="KITLogo" height="75" /></div>
 	<div id="input">
-		<p width="150">Suche/Route von:<input name="suche" type="text" size="10" />
-		<input type="button" name="suche" value="Suche" onclick="Hier Such-/Routenberechnung starten!" /><br></br>
-		Route nach:<input name="route" type="text" size="10" /></p>
+	<p width="150">Suche/Route von:<input name="suche" type="text"
+		size="10" /> <input type="button" name="suche" value="Suche"
+		onclick="Hier Such-/Routenberechnung starten!" /><br></br>
+	Route nach:<input name="route" type="text" size="10" /></p>
 	</div>
 	<div id="navigation">
-		<ul>
-			<a href="login.xhtml">Login</a><br />
-			<a href="filter.xhtml">Filter</a><br />
-			<a href="export.xhtml">Export</a><br />
-			<a href="language.xhtml">Sprache wechseln</a><br />
-			<a href="Hier wird auf Englisch gewechselt!">En</a> :
-			<a href="Hier wird auf Deutsch gewechselt!">D</a>
-		</ul>
+	<ul>
+		<a href="login.xhtml">Login</a>
+		<br />
+		<a href="filter.xhtml">Filter</a>
+		<br />
+		<a href="export.xhtml">Export</a>
+		<br />
+		<a href="language.xhtml">Sprache wechseln</a>
+		<br />
+		<a href="Hier wird auf Englisch gewechselt!">En</a>
+		:
+		<a href="Hier wird auf Deutsch gewechselt!">De</a>
+	</ul>
 	</div>
-</div>
-</body>
+	</div>
+</h:body>
 </html>
