@@ -35,8 +35,8 @@ public class MapSection {
 		if (pos2.getLongitude() > eastMax) {
 			eastMax = pos2.getLongitude();
 		}
-		this.northwestCorner = new WorldPosition(westMax, northMax);
-		this.southeastCorner = new WorldPosition(eastMax, southMax);
+		this.northwestCorner = new WorldPosition(northMax, westMax);
+		this.southeastCorner = new WorldPosition(southMax, eastMax);
 	}
 	
 	/**
