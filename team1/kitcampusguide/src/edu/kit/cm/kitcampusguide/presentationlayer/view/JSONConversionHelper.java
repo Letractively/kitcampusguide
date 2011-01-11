@@ -2,9 +2,7 @@ package edu.kit.cm.kitcampusguide.presentationlayer.view;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 
-import com.sun.grizzly.cometd.util.JSONParser;
 
 import edu.kit.cm.kitcampusguide.standardtypes.Building;
 import edu.kit.cm.kitcampusguide.standardtypes.Category;
