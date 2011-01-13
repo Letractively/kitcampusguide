@@ -112,6 +112,9 @@ public class StandardtypesInitializer {
 				int id = Integer.parseInt(e.getAttributeValue("id"));
 				int groundfloorIndex = Integer.parseInt(e.getAttributeValue("groundfloorIndex"));
 				POI buildingPOI = POISourceImpl.getInstance().getPOIByID(e.getAttributeValue("BuildingPOIID"));
+				if (buildingPOI == null) {
+					throw new InitializationException("Building POI not found. ID " + e.getAttributeValue("BuildingPOIID"));
+				}
 				List<Map> floors = new ArrayList<Map>();
 				List<Element> mapElements= e.getChildren("map");
 				for (Element mapElement : mapElements) {
