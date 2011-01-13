@@ -1,35 +1,34 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
 
 /**
  * Represents a map.
- * Saves an id and a name.
+ * Stores a unique id, a name, the path to the tiles, a bounding box and the minimal and maximal zoom level.
  * @author fred
  *
  */
 public class Map {
-	/** Saves the id of the map.*/
+	/** Stores the id of the map.*/
 	private int id;
 	
-	/** Saves the name of the map*/
+	/** Stores the name of the map*/
 	private String name;
 	
-	/** Saves the bounding box of the map*/
+	/** Stores the bounding box of the map*/
 	private MapSection boundingBox;
 	
-	/** Saves the URL leading to the tiles*/
+	/** Stores the URL leading to the tiles*/
 	private String tilesURL;
 	
-	/** Saves the minimal zoom level of the map.*/
+	/** Stores the minimal zoom level of the map.*/
 	private int minZoom;
 	
-	/** Saves the maximal zoom level of the map.*/
+	/** Stores the maximal zoom level of the map.*/
 	private int maxZoom;
 	
-	/** Saves a collection of all maps.*/
-	private static Collection<Map> maps = new ArrayList<Map>();
+	/** Stores all maps.*/
+	private static java.util.Map<Integer, Map> maps = new HashMap<Integer, Map>();
 	
 	
 	
@@ -41,18 +40,19 @@ public class Map {
 	 * @param tilesURL The path to the files.
 	 * @param minZoom The minimal zoom level for this map. Required to be >= 0. Required to be <= <code>maxZoom</code>.
 	 * @param maxZoom The maximal zoom level for this map. Required to be >= 0. Required to be >= <code>minZoom</code>.
+	 * 
+	 * @throws NullPointerException If either name, boundingBox or tilesURL is null.
+	 * @throws IllegalArgumentException if minZoom > maxZoom or map with a duplicate id would be created.  
 	 */
-	public Map(int id, String name, MapSection boundingBox, String tilesURL, int minZoom, int maxZoom) {
+	public Map(int id, String name, MapSection boundingBox, String tilesURL, int minZoom, int maxZoom) throws NullPointerException, IllegalArgumentException {
 		if (name == null || boundingBox == null || tilesURL == null) {
 			throw new NullPointerException();
 		}
 		if (minZoom > maxZoom) {
 			throw new IllegalArgumentException("Map with ID " + id + ": minZoom > maxZoom.");
 		}
-		for (Map map: maps) {
-			if (map.getID() == id) {
-				throw new IllegalArgumentException("Map with ID " + id + " already exists.");
-			}
+		if (maps.containsKey(new Integer(id))) {
+			throw new IllegalArgumentException("Map with ID " + id + " already exists.");
 		}
 		this.id = id;
 		this.name = name;
@@ -60,7 +60,7 @@ public class Map {
 		this.tilesURL = tilesURL;
 		this.minZoom = minZoom;
 		this.maxZoom = maxZoom;
-		maps.add(this);
+		maps.put(new Integer(id), this);
 	}
 	
 	/**
@@ -119,12 +119,7 @@ public class Map {
 	 */
 	public static Map getMapByID(int id) {
 		Map result = null;
-		for (Map momMap : maps) {
-			if (momMap.getID() == id) {
-				result = momMap;
-				break;
-			}
-		}
+		result = maps.get(new Integer(id));
 		return result;
 	}
 }

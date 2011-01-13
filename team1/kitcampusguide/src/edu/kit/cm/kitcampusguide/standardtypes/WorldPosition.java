@@ -18,8 +18,13 @@ public class WorldPosition {
 	 * Constructs a new <code>WorldPosition</code> from the longitude and latitude.
 	 * @param latitude The latitude of the position.
 	 * @param longitude The longitude of the position. 
+	 * 
+	 * @throws IllegalArgumentException If either <code>latitude</code> or <code>longitude</code> are out of bounds. 
 	 */
-	public WorldPosition(double latitude, double longitude) {
+	public WorldPosition(double latitude, double longitude) throws IllegalArgumentException {
+		if ((latitude > 90) || (latitude < -90) || (longitude > 180) || (longitude < -180)) {
+			throw new IllegalArgumentException("Latitude or Langitude out of bounds.");
+		}
 		this.longitude = longitude;
 		this.latitude = latitude;
 	}
