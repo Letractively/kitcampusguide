@@ -1,14 +1,8 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.jdom.Document;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
 
 /**
  * Manages all of the languages for the KITCampusGuide and gives methods to get these.
@@ -23,36 +17,13 @@ class LanguageManager {
 	private Language defaultLanguage;
 	
 	/**
-	 * Constructs a new LanguageManager from the xml-file specified by <code>filename</code>. 
-	 * @param filename The exact location of the configuration file.
+	 * Creates a new language manager with the languages defined by <code>allLanguages</code> and the default language defined by <code>defaultLanguage</code>.
+	 * @param allLanguages
+	 * @param defaultLanguage
 	 */
-	private LanguageManager(String filename) {
-		try {
-			Document document = new SAXBuilder().build(filename);
-			ConfigureManager(document);
-		} catch (JDOMException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Configures the LanguageManager from the xml-document specified by <code>document</code>.
-	 * @param document The document specifying the ConfigurationManager.
-	 */
-	private void ConfigureManager(Document document) {
-		String folder = document.getRootElement().getChild("LanguageManagerConfiguration").getAttribute("folder").getValue();
-		File f = new File(folder);
-		File[] fileArray = f.listFiles();
-		System.out.println(f.getAbsolutePath());
-		for (File file : fileArray) {
-			Language tmp = new Language(file.getAbsolutePath());
-			allLanguages.add(tmp);
-		}
-		defaultLanguage = getLanguageByString(document.getRootElement().getChild("LanguageManagerConfiguration").getAttribute("defaultLanguage").getValue());
+	private LanguageManager(List<Language> allLanguages, String defaultLanguage) {
+		this.allLanguages = allLanguages;
+		this.defaultLanguage = getLanguageByString(defaultLanguage);
 	}
 
 	/**
@@ -92,15 +63,15 @@ class LanguageManager {
 	}
 	
 	/**
-	 * Initializes the only instance of <code>LanguageManager</code> from the file defined by <code>filename</code>.
-	 * @param filename The configuration file for the <code>LanguageManager</code>.
-	 * @return The only <code>LanguageManager</code>-instance.
+	 * Initializes the only instance of <code>LanguageManager</code> from the collection of languages with the default language defined by defaultLanguage.
+	 * If a instance of language manager already exists, no new is created.
+	 * @param allLanguages All available languages.
+	 * @param defaultLanguage The name of the default language.
 	 */
-	static LanguageManager initializeLanguageManager(String filename) {
+	static void initializeLanguageManager(List<Language> allLanguages, String defaultLanguage) {
 		if (instance == null) {
-			instance = new LanguageManager(filename);
+			instance = new LanguageManager(allLanguages, defaultLanguage);
 		}
-		return instance;
 	}
 	
 	/**
