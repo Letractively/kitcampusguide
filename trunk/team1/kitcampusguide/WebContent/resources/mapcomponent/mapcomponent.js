@@ -13,7 +13,7 @@ function KITCampusMap(clientId) {
 	this.form = document.getElementById(clientId + ":form");
 	this.model = new Object();
 
-	// This initialization is mainly taken from mapstraction
+	// This initialization is mainly taken from Mapstraction
 	this.map = new OpenLayers.Map(this.mapElement.id, {
 		maxExtent : new OpenLayers.Bounds(-20037508.34, -20037508.34,
 				20037508.34, 20037508.34),
@@ -36,11 +36,11 @@ function KITCampusMap(clientId) {
  * @param event the event given by OpenLayers.
  */
 KITCampusMap.prototype.handleZoomEnd = function(event) {
-	// TODO: Store the max. min zoom level in the map objects
-	if (this.map.getZoom() < 14) {
-		this.map.zoomTo(14);
-	} else if (this.map.getZoom() > 18) {
-		this.map.zoomTo(18);
+	// TODO: Store the max. min zoom level in the map objects. Done
+	if (this.map.getZoom() < this.model.map.minZoom) {
+		this.map.zoomTo(this.model.map.minZoom);
+	} else if (this.map.getZoom() > this.model.map.maxZoom) {
+		this.map.zoomTo(this.model.map.maxZoom);
 	}
 };
 
@@ -56,7 +56,7 @@ KITCampusMap.prototype.handleMove = function(event) {
 	var mapSection = this.untransformBounds(this.map.getExtent());
 	input.value = JSON.stringify(mapSection);
 	// TODO: Review the update process
-	input.value = jsf.ajax.request(this.form, null, {
+	jsf.ajax.request(this.form, null, {
 		execute : input.id,
 		render : this.form.id + ":POIs " + this.form.id + ":mapSection",
 		onevent : this.applyChanges.call(this)
