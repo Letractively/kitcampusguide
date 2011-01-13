@@ -40,7 +40,7 @@ public class RouteConverter implements Converter {
 		}
 		if (!(arg2 instanceof Route)) 
 		{
-			throw new ConverterException("Can only convert Routess (class: " + arg2.getClass().getName()
+			throw new ConverterException("Can only convert Routes (class: " + arg2.getClass().getName()
 					+ ", value: " + arg2 + ")");
 		}
 		JSONObject result = new JSONObject();

@@ -6,7 +6,6 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
-import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 
 // TODO
 public class MapConverter implements Converter {
