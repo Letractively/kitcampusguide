@@ -32,7 +32,7 @@ public class MapModel {
 				new WorldPosition(49.0078, 8.42622));
 	new Map(1, "campus", box,
 //				"http://tile.openstreetmap.org/${z}/${x}/${y}.png");
-				"./resources/tiles/campus/${z}/${x}/${y}.png");
+				"./resources/tiles/campus/${z}/${x}/${y}.png", 14, 18);
 	}
 
 	/**
