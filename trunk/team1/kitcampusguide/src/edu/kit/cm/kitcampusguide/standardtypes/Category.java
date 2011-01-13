@@ -3,33 +3,44 @@ package edu.kit.cm.kitcampusguide.standardtypes;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents categories.
- * Saves the respective <code>id</code>, the <code>name</code> and gives functions to get categories.
+ * Stores the respective <code>id</code>, the <code>name</code> and gives functions to get categories.
  * @author fred
  *
  */
 public class Category {	
-	/** Saves the id of the category*/
+	/** Stores the id of the category*/
 	private final int id;
 	
-	/** Saves the name of the category*/
+	/** Stores the name of the category*/
 	private final String name;
 	
-	/** Saves all categories.*/
-	private static Collection<Category> categories = new ArrayList<Category>();
+	/** Stores all categories.*/
+	private static Map<Integer, Category> categories = new HashMap<Integer, Category>();
 	
 	/**
 	 * Constructs a new category.
 	 * Adds it to the collection of categories.
 	 * @param id The ID the new category should have. Must be unique. However, this is not tested.
 	 * @param name The name of the new category.
+	 * 
+	 * @throws NullPointerException If the name of the category is null.
+	 * @throws IllegalArgumentException If the category created would have a duplicate ID.
 	 */
-	public Category(int id, String name) {
+	public Category(int id, String name) throws IllegalArgumentException, NullPointerException {
+		if (name == null) {
+			throw new NullPointerException("Name of categorie " + id + " is null");
+		}
+		if (categories.containsKey(new Integer(id))) {
+				throw new IllegalArgumentException("Category with ID " + id + " already exists.");
+			}
 		this.id = id;
 		this.name = name;
-		categories.add(this);
+		categories.put(new Integer(id), this);
 	}
 	
 	/**
@@ -53,7 +64,7 @@ public class Category {
 	 * @return A collection containing all categories.
 	 */
 	public static Collection<Category> getAllCategories() {
-		return Collections.unmodifiableCollection(categories);
+		return Collections.unmodifiableCollection(categories.values());
 	}
 	
 	/**
@@ -64,9 +75,9 @@ public class Category {
 	 */
 	public static Collection<Category> getCategoriesByIDs(Collection<Integer> ids) {
 		Collection<Category> result = new ArrayList<Category>(ids.size());
-		for (Category c : getAllCategories()) {
-			if (ids.contains(c.getID())) {
-				result.add(c);
+		for (Integer i : ids) {
+			if (categories.containsKey(i)) {
+				result.add(categories.get(i));
 			}
 		}
 		return result;
