@@ -61,6 +61,8 @@ public class JSONConversionHelper {
 		map.put("name", m.getName());
 		map.put("tilesURL", m.getTilesURL());
 		map.put("boundingBox", convertMapSection(m.getBoundingBox()));
+		map.put("minZoom", m.getMinZoom());
+		map.put("maxZoom", m.getMaxZoom());
 		return map;
 	}
 
