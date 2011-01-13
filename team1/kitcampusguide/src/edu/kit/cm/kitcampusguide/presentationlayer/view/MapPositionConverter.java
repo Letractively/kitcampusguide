@@ -34,7 +34,7 @@ public class MapPositionConverter implements Converter {
 			return "";
 		}
 		if (!(arg2 instanceof MapPosition)) {
-			throw new ConverterException("Can only convert Routess (class: "
+			throw new ConverterException("Can only convert MapPositions (class: "
 					+ arg2.getClass().getName() + ", value: " + arg2 + ")");
 		}
 		return JSONConversionHelper.convertMapPosition((MapPosition) arg2)
