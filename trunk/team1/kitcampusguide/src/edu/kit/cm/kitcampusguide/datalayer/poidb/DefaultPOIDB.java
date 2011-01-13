@@ -363,7 +363,7 @@ public class DefaultPOIDB implements POIDB {
 		double lat = set.getDouble(5);
 		int mapID = set.getInt(6);
 		Integer buildingID = set.getInt(7);
-		
+		set.close();
 		// Fetch the categories
 		Connection connection = getConnection();
 		Statement statement = connection.createStatement();

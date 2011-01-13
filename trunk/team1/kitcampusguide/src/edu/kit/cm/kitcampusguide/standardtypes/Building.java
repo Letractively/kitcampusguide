@@ -39,6 +39,12 @@ public class Building {
 	 * @throws IllegalArgumentException If a duplicate ID is given.
 	 */
 	Building(int id, List<Map> floors, int groundfloorIndex, POI buildingPOI) throws IllegalArgumentException {
+		if (floors == null || buildingPOI == null) {
+			throw new NullPointerException("Either floors or buildingPOI is null");
+		}
+		if (groundfloorIndex >= floors.size() || groundfloorIndex < 0) {
+			throw new IllegalArgumentException("groundfloorIndex out of bounds.");
+		}
 		this.id = id;
 		this.floors = new ArrayList<Map>(floors);
 		this.groundfloorIndex = groundfloorIndex;
