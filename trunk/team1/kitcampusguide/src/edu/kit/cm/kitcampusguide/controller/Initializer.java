@@ -1,15 +1,10 @@
 package edu.kit.cm.kitcampusguide.controller;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
-
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
 import edu.kit.cm.kitcampusguide.applicationlogic.routing.RoutingInitializer;
@@ -57,6 +52,7 @@ public class Initializer {
 				logger.info("Initialization succeeded");
 			}
 		} catch(Exception e) {
+			logger.fatal(e.getMessage());
 			logger.fatal("Initialization failed. Program ends.");
 			System.exit(-1);
 		}
