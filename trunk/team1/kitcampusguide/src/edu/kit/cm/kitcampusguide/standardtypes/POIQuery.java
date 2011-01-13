@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -29,7 +30,7 @@ public class POIQuery {
 	public POIQuery(MapSection section, Collection<Map> maps, Collection<Category> categories) {
 		this.section = section;
 		this.maps = maps;
-		this.categories = categories;
+		this.categories = (categories == null) ? null : new ArrayList<Category>(categories);
 	}
 	
 	/**

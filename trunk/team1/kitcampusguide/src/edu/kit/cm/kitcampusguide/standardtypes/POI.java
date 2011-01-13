@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -52,7 +53,7 @@ public class POI {
 		this.position = position;
 		this.map = map;
 		this.buildingID = buildingID;
-		this.categories = categories;
+		this.categories = new ArrayList<Category>();
 	}
 	
 	/**
