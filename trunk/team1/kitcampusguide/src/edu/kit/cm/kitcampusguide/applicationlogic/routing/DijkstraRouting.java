@@ -1,81 +1,58 @@
 package edu.kit.cm.kitcampusguide.applicationlogic.routing;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import java.util.HashMap;
 import edu.kit.cm.kitcampusguide.standardtypes.*;
 
+/**
+ * Represents the dijkstra strategy for routing calculation. 
+ * @author Fred
+ *
+ */
 class DijkstraRouting {
+	/** Stores the only instance of DijkstraRouting.*/
 	private static DijkstraRouting instance;
-	
+	/** Stores the HashMap for caching.*/
+	private HashMap<Integer, DijkstraRoutingCalculation> fromMap;
+	/** Stores the routingGraph.*/
 	private RoutingGraph routingGraph;
+	
 	/**
 	 * Private constructor.
 	 */
 	private DijkstraRouting() {
 		routingGraph = RoutingGraph.getInstance();
+		fromMap = new HashMap<Integer, DijkstraRoutingCalculation>();
 	}
 	
-	Route calculateRoute(MapPosition from, MapPosition to) {
-		int fromVertice = routingGraph.getNearestVertice(from);
-		int toVertice = routingGraph.getNearestVertice(to);
-		int currentVertice = fromVertice;
-		int visitedVerticesCount = 0;
-		Integer[] previous = new Integer[routingGraph.getVerticesCount()];
-		for (int i = 0; i < routingGraph.getVerticesCount(); i++) {
-			previous[i] = null;
+	/**
+	 * Calculates a route from <code>from</code> to <code>to</code>.
+	 * If there is no route between those positions, <code>null</code> will be returned
+	 * @param from {@link MapPosition Position} the route starts at.
+	 * @param to {@link MapPosition Position} the route ends at.
+	 * @return The {@link Route route} between <code>from</code> and <code>to</code> or <code>null</code>.
+	 */
+	public Route calculateRoute(MapPosition from, MapPosition to) {
+		Route result = null;
+		DijkstraRoutingCalculation calculation;
+		if ((!fromMap.containsKey(new Integer(routingGraph.getNearestVertice(from))))) {
+			fromMap.put(new Integer(routingGraph.getNearestVertice(from)), new DijkstraRoutingCalculation(from));
 		}
-		double[] distance = new double[routingGraph.getVerticesCount()];
-		for (int i = 0; i < routingGraph.getVerticesCount(); i++) {
-			distance[i] = Double.POSITIVE_INFINITY;
-		}
-		distance[fromVertice] = 0;
+		calculation = fromMap.get(new Integer(routingGraph.getNearestVertice(from)));
+		result = calculation.constructRoute(to);
+		return result;
 		
-		boolean[] visited = new boolean[routingGraph.getVerticesCount()];
-		for (int i = 0; i < routingGraph.getVerticesCount(); i++) {
-			visited[i] = false;
-		}
-		boolean finished = false;
-		while (finished == false){
-			int[] currentNodeNeighbours = routingGraph.getNeighbours(currentVertice);
-			for (int vertice: currentNodeNeighbours) {
-				double tentativeDistance = distance[currentVertice] + routingGraph.getWeight(currentVertice, vertice);
-				if (tentativeDistance < distance[vertice]) {
-					distance[vertice] = tentativeDistance;
-					previous[vertice] = currentVertice;
-				}
-			}
-			visited[currentVertice] = true;
-			visitedVerticesCount++;
-			
-			if (visitedVerticesCount == routingGraph.getVerticesCount()) {
-				finished = true;
-			} else {
-				for (int i = 0; i < routingGraph.getVerticesCount(); i++) {
-					if (visited[i] == false) {
-						currentVertice = i;
-						break;
-					}
-				}
-				for (int i = currentVertice; i < routingGraph.getVerticesCount(); i++) {
-					if (distance[i] < distance[currentVertice]) {
-						currentVertice = i;
-					}
-				}
-			}
-		}
-		List<MapPosition> waypoints = new ArrayList<MapPosition>();
-		Integer tmp = toVertice;
-		while(previous[tmp] != null) {
-			waypoints.add(routingGraph.getPositionFromVertice(tmp));
-			tmp = previous[tmp];
-		}
-		waypoints.add(from);
-		Collections.reverse(waypoints);
-		return new Route(waypoints);
+		
+		/*Route result = null;
+		DijkstraRoutingCalculation calculation = new DijkstraRoutingCalculation(from);
+		result = calculation.constructRoute(to);
+		return result;
+		*/
 	}
 	
-	static DijkstraRouting getInstance() {
+	/**
+	 * Returns the only instance or creates a new one if none exists.
+	 * @return The only instance or creates a new one if none exists.
+	 */
+	public static DijkstraRouting getInstance() {
 		if (instance == null) {
 			instance = new DijkstraRouting();
 		}

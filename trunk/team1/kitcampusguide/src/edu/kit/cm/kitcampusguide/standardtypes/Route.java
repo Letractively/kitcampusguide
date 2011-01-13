@@ -24,7 +24,7 @@ public class Route {
 	
 	/**
 	 * Constructs a new route.
-	 * @param waypoints The {@link MapPosition MapPositions} defining the route.
+	 * @param waypoints The {@link MapPosition MapPositions} defining the route. If it contains only one, a second waypoint will be constructed.
 	 * 
 	 * @throws NullPointerException If <code>waypoints</code> is null.
 	 * @throws IllegalArgumentException If <code>waypoints</code> has less than two elements.
@@ -33,10 +33,14 @@ public class Route {
 		if (waypoints == null) {
 			throw new NullPointerException("Waypoints is null.");
 		}
-		if (waypoints.size() < 2) {
-			throw new IllegalArgumentException("Waypoints required to have a length of at least 2.");
+		if (waypoints.size() < 1) {
+			throw new IllegalArgumentException("Waypoints required to have a length of at least 1.");
 		}
-		this.waypoints = Collections.unmodifiableList(waypoints);
+		List<MapPosition> waypointsTmp = waypoints;
+		if (waypoints.size() == 1) {
+			waypointsTmp.add(waypointsTmp.get(0));
+		}
+		this.waypoints = Collections.unmodifiableList(waypointsTmp);
 		this.start = waypoints.get(0);
 		this.end = waypoints.get(waypoints.size() - 1);
 		this.boundingBox = calculateBoundingBox();

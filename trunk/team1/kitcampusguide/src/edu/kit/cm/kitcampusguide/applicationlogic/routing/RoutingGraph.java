@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -18,6 +19,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.*;
  */
 class RoutingGraph {
 	
+	private Logger logger = Logger.getLogger(getClass());
 	/** Stores the vertices and the corresponding edgeArray-positions. Required to be verticesCount + 1 dummy element*/
 	private int[] verticesArray;
 	/** Stores the edges of the represented graph in the adjacency array format.*/
@@ -34,13 +36,15 @@ class RoutingGraph {
 	 */
 	private RoutingGraph(String filename, Map map) {
 		try {
+			logger.info("Constructing routing graph from " + filename + " with standard map ID " + map.getID());
 			Document document = new SAXBuilder().build(filename);
 			constructGraph(document, map);
+			logger.info("Constructed routing graph. " + getVerticesCount() + " vertices. " + edgeArray.length + " edges.");
 		} catch (JDOMException e) {
-			// TODO Auto-generated catch block
+			logger.fatal("Construction of routing graph failed.");
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			logger.fatal("Construction of routing graph failed.");
 			e.printStackTrace();
 		}
 	}
@@ -216,18 +220,22 @@ class RoutingGraph {
 	 * Calculates the distance between the positions pos1 and pos2.
 	 * @param pos1 The first position.
 	 * @param pos2 The second position.
-	 * @return The distance between pos1 and pos2 as a difference between longitude and latitude.
+	 * @return The distance between pos1 and pos2.
 	 */
-	private double calculateDistance(MapPosition pos1, MapPosition pos2) {
+	//TODO: CHANGE TO PRIVATE
+	public double calculateDistance(MapPosition pos1, MapPosition pos2) {
 		double result = Double.POSITIVE_INFINITY;
 		if (pos1.getMap().equals(pos2.getMap())) {
-			result = Math.pow(pos1.getLatitude() - pos2.getLatitude(), 2);
-			result += Math.pow(pos1.getLongitude() - pos2.getLongitude(), 2);
-			result = Math.sqrt(result);
+			result = sqr(pos1.getLatitude() - pos2.getLatitude());
+			result += sqr(pos1.getLongitude() - pos2.getLongitude());
 		}
 		return result;
 	}
 	
+	private double sqr(double d) {
+		return d*d;
+	}
+
 	/**
 	 * Returns the only instance of RoutingGraph.
 	 * @return The only instance of RoutingGraph.
