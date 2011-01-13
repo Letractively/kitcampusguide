@@ -1,47 +1,54 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Represents a building. 
- * Saves the {@link Map maps} representing the floors, which of these is the ground floor and the {@link POI} representing the building.
+ * Stores the {@link Map maps} representing the floors, which of these is the ground floor and the {@link POI} representing the building.
  * @author fred
  *
  */
 public class Building {
 	
-	/** Saves the ID of the building.*/
+	/** Stores the ID of the building.*/
 	private final int id;
 	
-	/** Saves the {@link Map maps} representing the floors from lowest to highest.*/
+	/** Stores the {@link Map maps} representing the floors from lowest to highest.*/
 	private final List<Map> floors;
 	
-	/** Saves the index of the ground floor in the list saved in <code>floors</code>.*/
+	/** Stores the index of the ground floor in the list saved in <code>floors</code>.*/
 	private final int groundfloorIndex;
 	
-	/** Saves the {@link POI} representing the building.*/
+	/** Stores the {@link POI} representing the building.*/
 	private final POI buildingPOI;
 	
-	/** Saves a collection of all buildings.*/
-	private static Collection<Building> allBuildings;
+	/** Stores all buildings.*/
+	private static HashMap<Integer, Building> allBuildings = new HashMap<Integer, Building>();
 	
 	/**
 	 * Constructs a new building.
 	 * The building needs the parameters <code>id</code>, <code>floors</code>, <code>groundfloorIndex</code> and <code>buildingPOI</code>.
-	 * @param id The id of the building, needs to be unique. However, this is not tested due to performance reasons.
+	 * @param id The id of the building, needs to be unique.
 	 * @param floors The {@link Map maps} representing the floors from lowest to highest.
 	 * @param groundfloorIndex The index of the ground floor in <code>floors</code>. Is tested to be in range of <code>floors</code>.
 	 * @param buildingPOI The {@link POI} representing the building. Required to be not <code>null</code>.
+	 * 
+	 * @throws IllegalArgumentException If a duplicate ID is given.
 	 */
-	Building(int id, List<Map> floors, int groundfloorIndex, POI buildingPOI) {
+	Building(int id, List<Map> floors, int groundfloorIndex, POI buildingPOI) throws IllegalArgumentException {
 		this.id = id;
 		this.floors = new ArrayList<Map>(floors);
 		this.groundfloorIndex = groundfloorIndex;
 		this.buildingPOI = buildingPOI;
-		allBuildings.add(this);
+		if (allBuildings.containsKey(new Integer(id))) {
+			throw new IllegalArgumentException("Building ID duplicate.");
+		} else {
+			allBuildings.put(new Integer(id), this);
+		}
+		
 	}
 	
 	/**
@@ -84,12 +91,7 @@ public class Building {
 	 */
 	public static Building getBuildingByID(int id) {
 		Building result = null;
-		for(Building b : allBuildings) {
-			if (b.getID() == id) {
-				result = b;
-				break;
-			}
-		}
+		result = allBuildings.get(new Integer(id));
 		return result;
 	}
 }

@@ -5,28 +5,37 @@ import java.util.List;
 
 /**
  * Represents a route.
- * Saves the {@link MapPosition waypoints} defining the route and a {@link MapSection bounding box.}
+ * Stores the {@link MapPosition waypoints} defining the route and a {@link MapSection bounding box.}
  * @author fred
  *
  */
 public class Route {
-	/** Saves the {@link MapPosition position} the route starts at.*/
+	/** Stores the {@link MapPosition position} the route starts at.*/
 	private final MapPosition start;
 	
-	/** Saves the {@link MapPosition position} the route ends at.*/
+	/** Stores the {@link MapPosition position} the route ends at.*/
 	private final MapPosition end;
 	
-	/** Saves the {@link MapPosition waypoints} defining the route*/
+	/** Stores the {@link MapPosition waypoints} defining the route*/
 	private final List<MapPosition> waypoints;
 	
-	/** Saves the {@link MapSection bounding box} the route lies in.*/
+	/** Stores the {@link MapSection bounding box} the route lies in.*/
 	private final MapSection boundingBox;
 	
 	/**
 	 * Constructs a new route.
 	 * @param waypoints The {@link MapPosition MapPositions} defining the route.
+	 * 
+	 * @throws NullPointerException If <code>waypoints</code> is null.
+	 * @throws IllegalArgumentException If <code>waypoints</code> has less than two elements.
 	 */
-	public Route(List<MapPosition> waypoints) {
+	public Route(List<MapPosition> waypoints) throws NullPointerException, IllegalArgumentException{
+		if (waypoints == null) {
+			throw new NullPointerException("Waypoints is null.");
+		}
+		if (waypoints.size() < 2) {
+			throw new IllegalArgumentException("Waypoints required to have a length of at least 2.");
+		}
 		this.waypoints = Collections.unmodifiableList(waypoints);
 		this.start = waypoints.get(0);
 		this.end = waypoints.get(waypoints.size() - 1);

@@ -5,18 +5,18 @@ import java.util.Collections;
 
 /**
  * Represents a query for a {@link POI} request.
- * Saves the {@link MapSection}, a collection of the {@link Map maps} and a collection of the {@link Category categories} that will be filtered out by.
+ * Stores the {@link MapSection}, a collection of the {@link Map maps} and a collection of the {@link Category categories} that will be filtered by.
  * @author fred
  *
  */
 public class POIQuery {
-	/** Saves the {@link MapSection section} all returned {@link POI POIs} should lie on.*/
+	/** Stores the {@link MapSection section} all returned {@link POI POIs} should lie on.*/
 	private final MapSection section;
 	
-	/** Saves a collection of the {@link Map maps} the returned {@link POI POIs} should lie on.*/
+	/** Stores a collection of the {@link Map maps} the returned {@link POI POIs} should lie on.*/
 	private final Collection<Map> maps;
 	
-	/** Saves a collection of the {@link Category categories} the returned {@link POI POIs} should lie in.*/
+	/** Stores a collection of the {@link Category categories} the returned {@link POI POIs} should lie in.*/
 	private final Collection<Category> categories;
 	
 	/**

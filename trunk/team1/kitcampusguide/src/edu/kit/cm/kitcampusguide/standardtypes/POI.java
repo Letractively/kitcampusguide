@@ -4,30 +4,30 @@ import java.util.Collection;
 
 /**
  * Represents a POI.
- * Saves the <code>id</code>, the <code>name</code>, the <code>description</code> and  the {@link WorldPosition} of the POI. Also stores the {@link Map map} the POI lies on, a collection of the {@link Category categories} the POI lies in and the {@link Building building} the POI represents. 
+ * Stores the <code>id</code>, the <code>name</code>, the <code>description</code> and  the {@link WorldPosition} of the POI. Also stores the {@link Map map} the POI lies on, a collection of the {@link Category categories} the POI lies in and the {@link Building building} the POI represents. 
  * @author fred
  *
  */
 public class POI {	
-	/** Saves the ID of the POI.*/
+	/** Stores the ID of the POI.*/
 	private final String id;
 	
-	/** Saves the name of the POI.*/
+	/** Stores the name of the POI.*/
 	private final String name;
 	
-	/** Saves the description of the POI.*/
+	/** Stores the description of the POI.*/
 	private final String description;
 	
-	/** Saves the {@link WorldPosition position} of the POI.*/
+	/** Stores the {@link WorldPosition position} of the POI.*/
 	private final WorldPosition position;
 	
-	/** Saves the {@link Map map} the POI lies on.*/
+	/** Stores the {@link Map map} the POI lies on.*/
 	private final Map map;
 	
-	/** Saves the ID of the {@link Building building} represented by the POI or <code>null</code> if the POI doesn't represent a building.*/
+	/** Stores the ID of the {@link Building building} represented by the POI or <code>null</code> if the POI doesn't represent a building.*/
 	private final Integer buildingID;
 	
-	/** Saves the {@link Category categories} the POI lies in.*/
+	/** Stores the {@link Category categories} the POI lies in.*/
 	private final Collection<Category> categories;
 	
 	/**
@@ -39,8 +39,13 @@ public class POI {
 	 * @param map The {@link Map map} the POI lies on.
 	 * @param buildingID The id of the {@link Building building} represented by the POI or <code>null</code>, if the POI doesn't represent a {@link Building building}.
 	 * @param categories A collection of the {@link Category categories} the POI lies in.
+	 * 
+	 * @throws NullPointerException If either id, name, description, position, map or categories is <code>null</code>.
 	 */
 	public POI(String id, String name, String description, WorldPosition position, Map map, Integer buildingID, Collection<Category> categories) {
+		if (id == null || name == null || description == null || position == null || map == null || categories == null) {
+			throw new NullPointerException();
+		}
 		this.id = id;
 		this.name = name;
 		this.description = description;
