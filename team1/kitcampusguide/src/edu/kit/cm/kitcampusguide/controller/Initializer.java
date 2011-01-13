@@ -52,9 +52,8 @@ public class Initializer {
 				logger.info("Initialization succeeded");
 			}
 		} catch(Exception e) {
-			logger.fatal(e.getMessage());
-			logger.fatal("Initialization failed. Program ends.");
-			System.exit(-1);
+			logger.fatal("Initialization failed. Program ends.", e);
+			
 		}
 		
 	}
@@ -69,8 +68,12 @@ public class Initializer {
 	private void configureSubconfigurators(Document document) throws InitializationException {
 		Element r = document.getRootElement();
 		PropertyConfigurator.configure(r.getChild("loggerConfiguration").getAttributeValue("filename"));
-		POIDBInitializer.initialize(r.getChild("POIDBConfiguration").getAttributeValue("filename"));
+		
 		StandardtypesInitializer.initialize(r.getChild("standardtypesConfiguration").getAttributeValue("filename"));
+		StandardtypesInitializer.initializeMaps();
+		POIDBInitializer.initialize(r.getChild("POIDBConfiguration").getAttributeValue("filename"));
+		StandardtypesInitializer.initializeCategories();
+		StandardtypesInitializer.initializeBuildings();
 		RoutingInitializer.initialize(r.getChild("routeConfiguration").getAttributeValue("filename"));
 		TranslationInitializer.initialize(r.getChild("translationConfiguration").getAttributeValue("filename"));
 	}

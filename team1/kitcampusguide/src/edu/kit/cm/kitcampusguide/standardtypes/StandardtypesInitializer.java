@@ -15,9 +15,12 @@ import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 public class StandardtypesInitializer {
 	private static StandardtypesInitializer instance;
 	private Logger logger = Logger.getLogger(getClass());
+	private String filenameMaps;
+	private String filenameCategories;
+	private String filenameBuildings;
 	
 	/**
-	 * Initializes the standard types via sub configurators.
+	 * Configures the sub configurators for the standardtypes.
 	 * @param filename The absolute path to the configuration file.
 	 * 
 	 * @throws InitializationException If an error occurred during initialization. 
@@ -27,14 +30,48 @@ public class StandardtypesInitializer {
 		Document document;
 		try {
 			document = new SAXBuilder().build(filename);
-			initializeMaps(document.getRootElement().getChild("MapConfiguration").getAttributeValue("filename"));
-			initializeBuildings(document.getRootElement().getChild("BuildingConfiguration").getAttributeValue("filename"));
-			initializeCategories(document.getRootElement().getChild("CategoryConfiguration").getAttributeValue("filename"));
+			filenameMaps = document.getRootElement().getChild("MapConfiguration").getAttributeValue("filename");
+			filenameBuildings = document.getRootElement().getChild("BuildingConfiguration").getAttributeValue("filename");
+			filenameCategories = document.getRootElement().getChild("CategoryConfiguration").getAttributeValue("filename");
 			logger.info("Standardtypes initialized.");
 		} catch (JDOMException e) {
 			throw new InitializationException("Initialization of standardtypes failed.");
 		} catch (IOException e) {
 			throw new InitializationException("Initialization of standardtypes failed.");
+		}
+	}
+	
+	/**
+	 * Initializes the Maps.
+	 * @throws InitializationException If an error occurred during initialization.
+	 */
+	public static void initializeMaps() throws InitializationException {
+		if (instance.filenameMaps != null) {
+			instance.initializeMaps(instance.filenameMaps);
+			instance.filenameMaps = null;
+		}
+		
+	}
+	
+	/**
+	 * Initializes the Categories.
+	 * @throws InitializationException If an error occurred during initialization.
+	 */
+	public static void initializeCategories() throws InitializationException {
+		if (instance.filenameCategories != null) {
+			instance.initializeCategories(instance.filenameCategories);
+			instance.filenameCategories = null;
+		}
+	}
+	
+	/**
+	 * Initializes the Buildings.
+	 * @throws InitializationException If an error occurred during initialization.
+	 */
+	public static void initializeBuildings() throws InitializationException {
+		if (instance.filenameBuildings != null) {
+			instance.initializeBuildings(instance.filenameBuildings);
+			instance.filenameBuildings = null;
 		}
 	}
 	
@@ -124,9 +161,9 @@ public class StandardtypesInitializer {
 			}
 			logger.info("Buildings initialized");
 		} catch (JDOMException e) {
-			throw new InitializationException("Initialization of buildings failed. " + e.getMessage());
+			throw new InitializationException("Initialization of buildings failed.", e);
 		} catch (IOException e) {
-			throw new InitializationException("Initialization of buildings failed. " + e.getMessage());
+			throw new InitializationException("Initialization of buildings failed.", e);
 		}
 	}
 
