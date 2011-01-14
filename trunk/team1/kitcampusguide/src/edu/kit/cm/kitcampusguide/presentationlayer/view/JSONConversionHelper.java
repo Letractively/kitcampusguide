@@ -1,12 +1,8 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.view;
 
-import java.util.Set;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-
-import edu.kit.cm.kitcampusguide.presentationlayer.view.MapModel.MapProperty;
 import edu.kit.cm.kitcampusguide.standardtypes.Building;
 import edu.kit.cm.kitcampusguide.standardtypes.Category;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
@@ -24,19 +20,6 @@ import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 @SuppressWarnings("unchecked")
 public class JSONConversionHelper {
 
-	/**
-	 * Converts a set of map properties into a JSON array.
-	 * @param props a set of <code>MapPropertie</code>s
-	 * @return a JSON array
-	 */
-	static JSONArray convertChangedProperties(Set<MapProperty> props) {
-		JSONArray result = new JSONArray();
-		for (MapProperty p: props) {
-			result.add(p.toString());
-		}
-		return result;
-	}
-	
 	/**
 	 * Converts a POI to a JSONObject.
 	 * 
