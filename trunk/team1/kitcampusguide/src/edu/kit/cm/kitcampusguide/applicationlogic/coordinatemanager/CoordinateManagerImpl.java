@@ -3,15 +3,13 @@ package edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
-
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 
 public class CoordinateManagerImpl implements CoordinateManager {
 	
 	private static final String numberPattern = "##0.000000";
-	private static final String numberRegex = "[-]?[0-9]?[0-9]?[0-9][.][0-9][0-9][0-9][0-9][0-9][0-9]";
 	private static final String separator = ", ";
-	private static final String separatorRegex = "[,][ ]";
+	private NumberFormat formatter = NumberFormat.getInstance(new Locale("en", "US"));
 	
 	/**
 	 * The singleton instance of <code>CoordinateManager</code>.
@@ -42,23 +40,46 @@ public class CoordinateManagerImpl implements CoordinateManager {
 	 * {@inheritDoc}
 	 */
 	public WorldPosition stringToCoordinate(String position) {
-		if (position.matches(numberRegex + separatorRegex + numberRegex)) {
-			String[] coordinates = position.split(separatorRegex);
-			double latitude = Double.parseDouble(coordinates[0]);
-			double longitude = Double.parseDouble(coordinates[1]);
-			return new WorldPosition(latitude, longitude);
-			//der Test, ob im String semantisch sinnvolle Zahlen übergeben wurden, wird
-			//hierbei dem Konstruktor von WorldPosition überlassen
-		} else {
+		String[] coordinates = position.split("[,]");
+		if (coordinates.length != 2) {
 			return null;
+		} else {
+			coordinates[0] = coordinates[0].trim();
+			coordinates[1] = coordinates[1].trim();
+			double latitude;
+			double longitude;
+			try {
+				latitude = round(Double.parseDouble(coordinates[0]));
+				longitude = round(Double.parseDouble(coordinates[1]));				
+			} catch (NumberFormatException e) {
+				return null;
+			}
+			try {
+				return new WorldPosition(latitude, longitude);
+			} catch (IllegalArgumentException e) {
+				return null;
+			}
 		}
+	}
+	
+	/**
+	 * Rounds a given floating-point number according to the stated <code>numberPattern</code>
+	 * and returns it.
+	 * @param d Double that shall be rounded.
+	 * @return Rounds the given double according to the stated <code>numberPattern</code>
+	 * 		and returns it.
+	 */
+	private double round(double d) {
+		if (formatter instanceof DecimalFormat) {
+		     ((DecimalFormat) formatter).applyPattern(numberPattern);
+		}
+		return Double.valueOf(formatter.format(d));
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public String coordinateToString(WorldPosition position) {
-		NumberFormat formatter = NumberFormat.getInstance(new Locale("en", "US"));
 		if (formatter instanceof DecimalFormat) {
 		     ((DecimalFormat) formatter).applyPattern(numberPattern);
 		}
