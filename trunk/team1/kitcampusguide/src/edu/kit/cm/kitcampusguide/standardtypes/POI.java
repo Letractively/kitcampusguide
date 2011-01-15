@@ -100,7 +100,7 @@ public class POI {
 	 * Returns the {@link Building building} the POI represents.
 	 * @return The {@link Building building} the POI represents or <code>null</code> if the POI doesn't represent any.
 	 */
-	public Building getBuildung() {
+	public Building getBuilding() {
 		return Building.getBuildingByID(buildingID);
 	}
 	
