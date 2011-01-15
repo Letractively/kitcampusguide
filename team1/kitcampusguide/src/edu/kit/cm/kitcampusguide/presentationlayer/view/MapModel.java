@@ -4,6 +4,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
+import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
+import edu.kit.cm.kitcampusguide.controller.Initializer;
 import edu.kit.cm.kitcampusguide.standardtypes.Building;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
@@ -12,18 +15,33 @@ import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.Route;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 
-// TODO: Javadocs!
+/**
+ * Stores the current map information.
+ * @author Fred
+ *
+ */
 public class MapModel {
-
+	/** The currently displayed POIs.*/
 	private Collection<POI> pois;
+	/** The building the currently displayed map is a floor of or <code>null</code>.*/
 	private Building building;
+	/** The index of the current floor in the current building or <code>null</code>.*/
+	private Integer currentFloorIndex;
+	/** The currently displayed map section.*/
 	private MapSection mapSection;
+	/** The POI currently highlighted or <code>null</code>.*/
 	private POI highlightedPOI;
+	/** The current starting position for a route or <code>null</code>.*/
 	private MapPosition markerFrom;
+	/** The current end position for a route or <code>null</code>.*/
 	private MapPosition markerTo;
+	/** The currently displayed route or <code>null</code>.*/
 	private Route route;
+	/** The building POI for which a list of POIs inside the building should be displayed or <code>null</code>.*/
 	private POI buildingPOI;
+	/** The list of POIs in the building for which the building POI is currently displayed or <code>null</code>.*/ 
 	private List<POI> buildingPOIList;
+	/** The map currently displayed.*/
 	private Map map;
 
 	static {
@@ -33,157 +51,190 @@ public class MapModel {
 	new Map(1, "campus", box,
 //				"http://tile.openstreetmap.org/${z}/${x}/${y}.png");
 				"./resources/tiles/campus/${z}/${x}/${y}.png", 14, 18);
+	//Testcode inclusive initializing.
+//	String[] test = new String[1];
+//	test[0] = "C:/Users/Frederik/Desktop/Uni/PSE/Workspace/Configuration.xml";
+//	Initializer.main(test);
+	
 	}
 
 	/**
-	 * @return the map
+	 * Returns the map to display.
+	 * @return The map to display.
 	 */
 	public Map getMap() {
 		return Map.getMapByID(1);
 	}
 
 	/**
-	 * @param map
-	 *            the map to set
+	 * Sets the map to be displayed.
+	 * @param map The map to be displayed. If <code>null</code>, no change is made.
 	 */
 	public void setMap(Map map) {
-		this.map = map;
+		if (map != null) {
+			this.map = map;
+		}
 	}
 
 	/**
-	 * @return the pois
+	 * Returns the POIs to be displayed. TESTCODE, needs to be removed once controller is finished.
+	 * @return The POIs to be displayed.
 	 */
 	public Collection<POI> getPOIs() {
 		// TODO: Remove this after the controller is ready
-		return Collections.emptyList();
+		//return POISourceImpl.getInstance().getPOIsBySection(null, null, null);
+		return null;
 	}
 
 	/**
-	 * @param pois
-	 *            the pois to set
+	 * Sets the POIs to be displayed. 
+	 * @param pois The POIs to be displayed. If <code>null</code>, no change is made.
 	 */
 	public void setPOIs(Collection<POI> pois) {
-		this.pois = pois;
+		if (pois != null) {
+			this.pois = pois;
+		}
 	}
 
 	/**
-	 * @return the buildingID
+	 * Returns the building currently displayed.
+	 * @return The building currently displayed. Can be <code>null</code>. 
 	 */
 	public Building getBuilding() {
 		return building;
 	}
 
 	/**
-	 * @param building
-	 *            the building to set
+	 * Sets the currently displayed building to building.
+	 * @param building The building to display. Can be <code>null</code>.
 	 */
 	public void setBuilding(Building building) {
 		this.building = building;
 	}
 
 	/**
-	 * @return the mapSection
+	 * The map section currently displayed.
+	 * @return The MapSection currently displayed.
 	 */
 	public MapSection getMapSection() {
 		return mapSection;
 	}
 
 	/**
-	 * @param mapSection
-	 *            the mapSection to set
+	 * Sets the MapSection to be displayed.
+	 * @param mapSection Sets the MapSection to be displayed mapSection. If <code>null</code>, no change is made.
 	 */
 	public void setMapSection(MapSection mapSection) {
 		this.mapSection = mapSection;
 	}
 
 	/**
-	 * @return the highlightedPOI
+	 * Returns the currently highlighted POI.
+	 * @return The currently highlighted POI. May return <code>null</code>.
 	 */
 	public POI getHighlightedPOI() {
 		return highlightedPOI;
 	}
 
 	/**
-	 * @param highlightedPOI
-	 *            the highlightedPOI to set
+	 * Sets the currently highlighted POI.
+	 * @param highlightedPOI The POI to be highlighted. Can be <code>null</code>.
 	 */
 	public void setHighlightedPOI(POI highlightedPOI) {
 		this.highlightedPOI = highlightedPOI;
 	}
 
 	/**
-	 * @return the markerFrom
+	 * Returns the MapPosition a route is drawn from.
+	 * @return The MapPosition a route is drawn from. Can return <code>null</code>.
 	 */
 	public MapPosition getMarkerFrom() {
 		return markerFrom;
 	}
 
 	/**
-	 * @param markerFrom
-	 *            the markerFrom to set
+	 * Sets the MapPosition a route is drawn from.
+	 * @param markerFrom The MapPosition a route is drawn from. Can be <code>null</code>. 
 	 */
 	public void setMarkerFrom(MapPosition markerFrom) {
 		this.markerFrom = markerFrom;
 	}
 
 	/**
-	 * @return the markerTo
+	 * Returns the MapPosition a route is drawn to.
+	 * @return The MapPosition a route is drawn to. Can be <code>null</code>.
 	 */
 	public MapPosition getMarkerTo() {
 		return markerTo;
 	}
 
 	/**
-	 * @param markerTo
-	 *            the markerTo to set
+	 * Sets the MapPosition a route is drawn to.
+	 * @param markerTo The MapPosition a route is drawn to. Can be <code>null</code>.
 	 */
 	public void setMarkerTo(MapPosition markerTo) {
 		this.markerTo = markerTo;
 	}
 
 	/**
-	 * @return the route
+	 * Sets the route to be drawn.
+	 * @return The route to be drawn. Can return <code>null</code>.
 	 */
 	public Route getRoute() {
 		 return route;
 	}
 
 	/**
-	 * @param route
-	 *            the route to set
+	 * Sets the route to be drawn.
+	 * @param route The route to be drawn. Can be <code>null</code>.
 	 */
 	public void setRoute(Route route) {
 		this.route = route;
 	}
 
 	/**
-	 * @return the buildingPOI
+	 * Returns the POI representing the building currently displayed.
+	 * @return The POI representing the building currently displayed. Can be <code>null</code>.
 	 */
 	public POI getBuildingPOI() {
 		return buildingPOI;
 	}
 
 	/**
-	 * @param buildingPOI
-	 *            the buildingPOI to set
+	 * Sets the POI representing the current building and the list of POIs inside the building.
+	 * If both list and listPOI are <code>null</code>,or both are not <code>null</code>, changes are made. 
+	 * @param listPOI The POI representing the current building. Can be <code>null</code> only if <code>list</code> is <code>null</code> too.
+	 * @param list The list of POIs inside the building represented by <code>listPOI</code>. Can be <code>null</code> only if <code>listPOI</code> is <code>null</code> too.
 	 */
-	public void setBuildingPOI(POI buildingPOI) {
-		this.buildingPOI = buildingPOI;
+	public void setBuildingPOI(POI listPOI, List<POI> list) {
+		if ((listPOI == null && list == null) || (listPOI != null && list != null)) {
+			buildingPOI = listPOI;
+			buildingPOIList = list;
+		}
 	}
 
 	/**
-	 * @return the buildingPOIList
+	 * Returns a list of POIs in the currently displayed building.
+	 * @return The POIs inside the currently displayed building. Can be <code>null</code>.
 	 */
 	public List<POI> getBuildingPOIList() {
 		return buildingPOIList;
 	}
 
 	/**
-	 * @param buildingPOIList
-	 *            the buildingPOIList to set
+	 * Sets the index of the current floor.
+	 * @param currentFloorIndex The index of the current floor. Can be <code>null</code>.
 	 */
-	public void setBuildingPOIList(List<POI> buildingPOIList) {
-		this.buildingPOIList = buildingPOIList;
+	public void setCurrentFloorIndex(Integer currentFloorIndex) {
+		this.currentFloorIndex = currentFloorIndex;
+	}
+
+	/**
+	 * Returns the index of the current floor.
+	 * @return The index of the current floor. Can be <code>null</code>.
+	 */
+	public Integer getCurrentFloorIndex() {
+		return currentFloorIndex;
 	}
 
 }
