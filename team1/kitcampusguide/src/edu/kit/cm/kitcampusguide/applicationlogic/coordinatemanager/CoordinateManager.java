@@ -19,11 +19,12 @@ public interface CoordinateManager {
 	 * 		class {@link WordPosition}.
 	 * 		<code>position</code> has to declare the geographical latitude first,
 	 * 		followed by the geographical longitude.
-	 * 		Both numbers must consist of exactly six decimal places and between 
-	 * 		one and three integer parts. 
-	 * 		They have to be separated by a comma followed by a space character.
-	 * 		In short: <code>position</code> must be of the form "##0.000000, ##0.000000",
-	 * 		in which a minus sign is allowed in front of each number to declare it negative.
+	 * 		Consider that the geographical latitude must range between -90 and 90 and the
+	 * 		geographical longitude between -180 and 180.
+	 * 		Both numbers must be valid FloatingPointLiterals as defined in §3.10.2 
+	 * 		of the Java Language Specification and may be rounded to an appropriate exactness.
+	 * 		A minus sign is allowed in front of each number to declare it negative.
+	 * 		They must be separated by a comma.		
 	 * @return Returns an instance of the class {@link WordPosition} with the geographical
 	 * 		coordinates represented by <code>position</code> or <code>null</code>,
 	 * 		if <code>position</code> cannot be interpreted as geographical coordinates.
@@ -40,8 +41,6 @@ public interface CoordinateManager {
 	 * 		WorldPosition <code>position</code>. 
 	 * 		The first number in this string will be the geographical latitude, the second
 	 * 		the geographical longitude.
-	 * 		The string will be of the form "##0.000000, ##0.000000", in which a minus sign
-	 * 		may be placed in front of each number to declare it negative.
 	 */
 	public String coordinateToString(WorldPosition position);
 	
