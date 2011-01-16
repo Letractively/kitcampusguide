@@ -23,16 +23,31 @@
 		<!--  TODO: Add appropriate action listeners -->
 	</map:mapcomponent>
 	<div id="bar">
-	<div id="kitlogo"><img src="kit_logo_de_farbe_positiv.jpg"
-		alt="KITLogo" height="75" /></div>
+	<div id="kitlogo">
+	<h:graphicImage value="logo.jpg" alt="KITLogo" height="75" library="design" />
+	</div>
 	<div id="input">
-	<p width="150">Suche/Route von:<input name="suche" type="text"
-		size="10" /> <input type="button" name="suche" value="Suche"
-		onclick="Hier Such-/Routenberechnung starten!" /><br></br>
-	Route nach:<input name="route" type="text" size="10" /></p>
+		<h:dataTable>
+		<h:column id="column1" text-aglin="right">
+			<c:facet name="header">
+				<h:outputText value="Suche/Route von: " for="suche" /><br /><br />
+				<h:outputText value="Route nach: " for="route" />
+			</c:facet>
+		</h:column>
+		<h:column id="column2">
+			<c:facet name="header">
+				<h:inputText id="suche" type="text" /><br /><br />
+				<h:inputText id="route" type="text" />
+			</c:facet>
+		</h:column>
+		<h:column id="column3">
+			<c:facet name="header">
+				<h:commandButton value="Suche oder Route" />
+			</c:facet>
+		</h:column>
+	</h:dataTable>
 	</div>
 	<div id="navigation">
-	<ul>
 		<a href="login.xhtml">Login</a>
 		<br />
 		<a href="filter.xhtml">Filter</a>
@@ -44,7 +59,6 @@
 		<a href="Hier wird auf Englisch gewechselt!">En</a>
 		:
 		<a href="Hier wird auf Deutsch gewechselt!">De</a>
-	</ul>
 	</div>
 	</div>
 </h:body>
