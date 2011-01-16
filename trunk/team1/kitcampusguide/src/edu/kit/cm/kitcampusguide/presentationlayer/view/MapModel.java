@@ -83,7 +83,7 @@ public class MapModel {
 	public Collection<POI> getPOIs() {
 		// TODO: Remove this after the controller is ready
 		//return POISourceImpl.getInstance().getPOIsBySection(null, null, null);
-		return null;
+		return Collections.emptyList();
 	}
 
 	/**
