@@ -35,22 +35,19 @@ html> <head><!--body {
 #kitlogo {
 	width: 200px;
 	float: left;
-	background-color: #CCFFCC;
 	padding-top: 5px;
 }
 
 #input {
-	width: 650px;
+	width: 600px;
 	float: left;
-	background-color: #CCFFCC;
-	padding-top: 5px;
+	padding-top: 15px;
 }
 
 #navigation {
 	width: 150px;
 	text-align: right;
 	margin-left: 840px;
-	background-color: #CCFFCC;
 	padding-right: 5px;
 	padding-top: 5px;
 }
