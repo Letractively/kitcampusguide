@@ -43,5 +43,16 @@ public class Point {
 	public double getY() {
 		return y;
 	}
+
+	@Override
+	// TODO zum entwurf hinzufügen
+	public boolean equals(Object obj) {
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		} else {
+			Point other = (Point) obj;
+			return this.x == other.x && this.y == other.y;
+		}
+	}
 	
 }
