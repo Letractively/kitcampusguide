@@ -38,7 +38,7 @@ public class HeadlineModel {
 	/**
 	 * This method sets the name of the place to be searched.
 	 * 
-	 * @param the name of the place to be searched.
+	 * @param search the name of the place to be searched.
 	 */
 	public void setSearch(String search) {
 		this.search = search; 
@@ -47,7 +47,7 @@ public class HeadlineModel {
 	/**
 	 * This method sets the suggestions for the input.
 	 * 
-	 * @param the suggestions for the input.
+	 * @param suggestions the suggestions for the input.
 	 */
 	public void setSuggestions(ArrayList<POI> suggestions) {
 		this.suggestions = suggestions; 
