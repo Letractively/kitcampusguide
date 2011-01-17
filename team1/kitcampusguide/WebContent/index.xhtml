@@ -41,15 +41,15 @@
 			<h:panelGroup id="navigation" layout="block">
 				<h:form>
 					<h:panelGrid columns="1">
-						<h:commandLink value="Filter" />
-						<h:commandLink value="Sprache wechseln" />					
+						<h:commandLink value="Filter" actionListener="#{inputListener.filterLinkPressed}"/>
+						<h:commandLink value="Sprache wechseln" actionListener="#{inputListener.languageChangeLinkPressed}"/>					
 						<h:panelGroup>
-							<h:commandLink>
-								<h:graphicImage name="eng.jpg" library="main" alt="English" width="20" onclick="" />
+							<h:commandLink actionListener="#{inputListener.changeLanguageToEnglish}" >
+								<h:graphicImage name="eng.jpg" library="main" alt="English" width="20" />
 							</h:commandLink>
 							<h:outputText value=" : " />
-							<h:commandLink>
-								<h:graphicImage name="ger.jpg" library="main" alt="German" width="20" onclick="" />
+							<h:commandLink actionListener="#{inputListener.changeLanguageToGerman}" >
+								<h:graphicImage name="ger.jpg" library="main" alt="German" width="20" />
 							</h:commandLink>
 						</h:panelGroup>
 					</h:panelGrid>	
