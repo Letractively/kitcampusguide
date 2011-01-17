@@ -186,9 +186,7 @@ public class DefaultPOIDB implements POIDB {
 			statement.execute(queryString.toString());
 			returnList = new ArrayList<POI>();
 			ResultSet result = statement.getResultSet();
-			while(result.next()) {
-				returnList.add(getPOIByResultSet(result));
-			}
+			returnList = getPOIsByResultSet(result, connection);
 			statement.close();
 			connection.close();
 			
@@ -208,10 +206,18 @@ public class DefaultPOIDB implements POIDB {
 			Statement statement = connection.createStatement();
 			String query = "SELECT * FROM POIDB WHERE id = " + intID;
 			statement.execute(query);
-			result = getPOIByResultSet(statement.getResultSet());
+			ResultSet resultSet = statement.getResultSet();
+			List<POI> pois = getPOIsByResultSet(resultSet, connection);
+			if (!pois.isEmpty()) {
+				result = pois.get(0);
+			}
+			statement.close();
+			connection.close();
 		} catch (SQLException e) {
 			Logger logger = Logger.getLogger(getClass());
 			logger.error(e.getMessage(), e);
+		} catch (NumberFormatException e) {
+			// Return null
 		}
 		return result;
 	}
@@ -354,29 +360,56 @@ public class DefaultPOIDB implements POIDB {
 	 * Creates a POI from a <code>ResultSet</code> received by the
 	 * database.
 	 */
-	private POI getPOIByResultSet(ResultSet set) throws SQLException {
-		// Fetch poi data
-		int id = set.getInt(1);
-		String name = set.getString(2);
-		String description = set.getString(3);
-		double lon = set.getDouble(4);
-		double lat = set.getDouble(5);
-		int mapID = set.getInt(6);
-		Integer buildingID = set.getInt(7);
-		set.close();
-		// Fetch the categories
-		Connection connection = getConnection();
-		Statement statement = connection.createStatement();
-		String query = "SELECT categoryid FROM CATEGORY WHERE poiid = " + id;
-		statement.execute(query);
-		ResultSet categories = statement.getResultSet();
-		ArrayList<Integer> categoryIDs = new ArrayList<Integer>();
-		while (categories.next()) {
-			categoryIDs.add(categories.getInt(1));
+	private List<POI> getPOIsByResultSet(ResultSet set, Connection connection) throws SQLException {
+		ArrayList<POIData> pois = new ArrayList<POIData>();
+		while (set.next()) {
+			POIData newPOI = new POIData();
+			// Fetch poi data
+			newPOI.id = String.valueOf(set.getInt(1));
+			newPOI.name = set.getString(2);
+			newPOI.description = set.getString(3);
+			newPOI.lon = set.getDouble(4);
+			newPOI.lat = set.getDouble(5);
+			newPOI.mapID = set.getInt(6);
+			newPOI.buildingID = set.getInt(7);
+			pois.add(newPOI);
 		}
 		
-		return new POI(String.valueOf(id), name, description,
-				new WorldPosition(lat, lon), Map.getMapByID(mapID), buildingID,
-				Category.getCategoriesByIDs(categoryIDs));
-	}	
+		set.close();
+		
+		for (POIData newPOI: pois) {
+			// Fetch the categories
+			Statement statement = connection.createStatement();
+			String query = "SELECT categoryid FROM CATEGORY WHERE poiid = " + newPOI.id;
+			statement.execute(query);
+			ResultSet categories = statement.getResultSet();
+			while (categories.next()) {
+				newPOI.categoryIDs.add(categories.getInt(1));
+			}
+			categories.close();
+			statement.close();
+		}
+		
+		ArrayList<POI> result = new ArrayList<POI>(pois.size());
+		for (POIData data : pois) {
+			result.add(new POI(data.id, data.name, data.description,
+					new WorldPosition(data.lat, data.lon), Map
+							.getMapByID(data.mapID), data.buildingID, Category
+							.getCategoriesByIDs(data.categoryIDs)));
+		}
+		return result;
+	}
+	
+	/**
+	 * Stores data needed to create a POI later.
+	 */
+	private static class POIData {
+		public String id;
+		public String name;
+		public String description;
+		public double lon, lat;
+		public int mapID;
+		public Integer buildingID;
+		public List<Integer> categoryIDs = new ArrayList<Integer>();
+	}
 }
