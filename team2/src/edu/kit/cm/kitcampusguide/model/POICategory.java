@@ -96,7 +96,7 @@ public class POICategory {
 	/**
 	 * This method changes the visibility of this category on the map.
 	 * 
-	 * @param the new visibility of the category.
+	 * @param visible the new visibility of the category.
 	 */
 	public void setVisible(boolean visible) {
 		this.visible = visible;
