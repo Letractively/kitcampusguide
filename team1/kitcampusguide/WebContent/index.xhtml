@@ -22,8 +22,7 @@
 			type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapSectionChangedListener" />
 		<!--  TODO: Add appropriate action listeners -->
 	</map:mapcomponent>
-	<h:form target="bar" library="main">
-	<div id="bar">
+	<h:form id="bar" target="bar" library="main" layout="block">
 		<h:panelGrid columns="3">
 		<h:form target="kitlogo">
 			<h:graphicImage value="logo.jpg" alt="KITLogo" height="75" library="main" />
@@ -37,8 +36,7 @@
 				<h:inputText id="route" type="text" />
 			</h:panelGrid>
 		</h:form>
-		<h:form target="navigation">
-			<div id="navigation">
+		<h:form id="navigation" target="navigation">
 			<h:panelGrid columns="1">
 				<h:commandLink>
 					<h:outputText value="Filter" onclick="" />
@@ -56,10 +54,8 @@
 						</h:commandLink>
 					</h:form>
 				</h:panelGrid>	
-			</div>
 			</h:form>
 			</h:panelGrid>
-		</div>	
-		</h:form>
+	</h:form>
 </h:body>
 </html>
