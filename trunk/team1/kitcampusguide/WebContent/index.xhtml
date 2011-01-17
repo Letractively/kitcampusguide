@@ -22,40 +22,40 @@
 			type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapSectionChangedListener" />
 		<!--  TODO: Add appropriate action listeners -->
 	</map:mapcomponent>
-	<h:form id="bar" target="bar" library="main" layout="block">
+	<h:panelGroup id="bar" layout="block" library="main">
 		<h:panelGrid columns="3">
-		<h:form target="kitlogo">
-			<h:graphicImage value="logo.jpg" alt="KITLogo" height="75" library="main" />
-		</h:form>
-		<h:form target="input">
-			<h:panelGrid columns="3">
-				<h:outputText value="Suche/Route von: " />
-				<h:inputText id="suche" type="text" />
-				<h:commandButton value="Suche oder Route" onclick="" />
-				<h:outputText value="Route nach: " />
-				<h:inputText id="route" type="text" />
-			</h:panelGrid>
-		</h:form>
-		<h:form id="navigation" target="navigation">
-			<h:panelGrid columns="1">
-				<h:commandLink>
-					<h:outputText value="Filter" onclick="" />
-				</h:commandLink>
-				<h:commandLink>
-					<h:outputText value="Sprache wechseln" onclick="" />
-				</h:commandLink>
-					<h:form>
-						<h:commandLink>
-							<h:graphicImage value="eng.jpg" alt="English" library="main" onclick="" />
-						</h:commandLink>
-						<h:outputText value=" : " />
-						<h:commandLink>
-							<h:graphicImage value="ger.jpg" alt="German" library="main" onclick="" />
-						</h:commandLink>
-					</h:form>
-				</h:panelGrid>	
-			</h:form>
-			</h:panelGrid>
-	</h:form>
+			<h:panelGroup id="kitlogo" layout="block">
+				<h:graphicImage name="logo.jpg" library="main" alt="KITLogo" height="75"/>
+			</h:panelGroup>
+			<h:panelGroup id="input" layout="block">
+				<h:form>
+					<h:panelGrid columns="3">
+						<h:outputText for="routeFromField" value="Suche/Route von: " />
+						<h:inputText id="routeFromField" value="#{inputModel.routeFromField}"/>
+						<h:commandButton value="Suche oder Route" actionListener="#{inputListener.searchButtonPressed}" />
+						<h:outputText for="routeToField" value="Route nach: " />
+						<h:inputText id="routeToField" value="#{inputModel.routeToField}" />
+					</h:panelGrid>
+				</h:form>
+			</h:panelGroup>
+			<h:panelGroup id="navigation" layout="block">
+				<h:form>
+					<h:panelGrid columns="1">
+						<h:commandLink value="Filter" />
+						<h:commandLink value="Sprache wechseln" />					
+						<h:panelGroup>
+							<h:commandLink>
+								<h:graphicImage name="eng.jpg" library="main" alt="English" width="20" onclick="" />
+							</h:commandLink>
+							<h:outputText value=" : " />
+							<h:commandLink>
+								<h:graphicImage name="ger.jpg" library="main" alt="German" width="20" onclick="" />
+							</h:commandLink>
+						</h:panelGroup>
+					</h:panelGrid>	
+				</h:form>
+			</h:panelGroup>
+		</h:panelGrid>
+	</h:panelGroup>
 </h:body>
 </html>
