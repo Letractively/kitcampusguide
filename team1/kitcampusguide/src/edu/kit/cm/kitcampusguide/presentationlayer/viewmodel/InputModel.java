@@ -2,6 +2,9 @@ package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel;
 
 import java.util.List;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+
 import edu.kit.cm.kitcampusguide.standardtypes.*;
 
 /**
@@ -9,10 +12,13 @@ import edu.kit.cm.kitcampusguide.standardtypes.*;
  * @author Fred
  *
  */
+@ManagedBean (name="inputModel")
 public class InputModel {
 	/** Content of the "Route from" field.*/
+	@ManagedProperty (value ="")
 	private String routeFromField;
 	/** Content of the "Route to" field.*/
+	@ManagedProperty (value ="")
 	private String routeToField;
 	/** The proposal list to be displayed after a search. Can be <code>null</code>.*/
 	private List<POI> proposalList;
