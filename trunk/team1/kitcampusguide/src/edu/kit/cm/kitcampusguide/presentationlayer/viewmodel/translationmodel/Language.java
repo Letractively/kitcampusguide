@@ -12,7 +12,7 @@ import org.jdom.input.SAXBuilder;
  * Represents a language.
  * @author Fred
  */
-class Language {
+public class Language {
 	/** Stores the keys and values for the translation.*/ 
 	private HashMap<String, String> translateMap;
 	

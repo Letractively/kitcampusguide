@@ -8,7 +8,7 @@ import java.util.List;
  * Manages all of the languages for the KITCampusGuide and gives methods to get these.
  * @author Fred
  */
-class LanguageManager {
+public class LanguageManager {
 	/** Stores the only instance of the language manager.*/
 	private static LanguageManager instance;
 	/** Stores all available languages.*/
@@ -43,7 +43,7 @@ class LanguageManager {
 	 * @param identifier The name of the language to be returned.
 	 * @return The language defined by identifier or <code>null</code>.
 	 */
-	Language getLanguageByString(String identifier) {
+	public Language getLanguageByString(String identifier) {
 		Language result = null;
 		for (Language language : allLanguages) {
 			if (language.getName().equals(identifier)) {
@@ -78,7 +78,7 @@ class LanguageManager {
 	 * Returns the instance of <code>LanguageManager</code>.
 	 * @return The instance of <code>LanguageManager</code>.
 	 */
-	static LanguageManager getInstance() {
+	public static LanguageManager getInstance() {
 		return instance;
 	}
 }
