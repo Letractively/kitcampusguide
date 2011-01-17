@@ -9,7 +9,7 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>KITCampusGuide</title>
-	<h:outputStylesheet library="design" name="design.css" target="head" />
+	<h:outputStylesheet library="main" name="design.css" target="head" />
 </h:head>
 <h:body>
 	<map:mapcomponent map="#{mapModel.map}" POIs="#{mapModel.POIs}"
@@ -22,11 +22,11 @@
 			type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapSectionChangedListener" />
 		<!--  TODO: Add appropriate action listeners -->
 	</map:mapcomponent>
+	<h:form target="bar" library="main">
 	<div id="bar">
-	<h:form target="bar" library="design">
 		<h:panelGrid columns="3">
 		<h:form target="kitlogo">
-			<h:graphicImage value="logo.jpg" alt="KITLogo" height="75" library="design" />
+			<h:graphicImage value="logo.jpg" alt="KITLogo" height="75" library="main" />
 		</h:form>
 		<h:form target="input">
 			<h:panelGrid columns="3">
@@ -38,6 +38,7 @@
 			</h:panelGrid>
 		</h:form>
 		<h:form target="navigation">
+			<div id="navigation">
 			<h:panelGrid columns="1">
 				<h:commandLink>
 					<h:outputText value="Filter" onclick="" />
@@ -45,19 +46,20 @@
 				<h:commandLink>
 					<h:outputText value="Sprache wechseln" onclick="" />
 				</h:commandLink>
-				<h:form>
-					<h:commandLink>
-						<h:graphicImage value="eng.jpg" library="design" onclick="" />
-					</h:commandLink>
-					<h:outputText value=" : " />
-					<h:commandLink>
-						<h:graphicImage value="ger.jpg" library="design" onclick="" />
-					</h:commandLink>
-				</h:form>
+					<h:form>
+						<h:commandLink>
+							<h:graphicImage value="eng.jpg" alt="English" library="main" onclick="" />
+						</h:commandLink>
+						<h:outputText value=" : " />
+						<h:commandLink>
+							<h:graphicImage value="ger.jpg" alt="German" library="main" onclick="" />
+						</h:commandLink>
+					</h:form>
+				</h:panelGrid>	
+			</div>
+			</h:form>
 			</h:panelGrid>
+		</div>	
 		</h:form>
-		</h:panelGrid>
-	</h:form>
-	</div>
 </h:body>
 </html>
