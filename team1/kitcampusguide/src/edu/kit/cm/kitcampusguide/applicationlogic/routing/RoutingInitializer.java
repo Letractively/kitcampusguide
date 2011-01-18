@@ -1,6 +1,10 @@
 package edu.kit.cm.kitcampusguide.applicationlogic.routing;
 
 import java.io.IOException;
+import java.io.InputStream;
+
+import javax.faces.context.FacesContext;
+
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -9,6 +13,7 @@ import org.jdom.input.SAXBuilder;
 
 import edu.kit.cm.kitcampusguide.standardtypes.InitializationException;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
+import edu.kit.cm.kitcampusguide.standardtypes.StandardtypesInitializer;
 
 /**
  * Initializes the Routing sub system.
@@ -24,37 +29,38 @@ public class RoutingInitializer {
 	
 	/**
 	 * Initializes the subsystem Routing
-	 * @param filename The absolute path to the configuration file for routing.
+	 * @param inputStream The input stream to the configuration file.
 	 * 
 	 * @throws InitializationException If an error occurred during initialization.
 	 */
-	private RoutingInitializer(String filename) throws InitializationException {
+	private RoutingInitializer(InputStream inputStream) throws InitializationException {
 		try {
-			logger.info("Initializing Routing from " + filename);
+			logger.info("Initializing Routing from " + inputStream);
 			Document document;
-			document = new SAXBuilder().build(filename);
+			document = new SAXBuilder().build(inputStream);
 			DijkstraRouting.getInstance();
 			RoutingStrategyImpl.getInstance();
+			FacesContext context = FacesContext.getCurrentInstance();
 			Element e = document.getRootElement().getChild("RoutingGraph");
-			RoutingGraph.initializeGraph(e.getAttributeValue("filename"), Map.getMapByID(Integer.parseInt(e.getAttributeValue("standardMapID"))));
+			RoutingGraph.initializeGraph(context.getExternalContext().getResourceAsStream(e.getAttributeValue("filename")), Map.getMapByID(Integer.parseInt(e.getAttributeValue("standardMapID"))));
 			logger.info("Routing initialized.");
 		} catch (JDOMException e) {
-			throw new InitializationException("Initialization of routing failed. " + e.getMessage());
+			throw new InitializationException("Initialization of routing failed.", e);
 		} catch (IOException e) {
-			throw new InitializationException("Initialization of routing failed. " + e.getMessage());
+			throw new InitializationException("Initialization of routing failed.", e);
 		}
 		
 	}
 	
 	/**
 	 * Initializes the routing sub system if no such initialization has been attempted before.
-	 * @param filename The absolute path to the configuration file.
+	 * @param inputStream The input stream to the configuration file.
 	 * 
 	 * @throws InitializationException If an error occurred during initialization. 
 	 */
-	public static void initialize(String filename) throws InitializationException {
+	public static void initialize(InputStream inputStream) throws InitializationException {
 		if (instance == null) {
-			instance = new RoutingInitializer(filename);
+			instance = new RoutingInitializer(inputStream);
 		}
 	}
 }

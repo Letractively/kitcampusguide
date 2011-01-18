@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 import edu.kit.cm.kitcampusguide.controller.Initializer;
@@ -46,15 +48,14 @@ public class MapModel {
 
 	static {
 		// TODO: Test code, needs to be deleted later
-		MapSection box = new MapSection(new WorldPosition(49.0179, 8.40232),
-				new WorldPosition(49.0078, 8.42622));
-	new Map(1, "campus", box,
+//		MapSection box = new MapSection(new WorldPosition(49.0179, 8.40232),
+//				new WorldPosition(49.0078, 8.42622));
+//	new Map(1, "campus", box,
 //				"http://tile.openstreetmap.org/${z}/${x}/${y}.png");
-				"./resources/tiles/campus/${z}/${x}/${y}.png", 14, 18);
+//				"./resources/tiles/campus/${z}/${x}/${y}.png", 14, 18);
 	//Testcode inclusive initializing.
-//	String[] test = new String[1];
-//	test[0] = "C:/Users/Frederik/Desktop/Uni/PSE/Workspace/Configuration.xml";
-//	Initializer.main(test);
+	FacesContext context = FacesContext.getCurrentInstance();
+	Initializer.main(context.getExternalContext().getResourceAsStream("/resources/config/Configuration.xml"));
 	
 	}
 
@@ -82,8 +83,8 @@ public class MapModel {
 	 */
 	public Collection<POI> getPOIs() {
 		// TODO: Remove this after the controller is ready
-		//return POISourceImpl.getInstance().getPOIsBySection(null, null, null);
-		return Collections.emptyList();
+		return POISourceImpl.getInstance().getPOIsBySection(null, null, null);
+//		return Collections.emptyList();
 	}
 
 	/**

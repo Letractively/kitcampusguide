@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
@@ -40,12 +41,12 @@ public class Language {
 	/**
 	 * Constructs a new language object from the xml-file specified by filename.
 	 * Needs to have a special format which will be specified later.
-	 * @param filename The path to the file the language is defined in.
+	 * @param inputStream The path to the file the language is defined in.
 	 */
-	Language(String filename) {
+	Language(InputStream inputStream) {
 		translateMap = new HashMap<String, String>();
 		try {
-			Document document = new SAXBuilder().build(filename);
+			Document document = new SAXBuilder().build(inputStream);
 			constructLanguage(document);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

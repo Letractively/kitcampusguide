@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.datalayer.poidb;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
@@ -26,21 +27,21 @@ public class POIDBInitializer {
 	
 	/**
 	 * Initializes the POI DB.
-	 * @param filename The absolute path to the configuration file.
+	 * @param inputStream The input stream to the configuration file.
 	 * 
 	 * @throws InitializationException If an error occurred during initialization.
 	 */
-	private POIDBInitializer(String filename) throws InitializationException {
+	private POIDBInitializer(InputStream inputStream) throws InitializationException {
 		try {
-			logger.info("Initializing POI database from " + filename);
+			logger.info("Initializing POI database from " + inputStream);
 			Document document;
-			document = new SAXBuilder().build(filename);
+			document = new SAXBuilder().build(inputStream);
 			initializePOIDB(document);
 			logger.info("POI database initialized");
 		} catch (JDOMException e) {
-			throw new InitializationException("POI DB initialization failed. " + e.getMessage());
+			throw new InitializationException("POI DB initialization failed.", e);
 		} catch (IOException e) {
-			throw new InitializationException("POI DB initialization failed. " + e.getMessage());
+			throw new InitializationException("POI DB initialization failed.", e);
 		}
 		
 	}
@@ -86,13 +87,13 @@ public class POIDBInitializer {
 
 	/**
 	 * Initializes the POI DB.
-	 * @param filename The absolute path to the configuration file.
+	 * @param inputStream The input stream to the configuration file.
 	 * 
 	 * @throws InitializationException If an error occurred during initialization.
 	 */
-	public static void initialize(String filename) throws InitializationException {
+	public static void initialize(InputStream inputStream) throws InitializationException {
 		if (instance == null) {
-			instance = new POIDBInitializer(filename);
+			instance = new POIDBInitializer(inputStream);
 		}
 	}
 }

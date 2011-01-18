@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<LanguageManagerConfiguration defaultLanguage = "English" >
+		<Language filepath="/resources/languages/English.xml"></Language>
+		<Language filepath="/resources/languages/Deutsch.xml"></Language></LanguageManagerConfiguration>
+</configuration>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<translationConfiguration filename = "/resources/config/TranslationConfiguration.xml"/>
+	<routeConfiguration filename = "/resources/config/RoutingConfiguration.xml"/>
+	<loggerConfiguration filename = "/resources/config/Configuration.properties"/>
+	<standardtypesConfiguration filename = "/resources/config/StandardtypesConfiguration.xml"></standardtypesConfiguration>
+	<POIDBConfiguration filename = "/resources/config/POIDBConfiguration.xml"/>
+</configuration>
