@@ -5,6 +5,8 @@ import javax.faces.context.FacesContext;
 import javax.el.ELContext;
 import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
+
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManager;
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManagerImpl;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.LanguageManager;
@@ -18,6 +20,9 @@ import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.Language;
 
+import javax.faces.component.UICommand;
+import javax.faces.component.UIInput;
+
 @ManagedBean (name = "inputListener")
 public class InputListenerImpl implements InputListener {
 
@@ -30,7 +35,20 @@ public class InputListenerImpl implements InputListener {
 	private CoordinateManager cm = CoordinateManagerImpl.getInstance();
 	private LanguageManager lm = LanguageManager.getInstance();
 	private POISource poiSource = POISourceImpl.getInstance();
-		
+	
+	public void setSearchButtonLabel(ValueChangeEvent ve) {
+		String routeFromField = (String) ((UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("inputForm:routeFromField")).getValue();
+		String routeToField = (String) ((UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("inputForm:routeToField")).getValue();
+		String label = "";
+		if (!(routeFromField == null || routeFromField.equals("")) 
+				&& !(routeToField == null || routeToField.equals(""))) {
+			label = "Route berechnen";
+		} else {
+			label = "Suche";
+		}
+		((UICommand) FacesContext.getCurrentInstance().getViewRoot().findComponent("inputForm:searchButton")).setValue(label);
+	}
+	
 	public void searchButtonPressed(ActionEvent ae) {
 		String routeFromField = inputModel.getRouteFromField();
 		String routeToField = inputModel.getRouteToField();

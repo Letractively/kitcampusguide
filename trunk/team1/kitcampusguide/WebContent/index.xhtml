@@ -4,12 +4,13 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:map="http://java.sun.com/jsf/composite/mapcomponent"
-	xmlns:c="http://java.sun.com/jsf/core">
-
+	xmlns:c="http://java.sun.com/jsf/core"
+	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>KITCampusGuide</title>
-	<h:outputStylesheet library="main" name="design.css" target="head" />
+	<h:outputStylesheet name="design.css" library="main" target="head" />
+	<h:outputScript name="jsf.js" library="javax.faces" target="head" />
 </h:head>
 <h:body>
 	<map:mapcomponent map="#{mapModel.map}" POIs="#{mapModel.POIs}"
@@ -28,13 +29,21 @@
 				<h:graphicImage name="logo.jpg" library="main" alt="KITLogo" height="75"/>
 			</h:panelGroup>
 			<h:panelGroup id="input" layout="block">
-				<h:form>
-					<h:panelGrid columns="3">
+				<h:form id="inputForm">
+					<h:panelGrid columns="3">					
 						<h:outputText for="routeFromField" value="Suche/Route von: " />
-						<h:inputText id="routeFromField" value="#{inputModel.routeFromField}"/>
-						<h:commandButton value="Suche oder Route" actionListener="#{inputListener.searchButtonPressed}" />
+						<h:inputText id="routeFromField" value="#{inputModel.routeFromField}" 
+						valueChangeListener="#{inputListener.setSearchButtonLabel}" >
+							<f:ajax execute="inputForm:routeFromField inputForm:routeToField" 
+							render="inputForm:searchButton" event="keyup"/>
+						</h:inputText>
+						<h:commandButton id="searchButton" value="Suche" actionListener="#{inputListener.searchButtonPressed}" />
 						<h:outputText for="routeToField" value="Route nach: " />
-						<h:inputText id="routeToField" value="#{inputModel.routeToField}" />
+						<h:inputText id="routeToField" value="#{inputModel.routeToField}" 
+						valueChangeListener="#{inputListener.setSearchButtonLabel}" >
+							<f:ajax execute="inputForm:routeFromField inputForm:routeToField" 
+							render="inputForm:searchButton" event="keyup"/>
+						</h:inputText>
 					</h:panelGrid>
 				</h:form>
 			</h:panelGroup>
