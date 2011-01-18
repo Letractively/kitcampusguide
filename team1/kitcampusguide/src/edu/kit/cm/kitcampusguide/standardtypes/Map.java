@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -8,7 +9,8 @@ import java.util.HashMap;
  * @author fred
  *
  */
-public class Map {
+public class Map implements Serializable {
+
 	/** Stores the id of the map.*/
 	private int id;
 	
@@ -121,5 +123,14 @@ public class Map {
 		Map result = null;
 		result = maps.get(new Integer(id));
 		return result;
+	}
+	
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null || obj.getClass() != this.getClass()) {
+			return false;
+		}
+		return ((Map)obj).id == this.id;
 	}
 }

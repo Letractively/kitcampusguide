@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -9,7 +10,7 @@ import java.util.Collection;
  * @author fred
  *
  */
-public class POI {	
+public class POI implements Serializable {	
 	/** Stores the ID of the POI.*/
 	private final String id;
 	

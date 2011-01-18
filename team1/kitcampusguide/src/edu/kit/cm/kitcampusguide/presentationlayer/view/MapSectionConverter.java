@@ -10,15 +10,16 @@ import org.json.simple.JSONValue;
 
 import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
 
+// TODO
 public class MapSectionConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2)
 			throws ConverterException {
-		if (arg0 == null || arg1 == null || arg2 == null) {
+		if (arg0 == null || arg1 == null) {
 			throw new NullPointerException();
 		}
-		if (arg2 == "") {
+		if (arg2 == null) {
 			return null;
 		}
 		return JSONConversionHelper.getMapSection((JSONObject) JSONValue

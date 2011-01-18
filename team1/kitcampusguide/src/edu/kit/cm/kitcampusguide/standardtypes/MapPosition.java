@@ -31,4 +31,14 @@ public class MapPosition  extends WorldPosition {
 	public Map getMap() {
 		return map;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null || !(obj instanceof MapPosition)) {
+			return false;
+		}
+		MapPosition other = (MapPosition) obj;
+		return (obj == this)
+				|| (super.equals(obj) && other.map.equals(this.map));
+	}
 }

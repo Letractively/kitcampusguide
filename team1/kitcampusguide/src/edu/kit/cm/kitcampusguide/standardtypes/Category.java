@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,7 +13,7 @@ import java.util.Map;
  * @author fred
  *
  */
-public class Category {	
+public class Category implements Serializable {	
 	/** Stores the id of the category*/
 	private final int id;
 	

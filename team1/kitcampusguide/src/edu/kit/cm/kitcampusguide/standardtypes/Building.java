@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,7 +12,7 @@ import java.util.List;
  * @author fred
  *
  */
-public class Building {
+public class Building implements Serializable {
 	
 	/** Stores the ID of the building.*/
 	private final int id;

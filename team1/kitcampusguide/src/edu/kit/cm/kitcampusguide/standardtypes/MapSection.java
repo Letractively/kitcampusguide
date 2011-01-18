@@ -1,12 +1,14 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
+import java.io.Serializable;
+
 /**
  * Represents a section of a {@link Map map}.
  * Stores the northwest and southeast corner.
  * @author fred
  *
  */
-public class MapSection {	
+public class MapSection implements Serializable{	
 	/** Stores the north west corner of the section.*/
 	private final WorldPosition northwestCorner;
 	
@@ -58,5 +60,15 @@ public class MapSection {
 	 */
 	public WorldPosition getSouthEast() {
 		return southeastCorner;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null || !(obj instanceof MapSection)) {
+			return false;
+		}
+		MapSection other = (MapSection) obj;
+		return other.northwestCorner.equals(this.northwestCorner)
+				&& other.southeastCorner.equals(this.southeastCorner);
 	}
 }

@@ -1,4 +1,9 @@
 /**
+ * Stores all existing KITCampusMap objects, mapped by their client id. 
+ */
+KITCampusMap.maps = new Object();
+
+/**
  * Is called when the map is initiated after loading the page. The method loads
  * an OpenLayers map into a dom-Element (usually a div) with the relative id
  * ":map".
@@ -12,7 +17,7 @@ function KITCampusMap(clientId) {
 	this.mapElement = document.getElementById(clientId + ":map");
 	this.form = document.getElementById(clientId + ":form");
 	this.model = new Object();
-
+	KITCampusMap.maps[clientId] = this;
 	// This initialization is mainly taken from Mapstraction
 	this.map = new OpenLayers.Map(this.mapElement.id, {
 		maxExtent : new OpenLayers.Bounds(-20037508.34, -20037508.34,
@@ -21,15 +26,84 @@ function KITCampusMap(clientId) {
 		numZoomLevels : 19,
 		units : 'meters',
 		projection : "EPSG:41001",
-		eventListeners : {
-			"moveend" : this.handleMove,
-			"zoomend" : this.handleZoomEnd,
-			scope : this
-		}
+		controls: [new OpenLayers.Control.Navigation({handleMenuOpens: true})]
 	});
-
 	this.applyChanges();
 }
+
+/**
+ * This methods reads all data from the input fields and updates the appropriate
+ * map elements.
+ */
+KITCampusMap.prototype.applyChanges = function() {
+	// Get all Attributes which need to be redrawn
+	var changedItems = JSON.parse(this.getFormElement("changedProperties").firstChild.data);
+	var changed = new Object();
+	for (var i in changedItems) {
+		changed[changedItems[i]] = new Object();
+	}
+	if (changed['map'] || !this.model.map) {
+		this.model.map = JSON.parse(this.getFormElement("map").firstChild.data);
+		this.setMapLayer();
+	}
+	if (changed['mapSection']) {
+		this.model.mapSection = JSON.parse(this.getFormElement("mapSection").value);
+		this.setMapSection();
+	}
+	if (changed['POIs']) {
+		this.model.pois = JSON.parse(this.getFormElement("POIs").firstChild.data);
+		this.setPOIs();
+	}
+	
+	if (changed['markerTo']) {
+		if (this.getFormElement("markerTo").value != "") {
+			this.model.markerTo = JSON.parse(this.getFormElement("markerTo").value);
+		}
+		else {
+			this.model.markerTo = null;
+		}
+		this.setMarkerTo();
+	}
+	
+	// TODO: The RouteLayer seems to block doubleclick events somehow, disable until this is fixed
+//	if (changed['route']) {
+//		if (this.getFormElement("route").firstChild) {
+//			this.model.route = JSON.parse(this.getFormElement("route").firstChild.data);
+//		}
+//		else {
+//			this.model.route = null;
+//		}
+//		this.setRoute();
+//	}
+
+};
+
+/**
+ * Returns the form element matching a given identifier (for example POIs, mapSection)
+ * @param relativeId a String
+ * @returns the appropriate form element
+ */
+KITCampusMap.prototype.getFormElement = function(relativeId) {
+	return document.getElementById(this.clientId + ":form:" + relativeId);
+};
+
+// Event handlers -------------------------------------------------------
+/**
+ * Is called when the user clicks with the right mouse.
+ * TODO: The sentence above is a lie, make it true!
+ */
+KITCampusMap.prototype.handleMenuOpen = function(event) {
+	// TODO: Really open a menu, until now a "setMarkerTo" click is simulated
+	var lonLat = this.map.getLonLatFromPixel(new OpenLayers.Pixel(
+			// TODO: Check if clientX/Y is the right choice
+			event.clientX, event.clientY));
+	var mapPosition = this.untransformLonLat(lonLat);
+	mapPosition.map = this.model.map;
+	
+	var input = this.getFormElement("markerTo");
+	input.value = JSON.stringify(mapPosition);
+	this.requestUpdate(input.id);
+};
 
 /**
  * Restricts the allowed zoom levels to some given bounds.
@@ -52,41 +126,68 @@ KITCampusMap.prototype.handleZoomEnd = function(event) {
  */
 KITCampusMap.prototype.handleMove = function(event) {
 	// Submit the new map section to the server
-	var input = document.getElementById(this.form.id + ":mapSection");
-	var mapSection = this.untransformBounds(this.map.getExtent());
-	input.value = JSON.stringify(mapSection);
+	var input = this.getFormElement("mapSection");
+	this.model.mapSection = this.untransformBounds(this.map.getExtent());
+	input.value = JSON.stringify(this.model.mapSection);
 	// TODO: Review the update process
-	jsf.ajax.request(this.form, null, {
-		execute : input.id,
-		render : this.form.id + ":POIs " + this.form.id + ":mapSection",
-		onevent : this.applyChanges.call(this)
+	this.requestUpdate(input.id);
+};
 
+
+
+KITCampusMap.prototype.eventCallback = function(data) {
+	if (data.status == "success") {
+		// TODO: Maybe the ID could be retrieved a bit better
+		var clientId = data.source.id.substring(0, data.source.id.length - ":form".length);
+		var campusMap = KITCampusMap.maps[clientId];
+		campusMap.applyChanges.call(campusMap);
+	}
+};
+
+KITCampusMap.prototype.requestUpdate = function(executeIds) {
+	var id = this.form.id;
+	jsf.ajax.request(this.form, null, {
+		execute : executeIds,
+		// TODO: Add all existing attributes here (separated by spaces)
+		render : id + ":POIs " + id + ":mapSection " + id + ":map " + id
+				+ ":route " + id + ":changedProperties " + id + ":markerTo "
+				+ id + ":markerFrom " + id + ":buildingPOI " + id
+				+ ":buildingPOIList",
+		onevent : this.eventCallback
 	});
 };
 
+// Property setters -------------------------------------------------------
 /**
- * This methods reads all data from the input fields and updates the appropriate
- * map elements.
+ * Sets the current map section which is set in the model. If the current map extent
+ * is equal to the position in the model, nothing happens.
  */
-KITCampusMap.prototype.applyChanges = function() {
-	this.model.pois = JSON.parse(this.getFormElement("POIs").firstChild.data);
-	this.model.map = JSON.parse(this.getFormElement("map").firstChild.data);
-	if (this.getFormElement("route").firstChild) {
-		this.model.route = JSON.parse(this.getFormElement("route").firstChild.data);
+KITCampusMap.prototype.setMapSection = function() {
+	// TODO: Change to setMapLocation
+	var curSection = this.untransformBounds(this.map.getExtent());
+	// Check if the current section is equal to the new section
+	if (!this.positionEquals(curSection.northWest, this.model.mapSection.northWest) ||
+			!this.positionEquals(curSection.southEast, this.model.mapSection.southEast)) {
+		this.disableMapEvents();
+		this.map.zoomToExtent(this.transformMapSection(this.model.mapSection));
+		this.enableMapEvents();
 	}
-	else {
-		this.model.route = null;
-	}
-
-	if (!this.mapLayer)
-		this.setMapLayer();
-	this.setPOIs();
-	this.setRoute();
 };
 
-KITCampusMap.prototype.getFormElement = function(relativeId) {
-	return document.getElementById(this.clientId + ":form:" + relativeId);
+/**
+ * Returns true if two given WorldPositions point to (nearly) the same location.
+ * @param pos1 a WorldPosition
+ * @param pos2 a WorldPosition
+ * @returns {Boolean} true if both positions seem to be identical
+ */
+KITCampusMap.prototype.positionEquals = function(pos1, pos2) {
+	var EPS = 5E-7;
+	if (Math.abs(pos1.longitude - pos2.longitude) < EPS
+			&& Math.abs(pos1.latitude - pos2.latitude) < EPS)
+		return true;
+	return false;
 };
+
 
 /**
  * Sets markers for the given set of POIs. If no marker layer exists, a new
@@ -94,16 +195,34 @@ KITCampusMap.prototype.getFormElement = function(relativeId) {
  */
 KITCampusMap.prototype.setPOIs = function() {
 	var m = this.model;
-	if (!this.markerLayer) {
+	if (!this.poiMarkerLayer) {
 		// Init marker layer
-		this.markerLayer = new OpenLayers.Layer.Markers("markers");
-		this.map.addLayer(this.markerLayer);
+		this.poiMarkerLayer = new OpenLayers.Layer.Markers("poiMarkers");
+		this.map.addLayer(this.poiMarkerLayer);
 	}
-	this.markerLayer.clearMarkers();
+	this.poiMarkerLayer.clearMarkers();
 	for ( var index in m.pois) {
 		var marker = this.createPOIMarker(m.pois[index]);
-		this.markerLayer.addMarker(marker);
+		this.poiMarkerLayer.addMarker(marker);
 	}
+};
+
+/**
+ * Creates an open layers marker describing a given POI.
+ * 
+ * @param poi
+ *            a POI.
+ * @returns {OpenLayers.Marker} a marker
+ */
+KITCampusMap.prototype.createPOIMarker = function(poi) {
+	// TODO: Reset when final icon is known
+	var size = new OpenLayers.Size(21, 25);
+	// TODO: Add info bubble hover effect
+	var anchor = new OpenLayers.Pixel(-(size.w / 2), -size.h);
+	var icon = new OpenLayers.Icon(
+			'http://openlayers.org/dev/img/marker-gold.png', size, anchor);
+	var position = this.transformWorldPosition(poi.position);
+	return new OpenLayers.Marker(position.clone(), icon);
 };
 
 /**
@@ -133,22 +252,25 @@ KITCampusMap.prototype.setRoute = function() {
 	}
 };
 
-/**
- * Creates an open layers marker describing a given POI.
- * 
- * @param poi
- *            a POI.
- * @returns {OpenLayers.Marker} a marker
- */
-KITCampusMap.prototype.createPOIMarker = function(poi) {
-	// TODO: Reset when final icon is known
-	var size = new OpenLayers.Size(21, 25);
-	// TODO: Add info bubble hover effect
-	var anchor = new OpenLayers.Pixel(-(size.w / 2), -size.h);
-	var icon = new OpenLayers.Icon(
-			'http://openlayers.org/dev/img/marker-gold.png', size, anchor);
-	var position = this.transformWorldPosition(poi.position);
-	return new OpenLayers.Marker(position.clone(), icon);
+KITCampusMap.prototype.setMarkerTo = function() {
+	var m = this.model;
+	if (!this.markerLayer) {
+		// Init marker layer
+		this.markerLayer = new OpenLayers.Layer.Markers("markers");
+		this.map.addLayer(this.markerLayer);
+	}
+	if (this.markerToMarker) {
+		this.markerLayer.removeMarker(this.markerToMarker);
+	}
+	if (m.markerTo != null) {
+		var size = new OpenLayers.Size(21, 25);
+		var anchor = new OpenLayers.Pixel(-(size.w / 2), -size.h);
+		var icon = new OpenLayers.Icon(
+				'http://openlayers.org/dev/img/marker-blue.png', size, anchor);
+		var position = this.transformWorldPosition(m.markerTo);
+		this.markerToMarker = new OpenLayers.Marker(position, icon);
+		this.markerLayer.addMarker(this.markerToMarker);
+	}
 };
 
 /**
@@ -157,8 +279,9 @@ KITCampusMap.prototype.createPOIMarker = function(poi) {
  * box. The current map must be stored in this.model.map.
  */
 KITCampusMap.prototype.setMapLayer = function() {
+	this.disableMapEvents();
 	if (this.mapLayer) {
-		this.map.removeLayer(this.mapLayer)
+		this.map.removeLayer(this.mapLayer);
 	}
 	this.mapLayer = new OpenLayers.Layer.XYZ("XYZ-Layer",
 			this.model.map.tilesURL);
@@ -167,6 +290,52 @@ KITCampusMap.prototype.setMapLayer = function() {
 	this.map.restrictedExtent = this
 			.transformMapSection(this.model.map.boundingBox);
 	this.map.zoomToExtent(this.map.restrictedExtent);
+	this.enableMapEvents();
+};
+
+
+// Help functions ------------------------------------------------------------
+
+
+/**
+ * Enables all event listeners. The handler methods will be called when an event
+ * occurs.
+ */
+KITCampusMap.prototype.enableMapEvents = function() {
+	this.map.events.on({
+			"moveend" : this.handleMove,
+			"zoomend" : this.handleZoomEnd,
+			scope : this
+		});
+	if (this.mapLayer) {
+		this.mapLayer.events.on({
+			"rightclick" : this.handleMenuOpen,
+			"dblclick" : this.handleMenuOpen,
+			// TODO: Doesn't work
+			"dblrightclick" : this.handleMenuOpen,
+			scope:this
+		});
+	}
+};
+
+/**
+ * Disables all event listeners. The event handling methods will not be called.
+ */
+KITCampusMap.prototype.disableMapEvents = function() {
+	this.map.events.un({
+		"moveend" : this.handleMove,
+		"zoomend" : this.handleZoomEnd,
+		scope : this
+	});
+	if (this.mapLayer) {
+		this.mapLayer.events.un({
+			"rightclick" : this.handleMenuOpen,
+			"dblclick" : this.handleMenuOpen,
+			// TODO: Doesn't work
+			"dblrightclick" : this.handleMenuOpen,
+			scope:this
+		});
+	}
 };
 
 /**
@@ -232,8 +401,8 @@ KITCampusMap.prototype.untransformLonLat = function(lonlat) {
  */
 KITCampusMap.prototype.untransformBounds = function(bounds) {
 	var coords = bounds.toArray();
-	var nw = new OpenLayers.LonLat(coords[0], coords[3]);
-	var se = new OpenLayers.LonLat(coords[2], coords[1]);
+	var nw = new OpenLayers.LonLat(coords[0], coords[1]);
+	var se = new OpenLayers.LonLat(coords[2], coords[3]);
 	return {
 		northWest : this.untransformLonLat(nw),
 		southEast : this.untransformLonLat(se)
