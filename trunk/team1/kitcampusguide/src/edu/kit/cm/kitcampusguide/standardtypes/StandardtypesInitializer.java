@@ -1,8 +1,11 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
@@ -15,29 +18,31 @@ import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 public class StandardtypesInitializer {
 	private static StandardtypesInitializer instance;
 	private Logger logger = Logger.getLogger(getClass());
-	private String filenameMaps;
-	private String filenameCategories;
-	private String filenameBuildings;
+	private InputStream filenameMaps;
+	private InputStream filenameCategories;
+	private InputStream filenameBuildings;
 	
 	/**
 	 * Configures the sub configurators for the standardtypes.
-	 * @param filename The absolute path to the configuration file.
+	 * @param stream The input stream to the configuration file.
 	 * 
 	 * @throws InitializationException If an error occurred during initialization. 
 	 */
-	private StandardtypesInitializer(String filename) throws InitializationException {
-		logger.info("Initializing Standardtypes from " + filename);
+	private StandardtypesInitializer(InputStream stream) throws InitializationException {
+		logger.info("Initializing Standardtypes from " + stream);
 		Document document;
 		try {
-			document = new SAXBuilder().build(filename);
-			filenameMaps = document.getRootElement().getChild("MapConfiguration").getAttributeValue("filename");
-			filenameBuildings = document.getRootElement().getChild("BuildingConfiguration").getAttributeValue("filename");
-			filenameCategories = document.getRootElement().getChild("CategoryConfiguration").getAttributeValue("filename");
+			document = new SAXBuilder().build(stream);
+			FacesContext context = FacesContext.getCurrentInstance();
+			System.out.println("TESt126" + document.getRootElement().getChild("MapConfiguration").getAttributeValue("filename"));
+			filenameMaps = context.getExternalContext().getResourceAsStream(document.getRootElement().getChild("MapConfiguration").getAttributeValue("filename"));
+			filenameBuildings = context.getExternalContext().getResourceAsStream(document.getRootElement().getChild("BuildingConfiguration").getAttributeValue("filename"));
+			filenameCategories = context.getExternalContext().getResourceAsStream(document.getRootElement().getChild("CategoryConfiguration").getAttributeValue("filename"));
 			logger.info("Standardtypes initialized.");
 		} catch (JDOMException e) {
-			throw new InitializationException("Initialization of standardtypes failed.");
+			throw new InitializationException("Initialization of standardtypes failed.", e);
 		} catch (IOException e) {
-			throw new InitializationException("Initialization of standardtypes failed.");
+			throw new InitializationException("Initialization of standardtypes failed.", e);
 		}
 	}
 	
@@ -77,15 +82,15 @@ public class StandardtypesInitializer {
 	
 	/**
 	 * Initializes the categories.
-	 * @param filename The absolute path to the file defining the categories.
+	 * @param streamCategories The input stream to the categories file.
 	 * 
 	 * @throws InitializationException If an error occurred during initialization.
 	 */
-	private void initializeCategories(String filename) throws InitializationException {
+	private void initializeCategories(InputStream streamCategories) throws InitializationException {
 		try {
-			logger.info("Initializing categories from " + filename);
+			logger.info("Initializing categories from " + streamCategories);
 			Document document;
-			document = new SAXBuilder().build(filename);
+			document = new SAXBuilder().build(streamCategories);
 			List<Element> listOfCategories = document.getRootElement().getChildren("category");
 			for (Element e : listOfCategories) {
 				int id = Integer.parseInt(e.getAttributeValue("id"));
@@ -94,24 +99,24 @@ public class StandardtypesInitializer {
 			}
 			logger.info("Categories initialized.");
 		} catch (JDOMException e) {
-			throw new InitializationException("Initialization of categories failed. " + e.getMessage());
+			throw new InitializationException("Initialization of categories failed.", e);
 		} catch (IOException e) {
-			throw new InitializationException("Initialization of categories failed. " + e.getMessage());
+			throw new InitializationException("Initialization of categories failed.", e);
 		}
 		
 	}
 
 	/**
 	 * Initializes the maps.
-	 * @param filename The absolute path to the file defining the maps.
+	 * @param streamMaps The input stream to the configuration file defining the maps.
 	 * 
 	 * @throws InitializationException If an error occurred during initialization.
 	 */
-	private void initializeMaps(String filename) throws InitializationException {	
+	private void initializeMaps(InputStream streamMaps) throws InitializationException {	
 		try {
-			logger.info("Initializing maps from " + filename);
+			logger.info("Initializing maps from " + streamMaps);
 			Document document;
-			document = new SAXBuilder().build(filename);
+			document = new SAXBuilder().build(streamMaps);
 			List<Element> listOfMaps = document.getRootElement().getChildren("map");
 			for (Element e : listOfMaps) {
 				int id = Integer.parseInt(e.getAttributeValue("id"));
@@ -126,9 +131,9 @@ public class StandardtypesInitializer {
 			}
 			logger.info("Maps initialized");
 		} catch (JDOMException e) {
-			throw new InitializationException("Initialization of maps failed. " + e.getMessage());
+			throw new InitializationException("Initialization of maps failed.", e);
 		} catch (IOException e) {
-			throw new InitializationException("Initialization of maps failed. " + e.getMessage());
+			throw new InitializationException("Initialization of maps failed.", e);
 		}
 		
 	}
@@ -136,14 +141,14 @@ public class StandardtypesInitializer {
 	/**
 	 * Initializes the buildings.
 	 * The POI DB is required to run.
-	 * @param filename The absolute path to the file defining the buildings.
+	 * @param streamBuildings The input stream to the configuration file defining the buildings.
 	 * 
 	 * @throws InitializationException If an error occurred during initialization.
 	 */
-	private void initializeBuildings(String filename) throws InitializationException {
+	private void initializeBuildings(InputStream streamBuildings) throws InitializationException {
 		try {
-			logger.info("Initializing buildings from " + filename);
-			Document document = new SAXBuilder().build(filename);
+			logger.info("Initializing buildings from " + streamBuildings);
+			Document document = new SAXBuilder().build(streamBuildings);
 			List<Element> listOfBuildings = document.getRootElement().getChildren("building");
 			for (Element e : listOfBuildings) {
 				int id = Integer.parseInt(e.getAttributeValue("id"));
@@ -170,13 +175,13 @@ public class StandardtypesInitializer {
 	/**
 	 * Initializes the maps, buildings and categories.
 	 * The POI DB is required to run. 
-	 * @param filename The absolute path of the configuration file.
+	 * @param stream The input stream to the configuration file.
 	 * 
 	 * @throws InitializationException If an error occurred during initialization.
 	 */
-	public static void initialize(String filename) throws InitializationException {
+	public static void initialize(InputStream stream) throws InitializationException {
 		if (instance == null) {
-			instance = new StandardtypesInitializer(filename);
+			instance = new StandardtypesInitializer(stream);
 		}
 	}
 }

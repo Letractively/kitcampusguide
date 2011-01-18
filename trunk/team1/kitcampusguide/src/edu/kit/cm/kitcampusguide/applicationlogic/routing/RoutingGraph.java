@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.applicationlogic.routing;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,10 +35,10 @@ class RoutingGraph {
 	/**
 	 * Extracts the RoutingGraph from a file with the osm-properties using the standard Map <code>map</code>.
 	 */
-	private RoutingGraph(String filename, Map map) {
+	private RoutingGraph(InputStream inputStream, Map map) {
 		try {
-			logger.info("Constructing routing graph from " + filename + " with standard map ID " + map.getID());
-			Document document = new SAXBuilder().build(filename);
+			logger.info("Constructing routing graph from " + inputStream + " with standard map ID " + map.getID());
+			Document document = new SAXBuilder().build(inputStream);
 			constructGraph(document, map);
 			logger.info("Constructed routing graph. " + getVerticesCount() + " vertices. " + edgeArray.length + " edges.");
 		} catch (JDOMException e) {
@@ -249,13 +250,13 @@ class RoutingGraph {
 	 * If a node has no <code>mapID</code>-attribute in the xml-file, the Map <code>map</code> will be used.
 	 * All maps referenced in the xml-file must exist already. 
 	 * The file referenced by <code>filename</code> has to be in the osm-format.
-	 * @param filename The path to the xml-file.
+	 * @param inputStream The path to the xml-file.
 	 * @param map The standard map.
 	 * @return The new initialized RoutingGraph or the already existing.
 	 */
-	static RoutingGraph initializeGraph(String filename, Map map) {
+	static RoutingGraph initializeGraph(InputStream inputStream, Map map) {
 		if (instance == null) {
-			instance = new RoutingGraph(filename, map);
+			instance = new RoutingGraph(inputStream, map);
 		}
 		return instance;
 	}

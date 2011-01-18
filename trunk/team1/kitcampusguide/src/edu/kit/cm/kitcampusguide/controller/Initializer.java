@@ -1,5 +1,11 @@
 package edu.kit.cm.kitcampusguide.controller;
 
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Collections;
+
+import javax.faces.context.FacesContext;
+
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -7,10 +13,16 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
+import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 import edu.kit.cm.kitcampusguide.applicationlogic.routing.RoutingInitializer;
 import edu.kit.cm.kitcampusguide.standardtypes.InitializationException;
+import edu.kit.cm.kitcampusguide.standardtypes.Map;
+import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
+import edu.kit.cm.kitcampusguide.standardtypes.POIQuery;
 import edu.kit.cm.kitcampusguide.standardtypes.StandardtypesInitializer;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationInitializer;
+import edu.kit.cm.kitcampusguide.datalayer.poidb.DefaultPOIDB;
+import edu.kit.cm.kitcampusguide.datalayer.poidb.POIDB;
 import edu.kit.cm.kitcampusguide.datalayer.poidb.POIDBInitializer;
 
 /**
@@ -28,29 +40,27 @@ public class Initializer {
 
 	/**
 	 * Initializes the classes and data structures necessary to run this program. Delegates these.
-	 * @param args May have only one argument, the path to the configuration file for the program.
+	 * @param stream The input stream to the configuration file.
 	 */
-	public static void main(String[] args) {
+	public static void main(InputStream stream) {
 		Initializer init = new Initializer();
-		init.configure(args);
+		init.configure(stream);
 	}
 
 	/**
 	 * Constructs the document the sub configurators will be configured after. Uses therefore <code>configureSubconfigurators</code>.
 	 * If a exception occurs, the program ends.
-	 * @param args May have only one argument, the absolute path to the configuration file for the program.
+	 * @param stream The input stream to the configuration file.
 	 */
-	private void configure(String[] args) {
+	private void configure(InputStream stream) {
 		BasicConfigurator.configure();
+		logger.fatal("TEST1234");
 		try {
-			if (args.length != 1) {
-				logger.fatal("Wrong count for arguments required to initialize the program. (" + args.length + ")");
-			} else {
-				logger.info("Beginning initialization from " + args[0]);
-				Document document = new SAXBuilder().build(args[0]);
+				logger.info("Beginning initialization");
+				
+				Document document = new SAXBuilder().build(stream);
 				configureSubconfigurators(document);
 				logger.info("Initialization succeeded");
-			}
 		} catch(Exception e) {
 			logger.fatal("Initialization failed. Program ends.", e);
 			
@@ -67,15 +77,13 @@ public class Initializer {
 	 */
 	private void configureSubconfigurators(Document document) throws InitializationException {
 		Element r = document.getRootElement();
-		PropertyConfigurator.configure(r.getChild("loggerConfiguration").getAttributeValue("filename"));
-		
-		StandardtypesInitializer.initialize(r.getChild("standardtypesConfiguration").getAttributeValue("filename"));
+		FacesContext context = FacesContext.getCurrentInstance();
+		StandardtypesInitializer.initialize(context.getExternalContext().getResourceAsStream(r.getChild("standardtypesConfiguration").getAttributeValue("filename")));
 		StandardtypesInitializer.initializeMaps();
-		POIDBInitializer.initialize(r.getChild("POIDBConfiguration").getAttributeValue("filename"));
 		StandardtypesInitializer.initializeCategories();
+		POIDBInitializer.initialize(context.getExternalContext().getResourceAsStream(r.getChild("POIDBConfiguration").getAttributeValue("filename")));
 		StandardtypesInitializer.initializeBuildings();
-		RoutingInitializer.initialize(r.getChild("routeConfiguration").getAttributeValue("filename"));
-		TranslationInitializer.initialize(r.getChild("translationConfiguration").getAttributeValue("filename"));
+		RoutingInitializer.initialize(context.getExternalContext().getResourceAsStream(r.getChild("routeConfiguration").getAttributeValue("filename")));
+		TranslationInitializer.initialize(context.getExternalContext().getResourceAsStream(r.getChild("translationConfiguration").getAttributeValue("filename")));
 	}
-	
 }
