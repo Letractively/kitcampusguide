@@ -5,12 +5,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 
 /**
- * Converts a {@link MapPosition} into a JSON formatted <code>String</code>. The
- * conversion of a <code>String</code> into a {@link MapPosition} is not
- * supported.
+ * Converts a {@link MapPosition} into a JSON formatted <code>String</code>.
  * 
  * @author Stefan
  * @version 1.0
@@ -21,7 +22,14 @@ public class MapPositionConverter implements Converter {
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2)
 			throws ConverterException {
-		throw new ConverterException(new UnsupportedOperationException());
+		if (arg0 == null || arg1 == null) {
+			throw new NullPointerException();
+		}
+		if (arg2 == null) {
+			return null;
+		}
+		return JSONConversionHelper.getMapPosition((JSONObject) JSONValue
+				.parse(arg2));
 	}
 
 	@Override

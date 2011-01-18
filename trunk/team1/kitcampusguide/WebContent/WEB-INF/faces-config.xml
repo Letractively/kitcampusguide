@@ -47,10 +47,30 @@
 		<converter-id>buildingConverter</converter-id>
 		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.BuildingConverter</converter-class>
 	</converter>
+	<converter>
+		<description></description>
+		<display-name>ChangedPropertiesConverter</display-name>
+		<converter-id>changedPropertiesConverter</converter-id>
+		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.ChangedPropertiesConverter</converter-class>
+	</converter>
+	<converter>
+		<description></description>
+		<display-name>WorldPositionConverter</display-name>
+		<converter-id>worldPositionConverter</converter-id>
+		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.WorldPositionConverter</converter-class>
+	</converter>
 	<managed-bean>
 		<managed-bean-name>mapModel</managed-bean-name>
 		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.view.MapModel</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>mapListener</managed-bean-name>
+		<managed-bean-class>edu.kit.cm.kitcampusguide.controller.MapListenerImpl</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	<lifecycle>
+		<phase-listener>edu.kit.cm.kitcampusguide.presentationlayer.view.MapPhaseListener</phase-listener>
+	</lifecycle>
 
 </faces-config>

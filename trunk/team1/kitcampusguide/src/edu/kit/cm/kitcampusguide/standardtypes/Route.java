@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * @author fred
  *
  */
-public class Route {
+public class Route implements Serializable {
 	/** Stores the {@link MapPosition position} the route starts at.*/
 	private final MapPosition start;
 	

@@ -1,27 +1,26 @@
 package edu.kit.cm.kitcampusguide.controller;
 
 import java.util.List;
-import javax.faces.context.FacesContext;
+
 import javax.el.ELContext;
 import javax.faces.bean.ManagedBean;
+import javax.faces.component.UICommand;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManager;
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManagerImpl;
-import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.LanguageManager;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel;
+import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.LanguageManager;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
-import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.Language;
-
-import javax.faces.component.UICommand;
-import javax.faces.component.UIInput;
 
 @ManagedBean (name = "inputListener")
 public class InputListenerImpl implements InputListener {
@@ -101,7 +100,7 @@ public class InputListenerImpl implements InputListener {
 	}
 	
 	public void searchPerformed(POI poi, String inputField) {
-		mapModel.setHighlightedPOI(poi);
+		mapModel.setHighlightedPOIID(poi.getID());
 		if (inputField.equals("routeFromField")) {
 			inputModel.setRouteFromField(poi.getName());
 		} else {

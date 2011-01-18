@@ -15,12 +15,13 @@
 <h:body>
 	<map:mapcomponent map="#{mapModel.map}" POIs="#{mapModel.POIs}"
 		building="#{mapModel.building}" mapSection="#{mapModel.mapSection}"
-		highlightedPOI="#{mapModel.highlightedPOI}"
+		highlightedPOIID="#{mapModel.highlightedPOIID}"
 		markerFrom="#{mapModel.markerFrom}" markerTo="#{mapModel.markerTo}"
 		route="#{mapModel.route}" buildingPOI="#{mapModel.buildingPOI}"
-		buildingPOIList="#{mapModel.buildingPOIList}">
-		<c:valueChangeListener for="mapSectionListener"
-			type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapSectionChangedListener" />
+		buildingPOIList="#{mapModel.buildingPOIList}"
+		changedProperties="#{mapModel.changedProperties}" >
+		<c:valueChangeListener for="valueChangeListener"
+			type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapEventsListener" />
 		<!--  TODO: Add appropriate action listeners -->
 	</map:mapcomponent>
 	<h:panelGroup id="bar" layout="block" library="main">
