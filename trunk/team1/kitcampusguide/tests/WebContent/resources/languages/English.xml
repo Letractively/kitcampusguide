@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language name ="English">
+	<entry key="routeFrom">Search/Route from: </entry>
+	<entry key="routeTo">Route to: </entry>
+	<entry key="search">Search</entry>
+	<entry key="calculateRoute">Calculate route</entry>
+	<entry key="filter">Filter</entry>
+	<entry key="changeLanguage">Change language</entry>
+</language>

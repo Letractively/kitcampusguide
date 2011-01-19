@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<MapConfiguration filename="/resources/config/Maps.xml"/>
+	<CategoryConfiguration filename="/resources/config/Categories.xml"/>
+	<BuildingConfiguration filename="/resources/config/Buildings.xml"/>
+</configuration>
