@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-	<map id = "1" name = "campus" boundingNorth = "49.0179" boundingSouth = "49.0078" boundingEast = "8.40232" boundingWest = "8.42622" filename="./resources/tiles/campus/${z}/${x}/${y}.png" minZoom = "14" maxZoom = "18"/>
-	<map id = "2" name = "asd" boundingNorth = "49.0179" boundingSouth = "49.0078" boundingEast = "8.40232" boundingWest = "8.42622" filename="./resources/tiles/campus/${z}/${x}/${y}.png" minZoom = "2" maxZoom = "3"/>
-	<map id = "3" name = "asd3" boundingNorth = "49.0179" boundingSouth = "49.0078" boundingEast = "8.40232" boundingWest = "8.42622" filename="./resources/tiles/campus/${z}/${x}/${y}.png" minZoom = "3" maxZoom = "4"/>
-	
-</configuration>
