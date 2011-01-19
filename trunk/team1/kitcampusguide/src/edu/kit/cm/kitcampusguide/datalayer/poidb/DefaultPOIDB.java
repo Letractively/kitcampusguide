@@ -106,7 +106,7 @@ public class DefaultPOIDB implements POIDB {
 	 * @return <code>true</code>, if the POI was added correctly.
 	 *         <code>false</code> otherwise.
 	 */
-	public boolean addPOI(String name, String description, MapPosition position,
+	boolean addPOI(String name, String description, MapPosition position,
 			Integer buildingID, Collection<Category> categories) {
 		if (name == null || description == null || position == null) {
 			throw new NullPointerException();
