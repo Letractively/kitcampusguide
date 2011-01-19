@@ -41,14 +41,18 @@ public class InputListenerImpl implements InputListener {
 	 * @return
 	 */
 	public String getSearchButtonLabel() {
-		String routeFromField = (String) ((UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("inputForm:routeFromField")).getValue();
+		UIInput routeFromFieldComponent = (UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("inputForm:routeFromField");
+		String routeFromField = (String) routeFromFieldComponent.getValue();
 		if (routeFromField == null) {
 			routeFromField = "";
+			routeFromFieldComponent.setValue("");
 		}
 		routeFromField = routeFromField.trim();
-		String routeToField = (String) ((UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("inputForm:routeToField")).getValue();
+		UIInput routeToFieldComponent = (UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("inputForm:routeToField");
+		String routeToField = (String) routeToFieldComponent.getValue();
 		if (routeToField == null) {
 			routeToField = "";
+			routeToFieldComponent.setValue("");
 		}
 		routeToField = routeToField.trim();
 		if (!(routeFromField.equals("")) && !(routeToField.equals(""))) {
@@ -59,7 +63,7 @@ public class InputListenerImpl implements InputListener {
 	}
 	
 	public void setSearchButtonLabel(ValueChangeEvent ve) {		
-		String label = translationModel.tr(getSearchButtonLabel());		
+		String label = translationModel.tr(getSearchButtonLabel());
 		((UICommand) FacesContext.getCurrentInstance().getViewRoot().findComponent("inputForm:searchButton")).setValue(label);
 	}
 			
