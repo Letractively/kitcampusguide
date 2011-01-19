@@ -6,28 +6,29 @@ import javax.el.ELContext;
 import javax.faces.context.FacesContext;
 
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
+import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapModel.MapProperty;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
-import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 
 // TODO
 public class MapListenerImpl implements MapListener {
 
 	@Override
-	public void mapSectionChanged(MapSection mapSection) {
-		System.out.println("mapSectionChanged");
+	public void mapLocatorChanged(MapLocator mapLocator) {
+		System.out.println("mapLocatorChanged");
 		MapModel mapModel = getMapModel();
-		mapModel.setMapSection(mapSection);
-		mapModel.addChangedProperty(MapProperty.mapSection);
-		// TODO: Apply category and section filter
-		Collection<POI> poisBySection = POISourceImpl.getInstance().getPOIsBySection(null,
-				mapModel.getMap(), null);
-		System.out.println("Size: " + poisBySection.size());
-		mapModel.setPOIs(
-				poisBySection);
-		mapModel.addChangedProperty(MapProperty.POIs);
+		
+		if (mapLocator.getMapSection() != null) {
+			// TODO: Apply category and section filter
+			Collection<POI> poisBySection = POISourceImpl.getInstance()
+					.getPOIsBySection(null, mapModel.getMap(), null);
+			mapModel.setPOIs(poisBySection);
+			
+			mapModel.addChangedProperty(MapProperty.mapLocator);
+			mapModel.addChangedProperty(MapProperty.POIs);
+		}
 	}
 
 

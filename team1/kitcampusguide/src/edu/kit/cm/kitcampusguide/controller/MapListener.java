@@ -1,7 +1,7 @@
 package edu.kit.cm.kitcampusguide.controller;
 
+import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
-import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
 
 /**
  * 
@@ -9,12 +9,17 @@ import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
  * 
  */
 public interface MapListener {
-	
+
 	/**
-	 * The Method changes the {@link presentationlayer.view.MapSection} of the current {@link presentationlayer.view.MapModel} to <code>mapSection</code>.
-	 * @param mapSection to which MapSection the MapSection in the current MapModel is set. 
+	 * The Method changes the {@link presentationlayer.view.MapLocator} of the
+	 * current {@link presentationlayer.view.MapModel} to
+	 * <code>mapLocator</code>.
+	 * 
+	 * @param mapLocator
+	 *            the new mapLocator which determines the new map location the
+	 *            user entered
 	 */
-	public void mapSectionChanged(MapSection mapSection);
+	public void mapLocatorChanged(MapLocator mapLocator);
 	
 	
 	/**

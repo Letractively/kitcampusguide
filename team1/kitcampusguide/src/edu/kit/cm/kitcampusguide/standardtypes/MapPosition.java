@@ -34,11 +34,11 @@ public class MapPosition  extends WorldPosition {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null || !(obj instanceof MapPosition)) {
+		if (obj == null || obj.getClass() != this.getClass()) {
 			return false;
 		}
 		MapPosition other = (MapPosition) obj;
-		return (obj == this)
-				|| (super.equals(obj) && other.map.equals(this.map));
+		return (other == this)
+				|| (super.equals(other) && other.map.equals(this.map));
 	}
 }

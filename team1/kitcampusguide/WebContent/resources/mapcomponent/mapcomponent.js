@@ -44,15 +44,16 @@ KITCampusMap.prototype.applyChanges = function() {
 	var changedItems = JSON.parse(this.getFormElement("changedProperties").firstChild.data);
 	var changed = new Object();
 	for (var i in changedItems) {
-		changed[changedItems[i]] = new Object();
+		changed[changedItems[i]] = true;
 	}
+	
 	if (changed['map'] || !this.model.map) {
 		this.model.map = JSON.parse(this.getFormElement("map").firstChild.data);
 		this.setMapLayer();
 	}
-	if (changed['mapSection']) {
-		this.model.mapSection = JSON.parse(this.getFormElement("mapSection").value);
-		this.setMapSection();
+	if (changed['mapLocator']) {
+		this.model.mapLocator = JSON.parse(this.getFormElement("mapLocator").value);
+		this.setMapLocator();
 	}
 	if (changed['POIs']) {
 		this.model.pois = JSON.parse(this.getFormElement("POIs").firstChild.data);
@@ -126,10 +127,12 @@ KITCampusMap.prototype.handleZoomEnd = function(event) {
  */
 KITCampusMap.prototype.handleMove = function(event) {
 	// Submit the new map section to the server
-	var input = this.getFormElement("mapSection");
-	this.model.mapSection = this.untransformBounds(this.map.getExtent());
-	input.value = JSON.stringify(this.model.mapSection);
-	// TODO: Review the update process
+	var input = this.getFormElement("mapLocator");
+	var newMapLocator = new Object();
+	newMapLocator.mapSection = this.untransformBounds(this.map.getExtent());
+	newMapLocator.center = null;
+	
+	input.value = JSON.stringify(newMapLocator);
 	this.requestUpdate(input.id);
 };
 
@@ -149,7 +152,7 @@ KITCampusMap.prototype.requestUpdate = function(executeIds) {
 	jsf.ajax.request(this.form, null, {
 		execute : executeIds,
 		// TODO: Add all existing attributes here (separated by spaces)
-		render : id + ":POIs " + id + ":mapSection " + id + ":map " + id
+		render : id + ":POIs " + id + ":mapLocator " + id + ":map " + id
 				+ ":route " + id + ":changedProperties " + id + ":markerTo "
 				+ id + ":markerFrom " + id + ":buildingPOI " + id
 				+ ":buildingPOIList " + id + ":highlightedPOIID",
@@ -162,15 +165,19 @@ KITCampusMap.prototype.requestUpdate = function(executeIds) {
  * Sets the current map section which is set in the model. If the current map extent
  * is equal to the position in the model, nothing happens.
  */
-KITCampusMap.prototype.setMapSection = function() {
-	// TODO: Change to setMapLocation
-	var curSection = this.untransformBounds(this.map.getExtent());
-	// Check if the current section is equal to the new section
-	if (!this.positionEquals(curSection.northWest, this.model.mapSection.northWest) ||
-			!this.positionEquals(curSection.southEast, this.model.mapSection.southEast)) {
-		this.disableMapEvents();
-		this.map.zoomToExtent(this.transformMapSection(this.model.mapSection));
-		this.enableMapEvents();
+KITCampusMap.prototype.setMapLocator = function() {
+	var mapLocator = this.model.mapLocator;
+	if (mapLocator.mapSection != null) {
+		var curSection = this.untransformBounds(this.map.getExtent());
+		// Check if the current section is equal to the new section
+		if (!this.positionEquals(curSection.northWest, mapLocator.mapSection.northWest) ||
+				!this.positionEquals(curSection.southEast, mapLocator.mapSection.southEast)) {
+			this.disableMapEvents();
+			this.map.zoomToExtent(this.transformMapSection(mapLocator.mapSection));
+			this.enableMapEvents();
+		}
+	} else if (mapLocator.center != null) {
+		this.map.setCenter(this.transformWorldPosition(mapLocator.center));
 	}
 };
 

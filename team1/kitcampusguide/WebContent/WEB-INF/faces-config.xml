@@ -59,6 +59,12 @@
 		<converter-id>worldPositionConverter</converter-id>
 		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.WorldPositionConverter</converter-class>
 	</converter>
+	<converter>
+		<description></description>
+		<display-name>MapLocatorConverter</display-name>
+		<converter-id>mapLocatorConverter</converter-id>
+		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocatorConverter</converter-class>
+	</converter>
 	<managed-bean>
 		<managed-bean-name>mapModel</managed-bean-name>
 		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.view.MapModel</managed-bean-class>
