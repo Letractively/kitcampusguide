@@ -35,28 +35,7 @@ public class InputModel {
 	public InputModel() {
 		
 	}
-	
-	/**
-	 * Returns the actual appropriate searchButtonLabel
-	 * @return
-	 */
-	public String getSearchButtonLabel() {
-		String routeFromFieldContent = routeFromField;
-		if (routeFromFieldContent == null) {
-			routeFromFieldContent = "";
-		}
-		routeFromFieldContent.trim();
-		String routeToFieldContent = routeToField;
-		if (routeToFieldContent == null) {
-			routeToFieldContent = "";
-		}
-		if (!(routeFromFieldContent.equals("")) && !(routeToFieldContent.equals(""))) {
-			return "calculateRoute";
-		} else {
-			return "search";
-		}
-	}
-	
+		
 	/**
 	 * Returns the content of the "Route from" text field.
 	 * @return The content of the "Route from" text field.

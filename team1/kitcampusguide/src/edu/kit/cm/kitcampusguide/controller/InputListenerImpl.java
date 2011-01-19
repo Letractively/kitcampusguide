@@ -34,9 +34,13 @@ public class InputListenerImpl implements InputListener {
     .getELResolver().getValue(elContext, null, "translationModel");
 	
 	private CoordinateManager cm = CoordinateManagerImpl.getInstance();
-	//private POISource poiSource = POISourceImpl.getInstance();
-		
-	public void setSearchButtonLabel(ValueChangeEvent ve) {		
+	private POISource poiSource = POISourceImpl.getInstance();
+	
+	/**
+	 * Returns the actual appropriate searchButtonLabel
+	 * @return
+	 */
+	public String getSearchButtonLabel() {
 		String routeFromField = (String) ((UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("inputForm:routeFromField")).getValue();
 		if (routeFromField == null) {
 			routeFromField = "";
@@ -47,13 +51,15 @@ public class InputListenerImpl implements InputListener {
 			routeToField = "";
 		}
 		routeToField = routeToField.trim();
-		String label = "";
 		if (!(routeFromField.equals("")) && !(routeToField.equals(""))) {
-			label = translationModel.tr("calculateRoute");
+			return "calculateRoute";
 		} else {
-			label = translationModel.tr("search");
+			return "search";
 		}
-		
+	}
+	
+	public void setSearchButtonLabel(ValueChangeEvent ve) {		
+		String label = translationModel.tr(getSearchButtonLabel());		
 		((UICommand) FacesContext.getCurrentInstance().getViewRoot().findComponent("inputForm:searchButton")).setValue(label);
 	}
 			
