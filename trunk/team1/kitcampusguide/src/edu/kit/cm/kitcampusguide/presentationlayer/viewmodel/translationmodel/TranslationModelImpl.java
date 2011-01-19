@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.el.ELContext;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 /**
@@ -11,6 +12,7 @@ import javax.faces.context.FacesContext;
  * @author Fred
  */
 @ManagedBean (name="translationModel")
+@SessionScoped
 public class TranslationModelImpl implements TranslationModel {
 		
 	/** Stores the current language.*/

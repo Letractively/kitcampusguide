@@ -4,8 +4,12 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 
 import edu.kit.cm.kitcampusguide.standardtypes.*;
+
+import javax.faces.context.FacesContext;
+import javax.faces.component.UIInput;
 
 /**
  * Manages the inputs in all text fields in the view.
@@ -13,6 +17,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.*;
  *
  */
 @ManagedBean (name="inputModel")
+@SessionScoped
 public class InputModel {
 	/** Content of the "Route from" field.*/
 	@ManagedProperty (value ="")
@@ -26,9 +31,30 @@ public class InputModel {
 	private String exportLink;
 	/** The html embedding code. Can be <code>null</code>.*/
 	private String embeddingCode;
-	
+		
 	public InputModel() {
 		
+	}
+	
+	/**
+	 * Returns the actual appropriate searchButtonLabel
+	 * @return
+	 */
+	public String getSearchButtonLabel() {
+		String routeFromFieldContent = routeFromField;
+		if (routeFromFieldContent == null) {
+			routeFromFieldContent = "";
+		}
+		routeFromFieldContent.trim();
+		String routeToFieldContent = routeToField;
+		if (routeToFieldContent == null) {
+			routeToFieldContent = "";
+		}
+		if (!(routeFromFieldContent.equals("")) && !(routeToFieldContent.equals(""))) {
+			return "calculateRoute";
+		} else {
+			return "search";
+		}
 	}
 	
 	/**
