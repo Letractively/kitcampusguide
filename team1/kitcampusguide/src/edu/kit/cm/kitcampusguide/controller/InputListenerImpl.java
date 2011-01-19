@@ -35,35 +35,47 @@ public class InputListenerImpl implements InputListener {
 	
 	private CoordinateManager cm = CoordinateManagerImpl.getInstance();
 	//private POISource poiSource = POISourceImpl.getInstance();
-	
-	public void setSearchButtonLabel(ValueChangeEvent ve) {
-		System.out.println(FacesContext.getCurrentInstance().getCurrentPhaseId());
+		
+	public void setSearchButtonLabel(ValueChangeEvent ve) {		
 		String routeFromField = (String) ((UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("inputForm:routeFromField")).getValue();
+		if (routeFromField == null) {
+			routeFromField = "";
+		}
 		routeFromField = routeFromField.trim();
 		String routeToField = (String) ((UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("inputForm:routeToField")).getValue();
+		if (routeToField == null) {
+			routeToField = "";
+		}
 		routeToField = routeToField.trim();
 		String label = "";
-		if (!(routeFromField == null || routeFromField.equals("")) 
-				&& !(routeToField == null || routeToField.equals(""))) {
+		if (!(routeFromField.equals("")) && !(routeToField.equals(""))) {
 			label = translationModel.tr("calculateRoute");
 		} else {
 			label = translationModel.tr("search");
 		}
+		
 		((UICommand) FacesContext.getCurrentInstance().getViewRoot().findComponent("inputForm:searchButton")).setValue(label);
 	}
-	
+			
 	public void searchButtonPressed(ActionEvent ae) {
 		String routeFromField = inputModel.getRouteFromField();
+		if (routeFromField == null) {
+			routeFromField = "";
+		}
+		routeFromField.trim();
 		String routeToField = inputModel.getRouteToField();
-		if (!(routeFromField == null || routeFromField.equals("")) 
-				&& !(routeToField == null || routeToField.equals(""))) {
+		if (routeToField == null) {
+			routeToField = "";
+		}
+		routeToField.trim();
+		if (!(routeFromField.equals("")) && !( routeToField.equals(""))) {
 			System.out.println("Berechne Route von: " + routeFromField
 					+ " nach: " + routeToField);
 			routeTriggered(routeFromField, routeToField);
-		} else if (!(routeFromField == null || routeFromField.equals(""))) {
+		} else if (!routeFromField.equals("")) {
 			System.out.println("Suche " + routeFromField);
 			searchTriggered(routeFromField, "routeFromField");
-		} else if (!(routeToField == null || routeToField.equals(""))) {
+		} else if (!routeToField.equals("")) {
 			System.out.println("Suche " + routeToField);
 			searchTriggered(routeToField, "routeToField");
 		} else {
