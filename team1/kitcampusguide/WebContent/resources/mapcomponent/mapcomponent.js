@@ -26,8 +26,12 @@ function KITCampusMap(clientId) {
 		numZoomLevels : 19,
 		units : 'meters',
 		projection : "EPSG:41001",
-		controls: [new OpenLayers.Control.Navigation({handleMenuOpens: true})]
+		controls: []
 	});
+	this.map.addControl(new OpenLayers.Control.PanZoom());
+	this.map.addControl(new OpenLayers.Control.Navigation({
+		handleRightClicks : true
+	}));
 	this.applyChanges();
 }
 
@@ -56,12 +60,8 @@ KITCampusMap.prototype.applyChanges = function() {
 	}
 	
 	if (changed['markerTo']) {
-		if (this.getFormElement("markerTo").value != "") {
-			this.model.markerTo = JSON.parse(this.getFormElement("markerTo").value);
-		}
-		else {
-			this.model.markerTo = null;
-		}
+		var markerTo = this.getFormElement("markerTo").value;
+		this.model.markerTo = (markerTo == "") ? null : JSON.parse(markerTo);
 		this.setMarkerTo();
 	}
 	
@@ -152,7 +152,7 @@ KITCampusMap.prototype.requestUpdate = function(executeIds) {
 		render : id + ":POIs " + id + ":mapSection " + id + ":map " + id
 				+ ":route " + id + ":changedProperties " + id + ":markerTo "
 				+ id + ":markerFrom " + id + ":buildingPOI " + id
-				+ ":buildingPOIList",
+				+ ":buildingPOIList " + id + ":highlightedPOIID",
 		onevent : this.eventCallback
 	});
 };
@@ -305,14 +305,14 @@ KITCampusMap.prototype.enableMapEvents = function() {
 	this.map.events.on({
 			"moveend" : this.handleMove,
 			"zoomend" : this.handleZoomEnd,
+			"rightclick" : this.handleMenuOpen,
 			scope : this
 		});
 	if (this.mapLayer) {
 		this.mapLayer.events.on({
-			"rightclick" : this.handleMenuOpen,
 			"dblclick" : this.handleMenuOpen,
 			// TODO: Doesn't work
-			"dblrightclick" : this.handleMenuOpen,
+			"rightclick" : this.handleMenuOpen,
 			scope:this
 		});
 	}
@@ -329,10 +329,9 @@ KITCampusMap.prototype.disableMapEvents = function() {
 	});
 	if (this.mapLayer) {
 		this.mapLayer.events.un({
-			"rightclick" : this.handleMenuOpen,
 			"dblclick" : this.handleMenuOpen,
 			// TODO: Doesn't work
-			"dblrightclick" : this.handleMenuOpen,
+			"rightclick" : this.handleMenuOpen,
 			scope:this
 		});
 	}
