@@ -8,7 +8,6 @@ import javax.faces.event.ValueChangeListener;
 
 import edu.kit.cm.kitcampusguide.controller.MapListener;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
-import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
 
 /**
  * This class is directly informed about any event happening on the map
@@ -23,9 +22,9 @@ public class MapEventsListener implements ValueChangeListener {
 			throws AbortProcessingException {
 
 		String id = event.getComponent().getId();
-		if (id.equals("mapSection")) {
+		if (id.equals("mapLocator")) {
 			getMapListener()
-					.mapSectionChanged((MapSection) event.getNewValue());
+					.mapLocatorChanged((MapLocator) event.getNewValue());
 		} else if (id.equals("markerTo")) {
 			getMapListener().setRouteToByContextMenu(
 					(MapPosition) event.getNewValue());

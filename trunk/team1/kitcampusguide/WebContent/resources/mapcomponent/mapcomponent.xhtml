@@ -10,11 +10,11 @@
 			type="edu.kit.cm.kitcampusguide.standardtypes.Map" required="true" />
 		<cc:attribute name="building" required="true"
 			type="edu.kit.cm.kitcampusguide.standardtypes.Building" />
-		<cc:attribute name="mapSection" required="true"
-			type="edu.kit.cm.kitcampusguide.standardtypes.MapSection" />
+		<cc:attribute name="mapLocator" required="true"
+			type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator" />
 		<cc:attribute name="POIs" required="true"/>
 		<cc:attribute name="highlightedPOIID"
-			type="String" required="true" />
+			type="java.lang.String" required="true" />
 		<cc:attribute name="markerFrom"
 			type="edu.kit.cm.kitcampusguide.standardtypes.MapPosition"
 			required="true" />
@@ -29,7 +29,7 @@
 		<cc:attribute name="changedProperties" required="true" />
 		<!-- EditableValueHolders -->
 		<cc:editableValueHolder name="valueChangeListener"
-			targets="form:mapSection form:markerTo form:markerFrom" />
+			targets="form:mapLocator form:markerTo form:markerFrom" />
 		<!-- TODO: POIListener action source must be defined -->
 	</cc:interface>
 	<cc:implementation>
@@ -45,8 +45,8 @@ on the final system? -->
 		<h:outputScript target="head" library="javax.faces" name="jsf.js" />
 		<div id="#{cc.clientId}:map" class="map"></div>
 		<h:form id="form" class="hidden">
-			<h:inputHidden id="mapSection" value="#{cc.attrs.mapSection}">
-				<f:converter converterId="mapSectionConverter" />
+			<h:inputHidden id="mapLocator" value="#{cc.attrs.mapLocator}">
+				<f:converter converterId="mapLocatorConverter" />
 			</h:inputHidden>
 			<h:outputText id="map" value="#{cc.attrs.map}">
 				<f:converter converterId="mapConverter" />

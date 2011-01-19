@@ -65,11 +65,17 @@ public class WorldPosition implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null || !(obj instanceof WorldPosition)) {
+		if (obj == null || !(this.getClass() == obj.getClass())) {
 			return false;
 		}
-		WorldPosition other = (WorldPosition) obj;
-		return (obj == this) || (Math.abs(other.latitude - this.latitude) < EPS
+		return(equals((WorldPosition) obj));
+	}
+	
+	protected boolean equals(WorldPosition other) {
+		if (other == null) {
+			return false;
+		}
+		return (other == this) || (Math.abs(other.latitude - this.latitude) < EPS
 				&& Math.abs(other.longitude - this.longitude) < EPS);
 	}
 }

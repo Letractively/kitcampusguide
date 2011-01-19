@@ -16,26 +16,29 @@ import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 
 /**
  * Utility class to convert some standard types to a JSON string.
+ * 
  * @see http://www.json.org
  * @author Stefan
- *
+ * 
  */
 @SuppressWarnings("unchecked")
 public class JSONConversionHelper {
 
 	/**
 	 * Converts a set of map properties into a JSON array.
-	 * @param props a set of <code>MapPropertie</code>s
+	 * 
+	 * @param props
+	 *            a set of <code>MapPropertie</code>s
 	 * @return a JSON array
 	 */
 	static JSONArray convertChangedProperties(Set<MapProperty> props) {
 		JSONArray result = new JSONArray();
-		for (MapProperty p: props) {
+		for (MapProperty p : props) {
 			result.add(p.toString());
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Converts a POI to a JSONObject.
 	 * 
@@ -63,11 +66,14 @@ public class JSONConversionHelper {
 		return result;
 	}
 
-	static JSONObject convertWorldPosition(WorldPosition p) {
-		JSONObject position = new JSONObject();
-		position.put("longitude", p.getLongitude());
-		position.put("latitude", p.getLatitude());
-		return position;
+	static JSONObject convertWorldPosition(WorldPosition position) {
+		if (position == null) {
+			return null;
+		}
+		JSONObject result = new JSONObject();
+		result.put("longitude", position.getLongitude());
+		result.put("latitude", position.getLatitude());
+		return result;
 	}
 
 	static JSONObject convertMapPosition(MapPosition p) {
@@ -100,6 +106,9 @@ public class JSONConversionHelper {
 	}
 
 	static JSONObject convertMapSection(MapSection mapSection) {
+		if (mapSection == null) {
+			return null;
+		}
 		JSONObject obj = new JSONObject();
 		obj.put("northWest", convertWorldPosition(mapSection.getNorthWest()));
 		obj.put("southEast", convertWorldPosition(mapSection.getSouthEast()));
@@ -122,7 +131,25 @@ public class JSONConversionHelper {
 	static MapPosition getMapPosition(JSONObject object) {
 		double latitude = (Double) object.get("latitude");
 		double longitude = (Double) object.get("longitude");
-		int id = (int) ((Long) ((JSONObject)object.get("map")).get("id")).longValue();
+		int id = (int) ((Long) ((JSONObject) object.get("map")).get("id"))
+				.longValue();
 		return new MapPosition(latitude, longitude, Map.getMapByID(id));
+	}
+
+	static JSONObject convertMapLocator(MapLocator locator) {
+		JSONObject result = new JSONObject();
+		result.put("center", convertWorldPosition(locator.getCenter()));
+		result.put("mapSection", convertMapSection(locator.getMapSection()));
+		return result;
+	}
+
+	static MapLocator getMapLocator(JSONObject object) {
+		JSONObject mapSection = (JSONObject) object.get("mapSection");
+		if (mapSection != null) {
+			return new MapLocator(getMapSection(mapSection));
+		} else {
+			JSONObject center = (JSONObject) object.get("center");
+			return new MapLocator(getWorldPosition(center));
+		}
 	}
 }

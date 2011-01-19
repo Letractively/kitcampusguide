@@ -13,7 +13,6 @@ import edu.kit.cm.kitcampusguide.controller.Initializer;
 import edu.kit.cm.kitcampusguide.standardtypes.Building;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
-import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.Route;
 
@@ -31,7 +30,7 @@ public class MapModel implements Serializable {
 	 */
 	private Integer currentFloorIndex;
 	/** The currently displayed map section. */
-	private MapSection mapSection;
+	private MapLocator mapLocator;
 	/** The id of the POI currently highlighted or <code>null</code>. */
 	private String highlightedPOIID;
 	/** The current starting position for a route or <code>null</code>. */
@@ -56,13 +55,7 @@ public class MapModel implements Serializable {
 	private Set<MapProperty> changedProperties = new HashSet<MapModel.MapProperty>();
 
 	static {
-		// TODO: Test code, needs to be deleted later
-		// MapSection box = new MapSection(new WorldPosition(49.0179, 8.40232),
-		// new WorldPosition(49.0078, 8.42622));
-		// new Map(1, "campus", box,
-		// "http://tile.openstreetmap.org/${z}/${x}/${y}.png");
-		// "./resources/tiles/campus/${z}/${x}/${y}.png", 14, 18);
-		// Testcode inclusive initializing.
+		// TODO: Test code, needs to be replaced with something better
 		FacesContext context = FacesContext.getCurrentInstance();
 		Initializer.main(context.getExternalContext().getResourceAsStream(
 				"/resources/config/Configuration.xml"));
@@ -72,7 +65,7 @@ public class MapModel implements Serializable {
 	public MapModel() {
 		System.out.println("CreateMapModel");
 		setMap(Map.getMapByID(1)); // TODO: Maybe load this with a script
-		setMapSection(getMap().getBoundingBox());
+		setMapLocator(new MapLocator(getMap().getBoundingBox()));
 		setPOIs(Collections.<POI> emptyList());
 		setMarkerTo(null);
 		setMarkerFrom(null);
@@ -148,23 +141,25 @@ public class MapModel implements Serializable {
 	}
 
 	/**
-	 * The map section currently displayed.
+	 * Returns the {@link MapLocator} which is used to determine the currently
+	 * displayed map section.
 	 * 
 	 * @return The MapSection currently displayed.
 	 */
-	public MapSection getMapSection() {
-		return mapSection;
+	public MapLocator getMapLocator() {
+		return this.mapLocator;
 	}
 
 	/**
-	 * Sets the MapSection to be displayed.
+	 * Sets the {@link MapLocator} which is used to determine the map section to
+	 * be displayed.
 	 * 
-	 * @param mapSection
+	 * @param mapLocator
 	 *            Sets the MapSection to be displayed mapSection. If
 	 *            <code>null</code>, no change is made.
 	 */
-	public void setMapSection(MapSection mapSection) {
-		this.mapSection = mapSection;
+	public void setMapLocator(MapLocator mapLocator) {
+		this.mapLocator = mapLocator;
 	}
 
 	/**
@@ -323,7 +318,7 @@ public class MapModel implements Serializable {
 	}
 
 	public static enum MapProperty {
-		map, POIs, building, mapSection, highlightedPOIID, markerFrom, markerTo, route, buildingPOI, buildingPOIList
+		map, POIs, building, mapLocator, highlightedPOIID, markerFrom, markerTo, route, buildingPOI, buildingPOIList
 	}
 
 }
