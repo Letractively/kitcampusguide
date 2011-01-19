@@ -2,16 +2,22 @@ package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel;
 
 import java.util.List;
 
+import javax.el.ELContext;
+import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+
 /**
  * This class manages the language for a single user and therefore uses the {@link LanguageManager} and {@link Language} classes.
  * @author Fred
  */
+@ManagedBean (name="translationModel")
 public class TranslationModelImpl implements TranslationModel {
+		
 	/** Stores the current language.*/
 	private Language currentLanguage;
 	
 	/** Stores the {@link LanguageManager} this instance uses.*/
-	private LanguageManager manager;
+	private LanguageManager manager;	
 	
 	/**
 	 * Constructs a new {@link TranslationModel}.
@@ -19,6 +25,19 @@ public class TranslationModelImpl implements TranslationModel {
 	public TranslationModelImpl() {
 		manager = LanguageManager.getInstance();
 		currentLanguage = manager.getDefaultLanguage();
+	}	
+	
+	/**
+	 * EL-Function that can be used in the JSF-site.
+	 * Uses the function "tr()" of the recent TranslationModel to translate labels into the current language.
+	 * @param key
+	 * @return
+	 */
+	public static String translate(String key) {
+		ELContext elContext = FacesContext.getCurrentInstance().getELContext();	
+		TranslationModel translationModel = (TranslationModel) FacesContext.getCurrentInstance().getApplication()
+		        .getELResolver().getValue(elContext, null, "translationModel");
+		return translationModel.tr(key);
 	}
 	
 	/**
@@ -38,7 +57,7 @@ public class TranslationModelImpl implements TranslationModel {
 		}
 		return result;
 	}
-	
+		
 	/**
 	 * Sets the current language to the language identified by <code>language</code>.
 	 * Best used with {@link getLanguages()}. Only changes the language if it is available on the system.
@@ -65,4 +84,5 @@ public class TranslationModelImpl implements TranslationModel {
 	public List<String> getLanguages() {
 		return manager.getLanguagesAsString();
 	}
+
 }

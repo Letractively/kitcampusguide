@@ -16,7 +16,7 @@ import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel;
-import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.LanguageManager;
+import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModel;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
@@ -30,20 +30,24 @@ public class InputListenerImpl implements InputListener {
 	        .getELResolver().getValue(elContext, null, "mapModel");
 	private InputModel inputModel = (InputModel) FacesContext.getCurrentInstance().getApplication()
     .getELResolver().getValue(elContext, null, "inputModel");
+	private TranslationModel translationModel = (TranslationModel) FacesContext.getCurrentInstance().getApplication()
+    .getELResolver().getValue(elContext, null, "translationModel");
 	
 	private CoordinateManager cm = CoordinateManagerImpl.getInstance();
-	private LanguageManager lm = LanguageManager.getInstance();
-	private POISource poiSource = POISourceImpl.getInstance();
+	//private POISource poiSource = POISourceImpl.getInstance();
 	
 	public void setSearchButtonLabel(ValueChangeEvent ve) {
+		System.out.println(FacesContext.getCurrentInstance().getCurrentPhaseId());
 		String routeFromField = (String) ((UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("inputForm:routeFromField")).getValue();
+		routeFromField = routeFromField.trim();
 		String routeToField = (String) ((UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("inputForm:routeToField")).getValue();
+		routeToField = routeToField.trim();
 		String label = "";
 		if (!(routeFromField == null || routeFromField.equals("")) 
 				&& !(routeToField == null || routeToField.equals(""))) {
-			label = "Route berechnen";
+			label = translationModel.tr("calculateRoute");
 		} else {
-			label = "Suche";
+			label = translationModel.tr("search");
 		}
 		((UICommand) FacesContext.getCurrentInstance().getViewRoot().findComponent("inputForm:searchButton")).setValue(label);
 	}
@@ -114,13 +118,11 @@ public class InputListenerImpl implements InputListener {
 	}	
 	
 	public void changeLanguageToEnglish(ActionEvent ae) {
-		System.out.println("Sprache wechseln in Englisch");
-		//languageChangeTriggered("english");
+		translationModel.setCurrentLanguage("English");
 	}
 	
 	public void changeLanguageToGerman(ActionEvent ae) {
-		System.out.println("Sprache wechseln in Deutsch");
-		//languageChangeTriggered("german");
+		translationModel.setCurrentLanguage("Deutsch");
 	}
 	
 	public void languageChangeTriggered(String language) {
