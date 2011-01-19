@@ -14,7 +14,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
  * This class is directly informed about any event happening on the map
  * 
  * @author Stefan, Fabian
- * @version 1.1
+ * @version 1.2
  */
 public class MapEventsListener implements ValueChangeListener {
 
@@ -23,14 +23,10 @@ public class MapEventsListener implements ValueChangeListener {
 			throws AbortProcessingException {
 
 		PhaseId phaseId = event.getPhaseId();
-		String oldValue = (String) event.getOldValue();
-		String newValue = (String) event.getNewValue();
-		if (phaseId.equals(PhaseId.ANY_PHASE)) { //Bin immer noch nicht sicher bei dem Teil, 
-			//nach meinem Verstaendnis springen wir da immmer rein und verschieben ewig.
+		if (!phaseId.equals(PhaseId.UPDATE_MODEL_VALUES)) { //Geaendert nach Tests. Sollte so funktionieren hoffentlich.
 			event.setPhaseId(PhaseId.UPDATE_MODEL_VALUES);
 			event.queue();
 		} else {
-			if (phaseId.equals(PhaseId.UPDATE_MODEL_VALUES)) {
 				String id = event.getComponent().getId();
 				if (id.equals("mapLocator")) {
 					getMapListener().mapLocatorChanged(
@@ -44,7 +40,6 @@ public class MapEventsListener implements ValueChangeListener {
 				} else if (id.equals("highlightedPOI")) {
 					getMapListener().clickOnPOI((String) event.getNewValue());
 				}
-			}
 		}
 
 	}
