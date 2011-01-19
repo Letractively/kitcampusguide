@@ -15,7 +15,8 @@
 </h:head>
 <h:body>
 	<map:mapcomponent map="#{mapModel.map}" POIs="#{mapModel.POIs}"
-		building="#{mapModel.building}" mapSection="#{mapModel.mapSection}"
+		building="#{mapModel.building}" 
+		mapLocator="#{mapModel.mapLocator}"
 		highlightedPOIID="#{mapModel.highlightedPOIID}"
 		markerFrom="#{mapModel.markerFrom}" markerTo="#{mapModel.markerTo}"
 		route="#{mapModel.route}" buildingPOI="#{mapModel.buildingPOI}"
@@ -39,7 +40,7 @@
 							<f:ajax execute="inputForm:routeFromField inputForm:routeToField" 
 							render="inputForm:searchButton" event="keyup"/>
 						</h:inputText>
-						<h:commandButton id="searchButton" value="#{tr:translate(inputModel.searchButtonLabel)}" actionListener="#{inputListener.searchButtonPressed}" />
+						<h:commandButton id="searchButton" value="#{tr:translate(inputListener.searchButtonLabel)}" actionListener="#{inputListener.searchButtonPressed}" />
 						<h:outputText id="routeToLabel" for="routeToField" value="#{tr:translate('routeTo')}" />
 						<h:inputText id="routeToField" value="#{inputModel.routeToField}" 
 						valueChangeListener="#{inputListener.setSearchButtonLabel}" >
