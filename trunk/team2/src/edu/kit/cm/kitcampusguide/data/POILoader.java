@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.data;
 
-import java.util.ArrayList;
+import edu.kit.cm.kitcampusguide.model.*;
+import java.util.List;
 
 /**
  * 
