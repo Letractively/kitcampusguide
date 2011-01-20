@@ -12,31 +12,31 @@ public final class Config {
 	/**
 	 * Saves the type of the current used database.
 	 */
-	public String dbType = "postgresql";
+	public static String dbType = "postgresql";
 	
 	/**
 	 * Saves the hostname of the current used database.
 	 */
-	public String dbHost = "localhost";
+	public static String dbHost = "localhost";
 	
 	/**
 	 * Saves the port of the current used database.
 	 */
-	public String dbPort = "5432";
+	public static String dbPort = "5432";
 	
 	/**
 	 * Saves the database name of the current used database.
 	 */
-	public String dbDatabase = "campusguide"; // to be decided
+	public static String dbDatabase = "campusguide"; // to be decided
 	
 	/**
 	 * Saves the username of the current used database.
 	 */
-	public String dbUsername = "tbd"; // to be decided
+	public static String dbUsername = "tbd"; // to be decided
 	
 	/**
 	 * Saves the password of the current used database.
 	 */
-	public String dbPassword = "tbd"; // to be decided
+	public static String dbPassword = "tbd"; // to be decided
 	
 }
