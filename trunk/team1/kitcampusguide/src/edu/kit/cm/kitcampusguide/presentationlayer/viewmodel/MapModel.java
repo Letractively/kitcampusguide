@@ -55,13 +55,13 @@ public class MapModel implements Serializable {
 
 	private Set<MapProperty> changedProperties = new HashSet<MapModel.MapProperty>();
 
-	static {
-		// TODO: Test code, needs to be replaced with something better
-		FacesContext context = FacesContext.getCurrentInstance();
-		Initializer.main(context.getExternalContext().getResourceAsStream(
-				"/resources/config/Configuration.xml"));
-
-	}
+//	static {
+//		// TODO: Test code, needs to be replaced with something better
+//		FacesContext context = FacesContext.getCurrentInstance();
+//		Initializer.main(context.getExternalContext().getResourceAsStream(
+//				"/resources/config/Configuration.xml"));
+//
+//	}
 
 	public MapModel() {
 		System.out.println("CreateMapModel");

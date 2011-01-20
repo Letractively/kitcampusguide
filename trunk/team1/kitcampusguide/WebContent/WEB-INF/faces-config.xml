@@ -5,6 +5,16 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
     version="2.0">
+    <application>
+    	<system-event-listener>
+    		<system-event-listener-class>
+    			edu.kit.cm.kitcampusguide.controller.StartupEventListener
+    		</system-event-listener-class>
+    		<system-event-class>
+    			javax.faces.event.PostConstructApplicationEvent
+    		</system-event-class>
+    	</system-event-listener>
+    </application>
 	<converter>
 		<description>Converts a MapSection into a String easily readable by OpenLayers.</description>
 		<display-name>MapSectionConverter</display-name>
