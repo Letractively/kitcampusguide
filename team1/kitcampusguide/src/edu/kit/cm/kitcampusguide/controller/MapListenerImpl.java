@@ -17,13 +17,12 @@ public class MapListenerImpl implements MapListener {
 
 	@Override
 	public void mapLocatorChanged(MapLocator mapLocator) {
-		System.out.println("mapLocatorChanged");
 		MapModel mapModel = getMapModel();
 		
 		if (mapLocator.getMapSection() != null) {
-			// TODO: Apply category and section filter
+			// TODO: Apply category, map and section filter (disabled for testing)
 			Collection<POI> poisBySection = POISourceImpl.getInstance()
-					.getPOIsBySection(null, mapModel.getMap(), null);
+					.getPOIsBySection(null, null, null);
 			mapModel.setPOIs(poisBySection);
 			
 			mapModel.addChangedProperty(MapProperty.mapLocator);
