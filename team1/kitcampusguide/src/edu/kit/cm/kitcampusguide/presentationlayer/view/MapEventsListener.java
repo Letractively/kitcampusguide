@@ -23,8 +23,8 @@ public class MapEventsListener implements ValueChangeListener {
 			throws AbortProcessingException {
 
 		PhaseId phaseId = event.getPhaseId();
-		if (!phaseId.equals(PhaseId.UPDATE_MODEL_VALUES)) { //Geaendert nach Tests. Sollte so funktionieren hoffentlich.
-			event.setPhaseId(PhaseId.UPDATE_MODEL_VALUES);
+		if (!phaseId.equals(PhaseId.INVOKE_APPLICATION)) { //Geaendert nach Tests. Sollte so funktionieren hoffentlich.
+			event.setPhaseId(PhaseId.INVOKE_APPLICATION);
 			event.queue();
 		} else {
 				String id = event.getComponent().getId();

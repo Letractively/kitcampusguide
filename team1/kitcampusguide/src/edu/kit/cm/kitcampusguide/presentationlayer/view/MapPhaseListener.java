@@ -11,12 +11,7 @@ public class MapPhaseListener implements PhaseListener {
 
 	@Override
 	public void afterPhase(PhaseEvent arg0) {
-		// Nothing to do here
-	}
-
-	@Override
-	public void beforePhase(PhaseEvent arg0) {
-		// Reset the properties in the mapModel.
+		// Reset the properties in the MapModel.
 		((MapModel) FacesContext
 				.getCurrentInstance()
 				.getELContext()
@@ -26,8 +21,13 @@ public class MapPhaseListener implements PhaseListener {
 	}
 
 	@Override
+	public void beforePhase(PhaseEvent arg0) {
+		
+	}
+
+	@Override
 	public PhaseId getPhaseId() {
-		return PhaseId.PROCESS_VALIDATIONS;
+		return PhaseId.UPDATE_MODEL_VALUES;
 	}
 
 }
