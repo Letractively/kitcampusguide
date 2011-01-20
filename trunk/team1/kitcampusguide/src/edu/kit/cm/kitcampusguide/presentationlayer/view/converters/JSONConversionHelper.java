@@ -1,11 +1,13 @@
-package edu.kit.cm.kitcampusguide.presentationlayer.view;
+package edu.kit.cm.kitcampusguide.presentationlayer.view.converters;
 
 import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import edu.kit.cm.kitcampusguide.presentationlayer.view.MapModel.MapProperty;
+import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
+import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
+import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel.MapProperty;
 import edu.kit.cm.kitcampusguide.standardtypes.Building;
 import edu.kit.cm.kitcampusguide.standardtypes.Category;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;

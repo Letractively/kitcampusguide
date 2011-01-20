@@ -14,8 +14,8 @@ import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateMa
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManagerImpl;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
-import edu.kit.cm.kitcampusguide.presentationlayer.view.MapModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel;
+import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModel;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;

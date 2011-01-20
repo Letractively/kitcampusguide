@@ -1,4 +1,4 @@
-package edu.kit.cm.kitcampusguide.presentationlayer.view;
+package edu.kit.cm.kitcampusguide.presentationlayer.view.converters;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -8,6 +8,7 @@ import javax.faces.convert.ConverterException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 
 /**
@@ -17,7 +18,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
  * @version 1.0
  * @see http://www.json.org
  */
-public class MapPositionConverter implements Converter {
+public class MapLocatorConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2)
@@ -25,10 +26,10 @@ public class MapPositionConverter implements Converter {
 		if (arg0 == null || arg1 == null) {
 			throw new NullPointerException();
 		}
-		if (arg2 == null) {
+		if (arg2 == null || arg2.equals("")) {
 			return null;
 		}
-		return JSONConversionHelper.getMapPosition((JSONObject) JSONValue
+		return JSONConversionHelper.getMapLocator((JSONObject) JSONValue
 				.parse(arg2));
 	}
 
@@ -41,11 +42,11 @@ public class MapPositionConverter implements Converter {
 		if (arg2 == null) {
 			return "";
 		}
-		if (!(arg2 instanceof MapPosition)) {
-			throw new ConverterException("Can only convert MapPositions (class: "
+		if (!(arg2 instanceof MapLocator)) {
+			throw new ConverterException("Can only convert MapLocators (class: "
 					+ arg2.getClass().getName() + ", value: " + arg2 + ")");
 		}
-		return JSONConversionHelper.convertMapPosition((MapPosition) arg2)
+		return JSONConversionHelper.convertMapLocator((MapLocator) arg2)
 				.toJSONString();
 	}
 
