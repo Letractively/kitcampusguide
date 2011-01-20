@@ -1,15 +1,14 @@
-package edu.kit.cm.kitcampusguide.presentationlayer.view;
+package edu.kit.cm.kitcampusguide.presentationlayer.view.converters;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
-import edu.kit.cm.kitcampusguide.standardtypes.Building;
-import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
+import edu.kit.cm.kitcampusguide.standardtypes.Map;
 
-// TODO 
-public class BuildingConverter implements Converter {
+// TODO
+public class MapConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2)
@@ -26,12 +25,11 @@ public class BuildingConverter implements Converter {
 		if (arg2 == null) {
 			return "";
 		}
-		if (!(arg2 instanceof MapPosition)) {
-			throw new ConverterException("Can only convert buildings (class: "
+		if (!(arg2 instanceof Map)) {
+			throw new ConverterException("Can only convert Maps (class: "
 					+ arg2.getClass().getName() + ", value: " + arg2 + ")");
 		}
-		return JSONConversionHelper.convertBuilding((Building) arg2)
-				.toJSONString();
+		return JSONConversionHelper.convertMap((Map) arg2).toJSONString();
 	}
 
 }

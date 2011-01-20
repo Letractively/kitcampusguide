@@ -1,4 +1,4 @@
-package edu.kit.cm.kitcampusguide.presentationlayer.view;
+package edu.kit.cm.kitcampusguide.presentationlayer.view.converters;
 
 import java.util.Collection;
 import java.util.List;

@@ -1,4 +1,4 @@
-package edu.kit.cm.kitcampusguide.presentationlayer.view;
+package edu.kit.cm.kitcampusguide.presentationlayer.view.converters;
 
 import java.util.Set;
 
@@ -7,7 +7,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
-import edu.kit.cm.kitcampusguide.presentationlayer.view.MapModel.MapProperty;
+import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
+import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel.MapProperty;
 
 /**
  * Converts a set of {@link MapProperty} objects into a JSON formatted

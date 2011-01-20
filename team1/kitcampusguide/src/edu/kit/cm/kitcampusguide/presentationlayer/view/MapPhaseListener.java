@@ -5,6 +5,8 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 
+import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
+
 public class MapPhaseListener implements PhaseListener {
 
 	@Override

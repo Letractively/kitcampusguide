@@ -1,4 +1,4 @@
-package edu.kit.cm.kitcampusguide.presentationlayer.view;
+package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.faces.context.FacesContext;
 
 import edu.kit.cm.kitcampusguide.controller.Initializer;
+import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 import edu.kit.cm.kitcampusguide.standardtypes.Building;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
