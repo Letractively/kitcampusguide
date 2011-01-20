@@ -4,5 +4,5 @@
 	<routeConfiguration filename = "/resources/config/RoutingConfiguration.xml"/>
 	<loggerConfiguration filename = "/resources/config/Configuration.properties"/>
 	<standardtypesConfiguration filename = "/resources/config/StandardtypesConfiguration.xml"></standardtypesConfiguration>
-	<POIDBConfiguration filename = "/resources/config/POIDBConfiguration.xml"/><defaultValueConfiguration filename="/resources/config/DefaultValues"></defaultValueConfiguration>
+	<POIDBConfiguration filename = "/resources/config/POIDBConfiguration.xml"/><defaultValueConfiguration filename="/resources/config/DefaultValues.xml"></defaultValueConfiguration>
 </configuration>
