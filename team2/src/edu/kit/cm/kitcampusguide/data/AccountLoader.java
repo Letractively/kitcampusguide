@@ -12,13 +12,13 @@ public interface AccountLoader {
 	 * @param name
 	 * @return
 	 */
-	boolean verifyName(String name);
+	public boolean verifyName(String name);
 	
 	/**
 	 * 
 	 * @param name
 	 * @return
 	 */
-	String getPasswordHash(String name);
+	public String getPasswordHash(String name);
 	
 }
