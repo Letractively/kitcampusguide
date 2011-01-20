@@ -209,8 +209,10 @@ KITCampusMap.prototype.setPOIs = function() {
 	}
 	this.poiMarkerLayer.clearMarkers();
 	for ( var index in m.pois) {
-		var marker = this.createPOIMarker(m.pois[index]);
-		this.poiMarkerLayer.addMarker(marker);
+		this.createPOIMarker(m.pois[index]);
+		//alter Code
+		//var marker = this.createPOIMarker(m.pois[index]);
+		//this.poiMarkerLayer.addMarker(marker);
 	}
 };
 
@@ -220,17 +222,37 @@ KITCampusMap.prototype.setPOIs = function() {
  * @param poi
  *            a POI.
  * @returns {OpenLayers.Marker} a marker
+ *
  */
 KITCampusMap.prototype.createPOIMarker = function(poi) {
-	// TODO: Reset when final icon is known
-	var size = new OpenLayers.Size(21, 25);
-	// TODO: Add info bubble hover effect
-	var anchor = new OpenLayers.Pixel(-(size.w / 2), -size.h);
-	var icon = new OpenLayers.Icon(
-			'http://openlayers.org/dev/img/marker-gold.png', size, anchor);
-	var position = this.transformWorldPosition(poi.position);
-	return new OpenLayers.Marker(position.clone(), icon);
+
+    var feature = new OpenLayers.Feature(this.poiMarkerLayer, this.transformWorldPosition(poi.position)); 
+    feature.closeBox = true;
+    feature.popupClass = OpenLayers.Class(OpenLayers.Popup.AnchoredBubble, {
+        'autoSize': true
+    });
+    feature.data.popupContentHTML = poi.description;
+    feature.data.overflow = "auto";
+            
+    var marker = feature.createMarker();
+
+    var markerClick = function (evt) {
+        if (this.popup == null) {
+        	this.popup = this.createPopup(this.closeBox);
+        	
+        	this.layer.map.addPopup(this.popup, true);
+        	this.popup.show();
+        } else {
+            this.popup.toggle();
+        }
+        currentPopup = this.popup;
+        OpenLayers.Event.stop(evt);
+    };
+    marker.events.register("mousedown", feature, markerClick);
+
+    this.poiMarkerLayer.addMarker(marker);
 };
+
 
 /**
  * Draws the current route in a vector layer. The vector layer is created if
@@ -414,3 +436,4 @@ KITCampusMap.prototype.untransformBounds = function(bounds) {
 		southEast : this.untransformLonLat(se)
 	};
 };
+
