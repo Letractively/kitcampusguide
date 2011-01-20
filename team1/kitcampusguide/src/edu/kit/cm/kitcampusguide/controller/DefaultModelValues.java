@@ -35,7 +35,7 @@ public class DefaultModelValues {
 		try {
 			Document document;
 			document = new SAXBuilder().build(inputStream);
-			defaultMap = Map.getMapByID(Integer.getInteger(document.getRootElement().getChild("defaultMap").getAttributeValue("ID")));
+			defaultMap = Map.getMapByID(Integer.parseInt(document.getRootElement().getChild("defaultMap").getAttributeValue("ID")));
 		} catch (JDOMException e) {
 			throw new InitializationException("Initialization of default values failed.", e);
 		} catch (IOException e) {
