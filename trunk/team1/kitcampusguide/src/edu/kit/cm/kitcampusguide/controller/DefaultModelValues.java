@@ -2,13 +2,21 @@ package edu.kit.cm.kitcampusguide.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
+import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
-import edu.kit.cm.kitcampusguide.standardtypes.*;
+import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
+import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
+import edu.kit.cm.kitcampusguide.standardtypes.Building;
+import edu.kit.cm.kitcampusguide.standardtypes.InitializationException;
+import edu.kit.cm.kitcampusguide.standardtypes.Map;
+import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
+import edu.kit.cm.kitcampusguide.standardtypes.POI;
+import edu.kit.cm.kitcampusguide.standardtypes.Route;
 
 /**
  * Initializes and manages the default values.
@@ -51,4 +59,51 @@ public class DefaultModelValues {
 	public Map getDefaultMap() {
 		return defaultMap;
 	}
+	
+	// TODO: Comments!
+	public MapLocator getDefaultMapLocator() {
+		return new MapLocator(getDefaultMap().getBoundingBox());
+	}
+	
+	public Collection<POI> getDefaultPOIs() {
+		// TODO: Apply map and category filter
+		return POISourceImpl.getInstance().getPOIsBySection(getDefaultMapLocator().getMapSection(), null, null);
+	}
+	
+	public POI getDefaultHighlightedPOI() {
+		return null;
+	}
+	
+	public Building getDefaultBuilding() {
+		return null;
+	}
+	
+	public String getDefaultHighlightedPOIID() {
+		return null;
+	}
+	
+	public MapPosition getDefaultMarkerTo() {
+		return null;
+	}
+	
+	public MapPosition getDefaultMarkerFrom() {
+		return null;
+	}
+	
+	public Route getDefaultRoute() {
+		return null;
+	}
+	
+	public POI getDefaultBuildingPOI() {
+		return null;
+	}
+	
+	public List<POI> getDefaultBuildingPOIList() {
+		return null;
+	}
+	
+	public Integer getDefaultCurrentFloorIndex() {
+		return null;
+	}
+	
 }
