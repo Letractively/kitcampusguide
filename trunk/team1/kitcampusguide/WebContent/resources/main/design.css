@@ -17,11 +17,6 @@
 	margin: 0 auto;
 }
 
-#kitcampus {
-	width: 560px;
-	height: 400px;
-}
-
 #bar {
 	width: 560px;
 	background-color: #CCFFCC;
@@ -42,7 +37,7 @@
 }
 
 #navigation {
-	width: 120px;
+	width: 112px;
 	text-align: right;
 }
 
