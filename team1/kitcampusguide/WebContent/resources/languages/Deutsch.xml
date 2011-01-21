@@ -3,7 +3,7 @@
 	<entry key="routeFrom">Suche/Route von: </entry>
 	<entry key="routeTo">Route nach: </entry>
 	<entry key="search">Suche</entry>
-	<entry key="calculateRoute">Route berechnen</entry>
+	<entry key="calculateRoute">Route</entry>
 	<entry key="filter">Filter</entry>
 	<entry key="changeLanguage">Sprache wechseln</entry>
 </language>
