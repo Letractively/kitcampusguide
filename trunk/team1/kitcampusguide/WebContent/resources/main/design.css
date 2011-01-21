@@ -1,7 +1,6 @@
 @CHARSET "ISO-8859-1";
 
-<
-html> <head><!--body {
+<html> <head><!--body {
 	font: 100% Verdana, Arial, Helvetica, sans-serif;
 	color: black;
 	background-color: white;
@@ -20,19 +19,30 @@ html> <head><!--body {
 
 #kitcampus {
 	width: 560px;
-	background-image: url(img.jpg);
+	height: 400px;
 }
 
 #bar {
 	width: 560px;
-	height: 104px;
 	background-color: #CCFFCC;
 	border-color: green;
 	border-width: 2px;
 	border-style: solid;
 }
+#logo {
+	width: 100px;
+	padding-top: 0px;
+	padding-left: 0px;
+	padding-bottom: 0px;
+}
+
+#input {
+	width: 340px;
+	vertical-align: centre;
+}
 
 #navigation {
+	width: 120px;
 	text-align: right;
 }
 
