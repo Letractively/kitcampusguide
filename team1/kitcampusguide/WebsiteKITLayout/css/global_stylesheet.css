@@ -1741,9 +1741,9 @@ font-weight:700 !important;
 }
 .text table td {
 /*    border-bottom:1px #b3b3b3 solid; */
-    border-color: #b3b3b3;
-    padding:4px 0 4px 5px;
-    vertical-align:top;
+/*    border-color: #b3b3b3;*/
+/*	  padding:4px 0 4px 5px;*/
+/*    vertical-align: top;*/
 }
 p {
     margin-bottom: 0.5em;

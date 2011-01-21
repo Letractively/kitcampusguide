@@ -5,8 +5,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:map="http://java.sun.com/jsf/composite/mapcomponent"
 	xmlns:c="http://java.sun.com/jsf/core"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:tr="http://myurl.de">
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:tr="http://myurl.de">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>KITCampusGuide</title>
@@ -15,13 +14,12 @@
 </h:head>
 <h:body>
 	<map:mapcomponent map="#{mapModel.map}" POIs="#{mapModel.POIs}"
-		building="#{mapModel.building}" 
-		mapLocator="#{mapModel.mapLocator}"
+		building="#{mapModel.building}" mapLocator="#{mapModel.mapLocator}"
 		highlightedPOIID="#{mapModel.highlightedPOIID}"
 		markerFrom="#{mapModel.markerFrom}" markerTo="#{mapModel.markerTo}"
 		route="#{mapModel.route}" buildingPOI="#{mapModel.buildingPOI}"
 		buildingPOIList="#{mapModel.buildingPOIList}"
-		changedProperties="#{mapModel.changedProperties}" >
+		changedProperties="#{mapModel.changedProperties}">
 		<c:valueChangeListener for="valueChangeListener"
 			type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapEventsListener" />
 		<!--  TODO: Add appropriate action listeners -->
@@ -29,46 +27,62 @@
 	<h:panelGroup id="bar" layout="block" library="main">
 		<h:panelGrid columns="3">
 			<h:panelGroup id="kitlogo" layout="block">
-				<h:graphicImage name="logo1.jpg" library="main" alt="KITLogo" width="100" height="75"/>
+				<h:graphicImage name="logo1.jpg" library="main" alt="KITLogo"
+					width="100" height="75" />
 			</h:panelGroup>
 			<h:panelGroup id="input" layout="block">
 				<h:form id="inputForm">
 					<h:panelGrid columns="3">
-						<h:outputText id="routeFromLabel" for="routeFromField" value="#{tr:translate('routeFrom')}" />
-						<h:inputText id="routeFromField" value="#{inputModel.routeFromField}" 
-						valueChangeListener="#{inputListener.setSearchButtonLabel}" >
-							<f:ajax execute="inputForm:routeFromField inputForm:routeToField" 
-							render="inputForm:searchButton" event="keyup"/>
+						<h:outputText id="routeFromLabel" for="routeFromField"
+							value="#{tr:translate('routeFrom')}" />
+						<h:inputText id="routeFromField"
+							value="#{inputModel.routeFromField}"
+							valueChangeListener="#{inputListener.setSearchButtonLabel}">
+							<f:ajax execute="inputForm:routeFromField inputForm:routeToField"
+								render="inputForm:searchButton" event="keyup" />
 						</h:inputText>
-						<h:commandButton id="searchButton" value="#{tr:translate(inputListener.searchButtonLabel)}" actionListener="#{inputListener.searchButtonPressed}" />
-						<h:outputText id="routeToLabel" for="routeToField" value="#{tr:translate('routeTo')}" />
-						<h:inputText id="routeToField" value="#{inputModel.routeToField}" 
-						valueChangeListener="#{inputListener.setSearchButtonLabel}" >
-							<f:ajax execute="inputForm:routeFromField inputForm:routeToField" 
-							render="inputForm:searchButton" event="keyup"/>
+						<h:commandButton id="searchButton"
+							value="#{tr:translate(inputListener.searchButtonLabel)}"
+							actionListener="#{inputListener.searchButtonPressed}" />
+						<h:outputText id="routeToLabel" for="routeToField"
+							value="#{tr:translate('routeTo')}" />
+						<h:inputText id="routeToField" value="#{inputModel.routeToField}"
+							valueChangeListener="#{inputListener.setSearchButtonLabel}">
+							<f:ajax execute="inputForm:routeFromField inputForm:routeToField"
+								render="inputForm:searchButton" event="keyup" />
 						</h:inputText>
+						<h:panelGroup />
 					</h:panelGrid>
 				</h:form>
 			</h:panelGroup>
 			<h:panelGroup id="navigation" layout="block">
 				<h:form id="navigationForm">
 					<h:panelGrid columns="1">
-						<h:commandLink id="filterLink" value="#{tr:translate('filter')}" actionListener="#{inputListener.filterLinkPressed}"/>
-						<h:commandLink id="changeLanguageLink" value="#{tr:translate('changeLanguage')}" actionListener="#{inputListener.languageChangeLinkPressed}"/>					
+						<h:commandLink id="filterLink" value="#{tr:translate('filter')}"
+							actionListener="#{inputListener.filterLinkPressed}" />
+						<h:commandLink id="changeLanguageLink"
+							value="#{tr:translate('changeLanguage')}"
+							actionListener="#{inputListener.languageChangeLinkPressed}" />
 						<h:panelGroup>
-							<h:commandLink actionListener="#{inputListener.changeLanguageToEnglish}" >
-								<h:graphicImage name="eng.jpg" library="main" alt="English" width="20" />
-								<f:ajax render= "inputForm:routeFromLabel inputForm:searchButton 
-								inputForm:routeToLabel navigationForm:filterLink navigationForm:changeLanguageLink"/>
+							<h:commandLink
+								actionListener="#{inputListener.changeLanguageToEnglish}">
+								<h:graphicImage name="eng.jpg" library="main" alt="English"
+									width="20" />
+								<f:ajax
+									render="inputForm:routeFromLabel inputForm:searchButton 
+								inputForm:routeToLabel navigationForm:filterLink navigationForm:changeLanguageLink" />
 							</h:commandLink>
 							<h:outputText value=" : " />
-							<h:commandLink actionListener="#{inputListener.changeLanguageToGerman}" >
-								<h:graphicImage name="ger.jpg" library="main" alt="German" width="20" />
-								<f:ajax render= "inputForm:routeFromLabel inputForm:searchButton 
-								inputForm:routeToLabel navigationForm:filterLink navigationForm:changeLanguageLink"/>
+							<h:commandLink
+								actionListener="#{inputListener.changeLanguageToGerman}">
+								<h:graphicImage name="ger.jpg" library="main" alt="German"
+									width="20" />
+								<f:ajax
+									render="inputForm:routeFromLabel inputForm:searchButton 
+								inputForm:routeToLabel navigationForm:filterLink navigationForm:changeLanguageLink" />
 							</h:commandLink>
 						</h:panelGroup>
-					</h:panelGrid>	
+					</h:panelGrid>
 				</h:form>
 			</h:panelGroup>
 		</h:panelGrid>
