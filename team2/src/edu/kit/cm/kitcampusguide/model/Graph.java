@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -89,6 +90,23 @@ public class Graph {
 	}
 	
 	/**
+	 * Returns the index of the specified Point if it is contained in this Graph, -1 otherwise.
+	 * 
+	 * @param node the Point to search for
+	 * @return the index of the specified Point if it is contained in this Graph, -1 otherwise
+	 */
+	// TODO zum Entwurf hinzufügen
+	public int getNodeIndex(Point node) {
+		int index = -1;
+		for (int i = 0; i < this.numberOfNodes() && index == -1; i++) {
+			if (this.points.get(i).equals(node)) {
+				index = i;
+			}
+		}
+		return index;
+	}
+	
+	/**
 	 * Adds a new edge to the Graph. The edge connects the node with index from with
 	 * node with index to and has the weight length.
 	 * 
@@ -120,11 +138,26 @@ public class Graph {
 	 * @param index the index of the searched edge
 	 * @return the length of the Edge identified by the specified index
 	 */
-	public double getEdge(int index) {
+	// TODO Entwurf
+	public double getEdgeLength(int index) {
 		if (index < 0 || index >= this.points.size()) {
 			throw new IndexOutOfBoundsException("index has to be in range of 0 to number of edges - 1");
 		}
 		return this.length.get(index);
+	}
+	
+	/**
+	 * Returns the endnode of the Edge identified by the specified index.
+	 * 
+	 * @param index the index of the searched edge
+	 * @return the endnode of the Edge identified by the specified index
+	 */
+	// TODO Entwurf
+	public int getEdgeNode(int index) {
+		if (index < 0 || index >= this.points.size()) {
+			throw new IndexOutOfBoundsException("index has to be in range of 0 to number of edges - 1");
+		}
+		return this.edges.get(index);
 	}
 	
 	/**
@@ -147,6 +180,17 @@ public class Graph {
 			}
 		}
 		return Double.NaN;
+	}
+	
+	/**
+	 * Returns an Iterable containing all edges that can be reached from the specified node. 
+	 * 
+	 * @param index 
+	 * @return an Iterable containing all edges that can be reached from the specified node
+	 */
+	// TODO im Entwurf ergänzen
+	public Iterable<Integer> getEdges(int index) {
+		return new EdgeIterator(this.nodes.get(index + 1), this.nodes.get(index) - 1);
 	}
 	
 	/**
@@ -204,6 +248,50 @@ public class Graph {
 		Assert.assertTrue(testGraph.getEdge(0, 3) == 5);
 		Assert.assertTrue(testGraph.getEdge(1, 3) == 6);
 		Assert.assertTrue(testGraph.getEdge(3, 2) == 7);
+	}
+	
+	/*
+	 * A private helper class, to support easy iteration over all edges of one node.
+	 */
+	private class EdgeIterator implements Iterator<Integer>, Iterable<Integer> {
+
+		/*
+		 * Holds the edge that is currently viewed by the Iterator
+		 */
+		int active;
+		
+		/*
+		 * Holds the last edge that can be viewed by this Iterator
+		 */
+		int last;
+		
+		/*
+		 * Creates a new EdgeIterator that iterates over all edges between from and to.
+		 */
+		private EdgeIterator(int from, int to) {
+			this.active = from - 1;
+			this.last = to;
+		}
+		
+		@Override
+		public Iterator<Integer> iterator() {
+			return this;
+		}
+
+		@Override
+		public boolean hasNext() {
+			return this.active < this.last;
+		}
+
+		@Override
+		public Integer next() {
+			return (++this.active);
+		}
+
+		@Override
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
 		
 	}
 
