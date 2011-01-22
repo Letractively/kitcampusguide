@@ -90,6 +90,20 @@ public class Graph {
 	}
 	
 	/**
+	 * Returns the degree of the node with the specified index.
+	 * 
+	 * @param index the index of the searched Point
+	 * @return the degree of the node with the specified index
+	 */
+	// TODO zum Entwurf hinzufügen
+	public int getNodeDegree(int index) {
+		if (index < 0 || index >= this.points.size()) {
+			throw new IndexOutOfBoundsException("index has to be in range of 0 to .numberOfNodes() - 1");
+		}
+		return (this.nodes.get(index + 1) - this.nodes.get(index));
+	}
+	
+	/**
 	 * Returns the index of the specified Point if it is contained in this Graph, -1 otherwise.
 	 * 
 	 * @param node the Point to search for
@@ -133,14 +147,28 @@ public class Graph {
 	}
 	
 	/**
+	 * Changes the length of the specified edge to the specified length value, if the edge exists.
+	 * 
+	 * @param index the edge to change
+	 * @param length the new length of the edge
+	 */
+	// TODO zum entwurf hinzufügen
+	public void setEdge(int index, double length) {
+		if (index < 0 || index >= this.length.size()) {
+			throw new IndexOutOfBoundsException("index has to be in range of 0 to number of edges - 1");
+		}
+		this.length.set(index, length);
+	}
+	
+	/**
 	 * Returns the length of the Edge identified by the specified index.
 	 * 
 	 * @param index the index of the searched edge
 	 * @return the length of the Edge identified by the specified index
 	 */
-	// TODO Entwurf
+	// TODO zum entwurf hinzufügen
 	public double getEdgeLength(int index) {
-		if (index < 0 || index >= this.points.size()) {
+		if (index < 0 || index >= this.length.size()) {
 			throw new IndexOutOfBoundsException("index has to be in range of 0 to number of edges - 1");
 		}
 		return this.length.get(index);
@@ -154,7 +182,7 @@ public class Graph {
 	 */
 	// TODO Entwurf
 	public int getEdgeNode(int index) {
-		if (index < 0 || index >= this.points.size()) {
+		if (index < 0 || index >= this.edges.size()) {
 			throw new IndexOutOfBoundsException("index has to be in range of 0 to number of edges - 1");
 		}
 		return this.edges.get(index);
@@ -203,7 +231,7 @@ public class Graph {
 		if (index < 0 || index >= this.points.size()) {
 			throw new IndexOutOfBoundsException("index has to be in range of 0 to .numberOfNodes() - 1");
 		}
-		int[] neighbours = new int[this.nodes.get(index) - this.nodes.get(index - 1)];
+		int[] neighbours = new int[this.nodes.get(index + 1) - this.nodes.get(index)];
 		int offset = this.nodes.get(index);
 		for (int i = offset; i < this.nodes.get(index + 1); i++) {
 			neighbours[i - offset] = this.edges.get(i);
