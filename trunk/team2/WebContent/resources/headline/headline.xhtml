@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+ 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+  	xmlns:cc="http://java.sun.com/jsf/composite">
+<head><title>headLine</title></head><body>
+<cc:interface>
+  <cc:attribute name="styleClass"
+      required="false" default="box"/>
+  <cc:attribute name="style" required="false"/>
+  <cc:attribute name="headerClass"
+      required="false" default="box-header"/>
+  <cc:facet name="header" required="false"/>
+  <cc:attribute name="model" required="true"/>
+</cc:interface>
+<cc:implementation>
+<h:form>
+	<h:inputText id="search-field" value="#{cc.attrs.model.search}" />
+	<h:commandButton id="search-button" value="Suche"/>
+</h:form>
+</cc:implementation>
+</body></html>
