@@ -95,6 +95,22 @@ KITCampusMap.prototype.applyChanges = function() {
 		this.setMarkerTo();
 	}
 
+	if (changed['highlightedPOIID']) {
+		var highlightedPOI = this.getFormElement("highlightedPOIID").value;
+		console.debug(highlightedPOI);
+		if (highlightedPOI == " ") {
+			if (this.highlightedMarker) {
+				this.highlightedMarker.setUrl("resources/mapcomponent/openlayers/img/marker.png");
+				this.lastHighlightedMarker.setUrl("resources/mapcomponent/openlayers/img/marker.png");
+			}
+		} else {
+			if (this.highlightedMarker) {
+				this.lastHighlightedMarker.setUrl("resources/mapcomponent/openlayers/img/marker.png");
+				this.highlightedMarker.setUrl("resources/mapcomponent/openlayers/img/marker-gold.png");
+			}
+		}
+	}
+
 	 if (changed['route']) {
 		if (this.getFormElement("route").firstChild) {
 			this.model.route = JSON
@@ -259,41 +275,48 @@ KITCampusMap.prototype.setPOIs = function() {
  * 
  */
 KITCampusMap.prototype.createPOIMarker = function(poi) {
+    
+    var feature = new OpenLayers.Feature(this.poiMarkerLayer, this.transformWorldPosition(poi.position)); 
+    feature.popupClass = OpenLayers.Class(OpenLayers.Popup.AnchoredBubble, {
+        'autoSize': true
+    });
+    feature.data.popupContentHTML = poi.description + " und name:" + poi.name;
+    feature.data.overflow = "auto";
+            
+    var marker = feature.createMarker();
+    var markerClick = function (evt) {
+    	
+    	var input = this.getFormElement("highlightedPOIID");
+    	input.value = JSON.stringify(poi.id);
+    	this.requestUpdate(input.id);
+    	
+    	if(!this.highlightedMarker) {
+    		this.highlightedMarker = marker;
+    		this.lastHighlightedMarker = marker;
+    	} else {
+    		this.lastHighlightedMarker = this.highlightedMarker;
+    		this.highlightedMarker = marker;
+    	}
+    	
+    	if (feature.popup == null) {
+    		var closeClick = function (evt) {
+    			var input = this.getFormElement("highlightedPOIID");
+    			input.value = " ";
+    			this.requestUpdate(input.id);
+    			this.map.popups[0].hide();
+    		};
+    		feature.popup = feature.createPopup(true, closeClick, this);
+        	
+        	this.map.addPopup(feature.popup, true);
+        	feature.popup.show();
+        } else {
+        	this.map.addPopup(feature.popup, true);
+            feature.popup.show();
+        }
+        currentPopup = feature.popup;
+        OpenLayers.Event.stop(evt);
+    };
 
-	var feature = new OpenLayers.Feature(this.poiMarkerLayer, this
-			.transformWorldPosition(poi.position));
-	feature.popupClass = OpenLayers.Class(OpenLayers.Popup.AnchoredBubble, {
-		'autoSize' : true
-	});
-	feature.data.popupContentHTML = poi.description + " und name:" + poi.name;
-	feature.data.overflow = "auto";
-
-	var marker = feature.createMarker();
-
-	var markerClick = function(evt) {
-
-		var input = this.getFormElement("highlightedPOIID");
-		input.value = JSON.stringify(poi.id);
-		this.requestUpdate(input.id);
-
-		if (feature.popup == null) {
-			var closeClick = function(evt) {
-				var input = this.getFormElement("highlightedPOIID");
-				input.value = " ";
-				this.requestUpdate(input.id);
-				this.map.popups[0].hide();
-			};
-			feature.popup = feature.createPopup(true, closeClick, this);
-
-			this.map.addPopup(feature.popup, true);
-			feature.popup.show();
-		} else {
-			this.map.addPopup(feature.popup, true);
-			feature.popup.show();
-		}
-		currentPopup = feature.popup;
-		OpenLayers.Event.stop(evt);
-	};
 
 	marker.events.register("mousedown", this, markerClick);
 	this.poiMarkerLayer.addMarker(marker);
