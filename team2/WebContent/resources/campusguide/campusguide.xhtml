@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+ 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+  	xmlns:cc="http://java.sun.com/jsf/composite"
+  	xmlns:hl="http://java.sun.com/jsf/composite/headline">
+<head><title>campusguide</title></head><body>
+<cc:interface>
+	<cc:attribute name="headline" required="true" />
+</cc:interface>
+<cc:implementation>
+
+	<script type="text/javascript" src="resources/openlayers/OpenLayers.js" />
+ 	<h:outputScript target="head" library="javax.faces" name="jsf.js" />
+	<hl:headline model="#{cc.attrs.headline}"/>
+ 	<div id="map" class="smallmap"></div> 
+    <script type="text/javascript">
+			var map = new OpenLayers.Map('map',{maxResolution: 0.703125} );
+			var wmscURL = [
+				"http://wmsc1.terrapages.net/getmap?",
+				"http://wmsc2.terrapages.net/getmap?",
+				"http://wmsc3.terrapages.net/getmap?",
+				"http://wmsc4.terrapages.net/getmap?"
+			];
+			var terrapagesStreetLayer = new OpenLayers.Layer.WMS( 'TerraPages Street',wmscURL, {layers: 'UnprojectedStreet', format: 'image/jpeg' }, {buffer: 1, isBaseLayer: true} );
+			map.addLayer(terrapagesStreetLayer);
+			map.zoomToMaxExtent();		
+		</script>
+   
+</cc:implementation>
+</body></html>
