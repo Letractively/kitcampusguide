@@ -37,7 +37,7 @@ public class MapEventsListener implements ValueChangeListener {
 				} else if (id.equals("markerFrom")) {
 					getMapListener().setRouteFromByContextMenu(
 							(MapPosition) event.getNewValue());
-				} else if (id.equals("highlightedPOI")) {
+				} else if (id.equals("highlightedPOIID")) {
 					getMapListener().clickOnPOI((String) event.getNewValue());
 				}
 		}
