@@ -372,6 +372,9 @@ public class DefaultPOIDB implements POIDB {
 			newPOI.lat = set.getDouble(5);
 			newPOI.mapID = set.getInt(6);
 			newPOI.buildingID = set.getInt(7);
+			if (set.wasNull()) {
+				newPOI.buildingID = null;
+			}
 			pois.add(newPOI);
 		}
 		

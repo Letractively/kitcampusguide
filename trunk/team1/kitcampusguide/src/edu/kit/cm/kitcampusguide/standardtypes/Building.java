@@ -101,4 +101,12 @@ public class Building implements Serializable {
 		result = allBuildings.get(new Integer(id));
 		return result;
 	}
+	
+	/**
+	 * Returns the building's ground floor as a {@link Map} object.
+	 * @return the building's ground floor
+	 */
+	public Map getGroundFloor() {
+		return floors.get(groundfloorIndex);
+	}
 }

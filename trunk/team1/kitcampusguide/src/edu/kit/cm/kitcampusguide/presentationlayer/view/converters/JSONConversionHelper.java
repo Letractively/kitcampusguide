@@ -6,7 +6,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
-import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel.MapProperty;
 import edu.kit.cm.kitcampusguide.standardtypes.Building;
 import edu.kit.cm.kitcampusguide.standardtypes.Category;
@@ -64,7 +63,10 @@ public class JSONConversionHelper {
 		result.put("map", convertMap(p.getMap()));
 		result.put("categories", categories);
 		result.put("position", convertWorldPosition(p.getPosition()));
-		result.put("building", null); // TODO
+		if (p.getBuilding() != null) {
+			result.put("buildingMapID", p.getBuilding().getGroundFloor().getID());
+			result.put("buildingID",p.getBuilding().getID());
+		}
 		return result;
 	}
 
@@ -125,7 +127,7 @@ public class JSONConversionHelper {
 			floors.add(convertMap(m));
 		}
 		obj.put("floors", floors);
-		obj.put("buildingPOI", building.getBuildingPOI());
+		obj.put("buildingPOI", convertPOI(building.getBuildingPOI()));
 		obj.put("id", building.getID());
 		return obj;
 	}

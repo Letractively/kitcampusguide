@@ -102,7 +102,7 @@ public class POI implements Serializable {
 	 * @return The {@link Building building} the POI represents or <code>null</code> if the POI doesn't represent any.
 	 */
 	public Building getBuilding() {
-		return Building.getBuildingByID(buildingID);
+		return (buildingID == null) ? null : Building.getBuildingByID(buildingID);
 	}
 	
 	/**
