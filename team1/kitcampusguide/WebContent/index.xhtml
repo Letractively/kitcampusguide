@@ -5,7 +5,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:map="http://java.sun.com/jsf/composite/mapcomponent"
 	xmlns:c="http://java.sun.com/jsf/core"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:tr="http://myurl.de">
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:tr="http://myurl.de">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>KITCampusGuide</title>
@@ -24,131 +25,102 @@
 			type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapEventsListener" />
 		<!--  TODO: Add appropriate action listeners -->
 	</map:mapcomponent>
+	
 	<h:panelGroup id="bar" layout="block" library="main">
-		<h:panelGrid columns="3">
+		<h:form id="form">
+			<h:panelGrid columns="4">
+		
+				<h:panelGroup id="kitlogo" layout="block">
+					<h:graphicImage name="logo_KITCampusGuide.jpg" library="main" alt="KITLogo" />
+				</h:panelGroup>				
+			
+				<h:panelGroup id="input" layout="block" style="width:30%">
+					<h:panelGrid columns="2" >
+						
+						<h:panelGroup layout="block">					
+							<h:outputText id="routeFromLabel" for="routeFromField" value="#{tr:translate('routeFrom')}" />
+							
+							<h:inputText id="routeFromField" value="#{inputModel.routeFromField}"
+								valueChangeListener="#{inputListener.setSearchButtonLabel}" 
+								rendered="#{not inputModel.routeFromProposalListIsVisible}" >								
+								<f:ajax execute="form:routeFromField form:routeToField"
+								render="form:searchButton" event="keyup" />
+							</h:inputText>							
 
-			<h:panelGroup id="kitlogo" layout="block">
-				<h:graphicImage name="logo_KITCampusGuide.jpg" library="main"
-					alt="KITLogo" />
-			</h:panelGroup>
-
-			<h:panelGroup id="input" layout="block" style="width:30%">
-				<h:form id="inputForm">
-					<h:panelGrid columns="2">
-
-						<h:panelGroup layout="block">
-							<h:outputText id="routeFromLabel" for="routeFromField"
-								value="#{tr:translate('routeFrom')}" />
-
-							<h:inputText id="routeFromField"
-								value="#{inputModel.routeFromField}"
-								valueChangeListener="#{inputListener.setSearchButtonLabel}"
-								rendered="#{not inputListener.routeFromProposalListIsVisible}">
-								<f:ajax
-									execute="inputForm:routeFromField inputForm:routeToField"
-									render="searchButtonForm:searchButton" event="keyup" />
-							</h:inputText>
-
-							<h:selectOneMenu id="routeFromProposalList"
-								rendered="#{inputListener.routeFromProposalListIsVisible}"
-								valueChangeListener="#{inputListener.updateRouteFromField}"
-								event="onselect">
-								<f:ajax execute="inputForm:routeFromProposalList"
-									render="inputForm:routeFromProposalList" event="select" />
+							<h:selectOneMenu id="routeFromProposalList" rendered="#{inputModel.routeFromProposalListIsVisible}" 
+								value="#{inputModel.routeFromSelection}" >
 								<f:selectItems value="#{inputModel.routeFromProposalList}" />
-							</h:selectOneMenu>
-							<br />
-							<h:commandLink id="resetRouteFromProposalList"
-								value="#{tr:translate('reset')}"
-								actionListener="#{inputListener.resetRouteFromProposalList}"
-								rendered="#{inputListener.routeFromProposalListIsVisible}" />
-							<br />
-							<h:outputText id="routeFromInformation"
-								value="#{inputListener.routeFromInformation}"
-								rendered="#{inputListener.routeFromInformationIsVisible}" />
+							</h:selectOneMenu>						
+							<br />											
+							<h:commandLink id="resetRouteFromProposalList" value="#{tr:translate('reset')}" 
+							actionListener="#{inputListener.resetRouteFromProposalList}" 
+							rendered="#{inputModel.routeFromProposalListIsVisible}" />						
+							<br />						
+							<h:outputText id="routeFromInformation" value="#{tr:translate('test')}" 
+							rendered="#{inputModel.routeFromInformationIsVisible}" />	
+							<h:outputText id="test" value="#{tr:translate('test')}" rendered="#{inputModel.routeFromInformationIsVisible}" />													
+					
 						</h:panelGroup>
-
-						<h:panelGroup id="searchButton" layout="block" style="width:25%">
-							<h:form id="searchButtonForm">
-								<h:commandButton id="searchButton"
-									value="#{tr:translate(inputListener.searchButtonLabel)}"
-									actionListener="#{inputListener.searchButtonPressed}" />
-							</h:form>
+						
+						<h:panelGroup id="button" layout="block" style="width:25%">
+							<h:commandButton id="searchButton"
+								value="#{tr:translate(inputModel.searchButtonLabel)}"
+								actionListener="#{inputListener.searchButtonPressed}" />
 						</h:panelGroup>
-
-						<h:panelGroup layout="block">
-							<h:outputText id="routeToLabel" for="routeToField"
-								value="#{tr:translate('routeTo')}" />
-
+						
+						<h:panelGroup layout="block">							
+							<h:outputText id="routeToLabel" for="routeToField" value="#{tr:translate('routeTo')}" />
+							
 							<h:inputText id="routeToField" value="#{inputModel.routeToField}"
-								valueChangeListener="#{inputListener.setSearchButtonLabel}"
-								rendered="#{not inputListener.routeToProposalListIsVisible}">
-								<f:ajax
-									execute="inputForm:routeFromField inputForm:routeToField"
-									render="searchButtonForm:searchButton" event="keyup" />
-							</h:inputText>
-
-							<h:selectOneMenu id="routeToProposalList"
-								rendered="#{inputListener.routeToProposalListIsVisible}">
+								valueChangeListener="#{inputListener.setSearchButtonLabel}" 
+								rendered="#{not inputModel.routeToProposalListIsVisible}" >
+								<f:ajax execute="form:routeFromField form:routeToField"
+									render="form:searchButton" event="keyup" />
+							</h:inputText>			
+													
+							<h:selectOneMenu id="routeToProposalList" rendered="#{inputModel.routeToProposalListIsVisible}" 
+								value="#{inputModel.routeToSelection}" >
 								<f:selectItems value="#{inputModel.routeToProposalList}" />
-							</h:selectOneMenu>
-							<br />
-							<h:commandLink id="resetRouteToProposalList"
-								value="#{tr:translate('reset')}"
-								actionListener="#{inputListener.resetRouteToProposalList}"
-								rendered="#{inputListener.routeToProposalListIsVisible}" />
-							<br />
-							<h:outputText id="routeToInformation"
-								value="#{inputListener.routeToInformation}"
-								rendered="#{inputListener.routeToInformationIsVisible}" />
-						</h:panelGroup>
+							</h:selectOneMenu>						
+							<br />											
+							<h:commandLink id="resetRouteToProposalList" value="#{tr:translate('reset')}" 
+							actionListener="#{inputListener.resetRouteToProposalList}" 
+							rendered="#{inputModel.routeToProposalListIsVisible}" />						
+							<br />						
+							<h:outputText id="routeToInformation" value="#{tr:translate(inputModel.routeToInformation)}" 
+							rendered="#{inputModel.routeToInformationIsVisible}" />					
+						</h:panelGroup>						
 						
-						<h:panelGroup />
-						
-					</h:panelGrid>
-				</h:form>
-			</h:panelGroup>
-
-			<h:panelGroup id="navigation" layout="block">
-				<h:form id="navigationForm">
+					</h:panelGrid>		
+				</h:panelGroup>						
+			
+				<h:panelGroup id="navigation" layout="block">
 					<h:panelGrid columns="1">
-						<h:commandLink id="filterLink" value="#{tr:translate('filter')}"
-							actionListener="#{inputListener.filterLinkPressed}" />
-						<h:commandLink id="changeLanguageLink"
-							value="#{tr:translate('changeLanguage')}"
-							actionListener="#{inputListener.languageChangeLinkPressed}" />
+						<h:commandLink id="filterLink" value="#{tr:translate('filter')}" />
+<!--							actionListener="#{inputListener.filterLinkPressed}" -->
+						<h:commandLink id="changeLanguageLink" value="#{tr:translate('changeLanguage')}" />
+<!--							actionListener="#{inputListener.languageChangeLinkPressed}" -->
 						<h:panelGroup>
-							<h:commandLink
-								actionListener="#{inputListener.changeLanguageToEnglish}">
-								<h:graphicImage name="eng.jpg" library="main" alt="English"
-									width="20" />
-								<f:ajax
-									render="inputForm:routeFromLabel searchButtonForm:searchButton 
-								inputForm:routeToLabel navigationForm:filterLink navigationForm:changeLanguageLink" />
+							<h:commandLink actionListener="#{inputListener.changeLanguageToEnglish}" >
+								<h:graphicImage name="eng.jpg" library="main" alt="English" width="20" />
+								<f:ajax render="form:routeFromLabel form:resetRouteFromProposalList  
+								form:routeToLabel form:resetRouteToProposalList form:searchButton
+								form:filterLink form:changeLanguageLink
+								form:test  form:routeFromInformation form:routeToInformation " />
 							</h:commandLink>
 							<h:outputText value=" : " />
-							<h:commandLink
-								actionListener="#{inputListener.changeLanguageToGerman}">
-								<h:graphicImage name="ger.jpg" library="main" alt="German"
-									width="20" />
-								<f:ajax
-									render="inputForm:routeFromLabel searchButtonForm:searchButton 
-								inputForm:routeToLabel navigationForm:filterLink navigationForm:changeLanguageLink" />
+							<h:commandLink actionListener="#{inputListener.changeLanguageToGerman}" >
+								<h:graphicImage name="ger.jpg" library="main" alt="German" width="20" />
+								<f:ajax render="form:routeFromLabel form:resetRouteFromProposalList  
+								form:routeToLabel form:resetRouteToProposalList   
+								form:filterLink form:changeLanguageLink form:searchButton
+								form:test  form:routeFromInformation form:routeToInformation" />
 							</h:commandLink>
 						</h:panelGroup>
 					</h:panelGrid>
-				</h:form>
-			</h:panelGroup>
-			
-			<h:panelGroup id="searchButton" layout="block" style="width:25%">
-				<h:form id="searchButtonForm">
-					<h:commandButton id="searchButton"
-						value="#{tr:translate(inputListener.searchButtonLabel)}"
-						actionListener="#{inputListener.searchButtonPressed}" />
-				</h:form>
-			</h:panelGroup>
-			
-		</h:panelGrid>
+				</h:panelGroup>			
+			</h:panelGrid>
+		</h:form>
 	</h:panelGroup>
 </h:body>
 </html>

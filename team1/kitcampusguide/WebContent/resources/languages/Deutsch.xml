@@ -6,4 +6,8 @@
 	<entry key="calculateRoute">Route</entry>
 	<entry key="filter">Filter</entry>
 	<entry key="changeLanguage">Sprache wechseln</entry>
+	<entry key="reset">zurücksetzen</entry>
+	<entry key ="searchFailed">Keine passenden Suchergebnisse.</entry>
+	<entry key="choose">Bitte wählen Sie.</entry>
+	<entry key="test">Deutsch</entry>
 </language>

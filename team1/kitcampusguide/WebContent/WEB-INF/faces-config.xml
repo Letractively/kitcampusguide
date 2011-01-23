@@ -130,6 +130,21 @@
 		<managed-bean-class>edu.kit.cm.kitcampusguide.controller.DefaultModelValues</managed-bean-class>
 		<managed-bean-scope>application</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>inputListener</managed-bean-name>
+		<managed-bean-class>edu.kit.cm.kitcampusguide.controller.InputListenerImpl</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>inputModel</managed-bean-name>
+		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>translationModelImpl</managed-bean-name>
+		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModelImpl</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
 	<lifecycle>
 		<phase-listener>edu.kit.cm.kitcampusguide.presentationlayer.view.MapPhaseListener</phase-listener>
 	</lifecycle>
