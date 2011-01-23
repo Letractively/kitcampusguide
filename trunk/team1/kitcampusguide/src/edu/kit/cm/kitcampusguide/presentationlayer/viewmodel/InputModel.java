@@ -1,21 +1,11 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
-
-import edu.kit.cm.kitcampusguide.standardtypes.*;
-
-import javax.faces.context.FacesContext;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
-import javax.faces.component.UISelectItem;
-import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.model.SelectItem;
 
 /**
@@ -27,15 +17,23 @@ import javax.faces.model.SelectItem;
 @SessionScoped
 public class InputModel {
 	/** Content of the "Route from" field.*/
-	@ManagedProperty (value ="")
 	private String routeFromField;
 	/** Content of the "Route to" field.*/
-	@ManagedProperty (value ="")
 	private String routeToField;
 	/** The proposal list to be displayed after a search. Can be <code>null</code>.*/
 	private List<SelectItem> routeFromProposalList = new ArrayList<SelectItem>();
+	private String routeFromSelection;
+	private boolean routeFromProposalListIsVisible = false;
 	private List<SelectItem> routeToProposalList = new ArrayList<SelectItem>();
-
+	private String routeToSelection;
+	private boolean routeToProposalListIsVisible = false;
+	@ManagedProperty(value="")
+	private String routeFromInformation;
+	private boolean routeFromInformationIsVisible = false;		
+	@ManagedProperty(value="")
+	private String routeToInformation;
+	private boolean routeToInformationIsVisible = false;
+	
 	/** The export link to be displayed. Can be <code>null</code>.*/
 	private String exportLink;
 	/** The html embedding code. Can be <code>null</code>.*/
@@ -43,6 +41,25 @@ public class InputModel {
 		
 	public InputModel() {
 		
+	}
+	
+	/**
+	 * Returns the actual appropriate searchButtonLabel
+	 * @return
+	 */
+	public String getSearchButtonLabel() {
+		if (routeFromField != null) {
+			routeFromField = routeFromField.trim();
+		}	
+		if (routeToField != null) {
+			routeToField = routeToField.trim();
+		}
+		if ((routeFromProposalListIsVisible || (routeFromField != null && !routeFromField.equals(""))) 
+				&& (routeToProposalListIsVisible || (routeToField != null && !routeToField.equals("")))) {
+			return "calculateRoute";			
+		} else {
+			return "search";
+		}		
 	}
 		
 	/**
@@ -89,6 +106,23 @@ public class InputModel {
 		this.routeFromProposalList = routeFromProposalList;
 	}	
 	
+	public void setRouteFromSelection(String routeFromSelection) {
+		this.routeFromSelection = routeFromSelection;
+	}
+
+	public String getRouteFromSelection() {
+		return routeFromSelection;
+	}
+
+	public void setRouteFromProposalListIsVisible(
+			boolean routeFromProposalListIsVisible) {
+		this.routeFromProposalListIsVisible = routeFromProposalListIsVisible;
+	}
+
+	public boolean isRouteFromProposalListIsVisible() {
+		return routeFromProposalListIsVisible;
+	}
+
 	public List<SelectItem> getRouteToProposalList() {
 		return routeToProposalList;
 	}
@@ -97,21 +131,54 @@ public class InputModel {
 		this.routeToProposalList = routeToProposalList;
 	}	
 
-	/**
-	 * Returns the proposal list.
-	 * @return The proposal list. Can be <code>null</code>.
-	 */
-	/* List<POI> getProposalList() {
-		return proposalList;
-	}*/
+	public void setRouteToSelection(String routeToSelection) {
+		this.routeToSelection = routeToSelection;
+	}
 
-	/**
-	 * Sets the content of the proposal list.
-	 * @param proposalList The content of the proposal list. Can be <code>null</code>.
-	 */
-	/*public void setProposalList(List<POI> proposalList) {
-		this.proposalList = proposalList;					
-	}*/
+	public String getRouteToSelection() {
+		return routeToSelection;
+	}
+
+	public void setRouteToProposalListIsVisible(boolean routeToProposalListIsVisible) {
+		this.routeToProposalListIsVisible = routeToProposalListIsVisible;
+	}
+
+	public boolean isRouteToProposalListIsVisible() {
+		return routeToProposalListIsVisible;
+	}
+
+	public void setRouteFromInformation(String routeFromInformation) {
+		this.routeFromInformation = routeFromInformation;
+	}
+
+	public String getRouteFromInformation() {
+		return routeFromInformation;
+	}
+
+	public void setRouteFromInformationIsVisible(
+			boolean routeFromInformationIsVisible) {
+		this.routeFromInformationIsVisible = routeFromInformationIsVisible;
+	}
+
+	public boolean isRouteFromInformationIsVisible() {
+		return routeFromInformationIsVisible;
+	}
+
+	public void setRouteToInformation(String routeToInformation) {
+		this.routeToInformation = routeToInformation;
+	}
+
+	public String getRouteToInformation() {
+		return routeToInformation;
+	}
+
+	public void setRouteToInformationIsVisible(boolean routeToInformationIsVisible) {
+		this.routeToInformationIsVisible = routeToInformationIsVisible;
+	}
+
+	public boolean isRouteToInformationIsVisible() {
+		return routeToInformationIsVisible;
+	}
 
 	/**
 	 * Returns the export link string.
