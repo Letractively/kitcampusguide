@@ -48,14 +48,17 @@ public class SidebarModel {
 	 * Creates a new sidebar which contains input fields for the route calculation.
 	 */
 	public SidebarModel() {
-		this.from = null;
-		this.to = null;
-		this.filterVisible = true;
-		this.extended = true;
-		this.categories = null;
-		this.suggestions = null;
-		this.suggestionsFrom = null;
-		this.suggestionsTo = null;
+		this.setFrom(null);
+		this.setTo(null);
+		this.setFilterVisible(true);
+		this.setExtended(true);
+		this.setCategories(null);
+		this.setSuggestions(null);
+		this.setSuggestionsFrom(null);
+		this.setSuggestionsTo(null);
+		
+//TODO hier anstatt von null richtigen error message schreiebn und attribut dann final machen
+//TODO oder so lassen aber noch einen setter hinzufügen? wenn so,dann auch im Entwurf ändern.
 		this.errorMessage = null;
 	}
 	
