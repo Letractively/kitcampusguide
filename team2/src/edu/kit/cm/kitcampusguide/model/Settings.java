@@ -128,6 +128,7 @@ public class Settings {
 		this.language = language;
 	}
 
+	// TODO im Entwurf hinzufüden
 	/**
 	 * Returns the width of the map.
 	 * 
@@ -137,6 +138,7 @@ public class Settings {
 		return this.width;
 	}
 	
+	// TODO im Entwurf hinzufüden
 	/**
 	 * Returns the height of the map.
 	 * 
