@@ -6,7 +6,8 @@
   	xmlns:cc="http://java.sun.com/jsf/composite"
   	xmlns:hl="http://java.sun.com/jsf/composite/headline"
   	xmlns:ma="http://java.sun.com/jsf/composite/maparea"
-  	xmlns:sb="http://java.sun.com/jsf/composite/sidebar">
+  	xmlns:sb="http://java.sun.com/jsf/composite/sidebar"
+  	xmlns:t="http://myfaces.apache.org/tomahawk">
 <head><title>campusguide</title></head><body>
 <cc:interface>
 	<cc:attribute name="headline" required="true" />
@@ -17,8 +18,22 @@
 	<script type="text/javascript" src="resources/openlayers/OpenLayers.js" />
  	<h:outputScript target="head" library="javax.faces" name="jsf.js" />
  	<h:outputStylesheet taget="head" library="campusguide" name="campusguide.css"/>
-	<hl:headline model="#{cc.attrs.headline}"/>
- 	<ma:maparea />
+	<table cellspacing="0" cellpadding="0" class="tabelle1" style="table-layout:fixed">
+					
+		<tbody>
+			<tr>
+				<hl:headline model="#{cc.attrs.headline}"/>
+			</tr>
+			<tr>
+				<td>
+				 	<ma:maparea />
+				</td>
+				<td>
+					<sb:sidebar model="#{cc.attrs.sidebar}"/>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 
    
 </cc:implementation>
