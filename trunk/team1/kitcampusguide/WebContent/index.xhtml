@@ -103,18 +103,10 @@
 						<h:panelGroup>
 							<h:commandLink actionListener="#{inputListener.changeLanguageToEnglish}" >
 								<h:graphicImage name="eng.jpg" library="main" alt="English" width="20" />
-								<f:ajax render="form:routeFromLabel form:resetRouteFromProposalList  
-								form:routeToLabel form:resetRouteToProposalList form:searchButton
-								form:filterLink form:changeLanguageLink
-								form:test  form:routeFromInformation form:routeToInformation " />
 							</h:commandLink>
 							<h:outputText value=" : " />
 							<h:commandLink actionListener="#{inputListener.changeLanguageToGerman}" >
 								<h:graphicImage name="ger.jpg" library="main" alt="German" width="20" />
-								<f:ajax render="form:routeFromLabel form:resetRouteFromProposalList  
-								form:routeToLabel form:resetRouteToProposalList   
-								form:filterLink form:changeLanguageLink form:searchButton
-								form:test  form:routeFromInformation form:routeToInformation" />
 							</h:commandLink>
 						</h:panelGroup>
 					</h:panelGrid>
