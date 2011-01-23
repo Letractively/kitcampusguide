@@ -29,12 +29,13 @@ public class POICategory {
 	 * @param description a short description of the category.
 	 * @param visible determines if the category must be shown on the map.
 	 */
-	public POICategory(String name, String icon, int id, String description, boolean visible) {
+	public POICategory(String name, int id, String icon, String description) {
 		this.name = name;
-		this.icon = icon;
 		this.id = id;
+		this.icon = icon;
 		this.description = description;
-		this.categoryPOI = new ArrayList<POI>(null);		
+		this.categoryPOI = new ArrayList<POI>(null);
+		this.visible = false;
 	}
 	
 	/**
