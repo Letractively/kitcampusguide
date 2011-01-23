@@ -78,10 +78,6 @@ public class DefaultModelValues {
 		return null;
 	}
 	
-	public String getDefaultHighlightedPOIID() {
-		return null;
-	}
-	
 	public MapPosition getDefaultMarkerTo() {
 		return null;
 	}

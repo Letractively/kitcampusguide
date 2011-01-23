@@ -83,9 +83,25 @@ KITCampusMap.prototype.applyChanges = function() {
 				.parse(this.getFormElement("mapLocator").value);
 		this.setMapLocator();
 	}
+	
+	if (changed['highlightedPOI']) {
+		if (this.getFormElement("highlightedPOI").firstChild) {
+			this.model.highlightedPOI = JSON.parse(this
+					.getFormElement("highlightedPOI").firstChild.data);
+		} else {
+			this.model.highlightedPOI = null;
+		}
+		this.setHighlightedPOI();
+	}
+	
 	if (changed['POIs']) {
 		this.model.pois = JSON
 				.parse(this.getFormElement("POIs").firstChild.data);
+	}
+	
+	// The POIs must be updated if the highlighted POI changes hence the old 
+	// marker needs to be deleted
+	if (changed['POIs'] || changed['highlightedPOI']) {
 		this.setPOIs();
 	}
 
@@ -95,21 +111,6 @@ KITCampusMap.prototype.applyChanges = function() {
 		this.setMarkerTo();
 	}
 
-	if (changed['highlightedPOIID']) {
-		var highlightedPOI = this.getFormElement("highlightedPOIID").value;
-		console.debug(highlightedPOI);
-		if (highlightedPOI == " ") {
-			if (this.highlightedMarker) {
-				this.highlightedMarker.setUrl("resources/mapcomponent/openlayers/img/marker.png");
-				this.lastHighlightedMarker.setUrl("resources/mapcomponent/openlayers/img/marker.png");
-			}
-		} else {
-			if (this.highlightedMarker) {
-				this.lastHighlightedMarker.setUrl("resources/mapcomponent/openlayers/img/marker.png");
-				this.highlightedMarker.setUrl("resources/mapcomponent/openlayers/img/marker-gold.png");
-			}
-		}
-	}
 
 	 if (changed['route']) {
 		if (this.getFormElement("route").firstChild) {
@@ -208,7 +209,7 @@ KITCampusMap.prototype.requestUpdate = function(executeIds) {
 		render : id + ":POIs " + id + ":mapLocator " + id + ":map " + id
 				+ ":route " + id + ":changedProperties " + id + ":markerTo "
 				+ id + ":markerFrom " + id + ":buildingPOI " + id
-				+ ":buildingPOIList " + id + ":highlightedPOIID",
+				+ ":buildingPOIList " + id + ":highlightedPOI",
 		onevent : this.eventCallback
 	});
 };
@@ -230,10 +231,13 @@ KITCampusMap.prototype.setMapLocator = function() {
 			this.disableMapEvents();
 			this.map.zoomToExtent(this
 					.transformMapSection(mapLocator.mapSection));
+			if (this.map.getZoom() < this.model.map.minZoom) {
+				this.map.zoomTo(this.model.map.minZoom);
+			}
 			this.enableMapEvents();
 		}
 	} else if (mapLocator.center != null) {
-		this.map.setCenter(this.transformWorldPosition(mapLocator.center));
+		this.map.panTo(this.transformWorldPosition(mapLocator.center));
 	}
 };
 
@@ -261,8 +265,18 @@ KITCampusMap.prototype.positionEquals = function(pos1, pos2) {
 KITCampusMap.prototype.setPOIs = function() {
 	var m = this.model;
 	this.poiMarkerLayer.clearMarkers();
+	this.poiMarkers = new Array();
 	for ( var index in m.pois) {
-		this.createPOIMarker(m.pois[index]);
+		if (m.highlightedPOI == null || m.pois[index].id != m.highlightedPOI.id) {
+			var marker = this.createPOIMarker(m.pois[index]);
+			this.poiMarkerLayer.addMarker(marker);
+		}
+	}
+	if (this.highlightedMarker) {
+		console.debug("hPM set");
+		var marker = this.highlightedMarker;
+		this.poiMarkerLayer.addMarker(marker);
+		marker.setUrl("resources/mapcomponent/openlayers/img/marker-gold.png");
 	}
 };
 
@@ -274,52 +288,51 @@ KITCampusMap.prototype.setPOIs = function() {
  * @returns {OpenLayers.Marker} a marker
  * 
  */
-KITCampusMap.prototype.createPOIMarker = function(poi) {
+KITCampusMap.prototype.createPOIMarker = function(poi, higlighted) {
     
     var feature = new OpenLayers.Feature(this.poiMarkerLayer, this.transformWorldPosition(poi.position)); 
-    feature.popupClass = OpenLayers.Class(OpenLayers.Popup.AnchoredBubble, {
-        'autoSize': true
-    });
-    feature.data.popupContentHTML = poi.description + " und name:" + poi.name;
-    feature.data.overflow = "auto";
-            
     var marker = feature.createMarker();
     var markerClick = function (evt) {
-    	
-    	var input = this.getFormElement("highlightedPOIID");
-    	input.value = JSON.stringify(poi.id);
+    	var input = this.getFormElement("highlightedPOIIDListener");
+    	input.value = poi.id;
     	this.requestUpdate(input.id);
-    	
-    	if(!this.highlightedMarker) {
-    		this.highlightedMarker = marker;
-    		this.lastHighlightedMarker = marker;
-    	} else {
-    		this.lastHighlightedMarker = this.highlightedMarker;
-    		this.highlightedMarker = marker;
-    	}
-    	
-    	if (feature.popup == null) {
-    		var closeClick = function (evt) {
-    			var input = this.getFormElement("highlightedPOIID");
-    			input.value = " ";
-    			this.requestUpdate(input.id);
-    			this.map.popups[0].hide();
-    		};
-    		feature.popup = feature.createPopup(true, closeClick, this);
-        	
-        	this.map.addPopup(feature.popup, true);
-        	feature.popup.show();
-        } else {
-        	this.map.addPopup(feature.popup, true);
-            feature.popup.show();
-        }
-        currentPopup = feature.popup;
         OpenLayers.Event.stop(evt);
     };
 
-
 	marker.events.register("mousedown", this, markerClick);
-	this.poiMarkerLayer.addMarker(marker);
+	return marker;
+};
+
+KITCampusMap.prototype.getPOIContentHTML = function (poi){
+	var result = "<h3>" + escape(poi.name) + "</h3>";
+	result += "<div>" + unescape(poi.description) + "</div>";
+	
+	if (poi.buildingMapID) {
+		// TODO: Translation!
+		result += "<div><hr /><a onclick=\"KITCampusMap.maps['"
+				+ this.clientId
+				+ "'].handleSwitchToBuilding()\"><u>In Gebaeudeansicht wechseln</u></a>";
+		result += "<br /><a onclick=\"KITCampusMap.maps['"
+				+ this.clientId
+				+ "'].handleShowPOIsInBuilding()\"><u>POIs im Gebaeude anzeigen</u></a>" +
+						"</div>";
+		// TODO: This code doesn't belong here!
+		this.popupPOI = poi;
+	}
+	// TODO: This code should be somewhere else
+	return result;
+};
+
+KITCampusMap.prototype.handleSwitchToBuilding = function() {
+	var input = this.getFormElement("buildingMapIDListener");
+	input.value = this.popupPOI.buildingMapID;
+	this.requestUpdate(input.id);
+};
+
+KITCampusMap.prototype.handleShowPOIsInBuilding = function() {
+	var input = this.getFormElement("buildingIDListener");
+	input.value = this.popupPOI.buildingID;
+	this.requestUpdate(input.id);
 };
 
 /**
@@ -359,6 +372,47 @@ KITCampusMap.prototype.setMarkerTo = function() {
 	}
 };
 
+KITCampusMap.prototype.setHighlightedPOI = function() {
+	console.debug(this.model.highlightedPOI);
+	var poi = this.model.highlightedPOI;
+	if (this.highlightedMarker) {
+		this.highlightedMarker = null;
+	}
+	if (this.highlightedPOIPopup) {
+		this.highlightedPOIPopup.hide();
+		this.highlightedPOIPopup = null;
+	} 
+	if (poi != null) {
+		// Set new highlighted POI
+		var marker = this.createPOIMarker(poi, true);
+		var feature = new OpenLayers.Feature(this.poiMarkerLayer, this.transformWorldPosition(poi.position)); 
+		feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {
+			'autoSize': true
+		});
+		feature.data.popupContentHTML = this.getPOIContentHTML(poi);
+		feature.data.overflow = "auto";
+		
+		if (feature.popup == null) {
+			var closeClick = function (evt) {
+				var input = this.getFormElement("highlightedPOIIDListener");
+				input.value = "";
+				this.requestUpdate(input.id);
+				this.map.popups[0].hide();
+			};
+			feature.popup = feature.createPopup(true, closeClick, this);
+			
+			this.map.addPopup(feature.popup, true);
+			feature.popup.show();
+		} else {
+			this.map.addPopup(feature.popup, true);
+			feature.popup.show();
+		}
+		
+		this.highlightedMarker = marker;
+		this.highlightedPOIPopup = feature.popup;
+	}
+};
+
 /**
  * Creates the main map layer. It will show the current map's tileset referenced
  * by its tiles URL. Navigation will be restricted to the current map's bounding
@@ -376,6 +430,7 @@ KITCampusMap.prototype.setMapLayer = function() {
 	this.map.restrictedExtent = this
 			.transformMapSection(this.model.map.boundingBox);
 	this.map.zoomToExtent(this.map.restrictedExtent);
+	this.map.zoomTo(this.map.minZoom);
 	this.enableMapEvents();
 };
 

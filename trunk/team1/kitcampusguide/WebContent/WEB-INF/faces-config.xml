@@ -104,9 +104,9 @@
 			<value>#{defaultModelValues.defaultCurrentFloorIndex}</value>
 		</managed-property>
 		<managed-property>
-			<property-name>highlightedPOIID</property-name>
-			<property-class>java.lang.String</property-class>
-			<value>#{defaultModelValues.defaultHighlightedPOIID}</value>
+			<property-name>highlightedPOI</property-name>
+			<property-class>edu.kit.cm.kitcampusguide.standardtypes.POI</property-class>
+			<value>#{defaultModelValues.defaultHighlightedPOI}</value>
 		</managed-property>
 		<managed-property>
 			<property-name>markerFrom</property-name>

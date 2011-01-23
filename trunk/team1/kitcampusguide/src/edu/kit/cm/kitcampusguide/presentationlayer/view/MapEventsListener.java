@@ -28,6 +28,7 @@ public class MapEventsListener implements ValueChangeListener {
 			event.queue();
 		} else {
 				String id = event.getComponent().getId();
+				System.out.println("ID: " + id);
 				if (id.equals("mapLocator")) {
 					getMapListener().mapLocatorChanged(
 							(MapLocator) event.getNewValue());
@@ -37,7 +38,7 @@ public class MapEventsListener implements ValueChangeListener {
 				} else if (id.equals("markerFrom")) {
 					getMapListener().setRouteFromByContextMenu(
 							(MapPosition) event.getNewValue());
-				} else if (id.equals("highlightedPOIID")) {
+				} else if (id.equals("highlightedPOIIDListener")) {
 					getMapListener().clickOnPOI((String) event.getNewValue());
 				}
 		}
