@@ -15,9 +15,10 @@
 <cc:implementation>
 <script type="text/javascript" src="resources/openlayers/OpenLayers.js" />
 <h:outputScript target="head" library="javax.faces" name="jsf.js" />
-<div id="sidebar" style="position:relative; width:30%; border:1px solid black; margin-left:100; margin-right:0; z-index=2;">
+<div id="sidebar" style="width:100%; height:100%; border:1px solid black;">
 	<h:outputText value="Von:" />
 	<h:inputText id="from" value="#{cc.attrs.model.from}" />
+	<br />
 	<h:outputText value="Nach:" />
 	<h:inputText id="to" value="#{cc.attrs.model.to}" />
 	<h:selectBooleanCheckbox value="#{cc.attrs.model.extended}">
