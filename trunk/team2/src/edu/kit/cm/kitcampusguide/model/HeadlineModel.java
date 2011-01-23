@@ -23,7 +23,7 @@ public class HeadlineModel {
 	 */
 	public HeadlineModel() {
 		this.search = null;
-		this.suggestions = new ArrayList<POI>();
+		this.suggestions = new ArrayList<POI>(null);
 	}
 	
 	/**
