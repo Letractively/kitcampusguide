@@ -273,7 +273,6 @@ KITCampusMap.prototype.setPOIs = function() {
 		}
 	}
 	if (this.highlightedMarker) {
-		console.debug("hPM set");
 		var marker = this.highlightedMarker;
 		this.poiMarkerLayer.addMarker(marker);
 		marker.setUrl("resources/mapcomponent/openlayers/img/marker-gold.png");
@@ -373,7 +372,6 @@ KITCampusMap.prototype.setMarkerTo = function() {
 };
 
 KITCampusMap.prototype.setHighlightedPOI = function() {
-	console.debug(this.model.highlightedPOI);
 	var poi = this.model.highlightedPOI;
 	if (this.highlightedMarker) {
 		this.highlightedMarker = null;
