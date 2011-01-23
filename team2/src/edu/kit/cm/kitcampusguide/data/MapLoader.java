@@ -11,19 +11,31 @@ import edu.kit.cm.kitcampusguide.model.*;
 public interface MapLoader {
 	
 	/**
+	 * Loads a Graph containing all intersections (as nodes) and streets (as edges) from the database.
+	 * The node indices within the resulting Graph are conform to the node indices in getLandmarkDistances().
 	 * 
-	 * @return
+	 * @return a Graph representing the map
 	 */
 	public Graph getGraph();
 	
+
 	/**
-	 * Creates a Graph containing intersections, which are stored in the database, but not the streets 
-	 * connecting them. Additional the Graph contains some special nodes, named landmarks, with degree zero. 
-	 * For each pair of intersection-node and landmark-node the Graph contains an edge with their distance.
+	 * Loads a List containing all landmark Points stored in the database.
+	 * The indices are conform to the indices in getLandmarkDistances().
 	 * 
-	 * @return A Graph representing the map with additional landmarks
+	 * @return
 	 */
 	// TODO zum Entwurf hinzufügen
-	public Graph getLandmarks();
+	public Point[] getLandmarks();
+
+	/**
+	 * Loads a table containing the distances between each pair of intersection and landmark.
+	 * The first array index identifies a intersection node, the second array index identifies a 
+	 * landmark. All indices are confirm to getGraph() and getLandmarks();
+	 * 
+	 * @return
+	 */
+	// TODO zum Entwurf hinzufügen
+	public double[][] getLandmarkDistances();
 
 }
