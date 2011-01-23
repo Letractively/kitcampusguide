@@ -52,4 +52,14 @@ public class HeadlineModel {
 	public void setSuggestions(ArrayList<POI> suggestions) {
 		this.suggestions = suggestions; 
 	}	
+	
+// TODO im Entwurf hinzufügen
+	/**
+	 * This method returns the suggestions for the input.
+	 * 
+	 * @return the suggestions for the input.
+	 */
+	public ArrayList<POI> getSuggestions() {
+		return this.suggestions; 
+	}	
 }
