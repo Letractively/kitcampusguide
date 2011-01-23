@@ -13,8 +13,8 @@
 		<cc:attribute name="mapLocator" required="true"
 			type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator" />
 		<cc:attribute name="POIs" required="true"/>
-		<cc:attribute name="highlightedPOIID"
-			type="java.lang.String" required="true" />
+		<cc:attribute name="highlightedPOI"
+			type="edu.kit.cm.kitcampusguide.standardtypes.POI" required="true" />
 		<cc:attribute name="markerFrom"
 			type="edu.kit.cm.kitcampusguide.standardtypes.MapPosition"
 			required="true" />
@@ -29,7 +29,8 @@
 		<cc:attribute name="changedProperties" required="true" />
 		<!-- EditableValueHolders -->
 		<cc:editableValueHolder name="valueChangeListener"
-			targets="form:mapLocator form:markerTo form:markerFrom form:highlightedPOIID" />
+			targets="form:mapLocator form:markerTo form:markerFrom form:highlightedPOIIDListener  
+			form:buildingMapIDListener form:buildingIDListener" />
 		<!-- TODO: POIListener action source must be defined -->
 	</cc:interface>
 	<cc:implementation>
@@ -57,8 +58,16 @@ on the final system? -->
 			<h:outputText id="POIs" value="#{cc.attrs.POIs}" class="hidden">
 				<f:converter converterId="poiListConverter" />
 			</h:outputText>
-			<h:inputHidden id="highlightedPOIID" value="#{cc.attrs.highlightedPOIID}" class="hidden">
-			<!-- use the default converter for the poi id -->
+			<h:outputText id="highlightedPOI" value="#{cc.attrs.highlightedPOI}"
+				class="hidden">
+				<f:converter converterId="poiConverter" />
+			</h:outputText>
+			<h:inputHidden id="buildingMapIDListener"
+				converter="javax.faces.Integer" />
+			<h:inputHidden id="buildingIDListener"
+				converter="javax.faces.Integer" />
+			<h:inputHidden id="highlightedPOIIDListener" class="hidden">
+				<!-- use the default converter for the POI id -->
 			</h:inputHidden>
 			<h:inputHidden id="markerFrom" value="#{cc.attrs.markerFrom}" class="hidden">
 				<f:converter converterId="mapPositionConverter" />

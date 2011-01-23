@@ -34,8 +34,22 @@ public class MapListenerImpl implements MapListener {
 	@Override
 	public void clickOnPOI(String poiID) {
 		System.out.println("clickOnPOI");
-		getMapModel().setHighlightedPOIID(poiID);
-		getMapModel().addChangedProperty(MapProperty.highlightedPOIID);
+		MapModel mapModel = getMapModel();
+		if (poiID != null) {
+			POI poiByID = POISourceImpl.getInstance().getPOIByID(poiID);
+			System.out.println("poiByID: " + poiByID);
+			System.out.println("ID: " + poiID);
+			if (poiByID != null) {
+				mapModel.setMapLocator(
+						new MapLocator(poiByID.getPosition()));
+				mapModel.addChangedProperty(MapProperty.mapLocator);
+				mapModel.setHighlightedPOI(poiByID);
+			}
+		}
+		else {
+			mapModel.setHighlightedPOI(null);
+		}
+		mapModel.addChangedProperty(MapProperty.highlightedPOI);
 	}
 
 	@Override

@@ -7,9 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.faces.context.FacesContext;
-
-import edu.kit.cm.kitcampusguide.controller.Initializer;
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 import edu.kit.cm.kitcampusguide.standardtypes.Building;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
@@ -32,8 +29,8 @@ public class MapModel implements Serializable {
 	private Integer currentFloorIndex;
 	/** The currently displayed map section. */
 	private MapLocator mapLocator;
-	/** The id of the POI currently highlighted or <code>null</code>. */
-	private String highlightedPOIID;
+	/** The POI currently highlighted or <code>null</code>. */
+	private POI highlightedPOI;
 	/** The current starting position for a route or <code>null</code>. */
 	private MapPosition markerFrom;
 	/** The current end position for a route or <code>null</code>. */
@@ -64,14 +61,6 @@ public class MapModel implements Serializable {
 //	}
 
 	public MapModel() {
-		System.out.println("CreateMapModel");
-		setMap(Map.getMapByID(1)); // TODO: Maybe load this with a script
-		setMapLocator(new MapLocator(getMap().getBoundingBox()));
-		setPOIs(Collections.<POI> emptyList());
-		setMarkerTo(null);
-		setMarkerFrom(null);
-		setRoute(null);
-		setHighlightedPOIID(null);
 		for (MapProperty value: MapProperty.values()) {
 			changedProperties.add(value);
 		}
@@ -164,23 +153,23 @@ public class MapModel implements Serializable {
 	}
 
 	/**
-	 * Sets the id of the currently highlighted POI.
+	 * Sets the currently highlighted POI.
 	 * 
 	 * @param highlightedPOI
-	 *            The id of the currently highlighted POI or <code>null</code>
+	 *            The currently highlighted POI or <code>null</code>
 	 *            if no POI should be highlighted
 	 */
-	public void setHighlightedPOIID(String highlightedPOI) {
-		this.highlightedPOIID = highlightedPOI;
+	public void setHighlightedPOI(POI highlightedPOI) {
+		this.highlightedPOI = highlightedPOI;
 	}
 
 	/**
-	 * Returns the id of the POI currently highlighted.
+	 * Returns the currently highlighted POI.
 	 * 
-	 * @return an id if a highlighted poi exists, otherwise <code>null</code>
+	 * @return the highlighted POI or <code>null</code> if no POI is highlighted
 	 */
-	public String getHighlightedPOIID() {
-		return highlightedPOIID;
+	public POI getHighlightedPOI() {
+		return highlightedPOI;
 	}
 
 	/**
@@ -319,7 +308,7 @@ public class MapModel implements Serializable {
 	}
 
 	public static enum MapProperty {
-		map, POIs, building, mapLocator, highlightedPOIID, markerFrom, markerTo, route, buildingPOI, buildingPOIList
+		map, POIs, building, mapLocator, highlightedPOI, markerFrom, markerTo, route, buildingPOI, buildingPOIList
 	}
 
 }

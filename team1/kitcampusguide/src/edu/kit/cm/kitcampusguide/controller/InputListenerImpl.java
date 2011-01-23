@@ -1,8 +1,6 @@
 package edu.kit.cm.kitcampusguide.controller;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import javax.el.ELContext;
@@ -10,8 +8,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UICommand;
 import javax.faces.component.UIInput;
-import javax.faces.component.UISelectItem;
-import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -20,15 +16,12 @@ import javax.faces.model.SelectItem;
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManager;
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManagerImpl;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
-import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.TestPOISource;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModel;
-import edu.kit.cm.kitcampusguide.standardtypes.Category;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
-import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 
@@ -179,7 +172,7 @@ public class InputListenerImpl implements InputListener {
 			if (searchResults.size() == 1) {
 				POI poi = searchResults.get(0);
 				System.out.println("Eindeutiges Suchergebnis: " + poi.getName());
-				mapModel.setHighlightedPOIID(poi.getID());
+				mapModel.setHighlightedPOI(poi);
 			} else if (searchResults.size() > 1) {
 				System.out.println("Vorschlagsliste anzeigen für " + inputField);	
 				List<SelectItem> proposalList = createProposalList(searchResults);
