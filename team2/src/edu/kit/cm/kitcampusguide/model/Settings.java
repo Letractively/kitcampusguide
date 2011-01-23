@@ -127,4 +127,24 @@ public class Settings {
 		}
 		this.language = language;
 	}
+
+	/**
+	 * Returns the width of the map.
+	 * 
+	 * @return the width of the map.
+	 */
+	public double getWidth() {
+		return this.width;
+	}
+	
+	/**
+	 * Returns the height of the map.
+	 * 
+	 * @return the height of the map.
+	 */
+	public double getHeight() {
+		return this.height;
+	}
 }
+
+	
