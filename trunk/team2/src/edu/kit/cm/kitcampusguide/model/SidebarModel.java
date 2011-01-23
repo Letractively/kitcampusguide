@@ -163,5 +163,34 @@ public class SidebarModel {
 	 */
 	public void setExtended(boolean extended) {
 		this.extended = extended; 
+	}
+
+	//TODO: JavaDoc + im Entwurf Getter hinzufügen
+	public boolean isFilterVisible() {
+		return filterVisible;
+	}
+
+	public boolean isExtended() {
+		return extended;
+	}
+
+	public ArrayList<POICategory> getCategories() {
+		return categories;
+	}
+
+	public ArrayList<POI> getSuggestions() {
+		return suggestions;
+	}
+
+	public ArrayList<POI> getSuggestionsFrom() {
+		return suggestionsFrom;
+	}
+
+	public ArrayList<POI> getSuggestionsTo() {
+		return suggestionsTo;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
 	}	
 }
