@@ -24,45 +24,39 @@ import java.sql.Statement;
 public class ConcretePOILoader implements POILoader {
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public POI getPOI(Integer id) {
-		// TODO SQL Statement lernen ;-)
+		if (id == null || id <= 0) {
+			throw new IllegalArgumentException();
+		}
 		
-		ArrayList<POI> result = new ArrayList<POI>();
+		
+		POI result = null;
 		
 		String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
 		
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultset = null;
+		
 		try {
-			// Select fitting database driver and connect:
 	        Class.forName("org.postgresql.Driver" );
 	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
-	        statement = connection.createStatement();
-	        resultset = statement.executeQuery("select * from cg_pois");
-	        // Get meta data:
-	        ResultSetMetaData resultmd = resultset.getMetaData();
-	        int n = resultmd.getColumnCount();
 	        
-	        while(resultset.next()) {
-	            int poiID = resultset.getInt(1);
-	            String poiName = resultset.getString(2);
-	            double poiX = resultset.getDouble(3);
-	            double poiY = resultset.getDouble(4);
-	            String poiIcon = resultset.getString(5);
-	            String poiDescription = resultset.getString(6);
-	            result.add(new POI(poiName, poiID, poiIcon, poiDescription, poiX, poiY));	            	
-	        }
-
+	        
+	        
+	        statement = connection.createStatement();
+	        resultset = statement.executeQuery("SELECT * FROM cg_pois WHERE poi_id=" + id);     
+	        result = savePOI(resultset);
+	        
 	      } catch( Exception ex ) {
-	        System.out.println( ex );
+	          System.out.println( ex );
 	      } finally {
-	        try { if( null != resultset ) resultset.close(); } catch( Exception ex ) {}
-	        try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
-	        try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
+	          try { if( null != resultset ) resultset.close(); } catch( Exception ex ) {}
+	          try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
+	          try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
 	      }
 	      
 	      
@@ -70,12 +64,13 @@ public class ConcretePOILoader implements POILoader {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public List<POI> getPOIsByName(String name) {
-		
-		// TODO SQL Statement lernen ;-)
+		if (name == null || name.length() <= 0) {
+			throw new IllegalArgumentException();
+		}
 		
 		ArrayList<POI> result = new ArrayList<POI>();
 		
@@ -89,20 +84,9 @@ public class ConcretePOILoader implements POILoader {
 	        Class.forName("org.postgresql.Driver" );
 	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
 	        statement = connection.createStatement();
-	        resultset = statement.executeQuery("select * from cg_pois");
-	        // Get meta data:
-	        ResultSetMetaData resultmd = resultset.getMetaData();
-	        int n = resultmd.getColumnCount();
 	        
-	        while(resultset.next()) {
-	            int poiID = resultset.getInt(1);
-	            String poiName = resultset.getString(2);
-	            double poiX = resultset.getDouble(3);
-	            double poiY = resultset.getDouble(4);
-	            String poiIcon = resultset.getString(5);
-	            String poiDescription = resultset.getString(6);
-	            result.add(new POI(poiName, poiID, poiIcon, poiDescription, poiX, poiY));	            	
-	        }
+	        resultset = statement.executeQuery("SELECT * FROM cg_pois WHERE poi_name LIKE '" + name + "'");     
+	        result = savePOIs(resultset);
 
 	      } catch( Exception ex ) {
 	        System.out.println( ex );
@@ -117,7 +101,7 @@ public class ConcretePOILoader implements POILoader {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public List<POI> getAllPOIs() {
@@ -130,24 +114,14 @@ public class ConcretePOILoader implements POILoader {
 		Statement statement = null;
 		ResultSet resultset = null;
 		try {
-			// Select fitting database driver and connect:
+
 	        Class.forName("org.postgresql.Driver" );
 	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
 	        statement = connection.createStatement();
-	        resultset = statement.executeQuery("select * from cg_pois");
-	        // Get meta data:
+	        resultset = statement.executeQuery("SELECT * FROM cg_pois");
+
 	        ResultSetMetaData resultmd = resultset.getMetaData();
-	        int n = resultmd.getColumnCount();
-	        
-	        while(resultset.next()) {
-	            int poiID = resultset.getInt(1);
-	            String poiName = resultset.getString(2);
-	            double poiX = resultset.getDouble(3);
-	            double poiY = resultset.getDouble(4);
-	            String poiIcon = resultset.getString(5);
-	            String poiDescription = resultset.getString(6);
-	            result.add(new POI(poiName, poiID, poiIcon, poiDescription, poiX, poiY));	            	
-	        }
+	        result = savePOIs(resultset);
 
 	      } catch( Exception ex ) {
 	        System.out.println( ex );
@@ -162,31 +136,168 @@ public class ConcretePOILoader implements POILoader {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public POICategory getPOICategory(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		if (id == null || id <= 0) {
+			throw new IllegalArgumentException();
+		}
+		
+		POICategory result = null;
+		
+		String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
+		
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultset = null;
+		try {
+
+	        Class.forName("org.postgresql.Driver" );
+	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
+	        statement = connection.createStatement();
+	        resultset = statement.executeQuery("SELECT * FROM cg_poicategory WHERE poicat_id=" + id);
+
+	        result = savePOICategory(resultset);
+
+	      } catch( Exception ex ) {
+	        System.out.println( ex );
+	      } finally {
+	        try { if( null != resultset ) resultset.close(); } catch( Exception ex ) {}
+	        try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
+	        try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
+	      }
+	      
+	      
+	      return result;
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public List<POICategory> getPOICategoryByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		if (name == null || name.length() <= 0) {
+			throw new IllegalArgumentException();
+		}
+		
+		ArrayList<POICategory> result = null;
+		
+		String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
+		
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultset = null;
+		try {
+
+	        Class.forName("org.postgresql.Driver" );
+	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
+	        statement = connection.createStatement();
+	        resultset = statement.executeQuery("SELECT * FROM cg_poicategory WHERE poicat_name LIKE '" + name + "'");
+
+	        result = savePOICategories(resultset);
+
+	      } catch( Exception ex ) {
+	        System.out.println( ex );
+	      } finally {
+	        try { if( null != resultset ) resultset.close(); } catch( Exception ex ) {}
+	        try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
+	        try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
+	      }
+	      
+	      
+	      return result;
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	@Override
-	public List<POICategory> getAllPOICategory() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<POICategory> getAllPOICategory() {	
+		ArrayList<POICategory> result = null;
+		
+		String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
+		
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultset = null;
+		try {
+
+	        Class.forName("org.postgresql.Driver" );
+	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
+	        statement = connection.createStatement();
+	        resultset = statement.executeQuery("SELECT * FROM cg_poicategory");
+
+	        result = savePOICategories(resultset);
+
+	      } catch( Exception ex ) {
+	        System.out.println( ex );
+	      } finally {
+	        try { if( null != resultset ) resultset.close(); } catch( Exception ex ) {}
+	        try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
+	        try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
+	      }
+	      
+	      return result;
 	}
+	
+	private POI savePOI(ResultSet resultset) throws SQLException {
+		POI poi = null;
+		
+		if (resultset != null) {
+			int poiID = resultset.getInt(1);
+			String poiName = resultset.getString(2);
+			double poiX = resultset.getDouble(3);
+			double poiY = resultset.getDouble(4);
+			String poiIcon = resultset.getString(5);
+			String poiDescription = resultset.getString(6);
+			poi = new POI(poiName, poiID, poiIcon, poiDescription, poiX, poiY);
+		}
+		
+		return poi;
+		
+	}
+	
+	private ArrayList<POI> savePOIs(ResultSet resultset) throws SQLException {
+		/* delegate to savePOI */
+		ArrayList<POI> result = new ArrayList<POI>();
+		
+        while(resultset.next()) {
+			result.add(savePOI(resultset));	            	
+        }
+        
+		return result;
+		
+	}
+	
+
+	private POICategory savePOICategory(ResultSet resultset) throws SQLException {
+		POICategory poiCat = null;
+		
+		if (resultset != null) {
+			int poiCatID = resultset.getInt(1);
+			String poiCatName = resultset.getString(2);
+			String poiCatIcon = resultset.getString(3);
+			String poiCatDescription = resultset.getString(4);
+			poiCat = new POICategory(poiCatName, poiCatID, poiCatIcon, poiCatDescription);
+		}
+		
+		return poiCat;
+		
+	}
+	
+	private ArrayList<POICategory> savePOICategories(ResultSet resultset) throws SQLException {
+		/* delegate to savePOI */
+		ArrayList<POICategory> result = new ArrayList<POICategory>();
+		
+        while(resultset.next()) {
+			result.add(savePOICategory(resultset));	            	
+        }
+        
+		return result;
+		
+	}
+
 
 
 
