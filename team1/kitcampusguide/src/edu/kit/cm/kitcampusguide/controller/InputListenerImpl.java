@@ -14,6 +14,7 @@ import javax.faces.model.SelectItem;
 
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
+import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel.MapProperty;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModel;
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManager;
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManagerImpl;
@@ -48,8 +49,8 @@ public class InputListenerImpl implements InputListener {
 			.getELResolver().getValue(elContext, null, "translationModel");
 	
 	private CoordinateManager cm = CoordinateManagerImpl.getInstance();	
-	//private POISource poiSource = POISourceImpl.getInstance();	
-	private POISource poiSource = new TestPOISource();	
+	private POISource poiSource = POISourceImpl.getInstance();	
+	//private POISource poiSource = new TestPOISource();	
 	private RoutingStrategy routing = RoutingStrategyImpl.getInstance();
 				
 	public void setSearchButtonLabel(ValueChangeEvent ve) {		
@@ -111,6 +112,8 @@ public class InputListenerImpl implements InputListener {
 				mapModel.setHighlightedPOI(poi);
 				mapModel.setMapLocator(new MapLocator (new MapPosition(poi.getPosition().getLatitude(),
 						poi.getPosition().getLongitude(), poi.getMap())));
+				mapModel.addChangedProperty(MapProperty.highlightedPOI);
+				mapModel.addChangedProperty(MapProperty.mapLocator);
 			}			
 		}
 	}
