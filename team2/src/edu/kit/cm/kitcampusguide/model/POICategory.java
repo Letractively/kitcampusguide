@@ -17,7 +17,7 @@ public class POICategory {
 	private final String description;
 	private boolean visible;
 	
-	// TODO im Entwurf fehlt dieses Attribut in der Beschreibung (im Diagramm aber nicht)
+// TODO im Entwurf fehlt dieses Attribut in der Beschreibung (im Diagramm aber nicht)
 	private ArrayList<POI> categoryPOI;
 	
 	/**
@@ -102,7 +102,7 @@ public class POICategory {
 		this.visible = visible;
 	}	
 	
-	// TODO im Entwurf fehlt diese Methode
+	// TODO im Entwurf fehlt noch diese Methode
 	/**
 	 * This method returns the visibility of the category.
 	 * 
