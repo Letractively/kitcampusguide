@@ -60,15 +60,6 @@ public class SidebarModel {
 	}
 	
 	/**
-	 * This method returns the starting point of the route to be calculated.
-	 * 
-	 * @return the starting point.
-	 */
-	public POI getFrom() {
-		return this.from;
-	}
-		
-	/**
 	 * This method sets the starting point of the route to be calculated.
 	 * 
 	 * @param from the starting point.
@@ -77,15 +68,6 @@ public class SidebarModel {
 		this.from = from; 
 	}
 	
-	/**
-	 * This method returns the ending point of the route to be calculated.
-	 * 
-	 * @return the ending point.
-	 */
-	public POI getTo() {
-		return this.to;
-	}
-		
 	/**
 	 * This method sets the ending point of the route to be calculated.
 	 * 
@@ -165,32 +147,86 @@ public class SidebarModel {
 		this.extended = extended; 
 	}
 
-	//TODO: JavaDoc + im Entwurf Getter hinzufügen
+	//TODO: im Entwurf Getter hinzufuegen!
+	
+	/**
+	 * This method returns the starting point of the route to be calculated.
+	 * 
+	 * @return the starting point.
+	 */
+	public POI getFrom() {
+		return this.from;
+	}
+		
+	/**
+	 * This method returns the ending point of the route to be calculated.
+	 * 
+	 * @return the ending point.
+	 */
+	public POI getTo() {
+		return this.to;
+	}	
+	
+	/**
+	 * This method returns the visibility of the selection of the categories of POI within a sidebar.
+	 * 
+	 * @return the visibility of the selection of the categories of POI within a sidebar.
+	 */
 	public boolean isFilterVisible() {
-		return filterVisible;
+		return this.filterVisible;
 	}
 
+	/**
+	 * This method returns true if the sidebar is expanded, false if it is hidden.
+	 * 
+	 * @return true if the sidebar is expanded, false if it is hidden.
+	 */
 	public boolean isExtended() {
-		return extended;
+		return this.extended;
 	}
 
+	/**
+	 * This method returns the categories of POI which must be shown on the map.
+	 * 
+	 * @return the categories of POI which must be shown on the map.
+	 */
 	public ArrayList<POICategory> getCategories() {
-		return categories;
+		return this.categories;
 	}
 
+	/**
+	 * This method returns the textual suggestions of POI which must be shown if no matching POI are found.
+	 * 
+	 * @return the textual suggestions of POI which must be shown if no matching POI are found.
+	 */
 	public ArrayList<POI> getSuggestions() {
-		return suggestions;
+		return this.suggestions;
 	}
 
+	/**
+	 * This method returns the suggestions for the starting point.
+	 * 
+	 * @return the suggestions for the starting point.
+	 */
 	public ArrayList<POI> getSuggestionsFrom() {
-		return suggestionsFrom;
+		return this.suggestionsFrom;
 	}
 
+	/**
+	 * This method returns the suggestions for the ending point.
+	 * 
+	 * @return the suggestions for the ending point.
+	 */
 	public ArrayList<POI> getSuggestionsTo() {
-		return suggestionsTo;
+		return this.suggestionsTo;
 	}
 
+	/**
+	 * This method returns the error message which can be shown within the sidebar.
+	 * 
+	 * @return the error message which can be shown within the sidebar.
+	 */
 	public String getErrorMessage() {
-		return errorMessage;
+		return this.errorMessage;
 	}	
 }
