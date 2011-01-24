@@ -51,8 +51,41 @@ public class InputListenerImpl implements InputListener {
 	private CoordinateManager cm = CoordinateManagerImpl.getInstance();	
 	private POISource poiSource = POISourceImpl.getInstance();	
 	//private POISource poiSource = new TestPOISource();	
-	private RoutingStrategy routing = RoutingStrategyImpl.getInstance();
-				
+	private RoutingStrategy routing = RoutingStrategyImpl.getInstance();		
+	
+	public boolean isCalculateRoute() {
+		UIInput routeFromFieldComponent = (UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("form:routeFromField");
+		String routeFromField = (String) routeFromFieldComponent.getValue();
+		if (routeFromField == null) {
+			routeFromField = "";
+			routeFromFieldComponent.setValue("");
+		}
+		routeFromField = routeFromField.trim();
+		if (routeFromField.equals("")) {
+			inputModel.setRouteFromSearchFailed(false);
+		}
+		UIInput routeToFieldComponent = (UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("form:routeToField");
+		String routeToField = (String) routeToFieldComponent.getValue();
+		if (routeToField == null) {
+			routeToField = "";
+			routeToFieldComponent.setValue("");
+		}
+		routeToField = routeToField.trim();
+		if (routeToField.equals("")) {
+			inputModel.setRouteToSearchFailed(false);
+		}
+		if ((inputModel.isRouteFromProposalListIsVisible() || !routeFromField.equals("")) 
+				&& (inputModel.isRouteToProposalListIsVisible() || !routeToField.equals(""))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+		
+	public void refreshInputArea(ValueChangeEvent ve) {			
+		//nothing to do here since the appropriate parts will automatically be refreshed when being rendered
+	}
+	
 	public void setSearchButtonLabel(ValueChangeEvent ve) {		
 		//nothing to do here, since the searchButtonLabel will be updated while being rendered
 	}	
@@ -91,9 +124,9 @@ public class InputListenerImpl implements InputListener {
 	
 	private void resetInputArea() {
 		inputModel.setRouteFromProposalListIsVisible(false);
-		inputModel.setRouteFromInformationIsVisible(false);
+		inputModel.setRouteFromSearchFailed(false);
 		inputModel.setRouteToProposalListIsVisible(false);
-		inputModel.setRouteToInformationIsVisible(false);
+		inputModel.setRouteToSearchFailed(false);
 	}
 	
 	public void searchTriggered(String searchTerm, InputFields inputField) {
@@ -148,37 +181,32 @@ public class InputListenerImpl implements InputListener {
 			return new MapPosition(coordinate.getLatitude(), coordinate.getLongitude(), Map.getMapByID(1));
 		}
 	}
-	
+
 	private POI performSearch(String searchTerm, InputFields inputField) {
 		List<POI> searchResults = poiSource.getPOIsBySearch(searchTerm);	
 		if (searchResults == null || searchResults.size() == 0) {
 			logger.info("no search results for " + searchTerm);
 			if (inputField == InputFields.ROUTE_FROM) {
-				inputModel.setRouteFromInformation(translationModel.tr("searchFailed"));
-				inputModel.setRouteFromInformationIsVisible(true);
+				inputModel.setRouteFromSearchFailed(true);
 			} else {
-				inputModel.setRouteToInformation(translationModel.tr("searchFailed"));
-				inputModel.setRouteToInformationIsVisible(true);
+				inputModel.setRouteToSearchFailed(true);
 			}
 			return null;
 		} else if (searchResults.size() == 1) {
 			logger.info("unique search result for " + searchTerm + " : " + searchResults.get(0).getName());
 			return searchResults.get(0);
+
 		} else {
 			logger.info("multiple search results for " + searchTerm);	
 			List<SelectItem> proposalList = createProposalList(searchResults);
 			if (inputField == InputFields.ROUTE_FROM) {
 				inputModel.setRouteFromField("");
 				inputModel.setRouteFromProposalList(proposalList);
-				inputModel.setRouteFromProposalListIsVisible(true);
-				inputModel.setRouteFromInformation(translationModel.tr("choose"));
-				inputModel.setRouteFromInformationIsVisible(true);				
+				inputModel.setRouteFromProposalListIsVisible(true);			
 			} else {
 				inputModel.setRouteToField("");
 				inputModel.setRouteToProposalList(proposalList);
-				inputModel.setRouteToProposalListIsVisible(true);
-				inputModel.setRouteToInformation(translationModel.tr("choose"));
-				inputModel.setRouteToInformationIsVisible(true);				
+				inputModel.setRouteToProposalListIsVisible(true);			
 			}
 			return null;
 		}
@@ -198,15 +226,12 @@ public class InputListenerImpl implements InputListener {
 	public void resetRouteFromProposalList(ActionEvent ae) {
 		inputModel.setRouteFromField("");
 		inputModel.setRouteFromProposalListIsVisible(false);
-		inputModel.setRouteFromInformationIsVisible(false);
 	}
 	
 	public void resetRouteToProposalList(ActionEvent ae) {
 		inputModel.setRouteToField("");
 		inputModel.setRouteToProposalListIsVisible(false);
-		inputModel.setRouteToInformationIsVisible(false);
 	}
-	
 	
 	public void changeLanguageToEnglish(ActionEvent ae) {
 		logger.info("change language to english");

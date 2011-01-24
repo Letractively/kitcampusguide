@@ -28,7 +28,7 @@
 	
 	<h:panelGroup id="bar" layout="block" library="main">
 		<h:form id="form">
-			<h:panelGrid columns="4">
+			<h:panelGrid columns="3">
 		
 				<h:panelGroup id="kitlogo" layout="block">
 					<h:graphicImage name="logo_KITCampusGuide.jpg" library="main" alt="KITLogo" />
@@ -37,59 +37,70 @@
 				<h:panelGroup id="input" layout="block" style="width:30%">
 					<h:panelGrid columns="2" >
 						
-						<h:panelGroup layout="block">					
+						<h:panelGroup id="routeFromInput" layout="block">					
 							<h:outputText id="routeFromLabel" for="routeFromField" value="#{tr:translate('routeFrom')}" />
-							
 							<h:inputText id="routeFromField" value="#{inputModel.routeFromField}"
-								valueChangeListener="#{inputListener.setSearchButtonLabel}" 
+								valueChangeListener="#{inputListener.refreshInputArea}" 
 								rendered="#{not inputModel.routeFromProposalListIsVisible}" >								
 								<f:ajax execute="form:routeFromField form:routeToField"
-								render="form:searchButton" event="keyup" />
-							</h:inputText>							
-
+								render="form:button form:routeFromInformation" event="keyup" />
+							</h:inputText>	
 							<h:selectOneMenu id="routeFromProposalList" rendered="#{inputModel.routeFromProposalListIsVisible}" 
 								value="#{inputModel.routeFromSelection}" >
 								<f:selectItems value="#{inputModel.routeFromProposalList}" />
 							</h:selectOneMenu>						
 							<br />											
 							<h:commandLink id="resetRouteFromProposalList" value="#{tr:translate('reset')}" 
-							actionListener="#{inputListener.resetRouteFromProposalList}" 
-							rendered="#{inputModel.routeFromProposalListIsVisible}" />						
-							<br />						
-							<h:outputText id="routeFromInformation" value="#{tr:translate('test')}" 
-							rendered="#{inputModel.routeFromInformationIsVisible}" />	
-							<h:outputText id="test" value="#{tr:translate('test')}" rendered="#{inputModel.routeFromInformationIsVisible}" />													
-					
+								actionListener="#{inputListener.resetRouteFromProposalList}" 
+								rendered="#{inputModel.routeFromProposalListIsVisible}" >
+								<f:ajax execute="form:resetRouteFromProposalList" render="form:routeFromInput" />
+							</h:commandLink>						
+							<br />	
+							<h:panelGroup id="routeFromInformation" layout="block" >				
+								<h:outputText id="routeFromSearchFailed" value="#{tr:translate('searchFailed')}" 
+									rendered="#{inputModel.routeFromSearchFailed}" />	
+								<h:outputText id="routeFromChoose" value="#{tr:translate('choose')}" 
+									rendered="#{inputModel.routeFromProposalListIsVisible}" />	
+							</h:panelGroup>																					
 						</h:panelGroup>
+								
+						<h:panelGroup id="button" layout="block" >				
+							<h:commandButton id="searchButton" value="#{tr:translate('search')}"
+								actionListener="#{inputListener.searchButtonPressed}"
+								rendered="#{not inputListener.calculateRoute}" />
+							<h:commandButton id="routeButton" value="#{tr:translate('calculateRoute')}"
+								actionListener="#{inputListener.searchButtonPressed}"
+								rendered="#{inputListener.calculateRoute}" />
+						</h:panelGroup>						
 						
-						<h:panelGroup id="button" layout="block" style="width:25%">
-							<h:commandButton id="searchButton"
-								value="#{tr:translate(inputModel.searchButtonLabel)}"
-								actionListener="#{inputListener.searchButtonPressed}" />
-						</h:panelGroup>
-						
-						<h:panelGroup layout="block">							
+						<h:panelGroup id="routeToInput" layout="block">							
 							<h:outputText id="routeToLabel" for="routeToField" value="#{tr:translate('routeTo')}" />
-							
 							<h:inputText id="routeToField" value="#{inputModel.routeToField}"
-								valueChangeListener="#{inputListener.setSearchButtonLabel}" 
+								valueChangeListener="#{inputListener.refreshInputArea}" 
 								rendered="#{not inputModel.routeToProposalListIsVisible}" >
 								<f:ajax execute="form:routeFromField form:routeToField"
-									render="form:searchButton" event="keyup" />
-							</h:inputText>			
-													
+									render="form:button form:routeToInformation" event="keyup" />
+							</h:inputText>													
 							<h:selectOneMenu id="routeToProposalList" rendered="#{inputModel.routeToProposalListIsVisible}" 
 								value="#{inputModel.routeToSelection}" >
 								<f:selectItems value="#{inputModel.routeToProposalList}" />
 							</h:selectOneMenu>						
 							<br />											
 							<h:commandLink id="resetRouteToProposalList" value="#{tr:translate('reset')}" 
-							actionListener="#{inputListener.resetRouteToProposalList}" 
-							rendered="#{inputModel.routeToProposalListIsVisible}" />						
-							<br />						
-							<h:outputText id="routeToInformation" value="#{tr:translate(inputModel.routeToInformation)}" 
-							rendered="#{inputModel.routeToInformationIsVisible}" />					
-						</h:panelGroup>						
+								actionListener="#{inputListener.resetRouteToProposalList}" 
+								rendered="#{inputModel.routeToProposalListIsVisible}" >
+								<f:ajax execute="form:resetRouteToProposalList" render="form:routeToInput" />
+							</h:commandLink>						
+							<br />			
+							<h:panelGroup id="routeToInformation" layout="block" >			
+								<h:outputText id="routeToSearchFailed" value="#{tr:translate('searchFailed')}" 
+									rendered="#{inputModel.routeToSearchFailed}" />	
+								<h:outputText id="routeToChoose" value="#{tr:translate('choose')}" 
+									rendered="#{inputModel.routeToProposalListIsVisible}" />	
+							</h:panelGroup>				
+						</h:panelGroup>			
+						
+						<h:panelGroup />			
 						
 					</h:panelGrid>		
 				</h:panelGroup>						
@@ -110,7 +121,8 @@
 							</h:commandLink>
 						</h:panelGroup>
 					</h:panelGrid>
-				</h:panelGroup>			
+				</h:panelGroup>		
+					
 			</h:panelGrid>
 		</h:form>
 	</h:panelGroup>
