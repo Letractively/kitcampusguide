@@ -8,7 +8,6 @@ import javax.faces.context.FacesContext;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
-import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel.MapProperty;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 
@@ -25,8 +24,6 @@ public class MapListenerImpl implements MapListener {
 					.getPOIsBySection(null, null, null);
 			mapModel.setPOIs(poisBySection);
 			
-			mapModel.addChangedProperty(MapProperty.mapLocator);
-			mapModel.addChangedProperty(MapProperty.POIs);
 		}
 	}
 
@@ -42,28 +39,24 @@ public class MapListenerImpl implements MapListener {
 			if (poiByID != null) {
 				mapModel.setMapLocator(
 						new MapLocator(poiByID.getPosition()));
-				mapModel.addChangedProperty(MapProperty.mapLocator);
 				mapModel.setHighlightedPOI(poiByID);
 			}
 		}
 		else {
 			mapModel.setHighlightedPOI(null);
 		}
-		mapModel.addChangedProperty(MapProperty.highlightedPOI);
 	}
 
 	@Override
 	public void setRouteFromByContextMenu(MapPosition position) {
 		System.out.println("setRouteFrom");
 		getMapModel().setMarkerFrom(position);
-		getMapModel().addChangedProperty(MapProperty.markerFrom);
 	}
 
 	@Override
 	public void setRouteToByContextMenu(MapPosition position) {
 		System.out.println("setRouteTo");
 		getMapModel().setMarkerTo(position);
-		getMapModel().addChangedProperty(MapProperty.markerTo);
 	}
 
 	private MapModel getMapModel() {
