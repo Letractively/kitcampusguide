@@ -41,9 +41,9 @@ public class Dijkstra implements RouteCalculator {
 	}
 
 	@Override
-	public Route calculateRoute(Point from, Point to) {
+	public Route calculateRoute(Point from, Point to, Graph mapGraph) {
 		LinkedList<Point> route = new LinkedList<Point>();
-		Graph mapGraph = RouteCalculatingUtility.calculateStreetGraph(new Point[] {from, to});
+		//Graph mapGraph = RouteCalculatingUtility.calculateStreetGraph(new Point[] {from, to});
 		Node[] mapNodes = extractNodes(mapGraph);
 		PriorityQueue<Dijkstra.Node> nodeQueue = new PriorityQueue<Dijkstra.Node>();
 		
@@ -68,6 +68,7 @@ public class Dijkstra implements RouteCalculator {
 				activeNode = activeNode.parent;
 			}
 		}
+		
 		return new Route(route);
 	}
 	
