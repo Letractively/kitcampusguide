@@ -555,6 +555,7 @@ div#container {
     margin-left: 16px;
     border-left:2px #fff solid;
     width:979px;
+    height: 550px;
 }
 /* Linke Spalte */
 div#left-row {
