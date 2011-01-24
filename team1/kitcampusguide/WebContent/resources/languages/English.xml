@@ -8,6 +8,7 @@
 	<entry key="changeLanguage">Change language</entry>
 	<entry key="reset">reset</entry>
 	<entry key ="searchFailed">No adequate search results.</entry>
+	<entry key="routeCalculationFailed">Route could not be calculated.</entry>
 	<entry key="choose">Please choose.</entry>
 	<entry key="ok">OK</entry>
 </language>
