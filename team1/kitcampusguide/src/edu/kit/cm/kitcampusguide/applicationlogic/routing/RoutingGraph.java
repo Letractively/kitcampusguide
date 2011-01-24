@@ -223,8 +223,7 @@ class RoutingGraph {
 	 * @param pos2 The second position.
 	 * @return The distance between pos1 and pos2.
 	 */
-	//TODO: CHANGE TO PRIVATE
-	public double calculateDistance(MapPosition pos1, MapPosition pos2) {
+	private double calculateDistance(MapPosition pos1, MapPosition pos2) {
 		double result = Double.POSITIVE_INFINITY;
 		if (pos1.getMap().equals(pos2.getMap())) {
 			result = sqr(pos1.getLatitude() - pos2.getLatitude());
