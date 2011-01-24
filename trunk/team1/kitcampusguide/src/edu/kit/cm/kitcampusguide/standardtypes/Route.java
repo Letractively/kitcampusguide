@@ -104,6 +104,6 @@ public class Route implements Serializable {
 				eastMax = waypoints.get(i).getLongitude();
 			}
 		}
-		return new MapSection(new WorldPosition(westMax, northMax), new WorldPosition(eastMax, southMax));
+		return new MapSection(new WorldPosition(northMax, westMax), new WorldPosition(southMax, eastMax));
 	}
 }
