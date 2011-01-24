@@ -1,5 +1,4 @@
 package edu.kit.cm.kitcampusguide.view;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -12,10 +11,10 @@ import edu.kit.cm.kitcampusguide.model.SidebarModel;
 @SessionScoped
 public class CampusGuide {
 	
-	HeadlineModel hlm;
-	SidebarModel sbm;
-	InfoboxModel ibm;
-	Settings settings;
+	private HeadlineModel hlm;
+	private SidebarModel sbm;
+	private InfoboxModel ibm;
+	private Settings settings;
 	
 	public CampusGuide() {
 		this.hlm = new HeadlineModel();
@@ -56,4 +55,5 @@ public class CampusGuide {
 	public void setHlm(HeadlineModel hlm) {
 		this.hlm = hlm;
 	}
+	
 }
