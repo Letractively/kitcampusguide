@@ -12,11 +12,11 @@ import edu.kit.cm.kitcampusguide.model.Point;
  */
 public class RouteCalculatingUtility {
 	
-	/*
+	/**
 	 * The MapLoader Implementation used by this Class
 	 */
 	// TODO set mapLoader
-	private static final MapLoader MAP_LOADER = null;
+	public static final MapLoader MAP_LOADER = null;
 
 	/*
 	 * Private constructor to prevent object instantiation
