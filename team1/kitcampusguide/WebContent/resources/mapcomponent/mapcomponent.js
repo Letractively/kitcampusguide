@@ -23,7 +23,7 @@ function KITCampusMap(clientId) {
 		maxExtent : new OpenLayers.Bounds(-20037508.34, -20037508.34,
 				20037508.34, 20037508.34),
 		maxResolution : 156543,
-		numZoomLevels : 19,
+		numZoomLevels : 21,
 		units : 'meters',
 		projection : "EPSG:41001",
 		controls : []
@@ -432,7 +432,8 @@ KITCampusMap.prototype.setMapLayer = function() {
 	this.map.restrictedExtent = this
 			.transformMapSection(this.model.map.boundingBox);
 	this.map.zoomToExtent(this.map.restrictedExtent);
-	this.map.zoomTo(this.map.minZoom);
+	console.debug(this.model.map.minZoom);
+	this.map.zoomTo(this.model.map.minZoom);
 	this.enableMapEvents();
 };
 
