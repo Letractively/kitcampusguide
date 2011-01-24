@@ -348,8 +348,13 @@ KITCampusMap.prototype.setRoute = function() {
 					.push(new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat));
 		}
 
+		var style_green = {
+			strokeColor : "#FF0000",
+			strokeWidth : 3
+		};
+
 		var routeFeature = new OpenLayers.Feature.Vector(
-				new OpenLayers.Geometry.LineString(pointList), null, null);
+				new OpenLayers.Geometry.LineString(pointList), null, style_green);
 		this.routeLayer.addFeatures([ routeFeature ]);
 	}
 };
