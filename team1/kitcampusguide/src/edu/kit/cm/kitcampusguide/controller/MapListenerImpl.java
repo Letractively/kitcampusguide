@@ -19,9 +19,9 @@ public class MapListenerImpl implements MapListener {
 		MapModel mapModel = getMapModel();
 		
 		if (mapLocator.getMapSection() != null) {
-			// TODO: Apply category, map and section filter (disabled for testing)
+			// TODO: Apply category and section filter (disabled for testing)
 			Collection<POI> poisBySection = POISourceImpl.getInstance()
-					.getPOIsBySection(null, null, null);
+					.getPOIsBySection(null, mapModel.getMap(), null);
 			mapModel.setPOIs(poisBySection);
 			
 		}

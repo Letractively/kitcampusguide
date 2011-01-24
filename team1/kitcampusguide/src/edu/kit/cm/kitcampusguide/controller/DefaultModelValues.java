@@ -67,7 +67,8 @@ public class DefaultModelValues {
 	
 	public Collection<POI> getDefaultPOIs() {
 		// TODO: Apply map and category filter
-		return POISourceImpl.getInstance().getPOIsBySection(getDefaultMapLocator().getMapSection(), null, null);
+		return POISourceImpl.getInstance().getPOIsBySection(
+				getDefaultMapLocator().getMapSection(), getDefaultMap(), null);
 	}
 	
 	public POI getDefaultHighlightedPOI() {
