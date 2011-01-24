@@ -30,6 +30,9 @@ public class InputModel {
 	private boolean routeToProposalListIsVisible = false;
 	private boolean routeFromSearchFailed = false;		
 	private boolean routeToSearchFailed= false;
+	private List<SelectItem> languageProposalList = new ArrayList<SelectItem>();
+	private String languageSelection;
+	private boolean languageProposalListIsVisible = false;
 	
 	/** The export link to be displayed. Can be <code>null</code>.*/
 	private String exportLink;
@@ -139,6 +142,31 @@ public class InputModel {
 
 	public boolean isRouteToSearchFailed() {
 		return routeToSearchFailed;
+	}
+
+	public void setLanguageProposalList(List<SelectItem> languageProposalList) {
+		this.languageProposalList = languageProposalList;
+	}
+
+	public List<SelectItem> getLanguageProposalList() {
+		return languageProposalList;
+	}
+
+	public void setLanguageSelection(String languageSelection) {
+		this.languageSelection = languageSelection;
+	}
+
+	public String getLanguageSelection() {
+		return languageSelection;
+	}
+
+	public void setLanguageProposalListIsVisible(
+			boolean languageProposalListIsVisible) {
+		this.languageProposalListIsVisible = languageProposalListIsVisible;
+	}
+
+	public boolean isLanguageProposalListIsVisible() {
+		return languageProposalListIsVisible;
 	}
 
 	/**

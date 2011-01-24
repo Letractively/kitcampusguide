@@ -239,9 +239,24 @@ public class InputListenerImpl implements InputListener {
 		translationModel.setCurrentLanguage("Deutsch");
 	}
 	
-	public void languageChangeTriggered(String language) {
+	public void languageChangeLinkPressed(ActionEvent ae) {
+		List<String> languages = translationModel.getLanguages();
+		List<SelectItem> proposalList = new ArrayList<SelectItem>();
+		for (String language : languages) {
+			SelectItem item = new SelectItem();
+			item.setLabel(language);
+			item.setValue(language);
+			proposalList.add(item);	
+		}
+		inputModel.setLanguageProposalList(proposalList);
+		inputModel.setLanguageProposalListIsVisible(true);
+	}
+		
+	public void languageChangeTriggered(ActionEvent ae) {
+		String language = inputModel.getLanguageSelection();
 		logger.info("change language to " + language);
 		translationModel.setCurrentLanguage(language);
+		inputModel.setLanguageProposalListIsVisible(false);
 	}
 	
 	//mittlerweile überflüssig?

@@ -109,8 +109,17 @@
 					<h:panelGrid columns="1">
 						<h:commandLink id="filterLink" value="#{tr:translate('filter')}" />
 <!--							actionListener="#{inputListener.filterLinkPressed}" -->
-						<h:commandLink id="changeLanguageLink" value="#{tr:translate('changeLanguage')}" />
-<!--							actionListener="#{inputListener.languageChangeLinkPressed}" -->
+						<h:commandLink id="changeLanguageLink" value="#{tr:translate('changeLanguage')}"
+							actionListener="#{inputListener.languageChangeLinkPressed}" >
+							<f:ajax execute="form:changeLanguageLink" render="form:navigation" />
+						</h:commandLink>
+						<h:selectOneMenu id="languageProposalList" rendered="#{inputModel.languageProposalListIsVisible}" 
+							value="#{inputModel.languageSelection}" >
+							<f:selectItems value="#{inputModel.languageProposalList}" />
+						</h:selectOneMenu>	
+						<h:commandButton id="languageChangeTriggered" value="#{tr:translate('ok')}"
+							rendered="#{inputModel.languageProposalListIsVisible}"
+							actionListener="#{inputListener.languageChangeTriggered}" />
 						<h:panelGroup>
 							<h:commandLink actionListener="#{inputListener.changeLanguageToEnglish}" >
 								<h:graphicImage name="eng.jpg" library="main" alt="English" width="20" />

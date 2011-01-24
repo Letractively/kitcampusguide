@@ -14,7 +14,7 @@ public interface InputListener {
 	
 	public void routeTriggered(String from, String to);
 	
-	public void languageChangeTriggered(String language);
+	public void languageChangeTriggered(ActionEvent ae);
 	
 	public void changeToMapViewTriggered();
 	
