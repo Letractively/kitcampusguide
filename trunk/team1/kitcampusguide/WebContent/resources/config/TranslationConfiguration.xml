@@ -2,5 +2,7 @@
 <configuration>
 	<LanguageManagerConfiguration defaultLanguage = "English" >
 		<Language filepath="/resources/languages/English.xml"></Language>
-		<Language filepath="/resources/languages/Deutsch.xml"></Language></LanguageManagerConfiguration>
+		<Language filepath="/resources/languages/Deutsch.xml"></Language>
+		<Language filepath="/resources/languages/Espanol.xml"></Language>
+		<Language filepath="/resources/languages/Francais.xml"></Language></LanguageManagerConfiguration>
 </configuration>
