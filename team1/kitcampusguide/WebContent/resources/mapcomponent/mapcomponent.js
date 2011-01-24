@@ -303,12 +303,12 @@ KITCampusMap.prototype.createPOIMarker = function(poi, higlighted) {
 };
 
 KITCampusMap.prototype.getPOIContentHTML = function (poi){
-	var result = "<h3>" + escape(poi.name) + "</h3>";
+	var result = "<div class='mapPopupHeader'>" + escape(poi.name) + "</div>";
 	result += "<div>" + unescape(poi.description) + "</div>";
 	
 	if (poi.buildingMapID) {
 		// TODO: Translation!
-		result += "<div><hr /><a onclick=\"KITCampusMap.maps['"
+		result += "<div class='mapBuildingPOILinks'><hr /><a onclick=\"KITCampusMap.maps['"
 				+ this.clientId
 				+ "'].handleSwitchToBuilding()\"><u>In Gebaeudeansicht wechseln</u></a>";
 		result += "<br /><a onclick=\"KITCampusMap.maps['"
@@ -318,7 +318,6 @@ KITCampusMap.prototype.getPOIContentHTML = function (poi){
 		// TODO: This code doesn't belong here!
 		this.popupPOI = poi;
 	}
-	// TODO: This code should be somewhere else
 	return result;
 };
 

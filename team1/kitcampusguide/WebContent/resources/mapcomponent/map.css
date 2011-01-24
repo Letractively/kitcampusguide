@@ -11,3 +11,18 @@
 	height: 0;
 	width: 0;	
 }
+
+.mapPopupHeader {
+	font-size: 17px;
+	color: #999999;
+	border-bottom-width: 2px;
+	border-bottom-color: gray;
+	border-bottom-style: solid;
+	font-weight: bolder;	
+	margin: 4px;
+}
+
+.mapBuildingPOILinks {
+	font-weight: bold;	
+}
+	

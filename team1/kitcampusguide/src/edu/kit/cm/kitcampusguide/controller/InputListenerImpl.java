@@ -1,48 +1,41 @@
 package edu.kit.cm.kitcampusguide.controller;
 
-import org.apache.log4j.Logger;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.el.ELContext;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
-import javax.faces.component.UICommand;
-import javax.faces.component.UIInput;
 import javax.faces.model.SelectItem;
 
-import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel;
-import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
-import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel.MapProperty;
-import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModel;
+import org.apache.log4j.Logger;
+
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManager;
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManagerImpl;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
-import edu.kit.cm.kitcampusguide.applicationlogic.poisource.TestPOISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.routing.RoutingStrategy;
 import edu.kit.cm.kitcampusguide.applicationlogic.routing.RoutingStrategyImpl;
-
+import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
+import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel;
+import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
+import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModel;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.Route;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
-import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@ManagedBean (name="inputListener")
-@SessionScoped
 public class InputListenerImpl implements InputListener {	
 	
 	private Logger logger = Logger.getLogger(InputListenerImpl.class);
 
-	private ELContext elContext = FacesContext.getCurrentInstance().getELContext();	
-	private MapModel mapModel = (MapModel) FacesContext.getCurrentInstance().getApplication()
-	        .getELResolver().getValue(elContext, null, "mapModel");
+	private ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+	
+	private MapModel mapModel;
+	
 	private InputModel inputModel = (InputModel) FacesContext.getCurrentInstance().getApplication()
     		.getELResolver().getValue(elContext, null, "inputModel");
 	private TranslationModel translationModel = (TranslationModel) FacesContext.getCurrentInstance().getApplication()
@@ -52,6 +45,10 @@ public class InputListenerImpl implements InputListener {
 	private POISource poiSource = POISourceImpl.getInstance();	
 	//private POISource poiSource = new TestPOISource();	
 	private RoutingStrategy routing = RoutingStrategyImpl.getInstance();		
+	
+	public void setMapModel(MapModel mapModel) {
+		this.mapModel = mapModel;
+	}
 	
 	public boolean isCalculateRoute() {
 		UIInput routeFromFieldComponent = (UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("form:routeFromField");
@@ -142,11 +139,10 @@ public class InputListenerImpl implements InputListener {
 		} else {
 			POI poi = performSearch(searchTerm, inputField);
 			if (poi != null) {
+				System.out.println("mmodel: " + mapModel);
 				mapModel.setHighlightedPOI(poi);
 				mapModel.setMapLocator(new MapLocator (new MapPosition(poi.getPosition().getLatitude(),
 						poi.getPosition().getLongitude(), poi.getMap())));
-				mapModel.addChangedProperty(MapProperty.highlightedPOI);
-				mapModel.addChangedProperty(MapProperty.mapLocator);
 			}			
 		}
 	}

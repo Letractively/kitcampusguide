@@ -3,6 +3,7 @@ package edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
+
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 
 public class CoordinateManagerImpl implements CoordinateManager {
@@ -52,6 +53,7 @@ public class CoordinateManagerImpl implements CoordinateManager {
 				latitude = round(Double.parseDouble(coordinates[0]));
 				longitude = round(Double.parseDouble(coordinates[1]));				
 			} catch (NumberFormatException e) {
+				System.out.println(e.getMessage());
 				return null;
 			}
 			try {

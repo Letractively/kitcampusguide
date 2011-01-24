@@ -72,7 +72,7 @@
 	<managed-bean>
 		<managed-bean-name>mapModel</managed-bean-name>
 		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel</managed-bean-class>
-		<managed-bean-scope>view</managed-bean-scope>
+		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
 			<property-name>POIs</property-name>
 			<property-class>java.util.Collection</property-class>
@@ -134,6 +134,11 @@
 		<managed-bean-name>inputListener</managed-bean-name>
 		<managed-bean-class>edu.kit.cm.kitcampusguide.controller.InputListenerImpl</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>mapModel</property-name>
+			<property-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel</property-class>
+			<value>#{mapModel}</value>
+		</managed-property>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>inputModel</managed-bean-name>

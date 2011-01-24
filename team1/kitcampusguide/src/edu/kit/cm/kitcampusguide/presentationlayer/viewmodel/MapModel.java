@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
+import edu.kit.cm.kitcampusguide.presentationlayer.view.MapPhaseListener;
 import edu.kit.cm.kitcampusguide.standardtypes.Building;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
@@ -50,20 +51,16 @@ public class MapModel implements Serializable {
 	/** The map currently displayed. */
 	private Map map;
 
+	/**
+	 * Stores all changed properties. If the current request is not a partial request, all
+	 * properties are added automatically. Otherwise the set will be emptied before the 
+	 * execute application logic phase (see {@link MapPhaseListener})
+	 */
 	private Set<MapProperty> changedProperties = new HashSet<MapModel.MapProperty>();
 
-//	static {
-//		// TODO: Test code, needs to be replaced with something better
-//		FacesContext context = FacesContext.getCurrentInstance();
-//		Initializer.main(context.getExternalContext().getResourceAsStream(
-//				"/resources/config/Configuration.xml"));
-//
-//	}
-
 	public MapModel() {
-		for (MapProperty value: MapProperty.values()) {
-			changedProperties.add(value);
-		}
+		System.out.println("created");
+		addAllProperties();
 	}
 
 	/**
@@ -85,6 +82,7 @@ public class MapModel implements Serializable {
 	public void setMap(Map map) {
 		if (map != null) {
 			this.map = map;
+			changedProperties.add(MapProperty.map);
 		}
 	}
 
@@ -108,6 +106,7 @@ public class MapModel implements Serializable {
 	public void setPOIs(Collection<POI> pois) {
 		if (pois != null) {
 			this.pois = pois;
+			changedProperties.add(MapProperty.POIs);
 		}
 	}
 
@@ -127,6 +126,7 @@ public class MapModel implements Serializable {
 	 *            The building to display. Can be <code>null</code>.
 	 */
 	public void setBuilding(Building building) {
+		changedProperties.add(MapProperty.building);
 		this.building = building;
 	}
 
@@ -149,6 +149,7 @@ public class MapModel implements Serializable {
 	 *            <code>null</code>, no change is made.
 	 */
 	public void setMapLocator(MapLocator mapLocator) {
+		changedProperties.add(MapProperty.mapLocator);
 		this.mapLocator = mapLocator;
 	}
 
@@ -160,6 +161,7 @@ public class MapModel implements Serializable {
 	 *            if no POI should be highlighted
 	 */
 	public void setHighlightedPOI(POI highlightedPOI) {
+		changedProperties.add(MapProperty.highlightedPOI);
 		this.highlightedPOI = highlightedPOI;
 	}
 
@@ -190,6 +192,7 @@ public class MapModel implements Serializable {
 	 *            <code>null</code>.
 	 */
 	public void setMarkerFrom(MapPosition markerFrom) {
+		changedProperties.add(MapProperty.markerFrom);
 		this.markerFrom = markerFrom;
 	}
 
@@ -209,6 +212,7 @@ public class MapModel implements Serializable {
 	 *            The MapPosition a route is drawn to. Can be <code>null</code>.
 	 */
 	public void setMarkerTo(MapPosition markerTo) {
+		changedProperties.add(MapProperty.markerTo);
 		this.markerTo = markerTo;
 	}
 
@@ -228,6 +232,7 @@ public class MapModel implements Serializable {
 	 *            The route to be drawn. Can be <code>null</code>.
 	 */
 	public void setRoute(Route route) {
+		changedProperties.add(MapProperty.route);
 		this.route = route;
 	}
 
@@ -260,6 +265,8 @@ public class MapModel implements Serializable {
 				|| (listPOI != null && list != null)) {
 			buildingPOI = listPOI;
 			buildingPOIList = list;
+			changedProperties.add(MapProperty.buildingPOI);
+			changedProperties.add(MapProperty.buildingPOIList);
 		}
 	}
 
@@ -280,6 +287,7 @@ public class MapModel implements Serializable {
 	 *            The index of the current floor. Can be <code>null</code>.
 	 */
 	public void setCurrentFloorIndex(Integer currentFloorIndex) {
+		changedProperties.add(MapProperty.currentFloorIndex);
 		this.currentFloorIndex = currentFloorIndex;
 	}
 
@@ -298,9 +306,6 @@ public class MapModel implements Serializable {
 		return Collections.unmodifiableSet(changedProperties);
 	}
 
-	public void addChangedProperty(MapProperty property) {
-		this.changedProperties.add(property);
-	}
 	
 	public void resetChangedProperties() {
 		System.out.println("reset");
@@ -308,7 +313,12 @@ public class MapModel implements Serializable {
 	}
 
 	public static enum MapProperty {
-		map, POIs, building, mapLocator, highlightedPOI, markerFrom, markerTo, route, buildingPOI, buildingPOIList
+		map, POIs, building, mapLocator, highlightedPOI, markerFrom, markerTo, route, buildingPOI, buildingPOIList, currentFloorIndex
 	}
 
+	public void addAllProperties() {
+		for (MapProperty prop : MapProperty.values()) {
+			changedProperties.add(prop);
+		}
+	}
 }
