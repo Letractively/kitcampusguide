@@ -20,8 +20,8 @@
 #bar {
 	width: 560px;
 	background-color: #e5e5e5;
-	border-color: black;
-	border-width: 2px;
+	border-color: #009d82;
+	border-width: 1px;
 	border-style: solid;
 }
 #logo {
