@@ -1,20 +1,30 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:o="http://openfaces.org/">
+  <h:head>
+    <title>OpenFaces Test</title>
+  </h:head>
+  <h:body>
+    <h:form>
+      <o:suggestionField id="search-field" value="#{campusGuide.hlm.search}"
+		promptText="Suche"
+		autoComplete="true"
+        suggestionDelay="200"
+        suggestionMinChars="3"
+        var="size"
+        styleClass="crazyname">
+	<o:dropDownItem value="9pt"/>
+  <o:dropDownItem value="10pt"/>
+  <o:dropDownItem value="12pt"/>
+  <o:dropDownItem value="14pt"/>
+  <o:dropDownItem value="16pt"/>
+  <o:dropDownItem value="18pt"/>
+  <o:dropDownItem value="20pt"/>
 
-<h:head>
-<title>Cool title</title>
-</h:head>
-<h:body>
-<h:outputText value="#{testBean.text}" />
-<h:outputText value="Dies ist testBean2" />
-<h:form>
-<h:commandButton value="Index" action="#{testBean.back}" /> 
-</h:form>
-<a href="index.html">Index</a>
-</h:body>
+    <h:graphicImage library="images" name="favicon.ico"/>
+    <h:outputText value="#{size}" style="font-size: #{size};"/>
+	</o:suggestionField>
+	<h:commandButton id="search-button" value="Suche"/>
+    </h:form>
+  </h:body>
 </html>
