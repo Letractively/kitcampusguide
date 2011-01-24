@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 /**
@@ -27,12 +28,8 @@ public class InputModel {
 	private List<SelectItem> routeToProposalList = new ArrayList<SelectItem>();
 	private String routeToSelection;
 	private boolean routeToProposalListIsVisible = false;
-	@ManagedProperty(value="")
-	private String routeFromInformation;
-	private boolean routeFromInformationIsVisible = false;		
-	@ManagedProperty(value="")
-	private String routeToInformation;
-	private boolean routeToInformationIsVisible = false;
+	private boolean routeFromSearchFailed = false;		
+	private boolean routeToSearchFailed= false;
 	
 	/** The export link to be displayed. Can be <code>null</code>.*/
 	private String exportLink;
@@ -41,27 +38,8 @@ public class InputModel {
 		
 	public InputModel() {
 		
-	}
+	}		
 	
-	/**
-	 * Returns the actual appropriate searchButtonLabel
-	 * @return
-	 */
-	public String getSearchButtonLabel() {
-		if (routeFromField != null) {
-			routeFromField = routeFromField.trim();
-		}	
-		if (routeToField != null) {
-			routeToField = routeToField.trim();
-		}
-		if ((routeFromProposalListIsVisible || (routeFromField != null && !routeFromField.equals(""))) 
-				&& (routeToProposalListIsVisible || (routeToField != null && !routeToField.equals("")))) {
-			return "calculateRoute";			
-		} else {
-			return "search";
-		}		
-	}
-		
 	/**
 	 * Returns the content of the "Route from" text field.
 	 * @return The content of the "Route from" text field.
@@ -147,37 +125,20 @@ public class InputModel {
 		return routeToProposalListIsVisible;
 	}
 
-	public void setRouteFromInformation(String routeFromInformation) {
-		this.routeFromInformation = routeFromInformation;
+	public void setRouteFromSearchFailed(boolean routeFromSearchFailed) {
+		this.routeFromSearchFailed = routeFromSearchFailed;
 	}
 
-	public String getRouteFromInformation() {
-		return routeFromInformation;
+	public boolean isRouteFromSearchFailed() {
+		return routeFromSearchFailed;
 	}
 
-	public void setRouteFromInformationIsVisible(
-			boolean routeFromInformationIsVisible) {
-		this.routeFromInformationIsVisible = routeFromInformationIsVisible;
+	public void setRouteToSearchFailed(boolean routeToSearchFailed) {
+		this.routeToSearchFailed = routeToSearchFailed;
 	}
 
-	public boolean isRouteFromInformationIsVisible() {
-		return routeFromInformationIsVisible;
-	}
-
-	public void setRouteToInformation(String routeToInformation) {
-		this.routeToInformation = routeToInformation;
-	}
-
-	public String getRouteToInformation() {
-		return routeToInformation;
-	}
-
-	public void setRouteToInformationIsVisible(boolean routeToInformationIsVisible) {
-		this.routeToInformationIsVisible = routeToInformationIsVisible;
-	}
-
-	public boolean isRouteToInformationIsVisible() {
-		return routeToInformationIsVisible;
+	public boolean isRouteToSearchFailed() {
+		return routeToSearchFailed;
 	}
 
 	/**
