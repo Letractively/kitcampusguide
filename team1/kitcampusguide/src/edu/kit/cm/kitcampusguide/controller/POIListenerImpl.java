@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
@@ -24,6 +25,7 @@ public class POIListenerImpl implements POIListener {
 	@Override
 	public void changeToBuildingMap(int mapID) {
 		mapModel.setMap(Map.getMapByID(mapID));
+		mapModel.setPOIs(Collections.<POI>emptyList());
 	}
 
 	@Override
@@ -34,4 +36,8 @@ public class POIListenerImpl implements POIListener {
 				(List<POI>) source.getPOIsByBuilding(building, categoryModel.getCategories())); //TODO: Is this cast valid?
 	}
 
+	public void setMapModel(MapModel mapModel) {
+		this.mapModel = mapModel;
+	}
+	
 }

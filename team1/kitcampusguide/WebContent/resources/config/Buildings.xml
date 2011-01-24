@@ -3,4 +3,8 @@
 	<building id = "0" groundfloorIndex = "0" BuildingPOIID = "1">
 		<map id = "2"/>
 	</building>
+	<building id = "1" groundfloorIndex = "0" BuildingPOIID = "5">
+		<map id = "3"/>
+	</building>
+	
 </configuration>
