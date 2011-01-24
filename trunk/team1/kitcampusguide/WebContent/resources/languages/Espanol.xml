@@ -8,7 +8,8 @@
 	<entry key="filter">Filter</entry>
 	<entry key="changeLanguage">Mudar el habla</entry>
 	<entry key="reset">Anule</entry>
-	<entry key ="searchFailed">No resultados adecuados</entry>
+	<entry key ="searchFailed">No resultados adecuados.</entry>
+	<entry key="routeCalculationFailed">Error durante calcular la ruta.</entry>	
 	<entry key="choose">Elijan por favor</entry>
 	<entry key="ok">OK</entry>
 </language>

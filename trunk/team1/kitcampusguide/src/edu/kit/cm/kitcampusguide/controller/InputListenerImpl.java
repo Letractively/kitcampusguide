@@ -16,6 +16,7 @@ import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateMa
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManagerImpl;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
+import edu.kit.cm.kitcampusguide.applicationlogic.poisource.TestPOISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.routing.RoutingStrategy;
 import edu.kit.cm.kitcampusguide.applicationlogic.routing.RoutingStrategyImpl;
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
@@ -58,9 +59,6 @@ public class InputListenerImpl implements InputListener {
 			routeFromFieldComponent.setValue("");
 		}
 		routeFromField = routeFromField.trim();
-		if (routeFromField.equals("")) {
-			inputModel.setRouteFromSearchFailed(false);
-		}
 		UIInput routeToFieldComponent = (UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("form:routeToField");
 		String routeToField = (String) routeToFieldComponent.getValue();
 		if (routeToField == null) {
@@ -68,9 +66,6 @@ public class InputListenerImpl implements InputListener {
 			routeToFieldComponent.setValue("");
 		}
 		routeToField = routeToField.trim();
-		if (routeToField.equals("")) {
-			inputModel.setRouteToSearchFailed(false);
-		}
 		if ((inputModel.isRouteFromProposalListIsVisible() || !routeFromField.equals("")) 
 				&& (inputModel.isRouteToProposalListIsVisible() || !routeToField.equals(""))) {
 			return true;
@@ -80,13 +75,11 @@ public class InputListenerImpl implements InputListener {
 	}
 		
 	public void refreshInputArea(ValueChangeEvent ve) {			
-		//nothing to do here since the appropriate parts will automatically be refreshed when being rendered
+		inputModel.setRouteFromSearchFailed(false);
+		inputModel.setRouteToSearchFailed(false);
+		inputModel.setRouteCalculationFailed(false);
 	}
 	
-	public void setSearchButtonLabel(ValueChangeEvent ve) {		
-		//nothing to do here, since the searchButtonLabel will be updated while being rendered
-	}	
-
 	public void searchButtonPressed(ActionEvent ae) {
 		if (inputModel.isRouteFromProposalListIsVisible()) {
 			inputModel.setRouteFromField(inputModel.getRouteFromSelection());
@@ -164,8 +157,12 @@ public class InputListenerImpl implements InputListener {
 		}
 		if (from != null && to != null) {
 			Route route = routing.calculateRoute(from, to);
-			mapModel.setRoute(route);
-			mapModel.setMapLocator(new MapLocator (route.getBoundingBox()));
+			if (route != null) {
+				mapModel.setRoute(route);
+				mapModel.setMapLocator(new MapLocator (route.getBoundingBox()));
+			} else {
+				inputModel.setRouteCalculationFailed(true);
+			}
 		}		
 	}
 	

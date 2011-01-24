@@ -92,7 +92,10 @@
 								<h:outputText id="routeToChoose" value="#{tr:translate('choose')}" 
 									rendered="#{inputModel.routeToProposalListIsVisible}" />	
 							</h:panelGroup>				
-						</h:panelGroup>				
+						</h:panelGroup>			
+						
+						<h:outputText id="routeCalculationFailed" value="#{tr:translate('routeCalculationFailed')}" 
+							rendered="#{inputModel.routeCalculationFailed}"/>
 						
 					</h:panelGrid>		
 				</h:panelGroup>		
