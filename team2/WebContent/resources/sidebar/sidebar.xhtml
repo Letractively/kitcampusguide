@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
  	xmlns:c="http://java.sun.com/jsp/jstl/core"
   	xmlns:cc="http://java.sun.com/jsf/composite"
-  	xmlns:f="http://java.sun.com/jsf/core">
+  	xmlns:f="http://java.sun.com/jsf/core"
+  	xmlns:o="http://openfaces.org/">
 <h:head>
 <title>sidebar</title>
 </h:head>
@@ -13,17 +14,45 @@
 	<cc:attribute name="model" required="true" />
 </cc:interface>
 <cc:implementation>
-<script type="text/javascript" src="resources/openlayers/OpenLayers.js" />
 <h:outputScript target="head" library="javax.faces" name="jsf.js" />
-<div id="sidebar" style="width:100%; height:100%; border:1px solid black;">
-	<h:outputText value="Von:" />
-	<h:inputText id="from" value="#{cc.attrs.model.from}" />
+<div id="sidebar">
+<h:form>
+	<o:suggestionField id="from-field"  
+		promptText="Von"
+		size="25"
+		autoComplete="true"
+        suggestionDelay="200"
+        suggestionMinChars="2">
+  <o:dropDownItem value="Mensa"/>
+  <o:dropDownItem value="Audimax"/>
+  <o:dropDownItem value="Audimax2"/>
+  <o:dropDownItem value="Audimax3"/>
+  <o:dropDownItem value="Audimaxundsonstige Hörsäale"/>
+  <o:dropDownItem value="Benz"/>
+  <o:dropDownItem value="Daimler"/>
+  <o:dropDownItem value="Cafeteria"/>
+  <o:dropDownItem value="18pt"/>
+  <o:dropDownItem value="20pt"/>
+</o:suggestionField>
 	<br />
-	<h:outputText value="Nach:" />
-	<h:inputText id="to" value="#{cc.attrs.model.to}" />
-	<h:selectBooleanCheckbox value="#{cc.attrs.model.extended}">
-		<f:ajax render="from" />
-	</h:selectBooleanCheckbox>
+	<o:suggestionField id="to-field" 
+		promptText="Nach"
+		size="25"
+		autoComplete="true"
+        suggestionDelay="200"
+        suggestionMinChars="2">
+  <o:dropDownItem value="Mensa"/>
+  <o:dropDownItem value="Audimax"/>
+  <o:dropDownItem value="Audimax2"/>
+  <o:dropDownItem value="Audimax3"/>
+  <o:dropDownItem value="Audimaxundsonstige Hörsäale"/>
+  <o:dropDownItem value="Benz"/>
+  <o:dropDownItem value="Daimler"/>
+  <o:dropDownItem value="Cafeteria"/>
+  <o:dropDownItem value="18pt"/>
+  <o:dropDownItem value="20pt"/>
+</o:suggestionField>
+</h:form>
 </div> 
 </cc:implementation>
 </h:body>

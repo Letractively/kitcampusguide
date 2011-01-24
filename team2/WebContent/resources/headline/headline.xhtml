@@ -3,11 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
  	xmlns:c="http://java.sun.com/jsp/jstl/core"
-  	xmlns:cc="http://java.sun.com/jsf/composite">
+  	xmlns:cc="http://java.sun.com/jsf/composite"
+  	xmlns:o="http://openfaces.org/">
 <head><title>headLine</title></head><body>
 <cc:interface>
   <cc:attribute name="styleClass"
-      required="false" default="box"/>
+      required="false" default="cg-headline" />
   <cc:attribute name="style" required="false"/>
   <cc:attribute name="headerClass"
       required="false" default="box-header"/>
@@ -15,9 +16,27 @@
   <cc:attribute name="model" required="true"/>
 </cc:interface>
 <cc:implementation>
+<div id="headline" style="background: url(./css/img/intern/tab_inactive.gif) repeat-x;" align="center">
 <h:form>
-	<h:inputText id="search-field" value="#{cc.attrs.model.search}" />
-	<h:commandButton id="search-button" value="Suche"/>
+<o:suggestionField id="search-field" value="#{cc.attrs.model.search}" 
+		promptText="Suche"
+		size="50"
+		autoComplete="true"
+        suggestionDelay="200"
+        suggestionMinChars="2">
+  <o:dropDownItem value="Mensa"/>
+  <o:dropDownItem value="Audimax"/>
+  <o:dropDownItem value="Audimax2"/>
+  <o:dropDownItem value="Audimax3"/>
+  <o:dropDownItem value="Audimaxundsonstige Hörsäale"/>
+  <o:dropDownItem value="Benz"/>
+  <o:dropDownItem value="Daimler"/>
+  <o:dropDownItem value="Cafeteria"/>
+  <o:dropDownItem value="18pt"/>
+  <o:dropDownItem value="20pt"/>
+</o:suggestionField>
+<h:commandButton id="search-button" value="Suche"/>
 </h:form>
+</div>
 </cc:implementation>
 </body></html>
