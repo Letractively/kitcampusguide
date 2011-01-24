@@ -1,5 +1,8 @@
 package edu.kit.cm.kitcampusguide.applicationlogic.routing;
 import java.util.HashMap;
+
+import org.apache.log4j.Logger;
+
 import edu.kit.cm.kitcampusguide.standardtypes.*;
 
 /**
@@ -14,6 +17,8 @@ class DijkstraRouting {
 	private HashMap<Integer, DijkstraRoutingCalculation> fromMap;
 	/** Stores the routingGraph.*/
 	private RoutingGraph routingGraph;
+	/** The logger for this class*/
+	private Logger logger = Logger.getLogger(getClass());
 	
 	/**
 	 * Private constructor.
@@ -33,19 +38,13 @@ class DijkstraRouting {
 	public Route calculateRoute(MapPosition from, MapPosition to) {
 		Route result = null;
 		DijkstraRoutingCalculation calculation;
-		if ((!fromMap.containsKey(new Integer(routingGraph.getNearestVertice(from))))) {
-			fromMap.put(new Integer(routingGraph.getNearestVertice(from)), new DijkstraRoutingCalculation(from));
+		RoutingGraph graph = RoutingGraph.getInstance();
+		if ((!fromMap.containsKey(new Integer(graph.getNearestVertice(from))))) {
+			fromMap.put(new Integer(graph.getNearestVertice(from)), new DijkstraRoutingCalculation(from));
 		}
-		calculation = fromMap.get(new Integer(routingGraph.getNearestVertice(from)));
+		calculation = fromMap.get(new Integer(graph.getNearestVertice(from)));
 		result = calculation.constructRoute(to);
 		return result;
-		
-		
-		/*Route result = null;
-		DijkstraRoutingCalculation calculation = new DijkstraRoutingCalculation(from);
-		result = calculation.constructRoute(to);
-		return result;
-		*/
 	}
 	
 	/**
