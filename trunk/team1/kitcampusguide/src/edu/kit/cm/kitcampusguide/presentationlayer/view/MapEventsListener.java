@@ -8,6 +8,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.event.ValueChangeListener;
 
 import edu.kit.cm.kitcampusguide.controller.MapListener;
+import edu.kit.cm.kitcampusguide.controller.POIListener;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 
 /**
@@ -23,7 +24,7 @@ public class MapEventsListener implements ValueChangeListener {
 			throws AbortProcessingException {
 
 		PhaseId phaseId = event.getPhaseId();
-		if (!phaseId.equals(PhaseId.INVOKE_APPLICATION)) { //Geaendert nach Tests. Sollte so funktionieren hoffentlich.
+		if (!phaseId.equals(PhaseId.INVOKE_APPLICATION)) {
 			event.setPhaseId(PhaseId.INVOKE_APPLICATION);
 			event.queue();
 		} else {
@@ -40,9 +41,17 @@ public class MapEventsListener implements ValueChangeListener {
 							(MapPosition) event.getNewValue());
 				} else if (id.equals("highlightedPOIIDListener")) {
 					getMapListener().clickOnPOI((String) event.getNewValue());
+				} else if (id.equals("buildingMapIDListener")) {
+					getPOIListener().changeToBuildingMap((Integer) event.getNewValue());
 				}
 		}
 
+	}
+
+	private POIListener getPOIListener() {
+			ELContext el = FacesContext.getCurrentInstance().getELContext();
+			return (POIListener) el.getELResolver().getValue(el, null,
+					"poiListener");
 	}
 
 	private MapListener getMapListener() {

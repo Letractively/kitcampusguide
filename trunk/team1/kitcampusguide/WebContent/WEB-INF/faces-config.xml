@@ -150,6 +150,16 @@
 		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModelImpl</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>poiListener</managed-bean-name>
+		<managed-bean-class>edu.kit.cm.kitcampusguide.controller.POIListenerImpl</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>mapModel</property-name>
+			<property-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel</property-class>
+			<value>#{mapModel}</value>
+		</managed-property>
+	</managed-bean>
 	<lifecycle>
 		<phase-listener>edu.kit.cm.kitcampusguide.presentationlayer.view.MapPhaseListener</phase-listener>
 	</lifecycle>
