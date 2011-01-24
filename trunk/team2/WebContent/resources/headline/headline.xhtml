@@ -23,8 +23,10 @@
 		size="50"
 		autoComplete="true"
         suggestionDelay="200"
-        suggestionMinChars="2">
-  <o:dropDownItem value="Mensa"/>
+        suggestionMinChars="2"
+        listStyle="z-index:9999;"
+        var="suggest">
+<o:dropDownItem value="Mensa"/>
   <o:dropDownItem value="Audimax"/>
   <o:dropDownItem value="Audimax2"/>
   <o:dropDownItem value="Audimax3"/>
@@ -33,7 +35,7 @@
   <o:dropDownItem value="Daimler"/>
   <o:dropDownItem value="Cafeteria"/>
   <o:dropDownItem value="18pt"/>
-  <o:dropDownItem value="20pt"/>
+  <o:dropDownItem value="20pt"/> 
 </o:suggestionField>
 <h:commandButton id="search-button" value="Suche"/>
 </h:form>

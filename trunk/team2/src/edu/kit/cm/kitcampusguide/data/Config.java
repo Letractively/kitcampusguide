@@ -38,12 +38,12 @@ public final class Config {
 	/**
 	 * Saves the username of the current used database.
 	 */
-	public static String dbUsername = "tbd"; // to be decided
+	public static String dbUsername = "campusguide"; // to be decided
 	
 	/**
 	 * Saves the password of the current used database.
 	 */
-	public static String dbPassword = "tbd"; // to be decided
+	public static String dbPassword = "katja"; // to be decided
 	
 	
 	
