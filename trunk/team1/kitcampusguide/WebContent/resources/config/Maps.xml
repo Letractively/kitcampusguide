@@ -8,8 +8,8 @@
 		boundingEast="8.40232" boundingWest="8.42622"
 		filename="./resources/tiles/campus/${z}/${x}/${y}.png" minZoom="2"
 		maxZoom="3" />
-	<map id="3" name="SCC Erdgeschoss" boundingNorth="49.012708" boundingSouth="49.011829"
-		boundingEast="8.407475" boundingWest="8.408967"
-		filename="./resources/tiles/scc/floor_0/${z}/${x}/${y}.png" minZoom="14"
-		maxZoom="16" />
+	<map id="3" name="SCC Erdgeschoss" boundingNorth="49.012625" boundingSouth="49.01189"
+		boundingEast="8.408556" boundingWest="8.407532"
+		filename="./resources/tiles/scc1/floor_0/${z}/${x}/${y}.png" minZoom="20"
+		maxZoom="22" />
 </configuration>
