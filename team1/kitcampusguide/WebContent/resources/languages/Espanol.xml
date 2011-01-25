@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- test version, actual translation needed-->
 <language name ="Español">
-	<entry key="routeFrom">Busca/Ruta de: </entry>
+	<entry key="routeFrom">Búsqueda/Ruta de:</entry>
 	<entry key="routeTo">Ruta a: </entry>
 	<entry key="search">Busca</entry>
 	<entry key="calculateRoute">Ruta</entry>
 	<entry key="filter">Filter</entry>
-	<entry key="changeLanguage">Mudar el habla</entry>
+	<entry key="changeLanguage">Cambiar idioma</entry>
 	<entry key="reset">Anule</entry>
 	<entry key ="searchFailed">No resultados adecuados.</entry>
-	<entry key="routeCalculationFailed">Error durante calcular la ruta.</entry>	
+	<entry key="routeCalculationFailed">Error calculando ruta.</entry>	
 	<entry key="choose">Elijan por favor</entry>
 	<entry key="ok">OK</entry>
 </language>
