@@ -9,7 +9,7 @@
 	<entry key="changeLanguage">Selection de language</entry>
 	<entry key="reset">Annuler</entry>
 	<entry key ="searchFailed">Pas de résultats appropriés.</entry>
-	<entry key="routeCalculationFailed">Pas de succès calculant la route.</entry>
+	<entry key="routeCalculationFailed">Erreur calculant la route.</entry>
 	<entry key="choose">Choisissez s'il vous plaît</entry>
 	<entry key="ok">Vas-y.</entry>
 </language>
