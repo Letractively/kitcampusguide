@@ -6,7 +6,7 @@
 	<entry key="search">Recherche</entry>
 	<entry key="calculateRoute">Route</entry>
 	<entry key="filter">Filter</entry>
-	<entry key="changeLanguage">Selecton de language</entry>
+	<entry key="changeLanguage">Selection de language</entry>
 	<entry key="reset">Annuler</entry>
 	<entry key ="searchFailed">Pas de résultats appropriés.</entry>
 	<entry key="routeCalculationFailed">Pas de succès calculant la route.</entry>
