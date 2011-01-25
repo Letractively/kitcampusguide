@@ -12,7 +12,9 @@ import edu.kit.cm.kitcampusguide.controller.POIListener;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 
 /**
- * This class is directly informed about any event happening on the map
+ * This class is directly informed about any event happening on the map.#
+ * @see MapListener
+ * @see POIListener
  * 
  * @author Stefan, Fabian
  * @version 1.2
@@ -24,6 +26,8 @@ public class MapEventsListener implements ValueChangeListener {
 			throws AbortProcessingException {
 
 		PhaseId phaseId = event.getPhaseId();
+		
+		//Move the event to the correct Phase of the JSF Processing cycle
 		if (!phaseId.equals(PhaseId.INVOKE_APPLICATION)) {
 			event.setPhaseId(PhaseId.INVOKE_APPLICATION);
 			event.queue();

@@ -14,6 +14,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 
+@Deprecated
 public class TestPOISource implements POISource {
 	
 	private static Map map1 = new Map(42, "", new MapSection(new WorldPosition(0.0,0.0), new WorldPosition(0.0,0.0)), "", 0,0);

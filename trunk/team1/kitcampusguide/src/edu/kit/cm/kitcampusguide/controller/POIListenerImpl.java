@@ -12,7 +12,8 @@ import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 
 /**
- * 
+ * Implements {@link POIListener}
+ * @see POIListener
  * @author Fabian
  *
  */
