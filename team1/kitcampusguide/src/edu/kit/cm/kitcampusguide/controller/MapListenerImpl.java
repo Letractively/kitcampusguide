@@ -11,7 +11,12 @@ import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 
-// TODO
+/**
+ * Implements the interface {@link MapListener}
+ * @see MapListner
+ * @author Fabian, Stefan
+ * 
+ */
 public class MapListenerImpl implements MapListener {
 
 	@Override

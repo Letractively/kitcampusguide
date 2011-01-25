@@ -294,7 +294,7 @@ public class MapModel implements Serializable {
 	/**
 	 * Returns the index of the current floor.
 	 * 
-	 * @param currentFloorIndex
+	 * @return currentFloorIndex
 	 *            The index of the current floor. Can be <code>null</code>.
 	 */
 	public Integer getCurrentFloorIndex() {
