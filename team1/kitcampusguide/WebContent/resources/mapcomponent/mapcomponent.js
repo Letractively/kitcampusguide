@@ -316,7 +316,7 @@ KITCampusMap.prototype.createPOIMarker = function(poi, higlighted) {
 
 KITCampusMap.prototype.getPOIContentHTML = function (poi){
 	var result = "<div class='mapPopupHeader'>" + escape(poi.name) + "</div>";
-	result += "<div>" + unescape(poi.description) + "</div>";
+	result += "<div class='mapPopupPOIInfo'>" + unescape(poi.description) + "</div>";
 	
 	if (poi.buildingMapID) {
 		// TODO: Translation!
