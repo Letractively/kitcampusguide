@@ -322,16 +322,20 @@ KITCampusMap.prototype.createPOIMarker = function(poi, higlighted) {
 KITCampusMap.prototype.getPOIContentHTML = function (poi){
 	var result = "<div class='mapPopupHeader'>" + escape(poi.name) + "</div>";
 	result += "<div class='mapPopupPOIInfo'>" + unescape(poi.description) + "</div>";
-	
-	if (poi.buildingMapID) {
-		// TODO: Translation!
+
+		if (poi.buildingMapID) {
+		var showBuildingMapLabel = document.getElementById(this.clientId
+				+ ":showBuildingMapLabel").firstChild.data;
+		var showPOIsInBuildingLabel = document.getElementById(this.clientId
+				+ ":showPOIsInBuildingLabel").firstChild.data;
+		
 		result += "<div class='mapBuildingPOILinks'><hr /><a href=\"javascript:KITCampusMap.maps['"
 				+ this.clientId
-				+ "'].handleSwitchToBuilding()\">In Gebaeudeansicht wechseln</a>";
+				+ "'].handleSwitchToBuilding()\">"
+				+ showBuildingMapLabel + "</a>";
 		result += "<br /><a href=\"javascript:KITCampusMap.maps['"
-				+ this.clientId
-				+ "'].handleShowPOIsInBuilding()\">POIs im Gebaeude anzeigen</a>"
-				+ "</div>";
+				+ this.clientId + "'].handleShowPOIsInBuilding()\">"
+				+ showPOIsInBuildingLabel + "</a>" + "</div>";
 		// TODO: This code doesn't belong here!
 		this.popupPOI = poi;
 	}

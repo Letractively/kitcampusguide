@@ -11,4 +11,6 @@
 	<entry key="routeCalculationFailed">Route could not be calculated.</entry>
 	<entry key="choose">Please choose.</entry>
 	<entry key="ok">OK</entry>
+	<entry key="showBuildingMap">Show building map</entry>
+	<entry key="showPOIsInBuilding">Show points in building</entry>
 </language>
