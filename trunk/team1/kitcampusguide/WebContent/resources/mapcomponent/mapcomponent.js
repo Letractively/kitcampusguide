@@ -53,8 +53,21 @@ function KITCampusMap(clientId) {
 			e.preventDefault(); // For non-IE browsers.
 		}
 		var div = thiss.map.div;
-		// Transform coordinates
-		thiss.handleMenuOpen(e.clientX - div.offsets[0], e.clientY - div.offsets[1]);
+		if (e.pageX) {
+			// Transform coordinates
+			thiss.handleMenuOpen(e.pageX - div.offsets[0], e.pageY - div.offsets[1]);
+		} else {
+			// IE > 4
+			var scrollX = document.body.scrollLeft;
+			var scrollY = document.body.scrollHeight;
+			if (!scrollX) {
+				// IE > 6
+				scrollX = document.documentElement.scrollLeft;
+				scrollY = document.documentElement.scrollTop;
+			}
+			thiss.handleMenuOpen(e.clientX + scrollX - div.offsets[0], 
+					e.clientY + scrollY - div.offsets[1]);
+		}
 		return false; // For IE browsers.
 	};
 	
@@ -164,7 +177,6 @@ KITCampusMap.prototype.handleMenuOpen = function(x, y) {
  *            the event given by OpenLayers.
  */
 KITCampusMap.prototype.handleZoomEnd = function(event) {
-	// TODO: Store the max. min zoom level in the map objects. Done
 	if (this.map.getZoom() < this.model.map.minZoom) {
 		this.map.zoomTo(this.model.map.minZoom);
 	} else if (this.map.getZoom() > this.model.map.maxZoom) {
@@ -432,7 +444,6 @@ KITCampusMap.prototype.setMapLayer = function() {
 	this.map.restrictedExtent = this
 			.transformMapSection(this.model.map.boundingBox);
 	this.map.zoomToExtent(this.map.restrictedExtent);
-	console.debug(this.model.map.minZoom);
 	this.map.zoomTo(this.model.map.minZoom);
 	this.enableMapEvents();
 };
