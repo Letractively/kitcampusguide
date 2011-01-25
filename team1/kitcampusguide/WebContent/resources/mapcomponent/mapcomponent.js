@@ -23,7 +23,7 @@ function KITCampusMap(clientId) {
 		maxExtent : new OpenLayers.Bounds(-20037508.34, -20037508.34,
 				20037508.34, 20037508.34),
 		maxResolution : 156543,
-		numZoomLevels : 21,
+		numZoomLevels : 22,
 		units : 'meters',
 		projection : "EPSG:41001",
 		controls : []
