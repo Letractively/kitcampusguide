@@ -53,6 +53,11 @@ function KITCampusMap(clientId) {
 			e.preventDefault(); // For non-IE browsers.
 		}
 		var div = thiss.map.div;
+		if (!div.offsets) {
+			// TODO: Maybe find a better solution then just ignoring the click
+			return;
+		}
+		
 		if (e.pageX) {
 			// Transform coordinates
 			thiss.handleMenuOpen(e.pageX - div.offsets[0], e.pageY - div.offsets[1]);
@@ -320,13 +325,13 @@ KITCampusMap.prototype.getPOIContentHTML = function (poi){
 	
 	if (poi.buildingMapID) {
 		// TODO: Translation!
-		result += "<div class='mapBuildingPOILinks'><hr /><a onclick=\"KITCampusMap.maps['"
+		result += "<div class='mapBuildingPOILinks'><hr /><a href=\"javascript:KITCampusMap.maps['"
 				+ this.clientId
-				+ "'].handleSwitchToBuilding()\"><u>In Gebaeudeansicht wechseln</u></a>";
-		result += "<br /><a onclick=\"KITCampusMap.maps['"
+				+ "'].handleSwitchToBuilding()\">In Gebaeudeansicht wechseln</a>";
+		result += "<br /><a href=\"javascript:KITCampusMap.maps['"
 				+ this.clientId
-				+ "'].handleShowPOIsInBuilding()\"><u>POIs im Gebaeude anzeigen</u></a>" +
-						"</div>";
+				+ "'].handleShowPOIsInBuilding()\">POIs im Gebaeude anzeigen</a>"
+				+ "</div>";
 		// TODO: This code doesn't belong here!
 		this.popupPOI = poi;
 	}
