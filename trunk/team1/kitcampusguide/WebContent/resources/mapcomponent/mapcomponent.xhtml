@@ -3,7 +3,9 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:cc="http://java.sun.com/jsf/composite">
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:tr="http://myurl.de">
+	
 	<cc:interface>
 		<!-- Attributes -->
 		<cc:attribute name="map"
@@ -88,6 +90,12 @@ on the final system? -->
 				<f:converter converterId="changedPropertiesConverter" />
 			</h:outputText>
 		</h:form>
+		<h:outputText class="hidden"
+			value="#{tr:translate('showBuildingMap')}"
+			id="showBuildingMapLabel" />
+		<h:outputText class="hidden"
+			value="#{tr:translate('showPOIsInBuilding')}"
+			id="showPOIsInBuildingLabel" />
 		<script type="text/javascript">
 			new KITCampusMap('#{cc.clientId}');
 		</script>
