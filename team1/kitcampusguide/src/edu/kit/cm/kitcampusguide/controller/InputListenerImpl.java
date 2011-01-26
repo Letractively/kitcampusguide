@@ -113,6 +113,10 @@ public class InputListenerImpl implements InputListener {
 	}	
 	
 	private void resetInputArea() {
+		mapModel.setHighlightedPOI(null);
+		mapModel.setRoute(null);
+		mapModel.setMarkerFrom(null);
+		mapModel.setMarkerTo(null);
 		inputModel.setRouteFromProposalListIsVisible(false);
 		inputModel.setRouteFromSearchFailed(false);
 		inputModel.setRouteToProposalListIsVisible(false);
@@ -237,15 +241,6 @@ public class InputListenerImpl implements InputListener {
 	}
 	
 	public void languageChangeLinkPressed(ActionEvent ae) {
-		List<String> languages = translationModel.getLanguages();
-		List<SelectItem> proposalList = new ArrayList<SelectItem>();
-		for (String language : languages) {
-			SelectItem item = new SelectItem();
-			item.setLabel(language);
-			item.setValue(language);
-			proposalList.add(item);	
-		}
-		inputModel.setLanguageProposalList(proposalList);
 		inputModel.setLanguageProposalListIsVisible(true);
 	}
 		

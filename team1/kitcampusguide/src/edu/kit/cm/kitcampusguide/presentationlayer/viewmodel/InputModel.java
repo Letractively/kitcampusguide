@@ -29,7 +29,6 @@ public class InputModel {
 	private boolean routeFromSearchFailed = false;		
 	private boolean routeToSearchFailed = false;
 	private boolean routeCalculationFailed = false;
-	private List<SelectItem> languageProposalList = new ArrayList<SelectItem>();
 	private String languageSelection;
 	private boolean languageProposalListIsVisible = false;
 	
@@ -152,14 +151,6 @@ public class InputModel {
 
 	public boolean isRouteCalculationFailed() {
 		return routeCalculationFailed;
-	}
-
-	public void setLanguageProposalList(List<SelectItem> languageProposalList) {
-		this.languageProposalList = languageProposalList;
-	}
-
-	public List<SelectItem> getLanguageProposalList() {
-		return languageProposalList;
 	}
 
 	public void setLanguageSelection(String languageSelection) {
