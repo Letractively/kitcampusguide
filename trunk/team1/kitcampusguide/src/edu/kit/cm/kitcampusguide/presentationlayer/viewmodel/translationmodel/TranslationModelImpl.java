@@ -32,8 +32,8 @@ public class TranslationModelImpl implements TranslationModel {
 	/**
 	 * EL-Function that can be used in the JSF-site.
 	 * Uses the function "tr()" of the recent TranslationModel to translate labels into the current language.
-	 * @param key
-	 * @return
+	 * @param key The key identifying the text to be translated.
+	 * @return The translated text.
 	 */
 	public static String translate(String key) {
 		ELContext elContext = FacesContext.getCurrentInstance().getELContext();	

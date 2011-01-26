@@ -2,6 +2,10 @@ package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel;
 
 import java.util.List;
 
+/**
+ * This class manages the language and translation for a single user.
+ * @author Fred
+ */
 public interface TranslationModel {
 	/**
 	 * Translates the {@link String} <code>key</code> in the current language.

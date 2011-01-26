@@ -32,15 +32,13 @@ public class MapSection implements Serializable{
 		double westMax = pos1.getLongitude();
 		if (pos2.getLatitude() < northMax) {
 			northMax = pos2.getLatitude();
-		}
-		if (pos2.getLatitude() > southMax) {
+		} else {
 			southMax = pos2.getLatitude();
 		}
 		if (pos2.getLongitude() < westMax) {
 			westMax = pos2.getLongitude();
-		}
-		if (pos2.getLongitude() > eastMax) {
-			eastMax = pos2.getLongitude();
+		} else {
+			eastMax = pos2.getLongitude();	
 		}
 		this.northwestCorner = new WorldPosition(northMax, westMax);
 		this.southeastCorner = new WorldPosition(southMax, eastMax);

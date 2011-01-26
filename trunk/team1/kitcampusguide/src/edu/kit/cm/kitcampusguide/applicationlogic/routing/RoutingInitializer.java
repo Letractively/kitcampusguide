@@ -13,7 +13,6 @@ import org.jdom.input.SAXBuilder;
 
 import edu.kit.cm.kitcampusguide.standardtypes.InitializationException;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
-import edu.kit.cm.kitcampusguide.standardtypes.StandardtypesInitializer;
 
 /**
  * Initializes the Routing sub system.

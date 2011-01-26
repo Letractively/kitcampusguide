@@ -10,7 +10,7 @@ import org.apache.log4j.PropertyConfigurator;
 import edu.kit.cm.kitcampusguide.standardtypes.*;
 
 /**
- * Represents a calculation of the dijkstra algorithm from a single position.
+ * Represents a calculation of the dijkstra algorithm from a single position to every other position.
  * @author Fred
  *
  */
@@ -31,35 +31,25 @@ public class DijkstraRoutingCalculation {
 	 * @param from The {@link MapPosition} the calculation starts at.
 	 */
 	public DijkstraRoutingCalculation(MapPosition from) {
-		logger.trace("Constructor begins");
 		graph = RoutingGraph.getInstance();
 		this.fromVertice = graph.getNearestVertice(from);
-		logger.trace("fromVertice set to " + fromVertice);
+		logger.trace("Beginning the routing calculation from the vertice " + fromVertice);
 		calculateRoutes();
-		logger.trace("Constructor ends");
+		logger.trace("Ending routing calculation.");
 	}
 	
 	/**
-	 * Calculates the routes from the vertice stored in <code>fromVertice</code>.
+	 * Calculates the routes from the vertice stored in <code>fromVertice</code> to every other vertice.
 	 */
 	private void calculateRoutes() {
-		logger.trace("calculateRoute begins");
 		setDistanceToInfinity();
-		logger.trace("setDistanceToInfinity");
 		setParentsToNull();
-		logger.trace("setParentsToNULL");
 		parent[fromVertice] = fromVertice;
-		logger.trace("parent of " + fromVertice + "set to " + fromVertice);
 		DijkstraPriorityQueue Queue= new DijkstraPriorityQueue(graph.getVerticesCount());
 		distance[fromVertice] = 0;
-		logger.trace("distance of " + fromVertice + "set to 0");
 		Queue.insert(fromVertice, distance[fromVertice]);
-		logger.trace("fromVertice ( " + fromVertice + ") inserted in Queue");
 		while(!Queue.isEmpty()) {
-			logger.trace("while-loop begins");
 			Integer currentCenter = Queue.deleteMin();
-			logger.trace("currentCenter " + currentCenter);
-			logger.trace("Neighbours: count is " + graph.getNeighbours(currentCenter).length);
 			for (Integer currentVertice : graph.getNeighbours(currentCenter)) {
 				if (distance[currentCenter] + graph.getWeight(currentCenter, currentVertice) < distance[currentVertice]) {
 					distance[currentVertice] = distance[currentCenter] + graph.getWeight(currentCenter, currentVertice);
@@ -71,7 +61,6 @@ public class DijkstraRoutingCalculation {
 					}
 				}
 			}
-		logger.trace("while-loop ends");
 		}
 	}
 

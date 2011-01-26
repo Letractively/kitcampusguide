@@ -1,6 +1,5 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
