@@ -157,14 +157,14 @@ public class DefaultPOIDB implements POIDB {
 				"FROM POIDB ");
 		boolean needAnd = false;
 		// Create map clause if necessary
-		if (query.getMaps() != null && !query.getMaps().isEmpty()) {
+		if (query.getMaps() != null) {
 			queryString.append("WHERE");
 			appendMapClause(query.getMaps(), queryString);
 			needAnd = true;
 		}
 		
 		// Create category clause if necessary
-		if (query.getCategories() != null && !query.getCategories().isEmpty()) {
+		if (query.getCategories() != null) {
 			queryString.append(needAnd ? "AND" : "WHERE");
 			appendCategoryClause(query.getCategories(), queryString);
 			needAnd = true;
