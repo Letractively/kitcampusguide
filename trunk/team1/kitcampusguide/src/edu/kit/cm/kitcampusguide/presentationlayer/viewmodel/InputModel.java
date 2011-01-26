@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIInput;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 /**
@@ -39,7 +37,10 @@ public class InputModel {
 	private String exportLink;
 	/** The html embedding code. Can be <code>null</code>.*/
 	private String embeddingCode;
-		
+	
+	/**
+	 * Constructs a new input model.
+	 */
 	public InputModel() {
 		
 	}		
