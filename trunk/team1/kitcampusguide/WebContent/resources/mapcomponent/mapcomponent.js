@@ -329,7 +329,7 @@ KITCampusMap.prototype.getPOIContentHTML = function (poi){
 		var showPOIsInBuildingLabel = document.getElementById(this.clientId
 				+ ":showPOIsInBuildingLabel").firstChild.data;
 		
-		result += "<div class='mapBuildingPOILinks'><hr /><a href=\"javascript:KITCampusMap.maps['"
+		result += "<div class='mapBuildingPOILinks'><a href=\"javascript:KITCampusMap.maps['"
 				+ this.clientId
 				+ "'].handleSwitchToBuilding()\">"
 				+ showBuildingMapLabel + "</a>";

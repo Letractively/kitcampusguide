@@ -16,9 +16,9 @@
 
 .mapPopupHeader {
 	font-size: 17px;
-	color: #009d82;
-	border-bottom-width: 2px;
-	border-bottom-color: #009d82;
+	color: black;
+	border-bottom-width: 1px;
+	border-bottom-color: black;
 	border-bottom-style: solid;
 	font-weight: bolder;	
 	margin: 4px;
@@ -31,5 +31,9 @@
 .mapBuildingPOILinks {
 	font-weight: bold;
 	color: #009d82;
+	border-top-width: 1px;
+	border-top-color: #009d82;
+	border-top-style: solid;
+	margin-top: 5px;
 }
 	
