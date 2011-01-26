@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -19,6 +20,9 @@ public class Language {
 	
 	/** Stores the name of the language.*/
 	private String name;
+	
+	/**The logger for this class*/
+	private Logger logger = Logger.getLogger(getClass());
 	
 	/**
 	 * Translates the <code>key</code> in the language represented by this class.
@@ -49,11 +53,9 @@ public class Language {
 			Document document = new SAXBuilder().build(inputStream);
 			constructLanguage(document);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Language construction of " + this.name + "failed.", e);
 		} catch (JDOMException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Language construction of " + this.name + "failed.", e);
 		}
 		
 		

@@ -74,6 +74,6 @@ public class Initializer {
 		StandardtypesInitializer.initializeBuildings();
 		RoutingInitializer.initialize(context.getExternalContext().getResourceAsStream(r.getChild("routeConfiguration").getAttributeValue("filename")));
 		TranslationInitializer.initialize(context.getExternalContext().getResourceAsStream(r.getChild("translationConfiguration").getAttributeValue("filename")));
-		DefaultModelValues.setDefaultValues(context.getExternalContext().getResourceAsStream(r.getChild("defaultValueConfiguration").getAttributeValue("filename")));
+		DefaultModelValues.initialize(context.getExternalContext().getResourceAsStream(r.getChild("defaultValueConfiguration").getAttributeValue("filename")));
 	}
 }

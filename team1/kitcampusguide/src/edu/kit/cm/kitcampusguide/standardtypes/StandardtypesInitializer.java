@@ -15,6 +15,11 @@ import org.jdom.input.SAXBuilder;
 
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 
+/**
+ * Initializes the standardtypes in need of initialization. More specific: buildings, maps and categories. 
+ * @author fred
+ *
+ */
 public class StandardtypesInitializer {
 	private static StandardtypesInitializer instance;
 	private Logger logger = Logger.getLogger(getClass());
@@ -29,15 +34,14 @@ public class StandardtypesInitializer {
 	 * @throws InitializationException If an error occurred during initialization. 
 	 */
 	private StandardtypesInitializer(InputStream stream) throws InitializationException {
-		logger.info("Initializing Standardtypes from " + stream);
-		Document document;
 		try {
-			document = new SAXBuilder().build(stream);
+			logger.info("Initializing Standardtypes from " + stream);
+			Document document = new SAXBuilder().build(stream);
 			FacesContext context = FacesContext.getCurrentInstance();
-			System.out.println("TESt126" + document.getRootElement().getChild("MapConfiguration").getAttributeValue("filename"));
-			filenameMaps = context.getExternalContext().getResourceAsStream(document.getRootElement().getChild("MapConfiguration").getAttributeValue("filename"));
-			filenameBuildings = context.getExternalContext().getResourceAsStream(document.getRootElement().getChild("BuildingConfiguration").getAttributeValue("filename"));
-			filenameCategories = context.getExternalContext().getResourceAsStream(document.getRootElement().getChild("CategoryConfiguration").getAttributeValue("filename"));
+			Element root = document.getRootElement();
+			filenameMaps = context.getExternalContext().getResourceAsStream(root.getChild("MapConfiguration").getAttributeValue("filename"));
+			filenameBuildings = context.getExternalContext().getResourceAsStream(root.getChild("BuildingConfiguration").getAttributeValue("filename"));
+			filenameCategories = context.getExternalContext().getResourceAsStream(root.getChild("CategoryConfiguration").getAttributeValue("filename"));
 			logger.info("Standardtypes initialized.");
 		} catch (JDOMException e) {
 			throw new InitializationException("Initialization of standardtypes failed.", e);
@@ -89,9 +93,7 @@ public class StandardtypesInitializer {
 	private void initializeCategories(InputStream streamCategories) throws InitializationException {
 		try {
 			logger.info("Initializing categories from " + streamCategories);
-			Document document;
-			document = new SAXBuilder().build(streamCategories);
-			List<Element> listOfCategories = document.getRootElement().getChildren("category");
+			List<Element> listOfCategories = new SAXBuilder().build(streamCategories).getRootElement().getChildren("category");
 			for (Element e : listOfCategories) {
 				int id = Integer.parseInt(e.getAttributeValue("id"));
 				String name = e.getAttributeValue("name");
@@ -115,9 +117,7 @@ public class StandardtypesInitializer {
 	private void initializeMaps(InputStream streamMaps) throws InitializationException {	
 		try {
 			logger.info("Initializing maps from " + streamMaps);
-			Document document;
-			document = new SAXBuilder().build(streamMaps);
-			List<Element> listOfMaps = document.getRootElement().getChildren("map");
+			List<Element> listOfMaps = new SAXBuilder().build(streamMaps).getRootElement().getChildren("map");
 			for (Element e : listOfMaps) {
 				int id = Integer.parseInt(e.getAttributeValue("id"));
 				String name = e.getAttributeValue("name");
@@ -148,15 +148,11 @@ public class StandardtypesInitializer {
 	private void initializeBuildings(InputStream streamBuildings) throws InitializationException {
 		try {
 			logger.info("Initializing buildings from " + streamBuildings);
-			Document document = new SAXBuilder().build(streamBuildings);
-			List<Element> listOfBuildings = document.getRootElement().getChildren("building");
+			List<Element> listOfBuildings = new SAXBuilder().build(streamBuildings).getRootElement().getChildren("building");
 			for (Element e : listOfBuildings) {
 				int id = Integer.parseInt(e.getAttributeValue("id"));
 				int groundfloorIndex = Integer.parseInt(e.getAttributeValue("groundfloorIndex"));
 				POI buildingPOI = POISourceImpl.getInstance().getPOIByID(e.getAttributeValue("BuildingPOIID"));
-				if (buildingPOI == null) {
-					throw new InitializationException("Building POI not found. ID " + e.getAttributeValue("BuildingPOIID"));
-				}
 				List<Map> floors = new ArrayList<Map>();
 				List<Element> mapElements= e.getChildren("map");
 				for (Element mapElement : mapElements) {

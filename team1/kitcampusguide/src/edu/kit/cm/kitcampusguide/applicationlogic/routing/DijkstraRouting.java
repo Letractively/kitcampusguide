@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 import edu.kit.cm.kitcampusguide.standardtypes.*;
 
 /**
- * Represents the dijkstra strategy for routing calculation. 
+ * Represents the dijkstra strategy for routing calculation. Singleton.
  * @author Fred
  *
  */
@@ -15,8 +15,6 @@ class DijkstraRouting {
 	private static DijkstraRouting instance;
 	/** Stores the HashMap for caching.*/
 	private HashMap<Integer, DijkstraRoutingCalculation> fromMap;
-	/** Stores the routingGraph.*/
-	private RoutingGraph routingGraph;
 	/** The logger for this class*/
 	private Logger logger = Logger.getLogger(getClass());
 	
@@ -24,7 +22,6 @@ class DijkstraRouting {
 	 * Private constructor.
 	 */
 	private DijkstraRouting() {
-		routingGraph = RoutingGraph.getInstance();
 		fromMap = new HashMap<Integer, DijkstraRoutingCalculation>();
 	}
 	

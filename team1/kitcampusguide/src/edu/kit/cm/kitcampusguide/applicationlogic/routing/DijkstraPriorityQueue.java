@@ -152,22 +152,47 @@ public class DijkstraPriorityQueue {
 	}
 
 
+	/**
+	 * Defines the elements of a DijkstraPriorityQueue. Consists of a key and a value.
+	 * @author Fred
+	 *
+	 */
 	private class QueueElement{
+		/**The key of this element*/
 		private int key;
+		/**The value of this element*/
 		private double value;
+		
+		/**
+		 * Constructs a new QueueElement.
+		 * @param key The key identifying this element.
+		 * @param value The value defining this element.
+		 */
 		public QueueElement(int key, double value) {
 			this.key = key;
 			this.value = value;
 		}
 		
+		/**
+		 * Returns the key of this element.
+		 * @return The key of this element.
+		 */
 		public int getKey() {
 			return key;
 		}
 		
+		/**
+		 * Returns the value of this element.
+		 * @return The value of this element.
+		 */
 		public double getValue() {
 			return value;
 		}
 		
+		/**
+		 * Sets the value of this element.
+		 * @param value The value of this element.
+		 */
 		public void setValue(double value) {
 			this.value = value;
 		}
