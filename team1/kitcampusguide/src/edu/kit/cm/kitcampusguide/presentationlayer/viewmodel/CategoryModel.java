@@ -18,7 +18,9 @@ public class CategoryModel {
 	private Collection<Category> categories;
 	
 	/**
-	 * Constructs a new CategoryModel.
+	 * Constructs a new category model.
+	 * @param currentCategories The categories set to visible at the beginning.
+	 * @param categories All available categories.
 	 */
 	public CategoryModel(Collection<Category> currentCategories, Collection<Category> categories) {
 		this.currentCategories = currentCategories;

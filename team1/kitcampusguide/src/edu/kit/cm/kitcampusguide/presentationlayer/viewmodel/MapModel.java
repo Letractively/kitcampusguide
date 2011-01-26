@@ -15,8 +15,14 @@ import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.Route;
 
+/**
+ * This class manages the properties of the shown map.
+ * @author Fred
+ *
+ */
 public class MapModel implements Serializable {
 
+	/** The POIs currently shown.*/
 	private Collection<POI> pois;
 	/**
 	 * The building the currently displayed map is a floor of or
