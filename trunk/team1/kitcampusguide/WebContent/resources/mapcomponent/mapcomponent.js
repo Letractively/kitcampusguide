@@ -316,17 +316,17 @@ KITCampusMap.prototype.createPOIMarker = function(poi, higlighted) {
     };
     
     var markerMouseOver = function (evt) {
-    	if (!this.model.tooltip) {
+    	if (!this.tooltip) {
     		var tooltip = new OpenLayers.Popup(null,this.transformWorldPosition(poi.position), new OpenLayers.Size(80, 50), this.getTooltipContentHTML(poi), false);
     		tooltip.setBorder("1px solid #009d82");
-    		this.model.tooltip = tooltip;
+    		this.tooltip = tooltip;
     		this.map.addPopup(tooltip);
     	};
     };
     
     var markerMouseOut = function (evt) {
-    	this.model.tooltip.hide();
-    	this.model.tooltip = null;
+    	this.tooltip.hide();
+    	this.tooltip = null;
     };
 
 	marker.events.register("mousedown", this, markerClick);
