@@ -314,8 +314,26 @@ KITCampusMap.prototype.createPOIMarker = function(poi, higlighted) {
     	this.requestUpdate(input.id);
         OpenLayers.Event.stop(evt);
     };
+    
+    var markerMouseOver = function (evt) {
+    	console.debug(poi);
+    	if (!this.model.tooltip) {
+    		console.debug(marker);
+    		var tooltip = new OpenLayers.Popup(null,this.transformWorldPosition(poi.position), new OpenLayers.Size(80, 50), this.getTooltipContentHTML(poi), false);
+    		tooltip.setBorder("1px solid #009d82");
+    		this.model.tooltip = tooltip;
+    		this.map.addPopup(tooltip);
+    	};
+    };
+    
+    var markerMouseOut = function (evt) {
+    	this.model.tooltip.hide();
+    	this.model.tooltip = null;
+    };
 
 	marker.events.register("mousedown", this, markerClick);
+	marker.events.register("mouseover", this, markerMouseOver);
+	marker.events.register("mouseout", this, markerMouseOut);
 	return marker;
 };
 
@@ -552,3 +570,13 @@ KITCampusMap.prototype.untransformBounds = function(bounds) {
 		southEast : this.untransformLonLat(se)
 	};
 };
+
+/**
+ * 
+ */
+KITCampusMap.prototype.getTooltipContentHTML = function(poi) {
+	return "<div>" + poi.name + "</div>";
+};
+
+
+
