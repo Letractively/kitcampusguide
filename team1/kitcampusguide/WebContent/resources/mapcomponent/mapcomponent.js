@@ -317,7 +317,7 @@ KITCampusMap.prototype.createPOIMarker = function(poi, higlighted) {
     
     var markerMouseOver = function (evt) {
     	if (!this.tooltip) {
-    		var tooltip = new OpenLayers.Popup(null,this.transformWorldPosition(poi.position), new OpenLayers.Size(80, 50), this.getTooltipContentHTML(poi), false);
+    		var tooltip = new OpenLayers.Popup(null,this.transformWorldPosition(poi.position), new OpenLayers.Size(65, 15), this.getTooltipContentHTML(poi), false);
     		tooltip.setBorder("1px solid #009d82");
     		this.tooltip = tooltip;
     		this.map.addPopup(tooltip);
