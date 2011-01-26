@@ -215,7 +215,7 @@ OpenLayers.Popup.FramedCloud =
     initialize:function(id, lonlat, contentSize, contentHTML, anchor, closeBox, 
                         closeBoxCallback) {
 
-        this.imageSrc = OpenLayers.Util.getImagesLocation() + 'cloud-popup-relative2.png';
+        this.imageSrc = OpenLayers.Util.getImagesLocation() + 'cloud-popup-relative.png';
         OpenLayers.Popup.Framed.prototype.initialize.apply(this, arguments);
         this.contentDiv.className = this.contentDisplayClass;
     },
