@@ -1,7 +1,7 @@
 package edu.kit.cm.kitcampusguide.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
@@ -19,9 +19,9 @@ import edu.kit.cm.kitcampusguide.standardtypes.POI;
  */
 public class POIListenerImpl implements POIListener {
 
-	private MapModel mapModel = null; //TODO: Change so the MapModel of the current session is invoked.
+	private MapModel mapModel;
 	private POISource source = POISourceImpl.getInstance();
-	private CategoryModel categoryModel = null; //TODO: Change so the CategoryModel of the current session is invoked.
+	private CategoryModel categoryModel;
 	
 	@Override
 	public void changeToBuildingMap(int mapID) {
@@ -31,14 +31,21 @@ public class POIListenerImpl implements POIListener {
 
 	@Override
 	public void showPOIsInBuilding(int buildingID) {
+		System.out.println("ShowPOIsInBuilding");
 		Building building = Building.getBuildingByID(buildingID);
-		mapModel.setBuildingPOI(
+		// TODO: Add category filter
+		mapModel.createBuildingPOIList(
 				building.getBuildingPOI(),
-				(List<POI>) source.getPOIsByBuilding(building, categoryModel.getCategories())); //TODO: Is this cast valid?
+				 new ArrayList<POI>(source.getPOIsByBuilding(building, 
+//						 categoryModel.getCategories()
+						 null)));
 	}
 
 	public void setMapModel(MapModel mapModel) {
 		this.mapModel = mapModel;
 	}
 	
+	public void setCategoryModel(CategoryModel categoryModel) {
+		this.categoryModel = categoryModel;
+	}
 }

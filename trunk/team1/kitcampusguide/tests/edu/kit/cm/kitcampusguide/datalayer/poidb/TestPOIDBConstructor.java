@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.BasicConfigurator;
@@ -13,6 +12,8 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 import edu.kit.cm.kitcampusguide.standardtypes.Category;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
@@ -27,8 +28,9 @@ import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
  */
 public class TestPOIDBConstructor {
 	
-	private static Logger logger = Logger.getLogger("TestPOIDBConstructor");
-	
+	private static final Logger logger = Logger
+			.getLogger("TestPOIDBConstructor");
+
 	/**
 	 * Constructs the maps, categories and POIs.
 	 * @param args -
@@ -39,7 +41,6 @@ public class TestPOIDBConstructor {
 	 */
 	public static void main(String[] args) throws JDOMException, IOException, ClassNotFoundException, SQLException {
 		BasicConfigurator.configure();
-		System.out.println("asdf");
 		logger.info("Beginning");
 		String filename = "./WebContent/resources/testPOIsForDB.xml";
 		String filenameMaps = "./WebContent/resources/config/Maps.xml";
@@ -102,9 +103,10 @@ public class TestPOIDBConstructor {
 		for (Element p : listOfPOIElements) {
 			String name = p.getAttributeValue("name");
 			String description = null;
-			try {
-				description = p.getChildText("description");
-			} catch (Exception e) {
+			Element descElement = p.getChild("description");
+			if (descElement != null) {
+				XMLOutputter out = new XMLOutputter(Format.getCompactFormat());
+				description = out.outputString(descElement.getContent());
 			}
 			Element pos = p.getChild("position");
 			Double latitude = Double.parseDouble(pos.getAttributeValue("latitude"));

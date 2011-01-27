@@ -47,6 +47,8 @@ public class MapEventsListener implements ValueChangeListener {
 					getMapListener().clickOnPOI((String) event.getNewValue());
 				} else if (id.equals("buildingMapIDListener")) {
 					getPOIListener().changeToBuildingMap((Integer) event.getNewValue());
+				} else if (id.equals("buildingPOIsListListener")) {
+					getPOIListener().showPOIsInBuilding((Integer) event.getNewValue());
 				}
 		}
 
