@@ -266,7 +266,7 @@ public class MapModel implements Serializable {
 	 *            <code>listPOI</code>. Can be <code>null</code> only if
 	 *            <code>listPOI</code> is <code>null</code> too.
 	 */
-	public void setBuildingPOI(POI listPOI, List<POI> list) {
+	public void createBuildingPOIList(POI listPOI, List<POI> list) {
 		if ((listPOI == null && list == null)
 				|| (listPOI != null && list != null)) {
 			buildingPOI = listPOI;

@@ -123,12 +123,15 @@ KITCampusMap.prototype.applyChanges = function() {
 		this.setPOIs();
 	}
 
+	if (changed['buildingPOIList']) {
+		this.model
+	}
+	
 	if (changed['markerTo']) {
 		var markerTo = this.getFormElement("markerTo").value;
 		this.model.markerTo = (markerTo == "") ? null : JSON.parse(markerTo);
 		this.setMarkerTo();
 	}
-
 
 	 if (changed['route']) {
 		if (this.getFormElement("route").firstChild) {
@@ -336,7 +339,7 @@ KITCampusMap.prototype.createPOIMarker = function(poi, higlighted) {
 };
 
 KITCampusMap.prototype.getPOIContentHTML = function (poi){
-	var result = "<div class='mapPopupHeader'>" + escape(poi.name) + "</div>";
+	var result = "<div class='mapPopupHeader'>" + poi.name + "</div>";
 	result += "<div class='mapPopupPOIInfo'>" + unescape(poi.description) + "</div>";
 
 		if (poi.buildingMapID) {
@@ -352,8 +355,6 @@ KITCampusMap.prototype.getPOIContentHTML = function (poi){
 		result += "<br /><a href=\"javascript:KITCampusMap.maps['"
 				+ this.clientId + "'].handleShowPOIsInBuilding()\">"
 				+ showPOIsInBuildingLabel + "</a>" + "</div>";
-		// TODO: This code doesn't belong here!
-		this.popupPOI = poi;
 	}
 	return result;
 };
@@ -365,7 +366,7 @@ KITCampusMap.prototype.handleSwitchToBuilding = function() {
 };
 
 KITCampusMap.prototype.handleShowPOIsInBuilding = function() {
-	var input = this.getFormElement("buildingIDListener");
+	var input = this.getFormElement("buildingPOIsListListener");
 	input.value = this.popupPOI.buildingID;
 	this.requestUpdate(input.id);
 };
@@ -426,7 +427,7 @@ KITCampusMap.prototype.setHighlightedPOI = function() {
 		var marker = this.createPOIMarker(poi, true);
 		var feature = new OpenLayers.Feature(this.poiMarkerLayer, this.transformWorldPosition(poi.position)); 
 		feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {
-			'autoSize': true
+			'autoSize': true, 'maxSize': new OpenLayers.Size(340, 370)
 		});
 		feature.data.popupContentHTML = this.getPOIContentHTML(poi);
 		feature.data.overflow = "auto";
@@ -436,9 +437,19 @@ KITCampusMap.prototype.setHighlightedPOI = function() {
 				var input = this.getFormElement("highlightedPOIIDListener");
 				input.value = "";
 				this.requestUpdate(input.id);
-				this.map.popups[0].hide();
+				this.popupPOI = null;
+				feature.popup.hide();
 			};
-			feature.popup = feature.createPopup(true, closeClick, this);
+			var p = feature.popup = feature.createPopup(true, closeClick, this);
+//			p.updateSize();
+//			if (p.size.w >= 300) {
+//				p.size.w = 300;
+//			}
+//			if (p.size.h >= 400) {
+//				p.size.h = 400;
+//			}
+			
+//			p.setSize(p.size);
 			
 			this.map.addPopup(feature.popup, true);
 			feature.popup.show();
@@ -447,6 +458,7 @@ KITCampusMap.prototype.setHighlightedPOI = function() {
 			feature.popup.show();
 		}
 		
+		this.popupPOI = poi;
 		this.highlightedMarker = marker;
 		this.highlightedPOIPopup = feature.popup;
 	}

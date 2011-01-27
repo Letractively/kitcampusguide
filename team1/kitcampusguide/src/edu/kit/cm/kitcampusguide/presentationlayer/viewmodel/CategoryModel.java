@@ -1,9 +1,10 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import edu.kit.cm.kitcampusguide.standardtypes.*;
+import edu.kit.cm.kitcampusguide.standardtypes.Category;
 
 /**
  * Manages all categories to be currently displayed and all categories for the user. 
@@ -25,6 +26,11 @@ public class CategoryModel {
 	public CategoryModel(Collection<Category> currentCategories, Collection<Category> categories) {
 		this.currentCategories = currentCategories;
 		this.categories = categories;
+	}
+	
+	public CategoryModel () {
+		this.categories = Category.getAllCategories();
+		this.currentCategories = new ArrayList<Category>(categories);
 	}
 	
 	/**

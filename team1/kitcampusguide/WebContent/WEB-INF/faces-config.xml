@@ -159,6 +159,16 @@
 			<property-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel</property-class>
 			<value>#{mapModel}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>categoryModel</property-name>
+			<property-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.CategoryModel</property-class>
+			<value>#{categoryModel}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>categoryModel</managed-bean-name>
+		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.CategoryModel</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<lifecycle>
 		<phase-listener>edu.kit.cm.kitcampusguide.presentationlayer.view.MapPhaseListener</phase-listener>
