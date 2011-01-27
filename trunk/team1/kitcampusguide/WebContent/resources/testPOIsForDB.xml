@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<POIs>
+	<POI name="test">
+		<description>
+			Ein POI zum testen.
+		</description>
+		
+		<position latitude="49.012743" longitude="8.415631" mapID="1" buildingID="null"/>
+		<categories>
+				<category ID="2"/>
+		</categories>
+	</POI>
+</POIs>
