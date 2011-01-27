@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<POIs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.kit.edu/kitcampusguide/poixml poixml.xsd ">
+<POIs >
 	<POI name="Audimax">
 		<description>
 			<b>Großer</b>
@@ -27,13 +26,13 @@
 			Hier werden die Informatiker der Zukunft ausgebildet. Werden auch Sie
 			Informatiker! Es sei jedoch vor dem dritten Semester gewarnt: Dort
 			müssen alle Bachelorstudenten das sogenannte
-			<b>"PSE"</b>
+			<b> "PSE"</b>
 			absolvieren,
 			ein
-			<b>Zeitraubendes</b>
+			<b> Zeitraubendes</b>
 			,
 			unglaublich
-			<b>anstrengendes</b>
+			<b> anstrengendes</b>
 			Unterfangen,
 			das jeden an die Grenzen seine persönlichhen Kapazitäten
 			bringt.
@@ -49,9 +48,9 @@
 		<description>
 			Das Forum ist eine große Grünfläche im Zentrum des KITCampusgeländes.
 			Im Sommer kann man da gut
-			<a href="http://de.wikipedia.org/wiki/Chillen">chillen</a>
+			<a href="http://de.wikipedia.org/wiki/Chillen"> chillen</a>
 			!. Im Winter ist es
-			<span style="color:blue">nass</span>
+			<span style="color:blue"> nass</span>
 		</description>
 		<categories>
 			<category ID="4" />
@@ -92,10 +91,38 @@
 			sein
 			letztes Geld raubt! Hier der Speiseplan, guten Appetit:
 			<iframe src="http://mensa.akk.uni-karlsruhe.de/?DATUM=heute&amp;=1"
-				width="270px" height="100%" scrolling="yes" >
+				width="270px" height="100%" scrolling="auto" >
 				Oh, sorry, dein Browser ist zu doof
 				dafür...
 			</iframe>
+		</description>
+	</POI>
+	<POI name="Irgend ein Punkt im SCC">
+		<position longitude="8.408001" mapID="3" latitude="49.012178" />
+		<categories>
+			<category ID="4" />
+		</categories>
+		<description>
+			Dieser Punkt soll verdeutlichen, dass POIs auch IN einem Gebäude liegen
+			können.
+		</description>
+	</POI>
+	<POI name="Ein anderer Punkt im SCC">
+		<position longitude="8.408145" mapID="3" latitude="49.012429" />
+		<categories>
+			<category ID="4" />
+		</categories>
+		<description>
+			Auch dieser Punkt liegt im SCC
+		</description>
+	</POI>
+	<POI name="Hier könnte ihre Werbung stehen!">
+		<position longitude="8.408041" mapID="3" latitude="49.012297" />
+		<categories>
+			<category ID="4" />
+		</categories>
+		<description>
+			Lala!
 		</description>
 	</POI>
 </POIs>
