@@ -101,14 +101,14 @@ public class DefaultPOIDB implements POIDB {
 	 *            building POI. Otherwise set this parameter to
 	 *            <code>null</code>.
 	 * @throws NullPointerException
-	 *             <code>name</code>, <code>description</code> or
+	 *             <code>name</code> or
 	 *             <code>position</code> is <code>null</code>
 	 * @return <code>true</code>, if the POI was added correctly.
 	 *         <code>false</code> otherwise.
 	 */
 	boolean addPOI(String name, String description, MapPosition position,
 			Integer buildingID, Collection<Category> categories) {
-		if (name == null || description == null || position == null) {
+		if (name == null || position == null) {
 			throw new NullPointerException();
 		}
 		Logger logger = Logger.getLogger(getClass());
