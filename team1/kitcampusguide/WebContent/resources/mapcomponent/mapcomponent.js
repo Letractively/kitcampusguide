@@ -124,7 +124,19 @@ KITCampusMap.prototype.applyChanges = function() {
 	}
 
 	if (changed['buildingPOIList']) {
-		this.model
+		if (this.getFormElement("buildingPOIList").firstChild) {
+			this.model.buildingPOIList = JSON
+					.parse(this.getFormElement("buildingPOIList").firstChild.data);
+		} else {
+			this.model.buildingPOIList = null;
+		}
+		if (this.getFormElement("buildingPOI").firstChild) {
+			this.model.buildingPOI = JSON
+					.parse(this.getFormElement("buildingPOI").firstChild.data);
+		} else {
+			this.model.buildingPOI = null;
+		}
+		this.setBuildingPOIList();
 	}
 	
 	if (changed['markerTo']) {
@@ -320,8 +332,12 @@ KITCampusMap.prototype.createPOIMarker = function(poi, higlighted) {
     
     var markerMouseOver = function (evt) {
     	if (!this.tooltip) {
-    		var tooltip = new OpenLayers.Popup(null,this.transformWorldPosition(poi.position), new OpenLayers.Size(65, 15), this.getTooltipContentHTML(poi), false);
+    		var tooltip = new OpenLayers.Popup(null,this.transformWorldPosition(poi.position), null, this.getTooltipContentHTML(poi), false);
+    		tooltip.maxSize = new OpenLayers.Size(400, 20);
+    		tooltip.opacity = .7;
     		tooltip.setBorder("1px solid #009d82");
+    		tooltip.autoSize = true;
+    		tooltip.updateSize();
     		this.tooltip = tooltip;
     		this.map.addPopup(tooltip);
     	};
@@ -441,15 +457,6 @@ KITCampusMap.prototype.setHighlightedPOI = function() {
 				feature.popup.hide();
 			};
 			var p = feature.popup = feature.createPopup(true, closeClick, this);
-//			p.updateSize();
-//			if (p.size.w >= 300) {
-//				p.size.w = 300;
-//			}
-//			if (p.size.h >= 400) {
-//				p.size.h = 400;
-//			}
-			
-//			p.setSize(p.size);
 			
 			this.map.addPopup(feature.popup, true);
 			feature.popup.show();
@@ -483,6 +490,41 @@ KITCampusMap.prototype.setMapLayer = function() {
 	this.map.zoomToExtent(this.map.restrictedExtent);
 	this.map.zoomTo(this.model.map.minZoom);
 	this.enableMapEvents();
+};
+
+KITCampusMap.prototype.setBuildingPOIList = function() {
+	if (!this.model.highlightedPOI || !this.highlightedPOIPopup) {
+		// TODO: Discuss BuildingPOIList without an existing HiglightedPOI
+		return;
+	}
+	if (this.model.buildingPOIList == null) {
+		// TODO: Discuss what happens if the buildingPOIList is set to null
+	}
+	else {
+		this.highlightedPOIPopup.setContentHTML(this.createBuildingPOIList(this.model.buildingPOIList));
+	}
+	
+};
+
+KITCampusMap.prototype.createBuildingPOIList = function(poiList) {
+	var result = new String("<ul>");
+	for ( var index in poiList) {
+		var poi = poiList[index];
+		result += "<li><a href='javascript:KITCampusMap.maps[\"" + this.clientId
+				+ "\"].handleBuildingPOIListClick(\"" + poi.id + "\")'>"
+				+ poi.name + "</a></li>\n";
+	}
+	result += "</ul>";
+	return result;
+};
+
+KITCampusMap.prototype.handleBuildingPOIListClick = function(poiID) {
+	var input1 = this.getFormElement("buildingMapIDListener");
+	input1.value = this.popupPOI.buildingMapID;
+	
+	var input2 = this.getFormElement("highlightedPOIIDListener");
+	input2.value = poiID;
+	this.requestUpdate(input1.id + "," + input2.id);
 };
 
 // Help functions ------------------------------------------------------------
