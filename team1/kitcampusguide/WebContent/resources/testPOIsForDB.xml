@@ -125,7 +125,22 @@
 			Lala!
 		</description>
 	</POI>
+	
+	<!--POIs von Vanessa eingefügt-->
+	<POI name="Hier ist eine Ampel">
+		<position longitude="8.417877" mapID="1" latitude="49.010826" />
+		<categories>
+			<category ID="4" />
+		</categories>
+		<description>
+			Oh, da ist eine Ampel, gut zu wissen, aber ich laufe dennoch über Rot!<br />
+			<img
+				src='http://farm4.static.flickr.com/3420/3847241789_f7b728a620.jpg'
+				alt='Audimax' height='100' />
+		</description>
+	</POI>
 </POIs>
+
 <!-- <category id="1" name="streets"/> <category id="2" name="buildings" 
 	/> <category id="3" name="events" /> <category id="4" name="various" /> <category 
 	id="5" name="auditoriums" /> <category id="6" name="faculty" /> -->
