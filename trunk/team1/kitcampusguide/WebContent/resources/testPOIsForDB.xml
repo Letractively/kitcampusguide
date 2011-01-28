@@ -139,6 +139,32 @@
 				alt='Audimax' height='100' />
 		</description>
 	</POI>
+	<POI name="Das Schloß">
+		<position longitude="8.404477" mapID="1" latitude="49.013822" />
+		<categories>
+			<category ID="2" />
+			<category ID="4" />
+		</categories>
+		<description>
+			Karlsruhe, wird auch Fächerstadt genannt. <br />
+			Hier bei ist das Schloß der zentrale Punkt.<br />
+			<a href="http://ka.stadtwiki.net/Karlsruher_Schloss_(Bilder)">Bilder vom Schloß</a>
+		</description>
+	</POI>
+	<POI name="Freaky">
+		<position longitude="8.416847" mapID="1" latitude="49.011253" />
+		<categories>
+			<category ID="4" />
+		</categories>
+		<description>
+			This is crazy shit! Do you scared of hit a link? NO!!! Okay, than do it!<br />
+			<a href="http://patrishka.files.wordpress.com/2008/06/crazy-tattoo_1822.jpg%3Fw%3D425">I am watching you!</a><br />
+			<a href="http://3.bp.blogspot.com/_aOVUVB-gmBA/SgLe72jnivI/AAAAAAAACa0/gfamjjC-Jn8/s400/piercing-unbelievable+(6).jpg">I like my Face!</a><br />
+			<a href="http://www.acus.org/files/images/escher--unbelievable-527579_1024_768.preview.jpg">Where is the top!</a><br />
+			<a href="http://img.dailymail.co.uk/i/pix/2008/05_01/LiWei6BM_800x564.jpg">I am looking for Freedom!</a><br />
+			<a href="http://images1.fanpop.com/images/image_uploads/just-plain-weird-unbelievable-1065560_443_676.jpg">Magic!</a>
+		</description>
+	</POI>
 </POIs>
 
 <!-- <category id="1" name="streets"/> <category id="2" name="buildings" 
