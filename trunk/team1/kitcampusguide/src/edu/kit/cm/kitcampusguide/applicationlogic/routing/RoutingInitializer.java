@@ -235,8 +235,11 @@ public class RoutingInitializer {
 	private double calculateDistance(MapPosition pos1, MapPosition pos2) {
 		double result = Double.POSITIVE_INFINITY;
 		if (pos1.getMap().equals(pos2.getMap())) {
-			result = sqr(pos1.getLatitude() - pos2.getLatitude());
-			result += sqr(pos1.getLongitude() - pos2.getLongitude());
+			double lat1 = pos1.getLatitude();
+			double lat2 = pos2.getLatitude();
+			double lon1 = pos1.getLatitude();
+			double lon2 = pos2.getLatitude();
+			result = 6378.388 * Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) *  Math.cos(lon2 - lon1));
 		}
 		return result;
 	}
