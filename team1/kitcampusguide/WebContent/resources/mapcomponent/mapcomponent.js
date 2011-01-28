@@ -184,6 +184,10 @@ KITCampusMap.prototype.handleMenuOpen = function(x, y) {
 	var mapPosition = this.untransformLonLat(lonLat);
 	//TODO: Set Marker on Click of Menu Entry and fill Inputelements with data
 	//TODO: Fix bug of popup not disappearing in IE9
+	if (this.rightClickMenu) {
+		this.rightClickMenu.destroy();
+		this.rightClickMenu = null;
+	};
 	var menuHTML = "<div id=\"route_from_here\" onclick=\"javascript:console.debug(this);\" onmouseout=\"javascript:uncolorMenu(this.id);\" onmouseover=\"javascript:colorMenu(this.id);\">Route von hier</div><div id=\"route_to_here\" onclick=\"\" onmouseout=\"javascript:uncolorMenu(this.id);\" onmouseover=\"javascript:colorMenu(this.id);\">Route nach hier</div>";
 	this.rightClickMenu =  new OpenLayers.Popup(null,this.transformWorldPosition(mapPosition), null, menuHTML, false);
     this.rightClickMenu.maxSize = new OpenLayers.Size(120, 60);
