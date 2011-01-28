@@ -142,9 +142,15 @@ KITCampusMap.prototype.applyChanges = function() {
 	if (changed['markerTo']) {
 		var markerTo = this.getFormElement("markerTo").value;
 		this.model.markerTo = (markerTo == "") ? null : JSON.parse(markerTo);
-		this.setMarkerTo();
+		this.setMarker('markerTo');
 	}
-
+	
+	if (changed['markerFrom']) {
+		var markerFrom = this.getFormElement("markerFrom").value;
+		this.model.markerFrom = (markerFrom == "") ? null : JSON.parse(markerFrom);
+		this.setMarker('markerFrom');
+	}
+	
 	 if (changed['route']) {
 		var inner = this.getFormElement("route").innerHTML;
 		if (inner != "") {
@@ -187,19 +193,33 @@ KITCampusMap.prototype.handleMenuOpen = function(x, y) {
 	if (this.rightClickMenu) {
 		this.rightClickMenu.destroy();
 		this.rightClickMenu = null;
-	};
-	var menuHTML = "<div id=\"route_from_here\" onclick=\"javascript:console.debug(this);\" onmouseout=\"javascript:uncolorMenu(this.id);\" onmouseover=\"javascript:colorMenu(this.id);\">Route von hier</div><div id=\"route_to_here\" onclick=\"\" onmouseout=\"javascript:uncolorMenu(this.id);\" onmouseover=\"javascript:colorMenu(this.id);\">Route nach hier</div>";
+	}
+	var clientId = this.clientId;
+	function createRouteFromToDiv(text, id) {
+		return "<div id=\"" + clientId + ":" + text
+				+ "\" onclick=\"KITCampusMap.maps['" + clientId
+				+ "'].handleRouteFromToClick('" + id + "')\""
+				+ "onmouseout=\"KITCampusMap.uncolorMenu(this.id);\""
+				+ "onmouseover=\"KITCampusMap.colorMenu(this.id);\">" + text
+				+ "</div>";
+	}
+	// TODO: Translation
+	var menuHTML = createRouteFromToDiv("Route von hier", "markerFrom");
+	menuHTML += createRouteFromToDiv("Route nach hier", "markerTo");
+	
+	this.rightClickMenuPosition = mapPosition; // make the WorldPosition to a MapPosition
+	this.rightClickMenuPosition.map = this.model.map;
 	this.rightClickMenu =  new OpenLayers.Popup(null,this.transformWorldPosition(mapPosition), null, menuHTML, false);
     this.rightClickMenu.maxSize = new OpenLayers.Size(120, 60);
     this.rightClickMenu.autoSize = true;
     this.map.addPopup(this.rightClickMenu);
-	/*
-	//old code...needs to be integrated somehow
-	var input = this.getFormElement("markerTo");
-	mapPosition.map = this.model.map; // make the WorldPosition to a MapPosition
-	input.value = JSON.stringify(mapPosition);
+};
+
+KITCampusMap.prototype.handleRouteFromToClick = function(fromTo) {
+	this.rightClickMenu.hide();
+	var input = this.getFormElement(fromTo);
+	input.value = JSON.stringify(this.rightClickMenuPosition);
 	this.requestUpdate(input.id);
-	*/
 };
 
 /**
@@ -208,7 +228,7 @@ KITCampusMap.prototype.handleMenuOpen = function(x, y) {
  *  @param id
  *  		the id of the div container to be colored
  */
-function colorMenu(id) {
+KITCampusMap.colorMenu = function (id) {
 	var menu = document.getElementById(id);
 	menu.style.backgroundColor = "#009d82";
 	menu.style.color = "#ffffff";
@@ -221,7 +241,7 @@ function colorMenu(id) {
  *  @param id
  *  		the id of the div container to be resetted.
  */
-function uncolorMenu(id) {
+KITCampusMap.uncolorMenu = function(id) {
 	var menu = document.getElementById(id);
 	menu.style.backgroundColor = "#ffffff";
 	menu.style.color = "#000000";
@@ -381,8 +401,10 @@ KITCampusMap.prototype.createPOIMarker = function(poi, higlighted) {
     };
     
     var markerMouseOut = function (evt) {
-    	this.tooltip.hide();
-    	this.tooltip = null;
+    	if (this.tooltip) {
+    		this.tooltip.hide();
+    		this.tooltip = null;
+    	}
     };
 
 	marker.events.register("mousedown", this, markerClick);
@@ -455,19 +477,20 @@ KITCampusMap.prototype.setRoute = function() {
 	}
 };
 
-KITCampusMap.prototype.setMarkerTo = function() {
+KITCampusMap.prototype.setMarker = function(markerFromTo) {
 	var m = this.model;
-	if (this.markerToMarker) {
-		this.markerLayer.removeMarker(this.markerToMarker);
+	if (this[markerFromTo + 'Marker']) {
+		this.markerLayer.removeMarker(this[markerFromTo + 'Marker']);
 	}
-	if (m.markerTo != null) {
+	if (m[markerFromTo] != null) {
 		var size = new OpenLayers.Size(21, 25);
 		var anchor = new OpenLayers.Pixel(-(size.w / 2), -size.h);
-		var icon = new OpenLayers.Icon(
-				'http://openlayers.org/dev/img/marker-blue.png', size, anchor);
-		var position = this.transformWorldPosition(m.markerTo);
-		this.markerToMarker = new OpenLayers.Marker(position, icon);
-		this.markerLayer.addMarker(this.markerToMarker);
+		var iconColor = (markerFromTo == "markerTo" ? 'green' : 'blue');
+		var icon = new OpenLayers.Icon('http://openlayers.org/dev/img/marker-'
+				+ iconColor + '.png', size, anchor);
+		var position = this.transformWorldPosition(m[markerFromTo]);
+		this[markerFromTo + 'Marker'] = new OpenLayers.Marker(position, icon);
+		this.markerLayer.addMarker(this[markerFromTo + 'Marker']);
 	}
 };
 
