@@ -9,7 +9,11 @@ import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 
-
+/**
+ * 
+ * @author Fabian
+ *
+ */
 public class RoutingGraphTest {
 	
 	private static RoutingGraph testGraph;
@@ -32,11 +36,12 @@ public class RoutingGraphTest {
 	 * 4 -> 3|2.5;
 	 * 
 	 * This concludes the following arrays:
-	 * vertices: {0, 1, 5, 8, 10, 12}
+	 * vertices: {0, 1, 5, 8, 10, 12, 12}
 	 * edges: {2, 0, 2, 3, 4, 0, 1, 3, 1, 2, 1, 3}
-	 * weights: {1, 2, 3, 1.2, 1.5, 1, 3, 1.2, 1, 1.5, 2.5}
+	 * weights: {1, 2, 3, 1.2, 1.5, 1, 3, 1, 1.2, 1, 1.5, 2.5}
 	 * 
-	 * MapPositions: { (1|0), (1|2), (0|0), (0|2), (1.5|2.5) }
+	 * MapPositions: { (1|0|1), (1|2|1), (0|0|1), (0|2|1), (1.5|2.5|1), (1.5|2.5|2) }
+	 * (longitude | latitude | MapID)
 	 * Note: There is no dependency between MapPositions and weights.
 	 */
 	@BeforeClass
@@ -44,7 +49,7 @@ public class RoutingGraphTest {
 		int[] verticesArray = {0, 1, 5, 8, 10, 12, 12};
 		verticesCount = verticesArray.length - 1;
 		int[] edgeArray = {2, 0, 2, 3, 4, 0, 1, 3, 1, 2, 1, 3};
-		double[] weightArray = {1, 2, 3, 1.2, 1.5, 1, 3, 1.2, 1, 1.5, 2.5};
+		double[] weightArray = {1, 2, 3, 1.2, 1.5, 1, 3, 1, 1.2, 1, 1.5, 2.5};
 		WorldPosition pos1 = new WorldPosition(0, 0);
 		WorldPosition pos2 = new WorldPosition(3, 3);
 		MapSection boundingBox = new MapSection(pos1, pos2);
