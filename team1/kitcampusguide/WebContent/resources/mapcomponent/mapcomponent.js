@@ -114,7 +114,7 @@ KITCampusMap.prototype.applyChanges = function() {
 	
 	if (changed['POIs']) {
 		this.model.pois = JSON
-				.parse(this.getFormElement("POIs").firstChild.data);
+				.parse(this.getFormElement("POIs").innerHTML);
 	}
 	
 	// The POIs must be updated if the highlighted POI changes hence the old 
@@ -430,22 +430,27 @@ KITCampusMap.prototype.handleShowPOIsInBuilding = function() {
  */
 KITCampusMap.prototype.setRoute = function() {
 	this.routeLayer.removeAllFeatures();
+	// This offsets is added to each point of the route. Otherwise, the route
+	// will be rendered slightly beneath the routes from the osm tiles.
+	var offsetX = -5;
+	var offsetY = -5.4;
+	
 	if (this.model.route != null) {
 		var pointList = [];
 		var wp = this.model.route.waypoints;
 		for ( var p = 0; p < wp.length; ++p) {
 			var lonlat = this.transformWorldPosition(wp[p]);
-			pointList
-					.push(new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat));
+			pointList.push(new OpenLayers.Geometry.Point(lonlat.lon + offsetX,
+					lonlat.lat + offsetY));
 		}
 
-		var style_green = {
+		var style_red = {
 			strokeColor : "#FF0000",
 			strokeWidth : 3
 		};
 
 		var routeFeature = new OpenLayers.Feature.Vector(
-				new OpenLayers.Geometry.LineString(pointList), null, style_green);
+				new OpenLayers.Geometry.LineString(pointList), null, style_red);
 		this.routeLayer.addFeatures([ routeFeature ]);
 	}
 };
