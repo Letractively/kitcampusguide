@@ -13,4 +13,6 @@
 	<entry key="ok">OK</entry>
 	<entry key="showBuildingMap">Show building map</entry>
 	<entry key="showPOIsInBuilding">Show points in building</entry>
+	<entry key="setRouteFrom">Route from here</entry>
+	<entry key="setRouteTo">Route to here</entry>
 </language>

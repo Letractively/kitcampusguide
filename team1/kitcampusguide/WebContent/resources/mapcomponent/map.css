@@ -1,17 +1,17 @@
 @CHARSET "ISO-8859-1";
 
 .map {
-    width: 560px;
-    height: 360px;
-    border-width: 1px 1px 0px 1px;
-    border-color: #009d82;
-    border-style: solid;
+	width: 560px;
+	height: 360px;
+	border-width: 1px 1px 0px 1px;
+	border-color: #009d82;
+	border-style: solid;
 }
 
 .hidden {
 	visibility: hidden;
 	height: 0;
-	width: 0;	
+	width: 0;
 }
 
 .mapPopupHeader {
@@ -20,7 +20,7 @@
 	border-bottom-width: 1px;
 	border-bottom-color: black;
 	border-bottom-style: solid;
-	font-weight: bolder;	
+	font-weight: bolder;
 	margin: 4px;
 }
 
@@ -36,4 +36,16 @@
 	border-top-style: solid;
 	margin-top: 5px;
 }
+
+.mapContextMenuEntry {
+	background-color: #ffffff;
+	text-decoration: underline;
+	color: #009d82;
+}
+
+.mapContextMenuEntryHighlighted {
+	font-weight: bold;
+	background-color: #009d82;
+	color: #ffffff;
 	
+}
