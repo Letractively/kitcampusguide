@@ -37,7 +37,7 @@ function KITCampusMap(clientId) {
 	// Init vector layer for route
 	this.routeLayer = new OpenLayers.Layer.Vector("route", null);
 	this.map.addLayer(this.routeLayer);
-
+	
 	// Init marker layer for POIs
 	this.poiMarkerLayer = new OpenLayers.Layer.Markers("poiMarkers");
 	this.map.addLayer(this.poiMarkerLayer);
@@ -179,15 +179,48 @@ KITCampusMap.prototype.getFormElement = function(relativeId) {
  *            the y-coordinate as pixel relative to the map div
  */
 KITCampusMap.prototype.handleMenuOpen = function(x, y) {
-	// TODO: Really open a menu, until now a "setMarkerTo" click is simulated
 	var lonLat = this.map.getLonLatFromPixel(new OpenLayers.Pixel(
 	x, y));
 	var mapPosition = this.untransformLonLat(lonLat);
-
+	//TODO: Set Marker on Click of Menu Entry and fill Inputelements with data
+	//TODO: Fix bug of popup not disappearing in IE9
+	var menuHTML = "<div id=\"route_from_here\" onclick=\"javascript:console.debug(this);\" onmouseout=\"javascript:uncolorMenu(this.id);\" onmouseover=\"javascript:colorMenu(this.id);\">Route von hier</div><div id=\"route_to_here\" onclick=\"\" onmouseout=\"javascript:uncolorMenu(this.id);\" onmouseover=\"javascript:colorMenu(this.id);\">Route nach hier</div>";
+	this.rightClickMenu =  new OpenLayers.Popup(null,this.transformWorldPosition(mapPosition), null, menuHTML, false);
+    this.rightClickMenu.maxSize = new OpenLayers.Size(120, 60);
+    this.rightClickMenu.autoSize = true;
+    this.map.addPopup(this.rightClickMenu);
+	/*
+	//old code...needs to be integrated somehow
 	var input = this.getFormElement("markerTo");
 	mapPosition.map = this.model.map; // make the WorldPosition to a MapPosition
 	input.value = JSON.stringify(mapPosition);
 	this.requestUpdate(input.id);
+	*/
+};
+
+/**
+ *  This function colors the menu entry passed by id.
+ *  
+ *  @param id
+ *  		the id of the div container to be colored
+ */
+function colorMenu(id) {
+	var menu = document.getElementById(id);
+	menu.style.backgroundColor = "#009d82";
+	menu.style.color = "#ffffff";
+};
+
+/**
+ *  This function sets the color values of the menu entry passed by id
+ *  back to standard values.
+ *  
+ *  @param id
+ *  		the id of the div container to be resetted.
+ */
+function uncolorMenu(id) {
+	var menu = document.getElementById(id);
+	menu.style.backgroundColor = "#ffffff";
+	menu.style.color = "#000000";
 };
 
 /**
@@ -483,6 +516,13 @@ KITCampusMap.prototype.setMapLayer = function() {
 	}
 	this.mapLayer = new OpenLayers.Layer.XYZ("XYZ-Layer",
 			this.model.map.tilesURL);
+	var closeContextMenu = function(evt) {
+		if (this.rightClickMenu) {
+			this.rightClickMenu.destroy();
+			this.rightClickMenu = null;
+		};
+	};
+	this.routeLayer.events.register("click", this, closeContextMenu);
 	this.map.addLayer(this.mapLayer);
 	this.map.setBaseLayer(this.mapLayer);
 	this.map.restrictedExtent = this
