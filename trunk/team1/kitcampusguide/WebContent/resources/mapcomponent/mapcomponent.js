@@ -146,9 +146,9 @@ KITCampusMap.prototype.applyChanges = function() {
 	}
 
 	 if (changed['route']) {
-		if (this.getFormElement("route").firstChild) {
-			this.model.route = JSON
-					.parse(this.getFormElement("route").firstChild.data);
+		var inner = this.getFormElement("route").innerHTML;
+		if (inner != "") {
+			this.model.route = JSON.parse(inner);
 		} else {
 			this.model.route = null;
 		}
