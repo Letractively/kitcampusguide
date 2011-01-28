@@ -105,6 +105,7 @@ public class DijkstraRoutingCalculation {
 			Collections.reverse(waypoints);
 			result = new Route(waypoints);
 		}
+		logger.debug("Route constructed from " + fromVertice + " to " + toVertice + " with a length of " + result.getWaypoints().size());
 		return result;
 	}
 
