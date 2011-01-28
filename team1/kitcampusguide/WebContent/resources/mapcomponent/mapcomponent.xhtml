@@ -90,12 +90,14 @@ on the final system? -->
 				<f:converter converterId="changedPropertiesConverter" />
 			</h:outputText>
 		</h:form>
-		<h:outputText class="hidden"
-			value="#{tr:translate('showBuildingMap')}"
-			id="showBuildingMapLabel" />
-		<h:outputText class="hidden"
+		<div class="hidden">
+			<h:outputText class="hidden"
+				value="#{tr:translate('showBuildingMap')}"
+				id="showBuildingMapLabel" />
+			<h:outputText class="hidden"
 			value="#{tr:translate('showPOIsInBuilding')}"
 			id="showPOIsInBuildingLabel" />
+		</div>
 		<script type="text/javascript">
 			new KITCampusMap('#{cc.clientId}');
 		</script>
