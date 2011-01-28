@@ -196,16 +196,18 @@ KITCampusMap.prototype.handleMenuOpen = function(x, y) {
 	}
 	var clientId = this.clientId;
 	function createRouteFromToDiv(text, id) {
-		return "<div id=\"" + clientId + ":" + text
+		return "<div id=\"" + clientId + ":" + id
 				+ "\" onclick=\"KITCampusMap.maps['" + clientId
 				+ "'].handleRouteFromToClick('" + id + "')\""
 				+ "onmouseout=\"KITCampusMap.uncolorMenu(this.id);\""
+				+ " class='mapContextMenu' "
 				+ "onmouseover=\"KITCampusMap.colorMenu(this.id);\">" + text
 				+ "</div>";
 	}
-	// TODO: Translation
-	var menuHTML = createRouteFromToDiv("Route von hier", "markerFrom");
-	menuHTML += createRouteFromToDiv("Route nach hier", "markerTo");
+	var menuHTML = createRouteFromToDiv(this
+			.getTranslation("setRouteFromLabel"), "markerFrom");
+	menuHTML += createRouteFromToDiv(this.getTranslation("setRouteToLabel"),
+			"markerTo");
 	
 	this.rightClickMenuPosition = mapPosition; // make the WorldPosition to a MapPosition
 	this.rightClickMenuPosition.map = this.model.map;
@@ -230,8 +232,7 @@ KITCampusMap.prototype.handleRouteFromToClick = function(fromTo) {
  */
 KITCampusMap.colorMenu = function (id) {
 	var menu = document.getElementById(id);
-	menu.style.backgroundColor = "#009d82";
-	menu.style.color = "#ffffff";
+	menu.className = 'mapContextMenuEntryHighlighted';
 };
 
 /**
@@ -243,8 +244,7 @@ KITCampusMap.colorMenu = function (id) {
  */
 KITCampusMap.uncolorMenu = function(id) {
 	var menu = document.getElementById(id);
-	menu.style.backgroundColor = "#ffffff";
-	menu.style.color = "#000000";
+	menu.className = 'mapContextMenuEntry';
 };
 
 /**
@@ -418,20 +418,20 @@ KITCampusMap.prototype.getPOIContentHTML = function (poi){
 	result += "<div class='mapPopupPOIInfo'>" + unescape(poi.description) + "</div>";
 
 		if (poi.buildingMapID) {
-		var showBuildingMapLabel = document.getElementById(this.clientId
-				+ ":showBuildingMapLabel").firstChild.data;
-		var showPOIsInBuildingLabel = document.getElementById(this.clientId
-				+ ":showPOIsInBuildingLabel").firstChild.data;
-		
-		result += "<div class='mapBuildingPOILinks'><a href=\"javascript:KITCampusMap.maps['"
-				+ this.clientId
+		result += "<div class='mapBuildingPOILinks'>"
+				+ "<a href=\"javascript:KITCampusMap.maps['" + this.clientId
 				+ "'].handleSwitchToBuilding()\">"
-				+ showBuildingMapLabel + "</a>";
+				+ this.getTranslation("showBuildingMapLabel") + "</a>";
 		result += "<br /><a href=\"javascript:KITCampusMap.maps['"
 				+ this.clientId + "'].handleShowPOIsInBuilding()\">"
-				+ showPOIsInBuildingLabel + "</a>" + "</div>";
+				+ this.getTranslation("showPOIsInBuildingLabel") + "</a></div>";
 	}
 	return result;
+};
+
+KITCampusMap.prototype.getTranslation = function(label) {
+	return document.getElementById(this.clientId
+			+ ":" + label).innerHTML;
 };
 
 KITCampusMap.prototype.handleSwitchToBuilding = function() {
