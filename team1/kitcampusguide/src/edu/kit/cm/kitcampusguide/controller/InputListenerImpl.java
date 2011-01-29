@@ -16,7 +16,6 @@ import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateMa
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManagerImpl;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
-import edu.kit.cm.kitcampusguide.applicationlogic.poisource.TestPOISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.routing.RoutingStrategy;
 import edu.kit.cm.kitcampusguide.applicationlogic.routing.RoutingStrategyImpl;
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
@@ -152,12 +151,19 @@ public class InputListenerImpl implements InputListener {
 				from = new MapPosition (poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
 			}
 		}
+		else {
+			mapModel.setMarkerFrom(from);
+		}
+		
 		MapPosition to = positionRepresentedBySearchTerm(routeTo);
 		if (to == null) {
 			POI poi = performSearch(routeTo, InputFields.ROUTE_TO);
 			if (poi != null) {
 				to = new MapPosition (poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
 			}
+		}
+		else {
+			mapModel.setMarkerTo(to);
 		}
 		if (from != null && to != null) {
 			Route route = routing.calculateRoute(from, to);

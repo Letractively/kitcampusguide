@@ -18,7 +18,7 @@
 }
 
 #bar {
-	width: 560px;
+/*	width: 560px;*/
 	background-color: #e5e5e5;
 	border-color: #009d82;
 	border-width: 1px;
@@ -27,18 +27,6 @@
 #logo {
 	width: 100px;
 }
-
-#input {
-	width: 340px;
-	vertical-align: centre;
-}
-
-#form:navigation {
-	width: 112px;
-	text-align: right;
-}
-
--->
 </style>
 </head>
 </html>
