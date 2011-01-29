@@ -199,10 +199,11 @@ KITCampusMap.prototype.handleMenuOpen = function(x, y) {
 		return "<div id=\"" + clientId + ":" + id
 				+ "\" onclick=\"KITCampusMap.maps['" + clientId
 				+ "'].handleRouteFromToClick('" + id + "')\""
-				+ "onmouseout=\"KITCampusMap.uncolorMenu(this.id);\""
-				+ " class='mapContextMenu' "
-				+ "onmouseover=\"KITCampusMap.colorMenu(this.id);\">" + text
-				+ "</div>";
+				+ "onmouseout=\"KITCampusMap.maps['" + clientId
+				+ "'].uncolorMenu(this.id);\""
+				+ " class='mapContextMenuEntry' "
+				+ "onmouseover=\"KITCampusMap.maps['" + clientId
+				+ "'].colorMenu(this.id);\">" + text + "</div>";
 	}
 	var menuHTML = createRouteFromToDiv(this
 			.getTranslation("setRouteFromLabel"), "markerFrom");
@@ -212,7 +213,7 @@ KITCampusMap.prototype.handleMenuOpen = function(x, y) {
 	this.rightClickMenuPosition = mapPosition; // make the WorldPosition to a MapPosition
 	this.rightClickMenuPosition.map = this.model.map;
 	this.rightClickMenu =  new OpenLayers.Popup(null,this.transformWorldPosition(mapPosition), null, menuHTML, false);
-    this.rightClickMenu.maxSize = new OpenLayers.Size(120, 60);
+//    this.rightClickMenu.maxSize = new OpenLayers.Size(166, 60);
     this.rightClickMenu.autoSize = true;
     this.map.addPopup(this.rightClickMenu);
 };
@@ -230,9 +231,10 @@ KITCampusMap.prototype.handleRouteFromToClick = function(fromTo) {
  *  @param id
  *  		the id of the div container to be colored
  */
-KITCampusMap.colorMenu = function (id) {
+KITCampusMap.prototype.colorMenu = function (id) {
 	var menu = document.getElementById(id);
 	menu.className = 'mapContextMenuEntryHighlighted';
+	this.rightClickMenu.updateSize();
 };
 
 /**
@@ -242,9 +244,10 @@ KITCampusMap.colorMenu = function (id) {
  *  @param id
  *  		the id of the div container to be resetted.
  */
-KITCampusMap.uncolorMenu = function(id) {
+KITCampusMap.prototype.uncolorMenu = function(id) {
 	var menu = document.getElementById(id);
 	menu.className = 'mapContextMenuEntry';
+	this.rightClickMenu.updateSize();
 };
 
 /**
