@@ -2,6 +2,8 @@ package edu.kit.cm.kitcampusguide.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import org.jdom.input.SAXBuilder;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 import edu.kit.cm.kitcampusguide.standardtypes.Building;
+import edu.kit.cm.kitcampusguide.standardtypes.Category;
 import edu.kit.cm.kitcampusguide.standardtypes.InitializationException;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
@@ -154,5 +157,13 @@ public class DefaultModelValues {
 	 */
 	public Integer getDefaultCurrentFloorIndex() {
 		return null;
+	}
+	
+	public Collection<Category> getDefaultCurrentCategories() {		
+		return Category.getCategoriesByIDs(Arrays.asList(1,2,3,4,5,6));		
+	}
+		
+	public Collection<Category> getDefaultCategories() {
+		return Category.getCategoriesByIDs(Arrays.asList(1,2,3,4,5,6));	
 	}
 }

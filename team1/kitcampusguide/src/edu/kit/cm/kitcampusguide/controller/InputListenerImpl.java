@@ -249,6 +249,10 @@ public class InputListenerImpl implements InputListener {
 	public void languageChangeLinkPressed(ActionEvent ae) {
 		inputModel.setLanguageProposalListIsVisible(true);
 	}
+	
+	public void languageChangeCancelled(ActionEvent ae) {
+		inputModel.setLanguageProposalListIsVisible(false);
+	}
 		
 	public void languageChangeTriggered(ActionEvent ae) {
 		String language = inputModel.getLanguageSelection();
