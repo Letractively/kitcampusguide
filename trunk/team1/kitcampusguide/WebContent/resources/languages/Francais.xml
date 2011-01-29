@@ -11,5 +11,6 @@
 	<entry key ="searchFailed">Pas de résultats appropriés.</entry>
 	<entry key="routeCalculationFailed">Erreur calculant la route.</entry>
 	<entry key="choose">Choisissez s'il vous plaît</entry>
-	<entry key="ok">Vas-y.</entry>
+	<entry key="ok">Vas-y</entry>
+	<entry key="cancel">Abandon</entry>
 </language>

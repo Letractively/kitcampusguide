@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import edu.kit.cm.kitcampusguide.controller.DefaultModelValues;
 import edu.kit.cm.kitcampusguide.standardtypes.Category;
 
 /**
@@ -18,19 +19,21 @@ public class CategoryModel {
 	/** Stores all available categories */
 	private Collection<Category> categories;
 	
+	private DefaultModelValues defaultModelValues = new DefaultModelValues();
+	
 	/**
 	 * Constructs a new category model.
 	 * @param currentCategories The categories set to visible at the beginning.
 	 * @param categories All available categories.
 	 */
-	public CategoryModel(Collection<Category> currentCategories, Collection<Category> categories) {
+	/*public CategoryModel(Collection<Category> currentCategories, Collection<Category> categories) {
 		this.currentCategories = currentCategories;
 		this.categories = categories;
-	}
+	}*/
 	
 	public CategoryModel () {
-		this.categories = Category.getAllCategories();
-		this.currentCategories = new ArrayList<Category>(categories);
+		categories  = defaultModelValues.getDefaultCategories();
+		currentCategories = defaultModelValues.getDefaultCurrentCategories();
 	}
 	
 	/**

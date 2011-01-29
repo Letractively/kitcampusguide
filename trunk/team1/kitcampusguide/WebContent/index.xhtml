@@ -115,7 +115,6 @@
 					<h:panelGrid columns="1">
 						<h:commandLink id="filterLink" value="#{tr:translate('filter')}" />
 <!--							actionListener="#{inputListener.filterLinkPressed}" -->
-
 						<h:commandLink id="changeLanguageLink" value="#{tr:translate('changeLanguage')}"
 							actionListener="#{inputListener.languageChangeLinkPressed}" >
 							<f:ajax execute="changeLanguageLink" render="navigation" />
@@ -128,6 +127,11 @@
 							<h:commandButton id="languageChangeTriggered" value="#{tr:translate('ok')}"								
 								actionListener="#{inputListener.languageChangeTriggered}"
 								rendered="#{inputModel.languageProposalListIsVisible}" />
+							<h:commandButton id="languageChangeCancelled" value="#{tr:translate('cancel')}"								
+								actionListener="#{inputListener.languageChangeCancelled}"
+								rendered="#{inputModel.languageProposalListIsVisible}" >
+								<f:ajax execute="form:languageChangeCancelled" render="form:navigation" />	
+							</h:commandButton>
 						</h:panelGroup>
 						<h:panelGroup>
 							<h:commandLink actionListener="#{inputListener.changeLanguageToEnglish}" >

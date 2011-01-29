@@ -11,6 +11,7 @@
 	<entry key="routeCalculationFailed">Route konnte nicht berechnet werden.</entry>
 	<entry key="choose">Bitte wählen Sie.</entry>
 	<entry key="ok">OK</entry>
+	<entry key="cancel">Abbrechen</entry>
 	<entry key="showBuildingMap">Gebäudekarte anzeigen</entry>
 	<entry key="showPOIsInBuilding">Punkte im Gebäude anzeigen</entry>
 	<entry key="setRouteFrom">Route von hier</entry>
