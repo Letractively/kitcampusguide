@@ -165,6 +165,34 @@
 			<a href="http://images1.fanpop.com/images/image_uploads/just-plain-weird-unbelievable-1065560_443_676.jpg">Magic!</a>
 		</description>
 	</POI>
+	
+	<!--POIs von Isa eingefügt-->
+	<POI name="KIT-Bibliothek">
+		<position longitude="8.416351" mapID="1" latitude="49.011035" /> 
+		<categories>
+			<category ID="2" />
+		</categories>
+		<description>
+			Treffpunkt für alle Lese- und/oder Studierwütigen. <br />
+			Kein Bücherwunsch bleibt unerfüllt! <br />
+			Suche hier nach deinem Lieblingsbuch:
+			<iframe src="http://www.ubka.uni-karlsruhe.de/hylib/suchmaske.html"
+				width="270px" height="100%" scrolling="auto" >
+				Hier sollte der KIT-Katalog angezeigt werden ...
+			</iframe>
+		</description>
+	</POI>
+	
+	<POI name="Neuer Zirkel">
+		<position longitude="8.409303" mapID="1" latitude="49.011844" /> 
+		<categories>
+			<category ID="1" />
+		</categories>
+		<description>
+			
+		</description>
+	</POI>
+	
 </POIs>
 
 <!-- <category id="1" name="streets"/> <category id="2" name="buildings" 
