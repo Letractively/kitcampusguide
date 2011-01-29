@@ -8,6 +8,8 @@ import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.DataModel;
+import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
@@ -265,6 +267,22 @@ public class InputListenerImpl implements InputListener {
 		logger.info("change language to " + language);
 		translationModel.setCurrentLanguage(language);
 		inputModel.setLanguageProposalListIsVisible(false);
+	}
+	
+	public void changeToBuildingMap() {
+		mapModel.setFloors(new ListDataModel<Map>(mapModel.getBuilding().getFloors()));
+		inputModel.setLateralBarIsVisible(true);
+	}
+	
+	public void changeFloor(ActionEvent ae) {
+		DataModel<Map> floors = mapModel.getFloors();
+		Map floor = floors.getRowData();
+		mapModel.setMap(floor);
+	}
+	
+	public void goBackToCampusMap(ActionEvent ae) {
+		mapModel.setMap(Map.getMapByID(1));
+		inputModel.setLateralBarIsVisible(false);
 	}
 	
 	//mittlerweile überflüssig?

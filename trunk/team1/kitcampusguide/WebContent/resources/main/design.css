@@ -24,6 +24,16 @@
 	border-width: 1px;
 	border-style: solid;
 }
+
+#lateralBar {
+	background-color: #e5e5e5;
+	border-color: #009d82;
+	border-width: 1px;
+	border-style: solid;
+	width: 136px;
+	height: 270px;
+}
+
 #logo {
 	width: 100px;
 }

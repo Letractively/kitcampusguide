@@ -32,6 +32,8 @@ public class InputModel {
 	private String languageSelection;
 	private boolean languageProposalListIsVisible = false;
 	
+	private boolean lateralBarIsVisible = true;
+	
 	/** The export link to be displayed. Can be <code>null</code>.*/
 	private String exportLink;
 	/** The html embedding code. Can be <code>null</code>.*/
@@ -168,6 +170,14 @@ public class InputModel {
 
 	public boolean isLanguageProposalListIsVisible() {
 		return languageProposalListIsVisible;
+	}
+
+	public void setLateralBarIsVisible(boolean lateralBarIsVisible) {
+		this.lateralBarIsVisible = lateralBarIsVisible;
+	}
+
+	public boolean isLateralBarIsVisible() {
+		return lateralBarIsVisible;
 	}
 
 	/**
