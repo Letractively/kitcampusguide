@@ -16,4 +16,5 @@
 	<entry key="showPOIsInBuilding">Show points in building</entry>
 	<entry key="setRouteFrom">Route from here</entry>
 	<entry key="setRouteTo">Route to here</entry>
+	<entry key="backToCampus">back to Campus</entry>
 </language>

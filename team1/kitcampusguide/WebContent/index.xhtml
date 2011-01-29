@@ -12,21 +12,40 @@
 	<title>KITCampusGuide</title>
 	<h:outputStylesheet name="design.css" library="main" target="head" />
 	<h:outputScript name="jsf.js" library="javax.faces" target="head" />
+	
 </h:head>
 <h:body>
-	<map:mapcomponent map="#{mapModel.map}" POIs="#{mapModel.POIs}"
-		building="#{mapModel.building}" mapLocator="#{mapModel.mapLocator}"
-		highlightedPOI="#{mapModel.highlightedPOI}"
-		markerFrom="#{mapModel.markerFrom}" markerTo="#{mapModel.markerTo}"
-		route="#{mapModel.route}" buildingPOI="#{mapModel.buildingPOI}"
-		buildingPOIList="#{mapModel.buildingPOIList}"
-		changedProperties="#{mapModel.changedProperties}"
-		additionalRenderIDs="routeFromField routeToField"
-		>
-		<c:valueChangeListener for="valueChangeListener"
-			type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapEventsListener" />
-		<!--  TODO: Add appropriate action listeners -->
-	</map:mapcomponent>
+	<h:panelGrid columns="2" >
+		<h:panelGroup id="map">
+		<map:mapcomponent map="#{mapModel.map}" POIs="#{mapModel.POIs}"
+			building="#{mapModel.building}" mapLocator="#{mapModel.mapLocator}"
+			highlightedPOI="#{mapModel.highlightedPOI}"
+			markerFrom="#{mapModel.markerFrom}" markerTo="#{mapModel.markerTo}"
+			route="#{mapModel.route}" buildingPOI="#{mapModel.buildingPOI}"
+			buildingPOIList="#{mapModel.buildingPOIList}"
+			changedProperties="#{mapModel.changedProperties}"
+			additionalRenderIDs="routeFromField routeToField" >
+			<c:valueChangeListener for="valueChangeListener"
+				type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapEventsListener" />
+			<!--  TODO: Add appropriate action listeners -->
+		</map:mapcomponent>
+		</h:panelGroup>
+		<h:panelGroup id="lateralBar" layout="block" rendered="#{inputModel.lateralBarIsVisible}">
+			<h:form id="lateralForm" >
+				<h:dataTable id="floors" value="#{mapModel.floors}" var="floor">
+					<h:column >
+						<h:commandLink value="#{floor.name}" actionListener="#{inputListener.changeFloor}"/>
+					</h:column>
+				</h:dataTable>
+				
+				<h:panelGroup layout="block" style="position:absolute; top:375px;" >
+				<h:commandLink id="backToCampusMap" value="#{tr:translate('backToCampus')}"
+					actionListener="#{inputListener.goBackToCampusMap}" />
+				</h:panelGroup>
+			</h:form>
+		</h:panelGroup>
+	
+	</h:panelGrid>
 	
 	<h:panelGroup id="bar" layout="block" library="main">
 		<h:form id="form" prependId="false">
