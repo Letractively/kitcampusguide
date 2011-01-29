@@ -5,7 +5,6 @@
 			<b>Großer</b>
 			Hörsaal!!
 			<br />
-			<blink>nervige Nachricht</blink>
 			<br />
 			<img
 				src='http://www.informatik.kit.edu/img/studieninteressierte_informatik1.jpg'
@@ -74,14 +73,14 @@
 		</categories>
 	</POI>
 	<POI name="SCC">
-		<description>Rechenzentrum für Nerds!</description>
+		<description>Rechenzentrum</description>
 		<position longitude="8.408032" mapID="1" latitude="49.012232"
 			buildingID="1" />
 		<categories>
 			<category ID="2" />
 		</categories>
 	</POI>
-	<POI name="Mensa!">
+	<POI name="Mensa">
 		<position longitude="8.416857" mapID="1" latitude="49.01193" />
 		<categories>
 			<category ID="2" />
@@ -127,42 +126,15 @@
 	</POI>
 	
 	<!--POIs von Vanessa eingefügt-->
-	<POI name="Hier ist eine Ampel">
-		<position longitude="8.417877" mapID="1" latitude="49.010826" />
-		<categories>
-			<category ID="4" />
-		</categories>
-		<description>
-			Oh, da ist eine Ampel, gut zu wissen, aber ich laufe dennoch über Rot!<br />
-			<img
-				src='http://farm4.static.flickr.com/3420/3847241789_f7b728a620.jpg'
-				alt='Audimax' height='100' />
-		</description>
-	</POI>
-	<POI name="Das Schloß">
+	<POI name="Das Schloss">
 		<position longitude="8.404477" mapID="1" latitude="49.013822" />
 		<categories>
 			<category ID="2" />
 			<category ID="4" />
 		</categories>
 		<description>
-			Karlsruhe, wird auch Fächerstadt genannt. <br />
-			Hier bei ist das Schloß der zentrale Punkt.<br />
+			Karlsruhe, wird auch Fächerstadt genannt. <br />Hierbei ist das Schloß der zentrale Punkt.<br />
 			<a href="http://ka.stadtwiki.net/Karlsruher_Schloss_(Bilder)">Bilder vom Schloß</a>
-		</description>
-	</POI>
-	<POI name="Freaky">
-		<position longitude="8.416847" mapID="1" latitude="49.011253" />
-		<categories>
-			<category ID="4" />
-		</categories>
-		<description>
-			This is crazy shit! Do you scared of hit a link? NO!!! Okay, than do it!<br />
-			<a href="http://patrishka.files.wordpress.com/2008/06/crazy-tattoo_1822.jpg%3Fw%3D425">I am watching you!</a><br />
-			<a href="http://3.bp.blogspot.com/_aOVUVB-gmBA/SgLe72jnivI/AAAAAAAACa0/gfamjjC-Jn8/s400/piercing-unbelievable+(6).jpg">I like my Face!</a><br />
-			<a href="http://www.acus.org/files/images/escher--unbelievable-527579_1024_768.preview.jpg">Where is the top!</a><br />
-			<a href="http://img.dailymail.co.uk/i/pix/2008/05_01/LiWei6BM_800x564.jpg">I am looking for Freedom!</a><br />
-			<a href="http://images1.fanpop.com/images/image_uploads/just-plain-weird-unbelievable-1065560_443_676.jpg">Magic!</a>
 		</description>
 	</POI>
 	
@@ -184,7 +156,7 @@
 	</POI>
 	
 	<POI name="Neuer Zirkel">
-		<position longitude="8.409303" mapID="1" latitude="49.011844" /> 
+		<position longitude="8.409303" mapID="1" latitude="49.011844" ></position> 
 		<categories>
 			<category ID="1" />
 		</categories>
