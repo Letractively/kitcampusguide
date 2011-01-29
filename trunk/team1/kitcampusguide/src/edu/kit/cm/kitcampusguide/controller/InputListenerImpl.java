@@ -135,10 +135,11 @@ public class InputListenerImpl implements InputListener {
 		} else {
 			POI poi = performSearch(searchTerm, inputField);
 			if (poi != null) {
-				System.out.println("mmodel: " + mapModel);
+				System.out.println("model: " + mapModel);
 				mapModel.setHighlightedPOI(poi);
 				mapModel.setMapLocator(new MapLocator (new MapPosition(poi.getPosition().getLatitude(),
 						poi.getPosition().getLongitude(), poi.getMap())));
+				mapModel.setMap(poi.getMap());
 			}			
 		}
 	}
@@ -170,6 +171,11 @@ public class InputListenerImpl implements InputListener {
 			if (route != null) {
 				mapModel.setRoute(route);
 				mapModel.setMapLocator(new MapLocator (route.getBoundingBox()));
+				if (from.getMap().getID() == to.getMap().getID()) {
+					mapModel.setMap(from.getMap());
+				} else {
+					mapModel.setMap(Map.getMapByID(1));
+				}
 			} else {
 				inputModel.setRouteCalculationFailed(true);
 			}
