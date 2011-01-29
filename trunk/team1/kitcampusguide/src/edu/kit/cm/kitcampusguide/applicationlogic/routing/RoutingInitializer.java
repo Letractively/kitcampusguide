@@ -206,7 +206,8 @@ public class RoutingInitializer {
 		for (int i = 0; i < verticesArray.length - 1; i++) {
 			int[] neighbours = getNeighbours(i);
 			for (int j = 0; j < neighbours.length; j++) {
-				weightArray[verticesArray[i] + j] = calculateDistance(positionArray[i], positionArray[j]);
+				weightArray[verticesArray[i] + j] = MapPosition
+						.calculateDistance(positionArray[i], positionArray[j]);
 			}
 		}
 		//And initializing the RoutingGraph object.
@@ -226,28 +227,9 @@ public class RoutingInitializer {
 		return result;
 	}
 	
-	/**
-	 * Calculates the distance between the positions pos1 and pos2.
-	 * @param pos1 The first position.
-	 * @param pos2 The second position.
-	 * @return The distance between pos1 and pos2.
-	 */
-	private double calculateDistance(MapPosition pos1, MapPosition pos2) {
-		double result = Double.POSITIVE_INFINITY;
-		if (pos1.getMap().equals(pos2.getMap())) {
-			double lat1 = Math.toRadians(pos1.getLatitude());
-			double lat2 = Math.toRadians(pos2.getLatitude());
-			double lon1 = Math.toRadians(pos1.getLatitude());
-			double lon2 = Math.toRadians(pos2.getLatitude());
-			double dx = Math.sin(lat1) * Math.cos(lon1) - Math.sin(lat2) * Math.cos(lon2);
-			double dy = Math.cos(lat1) * Math.sin(lon1) - Math.cos(lat2) * Math.sin(lon2);
-			double dz = Math.sin(lat1) - Math.sin(lat2);
-			result = Math.sqrt(dx * dx + dy * dy + dz * dz);
-//			result = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) *  Math.cos(lon2 - lon1));
-		}
-		return result;
+	private double sqr(double d) {
+		return d*d;
 	}
-	
 	
 	/**
 	 * Initializes the routing sub system if no such initialization has been attempted before.

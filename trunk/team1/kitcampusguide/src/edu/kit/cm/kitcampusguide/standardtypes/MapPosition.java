@@ -41,4 +41,10 @@ public class MapPosition  extends WorldPosition {
 		return (other == this)
 				|| (super.equals(other) && other.map.equals(this.map));
 	}
+	
+	// TODO
+	public static double calculateDistance(MapPosition pos1, MapPosition pos2) {
+		return (pos1.map.equals(pos2.map)) ? WorldPosition.calculateDistance(
+				pos1, pos2) : Double.MAX_VALUE;
+	}
 }

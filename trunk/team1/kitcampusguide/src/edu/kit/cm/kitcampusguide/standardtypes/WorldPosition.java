@@ -78,4 +78,22 @@ public class WorldPosition implements Serializable {
 		return (other == this) || (Math.abs(other.latitude - this.latitude) < EPS
 				&& Math.abs(other.longitude - this.longitude) < EPS);
 	}
+	
+	/**
+	 * Calculates the distance between the positions pos1 and pos2.
+	 * @param pos1 The first position.
+	 * @param pos2 The second position.
+	 * @return The distance between pos1 and pos2.
+	 */
+	public static double calculateDistance(WorldPosition pos1,
+			WorldPosition pos2) {
+		double lat1 = Math.toRadians(pos1.getLatitude());
+		double lat2 = Math.toRadians(pos2.getLatitude());
+		double lon1 = Math.toRadians(pos1.getLongitude());
+		double lon2 = Math.toRadians(pos2.getLongitude());
+		double result = 6370000 * Math.acos(Math.sin(lat1) * Math.sin(lat2)
+				+ Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1));
+		return result;
+	}
+
 }
