@@ -123,6 +123,16 @@
 		<managed-bean-name>mapListener</managed-bean-name>
 		<managed-bean-class>edu.kit.cm.kitcampusguide.controller.MapListenerImpl</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>inputModel</property-name>
+			<property-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel</property-class>
+			<value>#{inputModel}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>mapModel</property-name>
+			<property-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel</property-class>
+			<value>#{mapModel}</value>
+		</managed-property>
 	</managed-bean>
 	<managed-bean>
 		<description>Holds some default values which are used to initialise a new model</description>

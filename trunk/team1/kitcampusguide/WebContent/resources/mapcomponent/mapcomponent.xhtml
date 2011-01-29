@@ -29,11 +29,11 @@
 			type="edu.kit.cm.kitcampusguide.standardtypes.POI" required="true" />
 		<cc:attribute name="buildingPOIList" required="true" />
 		<cc:attribute name="changedProperties" required="true" />
+		<cc:attribute name="additionalRenderIDs" default="" />
 		<!-- EditableValueHolders -->
 		<cc:editableValueHolder name="valueChangeListener"
 			targets="form:mapLocator form:markerTo form:markerFrom form:highlightedPOIIDListener  
 			form:buildingMapIDListener form:buildingPOIsListListener" />
-		<!-- TODO: POIListener action source must be defined -->
 	</cc:interface>
 	<cc:implementation>
 		<h:outputScript target="head" library="mapcomponent"
@@ -89,6 +89,8 @@ on the final system? -->
 			<h:outputText id="changedProperties" value="#{cc.attrs.changedProperties}" class="hidden">
 				<f:converter converterId="changedPropertiesConverter" />
 			</h:outputText>
+			<h:outputText id="additionalRenderIDs"
+				value="#{cc.attrs.additionalRenderIDs}" class="hidden" />
 		</h:form>
 		<div class="hidden">
 			<h:outputText class="hidden"

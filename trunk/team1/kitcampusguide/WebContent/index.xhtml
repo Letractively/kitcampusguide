@@ -20,14 +20,16 @@
 		markerFrom="#{mapModel.markerFrom}" markerTo="#{mapModel.markerTo}"
 		route="#{mapModel.route}" buildingPOI="#{mapModel.buildingPOI}"
 		buildingPOIList="#{mapModel.buildingPOIList}"
-		changedProperties="#{mapModel.changedProperties}">
+		changedProperties="#{mapModel.changedProperties}"
+		additionalRenderIDs="routeFromField routeToField"
+		>
 		<c:valueChangeListener for="valueChangeListener"
 			type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapEventsListener" />
 		<!--  TODO: Add appropriate action listeners -->
 	</map:mapcomponent>
 	
 	<h:panelGroup id="bar" layout="block" library="main">
-		<h:form id="form">
+		<h:form id="form" prependId="false">
 			<h:panelGrid columns="4">
 		
 				<h:panelGroup id="kitlogo" layout="block">
@@ -44,8 +46,8 @@
 							<h:inputText id="routeFromField" value="#{inputModel.routeFromField}"
 								valueChangeListener="#{inputListener.refreshInputArea}" 
 								rendered="#{not inputModel.routeFromProposalListIsVisible}" >								
-								<f:ajax execute="form:routeFromField form:routeToField"
-									render="form:button form:routeFromInformation" event="keyup" />
+								<f:ajax execute="routeFromField routeToField"
+									render="button routeFromInformation" event="keyup" />
 							</h:inputText>	
 							<h:selectOneMenu id="routeFromProposalList" rendered="#{inputModel.routeFromProposalListIsVisible}" 
 								value="#{inputModel.routeFromSelection}" >
@@ -55,7 +57,7 @@
 							<h:commandLink id="resetRouteFromProposalList" value="#{tr:translate('reset')}" 
 								actionListener="#{inputListener.resetRouteFromProposalList}" 
 								rendered="#{inputModel.routeFromProposalListIsVisible}" >
-								<f:ajax execute="form:resetRouteFromProposalList" render="form:routeFromInput" />
+								<f:ajax execute="resetRouteFromProposalList" render="routeFromInput" />
 							</h:commandLink>						
 							<br />	
 							<h:panelGroup id="routeFromInformation" layout="block" >				
@@ -72,8 +74,8 @@
 							<h:inputText id="routeToField" value="#{inputModel.routeToField}"
 								valueChangeListener="#{inputListener.refreshInputArea}" 
 								rendered="#{not inputModel.routeToProposalListIsVisible}" >
-								<f:ajax execute="form:routeFromField form:routeToField"
-									render="form:button form:routeToInformation" event="keyup" />
+								<f:ajax execute="routeFromField routeToField"
+									render="button routeToInformation" event="keyup" />
 							</h:inputText>													
 							<h:selectOneMenu id="routeToProposalList" rendered="#{inputModel.routeToProposalListIsVisible}" 
 								value="#{inputModel.routeToSelection}" >
@@ -83,7 +85,7 @@
 							<h:commandLink id="resetRouteToProposalList" value="#{tr:translate('reset')}" 
 								actionListener="#{inputListener.resetRouteToProposalList}" 
 								rendered="#{inputModel.routeToProposalListIsVisible}" >
-								<f:ajax execute="form:resetRouteToProposalList" render="form:routeToInput" />
+								<f:ajax execute="resetRouteToProposalList" render="routeToInput" />
 							</h:commandLink>						
 							<br />			
 							<h:panelGroup id="routeToInformation" layout="block" >			
@@ -116,7 +118,7 @@
 
 						<h:commandLink id="changeLanguageLink" value="#{tr:translate('changeLanguage')}"
 							actionListener="#{inputListener.languageChangeLinkPressed}" >
-							<f:ajax execute="form:changeLanguageLink" render="form:navigation" />
+							<f:ajax execute="changeLanguageLink" render="navigation" />
 						</h:commandLink>
 						<h:panelGroup>
 							<h:selectOneMenu id="languageProposalList" value="#{inputModel.languageSelection}" 

@@ -76,6 +76,7 @@ function KITCampusMap(clientId) {
 		return false; // For IE browsers.
 	};
 	
+	this.additionalRenderIDs = this.getFormElement("additionalRenderIDs").innerHTML;
 	this.applyChanges();
 }
 
@@ -301,7 +302,8 @@ KITCampusMap.prototype.requestUpdate = function(executeIds) {
 		render : id + ":POIs " + id + ":mapLocator " + id + ":map " + id
 				+ ":route " + id + ":changedProperties " + id + ":markerTo "
 				+ id + ":markerFrom " + id + ":buildingPOI " + id
-				+ ":buildingPOIList " + id + ":highlightedPOI",
+				+ ":buildingPOIList " + id + ":highlightedPOI "
+				+ this.additionalRenderIDs,
 		onevent : this.eventCallback
 	});
 };

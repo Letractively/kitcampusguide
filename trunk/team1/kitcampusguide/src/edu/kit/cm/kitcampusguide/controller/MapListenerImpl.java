@@ -2,11 +2,11 @@ package edu.kit.cm.kitcampusguide.controller;
 
 import java.util.Collection;
 
-import javax.el.ELContext;
-import javax.faces.context.FacesContext;
-
+import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManager;
+import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManagerImpl;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
+import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
@@ -19,10 +19,12 @@ import edu.kit.cm.kitcampusguide.standardtypes.POI;
  */
 public class MapListenerImpl implements MapListener {
 
+	private static final CoordinateManager coordinateManager = CoordinateManagerImpl.getInstance();
+	private MapModel mapModel;
+	private InputModel inputModel;
+	
 	@Override
 	public void mapLocatorChanged(MapLocator mapLocator) {
-		MapModel mapModel = getMapModel();
-		
 		if (mapLocator.getMapSection() != null) {
 			// TODO: Apply category and section filter (disabled for testing)
 			Collection<POI> poisBySection = POISourceImpl.getInstance()
@@ -36,7 +38,6 @@ public class MapListenerImpl implements MapListener {
 	@Override
 	public void clickOnPOI(String poiID) {
 		System.out.println("clickOnPOI");
-		MapModel mapModel = getMapModel();
 		if (poiID != null) {
 			POI poiByID = POISourceImpl.getInstance().getPOIByID(poiID);
 			System.out.println("poiByID: " + poiByID);
@@ -55,18 +56,22 @@ public class MapListenerImpl implements MapListener {
 	@Override
 	public void setRouteFromByContextMenu(MapPosition position) {
 		System.out.println("setRouteFrom");
-		getMapModel().setMarkerFrom(position);
+		mapModel.setMarkerFrom(position);
+		inputModel.setRouteFromField(coordinateManager.coordinateToString(position));
 	}
 
 	@Override
 	public void setRouteToByContextMenu(MapPosition position) {
 		System.out.println("setRouteTo");
-		getMapModel().setMarkerTo(position);
+		mapModel.setMarkerTo(position);
+		inputModel.setRouteToField(coordinateManager.coordinateToString(position));
 	}
 
-	private MapModel getMapModel() {
-		ELContext el = FacesContext.getCurrentInstance().getELContext();
-		return (MapModel) el.getELResolver().getValue(el, null,
-		"mapModel");
+	public void setMapModel(MapModel mapModel) {
+		this.mapModel = mapModel;
+	}
+	
+	public void setInputModel(InputModel inputModel) {
+		this.inputModel = inputModel;
 	}
 }
