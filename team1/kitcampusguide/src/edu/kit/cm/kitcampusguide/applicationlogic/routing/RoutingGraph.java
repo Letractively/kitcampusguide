@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.applicationlogic.routing;
 import org.apache.log4j.Logger;
-import edu.kit.cm.kitcampusguide.standardtypes.*;
+
+import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 
 /**
  * Represents the data structure required for DijkstraRouting and the mechanisms required to extract itself from a file.
@@ -85,7 +86,8 @@ class RoutingGraph {
 		int result = 0;
 		for (int i = 0; i < getVerticesCount(); i++) {
 			if (positionArray[i].getMap() == pos.getMap()) {
-				if (calculateDistance(positionArray[result], pos) > calculateDistance(positionArray[i], pos)) {
+				if (MapPosition.calculateDistance(positionArray[result], pos) > MapPosition
+						.calculateDistance(positionArray[i], pos)) {
 					result = i;
 				}
 			}
@@ -101,21 +103,6 @@ class RoutingGraph {
 	 */
 	MapPosition getPositionFromVertice(int vertice) {
 		return positionArray[vertice];
-	}
-	
-	/**
-	 * Calculates the distance between the positions pos1 and pos2.
-	 * @param pos1 The first position.
-	 * @param pos2 The second position.
-	 * @return The distance between pos1 and pos2.
-	 */
-	private double calculateDistance(MapPosition pos1, MapPosition pos2) {
-		double result = Double.POSITIVE_INFINITY;
-		if (pos1.getMap().equals(pos2.getMap())) {
-			result = sqr(pos1.getLatitude() - pos2.getLatitude());
-			result += sqr(pos1.getLongitude() - pos2.getLongitude());
-		}
-		return result;
 	}
 	
 	private double sqr(double d) {
