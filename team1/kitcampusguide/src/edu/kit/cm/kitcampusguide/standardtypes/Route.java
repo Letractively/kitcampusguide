@@ -106,4 +106,25 @@ public class Route implements Serializable {
 		}
 		return new MapSection(new WorldPosition(northMax, westMax), new WorldPosition(southMax, eastMax));
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		boolean result = true;
+		if (obj == null || obj.getClass() != this.getClass()) {
+			result = false;
+		} else {
+			List<MapPosition> waypoints2 = ((Route) obj).getWaypoints();
+			if ( waypoints2 != null && waypoints2.size() == waypoints.size()) {
+				for (int i = 0; i < waypoints.size(); i++) {
+					if (!waypoints2.get(i).equals(waypoints.get(i))) {
+						result = false;
+						break;
+					}
+				}
+			}
+			
+		
+		}
+			return result;
+	}
 }
