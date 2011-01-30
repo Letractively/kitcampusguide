@@ -38,7 +38,8 @@ public class WorldPosition implements Serializable {
 		if ((latitude > 90) || (latitude < -90) || (longitude > 180)
 				|| (longitude < -180)) {
 			throw new IllegalArgumentException(
-					"Latitude or Langitude out of bounds.");
+					"Latitude or Langitude out of bounds (lat: " + latitude
+							+ " lon: " + longitude + ")");
 		}
 		this.longitude = longitude;
 		this.latitude = latitude;
