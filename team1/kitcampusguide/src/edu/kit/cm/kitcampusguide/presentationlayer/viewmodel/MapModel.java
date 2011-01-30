@@ -67,15 +67,10 @@ public class MapModel implements Serializable {
 	 * execute application logic phase (see {@link MapPhaseListener})
 	 */
 	private Set<MapProperty> changedProperties = new HashSet<MapModel.MapProperty>();
-	
-	private DataModel<Map> floors;
 
 	public MapModel() {
 		System.out.println("created");
 		addAllProperties();
-		List<Map> list = new ArrayList<Map>();
-		list.add(Map.getMapByID(1));
-		setFloors(new ListDataModel<Map>(list));
 	}
 
 	/**
@@ -336,13 +331,5 @@ public class MapModel implements Serializable {
 		for (MapProperty prop : MapProperty.values()) {
 			changedProperties.add(prop);
 		}
-	}
-
-	public void setFloors(DataModel<Map> floors) {
-		this.floors = floors;
-	}
-
-	public DataModel<Map> getFloors() {
-		return floors;
 	}
 }

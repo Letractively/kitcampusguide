@@ -16,9 +16,9 @@ public interface InputListener {
 	
 	public void languageChangeTriggered(ActionEvent ae);
 	
-	public void changeToMapViewTriggered();
+	public void changeToMapViewTriggered(ActionEvent ae);
 	
-	public void changeFloorTriggered();
+	public void changeFloorTriggered(ActionEvent ae);
 	
 	public void choiceProposalTriggered(List<POI> proposalList);
 	
