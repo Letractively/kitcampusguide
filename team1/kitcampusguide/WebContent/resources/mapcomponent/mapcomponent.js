@@ -309,10 +309,10 @@ KITCampusMap.prototype.requestUpdate = function(executeIds) {
 	
 	// Reset all listener input fields. Otherwise JSF will cause a value change event on every request
 	// hence the serverside components are always set to null
-	ids = [ "highlightedPOIIDListener", "buildingIDListener",
-			"highlightedPOIIDListener", "buildingPOIsListListener" ];
+	ids = [ "buildingIDListener", "highlightedPOIIDListener", "buildingPOIsListListener" ];
 	for ( var id in ids) {
-		this.getFormElement(ids[id]).value = "";
+		// Any numerical value can be entered
+		this.getFormElement(ids[id]).value = "123";
 	}
 };
 
@@ -605,11 +605,11 @@ KITCampusMap.prototype.createBuildingPOIList = function(poiList) {
 
 KITCampusMap.prototype.handleBuildingPOIListClick = function(poiID) {
 	var input1 = this.getFormElement("buildingIDListener");
-	input1.value = this.popupPOI.buildingMapID;
+	input1.value = this.popupPOI.buildingID;
 	
 	var input2 = this.getFormElement("highlightedPOIIDListener");
 	input2.value = poiID;
-	this.requestUpdate(input1.id + "," + input2.id);
+	this.requestUpdate(input1.id + " " + input2.id);
 };
 
 // Help functions ------------------------------------------------------------

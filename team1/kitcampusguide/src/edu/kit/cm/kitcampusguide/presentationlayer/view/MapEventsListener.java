@@ -1,5 +1,7 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.view;
 
+import java.util.Collection;
+
 import javax.el.ELContext;
 import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
@@ -33,8 +35,9 @@ public class MapEventsListener implements ValueChangeListener {
 			event.setPhaseId(PhaseId.INVOKE_APPLICATION);
 			event.queue();
 		} else {
-				String id = event.getComponent().getId();
-				System.out.println("ID: " + id);
+			
+			String id = event.getComponent().getId();
+			if (containsID(id)) {
 				// Is called whenevver the map locator property of the map model changes
 				if (id.equals("mapLocator")) {
 					getMapListener().mapLocatorChanged(
@@ -62,8 +65,21 @@ public class MapEventsListener implements ValueChangeListener {
 					// new events afterwards
 					((ValueHolder)event.getComponent()).setValue(null);
 				}
+			}
 		}
 
+	}
+
+	boolean containsID(String id) {
+		Collection<String> ids = FacesContext.getCurrentInstance()
+				.getPartialViewContext().getExecuteIds();
+		boolean contains = false;
+		for (String executeID : ids) {
+			if (executeID.endsWith(id)) {
+				contains = true;
+			}
+		}
+		return contains;
 	}
 
 	private POIListener getPOIListener() {

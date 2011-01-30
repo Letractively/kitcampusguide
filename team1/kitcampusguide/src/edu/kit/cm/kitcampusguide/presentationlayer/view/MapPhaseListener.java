@@ -18,8 +18,8 @@ public class MapPhaseListener implements PhaseListener {
 			MapModel mapModel = (MapModel) elContext.getELResolver().getValue(
 					elContext, null, "mapModel");
 
-			if (FacesContext.getCurrentInstance().getPartialViewContext().isPartialRequest()) {
-				// partial request ==> there is no need to update all map properties. Only 
+			if (FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) {
+				// ajax request ==> there is no need to update all map properties. Only 
 				// properties changed by the controller componentes will be updated
 				mapModel.resetChangedProperties();
 			}
