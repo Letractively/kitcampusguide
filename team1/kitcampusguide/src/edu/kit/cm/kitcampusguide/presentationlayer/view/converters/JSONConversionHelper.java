@@ -64,7 +64,6 @@ public class JSONConversionHelper {
 		result.put("categories", categories);
 		result.put("position", convertWorldPosition(p.getPosition()));
 		if (p.getBuilding() != null) {
-			result.put("buildingMapID", p.getBuilding().getGroundFloor().getID());
 			result.put("buildingID",p.getBuilding().getID());
 		}
 		return result;

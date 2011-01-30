@@ -67,6 +67,7 @@ public class MapListenerImpl implements MapListener {
 		inputModel.setRouteToField(coordinateManager.coordinateToString(position));
 	}
 
+	// TODO
 	public void setMapModel(MapModel mapModel) {
 		this.mapModel = mapModel;
 	}

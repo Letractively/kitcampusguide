@@ -6,7 +6,6 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
 import edu.kit.cm.kitcampusguide.standardtypes.Building;
-import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 
 // TODO 
 public class BuildingConverter implements Converter {
@@ -26,7 +25,7 @@ public class BuildingConverter implements Converter {
 		if (arg2 == null) {
 			return "";
 		}
-		if (!(arg2 instanceof MapPosition)) {
+		if (!(arg2 instanceof Building)) {
 			throw new ConverterException("Can only convert buildings (class: "
 					+ arg2.getClass().getName() + ", value: " + arg2 + ")");
 		}
