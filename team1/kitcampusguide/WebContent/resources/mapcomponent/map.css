@@ -3,8 +3,9 @@
 .map {
 /*	width: 560px;*/
 /*	height: 360px; */
-	width: 420px;
+/*	width: 420px;*/
 	height: 270px; 
+	width:100%;
 	border-width: 1px 1px 0px 1px;
 	border-color: #009d82;
 	border-style: solid;
@@ -51,4 +52,8 @@
 	background-color: #009d82;
 	color: #ffffff;
 	
+}
+
+.fullWidth {
+	width:100%;
 }

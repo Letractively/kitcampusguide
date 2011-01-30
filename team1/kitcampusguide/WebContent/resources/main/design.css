@@ -28,10 +28,11 @@
 #lateralBar {
 	background-color: #e5e5e5;
 	border-color: #009d82;
-	border-width: 1px;
+	border-width: 1px 1px 0px 1px;
 	border-style: solid;
 	width: 136px;
 	height: 270px;
+	padding-left: 5px;
 }
 
 #logo {
