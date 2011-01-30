@@ -207,7 +207,7 @@ public class RoutingInitializer {
 			int[] neighbours = getNeighbours(i);
 			for (int j = 0; j < neighbours.length; j++) {
 				weightArray[verticesArray[i] + j] = MapPosition
-						.calculateDistance(positionArray[i], positionArray[j]);
+						.calculateDistance(positionArray[i], positionArray[neighbours[j]]);
 			}
 		}
 		//And initializing the RoutingGraph object.
@@ -225,10 +225,6 @@ public class RoutingInitializer {
 			result[i - verticesArray[center]] = edgeArray[i];
 		}
 		return result;
-	}
-	
-	private double sqr(double d) {
-		return d*d;
 	}
 	
 	/**
