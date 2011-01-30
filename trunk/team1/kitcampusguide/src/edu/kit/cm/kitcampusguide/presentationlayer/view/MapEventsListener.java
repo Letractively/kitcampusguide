@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.view;
 
 import javax.el.ELContext;
+import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.PhaseId;
@@ -34,21 +35,32 @@ public class MapEventsListener implements ValueChangeListener {
 		} else {
 				String id = event.getComponent().getId();
 				System.out.println("ID: " + id);
+				// Is called whenevver the map locator property of the map model changes
 				if (id.equals("mapLocator")) {
 					getMapListener().mapLocatorChanged(
 							(MapLocator) event.getNewValue());
 				} else if (id.equals("markerTo")) {
+					// Is called whenever the "Set route to" method is used
 					getMapListener().setRouteToByContextMenu(
 							(MapPosition) event.getNewValue());
 				} else if (id.equals("markerFrom")) {
+					// Is called whenever the "Set route from" method is used
 					getMapListener().setRouteFromByContextMenu(
 							(MapPosition) event.getNewValue());
 				} else if (id.equals("highlightedPOIIDListener")) {
+					// Is used when another POI should be highlighted.
 					getMapListener().clickOnPOI((String) event.getNewValue());
 				} else if (id.equals("buildingIDListener")) {
+					// Is called when the user wants to change into a building
 					getPOIListener().changeToBuildingMap((Integer) event.getNewValue());
 				} else if (id.equals("buildingPOIsListListener")) {
+					// Is called when the user wants to see the poi list of a building poi
 					getPOIListener().showPOIsInBuilding((Integer) event.getNewValue());
+				}
+				if (id.endsWith("Listener")) {
+					// the values of listener components must set to null, enabling them to recieve
+					// new events afterwards
+					((ValueHolder)event.getComponent()).setValue(null);
 				}
 		}
 

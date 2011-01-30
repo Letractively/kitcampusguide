@@ -306,6 +306,14 @@ KITCampusMap.prototype.requestUpdate = function(executeIds) {
 				+ this.additionalRenderIDs,
 		onevent : this.eventCallback
 	});
+	
+	// Reset all listener input fields. Otherwise JSF will cause a value change event on every request
+	// hence the serverside components are always set to null
+	ids = [ "highlightedPOIIDListener", "buildingIDListener",
+			"highlightedPOIIDListener", "buildingPOIsListListener" ];
+	for ( var id in ids) {
+		this.getFormElement(ids[id]).value = "";
+	}
 };
 
 // Property setters -------------------------------------------------------
@@ -443,12 +451,14 @@ KITCampusMap.prototype.handleSwitchToBuilding = function() {
 	var input = this.getFormElement("buildingIDListener");
 	input.value = this.popupPOI.buildingID;
 	this.requestUpdate(input.id);
+	this.resetListeners();
 };
 
 KITCampusMap.prototype.handleShowPOIsInBuilding = function() {
 	var input = this.getFormElement("buildingPOIsListListener");
 	input.value = this.popupPOI.buildingID;
 	this.requestUpdate(input.id);
+	this.resetListeners();
 };
 
 /**
@@ -602,6 +612,7 @@ KITCampusMap.prototype.handleBuildingPOIListClick = function(poiID) {
 	var input2 = this.getFormElement("highlightedPOIIDListener");
 	input2.value = poiID;
 	this.requestUpdate(input1.id + "," + input2.id);
+	this.resetListeners();
 };
 
 // Help functions ------------------------------------------------------------
