@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.el.ELContext;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIComponentBase;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -268,24 +270,8 @@ public class InputListenerImpl implements InputListener {
 		translationModel.setCurrentLanguage(language);
 		inputModel.setLanguageProposalListIsVisible(false);
 	}
-	
-	public void changeToBuildingMap() {
-		mapModel.setFloors(new ListDataModel<Map>(mapModel.getBuilding().getFloors()));
-		inputModel.setLateralBarIsVisible(true);
-	}
-	
-	public void changeFloor(ActionEvent ae) {
-		DataModel<Map> floors = mapModel.getFloors();
-		Map floor = floors.getRowData();
-		mapModel.setMap(floor);
-	}
-	
-	public void goBackToCampusMap(ActionEvent ae) {
-		
-		// TODO: Insert default map here
-		mapModel.setMap(Map.getMapByID(1));
-		mapModel.setBuilding(null);
-	}
+
+
 	
 	//mittlerweile überflüssig?
 	public void choiceProposalTriggered(List<POI> proposalList) {
@@ -293,15 +279,20 @@ public class InputListenerImpl implements InputListener {
 	}
 
 	@Override
-	public void changeToMapViewTriggered() {
-		// TODO Auto-generated method stub
-
+	public void changeToMapViewTriggered(ActionEvent ae) {
+		// TODO: Insert default map here
+		mapModel.setMap(Map.getMapByID(1));
+		mapModel.setBuilding(null);
 	}
 
 	@Override
-	public void changeFloorTriggered() {
-		// TODO Auto-generated method stub
-
+	public void changeFloorTriggered(ActionEvent ae) {
+		String src = ((UIComponent) ae.getSource()).getClientId();
+		String[] flooridx = src.split(":");
+		Integer floorNo = Integer.parseInt(flooridx[2]);
+		Map floor = mapModel.getBuilding().getFloors().get(floorNo);
+		logger.info("changeFloor: " + floor.getName());
+		mapModel.setMap(floor);
 	}
 
 	@Override

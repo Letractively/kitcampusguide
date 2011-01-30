@@ -37,14 +37,14 @@
 					var="floor">
 					<h:column>
 						<h:commandLink value="#{floor.name}"
-							actionListener="#{inputListener.changeFloor}" />
+							actionListener="#{inputListener.changeFloorTriggered}" />
 					</h:column>
 				</h:dataTable>
 
-				<h:panelGroup layout="block" style="position:absolute; top:375px;">
+				<h:panelGroup layout="block" style="vertical-align:bottom;">
 					<h:commandLink id="backToCampusMap"
 						value="#{tr:translate('backToCampus')}"
-						actionListener="#{inputListener.goBackToCampusMap}" />
+						actionListener="#{inputListener.changeToMapViewTriggered}" />
 				</h:panelGroup>
 			</h:form>
 		</h:panelGroup>
