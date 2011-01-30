@@ -6,9 +6,13 @@ package edu.kit.cm.kitcampusguide.applicationlogic.routing;
  * @author Fred
  *
  */
-public class DijkstraPriorityQueue {
+class DijkstraPriorityQueue {
+	/** The priority queue*/
 	private QueueElement[] elements;
+	/** The number of elements contained at the moment*/
 	private int elementCount;
+	
+	private int maxElements;
 
 	/**
 	 * Constructs a new priority queue with the maximum capacity max.
@@ -16,8 +20,9 @@ public class DijkstraPriorityQueue {
 	 */
 	public DijkstraPriorityQueue(int max) {
 		elementCount = 0;
-		elements = new QueueElement[max];
-		for (int i = 0; i < max; i++) {
+		maxElements = max;
+		elements = new QueueElement[max + 1];
+		for (int i = 0; i < max + 1; i++) {
 			elements[i] = null;
 		}
 	}
@@ -29,10 +34,10 @@ public class DijkstraPriorityQueue {
 	 * @param value The value of the element.
 	 */
 	public void insert(int key, double value) {
-		if (elementCount < elements.length - 1) {
+		if (elementCount < maxElements) {
 			elementCount++;
-			elements[elementCount - 1] = new QueueElement(key, value); 
-			siftUp(elementCount - 1);
+			elements[elementCount] = new QueueElement(key, value); 
+			siftUp(elementCount);
 		}
 		
 	}
@@ -44,11 +49,11 @@ public class DijkstraPriorityQueue {
 	 */
 	private void siftUp(int i) {
 		
-		if ((i == 0) || (elements[(i-1)/2].getValue() < elements[i].getValue())) {
+		if ((i == 1) || (elements[i/2].getValue() < elements[i].getValue())) {
 			
 		} else {
-			swap(i, (i-1)/2);
-			siftUp((i-1)/2);
+			swap(i, i/2);
+			siftUp(i/2);
 		}
 	}
 
@@ -60,7 +65,7 @@ public class DijkstraPriorityQueue {
 	 */
 	private void swap(int i, int j) {
 		
-		if ((i >= 0) && (i <= elementCount - 1) && (j >= 0) && (j <= elementCount - 1)) {
+		if ((i >= 1) && (i <= elementCount) && (j >= 1) && (j <= elementCount)) {
 			QueueElement tmp = elements[i];
 			elements[i] = elements[j];
 			elements[j] = tmp;
@@ -73,12 +78,12 @@ public class DijkstraPriorityQueue {
 	 * @return The element with the minimal value.
 	 */
 	public int deleteMin() {
-		int result = 0;
+		int result = -1;
 		if (elementCount > 0) {
-			result = elements[0].getKey();
-			elements[0] = elements[elementCount - 1];
+			result = elements[1].getKey();
+			elements[1] = elements[elementCount];
 			elementCount--;
-			siftDown(0);
+			siftDown(1);
 		}
 		return result;
 	}
@@ -90,13 +95,13 @@ public class DijkstraPriorityQueue {
 	 */
 	private void siftDown(int i) {
 		int tmp;
-		if (2 * i < elementCount) {
-			if ((2 * i + 1 > elementCount - 1) || (elements[2 * i].getKey() <= elements[2 * i + 1].getKey())) {
+		if (2 * i <= elementCount) {
+			if (((2 * i) + 1 > elementCount) || (elements[2 * i].getValue() <= elements[2 * i + 1].getValue())) {
 				tmp = 2 * i;
 			} else {
 				tmp = 2 * i + 1;
 			}
-			if (elements[i].getKey() > elements[tmp].getKey()) {
+			if (elements[i].getValue() > elements[tmp].getValue()) {
 				swap(i, tmp);
 				siftDown(tmp);
 			}
@@ -126,7 +131,7 @@ public class DijkstraPriorityQueue {
 	 */
 	public boolean contains(int key) {
 		boolean result = false;
-		for (int i = 0; i < elementCount; i++) {
+		for (int i = 1; i < elementCount + 1; i++) {
 			if (elements[i].getKey() == key) {
 				result = true;
 				break;
@@ -142,7 +147,7 @@ public class DijkstraPriorityQueue {
 	 * @param value The new value.
 	 */
 	public void decreaseKey(int key, double value) {
-		for (int i = 0; i < elementCount; i++) {
+		for (int i = 1; i < elementCount + 1; i++) {
 			if (elements[i].getKey() == key) {
 				elements[i].setValue(value);
 				siftUp(i);
