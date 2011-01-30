@@ -95,10 +95,11 @@ public class MapModel implements Serializable {
 	 *            made.
 	 */
 	public void setMap(Map map) {
-		if (map != null) {
-			this.map = map;
-			changedProperties.add(MapProperty.map);
+		if (map == null) {
+			throw new NullPointerException();
 		}
+		this.map = map;
+		changedProperties.add(MapProperty.map);
 	}
 
 	/**

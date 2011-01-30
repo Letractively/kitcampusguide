@@ -422,7 +422,7 @@ KITCampusMap.prototype.getPOIContentHTML = function (poi){
 	var result = "<div class='mapPopupHeader'>" + poi.name + "</div>";
 	result += "<div class='mapPopupPOIInfo'>" + unescape(poi.description) + "</div>";
 
-		if (poi.buildingMapID) {
+		if (poi.buildingID) {
 		result += "<div class='mapBuildingPOILinks'>"
 				+ "<a href=\"javascript:KITCampusMap.maps['" + this.clientId
 				+ "'].handleSwitchToBuilding()\">"
@@ -440,8 +440,8 @@ KITCampusMap.prototype.getTranslation = function(label) {
 };
 
 KITCampusMap.prototype.handleSwitchToBuilding = function() {
-	var input = this.getFormElement("buildingMapIDListener");
-	input.value = this.popupPOI.buildingMapID;
+	var input = this.getFormElement("buildingIDListener");
+	input.value = this.popupPOI.buildingID;
 	this.requestUpdate(input.id);
 };
 
@@ -596,7 +596,7 @@ KITCampusMap.prototype.createBuildingPOIList = function(poiList) {
 };
 
 KITCampusMap.prototype.handleBuildingPOIListClick = function(poiID) {
-	var input1 = this.getFormElement("buildingMapIDListener");
+	var input1 = this.getFormElement("buildingIDListener");
 	input1.value = this.popupPOI.buildingMapID;
 	
 	var input2 = this.getFormElement("highlightedPOIIDListener");

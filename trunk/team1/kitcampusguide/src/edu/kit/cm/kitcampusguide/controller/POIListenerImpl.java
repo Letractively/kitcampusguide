@@ -8,7 +8,6 @@ import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.CategoryModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
 import edu.kit.cm.kitcampusguide.standardtypes.Building;
-import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 
 /**
@@ -24,9 +23,12 @@ public class POIListenerImpl implements POIListener {
 	private CategoryModel categoryModel;
 	
 	@Override
-	public void changeToBuildingMap(int mapID) {
-		mapModel.setMap(Map.getMapByID(mapID));
-		mapModel.setPOIs(Collections.<POI>emptyList());
+	public void changeToBuildingMap(int buildingID) {
+		System.out.println("ChangeToBuildingMap: " + buildingID);
+		Building building = Building.getBuildingByID(buildingID);
+		mapModel.setBuilding(building);
+		mapModel.setMap(building.getGroundFloor());
+		mapModel.setPOIs(Collections.<POI> emptyList());
 	}
 
 	@Override

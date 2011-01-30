@@ -33,7 +33,7 @@
 		<!-- EditableValueHolders -->
 		<cc:editableValueHolder name="valueChangeListener"
 			targets="form:mapLocator form:markerTo form:markerFrom form:highlightedPOIIDListener  
-			form:buildingMapIDListener form:buildingPOIsListListener" />
+			form:buildingIDListener form:buildingPOIsListListener" />
 	</cc:interface>
 	<cc:implementation>
 		<h:outputScript target="head" library="mapcomponent"
@@ -64,7 +64,7 @@ on the final system? -->
 				class="hidden">
 				<f:converter converterId="poiConverter" />
 			</h:outputText>
-			<h:inputHidden id="buildingMapIDListener"
+			<h:inputHidden id="buildingIDListener"
 				converter="javax.faces.Integer" />
 			<h:inputHidden id="buildingPOIsListListener"
 				converter="javax.faces.Integer" />
