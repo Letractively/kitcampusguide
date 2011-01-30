@@ -25,16 +25,16 @@
 				route="#{mapModel.route}" buildingPOI="#{mapModel.buildingPOI}"
 				buildingPOIList="#{mapModel.buildingPOIList}"
 				changedProperties="#{mapModel.changedProperties}"
-				additionalRenderIDs="routeFromField routeToField">
+				additionalRenderIDs="routeFromField routeToField lateralBar">
 				<c:valueChangeListener for="valueChangeListener"
 					type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapEventsListener" />
 				<!--  TODO: Add appropriate action listeners -->
 			</map:mapcomponent>
 		</h:panelGroup>
-		<h:panelGroup id="lateralBar" layout="block"
-			rendered="#{inputModel.lateralBarIsVisible}">
-			<h:form id="lateralForm">
-				<h:dataTable id="floors" value="#{mapModel.floors}" var="floor">
+		<h:panelGroup id="lateralBar" layout="block">
+			<h:form id="lateralForm" rendered="#{mapModel.building != null}">
+				<h:dataTable id="floors" value="#{mapModel.building.floors}"
+					var="floor">
 					<h:column>
 						<h:commandLink value="#{floor.name}"
 							actionListener="#{inputListener.changeFloor}" />

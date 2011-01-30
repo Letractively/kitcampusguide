@@ -281,8 +281,10 @@ public class InputListenerImpl implements InputListener {
 	}
 	
 	public void goBackToCampusMap(ActionEvent ae) {
+		
+		// TODO: Insert default map here
 		mapModel.setMap(Map.getMapByID(1));
-		inputModel.setLateralBarIsVisible(false);
+		mapModel.setBuilding(null);
 	}
 	
 	//mittlerweile überflüssig?
