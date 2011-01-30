@@ -451,14 +451,12 @@ KITCampusMap.prototype.handleSwitchToBuilding = function() {
 	var input = this.getFormElement("buildingIDListener");
 	input.value = this.popupPOI.buildingID;
 	this.requestUpdate(input.id);
-	this.resetListeners();
 };
 
 KITCampusMap.prototype.handleShowPOIsInBuilding = function() {
 	var input = this.getFormElement("buildingPOIsListListener");
 	input.value = this.popupPOI.buildingID;
 	this.requestUpdate(input.id);
-	this.resetListeners();
 };
 
 /**
@@ -612,7 +610,6 @@ KITCampusMap.prototype.handleBuildingPOIListClick = function(poiID) {
 	var input2 = this.getFormElement("highlightedPOIIDListener");
 	input2.value = poiID;
 	this.requestUpdate(input1.id + "," + input2.id);
-	this.resetListeners();
 };
 
 // Help functions ------------------------------------------------------------
