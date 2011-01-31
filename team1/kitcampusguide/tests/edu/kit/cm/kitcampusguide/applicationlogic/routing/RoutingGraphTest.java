@@ -70,7 +70,7 @@ public class RoutingGraphTest {
 	 */
 	@Test
 	public void singletonTest() {
-		Assert.assertTrue(testGraph == RoutingGraph.getInstance());
+		Assert.assertSame(testGraph, RoutingGraph.getInstance());
 	}
 	
 	/**
