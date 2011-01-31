@@ -5,9 +5,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.jdom.Document;
+import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
@@ -44,6 +46,12 @@ public class DefaultModelValues {
 	/**The default map.*/
 	private static Map defaultMap;
 	
+	/** The categories a user can choose between*/
+	private static Collection<Category> defaultCategories;
+	
+	/**The categories visible to a user as default*/
+	private static Collection<Category> defaultCurrentCategories;
+	
 	/**
 	 * Constructs a new DefaultModelValues class. Note that all DefaultModelValues classes are identical in their functions.
 	 */
@@ -61,6 +69,8 @@ public class DefaultModelValues {
 			Document document;
 			document = new SAXBuilder().build(inputStream);
 			defaultMap = Map.getMapByID(Integer.parseInt(document.getRootElement().getChild("defaultMap").getAttributeValue("ID")));
+			initializeDefaultCategories(document);
+			initializeDefaultCurrentCategories(document);
 		} catch (JDOMException e) {
 			throw new InitializationException("Initialization of default values failed.", e);
 		} catch (IOException e) {
@@ -68,7 +78,34 @@ public class DefaultModelValues {
 		}
 		
 	}
-	
+	/**
+	 * Initializes the default set current categories from the document.
+	 * @param document The document specifying the categories.
+	 */
+	private static void initializeDefaultCurrentCategories(Document document) {
+		Collection<Element> defaultCurrentCategoriesElements = (document.getRootElement().getChild("defaultCurrentCategories").getChildren("category"));
+		defaultCurrentCategories = new ArrayList<Category>();
+		List<Integer> defaultCurrentCategoriesIDs = new ArrayList<Integer>();
+		for (Element e : defaultCurrentCategoriesElements) {
+			defaultCurrentCategoriesIDs.add(Integer.parseInt(e.getAttributeValue("id")));
+		}
+		defaultCurrentCategories.addAll(Category.getCategoriesByIDs(defaultCurrentCategoriesIDs));
+	}
+
+	/**
+	 * Initializes the default set categories from the document.
+	 * @param document The document to initialize the categories from.
+	 */
+	private static void initializeDefaultCategories(Document document) {
+		Collection<Element> defaultCategoriesElements = (document.getRootElement().getChild("defaultCategories").getChildren("category"));
+		defaultCategories = new ArrayList<Category>();
+		List<Integer> defaultCategoriesIDs = new ArrayList<Integer>();
+		for (Element e : defaultCategoriesElements) {
+			defaultCategoriesIDs.add(Integer.parseInt(e.getAttributeValue("id")));
+		}
+		defaultCategories.addAll(Category.getCategoriesByIDs(defaultCategoriesIDs));
+	}
+
 	/**
 	 * Returns the default map for the view.
 	 * @return The default map for the view.
@@ -160,10 +197,10 @@ public class DefaultModelValues {
 	}
 	
 	public Collection<Category> getDefaultCurrentCategories() {		
-		return Category.getCategoriesByIDs(Arrays.asList(1,2,3,4,5,6));		
+		return Collections.unmodifiableCollection(defaultCurrentCategories);		
 	}
 		
 	public Collection<Category> getDefaultCategories() {
-		return Category.getCategoriesByIDs(Arrays.asList(1,2,3,4,5,6));	
+		return Collections.unmodifiableCollection(defaultCategories);	
 	}
 }
