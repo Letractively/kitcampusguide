@@ -27,10 +27,11 @@ public class RoutingInitializer {
 	/** The logger for this class.*/
 	private Logger logger = Logger.getLogger(getClass()); 
 	
-	int[] verticesArray;
-	int[] edgeArray;
-	MapPosition[] positionArray;
-	double[] weightArray;
+	/** The arrays necessary to construct a routing graph*/
+	private int[] verticesArray;
+	private int[] edgeArray;
+	private MapPosition[] positionArray;
+	private double[] weightArray;
 	
 	/** The only instance of RoutingInitializer*/
 	private static RoutingInitializer instance = null;
@@ -219,7 +220,7 @@ public class RoutingInitializer {
 	 * @param center The integer-represented vertice all returned vertices are connected to.
 	 * @return The integer-represented vertices connected to center.
 	 */
-	int[] getNeighbours(int center) {
+	private int[] getNeighbours(int center) {
 		int[] result = new int[verticesArray[center+1] - verticesArray[center]]; 
 		for (int i = verticesArray[center]; i < verticesArray[center + 1]; i++) {
 			result[i - verticesArray[center]] = edgeArray[i];
