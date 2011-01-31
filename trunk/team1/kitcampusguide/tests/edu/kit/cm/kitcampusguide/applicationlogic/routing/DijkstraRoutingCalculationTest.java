@@ -13,6 +13,7 @@ import javax.validation.constraints.AssertTrue;
 
 import junit.framework.Assert;
 
+import org.apache.log4j.BasicConfigurator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -59,6 +60,7 @@ public class DijkstraRoutingCalculationTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		BasicConfigurator.configure();
 		int[] verticesArray = {0, 1, 5, 8, 10, 12, 12};
 		verticesCount = verticesArray.length - 1;
 		int[] edgeArray = {2, 0, 2, 3, 4, 0, 1, 3, 1, 2, 1, 3};
@@ -83,6 +85,7 @@ public class DijkstraRoutingCalculationTest {
 	 */
 	@Test
 	public void testConstructRoute() {
+		BasicConfigurator.configure();
 		MapPosition from1 = new MapPosition(1, 2, Map.getMapByID(1));
 		DijkstraRoutingCalculation dijkstraRoutingCalc1 = new DijkstraRoutingCalculation(from1);
 		MapPosition from2 = new MapPosition(1.1, 2.1, Map.getMapByID(1));
@@ -93,7 +96,7 @@ public class DijkstraRoutingCalculationTest {
 												new MapPosition(0, 2, Map.getMapByID(1)), 
 												new MapPosition(0, 0, Map.getMapByID(1))));
 		MapPosition route1end = new MapPosition(0, 0, Map.getMapByID(1));
-		Assert.assertTrue(routeEquals(route1, dijkstraRoutingCalc2.constructRoute(route1end)));
+		Assert.assertTrue((route1.equals(dijkstraRoutingCalc2.constructRoute(route1end))));
 	}
 	
 	
