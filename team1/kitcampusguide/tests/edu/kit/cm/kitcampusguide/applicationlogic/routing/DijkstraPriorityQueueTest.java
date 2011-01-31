@@ -2,7 +2,6 @@ package edu.kit.cm.kitcampusguide.applicationlogic.routing;
 
 import static org.junit.Assert.*;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,30 +27,30 @@ public class DijkstraPriorityQueueTest {
 	@Test
 	public void testInsertBasic() {
 		queue.insert(9, -1);
-		Assert.assertFalse("Insert succeded when not expected", queue.contains(9));
-		Assert.assertEquals("deleteMin failed wrong order", 4, queue.deleteMin());
+		assertFalse("Insert succeded when not expected", queue.contains(9));
+		assertEquals("deleteMin failed wrong order", 4, queue.deleteMin());
 	}
 	
 	@Test
 	public void testInsertAdvanced() {
-		Assert.assertEquals("deleteMin failed wrong order", 4, queue.deleteMin());
+		assertEquals("deleteMin failed wrong order", 4, queue.deleteMin());
 		queue.insert(10, Double.NEGATIVE_INFINITY);
-		Assert.assertEquals("deleteMin failed wrong order", 10, queue.deleteMin());
+		assertEquals("deleteMin failed wrong order", 10, queue.deleteMin());
 		queue.insert(11, Double.NaN);
-		Assert.assertEquals(11, queue.deleteMin());
+		assertEquals(11, queue.deleteMin());
 	}
 
 	@Test
 	public void testDeleteMinBasic() {
-		Assert.assertEquals(4, queue.deleteMin());
-		Assert.assertEquals(1, queue.deleteMin());
-		Assert.assertEquals(2, queue.deleteMin());
-		Assert.assertEquals(3, queue.deleteMin());
-		Assert.assertEquals(7, queue.deleteMin());
-		Assert.assertEquals(6, queue.deleteMin());
-		Assert.assertEquals(5, queue.deleteMin());
-		Assert.assertEquals(8, queue.deleteMin());
-		Assert.assertEquals(-1, queue.deleteMin());
+		assertEquals(4, queue.deleteMin());
+		assertEquals(1, queue.deleteMin());
+		assertEquals(2, queue.deleteMin());
+		assertEquals(3, queue.deleteMin());
+		assertEquals(7, queue.deleteMin());
+		assertEquals(6, queue.deleteMin());
+		assertEquals(5, queue.deleteMin());
+		assertEquals(8, queue.deleteMin());
+		assertEquals(-1, queue.deleteMin());
 	}
 	
 	@Test
@@ -60,45 +59,45 @@ public class DijkstraPriorityQueueTest {
 		queue.insert(9, -1);
 		queue.insert(-9, -1);
 		queue.insert(9, -1);
-		Assert.assertEquals(9, queue.deleteMin());
-		Assert.assertEquals(-9, queue.deleteMin());
-		Assert.assertEquals(9, queue.deleteMin());
+		assertEquals(9, queue.deleteMin());
+		assertEquals(-9, queue.deleteMin());
+		assertEquals(9, queue.deleteMin());
 	}
 
 	@Test
 	public void testIsEmpty() {
-		Assert.assertFalse(queue.isEmpty());
+		assertFalse(queue.isEmpty());
 		for(int i = 0; i < 8; i++) {
 			queue.deleteMin();
 		}
-		Assert.assertTrue(queue.isEmpty());
+		assertTrue(queue.isEmpty());
 		queue.insert(1, 10);
-		Assert.assertFalse(queue.isEmpty());
+		assertFalse(queue.isEmpty());
 		queue = new DijkstraPriorityQueue(10);
-		Assert.assertTrue(queue.isEmpty());
+		assertTrue(queue.isEmpty());
 	}
 
 	@Test
 	public void testContains() {
-		Assert.assertEquals(4, queue.deleteMin());
-		Assert.assertTrue(queue.contains(2));
-		Assert.assertEquals(1, queue.deleteMin());
-		Assert.assertTrue(queue.contains(2));
-		Assert.assertEquals(2, queue.deleteMin());
-		Assert.assertFalse(queue.contains(2));
+		assertEquals(4, queue.deleteMin());
+		assertTrue(queue.contains(2));
+		assertEquals(1, queue.deleteMin());
+		assertTrue(queue.contains(2));
+		assertEquals(2, queue.deleteMin());
+		assertFalse(queue.contains(2));
 		queue.insert(10, -1);
-		Assert.assertTrue(queue.contains(10));
-		Assert.assertEquals(10, queue.deleteMin());
-		Assert.assertFalse(queue.contains(10));
+		assertTrue(queue.contains(10));
+		assertEquals(10, queue.deleteMin());
+		assertFalse(queue.contains(10));
 	}
 
 	@Test
 	public void testDecreaseKey() {
 		queue.decreaseKey(4, 1000);
-		Assert.assertEquals(1, queue.deleteMin());
+		assertEquals(1, queue.deleteMin());
 		queue.insert(1, 0.5);
 		queue.decreaseKey(4, -1000);
-		Assert.assertEquals(4, queue.deleteMin());
+		assertEquals(4, queue.deleteMin());
 	}
 
 }

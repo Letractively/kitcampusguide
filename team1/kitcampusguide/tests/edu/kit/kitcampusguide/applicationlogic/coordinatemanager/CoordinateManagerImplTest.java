@@ -1,6 +1,6 @@
 package edu.kit.kitcampusguide.applicationlogic.coordinatemanager;
 
-import junit.framework.Assert;
+import static junit.framework.Assert.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class CoordinateManagerImplTest {
 	 */
 	@Test
 	public void testGetInstance() {
-		Assert.assertSame(manager, CoordinateManagerImpl.getInstance());
+		assertSame(manager, CoordinateManagerImpl.getInstance());
 	}
 
 	/**
@@ -43,28 +43,28 @@ public class CoordinateManagerImplTest {
 	public void testStringToCoordinate() {
 		String input = "48.101231, 12.685834";
 		WorldPosition output = manager.stringToCoordinate(input);
-		Assert.assertEquals(48.101231, output.getLatitude(), delta);
-		Assert.assertEquals(12.685834, output.getLongitude(), delta);
+		assertEquals(48.101231, output.getLatitude(), delta);
+		assertEquals(12.685834, output.getLongitude(), delta);
 		
 		input = "48.101231, 12.685834, 3.412312";
 		output = manager.stringToCoordinate(input);
-		Assert.assertNull(output);
+		assertNull(output);
 		
 		input = "";
 		output = manager.stringToCoordinate(input);
-		Assert.assertNull(output);
+		assertNull(output);
 		
 		input = "asdgqerf";
 		output = manager.stringToCoordinate(input);
-		Assert.assertNull(output);
+		assertNull(output);
 		
 		input = " 12.6858A34, 3.412312";
 		output = manager.stringToCoordinate(input);
-		Assert.assertNull(output);
+		assertNull(output);
 		
 		input = "48.101231, 1200.685834";
 		output = manager.stringToCoordinate(input);
-		Assert.assertNull(output);
+		assertNull(output);
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class CoordinateManagerImplTest {
 	public void testCoordinateToString() {
 		WorldPosition input = new WorldPosition(48.101231, 12.685834);
 		String output = manager.coordinateToString(input);
-		Assert.assertTrue(output.equals("48.101231, 12.685834"));
+		assertTrue(output.equals("48.101231, 12.685834"));
 	}
 
 }
