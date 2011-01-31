@@ -8,7 +8,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
-import org.apache.commons.beanutils.ConversionException;
 import org.json.simple.JSONArray;
 
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
@@ -32,7 +31,7 @@ public class POIListConverter implements Converter {
 			return "";
 		}
 		if (!(arg2 instanceof Collection<?>)) {
-			throw new ConversionException("Can only convert collections of POIs");
+			throw new ConverterException("Can only convert collections of POIs");
 		}
 		
 		Collection<POI> pois = (Collection<POI>) arg2;
