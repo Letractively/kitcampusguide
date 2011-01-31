@@ -64,7 +64,7 @@
 					<h:panelGrid columns="1" >
 						
 						<h:panelGroup id="routeFromInput" layout="block">					
-							<h:outputText id="routeFromLabel" for="routeFromField" value="#{tr:translate('routeFrom')}"/>
+							<h:outputLabel id="routeFromLabel" value="#{tr:translate('routeFrom')}"/>
 							<br />
 							<h:inputText id="routeFromField" value="#{inputModel.routeFromField}"
 								valueChangeListener="#{inputListener.refreshInputArea}" 
@@ -84,15 +84,15 @@
 							</h:commandLink>						
 							<br />	
 							<h:panelGroup id="routeFromInformation" layout="block" >				
-								<h:outputText id="routeFromSearchFailed" value="#{tr:translate('searchFailed')}" 
+								<h:outputLabel id="routeFromSearchFailed" value="#{tr:translate('searchFailed')}" 
 									rendered="#{inputModel.routeFromSearchFailed}" />	
-								<h:outputText id="routeFromChoose" value="#{tr:translate('choose')}" 
+								<h:outputLabel id="routeFromChoose" value="#{tr:translate('choose')}" 
 									rendered="#{inputModel.routeFromProposalListIsVisible}" />	
 							</h:panelGroup>																					
 						</h:panelGroup>
 													
 						<h:panelGroup id="routeToInput" layout="block">							
-							<h:outputText id="routeToLabel" for="routeToField" value="#{tr:translate('routeTo')}" />
+							<h:outputLabel id="routeToLabel" value="#{tr:translate('routeTo')}" />
 							<br />
 							<h:inputText id="routeToField" value="#{inputModel.routeToField}"
 								valueChangeListener="#{inputListener.refreshInputArea}" 
@@ -112,14 +112,14 @@
 							</h:commandLink>						
 							<br />			
 							<h:panelGroup id="routeToInformation" layout="block" >			
-								<h:outputText id="routeToSearchFailed" value="#{tr:translate('searchFailed')}" 
+								<h:outputLabel id="routeToSearchFailed" value="#{tr:translate('searchFailed')}" 
 									rendered="#{inputModel.routeToSearchFailed}" />	
-								<h:outputText id="routeToChoose" value="#{tr:translate('choose')}" 
+								<h:outputLabel id="routeToChoose" value="#{tr:translate('choose')}" 
 									rendered="#{inputModel.routeToProposalListIsVisible}" />	
 							</h:panelGroup>				
 						</h:panelGroup>			
 						
-						<h:outputText id="routeCalculationFailed" value="#{tr:translate('routeCalculationFailed')}" 
+						<h:outputLabel id="routeCalculationFailed" value="#{tr:translate('routeCalculationFailed')}" 
 							rendered="#{inputModel.routeCalculationFailed}"/>
 						
 					</h:panelGrid>		
@@ -160,7 +160,7 @@
 							<h:commandLink actionListener="#{inputListener.changeLanguageToEnglish}" >
 								<h:graphicImage name="eng.jpg" library="main" alt="English" width="20" />
 							</h:commandLink>
-							<h:outputText value=" : " />
+							<h:outputLabel value=" : " />
 							<h:commandLink actionListener="#{inputListener.changeLanguageToGerman}" >
 								<h:graphicImage name="ger.jpg" library="main" alt="German" width="20" />
 							</h:commandLink>
