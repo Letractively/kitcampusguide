@@ -5,6 +5,7 @@
 	</building>
 	<building id = "1" groundfloorIndex = "0" BuildingPOIID = "5">
 		<map id = "3"/>
+		<map id = "4"/>
 	</building>
 	
 </configuration>
