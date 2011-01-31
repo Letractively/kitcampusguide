@@ -33,7 +33,7 @@ public class CoordinateManagerImplTest {
 	 */
 	@Test
 	public void testGetInstance() {
-		Assert.assertEquals(manager, CoordinateManagerImpl.getInstance());
+		Assert.assertSame(manager, CoordinateManagerImpl.getInstance());
 	}
 
 	/**
