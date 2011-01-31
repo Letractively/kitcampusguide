@@ -1,6 +1,6 @@
 package edu.kit.cm.kitcampusguide.applicationlogic.routing;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -70,7 +70,7 @@ public class RoutingGraphTest {
 	 */
 	@Test
 	public void singletonTest() {
-		Assert.assertSame(testGraph, RoutingGraph.getInstance());
+		assertSame(testGraph, RoutingGraph.getInstance());
 	}
 	
 	/**
@@ -78,8 +78,8 @@ public class RoutingGraphTest {
 	 */
 	@Test
 	public void getNeighbours() {
-		Assert.assertArrayEquals("Neighbours of node 1 incorrect", new int[] {0, 2, 3, 4}, testGraph.getNeighbours(1));
-		Assert.assertArrayEquals("Neighbours of node 0 incorrect", new int[] {2}, testGraph.getNeighbours(0));
+		assertArrayEquals("Neighbours of node 1 incorrect", new int[] {0, 2, 3, 4}, testGraph.getNeighbours(1));
+		assertArrayEquals("Neighbours of node 0 incorrect", new int[] {2}, testGraph.getNeighbours(0));
 	}
 	
 	/**
@@ -87,7 +87,7 @@ public class RoutingGraphTest {
 	 */
 	@Test
 	public void getVerticesCount() {
-		Assert.assertEquals(verticesCount, testGraph.getVerticesCount());
+		assertEquals(verticesCount, testGraph.getVerticesCount());
 	}
 	
 	/**
@@ -96,10 +96,10 @@ public class RoutingGraphTest {
 	@Test
 	public void getWeight() {
 		double delta = 0.000000001;
-		Assert.assertTrue(Double.isInfinite(testGraph.getWeight(0, 4)));
-		Assert.assertEquals(1.5, testGraph.getWeight(1, 4), delta);
-		Assert.assertEquals(2, testGraph.getWeight(1, 0), delta);
-		Assert.assertTrue(Double.isInfinite(testGraph.getWeight(0, 1)));
+		assertTrue(Double.isInfinite(testGraph.getWeight(0, 4)));
+		assertEquals(1.5, testGraph.getWeight(1, 4), delta);
+		assertEquals(2, testGraph.getWeight(1, 0), delta);
+		assertTrue(Double.isInfinite(testGraph.getWeight(0, 1)));
 	}
 	
 	/**
@@ -111,12 +111,12 @@ public class RoutingGraphTest {
 	public void getNearestVerticeOnMap() {
 		Map map = Map.getMapByID(1);
 		MapPosition pos1 = new MapPosition(1.5, 2.5, map);
-		Assert.assertEquals(4, testGraph.getNearestVertice(pos1));
+		assertEquals(4, testGraph.getNearestVertice(pos1));
 		MapPosition pos2 = new MapPosition(0.5, 1, map);
-		Assert.assertEquals(0, testGraph.getNearestVertice(pos2));
+		assertEquals(0, testGraph.getNearestVertice(pos2));
 		Map map2 = Map.getMapByID(2);
 		MapPosition pos3 = new MapPosition(1.5, 2.5, map2);
-		Assert.assertEquals(5, testGraph.getNearestVertice(pos3));
+		assertEquals(5, testGraph.getNearestVertice(pos3));
 	}
 	
 	/**
@@ -128,7 +128,7 @@ public class RoutingGraphTest {
 		public void getNearestVerticeOffMap() {
 		Map map0 = new Map(0,"0",new MapSection(new WorldPosition(1, 1), new WorldPosition(2, 2)), "0", 1, 1);
 		MapPosition pos3 = new MapPosition(0.5, 1, map0);
-		Assert.assertEquals(0, testGraph.getNearestVertice(pos3));
+		assertEquals(0, testGraph.getNearestVertice(pos3));
 	}
 	
 	/**
@@ -136,6 +136,6 @@ public class RoutingGraphTest {
 	 */
 	@Test
 	public void getPositionFromVertice() {
-		Assert.assertEquals(new MapPosition(1.5, 2.5, Map.getMapByID(1)), testGraph.getPositionFromVertice(4));
+		assertEquals(new MapPosition(1.5, 2.5, Map.getMapByID(1)), testGraph.getPositionFromVertice(4));
 	}
 }

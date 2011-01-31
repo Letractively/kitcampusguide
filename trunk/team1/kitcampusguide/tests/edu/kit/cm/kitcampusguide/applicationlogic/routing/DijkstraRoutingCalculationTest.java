@@ -9,9 +9,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import javax.validation.constraints.AssertTrue;
-
-import junit.framework.Assert;
 
 import org.apache.log4j.BasicConfigurator;
 import org.junit.BeforeClass;
@@ -91,12 +88,12 @@ public class DijkstraRoutingCalculationTest {
 		MapPosition from2 = new MapPosition(1.1, 2.1, Map.getMapByID(1));
 		DijkstraRoutingCalculation dijkstraRoutingCalc2 = new DijkstraRoutingCalculation(from2);
 		Route routeToSelf = dijkstraRoutingCalc1.constructRoute(from2);
-		Assert.assertTrue(routeEquals(routeToSelf, dijkstraRoutingCalc2.constructRoute(from1)));
+		assertTrue(routeEquals(routeToSelf, dijkstraRoutingCalc2.constructRoute(from1)));
 		Route route1 = new Route(Arrays.asList(	new MapPosition(1, 2, Map.getMapByID(1)), 
 												new MapPosition(0, 2, Map.getMapByID(1)), 
 												new MapPosition(0, 0, Map.getMapByID(1))));
 		MapPosition route1end = new MapPosition(0, 0, Map.getMapByID(1));
-		Assert.assertTrue((route1.equals(dijkstraRoutingCalc2.constructRoute(route1end))));
+		assertTrue((route1.equals(dijkstraRoutingCalc2.constructRoute(route1end))));
 	}
 	
 	
@@ -108,7 +105,7 @@ public class DijkstraRoutingCalculationTest {
 		MapPosition from1 = new MapPosition(1, 2, Map.getMapByID(1));
 		DijkstraRoutingCalculation dijkstraRoutingCalc1 = new DijkstraRoutingCalculation(from1);
 		MapPosition notConnected = new MapPosition(1, 2, Map.getMapByID(2));
-		Assert.assertNull(dijkstraRoutingCalc1.constructRoute(notConnected));
+		assertNull(dijkstraRoutingCalc1.constructRoute(notConnected));
 	}
 	
 	private static boolean routeEquals(Route route1, Route route2) {
