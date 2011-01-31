@@ -12,4 +12,8 @@
 		boundingEast="8.408556" boundingWest="8.407532"
 		filename="./resources/tiles/scc1/floor_0/${z}/${x}/${y}.png" minZoom="20"
 		maxZoom="22" />
+	<map id="4" name="SCC 1. OG" boundingNorth="49.012625" boundingSouth="49.01189"
+		boundingEast="8.408556" boundingWest="8.407532"
+		filename="./resources/tiles/scc1/floor_1/${z}/${x}/${y}.png" minZoom="20"
+		maxZoom="22" />
 </configuration>
