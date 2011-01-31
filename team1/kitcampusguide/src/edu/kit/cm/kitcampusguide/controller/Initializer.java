@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.controller;
 
 import java.io.InputStream;
+
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.BasicConfigurator;
@@ -10,10 +11,10 @@ import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
 import edu.kit.cm.kitcampusguide.applicationlogic.routing.RoutingInitializer;
+import edu.kit.cm.kitcampusguide.datalayer.poidb.POIDBInitializer;
+import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationInitializer;
 import edu.kit.cm.kitcampusguide.standardtypes.InitializationException;
 import edu.kit.cm.kitcampusguide.standardtypes.StandardtypesInitializer;
-import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationInitializer;
-import edu.kit.cm.kitcampusguide.datalayer.poidb.POIDBInitializer;
 
 /**
  * Class to initialize all necessary classes and data structures.
@@ -44,7 +45,6 @@ public class Initializer {
 	 */
 	private void configure(InputStream stream) {
 		BasicConfigurator.configure();
-		logger.fatal("TEST1234");
 		try {
 				logger.info("Beginning initialization");		
 				Document document = new SAXBuilder().build(stream);
