@@ -17,26 +17,36 @@
 	margin: 0 auto;
 }
 
-#bar {
+table.fullWidth {
+	border:1px solid #009d82;
+}
+
+.bar {
 /*	width: 560px;*/
 	background-color: #e5e5e5;
 	border-color: #009d82;
-	border-width: 1px;
+	border-width: 0px 1px 1px 1px;
 	border-style: solid;
 }
 
-#lateralForm {
+.lateralForm {
 	background-color: #e5e5e5;
 	border-color: #009d82;
-	border-width: 1px 1px 0px 1px;
+	border-width: 0px 0px 0px 1px;
 	border-style: solid;
 	width: 136px;
 	height: 270px;
 	padding-left: 5px;
 }
 
-#logo {
+.backToCampusMap {
+	vertical-align:bottom;
+}
+	
+
+.kitlogo {
 	width: 100px;
+	padding:10px;
 }
 </style>
 </head>
