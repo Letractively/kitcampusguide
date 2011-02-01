@@ -13,11 +13,36 @@ KITCampusMap.maps = new Object();
  * @returns {KITCampusMap} a newly created KITCampusMap instance.
  */
 function KITCampusMap(clientId) {
+	
+	/**
+	 * Stores the JSF client id of the map composite component.
+	 */
 	this.clientId = clientId;
+	
+	/**
+	 * Stores the openlayers "div" containing the map.
+	 */
 	this.mapElement = document.getElementById(clientId + ":map");
+	
+	/**
+	 * Stores the form element which is used to retrieve and send data from and to 
+	 * the server.
+	 */
 	this.form = document.getElementById(clientId + ":form");
+
+	/**
+	 * Stores a "copy" of the current map model, all data retrieved from the
+	 * server is written into this model. The Attributes are nearly the same as
+	 * the attributes of MapModel.
+	 */
 	this.model = new Object();
+	
+	// Register map as global variable
 	KITCampusMap.maps[clientId] = this;
+	
+	/**
+	 * Stores the openlayers map instance.
+	 */
 	// This initialization is mainly taken from Mapstraction
 	this.map = new OpenLayers.Map(this.mapElement.id, {
 		maxExtent : new OpenLayers.Bounds(-20037508.34, -20037508.34,
@@ -54,7 +79,7 @@ function KITCampusMap(clientId) {
 		}
 		var div = thiss.map.div;
 		if (!div.offsets) {
-			// TODO: Maybe find a better solution then just ignoring the click
+			// can happen in some very rare cases, prevent an error
 			return;
 		}
 		
@@ -76,13 +101,17 @@ function KITCampusMap(clientId) {
 		return false; // For IE browsers.
 	};
 	
+	// Read all ids which should be rerendered as well on an ajax request
 	this.additionalRenderIDs = this.getFormElement("additionalRenderIDs").innerHTML;
 	this.applyChanges();
 }
 
 /**
- * This methods reads all data from the input fields and updates the appropriate
- * map elements.
+ * This methods reads all data from the input fields and calls the update methods of the
+ * appropriate data. Only properties marked as changed (via the changedProperties-property)
+ * will be read and updated.<br />
+ * The method will take care to update the data in the right order, e.g. the map is always
+ * updated first.
  */
 KITCampusMap.prototype.applyChanges = function() {
 	// Get all Attributes which need to be redrawn
@@ -92,14 +121,15 @@ KITCampusMap.prototype.applyChanges = function() {
 	for ( var i in changedItems) {
 		changed[changedItems[i]] = true;
 	}
-
+	
+	this.changed = changed;
+	
 	if (changed['map'] || !this.model.map) {
-		this.model.map = JSON.parse(this.getFormElement("map").firstChild.data);
+		this.model.map = this.getFormSpanData("map");
 		this.setMapLayer();
 	}
 	if (changed['mapLocator']) {
-		this.model.mapLocator = JSON
-				.parse(this.getFormElement("mapLocator").value);
+		this.model.mapLocator = this.getFormInputData("mapLocator");
 		this.setMapLocator();
 	}
 	
@@ -114,8 +144,7 @@ KITCampusMap.prototype.applyChanges = function() {
 	}
 	
 	if (changed['POIs']) {
-		this.model.pois = JSON
-				.parse(this.getFormElement("POIs").innerHTML);
+		this.model.pois = this.getFormSpanData("POIs");
 	}
 	
 	// The POIs must be updated if the highlighted POI changes hence the old 
@@ -125,51 +154,61 @@ KITCampusMap.prototype.applyChanges = function() {
 	}
 
 	if (changed['buildingPOIList']) {
-		if (this.getFormElement("buildingPOIList").firstChild) {
-			this.model.buildingPOIList = JSON
-					.parse(this.getFormElement("buildingPOIList").firstChild.data);
-		} else {
-			this.model.buildingPOIList = null;
-		}
-		if (this.getFormElement("buildingPOI").firstChild) {
-			this.model.buildingPOI = JSON
-					.parse(this.getFormElement("buildingPOI").firstChild.data);
-		} else {
-			this.model.buildingPOI = null;
-		}
+		this.model.buildingPOIList = this.getFormSpanData("buildingPOIList");
+		this.model.buildingPOI = this.getFormSpanData("buildingPOI");
 		this.setBuildingPOIList();
 	}
 	
 	if (changed['markerTo']) {
-		var markerTo = this.getFormElement("markerTo").value;
-		this.model.markerTo = (markerTo == "") ? null : JSON.parse(markerTo);
+		this.model.markerTo = this.getFormInputData("markerTo");
 		this.setMarker('markerTo');
 	}
 	
 	if (changed['markerFrom']) {
-		var markerFrom = this.getFormElement("markerFrom").value;
-		this.model.markerFrom = (markerFrom == "") ? null : JSON.parse(markerFrom);
+		this.model.markerFrom = this.getFormInputData("markerFrom");
 		this.setMarker('markerFrom');
 	}
 	
 	 if (changed['route']) {
-		var inner = this.getFormElement("route").innerHTML;
-		if (inner != "") {
-			this.model.route = JSON.parse(inner);
-		} else {
-			this.model.route = null;
-		}
+		this.model.route = this.getFormSpanData("route");
 		this.setRoute();
 	}
 
 };
 
+
 /**
- * Returns the form element matching a given identifier (for example POIs,
- * mapSection)
+ * Reads and returns the data written by a h:outputText element.
+ * 
+ * @param id
+ *            the id of the form element to be read
+ * @returns the data contained in the form element, interpreted as JSON object
+ *          or <code>null</code> if the empty string is read.
+ */
+KITCampusMap.prototype.getFormSpanData = function(id) {
+	var inner = this.getFormElement(id).innerHTML;
+	return (inner == "") ? null : JSON.parse(inner);
+};
+
+/**
+ * Reads and returns the data written by a h:inputHidden element.
+ * 
+ * @param id
+ *            the id of the form element to be read
+ * @returns the data contained in the form element, interpreted as JSON object
+ *          or <code>null</code> if the empty string is read.
+ */
+KITCampusMap.prototype.getFormInputData = function(id) {
+	var data = this.getFormElement(id).value;
+	return (data == "") ? null : JSON.parse(data);
+};
+
+/**
+ * Returns the form element matching a given identifier (for example 'POIs',
+ * 'mapSection').
  * 
  * @param relativeId
- *            a String
+ *            the id of the element which should be retrieved.
  * @returns the appropriate form element
  */
 KITCampusMap.prototype.getFormElement = function(relativeId) {
@@ -201,10 +240,10 @@ KITCampusMap.prototype.handleMenuOpen = function(x, y) {
 				+ "\" onclick=\"KITCampusMap.maps['" + clientId
 				+ "'].handleRouteFromToClick('" + id + "')\""
 				+ "onmouseout=\"KITCampusMap.maps['" + clientId
-				+ "'].uncolorMenu(this.id);\""
+				+ "'].colorMenu(this.id, false);\""
 				+ " class='mapContextMenuEntry' "
 				+ "onmouseover=\"KITCampusMap.maps['" + clientId
-				+ "'].colorMenu(this.id);\">" + text + "</div>";
+				+ "'].colorMenu(this.id, true);\">" + text + "</div>";
 	}
 	var menuHTML = createRouteFromToDiv(this
 			.getTranslation("setRouteFromLabel"), "markerFrom");
@@ -213,12 +252,19 @@ KITCampusMap.prototype.handleMenuOpen = function(x, y) {
 	
 	this.rightClickMenuPosition = mapPosition; // make the WorldPosition to a MapPosition
 	this.rightClickMenuPosition.map = this.model.map;
-	this.rightClickMenu =  new OpenLayers.Popup(null,this.transformWorldPosition(mapPosition), null, menuHTML, false);
-//    this.rightClickMenu.maxSize = new OpenLayers.Size(166, 60);
+	this.rightClickMenu = new OpenLayers.Popup(null,this.transformWorldPosition(mapPosition), null, menuHTML, false);
     this.rightClickMenu.autoSize = true;
     this.map.addPopup(this.rightClickMenu);
 };
 
+/**
+ * Is called when the context menu entry "Route from" or "Route to" is choosen.
+ * The method will send the event to the server.
+ * 
+ * @param fromTo
+ *            either "markerFrom" or "markerTo", depending on which entry was
+ *            clicked.
+ */
 KITCampusMap.prototype.handleRouteFromToClick = function(fromTo) {
 	this.rightClickMenu.hide();
 	var input = this.getFormElement(fromTo);
@@ -227,33 +273,21 @@ KITCampusMap.prototype.handleRouteFromToClick = function(fromTo) {
 };
 
 /**
- *  This function colors the menu entry passed by id.
- *  
- *  @param id
- *  		the id of the div container to be colored
- */
-KITCampusMap.prototype.colorMenu = function (id) {
-	var menu = document.getElementById(id);
-	menu.className = 'mapContextMenuEntryHighlighted';
-	this.rightClickMenu.updateSize();
-};
-
-/**
- *  This function sets the color values of the menu entry passed by id
- *  back to standard values.
+ *  This function sets the color values of a menu entry matching a given id.
  *  
  *  @param id
  *  		the id of the div container to be resetted.
+ *  @param color <code>true</code> if the entry should be highlighted and colored
  */
-KITCampusMap.prototype.uncolorMenu = function(id) {
+KITCampusMap.prototype.colorMenu = function(id, color) {
 	var menu = document.getElementById(id);
-	menu.className = 'mapContextMenuEntry';
-	this.rightClickMenu.updateSize();
+	menu.className = color ? 'mapContextMenuEntryHighlighted'
+			: 'mapContextMenuEntry';
 };
 
 /**
- * Restricts the allowed zoom levels to some given bounds.
- * 
+ * Restricts the allowed zoom levels to the bounds specified by the current map.
+ * The method is called after every zoom event.
  * @param event
  *            the event given by OpenLayers.
  */
@@ -284,9 +318,15 @@ KITCampusMap.prototype.handleMove = function(event) {
 	this.requestUpdate(input.id);
 };
 
+/**
+ * This method is set as callback method for a jsf.ajax.request call. On
+ * success, apply changes is called to render the new data.
+ * 
+ * @param data
+ *            data argument generated by JSF, see JSF javascript documentation
+ */
 KITCampusMap.prototype.eventCallback = function(data) {
 	if (data.status == "success") {
-		// TODO: Maybe the ID could be retrieved a bit better
 		var clientId = data.source.id.substring(0, data.source.id.length
 				- ":form".length);
 		var campusMap = KITCampusMap.maps[clientId];
@@ -294,11 +334,19 @@ KITCampusMap.prototype.eventCallback = function(data) {
 	}
 };
 
+/**
+ * This method sends an ajax request to the server and sets
+ * <code>eventCallback</code> as callback method. All form field are
+ * rerendered, additionally, more update fields can be configured via
+ * <code>this.additionalRenderIDs</code>
+ * 
+ * @param executeIds
+ *            a space seperated list of elements which should be updated.
+ */
 KITCampusMap.prototype.requestUpdate = function(executeIds) {
 	var id = this.form.id;
 	jsf.ajax.request(this.form, null, {
 		execute : executeIds,
-		// TODO: Add all existing attributes here (separated by spaces)
 		render : id + ":POIs " + id + ":mapLocator " + id + ":map " + id
 				+ ":route " + id + ":changedProperties " + id + ":markerTo "
 				+ id + ":markerFrom " + id + ":buildingPOI " + id
@@ -312,6 +360,7 @@ KITCampusMap.prototype.requestUpdate = function(executeIds) {
 	ids = [ "buildingIDListener", "highlightedPOIIDListener", "buildingPOIsListListener" ];
 	for ( var id in ids) {
 		// Any numerical value can be entered
+		// TODO: Rework update process
 		this.getFormElement(ids[id]).value = "123";
 	}
 };
@@ -339,12 +388,17 @@ KITCampusMap.prototype.setMapLocator = function() {
 			this.enableMapEvents();
 		}
 	} else if (mapLocator.center != null) {
-		this.map.panTo(this.transformWorldPosition(mapLocator.center));
+		if (!this.changed['map']) {
+			// Panning is only used when the map hasn't changed for this request.
+			this.map.panTo(this.transformWorldPosition(mapLocator.center));
+		} else {
+			this.map.setCenter(this.transformWorldPosition(mapLocator.center));
+		}
 	}
 };
 
 /**
- * Returns true if two given WorldPositions point to (nearly) the same location.
+ * Returns true if two given WorldPositions specify (nearly) the same location.
  * 
  * @param pos1
  *            a WorldPosition
@@ -354,15 +408,14 @@ KITCampusMap.prototype.setMapLocator = function() {
  */
 KITCampusMap.prototype.positionEquals = function(pos1, pos2) {
 	var EPS = 5E-7;
-	if (Math.abs(pos1.longitude - pos2.longitude) < EPS
-			&& Math.abs(pos1.latitude - pos2.latitude) < EPS)
-		return true;
-	return false;
+	return (Math.abs(pos1.longitude - pos2.longitude) < EPS
+			&& Math.abs(pos1.latitude - pos2.latitude) < EPS);
 };
 
 /**
- * Sets markers for the given set of POIs. If no marker layer exists, a new
- * layer is created. The POI list must be stored in this.model.pois
+ * Sets openlayer markers for the current list of POIs specified by
+ * <code>this.model.pois</code>. Additionally, the highlighted POI marker (if
+ * existent) is rendered with a different icon.
  */
 KITCampusMap.prototype.setPOIs = function() {
 	var m = this.model;
@@ -382,14 +435,17 @@ KITCampusMap.prototype.setPOIs = function() {
 };
 
 /**
- * Creates an open layers marker describing a given POI.
+ * Creates an open layers marker describing a given POI. The marker will have
+ * click handlers which call a highlightedPOIChanged event. A tooltip is drawn
+ * when the user hovers over the marker. The tooltip content is determined by
+ * <code>getTooltipContentHTML</code>
  * 
  * @param poi
  *            a POI.
  * @returns {OpenLayers.Marker} a marker
  * 
  */
-KITCampusMap.prototype.createPOIMarker = function(poi, higlighted) {
+KITCampusMap.prototype.createPOIMarker = function(poi) {
     
     var feature = new OpenLayers.Feature(this.poiMarkerLayer, this.transformWorldPosition(poi.position)); 
     var marker = feature.createMarker();
@@ -400,6 +456,7 @@ KITCampusMap.prototype.createPOIMarker = function(poi, higlighted) {
         OpenLayers.Event.stop(evt);
     };
     
+    // This method draws a small tooltip menu
     var markerMouseOver = function (evt) {
     	if (!this.tooltip) {
     		var tooltip = new OpenLayers.Popup(null,this.transformWorldPosition(poi.position), null, this.getTooltipContentHTML(poi), false);
@@ -426,9 +483,18 @@ KITCampusMap.prototype.createPOIMarker = function(poi, higlighted) {
 	return marker;
 };
 
+/**
+ * Returns the HTML snippet which is rendered as a POI description. If the POI
+ * is a building POI, some extra links are added to switch to the building map
+ * and to show the POIs in the building.
+ * 
+ * @param poi
+ *            the POI which should be described
+ * @returns {String} a HTML-snippet
+ */
 KITCampusMap.prototype.getPOIContentHTML = function (poi){
 	var result = "<div class='mapPopupHeader'>" + poi.name + "</div>";
-	result += "<div class='mapPopupPOIInfo'>" + unescape(poi.description) + "</div>";
+	result += "<div class='mapPopupPOIInfo'>" + Encoder.htmlDecode(poi.description) + "</div>";
 
 		if (poi.buildingID) {
 		result += "<div class='mapBuildingPOILinks'>"
@@ -442,17 +508,33 @@ KITCampusMap.prototype.getPOIContentHTML = function (poi){
 	return result;
 };
 
+/**
+ * Gets the translation for a given label. All translation fields must have the
+ * id <code>{clientID}:{label}</code>. An exception is thrown if the label
+ * could not found in the component.
+ * 
+ * @param label
+ *            a String
+ * @returns the translated String.
+ */
 KITCampusMap.prototype.getTranslation = function(label) {
 	return document.getElementById(this.clientId
 			+ ":" + label).innerHTML;
 };
 
+/**
+ * Is called when the "Switch to building" link of a building POI was clicked.
+ */
 KITCampusMap.prototype.handleSwitchToBuilding = function() {
 	var input = this.getFormElement("buildingIDListener");
 	input.value = this.popupPOI.buildingID;
 	this.requestUpdate(input.id);
 };
 
+/**
+ * Is called when the "Show points in building" link of a building POI was
+ * clicked.
+ */
 KITCampusMap.prototype.handleShowPOIsInBuilding = function() {
 	var input = this.getFormElement("buildingPOIsListListener");
 	input.value = this.popupPOI.buildingID;
@@ -460,8 +542,8 @@ KITCampusMap.prototype.handleShowPOIsInBuilding = function() {
 };
 
 /**
- * Draws the current route in a vector layer. The vector layer is created if
- * necessary. The route must be set in this.model.route
+ * Draws the current route in a vector layer. The route must be set in this.model.route. If the
+ * route is <code>null</code> the old route will be removed from the map.
  */
 KITCampusMap.prototype.setRoute = function() {
 	this.routeLayer.removeAllFeatures();
@@ -490,6 +572,15 @@ KITCampusMap.prototype.setRoute = function() {
 	}
 };
 
+/**
+ * Sets the markers indicating the start or the end point of a route
+ * calculation. The markers must be stored in <code>this.model.markerFrom</code>
+ * or <code>this.model.markerTo</code>
+ * 
+ * @param markerFromTo
+ *            must be either "markerFrom" or "markerTo", depending on the marker
+ *            which should be set.
+ */
 KITCampusMap.prototype.setMarker = function(markerFromTo) {
 	var m = this.model;
 	if (this[markerFromTo + 'Marker']) {
@@ -507,6 +598,13 @@ KITCampusMap.prototype.setMarker = function(markerFromTo) {
 	}
 };
 
+/**
+ * Sets or removes the highlighted POI. The highlighted POI must be stored in
+ * <code>this.model.highlightedPOI</code>, if set to <code>null</code> the
+ * old highlighted POI marker will be removed. Otherwise, a popup will show up
+ * showing the description for the highlighted POI. The description is
+ * determined by <code>getPOIContentHTML</code>.
+ */
 KITCampusMap.prototype.setHighlightedPOI = function() {
 	var poi = this.model.highlightedPOI;
 	if (this.highlightedMarker) {
@@ -577,13 +675,18 @@ KITCampusMap.prototype.setMapLayer = function() {
 	this.enableMapEvents();
 };
 
+/**
+ * Modifies the current highlighted poi's popup to display a list with pois in a
+ * building. The list must be stored in <code>this.model.buildingPOIList</code>,
+ * if set to <code>null</code>, the default text describing the POI will be set.
+ */
 KITCampusMap.prototype.setBuildingPOIList = function() {
 	if (!this.model.highlightedPOI || !this.highlightedPOIPopup) {
-		// TODO: Discuss BuildingPOIList without an existing HiglightedPOI
 		return;
 	}
 	if (this.model.buildingPOIList == null) {
-		// TODO: Discuss what happens if the buildingPOIList is set to null
+		// Set the normal description
+		this.highlightedPOIPopup.setContentHTML(this.getPOIContentHTML(this.model.highlightedPOI));
 	}
 	else {
 		this.highlightedPOIPopup.setContentHTML(this.createBuildingPOIList(this.model.buildingPOIList));
@@ -591,6 +694,16 @@ KITCampusMap.prototype.setBuildingPOIList = function() {
 	
 };
 
+/**
+ * Returns a HTML-snippet describing a list of POIs. The POIs are rendered as an
+ * <code>li</code> Element. For each POI, the name is used as description, a
+ * click on the name will call the method
+ * <code>handleBuildingPOIListClick</code>.
+ * 
+ * @param poiList
+ *            a list of POIs
+ * @returns {String} a HTML-snippet
+ */
 KITCampusMap.prototype.createBuildingPOIList = function(poiList) {
 	var result = new String("<ul>");
 	for ( var index in poiList) {
@@ -603,6 +716,14 @@ KITCampusMap.prototype.createBuildingPOIList = function(poiList) {
 	return result;
 };
 
+/**
+ * Is called when the user clicks on a link of a building list. The ID of the
+ * poi which was clicked is passed as argument. The method sends an Ajax request
+ * and informs the server that the user wants to visit a POI inside a building.
+ * 
+ * @param poiID
+ *            the id of the POI which was clicked.
+ */
 KITCampusMap.prototype.handleBuildingPOIListClick = function(poiID) {
 	var input1 = this.getFormElement("buildingIDListener");
 	input1.value = this.popupPOI.buildingID;
