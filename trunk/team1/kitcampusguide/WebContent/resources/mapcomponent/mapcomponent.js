@@ -134,12 +134,7 @@ KITCampusMap.prototype.applyChanges = function() {
 	}
 	
 	if (changed['highlightedPOI']) {
-		if (this.getFormElement("highlightedPOI").firstChild) {
-			this.model.highlightedPOI = JSON.parse(this
-					.getFormElement("highlightedPOI").firstChild.data);
-		} else {
-			this.model.highlightedPOI = null;
-		}
+		this.model.highlightedPOI = this.getFormSpanData("highlightedPOI");
 		this.setHighlightedPOI();
 	}
 	
