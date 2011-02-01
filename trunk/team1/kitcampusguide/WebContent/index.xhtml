@@ -32,7 +32,8 @@
 			</map:mapcomponent>
 		</h:panelGroup>
 		<h:panelGroup id="lateralBar" layout="block">
-			<h:form id="lateralForm" rendered="#{mapModel.building != null}">
+			<h:form id="lateralForm" class="lateralForm" rendered="#{mapModel.building != null}">
+				<h:panelGrid columns="1">
 				<h:dataTable id="floors" value="#{mapModel.building.floors}"
 					var="floor">
 					<h:column>
@@ -41,23 +42,23 @@
 					</h:column>
 				</h:dataTable>
 
-				<h:panelGroup layout="block" style="vertical-align:bottom;">
+				<h:panelGroup class="backToCampusMap" layout="block">
 					<h:commandLink id="backToCampusMap"
 						value="#{tr:translate('backToCampus')}"
 						actionListener="#{inputListener.changeToMapViewTriggered}" />
 				</h:panelGroup>
+				</h:panelGrid>
 			</h:form>
 		</h:panelGroup>
 
 	</h:panelGrid>
 
-	<h:panelGroup id="bar" layout="block" library="main">
+	<h:panelGroup id="bar" class="bar" layout="block" library="main">
 		<h:form id="form" prependId="false">
 			<h:panelGrid columns="4">
 		
-				<h:panelGroup id="kitlogo" layout="block">
-					<h:graphicImage name="logo_KITCampusGuide_grey.jpg" library="main" alt="KITLogo"
-						style="padding:10px" />
+				<h:panelGroup id="kitlogo" class="kitlogo" layout="block">
+					<h:graphicImage name="logo_KITCampusGuide_grey.jpg" library="main" alt="KITLogo" />
 				</h:panelGroup>				
 			
 				<h:panelGroup id="input" layout="block" style="padding:5px">
