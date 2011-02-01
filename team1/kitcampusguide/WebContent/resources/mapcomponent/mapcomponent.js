@@ -341,7 +341,7 @@ KITCampusMap.prototype.eventCallback = function(data) {
 KITCampusMap.prototype.requestUpdate = function(executeIds) {
 	var id = this.form.id;
 	jsf.ajax.request(this.form, null, {
-		execute : executeIds,
+		execute : executeIds + " " + this.additionalRenderIDs,
 		render : id + ":POIs " + id + ":mapLocator " + id + ":map " + id
 				+ ":route " + id + ":changedProperties " + id + ":markerTo "
 				+ id + ":markerFrom " + id + ":buildingPOI " + id
@@ -485,7 +485,7 @@ KITCampusMap.prototype.createPOIMarker = function(poi) {
  * 
  * @param poi
  *            the POI which should be described
- * @returns {String} a HTML-snippet
+ * @returns {String} a HTML snippet
  */
 KITCampusMap.prototype.getPOIContentHTML = function (poi){
 	var result = "<div class='mapPopupHeader'>" + poi.name + "</div>";
@@ -690,14 +690,14 @@ KITCampusMap.prototype.setBuildingPOIList = function() {
 };
 
 /**
- * Returns a HTML-snippet describing a list of POIs. The POIs are rendered as an
+ * Returns a HTML snippet describing a list of POIs. The POIs are rendered as an
  * <code>li</code> Element. For each POI, the name is used as description, a
  * click on the name will call the method
  * <code>handleBuildingPOIListClick</code>.
  * 
  * @param poiList
  *            a list of POIs
- * @returns {String} a HTML-snippet
+ * @returns {String} a HTML snippet
  */
 KITCampusMap.prototype.createBuildingPOIList = function(poiList) {
 	var result = new String("<ul>");
@@ -825,7 +825,7 @@ KITCampusMap.prototype.untransformBounds = function(bounds) {
 };
 
 /**
- * 
+ * Returns the HTML snippet used to render a tooltip 
  */
 KITCampusMap.prototype.getTooltipContentHTML = function(poi) {
 	return "<div>" + poi.name + "</div>";
