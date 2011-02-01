@@ -1,15 +1,11 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
 
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapPhaseListener;
@@ -174,6 +170,10 @@ public class MapModel implements Serializable {
 	public void setHighlightedPOI(POI highlightedPOI) {
 		changedProperties.add(MapProperty.highlightedPOI);
 		this.highlightedPOI = highlightedPOI;
+		// change Building POI as well
+		if (highlightedPOI == null) {
+			createBuildingPOIList(null, null);
+		}
 	}
 
 	/**
