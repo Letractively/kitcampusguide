@@ -165,6 +165,16 @@
 		</description>
 	</POI>
 	
+	
+	<POI name="114.1">
+		<position longitude="8.407999" mapID="4" latitude="49.012104" ></position> 
+		<categories>
+			<category ID="4" />
+		</categories>
+		<description>
+			
+		</description>
+	</POI>
 </POIs>
 
 <!-- <category id="1" name="streets"/> <category id="2" name="buildings" 
