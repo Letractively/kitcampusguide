@@ -19,25 +19,16 @@
 <div id="headline" style="background: url(./css/img/intern/tab_inactive.gif) repeat-x;" align="center">
 <h:form>
 <o:suggestionField id="search-field" value="#{cc.attrs.model.search}" 
-		promptText="Suche"
+		promptText="#{msgs.search_field}"
 		size="50"
 		autoComplete="true"
         suggestionDelay="200"
         suggestionMinChars="2"
-        listStyle="z-index:9999;"
-        var="suggest">
-<o:dropDownItem value="Mensa"/>
-  <o:dropDownItem value="Audimax"/>
-  <o:dropDownItem value="Audimax2"/>
-  <o:dropDownItem value="Audimax3"/>
-  <o:dropDownItem value="Audimaxundsonstige Hörsäale"/>
-  <o:dropDownItem value="Benz"/>
-  <o:dropDownItem value="Daimler"/>
-  <o:dropDownItem value="Cafeteria"/>
-  <o:dropDownItem value="18pt"/>
-  <o:dropDownItem value="20pt"/> 
+        suggestionMode="substring"
+        listStyle="z-index:9999;">
+<o:dropDownItems value="#{constantData.allPOI}" />
 </o:suggestionField>
-<h:commandButton id="search-button" value="Suche"/>
+<h:commandButton id="search-button" value="#{msgs.search_button}"/>
 </h:form>
 </div>
 </cc:implementation>

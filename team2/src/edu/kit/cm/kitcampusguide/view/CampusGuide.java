@@ -1,4 +1,6 @@
 package edu.kit.cm.kitcampusguide.view;
+import java.util.Locale;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -15,13 +17,14 @@ public class CampusGuide {
 	private SidebarModel sbm;
 	private InfoboxModel ibm;
 	private Settings settings;
+	private Locale locale;
 	
 	public CampusGuide() {
 		this.hlm = new HeadlineModel();
-		this.hlm.setSearch("test");
 		this.sbm = new SidebarModel();
 		this.ibm = new InfoboxModel();
 		this.settings = null;
+		this.locale = Locale.GERMAN;
 	}
 
 	public SidebarModel getSbm() {
@@ -56,4 +59,19 @@ public class CampusGuide {
 		this.hlm = hlm;
 	}
 	
+	public void changeLocale() {
+		if (this.locale.getLanguage().equals(Locale.GERMAN.getLanguage())) {
+			this.locale = Locale.ENGLISH;
+		} else {
+			this.locale = Locale.GERMAN;
+		}
+	}
+
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
 }
