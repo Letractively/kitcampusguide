@@ -1,15 +1,17 @@
 @CHARSET "UTF-8";
 #map {
-	width: 100%;
 	height: 500px;
 	border: 1px solid black;
-	z-index: -10;
+	margin-bottom:10px;
+    width:558px;
 }
 
 #sidebar {
-	width: 100%; 
+	width: 172px; 
 	height: 500px; 
 	border: 1px solid black;
+	z-index: 9999;
+	background-color:#FFFFFF;
 }
 
 table.cgtable {
@@ -36,7 +38,6 @@ table.cgtable row2 {
     border: 1px solid #cccccc;
     margin:0;
     font-weight:bold;
-    width: 732px;
+    width: 733px;
     z-index: 9999;
 }
-

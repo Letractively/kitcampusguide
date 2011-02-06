@@ -62,7 +62,12 @@
 		<!-- Metanavigation: start -->
 		<div id="metanavigation">
 			<a accesskey="1" href="./index.html">Home</a>&nbsp;|&nbsp;
-			<a href="english">english</a>&nbsp;|&nbsp;
+
+			<f:view locale="#{campusGuide.locale}">
+			<h:form style="display: inline">
+			<h:commandLink action="#{campusGuide.changeLocale}" value="#{msgs.change_language}"/>&nbsp;|&nbsp;
+			</h:form>
+			</f:view>
 			<a accesskey="8" href="./impressum.html">Legals</a>&nbsp;|&nbsp;
 			<a accesskey="3" href="./sitemap.html">Sitemap</a>&nbsp;|&nbsp;
 			<a href="http://www.kit.edu/fzk/idcplg?IdcService=KIT&amp;lang=en">KIT</a>
@@ -154,8 +159,9 @@
 						</div>
 						<div style="clear: both; height: 3px">&nbsp;</div>
 					</div>
-
+						<f:view locale="#{campusGuide.locale}">
 						<cg:campusguide headline="#{campusGuide.hlm}" sidebar="#{campusGuide.sbm}"/>
+						</f:view>
 				
 						<br></br>
 						<br></br>

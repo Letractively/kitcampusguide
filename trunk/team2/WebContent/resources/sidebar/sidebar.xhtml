@@ -16,42 +16,29 @@
 <cc:implementation>
 <h:outputScript target="head" library="javax.faces" name="jsf.js" />
 <div id="sidebar">
-<h:form>
+<h:form id="route">
 	<o:suggestionField id="from-field"  
-		promptText="Von"
+		promptText="#{msgs.route_from}"
 		size="25"
 		autoComplete="true"
         suggestionDelay="200"
-        suggestionMinChars="2">
-  <o:dropDownItem value="Mensa"/>
-  <o:dropDownItem value="Audimax"/>
-  <o:dropDownItem value="Audimax2"/>
-  <o:dropDownItem value="Audimax3"/>
-  <o:dropDownItem value="Audimaxundsonstige Hörsäale"/>
-  <o:dropDownItem value="Benz"/>
-  <o:dropDownItem value="Daimler"/>
-  <o:dropDownItem value="Cafeteria"/>
-  <o:dropDownItem value="18pt"/>
-  <o:dropDownItem value="20pt"/>
+        suggestionMinChars="2"
+        suggestionMode="substring"
+        listStyle="z-index:9999;">
+<o:dropDownItems value="#{constantData.allPOI}" />
 </o:suggestionField>
 	<br />
 	<o:suggestionField id="to-field" 
-		promptText="Nach"
+		promptText="#{msgs.route_to}"
 		size="25"
 		autoComplete="true"
         suggestionDelay="200"
-        suggestionMinChars="2">
-  <o:dropDownItem value="Mensa"/>
-  <o:dropDownItem value="Audimax"/>
-  <o:dropDownItem value="Audimax2"/>
-  <o:dropDownItem value="Audimax3"/>
-  <o:dropDownItem value="Audimaxundsonstige Hörsäale"/>
-  <o:dropDownItem value="Benz"/>
-  <o:dropDownItem value="Daimler"/>
-  <o:dropDownItem value="Cafeteria"/>
-  <o:dropDownItem value="18pt"/>
-  <o:dropDownItem value="20pt"/>
+        suggestionMinChars="2" 
+        suggestionMode="substring"
+        listStyle="z-index:9999;">
+<o:dropDownItems value="#{constantData.allPOI}" />
 </o:suggestionField>
+<h:commandButton id="route" value="#{msgs.route_button}" style="float:right;"/>
 </h:form>
 </div> 
 <script type="text/javascript">
