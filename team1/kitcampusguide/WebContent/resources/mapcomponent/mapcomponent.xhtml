@@ -38,11 +38,10 @@
 	<cc:implementation>
 		<!-- This script is used for HTML encoding/decoding	-->
 		<h:outputScript target="head" library="mapcomponent" name="encoder.js" />
-		<h:outputScript target="head" library="mapcomponent"
-			name="mapcomponent.js" />
+		<h:outputScript target="head" library="mapcomponent" name="mapcomponent.js" />
+		<h:outputScript target="head" library="mapcomponent" name="kitcampushelper.js" />
+		<!-- //TODO: If possible, check if this include can be done via an output script -->
 		<script type="text/javascript" src="resources/mapcomponent/openlayers/lib/OpenLayers.js" />
-		<!-- This outputScript didn't always work in my system for some reason. Maybe it will work
-on the final system? -->
 <!--				<h:outputScript target="head" library="mapcomponent"-->
 <!--					name="openlayers.js" />-->
 		<h:outputStylesheet target="head" library="mapcomponent"
