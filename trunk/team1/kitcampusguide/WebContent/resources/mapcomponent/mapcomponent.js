@@ -40,10 +40,10 @@ function KITCampusMap(clientId) {
 	// Register map as global variable
 	KITCampusMap.maps[clientId] = this;
 	
+	// This initialization is mainly taken from Mapstraction
 	/**
 	 * Stores the openlayers map instance.
 	 */
-	// This initialization is mainly taken from Mapstraction
 	this.map = new OpenLayers.Map(this.mapElement.id, {
 		maxExtent : new OpenLayers.Bounds(-20037508.34, -20037508.34,
 				20037508.34, 20037508.34),
@@ -60,14 +60,23 @@ function KITCampusMap(clientId) {
 
 	// Create all necessary layers (only the map layer is created later)
 	// Init vector layer for route
+	/**
+	 * Contains the OpenLayers layer displaying the route.
+	 */
 	this.routeLayer = new OpenLayers.Layer.Vector("route", null);
 	this.map.addLayer(this.routeLayer);
 	
 	// Init marker layer for POIs
+	/**
+	 * Contains the layer displaying the markers for all POIs.
+	 */
 	this.poiMarkerLayer = new OpenLayers.Layer.Markers("poiMarkers");
 	this.map.addLayer(this.poiMarkerLayer);
 
 	// Init marker layer
+	/**
+	 * Stores the layer displaying the "routeFrom" and "routeTo" marker.
+	 */
 	this.markerLayer = new OpenLayers.Layer.Markers("markers");
 	this.map.addLayer(this.markerLayer);
 
@@ -102,6 +111,10 @@ function KITCampusMap(clientId) {
 	};
 	
 	// Read all ids which should be rerendered as well on an ajax request
+	/**
+	 * Contains a white space separated list of client IDs. These ID's will be added to the "execute" and "render" IDs on 
+	 * every AJAX request (see jsf.ajax.request for more information).
+	 */
 	this.additionalRenderIDs = this.getFormElement("additionalRenderIDs").innerHTML;
 	this.applyChanges();
 }
@@ -222,7 +235,7 @@ KITCampusMap.prototype.getFormElement = function(relativeId) {
 KITCampusMap.prototype.handleMenuOpen = function(x, y) {
 	var lonLat = this.map.getLonLatFromPixel(new OpenLayers.Pixel(
 	x, y));
-	var mapPosition = this.untransformLonLat(lonLat);
+	var mapPosition = KITCampusHelper.untransformLonLat(lonLat);
 	//TODO: Set Marker on Click of Menu Entry and fill Inputelements with data
 	//TODO: Fix bug of popup not disappearing in IE9
 	if (this.rightClickMenu) {
@@ -247,7 +260,7 @@ KITCampusMap.prototype.handleMenuOpen = function(x, y) {
 	
 	this.rightClickMenuPosition = mapPosition; // make the WorldPosition to a MapPosition
 	this.rightClickMenuPosition.map = this.model.map;
-	this.rightClickMenu = new OpenLayers.Popup(null,this.transformWorldPosition(mapPosition), null, menuHTML, false);
+	this.rightClickMenu = new OpenLayers.Popup(null, KITCampusHelper.transformWorldPosition(mapPosition), null, menuHTML, false);
     this.rightClickMenu.autoSize = true;
     this.map.addPopup(this.rightClickMenu);
 };
@@ -306,7 +319,7 @@ KITCampusMap.prototype.handleMove = function(event) {
 	// Submit the new map section to the server
 	var input = this.getFormElement("mapLocator");
 	var newMapLocator = new Object();
-	newMapLocator.mapSection = this.untransformBounds(this.map.getExtent());
+	newMapLocator.mapSection = KITCampusHelper.untransformBounds(this.map.getExtent());
 	newMapLocator.center = null;
 
 	input.value = JSON.stringify(newMapLocator);
@@ -368,14 +381,14 @@ KITCampusMap.prototype.requestUpdate = function(executeIds) {
 KITCampusMap.prototype.setMapLocator = function() {
 	var mapLocator = this.model.mapLocator;
 	if (mapLocator.mapSection != null) {
-		var curSection = this.untransformBounds(this.map.getExtent());
+		var curSection = KITCampusHelper.untransformBounds(this.map.getExtent());
 		// Check if the current section is equal to the new section
-		if (!this.positionEquals(curSection.northWest,
+		if (!KITCampusHelper.positionEquals(curSection.northWest,
 				mapLocator.mapSection.northWest)
-				|| !this.positionEquals(curSection.southEast,
+				|| !KITCampusHelper.positionEquals(curSection.southEast,
 						mapLocator.mapSection.southEast)) {
 			this.disableMapEvents();
-			this.map.zoomToExtent(this
+			this.map.zoomToExtent(KITCampusHelper
 					.transformMapSection(mapLocator.mapSection));
 			if (this.map.getZoom() < this.model.map.minZoom) {
 				this.map.zoomTo(this.model.map.minZoom);
@@ -385,26 +398,11 @@ KITCampusMap.prototype.setMapLocator = function() {
 	} else if (mapLocator.center != null) {
 		if (!this.changed['map']) {
 			// Panning is only used when the map hasn't changed for this request.
-			this.map.panTo(this.transformWorldPosition(mapLocator.center));
+			this.map.panTo(KITCampusHelper.transformWorldPosition(mapLocator.center));
 		} else {
-			this.map.setCenter(this.transformWorldPosition(mapLocator.center));
+			this.map.setCenter(KITCampusHelper.transformWorldPosition(mapLocator.center));
 		}
 	}
-};
-
-/**
- * Returns true if two given WorldPositions specify (nearly) the same location.
- * 
- * @param pos1
- *            a WorldPosition
- * @param pos2
- *            a WorldPosition
- * @returns {Boolean} true if both positions seem to be identical
- */
-KITCampusMap.prototype.positionEquals = function(pos1, pos2) {
-	var EPS = 5E-7;
-	return (Math.abs(pos1.longitude - pos2.longitude) < EPS
-			&& Math.abs(pos1.latitude - pos2.latitude) < EPS);
 };
 
 /**
@@ -442,7 +440,7 @@ KITCampusMap.prototype.setPOIs = function() {
  */
 KITCampusMap.prototype.createPOIMarker = function(poi) {
     
-    var feature = new OpenLayers.Feature(this.poiMarkerLayer, this.transformWorldPosition(poi.position)); 
+    var feature = new OpenLayers.Feature(this.poiMarkerLayer, KITCampusHelper.transformWorldPosition(poi.position)); 
     var marker = feature.createMarker();
     var markerClick = function (evt) {
     	var input = this.getFormElement("highlightedPOIIDListener");
@@ -454,7 +452,7 @@ KITCampusMap.prototype.createPOIMarker = function(poi) {
     // This method draws a small tooltip menu
     var markerMouseOver = function (evt) {
     	if (!this.tooltip) {
-    		var tooltip = new OpenLayers.Popup(null,this.transformWorldPosition(poi.position), null, this.getTooltipContentHTML(poi), false);
+    		var tooltip = new OpenLayers.Popup(null,KITCampusHelper.transformWorldPosition(poi.position), null, this.getTooltipContentHTML(poi), false);
     		tooltip.maxSize = new OpenLayers.Size(400, 20);
     		tooltip.opacity = .7;
     		tooltip.setBorder("1px solid #009d82");
@@ -551,7 +549,7 @@ KITCampusMap.prototype.setRoute = function() {
 		var pointList = [];
 		var wp = this.model.route.waypoints;
 		for ( var p = 0; p < wp.length; ++p) {
-			var lonlat = this.transformWorldPosition(wp[p]);
+			var lonlat = KITCampusHelper.transformWorldPosition(wp[p]);
 			pointList.push(new OpenLayers.Geometry.Point(lonlat.lon + offsetX,
 					lonlat.lat + offsetY));
 		}
@@ -587,7 +585,7 @@ KITCampusMap.prototype.setMarker = function(markerFromTo) {
 		var iconColor = (markerFromTo == "markerTo" ? 'green' : 'blue');
 		var icon = new OpenLayers.Icon('http://openlayers.org/dev/img/marker-'
 				+ iconColor + '.png', size, anchor);
-		var position = this.transformWorldPosition(m[markerFromTo]);
+		var position = KITCampusHelper.transformWorldPosition(m[markerFromTo]);
 		this[markerFromTo + 'Marker'] = new OpenLayers.Marker(position, icon);
 		this.markerLayer.addMarker(this[markerFromTo + 'Marker']);
 	}
@@ -612,7 +610,7 @@ KITCampusMap.prototype.setHighlightedPOI = function() {
 	if (poi != null) {
 		// Set new highlighted POI
 		var marker = this.createPOIMarker(poi, true);
-		var feature = new OpenLayers.Feature(this.poiMarkerLayer, this.transformWorldPosition(poi.position)); 
+		var feature = new OpenLayers.Feature(this.poiMarkerLayer, KITCampusHelper.transformWorldPosition(poi.position)); 
 		feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {
 			'autoSize': true, 'maxSize': new OpenLayers.Size(340, 370)
 		});
@@ -663,7 +661,7 @@ KITCampusMap.prototype.setMapLayer = function() {
 	this.routeLayer.events.register("click", this, closeContextMenu);
 	this.map.addLayer(this.mapLayer);
 	this.map.setBaseLayer(this.mapLayer);
-	this.map.restrictedExtent = this
+	this.map.restrictedExtent = KITCampusHelper
 			.transformMapSection(this.model.map.boundingBox);
 	this.map.zoomToExtent(this.map.restrictedExtent);
 	this.map.zoomTo(this.model.map.minZoom);
@@ -754,82 +752,8 @@ KITCampusMap.prototype.disableMapEvents = function() {
 };
 
 /**
- * Transforms a given MapSection into a OpenLayers Bounds object. The
- * MapSection's coordinates are transformed into the open layers space.
- * 
- * @param mapSection
- *            a MapSection
- * @returns {OpenLayers.Bounds} an appropriate Bounds object
- */
-KITCampusMap.prototype.transformMapSection = function(mapSection) {
-	var result = new OpenLayers.Bounds();
-	var p1 = this.transformWorldPosition(mapSection.northWest);
-	result.extend(p1);
-	var p2 = this.transformWorldPosition(mapSection.southEast);
-	result.extend(p2);
-	return result;
-};
-
-/**
- * Transforms a given WorldPosition with GPS coordinates into the open layers
- * coordinate system.
- * 
- * @param wp
- *            a WorldPosition
- * @returns {OpenLayers.LonLat} a newly created and transformed instance.
- */
-KITCampusMap.prototype.transformWorldPosition = function(wp) {
-	// Code taken from the Mapstraction project
-	var ollon = wp.longitude * 20037508.34 / 180;
-	var ollat = Math.log(Math.tan((90 + wp.latitude) * Math.PI / 360))
-			/ (Math.PI / 180);
-	ollat = ollat * 20037508.34 / 180;
-	return new OpenLayers.LonLat(ollon, ollat);
-};
-
-/**
- * Converts an OpenLayers.LonLat to a WorldPosition. The result can be formatted
- * with JSON and sent to the server.
- * 
- * @returns a WorldPosition
- */
-KITCampusMap.prototype.untransformLonLat = function(lonlat) {
-	// Code taken from the Mapstraction project
-	var lon = (lonlat.lon / 20037508.34) * 180;
-	var lat = (lonlat.lat / 20037508.34) * 180;
-
-	lat = 180 / Math.PI
-			* (2 * Math.atan(Math.exp(lat * Math.PI / 180)) - Math.PI / 2);
-
-	return {
-		longitude : lon,
-		latitude : lat
-	};
-};
-
-/**
- * Converts an OpenLayers.Bounds instance to an appropriate MapSection.
- * 
- * @param bounds
- *            an Openlayers.Bounds instance
- * @returns a MapSection
- */
-KITCampusMap.prototype.untransformBounds = function(bounds) {
-	var coords = bounds.toArray();
-	var nw = new OpenLayers.LonLat(coords[0], coords[1]);
-	var se = new OpenLayers.LonLat(coords[2], coords[3]);
-	return {
-		northWest : this.untransformLonLat(nw),
-		southEast : this.untransformLonLat(se)
-	};
-};
-
-/**
  * Returns the HTML snippet used to render a tooltip 
  */
 KITCampusMap.prototype.getTooltipContentHTML = function(poi) {
 	return "<div>" + poi.name + "</div>";
 };
-
-
-
