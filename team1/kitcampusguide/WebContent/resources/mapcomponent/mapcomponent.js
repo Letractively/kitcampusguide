@@ -40,11 +40,16 @@ function KITCampusMap(clientId) {
 	// Register map as global variable
 	KITCampusMap.maps[clientId] = this;
 	
+	/**
+	 * Stores all information directly relevant to OpenLayers, such as various layers or the map.
+	 */
+	this.olData = new Object();
+	
 	// This initialization is mainly taken from Mapstraction
 	/**
 	 * Stores the openlayers map instance.
 	 */
-	this.map = new OpenLayers.Map(this.mapElement.id, {
+	this.olData.map = new OpenLayers.Map(this.mapElement.id, {
 		maxExtent : new OpenLayers.Bounds(-20037508.34, -20037508.34,
 				20037508.34, 20037508.34),
 		maxResolution : 156543,
@@ -53,8 +58,8 @@ function KITCampusMap(clientId) {
 		projection : "EPSG:41001",
 		controls : []
 	});
-	this.map.addControl(new OpenLayers.Control.PanZoom());
-	this.map.addControl(new OpenLayers.Control.Navigation({
+	this.olData.map.addControl(new OpenLayers.Control.PanZoom());
+	this.olData.map.addControl(new OpenLayers.Control.Navigation({
 		handleRightClicks : true
 	}));
 
@@ -63,30 +68,30 @@ function KITCampusMap(clientId) {
 	/**
 	 * Contains the OpenLayers layer displaying the route.
 	 */
-	this.routeLayer = new OpenLayers.Layer.Vector("route", null);
-	this.map.addLayer(this.routeLayer);
+	this.olData.routeLayer = new OpenLayers.Layer.Vector("route", null);
+	this.olData.map.addLayer(this.olData.routeLayer);
 	
 	// Init marker layer for POIs
 	/**
 	 * Contains the layer displaying the markers for all POIs.
 	 */
-	this.poiMarkerLayer = new OpenLayers.Layer.Markers("poiMarkers");
-	this.map.addLayer(this.poiMarkerLayer);
+	this.olData.poiMarkerLayer = new OpenLayers.Layer.Markers("poiMarkers");
+	this.olData.map.addLayer(this.olData.poiMarkerLayer);
 
 	// Init marker layer
 	/**
 	 * Stores the layer displaying the "routeFrom" and "routeTo" marker.
 	 */
-	this.markerLayer = new OpenLayers.Layer.Markers("markers");
-	this.map.addLayer(this.markerLayer);
+	this.olData.markerLayer = new OpenLayers.Layer.Markers("markers");
+	this.olData.map.addLayer(this.olData.markerLayer);
 
 	var thiss = this;	
-	this.map.div.oncontextmenu = function (e) {
+	this.olData.map.div.oncontextmenu = function (e) {
 		e = e ? e : window.event;
 		if (e.preventDefault) {
 			e.preventDefault(); // For non-IE browsers.
 		}
-		var div = thiss.map.div;
+		var div = thiss.olData.map.div;
 		if (!div.offsets) {
 			// can happen in some very rare cases, prevent an error
 			return;
@@ -233,14 +238,14 @@ KITCampusMap.prototype.getFormElement = function(relativeId) {
  *            the y-coordinate as pixel relative to the map div
  */
 KITCampusMap.prototype.handleMenuOpen = function(x, y) {
-	var lonLat = this.map.getLonLatFromPixel(new OpenLayers.Pixel(
+	var lonLat = this.olData.map.getLonLatFromPixel(new OpenLayers.Pixel(
 	x, y));
 	var mapPosition = KITCampusHelper.untransformLonLat(lonLat);
 	//TODO: Set Marker on Click of Menu Entry and fill Inputelements with data
 	//TODO: Fix bug of popup not disappearing in IE9
-	if (this.rightClickMenu) {
-		this.rightClickMenu.destroy();
-		this.rightClickMenu = null;
+	if (this.olData.rightClickMenu) {
+		this.olData.rightClickMenu.destroy();
+		this.olData.rightClickMenu = null;
 	}
 	var clientId = this.clientId;
 	function createRouteFromToDiv(text, id) {
@@ -258,11 +263,11 @@ KITCampusMap.prototype.handleMenuOpen = function(x, y) {
 	menuHTML += createRouteFromToDiv(this.getTranslation("setRouteToLabel"),
 			"markerTo");
 	
-	this.rightClickMenuPosition = mapPosition; // make the WorldPosition to a MapPosition
-	this.rightClickMenuPosition.map = this.model.map;
-	this.rightClickMenu = new OpenLayers.Popup(null, KITCampusHelper.transformWorldPosition(mapPosition), null, menuHTML, false);
-    this.rightClickMenu.autoSize = true;
-    this.map.addPopup(this.rightClickMenu);
+	this.olData.rightClickMenuPosition = mapPosition; // make the WorldPosition to a MapPosition
+	this.olData.rightClickMenuPosition.map = this.model.map;
+	this.olData.rightClickMenu = new OpenLayers.Popup(null, KITCampusHelper.transformWorldPosition(mapPosition), null, menuHTML, false);
+    this.olData.rightClickMenu.autoSize = true;
+    this.olData.map.addPopup(this.olData.rightClickMenu);
 };
 
 /**
@@ -274,9 +279,9 @@ KITCampusMap.prototype.handleMenuOpen = function(x, y) {
  *            clicked.
  */
 KITCampusMap.prototype.handleRouteFromToClick = function(fromTo) {
-	this.rightClickMenu.hide();
+	this.olData.rightClickMenu.hide();
 	var input = this.getFormElement(fromTo);
-	input.value = JSON.stringify(this.rightClickMenuPosition);
+	input.value = JSON.stringify(this.olData.rightClickMenuPosition);
 	this.requestUpdate(input.id);
 };
 
@@ -300,10 +305,10 @@ KITCampusMap.prototype.colorMenu = function(id, color) {
  *            the event given by OpenLayers.
  */
 KITCampusMap.prototype.handleZoomEnd = function(event) {
-	if (this.map.getZoom() < this.model.map.minZoom) {
-		this.map.zoomTo(this.model.map.minZoom);
-	} else if (this.map.getZoom() > this.model.map.maxZoom) {
-		this.map.zoomTo(this.model.map.maxZoom);
+	if (this.olData.map.getZoom() < this.model.map.minZoom) {
+		this.olData.map.zoomTo(this.model.map.minZoom);
+	} else if (this.olData.map.getZoom() > this.model.map.maxZoom) {
+		this.olData.map.zoomTo(this.model.map.maxZoom);
 	}
 };
 
@@ -319,7 +324,7 @@ KITCampusMap.prototype.handleMove = function(event) {
 	// Submit the new map section to the server
 	var input = this.getFormElement("mapLocator");
 	var newMapLocator = new Object();
-	newMapLocator.mapSection = KITCampusHelper.untransformBounds(this.map.getExtent());
+	newMapLocator.mapSection = KITCampusHelper.untransformBounds(this.olData.map.getExtent());
 	newMapLocator.center = null;
 
 	input.value = JSON.stringify(newMapLocator);
@@ -381,26 +386,26 @@ KITCampusMap.prototype.requestUpdate = function(executeIds) {
 KITCampusMap.prototype.setMapLocator = function() {
 	var mapLocator = this.model.mapLocator;
 	if (mapLocator.mapSection != null) {
-		var curSection = KITCampusHelper.untransformBounds(this.map.getExtent());
+		var curSection = KITCampusHelper.untransformBounds(this.olData.map.getExtent());
 		// Check if the current section is equal to the new section
 		if (!KITCampusHelper.positionEquals(curSection.northWest,
 				mapLocator.mapSection.northWest)
 				|| !KITCampusHelper.positionEquals(curSection.southEast,
 						mapLocator.mapSection.southEast)) {
 			this.disableMapEvents();
-			this.map.zoomToExtent(KITCampusHelper
+			this.olData.map.zoomToExtent(KITCampusHelper
 					.transformMapSection(mapLocator.mapSection));
-			if (this.map.getZoom() < this.model.map.minZoom) {
-				this.map.zoomTo(this.model.map.minZoom);
+			if (this.olData.map.getZoom() < this.model.map.minZoom) {
+				this.olData.map.zoomTo(this.model.map.minZoom);
 			}
 			this.enableMapEvents();
 		}
 	} else if (mapLocator.center != null) {
 		if (!this.changed['map']) {
 			// Panning is only used when the map hasn't changed for this request.
-			this.map.panTo(KITCampusHelper.transformWorldPosition(mapLocator.center));
+			this.olData.map.panTo(KITCampusHelper.transformWorldPosition(mapLocator.center));
 		} else {
-			this.map.setCenter(KITCampusHelper.transformWorldPosition(mapLocator.center));
+			this.olData.map.setCenter(KITCampusHelper.transformWorldPosition(mapLocator.center));
 		}
 	}
 };
@@ -412,17 +417,17 @@ KITCampusMap.prototype.setMapLocator = function() {
  */
 KITCampusMap.prototype.setPOIs = function() {
 	var m = this.model;
-	this.poiMarkerLayer.clearMarkers();
-	this.poiMarkers = new Array();
+	this.olData.poiMarkerLayer.clearMarkers();
+	this.olData.poiMarkers = new Array();
 	for ( var index in m.pois) {
 		if (m.highlightedPOI == null || m.pois[index].id != m.highlightedPOI.id) {
 			var marker = this.createPOIMarker(m.pois[index]);
-			this.poiMarkerLayer.addMarker(marker);
+			this.olData.poiMarkerLayer.addMarker(marker);
 		}
 	}
-	if (this.highlightedMarker) {
-		var marker = this.highlightedMarker;
-		this.poiMarkerLayer.addMarker(marker);
+	if (this.olData.highlightedMarker) {
+		var marker = this.olData.highlightedMarker;
+		this.olData.poiMarkerLayer.addMarker(marker);
 		marker.setUrl("resources/mapcomponent/openlayers/img/marker-gold.png");
 	}
 };
@@ -440,7 +445,7 @@ KITCampusMap.prototype.setPOIs = function() {
  */
 KITCampusMap.prototype.createPOIMarker = function(poi) {
     
-    var feature = new OpenLayers.Feature(this.poiMarkerLayer, KITCampusHelper.transformWorldPosition(poi.position)); 
+    var feature = new OpenLayers.Feature(this.olData.poiMarkerLayer, KITCampusHelper.transformWorldPosition(poi.position)); 
     var marker = feature.createMarker();
     var markerClick = function (evt) {
     	var input = this.getFormElement("highlightedPOIIDListener");
@@ -451,22 +456,22 @@ KITCampusMap.prototype.createPOIMarker = function(poi) {
     
     // This method draws a small tooltip menu
     var markerMouseOver = function (evt) {
-    	if (!this.tooltip) {
+    	if (!this.olData.tooltip) {
     		var tooltip = new OpenLayers.Popup(null,KITCampusHelper.transformWorldPosition(poi.position), null, this.getTooltipContentHTML(poi), false);
     		tooltip.maxSize = new OpenLayers.Size(400, 20);
     		tooltip.opacity = .7;
     		tooltip.setBorder("1px solid #009d82");
     		tooltip.autoSize = true;
     		tooltip.updateSize();
-    		this.tooltip = tooltip;
-    		this.map.addPopup(tooltip);
+    		this.olData.tooltip = tooltip;
+    		this.olData.map.addPopup(tooltip);
     	};
     };
     
     var markerMouseOut = function (evt) {
-    	if (this.tooltip) {
-    		this.tooltip.hide();
-    		this.tooltip = null;
+    	if (this.olData.tooltip) {
+    		this.olData.tooltip.hide();
+    		this.olData.tooltip = null;
     	}
     };
 
@@ -539,7 +544,7 @@ KITCampusMap.prototype.handleShowPOIsInBuilding = function() {
  * route is <code>null</code> the old route will be removed from the map.
  */
 KITCampusMap.prototype.setRoute = function() {
-	this.routeLayer.removeAllFeatures();
+	this.olData.routeLayer.removeAllFeatures();
 	// This offsets is added to each point of the route. Otherwise, the route
 	// will be rendered slightly beneath the routes from the osm tiles.
 	var offsetX = -5;
@@ -561,7 +566,7 @@ KITCampusMap.prototype.setRoute = function() {
 
 		var routeFeature = new OpenLayers.Feature.Vector(
 				new OpenLayers.Geometry.LineString(pointList), null, style_red);
-		this.routeLayer.addFeatures([ routeFeature ]);
+		this.olData.routeLayer.addFeatures([ routeFeature ]);
 	}
 };
 
@@ -577,7 +582,7 @@ KITCampusMap.prototype.setRoute = function() {
 KITCampusMap.prototype.setMarker = function(markerFromTo) {
 	var m = this.model;
 	if (this[markerFromTo + 'Marker']) {
-		this.markerLayer.removeMarker(this[markerFromTo + 'Marker']);
+		this.olData.markerLayer.removeMarker(this[markerFromTo + 'Marker']);
 	}
 	if (m[markerFromTo] != null) {
 		var size = new OpenLayers.Size(21, 25);
@@ -587,7 +592,7 @@ KITCampusMap.prototype.setMarker = function(markerFromTo) {
 				+ iconColor + '.png', size, anchor);
 		var position = KITCampusHelper.transformWorldPosition(m[markerFromTo]);
 		this[markerFromTo + 'Marker'] = new OpenLayers.Marker(position, icon);
-		this.markerLayer.addMarker(this[markerFromTo + 'Marker']);
+		this.olData.markerLayer.addMarker(this[markerFromTo + 'Marker']);
 	}
 };
 
@@ -600,17 +605,17 @@ KITCampusMap.prototype.setMarker = function(markerFromTo) {
  */
 KITCampusMap.prototype.setHighlightedPOI = function() {
 	var poi = this.model.highlightedPOI;
-	if (this.highlightedMarker) {
-		this.highlightedMarker = null;
+	if (this.olData.highlightedMarker) {
+		this.olData.highlightedMarker = null;
 	}
-	if (this.highlightedPOIPopup) {
-		this.highlightedPOIPopup.hide();
-		this.highlightedPOIPopup = null;
+	if (this.olData.highlightedPOIPopup) {
+		this.olData.highlightedPOIPopup.hide();
+		this.olData.highlightedPOIPopup = null;
 	} 
 	if (poi != null) {
 		// Set new highlighted POI
 		var marker = this.createPOIMarker(poi, true);
-		var feature = new OpenLayers.Feature(this.poiMarkerLayer, KITCampusHelper.transformWorldPosition(poi.position)); 
+		var feature = new OpenLayers.Feature(this.olData.poiMarkerLayer, KITCampusHelper.transformWorldPosition(poi.position)); 
 		feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {
 			'autoSize': true, 'maxSize': new OpenLayers.Size(340, 370)
 		});
@@ -622,21 +627,21 @@ KITCampusMap.prototype.setHighlightedPOI = function() {
 				var input = this.getFormElement("highlightedPOIIDListener");
 				input.value = "";
 				this.requestUpdate(input.id);
-				this.popupPOI = null;
+				this.olData.popupPOI = null;
 				feature.popup.hide();
 			};
 			var p = feature.popup = feature.createPopup(true, closeClick, this);
 			
-			this.map.addPopup(feature.popup, true);
+			this.olData.map.addPopup(feature.popup, true);
 			feature.popup.show();
 		} else {
-			this.map.addPopup(feature.popup, true);
+			this.olData.map.addPopup(feature.popup, true);
 			feature.popup.show();
 		}
 		
-		this.popupPOI = poi;
-		this.highlightedMarker = marker;
-		this.highlightedPOIPopup = feature.popup;
+		this.olData.popupPOI = poi;
+		this.olData.highlightedMarker = marker;
+		this.olData.highlightedPOIPopup = feature.popup;
 	}
 };
 
@@ -647,24 +652,24 @@ KITCampusMap.prototype.setHighlightedPOI = function() {
  */
 KITCampusMap.prototype.setMapLayer = function() {
 	this.disableMapEvents();
-	if (this.mapLayer) {
-		this.map.removeLayer(this.mapLayer);
+	if (this.olData.mapLayer) {
+		this.olData.map.removeLayer(this.olData.mapLayer);
 	}
-	this.mapLayer = new OpenLayers.Layer.XYZ("XYZ-Layer",
+	this.olData.mapLayer = new OpenLayers.Layer.XYZ("XYZ-Layer",
 			this.model.map.tilesURL);
 	var closeContextMenu = function(evt) {
-		if (this.rightClickMenu) {
-			this.rightClickMenu.destroy();
-			this.rightClickMenu = null;
+		if (this.olData.rightClickMenu) {
+			this.olData.rightClickMenu.destroy();
+			this.olData.rightClickMenu = null;
 		};
 	};
-	this.routeLayer.events.register("click", this, closeContextMenu);
-	this.map.addLayer(this.mapLayer);
-	this.map.setBaseLayer(this.mapLayer);
-	this.map.restrictedExtent = KITCampusHelper
+	this.olData.routeLayer.events.register("click", this, closeContextMenu);
+	this.olData.map.addLayer(this.olData.mapLayer);
+	this.olData.map.setBaseLayer(this.olData.mapLayer);
+	this.olData.map.restrictedExtent = KITCampusHelper
 			.transformMapSection(this.model.map.boundingBox);
-	this.map.zoomToExtent(this.map.restrictedExtent);
-	this.map.zoomTo(this.model.map.minZoom);
+	this.olData.map.zoomToExtent(this.olData.map.restrictedExtent);
+	this.olData.map.zoomTo(this.model.map.minZoom);
 	this.enableMapEvents();
 };
 
@@ -674,15 +679,15 @@ KITCampusMap.prototype.setMapLayer = function() {
  * if set to <code>null</code>, the default text describing the POI will be set.
  */
 KITCampusMap.prototype.setBuildingPOIList = function() {
-	if (!this.model.highlightedPOI || !this.highlightedPOIPopup) {
+	if (!this.model.highlightedPOI || !this.olData.highlightedPOIPopup) {
 		return;
 	}
 	if (this.model.buildingPOIList == null) {
 		// Set the normal description
-		this.highlightedPOIPopup.setContentHTML(this.getPOIContentHTML(this.model.highlightedPOI));
+		this.olData.highlightedPOIPopup.setContentHTML(this.getPOIContentHTML(this.model.highlightedPOI));
 	}
 	else {
-		this.highlightedPOIPopup.setContentHTML(this.createBuildingPOIList(this.model.buildingPOIList));
+		this.olData.highlightedPOIPopup.setContentHTML(this.createBuildingPOIList(this.model.buildingPOIList));
 	}
 	
 };
@@ -733,7 +738,7 @@ KITCampusMap.prototype.handleBuildingPOIListClick = function(poiID) {
  * occurs.
  */
 KITCampusMap.prototype.enableMapEvents = function() {
-	this.map.events.on({
+	this.olData.map.events.on({
 		"moveend" : this.handleMove,
 		"zoomend" : this.handleZoomEnd,
 		scope : this
@@ -744,7 +749,7 @@ KITCampusMap.prototype.enableMapEvents = function() {
  * Disables all event listeners. The event handling methods will not be called.
  */
 KITCampusMap.prototype.disableMapEvents = function() {
-	this.map.events.un({
+	this.olData.map.events.un({
 		"moveend" : this.handleMove,
 		"zoomend" : this.handleZoomEnd,
 		scope : this
