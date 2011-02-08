@@ -525,7 +525,7 @@ KITCampusMap.prototype.getTranslation = function(label) {
  */
 KITCampusMap.prototype.handleSwitchToBuilding = function() {
 	var input = this.getFormElement("buildingIDListener");
-	input.value = this.popupPOI.buildingID;
+	input.value = this.olData.popupPOI.buildingID;
 	this.requestUpdate(input.id);
 };
 
@@ -535,7 +535,7 @@ KITCampusMap.prototype.handleSwitchToBuilding = function() {
  */
 KITCampusMap.prototype.handleShowPOIsInBuilding = function() {
 	var input = this.getFormElement("buildingPOIsListListener");
-	input.value = this.popupPOI.buildingID;
+	input.value = this.olData.popupPOI.buildingID;
 	this.requestUpdate(input.id);
 };
 
@@ -724,7 +724,7 @@ KITCampusMap.prototype.createBuildingPOIList = function(poiList) {
  */
 KITCampusMap.prototype.handleBuildingPOIListClick = function(poiID) {
 	var input1 = this.getFormElement("buildingIDListener");
-	input1.value = this.popupPOI.buildingID;
+	input1.value = this.olData.popupPOI.buildingID;
 	
 	var input2 = this.getFormElement("highlightedPOIIDListener");
 	input2.value = poiID;
