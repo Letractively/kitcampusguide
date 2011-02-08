@@ -34,7 +34,7 @@ public class POICategory {
 		this.id = id;
 		this.icon = icon;
 		this.description = description;
-		this.categoryPOI = new ArrayList<POI>(null);
+		this.categoryPOI = new ArrayList<POI>();
 		this.visible = false;
 	}
 	

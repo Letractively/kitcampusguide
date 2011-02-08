@@ -33,18 +33,17 @@ public final class Config {
 	/**
 	 * Saves the database name of the current used database.
 	 */
-	public static String dbDatabase = "campusguide"; // to be decided
+	public static String dbDatabase = "campusguide";
 	
 	/**
 	 * Saves the username of the current used database.
 	 */
-	public static String dbUsername = "campusguide"; // to be decided
+	public static String dbUsername = "campusguide";
 	
 	/**
 	 * Saves the password of the current used database.
 	 */
-	public static String dbPassword = "katja"; // to be decided
-	
+	public static String dbPassword = "katja";
 	
 	
 public static Connection getPgSQLJDBCConnection(){
