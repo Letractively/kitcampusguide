@@ -183,7 +183,7 @@ public class ConcretePOILoader implements POILoader {
 			throw new IllegalArgumentException();
 		}
 		
-		ArrayList<POICategory> result = null;
+		ArrayList<POICategory> result = new ArrayList<POICategory>();
 		
 		String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
 		
@@ -219,7 +219,7 @@ public class ConcretePOILoader implements POILoader {
 	 */
 	@Override
 	public List<POICategory> getAllPOICategory() {	
-		ArrayList<POICategory> result = null;
+		ArrayList<POICategory> result = new ArrayList<POICategory>();
 		
 		String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
 		
