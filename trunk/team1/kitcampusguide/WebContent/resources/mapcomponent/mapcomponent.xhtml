@@ -108,7 +108,20 @@
 			id="setRouteFromLabel" />
 		</div>
 		<script type="text/javascript">
-			new KITCampusMap('#{cc.clientId}');
+		function load() {
+				new KITCampusMap('#{cc.clientId}');
+		}
+	
+		// Add map as startup listener
+		if (document.addEventListener)
+			document.addEventListener("DOMContentLoaded", load, false);
+		else {
+			document.onreadystatechange = function() {
+				if (document.readyState == "interactive"
+						|| document.readyState == "complete")
+					load();
+			}
+		}
 		</script>
 	</cc:implementation>
 </ui:component>
