@@ -3,6 +3,7 @@ package edu.kit.cm.kitcampusguide.data;
 import edu.kit.cm.kitcampusguide.model.*;
 
 /**
+ * Interface of a MapLoader.
  * 
  * @author Michael Hauber
  * @author Tobias Zündorf
