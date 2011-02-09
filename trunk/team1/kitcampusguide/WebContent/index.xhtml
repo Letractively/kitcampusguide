@@ -38,14 +38,14 @@
 					var="floor">
 					<h:column>
 						<h:commandLink value="#{floor.name}"
-							actionListener="#{inputListener.changeFloorTriggered}" />
+							actionListener="#{inputListenerAdapter.changeFloorTriggered}" />
 					</h:column>
 				</h:dataTable>
 
 				<h:panelGroup class="backToCampusMap" layout="block">
 					<h:commandLink id="backToCampusMap"
 						value="#{tr:translate('backToCampus')}"
-						actionListener="#{inputListener.changeToMapViewTriggered}" />
+						actionListener="#{inputListenerAdapter.changeToMapViewTriggered}" />
 				</h:panelGroup>
 				</h:panelGrid>
 			</h:form>
@@ -65,10 +65,10 @@
 					<h:panelGrid columns="1" >
 						
 						<h:panelGroup id="routeFromInput" layout="block">					
-							<h:outputLabel id="routeFromLabel" value="#{tr:translate('routeFrom')}"/>
+							<h:outputLabel id="routeFromLabel" for="routeFromField" value="#{tr:translate('routeFrom')}"/>
 							<br />
 							<h:inputText id="routeFromField" value="#{inputModel.routeFromField}"
-								valueChangeListener="#{inputListener.refreshInputArea}" 
+								valueChangeListener="#{inputListenerAdapter.refreshInputArea}" 
 								rendered="#{not inputModel.routeFromProposalListIsVisible}" >								
 								<f:ajax execute="routeFromField routeToField"
 									render="button routeFromInformation" event="keyup" />
@@ -79,24 +79,24 @@
 							</h:selectOneMenu>						
 							<br />											
 							<h:commandLink id="resetRouteFromProposalList" value="#{tr:translate('reset')}" 
-								actionListener="#{inputListener.resetRouteFromProposalList}" 
+								actionListener="#{inputListenerAdapter.resetRouteFromProposalList}" 
 								rendered="#{inputModel.routeFromProposalListIsVisible}" >
 								<f:ajax execute="resetRouteFromProposalList" render="routeFromInput" />
 							</h:commandLink>						
 							<br />	
 							<h:panelGroup id="routeFromInformation" layout="block" >				
-								<h:outputLabel id="routeFromSearchFailed" value="#{tr:translate('searchFailed')}" 
+								<h:outputText id="routeFromSearchFailed" value="#{tr:translate('searchFailed')}" 
 									rendered="#{inputModel.routeFromSearchFailed}" />	
-								<h:outputLabel id="routeFromChoose" value="#{tr:translate('choose')}" 
+								<h:outputText id="routeFromChoose" value="#{tr:translate('choose')}" 
 									rendered="#{inputModel.routeFromProposalListIsVisible}" />	
 							</h:panelGroup>																					
 						</h:panelGroup>
 													
 						<h:panelGroup id="routeToInput" layout="block">							
-							<h:outputLabel id="routeToLabel" value="#{tr:translate('routeTo')}" />
+							<h:outputLabel id="routeToLabel" for="routeToField" value="#{tr:translate('routeTo')}" />
 							<br />
 							<h:inputText id="routeToField" value="#{inputModel.routeToField}"
-								valueChangeListener="#{inputListener.refreshInputArea}" 
+								valueChangeListener="#{inputListenerAdapter.refreshInputArea}" 
 								rendered="#{not inputModel.routeToProposalListIsVisible}" >
 								<f:ajax execute="routeFromField routeToField"
 									render="button routeToInformation" event="keyup" />
@@ -107,20 +107,20 @@
 							</h:selectOneMenu>						
 							<br />											
 							<h:commandLink id="resetRouteToProposalList" value="#{tr:translate('reset')}" 
-								actionListener="#{inputListener.resetRouteToProposalList}" 
+								actionListener="#{inputListenerAdapter.resetRouteToProposalList}" 
 								rendered="#{inputModel.routeToProposalListIsVisible}" >
 								<f:ajax execute="resetRouteToProposalList" render="routeToInput" />
 							</h:commandLink>						
 							<br />			
 							<h:panelGroup id="routeToInformation" layout="block" >			
-								<h:outputLabel id="routeToSearchFailed" value="#{tr:translate('searchFailed')}" 
+								<h:outputText id="routeToSearchFailed" value="#{tr:translate('searchFailed')}" 
 									rendered="#{inputModel.routeToSearchFailed}" />	
-								<h:outputLabel id="routeToChoose" value="#{tr:translate('choose')}" 
+								<h:outputText id="routeToChoose" value="#{tr:translate('choose')}" 
 									rendered="#{inputModel.routeToProposalListIsVisible}" />	
 							</h:panelGroup>				
 						</h:panelGroup>			
 						
-						<h:outputLabel id="routeCalculationFailed" value="#{tr:translate('routeCalculationFailed')}" 
+						<h:outputText id="routeCalculationFailed" value="#{tr:translate('routeCalculationFailed')}" 
 							rendered="#{inputModel.routeCalculationFailed}"/>
 						
 					</h:panelGrid>		
@@ -128,11 +128,11 @@
 				
 				<h:panelGroup id="button" layout="block" style="padding:10px">				
 					<h:commandButton id="searchButton" value="#{tr:translate('search')}"
-						actionListener="#{inputListener.searchButtonPressed}"
-						rendered="#{not inputListener.calculateRoute}" />
+						actionListener="#{inputListenerAdapter.searchButtonPressed}"
+						rendered="#{not inputListenerAdapter.calculateRoute}" />
 					<h:commandButton id="routeButton" value="#{tr:translate('calculateRoute')}"
-						actionListener="#{inputListener.searchButtonPressed}"
-						rendered="#{inputListener.calculateRoute}" />
+						actionListener="#{inputListenerAdapter.searchButtonPressed}"
+						rendered="#{inputListenerAdapter.calculateRoute}" />
 				</h:panelGroup>					
 			
 				<h:panelGroup id="navigation" layout="block" style="padding:30px">
@@ -140,7 +140,7 @@
 						<h:commandLink id="filterLink" value="#{tr:translate('filter')}" />
 <!--							actionListener="#{inputListener.filterLinkPressed}" -->
 						<h:commandLink id="changeLanguageLink" value="#{tr:translate('changeLanguage')}"
-							actionListener="#{inputListener.languageChangeLinkPressed}" >
+							actionListener="#{inputListenerAdapter.languageChangeLinkPressed}" >
 							<f:ajax execute="changeLanguageLink" render="navigation" />
 						</h:commandLink>
 						<h:panelGroup>
@@ -148,21 +148,22 @@
 								rendered="#{inputModel.languageProposalListIsVisible}" >
 								<f:selectItems value="#{translationModel.languageProposalList}" />
 							</h:selectOneMenu>	
-							<h:commandButton id="languageChangeTriggered" value="#{tr:translate('ok')}"								
-								actionListener="#{inputListener.languageChangeTriggered}"
-								rendered="#{inputModel.languageProposalListIsVisible}" />
-							<h:commandButton id="languageChangeCancelled" value="#{tr:translate('cancel')}"								
-								actionListener="#{inputListener.languageChangeCancelled}"
-								rendered="#{inputModel.languageProposalListIsVisible}" >
+							<h:commandLink id="languageChangeTriggered" rendered="#{inputModel.languageProposalListIsVisible}"							
+								actionListener="#{inputListenerAdapter.languageChangeTriggered}" >								
+								<h:graphicImage name="yes_button.png" library="main" alt="ok" width="15" />
+							</h:commandLink>							
+							<h:commandLink id="languageChangeCancelled" rendered="#{inputModel.languageProposalListIsVisible}"							
+								actionListener="#{inputListenerAdapter.languageChangeCancelled}" >
+								<h:graphicImage name="cancel_button.png" library="main" alt="cancel" width="15" />
 								<f:ajax execute="form:languageChangeCancelled" render="form:navigation" />	
-							</h:commandButton>
+							</h:commandLink>
 						</h:panelGroup>
 						<h:panelGroup>
-							<h:commandLink actionListener="#{inputListener.changeLanguageToEnglish}" >
+							<h:commandLink actionListener="#{inputListenerAdapter.changeLanguageToEnglish}" >
 								<h:graphicImage name="eng.jpg" library="main" alt="English" width="20" />
 							</h:commandLink>
-							<h:outputLabel value=" : " />
-							<h:commandLink actionListener="#{inputListener.changeLanguageToGerman}" >
+							<h:outputText value=" : " />
+							<h:commandLink actionListener="#{inputListenerAdapter.changeLanguageToGerman}" >
 								<h:graphicImage name="ger.jpg" library="main" alt="German" width="20" />
 							</h:commandLink>
 						</h:panelGroup>
