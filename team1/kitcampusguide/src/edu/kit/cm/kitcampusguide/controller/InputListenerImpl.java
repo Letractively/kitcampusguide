@@ -2,19 +2,11 @@ package edu.kit.cm.kitcampusguide.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
 
 import javax.el.ELContext;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIComponentBase;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.faces.event.ValueChangeEvent;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-
-import org.apache.log4j.Logger;
 
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManager;
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManagerImpl;
@@ -22,111 +14,58 @@ import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 import edu.kit.cm.kitcampusguide.applicationlogic.routing.RoutingStrategy;
 import edu.kit.cm.kitcampusguide.applicationlogic.routing.RoutingStrategyImpl;
-import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModel;
+import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
+import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.Route;
-import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 
+/**
+ * Implements the interface <code>InputListener</code>.
+ *  
+ * @author Team1
+ */
 public class InputListenerImpl implements InputListener {	
 	
 	private Logger logger = Logger.getLogger(InputListenerImpl.class);
-
-	private ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-	
-	private MapModel mapModel;
-	
-	private InputModel inputModel = (InputModel) FacesContext.getCurrentInstance().getApplication()
-    		.getELResolver().getValue(elContext, null, "inputModel");
-	private TranslationModel translationModel = (TranslationModel) FacesContext.getCurrentInstance().getApplication()
-			.getELResolver().getValue(elContext, null, "translationModel");
 	
 	private CoordinateManager cm = CoordinateManagerImpl.getInstance();	
 	private POISource poiSource = POISourceImpl.getInstance();	
-	//private POISource poiSource = new TestPOISource();	
-	private RoutingStrategy routing = RoutingStrategyImpl.getInstance();		
+	private RoutingStrategy routing = RoutingStrategyImpl.getInstance();
+		
+	private ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+	private InputModel inputModel = (InputModel) FacesContext.getCurrentInstance().getApplication()
+    		.getELResolver().getValue(elContext, null, "inputModel");
+	private TranslationModel translationModel = (TranslationModel) FacesContext.getCurrentInstance().getApplication()
+			.getELResolver().getValue(elContext, null, "translationModel");	
+	private MapModel mapModel;
 	
-	public void setMapModel(MapModel mapModel) {
-		this.mapModel = mapModel;
-	}
-	
-	public boolean isCalculateRoute() {
-		UIInput routeFromFieldComponent = (UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("form:routeFromField");
-		String routeFromField = (String) routeFromFieldComponent.getValue();
-		if (routeFromField == null) {
-			routeFromField = "";
-			routeFromFieldComponent.setValue("");
-		}
-		routeFromField = routeFromField.trim();
-		UIInput routeToFieldComponent = (UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent("form:routeToField");
-		String routeToField = (String) routeToFieldComponent.getValue();
-		if (routeToField == null) {
-			routeToField = "";
-			routeToFieldComponent.setValue("");
-		}
-		routeToField = routeToField.trim();
-		if ((inputModel.isRouteFromProposalListIsVisible() || !routeFromField.equals("")) 
-				&& (inputModel.isRouteToProposalListIsVisible() || !routeToField.equals(""))) {
-			return true;
-		} else {
-			return false;
-		}
+	/**
+	 * Default constructor.
+	 */
+	public InputListenerImpl() {
+		
 	}
 		
-	public void refreshInputArea(ValueChangeEvent ve) {			
-		inputModel.setRouteFromSearchFailed(false);
-		inputModel.setRouteToSearchFailed(false);
-		inputModel.setRouteCalculationFailed(false);
-	}
-	
-	public void searchButtonPressed(ActionEvent ae) {
-		if (inputModel.isRouteFromProposalListIsVisible()) {
-			inputModel.setRouteFromField(inputModel.getRouteFromSelection());
-		} 
-		String routeFromField = inputModel.getRouteFromField();
-		if (routeFromField == null) {
-				routeFromField = "";
-		}
-		routeFromField.trim();
-		if (inputModel.isRouteToProposalListIsVisible()) {
-			inputModel.setRouteToField(inputModel.getRouteToSelection());
-		} 
-		String routeToField = inputModel.getRouteToField();
-		if (routeToField == null) {
-			routeToField = "";
-		}
-		routeToField.trim();
-		resetInputArea();
-		if (!(routeFromField.equals("")) && !( routeToField.equals(""))) {
-			logger.info("calculate route from " + routeFromField + " to " + routeToField);
-			routeTriggered(routeFromField, routeToField);
-		} else if (!routeFromField.equals("")) {
-			logger.info("search for " + routeFromField);
-			searchTriggered(routeFromField, InputFields.ROUTE_FROM);
-		} else if (!routeToField.equals("")) {
-			logger.info("search for " + routeToField);
-			searchTriggered(routeToField, InputFields.ROUTE_TO);
-		} else {
-			logger.info("search button has been pressed but the input fields are empty");
-		}
+	/**
+	 * Sets the mapModel-attribute to <code>mapModel</code>.
+	 * @param mapModel MapModel to which the mapModel-attribute shall be set.
+	 *
+	 */
+	public void setMapModel(MapModel mapModel) {
+		this.mapModel = mapModel;
 	}	
 	
-	private void resetInputArea() {
-		mapModel.setHighlightedPOI(null);
-		mapModel.setRoute(null);
-		mapModel.setMarkerFrom(null);
-		mapModel.setMarkerTo(null);
-		inputModel.setRouteFromProposalListIsVisible(false);
-		inputModel.setRouteFromSearchFailed(false);
-		inputModel.setRouteToProposalListIsVisible(false);
-		inputModel.setRouteToSearchFailed(false);
-	}
-	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void searchTriggered(String searchTerm, InputFields inputField) {
+		resetInputArea();
 		MapPosition position = positionRepresentedBySearchTerm(searchTerm);
 		if (position != null) {
 			if (inputField == InputFields.ROUTE_FROM) {
@@ -139,7 +78,7 @@ public class InputListenerImpl implements InputListener {
 		} else {
 			POI poi = performSearch(searchTerm, inputField);
 			if (poi != null) {
-				System.out.println("model: " + mapModel);
+				logger.info("highlight poi: " + poi.getName());
 				mapModel.setHighlightedPOI(poi);
 				mapModel.setMapLocator(new MapLocator (new MapPosition(poi.getPosition().getLatitude(),
 						poi.getPosition().getLongitude(), poi.getMap())));
@@ -147,32 +86,35 @@ public class InputListenerImpl implements InputListener {
 			}			
 		}
 	}
-		
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void routeTriggered(String routeFrom, String routeTo) {
+		resetInputArea();
 		MapPosition from = positionRepresentedBySearchTerm(routeFrom);
-		if (from == null) {
+		if (from != null) {
+			mapModel.setMarkerFrom(from);
+		} else {
 			POI poi = performSearch(routeFrom, InputFields.ROUTE_FROM);
 			if (poi != null) {
 				from = new MapPosition (poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
 			}
-		}
-		else {
-			mapModel.setMarkerFrom(from);
-		}
-		
+		} 		
 		MapPosition to = positionRepresentedBySearchTerm(routeTo);
-		if (to == null) {
+		if (to != null) {
+			mapModel.setMarkerTo(to);
+		} else {
 			POI poi = performSearch(routeTo, InputFields.ROUTE_TO);
 			if (poi != null) {
 				to = new MapPosition (poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
 			}
-		}
-		else {
-			mapModel.setMarkerTo(to);
-		}
+		} 
 		if (from != null && to != null) {
 			Route route = routing.calculateRoute(from, to);
 			if (route != null) {
+				logger.info("Display route from: " + from + " to: " + to);
 				mapModel.setRoute(route);
 				mapModel.setMapLocator(new MapLocator (route.getBoundingBox()));
 				if (from.getMap().getID() == to.getMap().getID()) {
@@ -181,9 +123,21 @@ public class InputListenerImpl implements InputListener {
 					mapModel.setMap(Map.getMapByID(1));
 				}
 			} else {
+				//TODO
 				inputModel.setRouteCalculationFailed(true);
 			}
 		}		
+	}
+	
+	private void resetInputArea() {
+		mapModel.setHighlightedPOI(null);
+		mapModel.setRoute(null);
+		mapModel.setMarkerFrom(null);
+		mapModel.setMarkerTo(null);
+		inputModel.setRouteFromProposalListIsVisible(false);
+		inputModel.setRouteFromSearchFailed(false);
+		inputModel.setRouteToProposalListIsVisible(false);
+		inputModel.setRouteToSearchFailed(false);
 	}
 	
 	private MapPosition positionRepresentedBySearchTerm (String searchTerm) {
@@ -208,7 +162,6 @@ public class InputListenerImpl implements InputListener {
 		} else if (searchResults.size() == 1) {
 			logger.info("unique search result for " + searchTerm + " : " + searchResults.get(0).getName());
 			return searchResults.get(0);
-
 		} else {
 			logger.info("multiple search results for " + searchTerm);	
 			List<SelectItem> proposalList = createProposalList(searchResults);
@@ -236,69 +189,33 @@ public class InputListenerImpl implements InputListener {
 		return proposalList;
 	}
 	
-	public void resetRouteFromProposalList(ActionEvent ae) {
-		inputModel.setRouteFromField("");
-		inputModel.setRouteFromProposalListIsVisible(false);
-	}
-	
-	public void resetRouteToProposalList(ActionEvent ae) {
-		inputModel.setRouteToField("");
-		inputModel.setRouteToProposalListIsVisible(false);
-	}
-	
-	public void changeLanguageToEnglish(ActionEvent ae) {
-		logger.info("change language to english");
-		translationModel.setCurrentLanguage("English");
-	}
-	
-	public void changeLanguageToGerman(ActionEvent ae) {
-		logger.info("change language to german");
-		translationModel.setCurrentLanguage("Deutsch");
-	}
-	
-	public void languageChangeLinkPressed(ActionEvent ae) {
-		inputModel.setLanguageProposalListIsVisible(true);
-	}
-	
-	public void languageChangeCancelled(ActionEvent ae) {
-		inputModel.setLanguageProposalListIsVisible(false);
-	}
-		
-	public void languageChangeTriggered(ActionEvent ae) {
-		String language = inputModel.getLanguageSelection();
-		logger.info("change language to " + language);
-		translationModel.setCurrentLanguage(language);
-		inputModel.setLanguageProposalListIsVisible(false);
-	}
-
-
-	
-	//mittlerweile überflüssig?
-	public void choiceProposalTriggered(List<POI> proposalList) {
-		// TODO Auto-generated method stub
-	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void changeToMapViewTriggered(ActionEvent ae) {
+	public void languageChangeTriggered(String language) {
+		logger.info("change language to: " + language);
+		translationModel.setCurrentLanguage(language);
+	}	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void changeToMapViewTriggered() {
+		logger.info("change to map view");
 		// TODO: Insert default map here
 		mapModel.setMap(Map.getMapByID(1));
 		mapModel.setBuilding(null);
 	}
-
-	@Override
-	public void changeFloorTriggered(ActionEvent ae) {
-		String src = ((UIComponent) ae.getSource()).getClientId();
-		String[] flooridx = src.split(":");
-		Integer floorNo = Integer.parseInt(flooridx[2]);
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public void changeFloorTriggered(int floorNo) {
 		Map floor = mapModel.getBuilding().getFloors().get(floorNo);
-		logger.info("changeFloor: " + floor.getName());
+		logger.info("change floor to: " + floor.getName());
 		mapModel.setMap(floor);
 	}
-
-	@Override
-	public void changeCategoryFilterTriggered() {
-		// TODO Auto-generated method stub
-
-	}
-
+		
 }
