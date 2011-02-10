@@ -397,6 +397,8 @@ KITCampusMap.prototype.setMapLocator = function() {
 					.transformMapSection(mapLocator.mapSection));
 			if (this.olData.map.getZoom() < this.model.map.minZoom) {
 				this.olData.map.zoomTo(this.model.map.minZoom);
+			} else if (this.olData.map.getZoom() > this.model.map.maxZoom) {
+				this.olData.map.zoomTo(this.model.map.maxZoom);
 			}
 			this.enableMapEvents();
 		}
@@ -616,8 +618,8 @@ KITCampusMap.prototype.setHighlightedPOI = function() {
 		// Set new highlighted POI
 		var marker = this.createPOIMarker(poi, true);
 		var feature = new OpenLayers.Feature(this.olData.poiMarkerLayer, KITCampusHelper.transformWorldPosition(poi.position)); 
-		feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {
-			'autoSize': true, 'maxSize': new OpenLayers.Size(340, 370)
+		feature.popupClass = OpenLayers.Class(OpenLayers.Popup.AnchoredBubble, {
+			'autoSize': true, 'maxSize': new OpenLayers.Size(400, 400)
 		});
 		feature.data.popupContentHTML = this.getPOIContentHTML(poi);
 		feature.data.overflow = "auto";
@@ -634,9 +636,11 @@ KITCampusMap.prototype.setHighlightedPOI = function() {
 			
 			this.olData.map.addPopup(feature.popup, true);
 			feature.popup.show();
+			console.debug(feature.popup);
 		} else {
 			this.olData.map.addPopup(feature.popup, true);
 			feature.popup.show();
+			console.debug(feature.popup);
 		}
 		
 		this.olData.popupPOI = poi;
