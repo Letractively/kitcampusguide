@@ -1,9 +1,6 @@
 @CHARSET "ISO-8859-1";
 
 .map {
-/*	width: 560px;*/
-/*	height: 360px; */
-/*	width: 420px;*/
 	height: 270px; 
 	width:100%;
 	border-width: 0px 0px 0px 0px;
@@ -25,6 +22,18 @@
 	border-bottom-style: solid;
 	font-weight: bolder;
 	margin: 4px;
+}
+
+/* It was necessary to move this class to map.css . Otherwise the OpenLayers style.css was loaded
+"too late", corrupting the size calculation of popups. */
+.olPopupContent {
+    padding:5px;
+    overflow: auto;
+}
+
+.olFramedCloudPopupContent {
+    padding: 5px;
+    overflow: auto;
 }
 
 .mapPopupPOIInfo {

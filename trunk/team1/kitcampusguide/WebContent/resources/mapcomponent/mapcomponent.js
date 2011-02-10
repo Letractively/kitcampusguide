@@ -20,7 +20,7 @@ function KITCampusMap(clientId) {
 	this.clientId = clientId;
 	
 	/**
-	 * Stores the openlayers "div" containing the map.
+	 * Stores the OpenLayers "div" containing the map.
 	 */
 	this.mapElement = document.getElementById(clientId + ":map");
 	
@@ -145,13 +145,16 @@ KITCampusMap.prototype.applyChanges = function() {
 		this.model.map = mapModel.map;
 		this.setMapLayer();
 	}
+	if (this.changed['highlightedPOI']) {
+		this.model.highlightedPOI = mapModel.highlightedPOI;
+	}
+	
 	if (this.changed['mapLocator']) {
 		this.model.mapLocator = mapModel.mapLocator;
 		this.setMapLocator();
 	}
 	
 	if (this.changed['highlightedPOI']) {
-		this.model.highlightedPOI = mapModel.highlightedPOI;
 		this.setHighlightedPOI();
 	}
 	
@@ -389,11 +392,21 @@ KITCampusMap.prototype.setMapLocator = function() {
 			this.enableMapEvents();
 		}
 	} else if (mapLocator.center != null) {
-		if (!this.changed['map']) {
-			// Panning is only used when the map hasn't changed for this request.
-			this.olData.map.panTo(KITCampusHelper.transformWorldPosition(mapLocator.center));
-		} else {
-			this.olData.map.setCenter(KITCampusHelper.transformWorldPosition(mapLocator.center));
+		if (!this.changed['highlightedPOI'] && this.model.highlightedPOI != null) {
+			// Only change the map position if no highlighted POI was set. Instead, the map
+			// section will be panned until the higlightedPOIPopup fits inside 
+			// (see setHighlightedPopup).
+			if (!this.changed['map']) {
+				// Panning is only used when the map hasn't changed for this request.
+				this.olData.map.panTo(KITCampusHelper.transformWorldPosition(mapLocator.center));
+			} else {
+				this.olData.map.setCenter(KITCampusHelper.transformWorldPosition(mapLocator.center));
+			}
+		}
+		else {
+			// Always zoom on the desired location
+			this.olData.map.setCenter(KITCampusHelper.transformWorldPosition(
+					mapLocator.center));
 		}
 	}
 };
@@ -601,26 +614,21 @@ KITCampusMap.prototype.setHighlightedPOI = function() {
 		// Set new highlighted POI
 		var marker = this.createPOIMarker(poi, true);
 		var feature = new OpenLayers.Feature(this.olData.poiMarkerLayer, KITCampusHelper.transformWorldPosition(poi.position)); 
-		feature.popupClass = OpenLayers.Class(OpenLayers.Popup.AnchoredBubble, {
-			'autoSize': true, 'maxSize': new OpenLayers.Size(400, 400)
+		feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {
+			'autoSize': true, 'maxSize': new OpenLayers.Size(320, 200), 'panMapIfOutOfView': true
 		});
 		feature.data.popupContentHTML = this.getPOIContentHTML(poi);
 		feature.data.overflow = "auto";
+
+		var closeClick = function (evt) {
+			this.requestUpdate(new KITCampusEvent("clickOnPOI", null));
+			this.olData.popupPOI = null;
+			feature.popup.hide();
+		};
+		var p = feature.popup = feature.createPopup(true, closeClick, this);
 		
-		if (feature.popup == null) {
-			var closeClick = function (evt) {
-				this.requestUpdate(new KITCampusEvent("clickOnPOI", null));
-				this.olData.popupPOI = null;
-				feature.popup.hide();
-			};
-			var p = feature.popup = feature.createPopup(true, closeClick, this);
-			
-			this.olData.map.addPopup(feature.popup, true);
+		this.olData.map.addPopup(feature.popup, true);
 			feature.popup.show();
-		} else {
-			this.olData.map.addPopup(feature.popup, true);
-			feature.popup.show();
-		}
 		
 		this.olData.popupPOI = poi;
 		this.olData.highlightedMarker = marker;
