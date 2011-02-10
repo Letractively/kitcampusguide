@@ -1,11 +1,11 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.model.SelectItem;
+
+import edu.kit.cm.kitcampusguide.standardtypes.POI;
 
 /**
  * Manages the inputs in all text fields in the view.
@@ -15,35 +15,31 @@ import javax.faces.model.SelectItem;
 @ManagedBean (name="inputModel")
 @SessionScoped
 public class InputModel {
+	
 	/** Content of the "Route from" field.*/
 	private String routeFromField;
 	/** Content of the "Route to" field.*/
 	private String routeToField;
 	/** The proposal list to be displayed after a search. Can be <code>null</code>.*/
-	private List<SelectItem> routeFromProposalList = new ArrayList<SelectItem>();
-	private String routeFromSelection;
-	private boolean routeFromProposalListIsVisible = false;
-	private List<SelectItem> routeToProposalList = new ArrayList<SelectItem>();
-	private String routeToSelection;
-	private boolean routeToProposalListIsVisible = false;
+	private List<POI> routeFromProposalList;
+	private List<POI> routeToProposalList;
 	private boolean routeFromSearchFailed = false;		
 	private boolean routeToSearchFailed = false;
 	private boolean routeCalculationFailed = false;
-	private String languageSelection;
-	private boolean languageProposalListIsVisible = false;
 	
-	private boolean lateralBarIsVisible = true;
 	
+	private boolean languageProposalListIsVisible = false;	
+		
 	/** The export link to be displayed. Can be <code>null</code>.*/
 	private String exportLink;
 	/** The html embedding code. Can be <code>null</code>.*/
 	private String embeddingCode;
-	
+		
 	/**
 	 * Constructs a new input model.
 	 */
 	public InputModel() {
-		
+
 	}		
 	
 	/**
@@ -82,54 +78,22 @@ public class InputModel {
 		}
 	}
 
-	public List<SelectItem> getRouteFromProposalList() {
+	
+	public List<POI> getRouteFromProposalList() {
 		return routeFromProposalList;
 	}
 	
-	public void setRouteFromProposalList(List<SelectItem> routeFromProposalList) {
+	public void setRouteFromProposalList(List<POI> routeFromProposalList) {
 		this.routeFromProposalList = routeFromProposalList;
 	}	
 	
-	public void setRouteFromSelection(String routeFromSelection) {
-		this.routeFromSelection = routeFromSelection;
-	}
-
-	public String getRouteFromSelection() {
-		return routeFromSelection;
-	}
-
-	public void setRouteFromProposalListIsVisible(
-			boolean routeFromProposalListIsVisible) {
-		this.routeFromProposalListIsVisible = routeFromProposalListIsVisible;
-	}
-
-	public boolean isRouteFromProposalListIsVisible() {
-		return routeFromProposalListIsVisible;
-	}
-
-	public List<SelectItem> getRouteToProposalList() {
+	public List<POI> getRouteToProposalList() {
 		return routeToProposalList;
 	}
 	
-	public void setRouteToProposalList(List<SelectItem> routeToProposalList) {
+	public void setRouteToProposalList(List<POI> routeToProposalList) {
 		this.routeToProposalList = routeToProposalList;
 	}	
-
-	public void setRouteToSelection(String routeToSelection) {
-		this.routeToSelection = routeToSelection;
-	}
-
-	public String getRouteToSelection() {
-		return routeToSelection;
-	}
-
-	public void setRouteToProposalListIsVisible(boolean routeToProposalListIsVisible) {
-		this.routeToProposalListIsVisible = routeToProposalListIsVisible;
-	}
-
-	public boolean isRouteToProposalListIsVisible() {
-		return routeToProposalListIsVisible;
-	}
 
 	public void setRouteFromSearchFailed(boolean routeFromSearchFailed) {
 		this.routeFromSearchFailed = routeFromSearchFailed;
@@ -155,14 +119,6 @@ public class InputModel {
 		return routeCalculationFailed;
 	}
 
-	public void setLanguageSelection(String languageSelection) {
-		this.languageSelection = languageSelection;
-	}
-
-	public String getLanguageSelection() {
-		return languageSelection;
-	}
-
 	public void setLanguageProposalListIsVisible(
 			boolean languageProposalListIsVisible) {
 		this.languageProposalListIsVisible = languageProposalListIsVisible;
@@ -170,14 +126,6 @@ public class InputModel {
 
 	public boolean isLanguageProposalListIsVisible() {
 		return languageProposalListIsVisible;
-	}
-
-	public void setLateralBarIsVisible(boolean lateralBarIsVisible) {
-		this.lateralBarIsVisible = lateralBarIsVisible;
-	}
-
-	public boolean isLateralBarIsVisible() {
-		return lateralBarIsVisible;
 	}
 
 	/**

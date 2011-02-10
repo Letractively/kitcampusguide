@@ -69,18 +69,18 @@
 							<br />
 							<h:inputText id="routeFromField" value="#{inputModel.routeFromField}"
 								valueChangeListener="#{inputListenerAdapter.refreshInputArea}" 
-								rendered="#{not inputModel.routeFromProposalListIsVisible}" >								
+								rendered="#{inputModel.routeFromProposalList == null}" >								
 								<f:ajax execute="routeFromField routeToField"
 									render="button routeFromInformation" event="keyup" />
 							</h:inputText>	
-							<h:selectOneMenu id="routeFromProposalList" rendered="#{inputModel.routeFromProposalListIsVisible}" 
-								value="#{inputModel.routeFromSelection}" >
-								<f:selectItems value="#{inputModel.routeFromProposalList}" />
+							<h:selectOneMenu id="routeFromProposalList" rendered="#{inputModel.routeFromProposalList != null}" 
+								value="#{inputListenerAdapter.routeFromSelection}" >
+								<f:selectItems value="#{inputListenerAdapter.routeFromProposalList}" />
 							</h:selectOneMenu>						
 							<br />											
 							<h:commandLink id="resetRouteFromProposalList" value="#{tr:translate('reset')}" 
 								actionListener="#{inputListenerAdapter.resetRouteFromProposalList}" 
-								rendered="#{inputModel.routeFromProposalListIsVisible}" >
+								rendered="#{inputModel.routeFromProposalList != null}" >
 								<f:ajax execute="resetRouteFromProposalList" render="routeFromInput" />
 							</h:commandLink>						
 							<br />	
@@ -88,7 +88,7 @@
 								<h:outputText id="routeFromSearchFailed" value="#{tr:translate('searchFailed')}" 
 									rendered="#{inputModel.routeFromSearchFailed}" />	
 								<h:outputText id="routeFromChoose" value="#{tr:translate('choose')}" 
-									rendered="#{inputModel.routeFromProposalListIsVisible}" />	
+									rendered="#{inputModel.routeFromProposalList != null}" />	
 							</h:panelGroup>																					
 						</h:panelGroup>
 													
@@ -97,18 +97,18 @@
 							<br />
 							<h:inputText id="routeToField" value="#{inputModel.routeToField}"
 								valueChangeListener="#{inputListenerAdapter.refreshInputArea}" 
-								rendered="#{not inputModel.routeToProposalListIsVisible}" >
+								rendered="#{inputModel.routeToProposalList == null}" >
 								<f:ajax execute="routeFromField routeToField"
 									render="button routeToInformation" event="keyup" />
 							</h:inputText>													
-							<h:selectOneMenu id="routeToProposalList" rendered="#{inputModel.routeToProposalListIsVisible}" 
-								value="#{inputModel.routeToSelection}" >
-								<f:selectItems value="#{inputModel.routeToProposalList}" />
+							<h:selectOneMenu id="routeToProposalList" rendered="#{inputModel.routeToProposalList != null}" 
+								value="#{inputListenerAdapter.routeToSelection}" >
+								<f:selectItems value="#{inputListenerAdapter.routeToProposalList}" />
 							</h:selectOneMenu>						
 							<br />											
 							<h:commandLink id="resetRouteToProposalList" value="#{tr:translate('reset')}" 
 								actionListener="#{inputListenerAdapter.resetRouteToProposalList}" 
-								rendered="#{inputModel.routeToProposalListIsVisible}" >
+								rendered="#{inputModel.routeToProposalList != null}" >
 								<f:ajax execute="resetRouteToProposalList" render="routeToInput" />
 							</h:commandLink>						
 							<br />			
@@ -116,13 +116,13 @@
 								<h:outputText id="routeToSearchFailed" value="#{tr:translate('searchFailed')}" 
 									rendered="#{inputModel.routeToSearchFailed}" />	
 								<h:outputText id="routeToChoose" value="#{tr:translate('choose')}" 
-									rendered="#{inputModel.routeToProposalListIsVisible}" />	
+									rendered="#{inputModel.routeToProposalList != null}" />	
 							</h:panelGroup>				
 						</h:panelGroup>			
 						
 						<h:outputText id="routeCalculationFailed" value="#{tr:translate('routeCalculationFailed')}" 
 							rendered="#{inputModel.routeCalculationFailed}"/>
-						
+										
 					</h:panelGrid>		
 				</h:panelGroup>		
 				
@@ -138,15 +138,14 @@
 				<h:panelGroup id="navigation" layout="block" style="padding:30px">
 					<h:panelGrid columns="1">
 						<h:commandLink id="filterLink" value="#{tr:translate('filter')}" />
-<!--							actionListener="#{inputListener.filterLinkPressed}" -->
 						<h:commandLink id="changeLanguageLink" value="#{tr:translate('changeLanguage')}"
 							actionListener="#{inputListenerAdapter.languageChangeLinkPressed}" >
 							<f:ajax execute="changeLanguageLink" render="navigation" />
 						</h:commandLink>
 						<h:panelGroup>
-							<h:selectOneMenu id="languageProposalList" value="#{inputModel.languageSelection}" 
+							<h:selectOneMenu id="languageProposalList" value="#{inputListenerAdapter.languageSelection}" 
 								rendered="#{inputModel.languageProposalListIsVisible}" >
-								<f:selectItems value="#{translationModel.languageProposalList}" />
+								<f:selectItems value="#{inputListenerAdapter.languageProposalList}" />
 							</h:selectOneMenu>	
 							<h:commandLink id="languageChangeTriggered" rendered="#{inputModel.languageProposalListIsVisible}"							
 								actionListener="#{inputListenerAdapter.languageChangeTriggered}" >								

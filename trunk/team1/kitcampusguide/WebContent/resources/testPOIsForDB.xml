@@ -133,12 +133,11 @@
 			<category ID="4" />
 		</categories>
 		<description>
-			Karlsruhe, wird auch Fächerstadt genannt. <br />Hierbei ist das Schloß der zentrale Punkt.<br />
-			<a href="http://ka.stadtwiki.net/Karlsruher_Schloss_(Bilder)">Bilder vom Schloß</a>
+			Karlsruhe, wird auch Fächerstadt genannt. <br />Hierbei ist das Schloss der zentrale Punkt.<br />
+			<a href="http://ka.stadtwiki.net/Karlsruher_Schloss_(Bilder)">Bilder vom Schloss</a>
 		</description>
 	</POI>
-	
-	<!--POIs von Isa eingefügt-->
+
 	<POI name="KIT-Bibliothek">
 		<position longitude="8.416351" mapID="1" latitude="49.011035" /> 
 		<categories>
@@ -148,10 +147,7 @@
 			Treffpunkt für alle Lese- und/oder Studierwütigen. <br />
 			Kein Bücherwunsch bleibt unerfüllt! <br />
 			Suche hier nach deinem Lieblingsbuch:
-			<iframe src="http://www.ubka.uni-karlsruhe.de/hylib/suchmaske.html"
-				width="270px" height="100%" scrolling="auto" >
-				Hier sollte der KIT-Katalog angezeigt werden ...
-			</iframe>
+			<a href="http://www.ubka.uni-karlsruhe.de/hylib/suchmaske.html">DEIN LIEBLINGSBUCH</a>
 		</description>
 	</POI>
 	
@@ -159,6 +155,46 @@
 		<position longitude="8.409303" mapID="1" latitude="49.011844" ></position> 
 		<categories>
 			<category ID="1" />
+		</categories>
+		<description>
+			
+		</description>
+	</POI>
+	
+	<POI name="Ampel">
+		<position longitude="8.417830" mapID="1" latitude="49.011035" ></position>  
+		<categories>
+			<category ID="4" />
+		</categories>
+		<description>
+			
+		</description>
+	</POI>
+	
+	<POI name="Ampel">
+		<position longitude="8.409990" mapID="1" latitude="49.009440" ></position> 
+		<categories>
+			<category ID="4" />
+		</categories>
+		<description>
+			
+		</description>
+	</POI>
+	
+	<POI name="Ampel">
+		<position longitude="8.410081" mapID="1" latitude="49.009457" ></position>
+		<categories>
+			<category ID="4" />
+		</categories>
+		<description>
+			
+		</description>
+	</POI>
+	
+	<POI name="114.1">
+		<position longitude="8.407999" mapID="4" latitude="49.012104" ></position> 
+		<categories>
+			<category ID="4" />
 		</categories>
 		<description>
 			
