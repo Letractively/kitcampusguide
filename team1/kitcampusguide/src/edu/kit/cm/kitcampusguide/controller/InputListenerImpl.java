@@ -1,12 +1,10 @@
 package edu.kit.cm.kitcampusguide.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 
 import javax.el.ELContext;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManager;
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManagerImpl;
@@ -58,14 +56,13 @@ public class InputListenerImpl implements InputListener {
 	 */
 	public void setMapModel(MapModel mapModel) {
 		this.mapModel = mapModel;
-	}	
+	}		
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void searchTriggered(String searchTerm, InputFields inputField) {
-		resetInputArea();
 		MapPosition position = positionRepresentedBySearchTerm(searchTerm);
 		if (position != null) {
 			if (inputField == InputFields.ROUTE_FROM) {
@@ -78,55 +75,95 @@ public class InputListenerImpl implements InputListener {
 		} else {
 			POI poi = performSearch(searchTerm, inputField);
 			if (poi != null) {
-				logger.info("highlight poi: " + poi.getName());
-				mapModel.setHighlightedPOI(poi);
-				mapModel.setMapLocator(new MapLocator (new MapPosition(poi.getPosition().getLatitude(),
-						poi.getPosition().getLongitude(), poi.getMap())));
-				mapModel.setMap(poi.getMap());
+				highlightPOI(poi);
 			}			
 		}
 	}
+	
+	public void searchTriggered(POI soughtAfter) {
+		highlightPOI(soughtAfter);
+	}
+	
+	private void highlightPOI(POI poi) {
+		resetInputArea();
+		logger.info("highlight poi: " + poi.getName());
+		mapModel.setHighlightedPOI(poi);
+		mapModel.setMapLocator(new MapLocator (new MapPosition(poi.getPosition().getLatitude(),
+				poi.getPosition().getLongitude(), poi.getMap())));
+		mapModel.setMap(poi.getMap());
+	}	
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void routeTriggered(String routeFrom, String routeTo) {
-		resetInputArea();
 		MapPosition from = positionRepresentedBySearchTerm(routeFrom);
-		if (from != null) {
-			mapModel.setMarkerFrom(from);
-		} else {
+		if (from == null) {
 			POI poi = performSearch(routeFrom, InputFields.ROUTE_FROM);
 			if (poi != null) {
 				from = new MapPosition (poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
 			}
 		} 		
 		MapPosition to = positionRepresentedBySearchTerm(routeTo);
-		if (to != null) {
-			mapModel.setMarkerTo(to);
-		} else {
+		if (to == null) {
 			POI poi = performSearch(routeTo, InputFields.ROUTE_TO);
 			if (poi != null) {
 				to = new MapPosition (poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
 			}
 		} 
-		if (from != null && to != null) {
-			Route route = routing.calculateRoute(from, to);
-			if (route != null) {
-				logger.info("Display route from: " + from + " to: " + to);
-				mapModel.setRoute(route);
-				mapModel.setMapLocator(new MapLocator (route.getBoundingBox()));
-				if (from.getMap().getID() == to.getMap().getID()) {
-					mapModel.setMap(from.getMap());
-				} else {
-					mapModel.setMap(Map.getMapByID(1));
-				}
-			} else {
-				//TODO
-				inputModel.setRouteCalculationFailed(true);
-			}
+		if (from != null && to != null) {			
+			calculateRoute(from, to);
 		}		
+	}
+	
+	public void routeTriggered(MapPosition from, MapPosition to) {
+		calculateRoute(from, to);
+	}
+	
+	public void routeTriggered(String routeFrom, MapPosition to) {
+		MapPosition from = positionRepresentedBySearchTerm(routeFrom);
+		if (from != null) {
+			calculateRoute(from, to);
+		} else {
+			POI poi = performSearch(routeFrom, InputFields.ROUTE_FROM);
+			if (poi != null) {
+				from = new MapPosition (poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
+				calculateRoute(from, to);
+			}
+		} 		
+	}
+	
+	public void routeTriggered(MapPosition from, String routeTo) {
+		MapPosition to = positionRepresentedBySearchTerm(routeTo);
+		if (to != null) {
+			calculateRoute(from, to);
+		} else {
+			POI poi = performSearch(routeTo, InputFields.ROUTE_TO);
+			if (poi != null) {
+				to = new MapPosition (poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
+				calculateRoute(from, to);
+			}
+		} 	
+	}
+	
+	private void calculateRoute(MapPosition from, MapPosition to) {
+		resetInputArea();
+		Route route = routing.calculateRoute(from, to);
+		if (route != null) {
+			logger.info("Display route");
+			mapModel.setMarkerFrom(from);
+			mapModel.setMarkerTo(to);
+			mapModel.setRoute(route);
+			mapModel.setMapLocator(new MapLocator (route.getBoundingBox()));
+			if (from.getMap().getID() == to.getMap().getID()) {
+				mapModel.setMap(from.getMap());
+			} else {
+				mapModel.setMap(Map.getMapByID(1));
+			}
+		} else {
+			inputModel.setRouteCalculationFailed(true);
+		}
 	}
 	
 	private void resetInputArea() {
@@ -134,9 +171,9 @@ public class InputListenerImpl implements InputListener {
 		mapModel.setRoute(null);
 		mapModel.setMarkerFrom(null);
 		mapModel.setMarkerTo(null);
-		inputModel.setRouteFromProposalListIsVisible(false);
+		inputModel.setRouteFromProposalList(null);
 		inputModel.setRouteFromSearchFailed(false);
-		inputModel.setRouteToProposalListIsVisible(false);
+		inputModel.setRouteToProposalList(null);
 		inputModel.setRouteToSearchFailed(false);
 	}
 	
@@ -164,31 +201,17 @@ public class InputListenerImpl implements InputListener {
 			return searchResults.get(0);
 		} else {
 			logger.info("multiple search results for " + searchTerm);	
-			List<SelectItem> proposalList = createProposalList(searchResults);
 			if (inputField == InputFields.ROUTE_FROM) {
 				inputModel.setRouteFromField("");
-				inputModel.setRouteFromProposalList(proposalList);
-				inputModel.setRouteFromProposalListIsVisible(true);			
+				inputModel.setRouteFromProposalList(searchResults);			
 			} else {
 				inputModel.setRouteToField("");
-				inputModel.setRouteToProposalList(proposalList);
-				inputModel.setRouteToProposalListIsVisible(true);			
+				inputModel.setRouteToProposalList(searchResults);		
 			}
 			return null;
 		}
 	}	
-	
-	private List<SelectItem> createProposalList(List<POI> searchResults) {
-		List<SelectItem> proposalList = new ArrayList<SelectItem>();
-		for (POI poi : searchResults) {
-			SelectItem item = new SelectItem();
-			item.setLabel(poi.getName());
-			item.setValue(poi.getName());
-			proposalList.add(item);	
-		}
-		return proposalList;
-	}
-	
+		
 	/**
 	 * {@inheritDoc}
 	 */

@@ -7,7 +7,7 @@
 	<function>
     <function-name>translate</function-name>
     <function-class>
-      edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModelImpl
+      edu.kit.cm.kitcampusguide.controller.InputListenerAdapter
     </function-class>
     <function-signature>
       java.lang.String translate(java.lang.String)

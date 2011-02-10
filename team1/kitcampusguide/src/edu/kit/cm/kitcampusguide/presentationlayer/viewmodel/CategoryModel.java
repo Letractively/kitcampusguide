@@ -1,6 +1,5 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -32,6 +31,7 @@ public class CategoryModel {
 	}*/
 	
 	public CategoryModel () {
+		//TODO
 		categories  = defaultModelValues.getDefaultCategories();
 		currentCategories = defaultModelValues.getDefaultCurrentCategories();
 	}

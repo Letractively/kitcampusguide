@@ -180,6 +180,11 @@
 		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.CategoryModel</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>inputListenerAdapter</managed-bean-name>
+		<managed-bean-class>edu.kit.cm.kitcampusguide.controller.InputListenerAdapter</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
 	<lifecycle>
 		<phase-listener>edu.kit.cm.kitcampusguide.presentationlayer.view.MapPhaseListener</phase-listener>
 	</lifecycle>

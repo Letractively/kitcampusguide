@@ -1,13 +1,9 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.el.ELContext;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 
 /**
  * This class manages the language for a single user and therefore uses the {@link LanguageManager} and {@link Language} classes.
@@ -30,20 +26,7 @@ public class TranslationModelImpl implements TranslationModel {
 		manager = LanguageManager.getInstance();
 		currentLanguage = manager.getDefaultLanguage();
 	}	
-	
-	/**
-	 * EL-Function that can be used in the JSF-site.
-	 * Uses the function "tr()" of the recent TranslationModel to translate labels into the current language.
-	 * @param key The key identifying the text to be translated.
-	 * @return The translated text.
-	 */
-	public static String translate(String key) {
-		ELContext elContext = FacesContext.getCurrentInstance().getELContext();	
-		TranslationModel translationModel = (TranslationModel) FacesContext.getCurrentInstance().getApplication()
-		        .getELResolver().getValue(elContext, null, "translationModel");
-		return translationModel.tr(key);
-	}
-	
+		
 	/**
 	 * Translates the {@link String} <code>key</code> in the current language.
 	 * If there is no value for <code>key</code> in the current language the corresponding value from
@@ -89,15 +72,4 @@ public class TranslationModelImpl implements TranslationModel {
 		return manager.getLanguagesAsString();
 	}
 	
-	public List<SelectItem> getLanguageProposalList() {
-		List<String> languages = getLanguages();
-		List<SelectItem> proposalList = new ArrayList<SelectItem>();
-		for (String language : languages) {
-			SelectItem item = new SelectItem();
-			item.setLabel(language);
-			item.setValue(language);
-			proposalList.add(item);	
-		}
-		return proposalList;
-	}
 }

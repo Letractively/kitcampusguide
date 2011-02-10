@@ -1,5 +1,8 @@
 package edu.kit.cm.kitcampusguide.controller;
 
+import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
+import edu.kit.cm.kitcampusguide.standardtypes.POI;
+
 /**
  * This enumeration defines representations for the both input fields in the view.
  * <code>InputFields.ROUTE_FROM</code> represents the "Search/Route from"-input field.
@@ -24,6 +27,8 @@ public interface InputListener {
 	 */
 	public void searchTriggered(String searchTerm, InputFields inputField);
 	
+	public void searchTriggered(POI soughtAfter);	
+	
 	/**
 	 * Triggers the calculation of a route from <code>from</code> to <code>to</code> and ensures that 
 	 * the view will receive all information necessary to present the result.
@@ -31,6 +36,12 @@ public interface InputListener {
 	 * @param to Non-empty string that represents the end point of the route. Not null.
 	 */
 	public void routeTriggered(String from, String to);
+	
+	public void routeTriggered(MapPosition from, MapPosition to);
+	
+	public void routeTriggered(String from, MapPosition to);
+	
+	public void routeTriggered(MapPosition from, String to);
 	
 	/**
 	 * Changes the current language in which the view presents all text output to <code>language</code>.
