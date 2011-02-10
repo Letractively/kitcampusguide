@@ -8,24 +8,29 @@ import javax.faces.event.PhaseListener;
 
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
 
+// TODO
 public class MapPhaseListener implements PhaseListener {
 
 	@Override
 	public void afterPhase(PhaseEvent event) {
-		if (event.getPhaseId().equals(PhaseId.UPDATE_MODEL_VALUES)) {
+		ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+		MapModel mapModel = (MapModel) elContext.getELResolver().getValue(
+				elContext, null, "mapModel");
+		if (event.getPhaseId().equals(PhaseId.RESTORE_VIEW)) {
+			mapModel.addAllProperties();
+		}
+		else if (event.getPhaseId().equals(PhaseId.UPDATE_MODEL_VALUES)) {
 			// Reset the properties in the MapModel.
-			ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-			MapModel mapModel = (MapModel) elContext.getELResolver().getValue(
-					elContext, null, "mapModel");
-
+		
 			if (FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) {
 				// ajax request ==> there is no need to update all map properties. Only 
-				// properties changed by the controller componentes will be updated
+				// properties changed by the controller components will be updated
 				mapModel.resetChangedProperties();
 			}
-			else {
-				mapModel.addAllProperties();
-			}
+//			else {
+//				System.out.println("AddAll");
+//				mapModel.addAllProperties();
+//			}
 		}
 	}
 

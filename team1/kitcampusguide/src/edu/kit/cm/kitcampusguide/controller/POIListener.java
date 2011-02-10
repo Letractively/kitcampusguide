@@ -22,6 +22,10 @@ public interface POIListener {
 	 */
 	public void changeToBuildingMap(int buildingID);
 
+	// TODO
+	public void listEntryClicked(String poiID);
+	
+	
 	/**
 	 * Changes the attribute <code>pois</code> of the current MapModel to the
 	 * list of POIs, which are in the building specified by

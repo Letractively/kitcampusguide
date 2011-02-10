@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.view.converters;
 
+import java.util.Collection;
 import java.util.Set;
 
 import org.json.simple.JSONArray;
@@ -13,6 +14,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
+import edu.kit.cm.kitcampusguide.standardtypes.Route;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 
 /**
@@ -48,7 +50,9 @@ public class JSONConversionHelper {
 	 * @return a JSONObject representing the POI
 	 */
 	static JSONObject convertPOI(POI p) {
-
+		if (p == null) {
+			return null;
+		}
 		JSONArray categories = new JSONArray();
 		for (Category c : p.getCategories()) {
 			JSONObject category = new JSONObject();
@@ -80,11 +84,38 @@ public class JSONConversionHelper {
 	}
 
 	static JSONObject convertMapPosition(MapPosition p) {
+		if (p == null) {
+			return null;
+		}
 		JSONObject position = convertWorldPosition(p);
 		position.put("map", convertMap(p.getMap()));
 		return position;
 	}
-
+	
+	static JSONArray convertPOIList(Collection<POI> pois) {
+		if (pois == null) {
+			return null;
+		}
+		JSONArray result = new JSONArray();
+		for (POI poi: pois) {
+			result.add(convertPOI(poi));
+		}
+		return result;
+	}
+	
+	static JSONObject convertRoute(Route route) {
+		if (route == null) {
+			return null;
+		}
+		JSONObject result = new JSONObject();
+		JSONArray waypoints = new JSONArray();
+		result.put("waypoints", waypoints);
+		for (MapPosition pos: ((route).getWaypoints())) {
+			waypoints.add(JSONConversionHelper.convertMapPosition(pos));
+		}
+		return result;
+	}
+	
 	static JSONObject convertMap(Map m) {
 		JSONObject map = new JSONObject();
 		map.put("id", m.getID());
@@ -119,6 +150,9 @@ public class JSONConversionHelper {
 	}
 
 	static JSONObject convertBuilding(Building building) {
+		if (building == null) {
+			return null;
+		}
 		JSONObject obj = new JSONObject();
 		obj.put("groundFloorIndex", building.getGroundFloorIndex());
 		JSONArray floors = new JSONArray();

@@ -18,13 +18,7 @@
 	<h:panelGrid columns="2" class="fullWidth" columnClasses="fullWidth"
 		rowClasses="fullWidth">
 		<h:panelGroup id="map">
-			<map:mapcomponent map="#{mapModel.map}" POIs="#{mapModel.POIs}"
-				building="#{mapModel.building}" mapLocator="#{mapModel.mapLocator}"
-				highlightedPOI="#{mapModel.highlightedPOI}"
-				markerFrom="#{mapModel.markerFrom}" markerTo="#{mapModel.markerTo}"
-				route="#{mapModel.route}" buildingPOI="#{mapModel.buildingPOI}"
-				buildingPOIList="#{mapModel.buildingPOIList}"
-				changedProperties="#{mapModel.changedProperties}"
+			<map:mapcomponent mapModel="#{mapModel}"
 				additionalRenderIDs="routeFromField routeToField lateralBar">
 				<c:valueChangeListener for="valueChangeListener"
 					type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapEventsListener" />

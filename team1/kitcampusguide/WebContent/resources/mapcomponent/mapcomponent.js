@@ -133,60 +133,58 @@ function KITCampusMap(clientId) {
  */
 KITCampusMap.prototype.applyChanges = function() {
 	// Get all Attributes which need to be redrawn
-	var changedItems = JSON
-			.parse(this.getFormElement("changedProperties").firstChild.data);
-	var changed = new Object();
-	for ( var i in changedItems) {
-		changed[changedItems[i]] = true;
+	var mapModel = this.getFormSpanData("mapModel");
+	
+	// Fetch all changed properties
+	this.changed = new Object();
+	for (var prop in mapModel) {
+		this.changed[prop] = true;
 	}
 	
-	this.changed = changed;
-	
-	if (changed['map'] || !this.model.map) {
-		this.model.map = this.getFormSpanData("map");
+	if (this.changed['map']) {
+		this.model.map = mapModel.map;
 		this.setMapLayer();
 	}
-	if (changed['mapLocator']) {
-		this.model.mapLocator = this.getFormInputData("mapLocator");
+	if (this.changed['mapLocator']) {
+		this.model.mapLocator = mapModel.mapLocator;
 		this.setMapLocator();
 	}
 	
-	if (changed['highlightedPOI']) {
-		this.model.highlightedPOI = this.getFormSpanData("highlightedPOI");
+	if (this.changed['highlightedPOI']) {
+		this.model.highlightedPOI = mapModel.highlightedPOI;
 		this.setHighlightedPOI();
 	}
 	
-	if (changed['POIs']) {
-		this.model.pois = this.getFormSpanData("POIs");
+	if (this.changed['POIs']) {
+		this.model.pois = mapModel.POIs;
 	}
 	
 	// The POIs must be updated if the highlighted POI changes hence the old 
 	// marker needs to be deleted
-	if (changed['POIs'] || changed['highlightedPOI']) {
+	if (this.changed['POIs'] || this.changed['highlightedPOI']) {
 		this.setPOIs();
 	}
 
-	if (changed['buildingPOIList']) {
-		this.model.buildingPOIList = this.getFormSpanData("buildingPOIList");
-		this.model.buildingPOI = this.getFormSpanData("buildingPOI");
+	if (this.changed['buildingPOIList']) {
+		this.model.buildingPOIList = mapModel.buildingPOIList;
+		this.model.buildingPOI = mapModel.buildingPOIList;
 		this.setBuildingPOIList();
 	}
 	
-	if (changed['markerTo']) {
-		this.model.markerTo = this.getFormInputData("markerTo");
+	if (this.changed['markerTo']) {
+		this.model.markerTo = mapModel.markerTo;
 		this.setMarker('markerTo');
 	}
 	
-	if (changed['markerFrom']) {
-		this.model.markerFrom = this.getFormInputData("markerFrom");
+	if (this.changed['markerFrom']) {
+		this.model.markerFrom = mapModel.markerFrom;
 		this.setMarker('markerFrom');
 	}
 	
-	 if (changed['route']) {
-		this.model.route = this.getFormSpanData("route");
+	 if (this.changed['route']) {
+		this.model.route = mapModel.route;
 		this.setRoute();
 	}
-
 };
 
 
@@ -280,9 +278,9 @@ KITCampusMap.prototype.handleMenuOpen = function(x, y) {
  */
 KITCampusMap.prototype.handleRouteFromToClick = function(fromTo) {
 	this.olData.rightClickMenu.hide();
-	var input = this.getFormElement(fromTo);
-	input.value = JSON.stringify(this.olData.rightClickMenuPosition);
-	this.requestUpdate(input.id);
+	var eventType = (fromTo == "markerFrom") ? "setRouteFromByContextMenu" : 
+		"setRouteToByContextMenu";
+	this.requestUpdate(new KITCampusEvent(eventType, this.olData.rightClickMenuPosition, "MapPosition"));
 };
 
 /**
@@ -322,13 +320,10 @@ KITCampusMap.prototype.handleZoomEnd = function(event) {
  */
 KITCampusMap.prototype.handleMove = function(event) {
 	// Submit the new map section to the server
-	var input = this.getFormElement("mapLocator");
 	var newMapLocator = new Object();
 	newMapLocator.mapSection = KITCampusHelper.untransformBounds(this.olData.map.getExtent());
 	newMapLocator.center = null;
-
-	input.value = JSON.stringify(newMapLocator);
-	this.requestUpdate(input.id);
+	this.requestUpdate(new KITCampusEvent("mapLocatorChanged", newMapLocator, "MapLocator"));
 };
 
 /**
@@ -353,29 +348,20 @@ KITCampusMap.prototype.eventCallback = function(data) {
  * rerendered, additionally, more update fields can be configured via
  * <code>this.additionalRenderIDs</code>
  * 
- * @param executeIds
- *            a space seperated list of elements which should be updated.
+ * @param events //TODO
  */
-KITCampusMap.prototype.requestUpdate = function(executeIds) {
+KITCampusMap.prototype.requestUpdate = function(events) {
+	if (!(events instanceof Array))
+		events = [events];
+	
+	var outputField = this.getFormElement("outputField");
+	outputField.value = JSON.stringify(events);
 	var id = this.form.id;
 	jsf.ajax.request(this.form, null, {
-		execute : executeIds + " " + this.additionalRenderIDs,
-		render : id + ":POIs " + id + ":mapLocator " + id + ":map " + id
-				+ ":route " + id + ":changedProperties " + id + ":markerTo "
-				+ id + ":markerFrom " + id + ":buildingPOI " + id
-				+ ":buildingPOIList " + id + ":highlightedPOI "
-				+ this.additionalRenderIDs,
+		execute : id + ":outputField " + this.additionalRenderIDs,
+		render : id + ":mapModel " + this.additionalRenderIDs,
 		onevent : this.eventCallback
 	});
-	
-	// Reset all listener input fields. Otherwise JSF will cause a value change event on every request
-	// hence the serverside components are always set to null
-	ids = [ "buildingIDListener", "highlightedPOIIDListener", "buildingPOIsListListener" ];
-	for ( var id in ids) {
-		// Any numerical value can be entered
-		// TODO: Rework update process
-		this.getFormElement(ids[id]).value = "123";
-	}
 };
 
 // Property setters -------------------------------------------------------
@@ -446,15 +432,14 @@ KITCampusMap.prototype.setPOIs = function() {
  * 
  */
 KITCampusMap.prototype.createPOIMarker = function(poi) {
-    
-    var feature = new OpenLayers.Feature(this.olData.poiMarkerLayer, KITCampusHelper.transformWorldPosition(poi.position)); 
-    var marker = feature.createMarker();
-    var markerClick = function (evt) {
-    	var input = this.getFormElement("highlightedPOIIDListener");
-    	input.value = poi.id;
-    	this.requestUpdate(input.id);
-        OpenLayers.Event.stop(evt);
-    };
+	var feature = new OpenLayers.Feature(this.olData.poiMarkerLayer,
+			KITCampusHelper.transformWorldPosition(poi.position));
+	var marker = feature.createMarker();
+	var markerClick = function(evt) {
+		var event = new KITCampusEvent("clickOnPOI", poi.id);
+		this.requestUpdate(event);
+		OpenLayers.Event.stop(evt);
+	};
     
     // This method draws a small tooltip menu
     var markerMouseOver = function (evt) {
@@ -526,9 +511,8 @@ KITCampusMap.prototype.getTranslation = function(label) {
  * Is called when the "Switch to building" link of a building POI was clicked.
  */
 KITCampusMap.prototype.handleSwitchToBuilding = function() {
-	var input = this.getFormElement("buildingIDListener");
-	input.value = this.olData.popupPOI.buildingID;
-	this.requestUpdate(input.id);
+	this.requestUpdate(new KITCampusEvent("changeToBuildingMap",
+			this.olData.popupPOI.buildingID, "Integer"));
 };
 
 /**
@@ -536,9 +520,8 @@ KITCampusMap.prototype.handleSwitchToBuilding = function() {
  * clicked.
  */
 KITCampusMap.prototype.handleShowPOIsInBuilding = function() {
-	var input = this.getFormElement("buildingPOIsListListener");
-	input.value = this.olData.popupPOI.buildingID;
-	this.requestUpdate(input.id);
+	this.requestUpdate(new KITCampusEvent("showPOIsInBuilding",
+			this.olData.popupPOI.buildingID, "Integer"));
 };
 
 /**
@@ -626,9 +609,7 @@ KITCampusMap.prototype.setHighlightedPOI = function() {
 		
 		if (feature.popup == null) {
 			var closeClick = function (evt) {
-				var input = this.getFormElement("highlightedPOIIDListener");
-				input.value = "";
-				this.requestUpdate(input.id);
+				this.requestUpdate(new KITCampusEvent("clickOnPOI", null));
 				this.olData.popupPOI = null;
 				feature.popup.hide();
 			};
@@ -636,11 +617,9 @@ KITCampusMap.prototype.setHighlightedPOI = function() {
 			
 			this.olData.map.addPopup(feature.popup, true);
 			feature.popup.show();
-			console.debug(feature.popup);
 		} else {
 			this.olData.map.addPopup(feature.popup, true);
 			feature.popup.show();
-			console.debug(feature.popup);
 		}
 		
 		this.olData.popupPOI = poi;
@@ -727,12 +706,7 @@ KITCampusMap.prototype.createBuildingPOIList = function(poiList) {
  *            the id of the POI which was clicked.
  */
 KITCampusMap.prototype.handleBuildingPOIListClick = function(poiID) {
-	var input1 = this.getFormElement("buildingIDListener");
-	input1.value = this.olData.popupPOI.buildingID;
-	
-	var input2 = this.getFormElement("highlightedPOIIDListener");
-	input2.value = poiID;
-	this.requestUpdate(input1.id + " " + input2.id);
+	this.requestUpdate(new KITCampusEvent("listEntryClicked", poiID));
 };
 
 // Help functions ------------------------------------------------------------
@@ -766,3 +740,10 @@ KITCampusMap.prototype.disableMapEvents = function() {
 KITCampusMap.prototype.getTooltipContentHTML = function(poi) {
 	return "<div>" + poi.name + "</div>";
 };
+
+
+function KITCampusEvent(type, data, dataType) {
+	this.type = type;
+	this.dataType = dataType ? dataType : "String";
+	this.data = data;
+}

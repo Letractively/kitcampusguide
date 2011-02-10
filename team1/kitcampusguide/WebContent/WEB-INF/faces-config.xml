@@ -15,60 +15,17 @@
     		</system-event-class>
     	</system-event-listener>
     </application>
-	<converter>
-		<description>Converts a MapSection into a String easily readable by OpenLayers.</description>
-		<display-name>MapSectionConverter</display-name>
-		<converter-id>mapSectionConverter</converter-id>
-		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.converters.MapSectionConverter</converter-class>
-	</converter>
-	<converter>
-		<description>Converts a POIList into a JSON formatted String</description>
-		<display-name>POIListConverter</display-name>
-		<converter-id>poiListConverter</converter-id>
-		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.converters.POIListConverter</converter-class>
-	</converter>
-	<converter>
-		<description>Converts a POI into a JSON formatted String.</description>
-		<display-name>POIConverter</display-name>
-		<converter-id>poiConverter</converter-id>
-		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.converters.POIConverter</converter-class>
-	</converter>
-	<converter>
-		<description>Converts a Route into a JSON formatted String.</description>
-		<display-name>RouteConverter</display-name>
-		<converter-id>routeConverter</converter-id>
-		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.converters.RouteConverter</converter-class>
-	</converter>
-	<converter>
-		<description>Converts a MapPosition into a JSON formatted String.</description>
-		<display-name>MapPositionConverter</display-name>
-		<converter-id>mapPositionConverter</converter-id>
-		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.converters.MapPositionConverter</converter-class>
-	</converter>
-	<converter>
-		<description>Converts a Map into a JSON formatted String.</description>
-		<display-name>MapConverter</display-name>
-		<converter-id>mapConverter</converter-id>
-		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.converters.MapConverter</converter-class>
-	</converter>
-	<converter>
-		<description>Converts a building into a JSON formatted String</description>
-		<display-name>BuildingConverter</display-name>
-		<converter-id>buildingConverter</converter-id>
-		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.converters.BuildingConverter</converter-class>
-	</converter>
-	<converter>
-		<description></description>
-		<display-name>ChangedPropertiesConverter</display-name>
-		<converter-id>changedPropertiesConverter</converter-id>
-		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.converters.ChangedPropertiesConverter</converter-class>
-	</converter>
-	<converter>
-		<description></description>
-		<display-name>MapLocatorConverter</display-name>
-		<converter-id>mapLocatorConverter</converter-id>
-		<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.converters.MapLocatorConverter</converter-class>
-	</converter>
+    <converter>
+    	<description></description>
+    	<display-name>MapModelConverter</display-name>
+    	<converter-id>mapModelConverter</converter-id>
+    	<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.converters.MapModelConverter</converter-class>
+    </converter>
+    <converter>
+    	<display-name>OutputConverter</display-name>
+    	<converter-id>outputConverter</converter-id>
+    	<converter-class>edu.kit.cm.kitcampusguide.presentationlayer.view.converters.OutputConverter</converter-class>
+    </converter>
 	<managed-bean>
 		<managed-bean-name>mapModel</managed-bean-name>
 		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel</managed-bean-class>
