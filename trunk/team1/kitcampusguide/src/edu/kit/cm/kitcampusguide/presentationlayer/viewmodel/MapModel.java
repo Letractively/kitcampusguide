@@ -319,7 +319,6 @@ public class MapModel implements Serializable {
 
 	
 	public void resetChangedProperties() {
-		System.out.println("reset");
 		this.changedProperties.clear();
 	}
 

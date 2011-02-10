@@ -1,10 +1,10 @@
 package edu.kit.cm.kitcampusguide.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
+import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.CategoryModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
 import edu.kit.cm.kitcampusguide.standardtypes.Building;
@@ -28,7 +28,9 @@ public class POIListenerImpl implements POIListener {
 		Building building = Building.getBuildingByID(buildingID);
 		mapModel.setBuilding(building);
 		mapModel.setMap(building.getGroundFloor());
-		mapModel.setPOIs(Collections.<POI> emptyList());
+		// TODO: Apply category filter
+		mapModel.setPOIs(source.getPOIsBySection(null, mapModel.getMap(), null));
+		mapModel.setHighlightedPOI(null);
 	}
 
 	@Override
@@ -49,5 +51,16 @@ public class POIListenerImpl implements POIListener {
 	
 	public void setCategoryModel(CategoryModel categoryModel) {
 		this.categoryModel = categoryModel;
+	}
+
+	@Override
+	public void listEntryClicked(String poiID) {
+		// TODO Auto-generated method stub
+		POI poi = source.getPOIByID(poiID);
+		mapModel.setBuilding(mapModel.getBuildingPOI().getBuilding());
+		mapModel.setMap(poi.getMap());
+		mapModel.setPOIs(source.getPOIsBySection(null, mapModel.getMap(), null));
+		mapModel.setHighlightedPOI(poi);
+		mapModel.setMapLocator(new MapLocator(poi.getPosition()));
 	}
 }

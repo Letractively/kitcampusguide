@@ -8,32 +8,12 @@
 	
 	<cc:interface>
 		<!-- Attributes -->
-		<cc:attribute name="map"
-			type="edu.kit.cm.kitcampusguide.standardtypes.Map" required="true" />
-		<cc:attribute name="building" required="true"
-			type="edu.kit.cm.kitcampusguide.standardtypes.Building" />
-		<cc:attribute name="mapLocator" required="true"
-			type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator" />
-		<cc:attribute name="POIs" required="true"/>
-		<cc:attribute name="highlightedPOI"
-			type="edu.kit.cm.kitcampusguide.standardtypes.POI" required="true" />
-		<cc:attribute name="markerFrom"
-			type="edu.kit.cm.kitcampusguide.standardtypes.MapPosition"
-			required="true" />
-		<cc:attribute name="markerTo"
-			type="edu.kit.cm.kitcampusguide.standardtypes.MapPosition"
-			required="true" />
-		<cc:attribute name="route" type="edu.kit.cm.kitcampusguide.standardtypes.Route" 
-		required="true"/>
-		<cc:attribute name="buildingPOI"
-			type="edu.kit.cm.kitcampusguide.standardtypes.POI" required="true" />
-		<cc:attribute name="buildingPOIList" required="true" />
-		<cc:attribute name="changedProperties" required="true" />
+		<cc:attribute name="mapModel"
+			type="edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel" required="true" />
 		<cc:attribute name="additionalRenderIDs" default="" />
 		<!-- EditableValueHolders -->
 		<cc:editableValueHolder name="valueChangeListener"
-			targets="form:mapLocator form:markerTo form:markerFrom form:highlightedPOIIDListener  
-			form:buildingIDListener form:buildingPOIsListListener" />
+			targets="form:outputField" />
 	</cc:interface>
 	<cc:implementation>
 		<!-- This script is used for HTML encoding/decoding	-->
@@ -49,49 +29,14 @@
 		<h:outputScript target="head" library="javax.faces" name="jsf.js" />
 		<div id="#{cc.clientId}:map" class="map"></div>
 		<h:form id="form" class="hidden">
-			<h:inputHidden id="mapLocator" value="#{cc.attrs.mapLocator}">
-				<f:converter converterId="mapLocatorConverter" />
+			<h:outputText id="mapModel" value="#{cc.attrs.mapModel}" class="hidden">
+				<f:converter converterId="mapModelConverter" />
+			</h:outputText>
+			<h:outputText id="additionalRenderIDs" class="hidden"
+				value="#{cc.attrs.additionalRenderIDs}" />
+			<h:inputHidden id="outputField" class="hidden">
+				<f:converter converterId="outputConverter" />
 			</h:inputHidden>
-			<h:outputText id="map" value="#{cc.attrs.map}">
-				<f:converter converterId="mapConverter" />
-			</h:outputText>
-			<h:outputText id="building" value="#{cc.attrs.building}" class="hidden">
-				<f:converter converterId="buildingConverter" />
-			</h:outputText>
-			<h:outputText id="POIs" value="#{cc.attrs.POIs}" class="hidden">
-				<f:converter converterId="poiListConverter" />
-			</h:outputText>
-			<h:outputText id="highlightedPOI" value="#{cc.attrs.highlightedPOI}"
-				class="hidden">
-				<f:converter converterId="poiConverter" />
-			</h:outputText>
-			<h:inputHidden id="buildingIDListener"
-				converter="javax.faces.Integer" />
-			<h:inputHidden id="buildingPOIsListListener"
-				converter="javax.faces.Integer" />
-			<h:inputHidden id="highlightedPOIIDListener" class="hidden">
-				<!-- use the default converter for the POI id -->
-			</h:inputHidden>
-			<h:inputHidden id="markerFrom" value="#{cc.attrs.markerFrom}" class="hidden">
-				<f:converter converterId="mapPositionConverter" />
-			</h:inputHidden>
-			<h:inputHidden id="markerTo" value="#{cc.attrs.markerTo}" class="hidden">
-				<f:converter converterId="mapPositionConverter" />
-			</h:inputHidden>
-			<h:outputText id="route" value="#{cc.attrs.route}" class="hidden">
-				<f:converter converterId="routeConverter" />
-			</h:outputText>
-			<h:outputText id="buildingPOI" value="#{cc.attrs.buildingPOI}" class="hidden">
-				<f:converter converterId="poiConverter" />
-			</h:outputText>
-			<h:outputText id="buildingPOIList" value="#{cc.attrs.buildingPOIList}" class="hidden">
-				<f:converter converterId="poiListConverter" />
-			</h:outputText>
-			<h:outputText id="changedProperties" value="#{cc.attrs.changedProperties}" class="hidden">
-				<f:converter converterId="changedPropertiesConverter" />
-			</h:outputText>
-			<h:outputText id="additionalRenderIDs"
-				value="#{cc.attrs.additionalRenderIDs}" class="hidden" />
 		</h:form>
 		<div class="hidden">
 			<h:outputText class="hidden"

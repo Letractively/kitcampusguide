@@ -1,9 +1,8 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.view;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.el.ELContext;
-import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.PhaseId;
@@ -35,51 +34,36 @@ public class MapEventsListener implements ValueChangeListener {
 			event.setPhaseId(PhaseId.INVOKE_APPLICATION);
 			event.queue();
 		} else {
-			
-			String id = event.getComponent().getId();
-			if (containsID(id)) {
-				// Is called whenevver the map locator property of the map model changes
-				if (id.equals("mapLocator")) {
+			List<MapEvent> events = (List<MapEvent>) event.getNewValue();
+			for (MapEvent mapEvent: events) {
+				String type = mapEvent.getType();
+				if (type.equals("mapLocatorChanged")) {
+					// Is called whenever the map locator property of the map model changes
 					getMapListener().mapLocatorChanged(
-							(MapLocator) event.getNewValue());
-				} else if (id.equals("markerTo")) {
+							(MapLocator) mapEvent.getData());
+				} else if (type.equals("setRouteToByContextMenu")) {
 					// Is called whenever the "Set route to" method is used
 					getMapListener().setRouteToByContextMenu(
-							(MapPosition) event.getNewValue());
-				} else if (id.equals("markerFrom")) {
+							(MapPosition) mapEvent.getData());
+				} else if (type.equals("setRouteFromByContextMenu")) {
 					// Is called whenever the "Set route from" method is used
 					getMapListener().setRouteFromByContextMenu(
-							(MapPosition) event.getNewValue());
-				} else if (id.equals("highlightedPOIIDListener")) {
+							(MapPosition) mapEvent.getData());
+				} else if (type.equals("clickOnPOI")) {
 					// Is used when another POI should be highlighted.
-					getMapListener().clickOnPOI((String) event.getNewValue());
-				} else if (id.equals("buildingIDListener")) {
+					getMapListener().clickOnPOI((String) mapEvent.getData());
+				} else if (type.equals("changeToBuildingMap")) {
 					// Is called when the user wants to change into a building
-					getPOIListener().changeToBuildingMap((Integer) event.getNewValue());
-				} else if (id.equals("buildingPOIsListListener")) {
+					getPOIListener().changeToBuildingMap((Integer) mapEvent.getData());
+				} else if (type.equals("showPOIsInBuilding")) {
 					// Is called when the user wants to see the poi list of a building poi
-					getPOIListener().showPOIsInBuilding((Integer) event.getNewValue());
-				}
-				if (id.endsWith("Listener")) {
-					// the values of listener components must set to null, enabling them to recieve
-					// new events afterwards
-					((ValueHolder)event.getComponent()).setValue(null);
+					getPOIListener().showPOIsInBuilding((Integer) mapEvent.getData());
+				} else if (type.equals("listEntryClicked")) {
+					getPOIListener().listEntryClicked((String) mapEvent.getData());
 				}
 			}
 		}
 
-	}
-
-	boolean containsID(String id) {
-		Collection<String> ids = FacesContext.getCurrentInstance()
-				.getPartialViewContext().getExecuteIds();
-		boolean contains = false;
-		for (String executeID : ids) {
-			if (executeID.endsWith(id)) {
-				contains = true;
-			}
-		}
-		return contains;
 	}
 
 	private POIListener getPOIListener() {
