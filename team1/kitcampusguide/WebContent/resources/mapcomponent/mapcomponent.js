@@ -647,6 +647,7 @@ KITCampusMap.prototype.setMapLayer = function() {
 		};
 	};
 	this.olData.routeLayer.events.register("click", this, closeContextMenu);
+	this.olData.mapLayer.events.register("click", this, closeContextMenu);
 	this.olData.map.addLayer(this.olData.mapLayer);
 	this.olData.map.setBaseLayer(this.olData.mapLayer);
 	this.olData.map.restrictedExtent = KITCampusHelper
