@@ -2,7 +2,7 @@
 <configuration>
 	<map id="1" name="campus" boundingNorth="49.0179" boundingSouth="49.0078"
 		boundingEast="8.40232" boundingWest="8.42622"
-		filename="./resources/tiles/campus/${z}/${x}/${y}.png" minZoom="14"
+		filename="./resources/tiles/campus/${z}/${x}/${y}.png" minZoom="16"
 		maxZoom="18" />
 	<map id="2" name="Audimax" boundingNorth="49.0179" boundingSouth="49.0078"
 		boundingEast="8.40232" boundingWest="8.42622"
