@@ -105,7 +105,7 @@ public class TestPOIDBConstructor {
 			String description = null;
 			Element descElement = p.getChild("description");
 			if (descElement != null) {
-				XMLOutputter out = new XMLOutputter(Format.getCompactFormat());
+				XMLOutputter out = new XMLOutputter(Format.getRawFormat());
 				description = out.outputString(descElement.getContent());
 			}
 			Element pos = p.getChild("position");
