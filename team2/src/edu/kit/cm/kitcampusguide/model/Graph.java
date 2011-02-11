@@ -52,6 +52,19 @@ public class Graph {
 	}
 	
 	/**
+	 * Constructor to create a Graph object.
+	 */
+	public Graph(ArrayList<Point> points, ArrayList<Double> length, ArrayList<Integer> nodes, ArrayList<Integer> edges) {
+		this.points = points;
+		this.length = length;
+		this.nodes = nodes;
+		this.edges = edges;
+		
+		//XXX I don't know??
+		// this.nodes.add(0);
+	}
+	
+	/**
 	 * Adds the specified Point as a node to the Graph. The index of the new node is
 	 * .numberOfNodes(). After adding the node .numberOfNodes is increased by one.
 	 * 
