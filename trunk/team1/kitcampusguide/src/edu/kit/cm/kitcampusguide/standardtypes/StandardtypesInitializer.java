@@ -16,7 +16,10 @@ import org.jdom.input.SAXBuilder;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 
 /**
- * Initializes the standardtypes in need of initialization. More specific: buildings, maps and categories. 
+ * Initializes the standardtypes in need of initialization. More specific: buildings, maps and categories.
+ * Therefore call at first the method initialize, to set the paths to the files containing these.
+ * Then call the initializeMaps, initializeCategories and initializeBuildings functions.
+ * Pay attention to the requirements specified at the functions.
  * @author fred
  *
  */
@@ -51,7 +54,9 @@ public class StandardtypesInitializer {
 	}
 	
 	/**
-	 * Initializes the Maps.
+	 * Initializes the Maps. If such an initialization has already been done or no initialization of the file paths has been attempted before,
+	 * the maps will not be initialized.
+	 * No initialization is required before this one.
 	 * @throws InitializationException If an error occurred during initialization.
 	 */
 	public static void initializeMaps() throws InitializationException {
@@ -63,7 +68,9 @@ public class StandardtypesInitializer {
 	}
 	
 	/**
-	 * Initializes the Categories.
+	 * Initializes the Categories. If such an initialization has already been done or no initialization of the file paths has been attempted before,
+	 * the maps will not be initialized.
+	 * No initialization is required before this one.
 	 * @throws InitializationException If an error occurred during initialization.
 	 */
 	public static void initializeCategories() throws InitializationException {
@@ -74,7 +81,9 @@ public class StandardtypesInitializer {
 	}
 	
 	/**
-	 * Initializes the Buildings.
+	 * Initializes the Buildings. If such an initialization has already been done or no initialization of the file paths has been attempted before,
+	 * the maps will not be initialized.
+	 * It is required for the POIs to be already available (i.e. the POIDB already initialized) before the buildings can be initialized.
 	 * @throws InitializationException If an error occurred during initialization.
 	 */
 	public static void initializeBuildings() throws InitializationException {
@@ -169,8 +178,8 @@ public class StandardtypesInitializer {
 	}
 
 	/**
-	 * Initializes the maps, buildings and categories.
-	 * The POI DB is required to run. 
+	 * Initializes the filenames required for the initialization for maps, buildings and categories.
+	 * It is required to call the functions for initialization for maps, buildings and categories afterwards. Pay attention to the requirements for these initializations.
 	 * @param stream The input stream to the configuration file.
 	 * 
 	 * @throws InitializationException If an error occurred during initialization.

@@ -17,6 +17,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.InitializationException;
 
 /**
  * Initializes the translation model.
+ * More specifically, all languages are constructed and the languageManager initialized.
  * @author Fred
  *
  */
@@ -62,7 +63,9 @@ public class TranslationInitializer {
 	}
 
 	/**
-	 * Initializes the translation. 
+	 * Initializes the translation. If such an initialization has already been done or no initialization of the file paths has been attempted before,
+	 * the maps will not be initialized.
+	 * No initialization is required before this one.
 	 * @param inputStream The input stream to the configuration file.
 	 * 
 	 * @throws InitializationException If an error occured during initialization.
