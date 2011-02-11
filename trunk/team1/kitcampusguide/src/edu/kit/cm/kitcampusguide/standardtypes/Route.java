@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * Represents a route.
+ * A route is a list of map positions defining a route by going from one of them to the next.
+ * The bounding box is a section of the map so that all waypoints of the route lie within. 
  * Stores the {@link MapPosition waypoints} defining the route and a {@link MapSection bounding box.}
  * @author fred
  *
@@ -25,6 +27,8 @@ public class Route implements Serializable {
 	
 	/**
 	 * Constructs a new route.
+	 * Two objects representing the same route are not the same object.
+	 * Due to the nature of the map positions it is recommended to construct a new route every time one is needed. 
 	 * @param waypoints The {@link MapPosition MapPositions} defining the route. If it contains only one, a second waypoint will be constructed.
 	 * 
 	 * @throws NullPointerException If <code>waypoints</code> is null.
@@ -48,7 +52,8 @@ public class Route implements Serializable {
 	}
 	
 	/**
-	 * Returns the {@link MapPosition} at which the route begins.
+	 * Returns the {@link MapPosition} at which the route begins. Should be identical to getWaypoints.get(0).
+	 * Used to display the route-from marker.
 	 * @return The {@link MapPosition} at which the route begins.
 	 */
 	public MapPosition getStart() {
@@ -56,7 +61,8 @@ public class Route implements Serializable {
 	}
 	
 	/**
-	 * Returns the {@link MapPosition} at which the route ends.
+	 * Returns the {@link MapPosition} at which the route ends. Should be identical to getWaypoints.get(getWaypoints.getSize()-1).
+	 * Used to display the route-to marker.
 	 * @return The {@link MapPosition} at which the route ends.
 	 */
 	public MapPosition getEnd() {
@@ -65,6 +71,8 @@ public class Route implements Serializable {
 	
 	/**
 	 * Returns a list of {@link MapPosition MapPositions} defining the route.
+	 * This list starts at the beginning of the route and ends at the last.
+	 * To draw the route, simply draw a route between all adjacent map positions. 
 	 * @return A list of {@link MapPosition MapPositions} defining the route.
 	 */
 	public List<MapPosition> getWaypoints() {
@@ -72,7 +80,8 @@ public class Route implements Serializable {
 	}
 	
 	/**
-	 * Returns the {@link MapSection bounding box} of the route.
+	 * Returns the {@link MapSection bounding box} of the route. It is the map section where the whole route lies in.
+	 * To be used to get the section to be shown after the route has been calculated.
 	 * @return The {@link MapSection bounding box} of the route.
 	 */
 	public MapSection getBoundingBox() {

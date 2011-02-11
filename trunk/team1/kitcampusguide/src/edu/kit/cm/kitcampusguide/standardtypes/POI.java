@@ -6,7 +6,17 @@ import java.util.Collection;
 
 /**
  * Represents a POI.
- * Stores the <code>id</code>, the <code>name</code>, the <code>description</code> and  the {@link WorldPosition} of the POI. Also stores the {@link Map map} the POI lies on, a collection of the {@link Category categories} the POI lies in and the {@link Building building} the POI represents. 
+ * A POI can be any interesting point.
+ * POIs are uniquely defined.
+ * It is recommended to initialize the POIs from a single source or a single class to avoid discrepancy.
+ * Stores the <code>id</code>, the <code>name</code>, the <code>description</code> and  the {@link WorldPosition} of the POI. Also stores the {@link Map map} the POI lies on, a collection of the {@link Category categories} the POI lies in and the {@link Building building} the POI represents.
+ * The id is unique and used to identify the POIs. If constructed from a consistent source, it can be used over the start and shutdown of the program.
+ * The name is shown to the user. It can be not-unique.
+ * The description is shown to the user to describe the POI.
+ * The WorldPosition of the POI is where the POI lies.
+ * The map is the map the POI lies on.
+ * The category-collection saved is the collection of all categories the POI lies in. It can be filtered by these. 
+ * The building the POI represents. Each building should be identified by exactly one POI. The options for changing into that building and showing the POIs in that building will then be accessible via this POIs context menue.
  * @author fred
  *
  */
@@ -34,6 +44,7 @@ public class POI implements Serializable {
 	
 	/**
 	 * Constructs a new POI.
+	 * To avoid discrepancies it is recommended to construct POIs from a consistent source and/or a single class.
 	 * @param id The ID the POI has. Should be unique. However, this is not tested.
 	 * @param name The name of the POI.
 	 * @param description The description of the POI.
@@ -58,7 +69,8 @@ public class POI implements Serializable {
 	}
 	
 	/**
-	 * Returns the ID of the POI.
+	 * Returns the ID of the POI. It can be used to identify the POI and - if constructed from a consistent source - identify them between start and shutdown of the program.
+	 * Used p.ex. to identify the building POI for each building.
 	 * @return The ID of the POI.
 	 */
 	public String getID() {
@@ -66,7 +78,7 @@ public class POI implements Serializable {
 	}
 	
 	/**
-	 * Returns the name of the POI. 
+	 * Returns the name of the POI. This is displayed to the user.
 	 * @return The name of the POI.
 	 */
 	public String getName() {
@@ -74,7 +86,7 @@ public class POI implements Serializable {
 	}
 	
 	/**
-	 * Returns the description of the POI.
+	 * Returns the description of the POI. This is displayed to the user. Can contain html-code.
 	 * @return The description of the POI.
 	 */
 	public String getDescription() {
@@ -82,7 +94,7 @@ public class POI implements Serializable {
 	}
 	
 	/**
-	 * Returns the {@link WorldPosition position} of the POI.
+	 * Returns the {@link WorldPosition position} of the POI. This is used to print the POI via open layers.
 	 * @return The {@link WorldPosition position} of the POI.
 	 */
 	public WorldPosition getPosition() {
@@ -90,7 +102,7 @@ public class POI implements Serializable {
 	}
 	
 	/**
-	 * Returns the {@link Map map} the POI lies on.
+	 * Returns the {@link Map map} the POI lies on. The POI is only displayed if it lies on the same map. Also used to identify which POIs to display if the POIs inside a building are displayed.
 	 * @return The {@link Map map} the POI lies on.
 	 */
 	public Map getMap() {
@@ -98,7 +110,8 @@ public class POI implements Serializable {
 	}
 	
 	/**
-	 * Returns the {@link Building building} the POI represents.
+	 * Returns the {@link Building building} the POI represents. 
+	 * In this POIs context menu the option for changing into that building and to display the POIs inside that building will be availabe.
 	 * @return The {@link Building building} the POI represents or <code>null</code> if the POI doesn't represent any.
 	 */
 	public Building getBuilding() {
@@ -106,7 +119,7 @@ public class POI implements Serializable {
 	}
 	
 	/**
-	 * Returns a collection of the {@link Category categories} the POI lies in.
+	 * Returns a collection of the {@link Category categories} the POI lies in. Used to filter.
 	 * @return A collection of the {@link Category categories} the POI lies in.
 	 */
 	public Collection<Category> getCategories() {

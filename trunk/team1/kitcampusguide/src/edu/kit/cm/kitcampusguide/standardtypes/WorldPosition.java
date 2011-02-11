@@ -5,7 +5,8 @@ import java.io.Serializable;
 /**
  * Represents a position in the world. Saves the <code>longitude</code> and
  * <code>latitude</code>.
- * 
+ * Positions representing the same longitude and latitude don't need to be the same object, rather,
+ * due to longitude and latitude being double, it's better to create a new WorldPosition each time it is needed.
  * @author fred
  * 
  */

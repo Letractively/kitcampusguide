@@ -2,6 +2,7 @@ package edu.kit.cm.kitcampusguide.standardtypes;
 
 /**
  * Defines an exception thrown if any error occurs during initialization.
+ * If this error is thrown, the program usually will be terminated because there is no guarantee for the program working correctly.
  * @author fred
  *
  */
