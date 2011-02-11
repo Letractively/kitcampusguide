@@ -2,6 +2,7 @@ package edu.kit.cm.kitcampusguide.applicationlogic.routing;
 import org.apache.log4j.Logger;
 
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
+import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 
 /**
  * Represents the data structure required for DijkstraRouting and the mechanisms required to extract itself from a file.
@@ -84,15 +85,25 @@ class RoutingGraph {
 	 */
 	int getNearestVertice(MapPosition pos) {
 		int result = 0;
+		boolean resultFound = false;
 		for (int i = 0; i < getVerticesCount(); i++) {
-			if (positionArray[i].getMap() == pos.getMap()) {
-				if (MapPosition.calculateDistance(positionArray[result], pos) > MapPosition
-						.calculateDistance(positionArray[i], pos)) {
-					result = i;
-				}
+			if (MapPosition.calculateDistance(positionArray[result], pos) > MapPosition
+					.calculateDistance(positionArray[i], pos)) {
+				result = i;
+				resultFound = true;
 			}
 			
 		}
+		if (!resultFound) {
+			logger.trace("result war -1");
+			for (int i = 0; i < getVerticesCount(); i++) {
+				if (WorldPosition.calculateDistance(positionArray[result], pos) > WorldPosition
+						.calculateDistance(positionArray[i], pos)) {
+					result = i;
+				}				
+			}
+		}
+		logger.trace("result " + result);
 		return result;
 	}
 	
