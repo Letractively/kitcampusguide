@@ -22,11 +22,14 @@ public class ConcreteMapLoader implements MapLoader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	/* MISSING */
 	public Graph getGraph() {
-		ArrayList<Integer> streetnodelist = new ArrayList<Integer>();
-		ArrayList<Integer> landmarklist = new ArrayList<Integer>();
-		ArrayList<Double> lengthlist = new ArrayList<Double>();
+		ArrayList<Integer> streetnodeId = new ArrayList<Integer>();
+		ArrayList<Double> streetnodeX = new ArrayList<Double>();
+		ArrayList<Double> streetnodeY = new ArrayList<Double>();
+		
+		ArrayList<Integer> streetFrom = new ArrayList<Integer>();
+		ArrayList<Integer> streetTo = new ArrayList<Integer>();
+		ArrayList<Double> streetLength = new ArrayList<Double>();
 		
 		String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
 		
@@ -39,11 +42,24 @@ public class ConcreteMapLoader implements MapLoader {
 	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
 
 	        statement = connection.createStatement();
-	        resultset = statement.executeQuery("SELECT * FROM cg_");     
+	        resultset = statement.executeQuery("SELECT * FROM cg_street");     
 	        
 	        while(resultset.next()) {
-	        	// TODO
+	            streetnodeId.add(resultset.getInt(1));
+	            streetnodeX.add(resultset.getDouble(2));
+	            streetnodeY.add(resultset.getDouble(3));
 			}
+	        
+	        
+	        statement = connection.createStatement();
+	        resultset = statement.executeQuery("SELECT * FROM cg_streetnode");     
+	        
+	        while(resultset.next()) {
+	        	streetFrom.add(resultset.getInt(1));
+	        	streetTo.add(resultset.getInt(2));
+	        	streetLength.add(resultset.getDouble(3));
+			}
+
 	        
 	      } catch( Exception ex ) {
 	          System.out.println( ex );
@@ -54,14 +70,53 @@ public class ConcreteMapLoader implements MapLoader {
 	      }
 	      
 	      
+	      // process to Graph data structure.
 	      
-	      return null;
-		
-	     /*   Graph graph
-		      graph = new Graph();
-		
-		      return null;
-		 */
+	      ArrayList<Point> resPoints = new ArrayList<Point>();
+	      
+	      for (int i = 0; i <= streetnodeId.size(); i++) {
+	    	  resPoints.set(streetnodeId.get(i), new Point(streetnodeX.get(i), streetnodeY.get(i))); 
+	      }
+	      
+	      
+	      Integer vertices[] = new Integer[streetnodeId.size() + 1];
+	      Integer edges[] = new Integer[streetFrom.size() + 1];
+	      Double lengths[] = new Double[streetFrom.size() + 1];
+	      vertices[0] = 1;
+	     
+	      // calculate amount of edges of a node.
+		  for (Integer from : streetFrom) {
+		      vertices[from]++;
+		  }
+		  
+		  // calculate offsets.
+		  for (int i = 1; i <= vertices.length; i++) {
+			  vertices[i] += vertices[i - 1];
+		  }
+	      
+		  for (int i = 0; i <= streetFrom.size(); i++) {
+			  edges[--vertices[streetFrom.get(i)]] = streetTo.get(i);
+			  lengths[--vertices[streetFrom.get(i)]] = streetLength.get(i);
+			  
+		  }
+		  
+		 
+		   ArrayList<Integer> resVertices = new ArrayList<Integer>();
+		   for (int i = 0; i < vertices.length; i++) {
+			   resVertices.add(vertices[i]);
+		   }
+		   
+		   ArrayList<Integer> resEdges = new ArrayList<Integer>();
+		   ArrayList<Double> resLengths = new ArrayList<Double>();
+		   for (int i = 0; i < edges.length; i++) {
+			   resEdges.add(edges[i]);
+			   resLengths.add(lengths[i]);
+		   }
+
+		  Graph graph;
+		  graph = new Graph(resPoints, resLengths, resVertices, resEdges);
+		  
+	      return graph;
 	}
 	
 	/**
