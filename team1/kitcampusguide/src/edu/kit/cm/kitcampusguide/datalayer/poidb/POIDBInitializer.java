@@ -11,12 +11,6 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
-import org.apache.lucene.*;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.RAMDirectory;
 
 import edu.kit.cm.kitcampusguide.standardtypes.InitializationException;
 
