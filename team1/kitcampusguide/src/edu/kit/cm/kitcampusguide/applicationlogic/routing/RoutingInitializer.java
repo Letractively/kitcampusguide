@@ -20,6 +20,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 
 /**
  * Initializes the Routing sub system.
+ * Specifically initializes the routing graph and makes sure all components have been initialized.
  * @author Fred
  *
  */
@@ -230,6 +231,7 @@ public class RoutingInitializer {
 	
 	/**
 	 * Initializes the routing sub system if no such initialization has been attempted before.
+	 * No other initialization needs to be completed before the call of this function.
 	 * @param inputStream The input stream to the configuration file.
 	 * 
 	 * @throws InitializationException If an error occurred during initialization. 

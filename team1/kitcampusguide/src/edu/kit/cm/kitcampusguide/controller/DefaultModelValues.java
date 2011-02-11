@@ -25,6 +25,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.Route;
 
 /**
  * Initializes and manages the default values.
+ * The default values are the ones used when a user opens the website the first time.
  * The default values are:
  * The default map to be shown directly after the start.
  * The default POIs to be shown
@@ -59,25 +60,6 @@ public class DefaultModelValues {
 		
 	}
 	
-	/**
-	 * Sets the default values of all DefaultModelValues classes to those defined in the document given by inputStream.
-	 * @param inputStream The xml-document defining the default values.
-	 * @throws InitializationException If an error occurred during initialization.
-	 */
-	public static void initialize(InputStream inputStream) throws InitializationException {
-		try {
-			Document document;
-			document = new SAXBuilder().build(inputStream);
-			defaultMap = Map.getMapByID(Integer.parseInt(document.getRootElement().getChild("defaultMap").getAttributeValue("ID")));
-			initializeDefaultCategories(document);
-			initializeDefaultCurrentCategories(document);
-		} catch (JDOMException e) {
-			throw new InitializationException("Initialization of default values failed.", e);
-		} catch (IOException e) {
-			throw new InitializationException("Initialization of default values failed.", e);
-		}
-		
-	}
 	/**
 	 * Initializes the default set current categories from the document.
 	 * @param document The document specifying the categories.
@@ -196,11 +178,38 @@ public class DefaultModelValues {
 		return null;
 	}
 	
+	/**
+	 * Returns the default current categories.
+	 * @return The default current categories.
+	 */
 	public Collection<Category> getDefaultCurrentCategories() {		
 		return Collections.unmodifiableCollection(defaultCurrentCategories);		
 	}
-		
+	
+	/**
+	 * Returns the default categories.
+	 * @return The default categories.
+	 */
 	public Collection<Category> getDefaultCategories() {
 		return Collections.unmodifiableCollection(defaultCategories);	
+	}
+	/**
+	 * Sets the default values of all DefaultModelValues classes to those defined in the document given by inputStream.
+	 * @param inputStream The xml-document defining the default values.
+	 * @throws InitializationException If an error occurred during initialization.
+	 */
+	public static void initialize(InputStream inputStream) throws InitializationException {
+		try {
+			Document document;
+			document = new SAXBuilder().build(inputStream);
+			defaultMap = Map.getMapByID(Integer.parseInt(document.getRootElement().getChild("defaultMap").getAttributeValue("ID")));
+			initializeDefaultCategories(document);
+			initializeDefaultCurrentCategories(document);
+		} catch (JDOMException e) {
+			throw new InitializationException("Initialization of default values failed.", e);
+		} catch (IOException e) {
+			throw new InitializationException("Initialization of default values failed.", e);
+		}
+		
 	}
 }
