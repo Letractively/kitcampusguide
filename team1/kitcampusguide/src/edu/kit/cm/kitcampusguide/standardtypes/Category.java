@@ -10,6 +10,13 @@ import java.util.Map;
 /**
  * Represents categories.
  * Stores the respective <code>id</code>, the <code>name</code> and gives functions to get categories.
+ * A category is used to both identify the type of a POI (p.ex. office or beverage machine), and to later
+ * filter by it. A category is only saved in the POIs and does (apart from id and name and all categories) not save any data.
+ * The list of categories saved in the categories is used to identify all existing categories.
+ * Each category (identified by the id) is represented by exactly one object. Therefore it is advised to initialize all
+ * categories either at once or from a single source. Initializing them this way can be done easily by calling the constructor, without any
+ * other actions necessary.
+ * If a persistent source is used for the categories, the IDs can be preserved over start and shutdown of the program.
  * @author fred
  *
  */
@@ -25,7 +32,9 @@ public class Category implements Serializable {
 	
 	/**
 	 * Constructs a new category.
-	 * Adds it to the collection of categories.
+	 * Adds it to the collection of categories. Therefore it just needs to be called once to initialize
+	 * a category with the given id and name, which can later be gotten via the function
+	 * getCategoriesByIDs or getAllCategories.
 	 * @param id The ID the new category should have. Must be unique. However, this is not tested.
 	 * @param name The name of the new category.
 	 * 
@@ -45,7 +54,8 @@ public class Category implements Serializable {
 	}
 	
 	/**
-	 * Returns the ID of this category.
+	 * Returns the ID of this category. This can be used to identify the category in combination
+	 * with getCategoriesByIDs.
 	 * @return The ID of this category.
 	 */
 	public int getID() {
@@ -53,7 +63,7 @@ public class Category implements Serializable {
 	}
 	
 	/**
-	 * Returns the name of this category.
+	 * Returns the name of this category. This name is displayed to the user. The name doesn't need to be unique.
 	 * @return The name of this category.
 	 */
 	public String getName() {
@@ -61,7 +71,7 @@ public class Category implements Serializable {
 	}
 	
 	/**
-	 * Returns a collection of all categories.
+	 * Returns a collection of all categories. This categories are all for which the constructor has been successfully called.
 	 * @return A collection containing all categories.
 	 */
 	public static Collection<Category> getAllCategories() {
@@ -71,6 +81,8 @@ public class Category implements Serializable {
 	/**
 	 * Returns a collection of the categories with an ID in <code>ids</code>. 
 	 * If there are duplicate IDs all of the categories with that id are returned. However no guarantee is given for that in future versions.
+	 * All categories for which the constructor has been successfully called will be taken into account for this list.
+	 * Should best be used in combination with getID.  
 	 * @param ids A collection of IDs representing the categories that should be returned.
 	 * @return A collection of the categories with an ID in <code>ids</code>.
 	 */

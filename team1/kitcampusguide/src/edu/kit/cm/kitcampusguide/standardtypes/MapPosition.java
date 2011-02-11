@@ -4,6 +4,8 @@ package edu.kit.cm.kitcampusguide.standardtypes;
 /**
  * Represents a position on a {@link Map map}. Extends {@link WorldPosition}.
  * Stores a {@Map map} additionally to the longitude and latitude stored by {@link WorldPosition}.
+ * Positions representing the same longitude and latitude on the same map don't need to be the same object, rather,
+ * due to longitude and latitude being double, it's better to create a new MapPosition each time it is needed.
  * @author fred
  *
  */
