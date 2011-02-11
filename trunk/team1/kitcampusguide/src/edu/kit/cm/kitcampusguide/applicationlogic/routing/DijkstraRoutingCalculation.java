@@ -96,7 +96,7 @@ public class DijkstraRoutingCalculation {
 		int toVertice = graph.getNearestVertice(to);
 		List<MapPosition> waypoints = new ArrayList<MapPosition>();
 		Integer tmp = toVertice;
-		while((parent[tmp] != null) && (parent[tmp] != fromVertice)) {
+		while((parent[tmp] != null) && (tmp != fromVertice)) {
 			waypoints.add(graph.getPositionFromVertice(tmp));
 			tmp = parent[tmp];
 		}
