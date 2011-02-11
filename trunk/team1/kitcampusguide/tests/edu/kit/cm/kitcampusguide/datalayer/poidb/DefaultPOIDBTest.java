@@ -3,19 +3,30 @@ package edu.kit.cm.kitcampusguide.datalayer.poidb;
 import static junit.framework.Assert.*;
 
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.BasicConfigurator;
+import org.dbunit.DatabaseUnitException;
+import org.dbunit.database.DatabaseConnection;
+import org.dbunit.database.IDatabaseConnection;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.ITable;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.dbunit.operation.DatabaseOperation;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.kit.cm.kitcampusguide.standardtypes.Category;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
-import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.POIQuery;
@@ -26,36 +37,68 @@ import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
  * {@link DefaultPOIDB#getPOIsByQuery(POIQuery)}
  * 
  * {@link DefaultPOIDB#getPOIsBySearch(String)} will not be tested within this
- * class as its results entirely depend on how the interface
- * 
+ * class as the methods results entirely depend on how the interface
  * {@link POIDBSearcher} is implemented.
+ * 
+ * IMPORTANT NOTE: Relies on having the correct XML file 
+ * defined by <code>_dbFile</code> in the directory stated by <code>_testdir</code>.
+ * The content of this XML file is append in the regular comments at the end of this file.
  * 
  * @author Stefan, Fabian
  */
 public class DefaultPOIDBTest {
 
-	private static final String dbURL = "jdbc:sqlite:defaultpoidbtestNew.db";
+	private static final String dbURL = "jdbc:sqlite:defaultpoidbtest.db";
 	private static POIDB db;
+	private static String _testDir        = "tests/testDB";
+    private static String _dbFile         = "dbDefaultPOIDBTest.xml";
+    private static String _driverClass    = "org.sqlite.JDBC";
+    private static File file = new File(_testDir, _dbFile);
 
 	/**
-	 * Sets up the database for testing, if not already set up.
+	 * Sets up the database for testing and necessary Objects referred by the database.
 	 * 
-	 * This is actually not a desired behavior the database should always be set
-	 * up by this class. So the tests are not affected by any other class
-	 * because possible side effects when the database changes in an unexpected
-	 * way.
+	 * @throws ClassNotFoundException 
+	 * @throws DatabaseUnitException 
+	 * @throws MalformedURLException 
+	 * @throws SQLException 
 	 */
 	@BeforeClass
-	public static void setUpTestDB() {
-		//FIXME: Always set up a new database on running this testclass.
-		try {
-			db = DefaultPOIDB.getInstance();
-		} catch (IllegalStateException e) {
-			createTestDB(dbURL, true);
-			db = DefaultPOIDB.getInstance();
-		}
-	}
+	public static void setUpTestDB() throws MalformedURLException, DatabaseUnitException, ClassNotFoundException, SQLException {
 
+		BasicConfigurator.configure();
+		IDatabaseConnection connection = getConnection();
+		DefaultPOIDB.init(dbURL, new SimpleSearch(), true);
+        FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
+        builder.setColumnSensing(true);
+        builder.setDtdMetadata(true);
+        IDataSet dataSet = builder.build(file);
+        
+        //Initialize Maps
+        ITable poidbtable = dataSet.getTable("POIDB");
+        MapSection box = new MapSection(new WorldPosition(0, 0), new WorldPosition(10, 10));
+        for (int i = 0; i < poidbtable.getRowCount(); i++) {
+        	String s = (String) poidbtable.getValue(i, "mapid");
+        	Integer k =  Integer.parseInt(s);
+        	if (Map.getMapByID(k) == null) {
+        		new Map(k, "map" + k.toString(), box, "null", 1, 2);
+        	}
+        }
+        
+        //Initialize Categories
+        ITable categoriesTable = dataSet.getTable("CATEGORY");
+        for (int i = 0; i < categoriesTable.getRowCount(); i++) {
+        	String s = (String) categoriesTable.getValue(i, "categoryid");
+        	Integer k =  Integer.parseInt(s);
+        	if (Category.getCategoriesByIDs(Arrays.asList(k)).isEmpty()) {
+        		new Category(k, "category" + k.toString());
+        	}
+        }
+
+        DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
+		db = DefaultPOIDB.getInstance();
+	}
+	
 	/**
 	 * Cleans up the system afterwards.
 	 */
@@ -72,6 +115,7 @@ public class DefaultPOIDBTest {
 	public void getPOIsByQueryNull() {
 		POIQuery query = new POIQuery(null, null, null);
 		List<POI> pois = db.getPOIsByQuery(query);
+		assertFalse("pois is empty", pois.isEmpty());
 		assertTrue(containsName(pois, "hello1"));
 		assertTrue(containsName(pois, "hello2"));
 		assertTrue(containsName(pois, "hello3"));
@@ -325,77 +369,20 @@ public class DefaultPOIDBTest {
 		assertNull(db.getPOIByID("123412"));
 	}
 
-	static void createTestDB(String dbURL, boolean create) {
-		try {
-			Class.forName("org.sqlite.JDBC");
-		} catch (ClassNotFoundException e1) {
-			fail("SQLLite Driver could not be established");
-		}
-
-		try {
-			BasicConfigurator.configure();
-			DefaultPOIDB.init(dbURL, new SimpleSearch(), true);
-			DefaultPOIDB db = (DefaultPOIDB) DefaultPOIDB.getInstance();
-
-			// Set up a map section
-			MapSection box = new MapSection(
-					new WorldPosition(49.0199, 8.40232), new WorldPosition(
-							49.0078, 8.42622));
-
-			// set up some maps
-			new Map(1, "campus", box,
-					"./resources/tiles/campus/${z}/${x}/${y}.png", 14, 18);
-			new Map(2, "asd", box, "blablub", 2, 3);
-			new Map(3, "asd3", box, "blablub", 3, 4);
-
-			// Creat categories
-			Category cat1 = new Category(1, "streets");
-			Category cat2 = new Category(2, "buildings");
-			Category cat4 = new Category(4, "something");
-			Category cat3 = new Category(3, "events");
-
-			List<Category> categories = new ArrayList<Category>();
-
-			categories.add(cat1);
-			categories.add(cat2);
-			categories.add(cat4);
-
-			/*
-			 * Set up POI with: name: hello1 description: world position:
-			 * 49.012743 & 8.415631 mapid: 1 building: null categories: 1, 2, 4
-			 */
-			db.addPOI("hello1", "world", new MapPosition(49.012743, 8.415631,
-					Map.getMapByID(1)), null, categories);
-			/*
-			 * Set up POI with: name: hello2 description: world position:
-			 * 49.013897 & 8.419729 mapid: 2 building: null categories: 1, 2, 4
-			 */
-			db.addPOI("hello2", "world", new MapPosition(49.013897, 8.419729,
-					Map.getMapByID(2)), null, categories);
-
-			categories.clear();
-			categories.add(cat2);
-
-			/*
-			 * Set up POI with: name: hello2 description: world position:
-			 * 49.011011 & 8.416382 mapid: 3 building: null categories: 2
-			 */
-			db.addPOI("hello3", "world", new MapPosition(49.011011, 8.416382,
-					Map.getMapByID(3)), null, categories);
-
-			categories.add(cat3);
-
-			/*
-			 * Set up POI with: name: hello1 description: world position:
-			 * 49.013728 & 8.404537 mapid: 1 building: null categories: 2, 3
-			 */
-			db.addPOI("hello4", "world", new MapPosition(49.013728, 8.404537,
-					Map.getMapByID(1)), null, categories);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			fail();
-		}
-	}
+	/**
+     * @return IDatabaseConnection
+     * @throws ClassNotFoundException
+     * @throws DatabaseUnitException
+     * @throws SQLException
+     */
+    public static IDatabaseConnection getConnection() throws  ClassNotFoundException, 
+                                                                DatabaseUnitException, 
+                                                                SQLException {
+        // database connection
+        Class driverClass = Class.forName(_driverClass);
+        Connection jdbcConnection = DriverManager.getConnection(dbURL);
+        return new DatabaseConnection(jdbcConnection);
+    }
 
 	/**
 	 * Simple Test if a POI is contained in the the list.
@@ -412,4 +399,24 @@ public class DefaultPOIDBTest {
 		}
 		return false;
 	}
+
+/* The content of the XML file used to setup the database.
+/*
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <POIDB id="1" name="hello1" description="world" lon="8.415631" lat="49.012743" mapid="1" buildingid="0"/>
+  <POIDB id="2" name="hello2" description="world" lon="8.419729" lat="49.013897" mapid="2" buildingid="0"/>
+  <POIDB id="3" name="hello3" description="world" lon="8.416382" lat="49.011011" mapid="3" buildingid="0"/>
+  <POIDB id="4" name="hello4" description="world" lon="8.404537" lat="49.013728" mapid="1" buildingid="0"/>
+  <CATEGORY id="1" poiid="1" categoryid="1"/>
+  <CATEGORY id="2" poiid="1" categoryid="2"/>
+  <CATEGORY id="3" poiid="1" categoryid="4"/>
+  <CATEGORY id="4" poiid="2" categoryid="1"/>
+  <CATEGORY id="5" poiid="2" categoryid="2"/>
+  <CATEGORY id="6" poiid="2" categoryid="4"/>
+  <CATEGORY id="7" poiid="3" categoryid="2"/>
+  <CATEGORY id="8" poiid="4" categoryid="2"/>
+  <CATEGORY id="9" poiid="4" categoryid="3"/>
+</dataset>
+*/
 }
