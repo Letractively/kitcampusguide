@@ -42,6 +42,10 @@ public class InputListenerImpl implements InputListener {
 			.getELResolver().getValue(elContext, null, "translationModel");	
 	private MapModel mapModel;
 	
+	ELContext el = FacesContext.getCurrentInstance().getELContext();
+	DefaultModelValues defaultModelValueClass = (DefaultModelValues) el.getELResolver().getValue(el, null,
+	    "defaultModelValues");
+	
 	/**
 	 * Default constructor.
 	 */
@@ -159,7 +163,7 @@ public class InputListenerImpl implements InputListener {
 			if (from.getMap().getID() == to.getMap().getID()) {
 				mapModel.setMap(from.getMap());
 			} else {
-				mapModel.setMap(Map.getMapByID(1));
+				mapModel.setMap(defaultModelValueClass.getDefaultMap());
 			}
 		} else {
 			inputModel.setRouteCalculationFailed(true);
@@ -182,7 +186,7 @@ public class InputListenerImpl implements InputListener {
 		if (coordinate == null) {
 			return null;
 		} else {
-			return new MapPosition(coordinate.getLatitude(), coordinate.getLongitude(), Map.getMapByID(1));
+			return new MapPosition(coordinate.getLatitude(), coordinate.getLongitude(), defaultModelValueClass.getDefaultMap());
 		}
 	}
 
@@ -227,8 +231,7 @@ public class InputListenerImpl implements InputListener {
 	@Override
 	public void changeToMapViewTriggered() {
 		logger.info("change to map view");
-		// TODO: Insert default map here
-		mapModel.setMap(Map.getMapByID(1));
+		mapModel.setMap(defaultModelValueClass.getDefaultMap());
 		mapModel.setBuilding(null);
 	}
 	
