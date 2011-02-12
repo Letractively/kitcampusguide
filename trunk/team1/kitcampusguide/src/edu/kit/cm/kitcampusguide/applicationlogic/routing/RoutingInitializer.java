@@ -48,11 +48,11 @@ public class RoutingInitializer {
 			logger.info("Initializing Routing from " + inputStream);
 			Document document;
 			document = new SAXBuilder().build(inputStream);
-			RoutingStrategyImpl.getInstance();
 			FacesContext context = FacesContext.getCurrentInstance();
 			Element e = document.getRootElement().getChild("RoutingGraph");
 			initializeRoutingGraph(context.getExternalContext().getResourceAsStream(e.getAttributeValue("filename")), Map.getMapByID(Integer.parseInt(e.getAttributeValue("standardMapID"))));
-			DijkstraRouting.getInstance();
+			PreCalculatedRouting.getInstance();
+			RoutingStrategyImpl.getInstance();
 			logger.info("Routing initialized.");
 		} catch (JDOMException e) {
 			throw new InitializationException("Initialization of routing failed.", e);
@@ -213,6 +213,11 @@ public class RoutingInitializer {
 			}
 		}
 		//And initializing the RoutingGraph object.
+		for (MapPosition pos: positionArray) {
+			if (pos.getMap() != Map.getMapByID(1)) {
+				logger.info(pos.getMap() + " " + pos.getLatitude() + " " + pos.getLongitude());
+			}
+		}
 		RoutingGraph.initializeGraph(verticesArray, edgeArray, weightArray, positionArray);
 	}
 	

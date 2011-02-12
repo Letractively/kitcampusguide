@@ -6,13 +6,13 @@ public class RoutingStrategyImpl implements RoutingStrategy {
 	/**Stores the only instance of RoutingStrategy.*/ 
 	private static RoutingStrategyImpl instance;
 	
-	private DijkstraRouting routing;
+	private PreCalculatedRouting routing;
 	
 	/**
 	 * Private constructor.
 	 */
 	private RoutingStrategyImpl() {
-		routing = DijkstraRouting.getInstance();
+		routing = PreCalculatedRouting.getInstance();
 	}
 	
 	/**
