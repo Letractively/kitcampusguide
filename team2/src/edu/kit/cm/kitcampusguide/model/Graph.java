@@ -18,6 +18,9 @@ import org.junit.Test;
  * is dedicated with an unique index. Similarly each Edge is dedicated with an unique
  * Index.
  * All edges that are incident to one node have continuous indices. 
+ * 
+ * One Graph instance will be created when the application is started. This graph is used to calculate routes whenever
+ * a route request occurs.
  */
 public class Graph {
 
@@ -42,7 +45,9 @@ public class Graph {
 	private ArrayList<Integer> edges;
 	
 	
-	//TODO Konstruktor (mit welchen Parameter soll ein graph erzeugt werden)
+	/**
+	 * Creates a new but empty Graph.
+	 */
 	public Graph() {
 		this.points = new ArrayList<Point>();
 		this.length = new ArrayList<Double>();
@@ -52,16 +57,24 @@ public class Graph {
 	}
 	
 	/**
-	 * Constructor to create a Graph object.
+	 * Tries to setup a new Graph with specified nodes and edges. Throws a IllegalArgumentException if the specified 
+	 * lists of nodes and edges don not represent a consistent Graph.
+	 * 
+	 * @param points a list containing Points, representing the geographic of each node 
+	 * @param length a list containing the length of each edge represented by there index 
+	 * @param nodes a list that defines a mapping from node indices to edge indices
+	 * @param edges a list containing the end node for eage edge, represented by there index
 	 */
+	@SuppressWarnings("unchecked")
 	public Graph(ArrayList<Point> points, ArrayList<Double> length, ArrayList<Integer> nodes, ArrayList<Integer> edges) {
-		this.points = points;
-		this.length = length;
-		this.nodes = nodes;
-		this.edges = edges;
-		
-		//XXX I don't know??
-		// this.nodes.add(0);
+		if (valid(points, length, nodes, edges)) {
+			this.points = (ArrayList<Point>) points.clone();
+			this.length = (ArrayList<Double>) length.clone();
+			this.nodes = (ArrayList<Integer>) nodes.clone();
+			this.edges = (ArrayList<Integer>) edges.clone();
+		}  else {
+			throw new IllegalArgumentException();
+		}
 	}
 	
 	/**
@@ -261,34 +274,20 @@ public class Graph {
 		return this.points.size();
 	}
 	
-	@Test
-	public void graphTest() {
-		Graph testGraph = new Graph();
-		Point[] nodes = {new Point(0,0), new Point(1,0), new Point(0,1), new Point(1,1)};
-		testGraph.addNode(nodes[0]);
-		testGraph.addNode(nodes[1]);
-		testGraph.addNode(nodes[2]);
-		testGraph.addNode(nodes[3]);
-		Assert.assertTrue(testGraph.numberOfNodes() == 4);
-		Assert.assertArrayEquals(testGraph.getNodes(),nodes);
-		testGraph.addEdge(0, 0, 1);
-		testGraph.addEdge(0, 1, 2);
-		testGraph.addEdge(1, 0, 3);
-		testGraph.addEdge(0, 3, 5);
-		testGraph.addEdge(2, 3, 8);
-		testGraph.addEdge(1, 3, 6);
-		testGraph.addEdge(0, 2, 4);
-		testGraph.addEdge(3, 2, 7);
-		Assert.assertTrue(testGraph.numberOfNodes() == 4);
-		Assert.assertArrayEquals(testGraph.getNodes(),nodes);
-		Assert.assertTrue(testGraph.getNode(2) == nodes[2]);
-		Assert.assertArrayEquals(testGraph.getNeighbours(0), new int[] {0, 1, 2, 3});
-		Assert.assertArrayEquals(testGraph.getNeighbours(1), new int[] {0, 3});
-		Assert.assertArrayEquals(testGraph.getNeighbours(2), new int[] {3});
-		Assert.assertArrayEquals(testGraph.getNeighbours(3), new int[] {2});
-		Assert.assertTrue(testGraph.getEdge(0, 3) == 5);
-		Assert.assertTrue(testGraph.getEdge(1, 3) == 6);
-		Assert.assertTrue(testGraph.getEdge(3, 2) == 7);
+	/*
+	 * This method checks if the specified lists could represent a consistent Graph.
+	 */
+	private static boolean valid(ArrayList<Point> points, ArrayList<Double> length, ArrayList<Integer> nodes, ArrayList<Integer> edges) {
+		boolean valid = (points != null && length != null && nodes != null && edges != null);
+		valid &= points.size() == nodes.size() - 1 && length.size() == edges.size();
+		valid &= nodes.get(points.size()) == length.size();
+		for (int i = 0; i < points.size(); i++) {
+			valid &= nodes.get(i) <= nodes.get(i + 1);
+		}
+		for (int i = 0; i < edges.size(); i++) {
+			valid &= edges.get(i) < points.size();
+		}
+		return valid;
 	}
 	
 	/*
@@ -334,6 +333,39 @@ public class Graph {
 			throw new UnsupportedOperationException();
 		}
 		
+	}
+	
+	/*
+	 * Simple Graph test
+	 */
+	@Test
+	public void graphTest() {
+		Graph testGraph = new Graph();
+		Point[] nodes = {new Point(0,0), new Point(1,0), new Point(0,1), new Point(1,1)};
+		testGraph.addNode(nodes[0]);
+		testGraph.addNode(nodes[1]);
+		testGraph.addNode(nodes[2]);
+		testGraph.addNode(nodes[3]);
+		Assert.assertTrue(testGraph.numberOfNodes() == 4);
+		Assert.assertArrayEquals(testGraph.getNodes(),nodes);
+		testGraph.addEdge(0, 0, 1);
+		testGraph.addEdge(0, 1, 2);
+		testGraph.addEdge(1, 0, 3);
+		testGraph.addEdge(0, 3, 5);
+		testGraph.addEdge(2, 3, 8);
+		testGraph.addEdge(1, 3, 6);
+		testGraph.addEdge(0, 2, 4);
+		testGraph.addEdge(3, 2, 7);
+		Assert.assertTrue(testGraph.numberOfNodes() == 4);
+		Assert.assertArrayEquals(testGraph.getNodes(),nodes);
+		Assert.assertTrue(testGraph.getNode(2) == nodes[2]);
+		Assert.assertArrayEquals(testGraph.getNeighbours(0), new int[] {0, 1, 2, 3});
+		Assert.assertArrayEquals(testGraph.getNeighbours(1), new int[] {0, 3});
+		Assert.assertArrayEquals(testGraph.getNeighbours(2), new int[] {3});
+		Assert.assertArrayEquals(testGraph.getNeighbours(3), new int[] {2});
+		Assert.assertTrue(testGraph.getEdge(0, 3) == 5);
+		Assert.assertTrue(testGraph.getEdge(1, 3) == 6);
+		Assert.assertTrue(testGraph.getEdge(3, 2) == 7);
 	}
 
 }

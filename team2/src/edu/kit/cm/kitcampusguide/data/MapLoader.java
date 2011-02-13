@@ -38,5 +38,8 @@ public interface MapLoader {
 	 */
 	// TODO zum Entwurf hinzufügen
 	public double[][] getLandmarkDistances();
+	
+	// TODO eine Methode mit wir die Landmarks einfach in die Datenbank bekommen ... wäre vielleicht hilfreich
+	public void addLandmarkToDatabase(Point Landmark, double[] distances);
 
 }

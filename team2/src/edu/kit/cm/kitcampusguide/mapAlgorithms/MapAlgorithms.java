@@ -1,6 +1,6 @@
 package edu.kit.cm.kitcampusguide.mapAlgorithms;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.model.Point;
@@ -8,9 +8,14 @@ import edu.kit.cm.kitcampusguide.model.Route;
 import edu.kit.cm.kitcampusguide.view.CampusGuide;
 
 /**
+ * This interface represents a facade of the map algorithms package and encapsulates all functionality provided by this
+ * package.  
  * 
  * @author Tobias Zündorf
  *
+ */
+/*
+ * This package is primary used to handle route and search requests.
  */
 public interface MapAlgorithms {
 
@@ -23,7 +28,7 @@ public interface MapAlgorithms {
 	 * @param name the String to search for
 	 * @return a collection containing all POI corresponding to the specified String
 	 */
-	public LinkedList<POI> getSuggestions(String name);
+	public List<POI> getSuggestions(String name);
 	
 	/**
 	 * Searches through the entire POI database and compares each POI-name with the specified 

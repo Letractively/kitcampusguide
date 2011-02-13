@@ -1,6 +1,6 @@
 package edu.kit.cm.kitcampusguide.mapAlgorithms;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import edu.kit.cm.kitcampusguide.model.POI;
 
@@ -22,11 +22,12 @@ public interface QueryCalculator {
 	 * @param name the String to search for
 	 * @return a collection containing all POI corresponding to the specified String
 	 */
-	public LinkedList<POI> getSuggestions(String name);
+	public List<POI> getSuggestions(String name);
 	
 	/**
 	 * Searches through the entire POI database and compares each POI-name with the specified 
-	 * String. After that the POI with the highest correspondence is returned
+	 * String. After that the POI with the highest significant correspondence is returned. If no POI with 
+	 * significant correspondence exists null is returned.
 	 * 
 	 * @param name the String to search for
 	 * @return the POI with the highest correspondence to the specified String

@@ -2,6 +2,7 @@ package edu.kit.cm.kitcampusguide.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * This class contains a set of points on the map, which describe a path from
@@ -12,7 +13,7 @@ import java.util.Collection;
  */
 public class Route {
 
-	private final ArrayList<Point> routePoints;
+	private final List<Point> routePoints;
 
 	/**
 	 * This constructor creates a new route consisting of the specified points. The route 
@@ -30,7 +31,8 @@ public class Route {
 	 * 
 	 * @return the route from one point to another on the map.
 	 */
-	public ArrayList<Point> getRoute() {
+	public List<Point> getRoute() {
 		return this.routePoints;
 	}
+	
 }
