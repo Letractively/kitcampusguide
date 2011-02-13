@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
+import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -19,6 +20,7 @@ import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModel;
+import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 
@@ -261,11 +263,10 @@ public class InputListenerAdapter {
 	 * @param ae The corresponding ActionEvent.
 	 */
 	public void changeFloorTriggered(ActionEvent ae) {
-		String src = ((UIComponent) ae.getSource()).getClientId();
-		String[] splitSrc = src.split(":");
-		Integer floorNo = Integer.parseInt(splitSrc[2]);
-		inputListener.changeFloorTriggered(floorNo);
+		Integer floorID =  (Integer) ((UIOutput) ae.getComponent().getChildren().get(0)).getValue();
+		inputListener.changeFloorTriggered(Map.getMapByID(floorID));
 	}
+
 
 	public void setRouteFromSelection(String routeFromSelection) {
 		this.routeFromSelection = routeFromSelection;

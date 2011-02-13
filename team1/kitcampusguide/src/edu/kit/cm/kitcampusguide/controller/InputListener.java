@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.controller;
 
+import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 
@@ -78,10 +79,10 @@ public interface InputListener {
 	public void changeToMapViewTriggered();
 	
 	/**
-	 * Changes the floor being displayed within building view to the floor with index <code>floorNo</code>.
-	 * @param floorNo Index of the floor that shall be changed to in the floor-list of the current building.
+	 * Changes the floor being displayed within building view to <code>floor</code>.
+	 * @param floor Map presenting the floor that shall be displayed.
 	 */
-	public void changeFloorTriggered(int floorNo);
+	public void changeFloorTriggered(Map floor);
 	
 	/*
 	public void choiceProposalTriggered(List<POI> proposalList);
