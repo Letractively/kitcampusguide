@@ -294,8 +294,7 @@ public class InputListenerImpl implements InputListener {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void changeFloorTriggered(int floorNo) {
-		Map floor = mapModel.getBuilding().getFloors().get(floorNo);
+	public void changeFloorTriggered(Map floor) {
 		logger.info("change floor to: " + floor.getName());
 		mapModel.setMap(floor);
 	}

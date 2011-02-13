@@ -33,7 +33,10 @@
 					<h:column>
 						<h:commandLink value="#{floor.name}"
 							actionListener="#{inputListenerAdapter.changeFloorTriggered}" 
-							style="color:#009d82" />
+							disabled = "#{floor.ID == mapModel.map.ID}"
+							style="color:#{(floor.ID == mapModel.map.ID) ? '#000000' : '#009d82' }" >
+							<h:outputText class="hidden" value="#{floor.ID}" />
+						</h:commandLink>
 					</h:column>
 				</h:dataTable>
 
@@ -43,6 +46,7 @@
 						actionListener="#{inputListenerAdapter.changeToMapViewTriggered}" />
 				</h:panelGroup>
 				</h:panelGrid>
+				
 			</h:form>
 		</h:panelGroup>
 
