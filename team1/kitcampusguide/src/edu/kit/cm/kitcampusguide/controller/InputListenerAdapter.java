@@ -56,7 +56,8 @@ public class InputListenerAdapter {
 	public InputListenerAdapter() {
 		
 	}
-	
+		
+	//TODO: in JavaScript implementieren
 	/**
 	 * Determines whether the search button shall be labeled with "Search" or with "Route" (or rather the corresponding translations).
 	 * @return Returns <code>true</code> if the button shall be labeled with "Route" and false else.
@@ -102,29 +103,7 @@ public class InputListenerAdapter {
 		inputModel.setRouteCalculationFailed(false);
 	}
 	
-	public List<SelectItem> getRouteFromProposalList() {
-		List<POI> routeFromProposalList = inputModel.getRouteFromProposalList();
-		List<SelectItem> proposalList = new ArrayList<SelectItem>();
-		for (POI poi : routeFromProposalList) {
-			SelectItem item = new SelectItem();
-			item.setLabel(poi.getName());
-			item.setValue(poi.getID());
-			proposalList.add(item);	
-		}
-		return proposalList;
-	}
-	
-	public List<SelectItem> getRouteToProposalList() {
-		List<POI> routeToProposalList = inputModel.getRouteToProposalList();
-		List<SelectItem> proposalList = new ArrayList<SelectItem>();
-		for (POI poi : routeToProposalList) {
-			SelectItem item = new SelectItem();
-			item.setLabel(poi.getName());
-			item.setValue(poi.getID());
-			proposalList.add(item);	
-		}
-		return proposalList;
-	}
+
 	
 	public void searchButtonPressed(ActionEvent ae) {
 		if (inputModel.getRouteFromProposalList() != null) {
@@ -181,67 +160,60 @@ public class InputListenerAdapter {
 		}
 	}
 	
+	/**
+	 * Returns the routeFromProposalList in a format that can be easily displayed by the view
+	 * @return Returns the routeFromProposalList in a format that can be easily displayed by the view
+	 */
+	public List<SelectItem> getRouteFromProposalList() {
+		List<POI> routeFromProposalList = inputModel.getRouteFromProposalList();
+		List<SelectItem> proposalList = new ArrayList<SelectItem>();
+		for (POI poi : routeFromProposalList) {
+			SelectItem item = new SelectItem();
+			item.setLabel(poi.getName());
+			item.setValue(poi.getID());
+			proposalList.add(item);	
+		}
+		return proposalList;
+	}
+	
+	/**
+	 * Returns the routeToProposalList in a format that can be easily displayed by the view
+	 * @return Returns the routeToProposalList in a format that can be easily displayed by the view
+	 */
+	public List<SelectItem> getRouteToProposalList() {
+		List<POI> routeToProposalList = inputModel.getRouteToProposalList();
+		List<SelectItem> proposalList = new ArrayList<SelectItem>();
+		for (POI poi : routeToProposalList) {
+			SelectItem item = new SelectItem();
+			item.setLabel(poi.getName());
+			item.setValue(poi.getID());
+			proposalList.add(item);	
+		}
+		return proposalList;
+	}
+	
+	/**
+	 * Resets the routeFromProposalList to null, which also means that it won't be displayed anymore.
+	 * @param ae The corresponding ActionEvent.
+	 */
 	public void resetRouteFromProposalList(ActionEvent ae) {
 		inputModel.setRouteFromField("");
 		inputModel.setRouteFromProposalList(null);
 	}
 	
+	/**
+	 * Resets the routeToProposalList to null, which also means that it won't be displayed anymore.
+	 * @param ae The corresponding ActionEvent.
+	 */
 	public void resetRouteToProposalList(ActionEvent ae) {
 		inputModel.setRouteToField("");
 		inputModel.setRouteToProposalList(null);
 	} 
 	
-	public void changeLanguageToEnglish(ActionEvent ae) {
-		inputListener.languageChangeTriggered("English");
-	}
-	
-	public void changeLanguageToGerman(ActionEvent ae) {
-		inputListener.languageChangeTriggered("Deutsch");
-	}
-	
-	//TODO
-	public void languageChangeLinkPressed(ActionEvent ae) {
-		inputModel.setLanguageProposalListIsVisible(true);
-	}
-	
-	public void languageChangeCancelled(ActionEvent ae) {
-		inputModel.setLanguageProposalListIsVisible(false);
-	}
-	
-	public void languageChangeTriggered(ActionEvent ae) {
-		String language = languageSelection;
-		logger.info("change language to " + language);
-		inputListener.languageChangeTriggered(language);
-		inputModel.setLanguageProposalListIsVisible(false);
-	}
-
-	public void changeToMapViewTriggered(ActionEvent ae) {
-		inputListener.changeToMapViewTriggered();		
-	}	
-	
-	public void changeFloorTriggered(ActionEvent ae) {
-		String src = ((UIComponent) ae.getSource()).getClientId();
-		String[] splitSrc = src.split(":");
-		Integer floorNo = Integer.parseInt(splitSrc[2]);
-		inputListener.changeFloorTriggered(floorNo);
-	}
-
-	public void setRouteFromSelection(String routeFromSelection) {
-		this.routeFromSelection = routeFromSelection;
-	}
-
-	public String getRouteFromSelection() {
-		return routeFromSelection;
-	}
-
-	public void setRouteToSelection(String routeToSelection) {
-		this.routeToSelection = routeToSelection;
-	}
-
-	public String getRouteToSelection() {
-		return routeToSelection;
-	}
-	
+	/**
+	 * Returns a list with all available languages in a format that can be easily displayed by the view
+	 * @return Returns a list with all available languages in a format that can be easily displayed by the view
+	 */
 	public List<SelectItem> getLanguageProposalList() {
 		List<String> languages = translationModel.getLanguages();
 		List<SelectItem> proposalList = new ArrayList<SelectItem>();
@@ -266,6 +238,71 @@ public class InputListenerAdapter {
 		        .getELResolver().getValue(elContext, null, "translationModel");
 		return translationModel.tr(key);
 	}
+	
+	/**
+	 * Changes the current language to English.
+	 * @param ae The corresponding ActionEvent.
+	 */
+	public void changeLanguageToEnglish(ActionEvent ae) {
+		inputListener.languageChangeTriggered("English");
+	}	
+	
+	/**
+	 * Changes the current language to German.
+	 * @param ae The corresponding ActionEvent.
+	 */
+	public void changeLanguageToGerman(ActionEvent ae) {
+		inputListener.languageChangeTriggered("Deutsch");
+	}
+	
+	//TODO
+	public void languageChangeLinkPressed(ActionEvent ae) {
+		inputModel.setLanguageProposalListIsVisible(true);
+	}
+	
+	public void languageChangeCancelled(ActionEvent ae) {
+		inputModel.setLanguageProposalListIsVisible(false);
+	}
+	
+	public void languageChangeTriggered(ActionEvent ae) {
+		inputListener.languageChangeTriggered(languageSelection);
+		inputModel.setLanguageProposalListIsVisible(false);
+	}
+
+	/**
+	 * Changes to map view.
+	 * @param ae The corresponding ActionEvent.
+	 */
+	public void changeToMapViewTriggered(ActionEvent ae) {
+		inputListener.changeToMapViewTriggered();		
+	}	
+	
+	/**
+	 * Makes the view display the floor that has been selected through a click on the corresponding link.
+	 * @param ae The corresponding ActionEvent.
+	 */
+	public void changeFloorTriggered(ActionEvent ae) {
+		String src = ((UIComponent) ae.getSource()).getClientId();
+		String[] splitSrc = src.split(":");
+		Integer floorNo = Integer.parseInt(splitSrc[2]);
+		inputListener.changeFloorTriggered(floorNo);
+	}
+
+	public void setRouteFromSelection(String routeFromSelection) {
+		this.routeFromSelection = routeFromSelection;
+	}
+
+	public String getRouteFromSelection() {
+		return routeFromSelection;
+	}
+
+	public void setRouteToSelection(String routeToSelection) {
+		this.routeToSelection = routeToSelection;
+	}
+
+	public String getRouteToSelection() {
+		return routeToSelection;
+	}	
 
 	public void setLanguageSelection(String languageSelection) {
 		this.languageSelection = languageSelection;
