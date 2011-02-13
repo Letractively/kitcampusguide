@@ -6,6 +6,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import edu.kit.cm.kitcampusguide.model.POI;
+import edu.kit.cm.kitcampusguide.model.POICategory;
 
 /**
  * This utility class provides several methods to convert model objects to a JSON String.
@@ -39,6 +40,31 @@ public final class JSONConverter {
 		JSONArray result = new JSONArray();
 		for (POI poi: p) {
 			result.add(convertPOI(poi));
+		}
+		return result;
+	}
+	
+	public static JSONObject convertPOICategory(POICategory pc) {
+		if (pc == null) {
+			return null;
+		}
+		JSONObject result = new JSONObject();
+		result.put("id", pc.getId());
+		result.put("icon", pc.getIcon());
+		result.put("name", pc.getName());
+		result.put("description", pc.getDescription());
+		result.put("visible", pc.getVisible());
+		result.put("pois", convertPOIs(pc.getAllPOI()));
+		return result;
+	}
+	
+	public static JSONArray convertPOICategories(Collection<POICategory> pc) {
+		if (pc == null) {
+			return null;
+		}
+		JSONArray result = new JSONArray();
+		for (POICategory p: pc) {
+			result.add(convertPOICategory(p));
 		}
 		return result;
 	}

@@ -30,4 +30,16 @@
 		<converter-id>poiListConverter</converter-id>
 		<converter-class>edu.kit.cm.kitcampusguide.view.converter.POIListConverter</converter-class>
 	</converter>
+	<converter>
+		<description>Converts a POICategory to a String</description>
+		<display-name>POICategoryConverter</display-name>
+		<converter-id>poiCategoryConverter</converter-id>
+		<converter-class>edu.kit.cm.kitcampusguide.view.converter.POICategoryConverter</converter-class>
+	</converter>
+	<converter>
+		<description>Converts a List of POICategory to a String</description>
+		<display-name>POICategoryListConverter</display-name>
+		<converter-id>poiCategoryListConverter</converter-id>
+		<converter-class>edu.kit.cm.kitcampusguide.view.converter.POICategoryListConverter</converter-class>
+	</converter>
 </faces-config>
