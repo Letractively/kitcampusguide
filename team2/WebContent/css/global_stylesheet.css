@@ -20,6 +20,13 @@ body {
 html>/**/body {
     overflow-x: auto;
 }
+
+.hidden {
+	visibility: hidden;
+	width: 0px;
+	height: 0px;
+}
+
 .faq_question {
     margin-bottom: 4px;
     padding-right:10px;

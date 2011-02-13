@@ -26,12 +26,22 @@ table.cgtable th {
     text-align:left;
     vertical-align:bottom;
     z-index: -10;
-}
+}å
 table.cgtable row1 {
-    width:473px;
+    width:558px;
 }
 table.cgtable row2 {
-    width:157px;
+    width:172px;
+}
+
+.hidden {
+	visibility: hidden;
+	display: none;
+}
+
+span.hidden {
+	visibility: hidden;
+	display: none;
 }
 
 #headline {
@@ -41,3 +51,9 @@ table.cgtable row2 {
     width: 733px;
     z-index: 9999;
 }
+
+#sidebar-suggestions {
+	height:430px;
+}
+	
+
