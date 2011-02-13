@@ -69,7 +69,7 @@ public class InputListenerImpl implements InputListener {
 	@Override
 	public void searchTriggered(String searchTerm, InputFields inputField) {
 		resetView();
-		MapPosition position = positionRepresentedBySearchTerm(searchTerm);
+		MapPosition position = positionRepresentedBySearchTerm(searchTerm, inputField);
 		if (position != null) {
 			if (inputField == InputFields.ROUTE_FROM) {
 				logger.info("set markerFrom to " + searchTerm);
@@ -78,8 +78,7 @@ public class InputListenerImpl implements InputListener {
 				logger.info("set markerTo to " + searchTerm);
 				mapModel.setMarkerTo(position);
 			}
-		}
-		else {
+		} else {
 			POI poi = performSearch(searchTerm, inputField);
 			if (poi != null) {
 				highlightPOI(poi);
@@ -96,7 +95,7 @@ public class InputListenerImpl implements InputListener {
 		highlightPOI(soughtAfter);
 	}
 	
-	//Effects that the poi 'poi' is highlighted in the view
+	//Effects that the poi 'poi' is highlighted in the view.
 	private void highlightPOI(POI poi) {
 		logger.info("highlight poi: " + poi.getName());
 		mapModel.setHighlightedPOI(poi);
@@ -110,44 +109,21 @@ public class InputListenerImpl implements InputListener {
 	 */
 	@Override
 	public void routeTriggered(String routeFrom, String routeTo) {
-		resetView();
-		MapPosition from = null;
-		WorldPosition coordinateFrom = cm.stringToCoordinate(routeFrom);
-		if (coordinateFrom != null) {			
-			MapPosition markerFrom = mapModel.getMarkerFrom();
-			if (markerFrom == null) {
-				//System.out.println("null");
-				from = new MapPosition(coordinateFrom.getLatitude(), coordinateFrom.getLongitude(), defaultModelValueClass.getDefaultMap());
-			} else if (Math.abs(markerFrom.getLatitude() - coordinateFrom.getLatitude())<0.01 && Math.abs(markerFrom.getLongitude() - coordinateFrom.getLongitude())<0.01 ) {
-				//System.out.println("gleich");
-				from = markerFrom;
-			} else {
-				//System.out.println("verschieden");
-				from = new MapPosition(coordinateFrom.getLatitude(), coordinateFrom.getLongitude(), defaultModelValueClass.getDefaultMap());
-			}
-		} else {
+		MapPosition from = positionRepresentedBySearchTerm(routeFrom, InputFields.ROUTE_FROM);
+		if (from == null) {
 			POI poiFrom = performSearch(routeFrom, InputFields.ROUTE_FROM);
 			if (poiFrom != null) {
 				from = new MapPosition (poiFrom.getPosition().getLatitude(), poiFrom.getPosition().getLongitude(), poiFrom.getMap());
 			}
 		} 		
-		MapPosition to = null;
-		WorldPosition coordinateTo = cm.stringToCoordinate(routeTo);
-		if (coordinateTo != null) {			
-			MapPosition markerTo = mapModel.getMarkerTo();
-			if (markerTo == null) {
-				to = new MapPosition(coordinateTo.getLatitude(), coordinateTo.getLongitude(), defaultModelValueClass.getDefaultMap());
-			} else if (Math.abs(markerTo.getLatitude() - coordinateTo.getLatitude())<0.01 && Math.abs(markerTo.getLongitude() - coordinateTo.getLongitude())<0.01 ) {
-				to = markerTo;
-			} else {
-				to = new MapPosition(coordinateTo.getLatitude(), coordinateTo.getLongitude(), defaultModelValueClass.getDefaultMap());
-			}
-		} else {
+		MapPosition to = positionRepresentedBySearchTerm(routeTo, InputFields.ROUTE_TO);
+		if (to == null) {
 			POI poiTo = performSearch(routeTo, InputFields.ROUTE_TO);
 			if (poiTo != null) {
 				to = new MapPosition (poiTo.getPosition().getLatitude(), poiTo.getPosition().getLongitude(), poiTo.getMap());
 			}
 		} 
+		resetView();
 		if (from != null && to != null) {			
 			calculateRoute(from, to);
 		}		
@@ -158,14 +134,15 @@ public class InputListenerImpl implements InputListener {
 	 */
 	@Override
 	public void routeTriggered(String routeFrom, MapPosition to) {
-		resetView();
-		MapPosition from = positionRepresentedBySearchTerm(routeFrom);
+		MapPosition from = positionRepresentedBySearchTerm(routeFrom, InputFields.ROUTE_FROM);
 		if (from != null) {
+			resetView();
 			calculateRoute(from, to);
 		} else {
 			POI poi = performSearch(routeFrom, InputFields.ROUTE_FROM);
 			if (poi != null) {
 				from = new MapPosition (poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
+				resetView();
 				calculateRoute(from, to);
 			}
 		} 		
@@ -176,14 +153,15 @@ public class InputListenerImpl implements InputListener {
 	 */
 	@Override
 	public void routeTriggered(MapPosition from, String routeTo) {
-		resetView();
-		MapPosition to = positionRepresentedBySearchTerm(routeTo);
+		MapPosition to = positionRepresentedBySearchTerm(routeTo, InputFields.ROUTE_TO);
 		if (to != null) {
+			resetView();
 			calculateRoute(from, to);
 		} else {
 			POI poi = performSearch(routeTo, InputFields.ROUTE_TO);
 			if (poi != null) {
 				to = new MapPosition (poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
+				resetView();
 				calculateRoute(from, to);
 			}
 		} 	
@@ -198,7 +176,7 @@ public class InputListenerImpl implements InputListener {
 		calculateRoute(from, to);
 	}
 	
-	//Effects that route from 'from' to 'to' is calculated and displayed in the view
+	//Effects that route from 'from' to 'to' is calculated and displayed in the view.
 	private void calculateRoute(MapPosition from, MapPosition to) {
 		Route route = routing.calculateRoute(from, to);
 		if (route != null) {
@@ -207,24 +185,51 @@ public class InputListenerImpl implements InputListener {
 			mapModel.setMarkerTo(to);
 			mapModel.setRoute(route);
 			mapModel.setMapLocator(new MapLocator (route.getBoundingBox()));
-			if (from.getMap().getID() == to.getMap().getID()) {
+			if (from.getMap().getID() == to.getMap().getID()) {	
 				mapModel.setMap(from.getMap());
 			} else {
 				mapModel.setMap(defaultModelValueClass.getDefaultMap());
+				mapModel.setBuilding(null);
 			}
 		} else {
 			inputModel.setRouteCalculationFailed(true);
 		}
 	}
 	
-	//Tries to convert the string 'searchTerm' into a position on the campus map and returns it.
+	//Tries to convert the string 'searchTerm' into a MapPosition and returns it.
+	//If the corresponding marker is set in the MapModel and equals the represented coordinates, 
+	//the MapPosition of this marker will be returned.
 	//If the conversion fails, null will be returned.
-	private MapPosition positionRepresentedBySearchTerm (String searchTerm) {
+	private MapPosition positionRepresentedBySearchTerm (String searchTerm, InputFields inputField) {
 		WorldPosition coordinate = cm.stringToCoordinate(searchTerm);
 		if (coordinate == null) {
 			return null;
 		} else {
-			return new MapPosition(coordinate.getLatitude(), coordinate.getLongitude(), defaultModelValueClass.getDefaultMap());
+			if (inputField.equals(InputFields.ROUTE_FROM)) {
+				MapPosition markerFrom = mapModel.getMarkerFrom();
+				if (markerFrom != null && equivalent(coordinate, markerFrom)) {	
+					return markerFrom; 
+				} else {
+					return new MapPosition(coordinate.getLatitude(), coordinate.getLongitude(), defaultModelValueClass.getDefaultMap());
+				}
+			} else {
+				MapPosition markerTo = mapModel.getMarkerTo();
+				if (markerTo != null && equivalent(coordinate, markerTo)) {		
+					return markerTo;
+				} else {
+					return new MapPosition(coordinate.getLatitude(), coordinate.getLongitude(), defaultModelValueClass.getDefaultMap());
+				}
+			}			
+		}
+	}
+	
+	private boolean equivalent(WorldPosition worldposition, MapPosition mapposition) {
+		double eps = 1e-6;
+		if (Math.abs(worldposition.getLatitude() - mapposition.getLatitude()) < eps 
+				&& Math.abs(worldposition.getLongitude() - mapposition.getLongitude()) < eps) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -256,12 +261,12 @@ public class InputListenerImpl implements InputListener {
 		}
 	}	
 	
-	//Resets the view which means that no highlighted pois, routes and so on will be displayed anymore
+	//Resets the view which means that no highlighted pois, routes and so on will be displayed anymore.
 	private void resetView() {
 		mapModel.setHighlightedPOI(null);
 		mapModel.setRoute(null);
-		//mapModel.setMarkerFrom(null);
-		//mapModel.setMarkerTo(null);
+		mapModel.setMarkerFrom(null);
+		mapModel.setMarkerTo(null);
 		inputModel.setRouteFromSearchFailed(false);
 		inputModel.setRouteToSearchFailed(false);
 		inputModel.setRouteCalculationFailed(false);

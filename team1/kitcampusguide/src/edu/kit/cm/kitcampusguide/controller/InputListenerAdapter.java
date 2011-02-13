@@ -56,44 +56,25 @@ public class InputListenerAdapter {
 	public InputListenerAdapter() {
 		
 	}
-		
-	//TODO: in JavaScript implementieren
-	/**
-	 * Determines whether the search button shall be labeled with "Search" or with "Route" (or rather the corresponding translations).
-	 * @return Returns <code>true</code> if the button shall be labeled with "Route" and false else.
-	 */
-	public boolean isCalculateRoute() {
-		UIInput routeFromFieldComponent = (UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent(ROUTE_FROM_FIELD_ID);
-		String routeFromField = (String) routeFromFieldComponent.getValue();
-		if (routeFromField == null) {
-			routeFromField = "";
-			routeFromFieldComponent.setValue("");
-			//this workaround is done because the context parameter "INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL" is set true at the moment,
-			//for which reason the ValueChangedEvent wasn't triggered exactly else
-		}
-		routeFromField = routeFromField.trim();
-		UIInput routeToFieldComponent = (UIInput) FacesContext.getCurrentInstance().getViewRoot().findComponent(ROUTE_TO_FIELD_ID);
-		String routeToField = (String) routeToFieldComponent.getValue();
-		if (routeToField == null) {
-			routeToField = "";
-			routeToFieldComponent.setValue("");
-			//see above
-		}
-		routeToField = routeToField.trim();
-		if ((inputModel.getRouteFromProposalList() != null || !routeFromField.equals("")) 
-				&& (inputModel.getRouteToProposalList() != null || !routeToField.equals(""))) {
-			return true;
+	
+	public String getSearchButtonLabel() {
+		if ((inputModel.getRouteFromProposalList() != null 
+				|| (inputModel.getRouteFromField() != null && !inputModel.getRouteFromField().isEmpty()) && 
+			(inputModel.getRouteToProposalList() != null 
+				|| (inputModel.getRouteToField() != null && !inputModel.getRouteToField().isEmpty())))) {
+			return translationModel.tr("calculateRoute");
 		} else {
-			return false;
+			return translationModel.tr("search");
 		}
 	}
+		
 	
 	/**
 	 * Makes the error messages concerning problems with searching the term in the triggering input field 
 	 * or calculating the route invisible again.
 	 * @param ve Corresponding <code>ValueChangeEvent</code> that is triggered when something is typed into one of the input fields.
 	 */
-	public void refreshInputArea(ValueChangeEvent ve) {	
+	/*public void refreshInputArea(ValueChangeEvent ve) {	
 		String src = ((UIComponent)ve.getSource()).getClientId();
 		if (src.equals("routeFromField")) {
 			inputModel.setRouteFromSearchFailed(false);
@@ -101,10 +82,8 @@ public class InputListenerAdapter {
 			inputModel.setRouteToSearchFailed(false);
 		}
 		inputModel.setRouteCalculationFailed(false);
-	}
-	
-
-	
+	}*/
+		
 	public void searchButtonPressed(ActionEvent ae) {
 		if (inputModel.getRouteFromProposalList() != null) {
 			POI poi = poiSource.getPOIByID(routeFromSelection);

@@ -12,6 +12,7 @@
 	<title>KITCampusGuide</title>
 	<h:outputStylesheet name="design.css" library="main" target="head" />
 	<h:outputScript name="jsf.js" library="javax.faces" target="head" />
+	<h:outputScript target="head" library="inputcomponent" name="inputcomponent.js" />
 	
 </h:head>
 <h:body>
@@ -28,11 +29,11 @@
 		<h:panelGroup id="lateralBar" layout="block">
 			<h:form id="lateralForm" class="lateralForm" rendered="#{mapModel.building != null}">
 				<h:panelGrid columns="1">
-				<h:dataTable id="floors" value="#{mapModel.building.floors}"
-					var="floor">
+				<h:dataTable id="floors" value="#{mapModel.building.floors}" var="floor">
 					<h:column>
 						<h:commandLink value="#{floor.name}"
-							actionListener="#{inputListenerAdapter.changeFloorTriggered}" />
+							actionListener="#{inputListenerAdapter.changeFloorTriggered}" 
+							style="color:#009d82" />
 					</h:column>
 				</h:dataTable>
 
@@ -62,10 +63,7 @@
 							<h:outputLabel id="routeFromLabel" for="routeFromField" value="#{tr:translate('routeFrom')}"/>
 							<br />
 							<h:inputText id="routeFromField" value="#{inputModel.routeFromField}"
-								valueChangeListener="#{inputListenerAdapter.refreshInputArea}" 
-								rendered="#{inputModel.routeFromProposalList == null}" >								
-								<f:ajax execute="routeFromField routeToField"
-									render="button routeFromInformation" event="keyup" />
+								rendered="#{inputModel.routeFromProposalList == null}" onkeyup="setSearchButtonLabel()" >
 							</h:inputText>	
 							<h:selectOneMenu id="routeFromProposalList" rendered="#{inputModel.routeFromProposalList != null}" 
 								value="#{inputListenerAdapter.routeFromSelection}" >
@@ -90,10 +88,7 @@
 							<h:outputLabel id="routeToLabel" for="routeToField" value="#{tr:translate('routeTo')}" />
 							<br />
 							<h:inputText id="routeToField" value="#{inputModel.routeToField}"
-								valueChangeListener="#{inputListenerAdapter.refreshInputArea}" 
-								rendered="#{inputModel.routeToProposalList == null}" >
-								<f:ajax execute="routeFromField routeToField"
-									render="button routeToInformation" event="keyup" />
+								rendered="#{inputModel.routeToProposalList == null}" onkeyup="setSearchButtonLabel()" >
 							</h:inputText>													
 							<h:selectOneMenu id="routeToProposalList" rendered="#{inputModel.routeToProposalList != null}" 
 								value="#{inputListenerAdapter.routeToSelection}" >
@@ -121,12 +116,16 @@
 				</h:panelGroup>		
 				
 				<h:panelGroup id="button" layout="block" style="padding:10px">				
-					<h:commandButton id="searchButton" value="#{tr:translate('search')}"
-						actionListener="#{inputListenerAdapter.searchButtonPressed}"
-						rendered="#{not inputListenerAdapter.calculateRoute}" />
-					<h:commandButton id="routeButton" value="#{tr:translate('calculateRoute')}"
-						actionListener="#{inputListenerAdapter.searchButtonPressed}"
-						rendered="#{inputListenerAdapter.calculateRoute}" />
+					<h:commandButton id="searchButton" value="#{inputListenerAdapter.searchButtonLabel}" 
+					actionListener="#{inputListenerAdapter.searchButtonPressed}" />
+					<div class="hidden">
+						<h:outputText class="hidden"
+						value="#{tr:translate('search')}"
+						id="searchLabel" />
+						<h:outputText class="hidden"
+						value="#{tr:translate('calculateRoute')}"
+						id="calculateRouteLabel" />
+					</div>
 				</h:panelGroup>					
 			
 				<h:panelGroup id="navigation" layout="block" style="padding:30px">
