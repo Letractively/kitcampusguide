@@ -15,6 +15,18 @@ import org.json.simple.parser.ParseException;
 
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapEvent;
 
+/**
+ * Converts a list of {@link MapEvent}s formatted as a JSON string into the
+ * actual <code>MapEvent</code> objects. Only the conversion of a string into a
+ * list of map events is supported. Exceptions will be thrown if the string does
+ * not encode valid <code>MapEvent</code> objects. <br />
+ * For each <code>MapEvent</code>, the event's data argument is parsed depending
+ * on it's type given by the type argument. Until now, only the type Identifiers
+ * "String", "Integer" and "MapPosition" are supported.
+ * 
+ * @author Stefan
+ * 
+ */
 public class OutputConverter implements Converter {
 
 	@Override
@@ -49,7 +61,6 @@ public class OutputConverter implements Converter {
 			}
 			return result;
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			throw new ConverterException("Error while parsing JSON data", e);
 		}
 	}

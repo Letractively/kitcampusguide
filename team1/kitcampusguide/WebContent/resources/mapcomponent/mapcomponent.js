@@ -133,7 +133,8 @@ function KITCampusMap(clientId) {
  */
 KITCampusMap.prototype.applyChanges = function() {
 	// Get all Attributes which need to be redrawn
-	var mapModel = this.getFormSpanData("mapModel");
+	var inner = this.getFormElement("mapModel").innerHTML;
+	var mapModel = (inner == "") ? null : JSON.parse(inner);
 	
 	// Fetch all changed properties
 	this.changed = new Object();
@@ -190,33 +191,6 @@ KITCampusMap.prototype.applyChanges = function() {
 	}
 };
 
-
-/**
- * Reads and returns the data written by a h:outputText element.
- * 
- * @param id
- *            the id of the form element to be read
- * @returns the data contained in the form element, interpreted as JSON object
- *          or <code>null</code> if the empty string is read.
- */
-KITCampusMap.prototype.getFormSpanData = function(id) {
-	var inner = this.getFormElement(id).innerHTML;
-	return (inner == "") ? null : JSON.parse(inner);
-};
-
-/**
- * Reads and returns the data written by a h:inputHidden element.
- * 
- * @param id
- *            the id of the form element to be read
- * @returns the data contained in the form element, interpreted as JSON object
- *          or <code>null</code> if the empty string is read.
- */
-KITCampusMap.prototype.getFormInputData = function(id) {
-	var data = this.getFormElement(id).value;
-	return (data == "") ? null : JSON.parse(data);
-};
-
 /**
  * Returns the form element matching a given identifier (for example 'POIs',
  * 'mapSection').
@@ -242,8 +216,6 @@ KITCampusMap.prototype.handleMenuOpen = function(x, y) {
 	var lonLat = this.olData.map.getLonLatFromPixel(new OpenLayers.Pixel(
 	x, y));
 	var mapPosition = KITCampusHelper.untransformLonLat(lonLat);
-	//TODO: Set Marker on Click of Menu Entry and fill Inputelements with data
-	//TODO: Fix bug of popup not disappearing in IE9
 	if (this.olData.rightClickMenu) {
 		this.olData.rightClickMenu.destroy();
 		this.olData.rightClickMenu = null;
@@ -346,12 +318,15 @@ KITCampusMap.prototype.eventCallback = function(data) {
 };
 
 /**
- * This method sends an ajax request to the server and sets
- * <code>eventCallback</code> as callback method. All form field are
- * rerendered, additionally, more update fields can be configured via
- * <code>this.additionalRenderIDs</code>
+ * This method sends an AJAX request to the server and sets
+ * <code>eventCallback</code> as callback method. Aditional fields which
+ * should be updated can be specified via <code>this.additionalRenderIDs</code>.
+ * The given MapEvents will be retrieved by the class MapEventsListener
  * 
- * @param events //TODO
+ * @param events
+ *            can be either a list or a single KITCampusEvent. The given
+ *            events will be submitted to the server, the controller will be
+ *            notified.
  */
 KITCampusMap.prototype.requestUpdate = function(events) {
 	if (!(events instanceof Array))
@@ -628,7 +603,7 @@ KITCampusMap.prototype.setHighlightedPOI = function() {
 		var p = feature.popup = feature.createPopup(true, closeClick, this);
 		
 		this.olData.map.addPopup(feature.popup, true);
-			feature.popup.show();
+//		feature.popup.show();
 		
 		this.olData.popupPOI = poi;
 		this.olData.highlightedMarker = marker;

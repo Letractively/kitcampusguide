@@ -89,8 +89,8 @@ public class MapModel implements Serializable {
 		if (map == null) {
 			throw new NullPointerException();
 		}
-		this.map = map;
 		changedProperties.add(MapProperty.map);
+		this.map = map;
 	}
 
 	/**
@@ -111,10 +111,11 @@ public class MapModel implements Serializable {
 	 *            made.
 	 */
 	public void setPOIs(Collection<POI> pois) {
-		if (pois != null) {
-			this.pois = pois;
-			changedProperties.add(MapProperty.POIs);
+		if (pois == null) {
+			throw new NullPointerException();
 		}
+		this.pois = pois;
+		changedProperties.add(MapProperty.POIs);
 	}
 
 	/**
@@ -311,24 +312,105 @@ public class MapModel implements Serializable {
 	public Integer getCurrentFloorIndex() {
 		return currentFloorIndex;
 	}
-	
-	// TODO
+
+	/**
+	 * Returns all changed properties. The properties are indicated with the
+	 * {@link MapProperty} enum.
+	 * 
+	 * @return a set with identifiers for all changed properties.
+	 */
 	public Set<MapProperty> getChangedProperties() {
 		return Collections.unmodifiableSet(changedProperties);
 	}
 
-	
+	/**
+	 * Resets all changed properties. After the call,
+	 * {@link #getChangedProperties()} will return an empty set.
+	 */
 	public void resetChangedProperties() {
 		this.changedProperties.clear();
 	}
 
-	public static enum MapProperty {
-		map, POIs, building, mapLocator, highlightedPOI, markerFrom, markerTo, route, buildingPOI, buildingPOIList, currentFloorIndex
-	}
-
+	/**
+	 * Marks all properties as changed. This is for example necessary if the
+	 * model is created the first time.
+	 */
 	public void addAllProperties() {
 		for (MapProperty prop : MapProperty.values()) {
 			changedProperties.add(prop);
 		}
+	}
+	
+	/**
+	 * Enum naming all properties of {@link MapModel}. The enum is used
+	 * to mark a property as changed.
+	 * @see MapModel#getChangedProperties()
+	 */
+	public static enum MapProperty {
+		/**
+		 * Identifies the map-property.
+		 * @see MapModel#getMap()
+		 */
+		map,
+		
+		/**
+		 * Identifies the building-property.
+		 * @see MapModel#getBuilding()
+		 */
+		building,
+		
+		/**
+		 * Identifies the POIs-property.
+		 * @see MapModel#getPOIs()
+		 */
+		POIs,
+		
+		/**
+		 * Identifies the mapLocator-property.
+		 * @see MapModel#getMapLocator()
+		 */
+		mapLocator,
+		
+		/**
+		 * Identifies the highlightedPOI-property.
+		 * @see MapModel#getHighlightedPOI()
+		 */
+		highlightedPOI, 
+		
+		/**
+		 * Identifies the markerFrom-property.
+		 * @see MapModel#markerFrom
+		 */
+		markerFrom, 
+		
+		/**
+		 * Identifies the markerTo-property.
+		 * @see MapModel#markerTo
+		 */
+		markerTo, 
+		
+		/**
+		 * Identifies the route-property.
+		 * @see MapModel#getRoute()
+		 */
+		route, 
+		
+		/**
+		 * Identifies the buildingPOI-property
+		 * @see MapModel#getBuildingPOI()
+		 */
+		buildingPOI, 
+		
+		/**
+		 * Identifies the buildingPOIList-property.
+		 * @see MapModel#getBuildingPOIList()
+		 */
+		buildingPOIList, 
+		
+		/**
+		 * Identifies the currentFloorIndex-property.
+		 * @see MapModel#currentFloorIndex
+		 */
+		currentFloorIndex
 	}
 }
