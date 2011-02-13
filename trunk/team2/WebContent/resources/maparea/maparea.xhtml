@@ -4,30 +4,62 @@
 	xmlns:h="http://java.sun.com/jsf/html"
  	xmlns:c="http://java.sun.com/jsp/jstl/core"
   	xmlns:cc="http://java.sun.com/jsf/composite"
-    xmlns:sb="http://java.sun.com/jsf/composite/sidebar"
-  	xmlns:f="http://java.sun.com/jsf/core">
+    xmlns:map="http://java.sun.com/jsf/composite/map"
+  	xmlns:f="http://java.sun.com/jsf/core"
+  	xmlns:o="http://openfaces.org/">
 <h:head>
 <title>maparea</title>
 </h:head>
 <h:body>
 <cc:interface>
+<cc:attribute name="model" required="true" />
 </cc:interface>
 <cc:implementation>
-<script type="text/javascript" src="resources/openlayers/OpenLayers.js" />
 <h:outputScript target="head" library="javax.faces" name="jsf.js" />
-<div id="map"><cc:insertChildren /></div> 
-    <script type="text/javascript">
-			var map = new OpenLayers.Map('map',{maxResolution: 0.703125} );
-			var wmscURL = [
-				"http://wmsc1.terrapages.net/getmap?",
-				"http://wmsc2.terrapages.net/getmap?",
-				"http://wmsc3.terrapages.net/getmap?",
-				"http://wmsc4.terrapages.net/getmap?"
-			];
-			var terrapagesStreetLayer = new OpenLayers.Layer.WMS( 'TerraPages Street',wmscURL, {layers: 'UnprojectedStreet', format: 'image/jpeg' }, {buffer: 1, isBaseLayer: true} );
-			map.addLayer(terrapagesStreetLayer);
-			map.zoomToMaxExtent();		
-		</script>
+<table id="maparea" cellspacing="0" cellpadding="0" class="cgtable" >
+		<tbody>			
+			<tr>
+				<td style="width:558px;">
+					<map:map id="map" />
+				</td>
+				<td style="width:172px;">
+					<div id="sidebar">
+					<h:form id="route">
+						<o:suggestionField id="from-field"  
+							promptText="#{msgs.route_from}"	autoComplete="true"
+       						suggestionDelay="200" suggestionMinChars="2"
+					        suggestionMode="substring" listStyle="z-index:9999;"
+					        style="width:95%;">
+							<o:dropDownItems value="#{constantData.allPOIName}" />
+						</o:suggestionField>
+						<br />
+						<o:suggestionField id="to-field" 
+							promptText="#{msgs.route_to}" autoComplete="true"
+					        suggestionDelay="200" suggestionMinChars="2" 
+					        suggestionMode="substring" listStyle="z-index:9999;"
+					        style="width:95%;">
+							<o:dropDownItems value="#{constantData.allPOIName}" />
+						</o:suggestionField>
+						<h:commandButton id="route-button" value="#{msgs.route_button}" style="left:165px;" onclick="route()">
+							<f:ajax render="@this" />
+						</h:commandButton>
+					</h:form>
+					<div id="sidebar-suggestions">
+					
+					</div>
+					<o:foldingPanel id="poi-filter" caption="#{msgs.poi_filter}" expanded="true"
+						foldingDirection="up" contentStyle="line-height: 2; vertical-align: bottom; " 
+						style="width:50%;z-index:9999; position:relative;">
+						<o:forEach items="#{constantData.categoriesName}" var="category" varStatus="status">
+							<o:selectBooleanCheckbox value="true"/>
+							<h:outputText value="#{category}" /> <br />
+						</o:forEach>					
+					</o:foldingPanel>
+					</div> 
+				</td>
+			</tr>
+		</tbody>
+	</table> 
 </cc:implementation>
 </h:body>
 </html>

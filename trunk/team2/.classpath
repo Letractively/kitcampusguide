@@ -21,5 +21,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="/Users/Hao/Downloads/postgresql-9.0-801.jdbc4.jar"/>
+	<classpathentry kind="lib" path="/Users/Hao/Downloads/json_simple-1.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -1,6 +1,6 @@
 package edu.kit.cm.kitcampusguide;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ApplicationScoped;
@@ -10,28 +10,54 @@ import edu.kit.cm.kitcampusguide.data.ConcretePOILoader;
 import edu.kit.cm.kitcampusguide.data.POILoader;
 import edu.kit.cm.kitcampusguide.model.Graph;
 import edu.kit.cm.kitcampusguide.model.POI;
+import edu.kit.cm.kitcampusguide.model.POICategory;
 
 @ManagedBean
 @ApplicationScoped
 public class ConstantData {
-	private String[] allPOI;
+	private List<String> allPOIName;
+	private List<POI> allPOI;
+
+	private List<String> categoriesName;
+	private List<POICategory> categories;
 	private Graph graph;	
 
 	public ConstantData() {
 		POILoader pl = new ConcretePOILoader();
-		List<POI> poiList = pl.getAllPOIs();
-		this.allPOI = new String[poiList.size()];
-		for (int i = 0; i < this.allPOI.length; i++) {
-			this.allPOI[i] = poiList.get(i).getName();
+		this.allPOI = pl.getAllPOIs();
+		this.allPOIName = new ArrayList<String>();
+		for (POI p : allPOI) {
+			this.allPOIName.add(p.getName());
 		}
+		this.categories = pl.getAllPOICategory();
+		this.categoriesName = new ArrayList<String>();
+		for (POICategory p : categories) {
+			this.categoriesName.add(p.getName());
+		}		
 	}
 
-	public String[] getAllPOI() {
+	public List<POI> getAllPOI() {
 		return allPOI;
 	}
-
-	public void setAllPOI(String[] allPOI) {
+	
+	public void setAllPOI(List<POI> allPOI) {
 		this.allPOI = allPOI;
+	}
+	
+	public List<String> getCategoriesName() {
+		return categoriesName;
+	}
+
+	public void setCategoriesName(List<String> categoriesName) {
+		this.categoriesName = categoriesName;
+	}
+
+	public List<String> getAllPOIName() {
+		return allPOIName;
+	}
+
+	public void setAllPOIName(List<String> allPOIName) {
+		this.allPOIName = allPOIName;
 	}
 
 	public Graph getGraph() {
@@ -41,13 +67,18 @@ public class ConstantData {
 	public void setGraph(Graph graph) {
 		this.graph = graph;
 	}
-	
-	//TODO: Testmethode, wieder entfernen
-	public static void main(String[] args) {
-		ConstantData cd = new ConstantData();
-		String[] list = cd.getAllPOI();
-		for (String ss : list) {
-			System.out.println(ss);
-		}
+
+	public void setCategories(List<POICategory> categories) {
+		this.categories = categories;
 	}
+
+	public List<POICategory> getCategories() {
+		return categories;
+	}
+	
+	public static void main(String[] args) {
+		ConstantData c = new ConstantData();
+		System.out.println(c.getAllPOI().get(1).getX());
+	}
+	
 }

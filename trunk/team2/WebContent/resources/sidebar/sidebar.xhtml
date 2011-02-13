@@ -19,31 +19,40 @@
 <h:form id="route">
 	<o:suggestionField id="from-field"  
 		promptText="#{msgs.route_from}"
-		size="25"
 		autoComplete="true"
         suggestionDelay="200"
         suggestionMinChars="2"
         suggestionMode="substring"
-        listStyle="z-index:9999;">
-<o:dropDownItems value="#{constantData.allPOI}" />
+        listStyle="z-index:9999;"
+        style="width:95%;">
+<o:dropDownItems value="#{constantData.allPOIName}" />
 </o:suggestionField>
 	<br />
 	<o:suggestionField id="to-field" 
 		promptText="#{msgs.route_to}"
-		size="25"
 		autoComplete="true"
         suggestionDelay="200"
         suggestionMinChars="2" 
         suggestionMode="substring"
-        listStyle="z-index:9999;">
-<o:dropDownItems value="#{constantData.allPOI}" />
+        listStyle="z-index:9999;"
+        style="width:95%;">
+<o:dropDownItems value="#{constantData.allPOIName}" />
 </o:suggestionField>
-<h:commandButton id="route" value="#{msgs.route_button}" style="float:right;"/>
+<h:commandButton id="route" value="#{msgs.route_button}" style="left:165px;" onclick="route()">
+<f:ajax render="@this" />
+</h:commandButton>
 </h:form>
+<div id="sidebar-suggestions">
+</div>
+<o:foldingPanel id="poi-filter" caption="#{msgs.poi_filter}" expanded="true"
+	foldingDirection="up" contentStyle="line-height: 2; vertical-align: bottom; " 
+	style="width:50%;z-index:9999; position:relative;">
+	<o:forEach items="#{constantData.categoriesName}" var="category" varStatus="status">
+	<o:selectBooleanCheckbox value="true" onchange="showMarkers(this.value)"/>
+	<h:outputText value="#{category}" /> <br />
+	</o:forEach>					
+</o:foldingPanel>
 </div> 
-<script type="text/javascript">
-map.addLayer(terrapagesStreetLayer);
-</script>
 </cc:implementation>
 </h:body>
 </html>

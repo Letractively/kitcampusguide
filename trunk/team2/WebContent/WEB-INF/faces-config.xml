@@ -18,4 +18,16 @@
 			<var>msgs</var>
 		</resource-bundle>
 	</application>
+	<converter>
+		<description>Converts a POI to a String</description>
+		<display-name>POIConverter</display-name>
+		<converter-id>poiConverter</converter-id>
+		<converter-class>edu.kit.cm.kitcampusguide.view.converter.POIConverter</converter-class>
+	</converter>
+	<converter>
+		<description>Converts a List of POIs to a String</description>
+		<display-name>POIListConverter</display-name>
+		<converter-id>poiListConverter</converter-id>
+		<converter-class>edu.kit.cm.kitcampusguide.view.converter.POIListConverter</converter-class>
+	</converter>
 </faces-config>
