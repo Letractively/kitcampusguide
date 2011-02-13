@@ -1,19 +1,32 @@
 package edu.kit.cm.kitcampusguide.mapAlgorithms;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.model.Point;
 import edu.kit.cm.kitcampusguide.model.Route;
 import edu.kit.cm.kitcampusguide.view.CampusGuide;
 
+/**
+ * This class is the concrete implementation of the MapAlgorithms interface.
+ * 
+ * @author Tobias Zündorf
+ *
+ */
 public class ConcreteMapAlgorithms implements MapAlgorithms {
 	
+	/*
+	 * The QueryCalculator used by this implementation.
+	 */
 	private QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
+	
+	/*
+	 * The RouteCalculator used by this implementation.
+	 */
 	private RouteCalculator routeCalculator = AStar.getSingleton();
 
 	@Override
-	public LinkedList<POI> getSuggestions(String name) {
+	public List<POI> getSuggestions(String name) {
 		return queryCalculator.getSuggestions(name);
 	}
 
