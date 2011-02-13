@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <osm version="0.6" generator="CGImap 0.0.2">
  <bounds minlat="49.0090000" minlon="8.4061200" maxlat="49.0165300" maxlon="8.4226000"/>
+ <node id="1" lat="49.012280" lon="8.408108" mapID="3"/>
+ <node id="2" lat="49.012323" lon="8.408060" mapID="3"/>
+ <node id="3" lat="49.012255" lon="8.407941" mapID="3"/>
+ <node id="4" lat="49.012184" lon="8.407817" mapID="3"/>
+ <node id="5" lat="49.012059" lon="8.407969" mapID="3"/>
+ <node id="6" lat="49.011950" lon="8.408120" mapID="3"/>
+ <node id="7" lat="49.012207" lon="8.407978" mapID="3"/>
+ <node id="8" lat="49.012221" lon="8.407998" mapID="4"/>
+ <node id="9" lat="49.012261" lon="8.407948" mapID="4"/>
+ <node id="10" lat="49.012194" lon="8.407801" mapID="4"/>
+ <node id="11" lat="49.012093" lon="8.407925" mapID="4"/>
+ <node id="12" lat="49.011954" lon="8.408104" mapID="4"/>
+ <way id="1" uid="1" visible="true">
+  <nd ref="914473057"/>
+  <nd ref="1"/>
+  <nd ref="2"/>
+  <nd ref="3"/>
+  <nd ref="4"/>
+  <nd ref="5"/>
+  <nd ref="6"/>
+  <tag k="highway" v="footway"/>
+ </way>
+ <way id="2" uid="2" visible="true">
+  <nd ref="3"/>
+  <nd ref="8"/>
+  <nd ref="9"/>
+  <nd ref="10"/>
+  <nd ref="11"/>
+  <nd ref="12"/>
+  <tag k="highway" v="footway"/>
+ </way>
  <node id="696980" lat="49.0194926" lon="8.4161893" user="Cali42" uid="94579" visible="true" version="3" changeset="862449" timestamp="2009-03-26T23:46:19Z"/>
  <node id="697065" lat="49.0178514" lon="8.4175458" user="Cali42" uid="94579" visible="true" version="2" changeset="862449" timestamp="2009-03-26T23:46:03Z"/>
  <node id="697141" lat="49.0159686" lon="8.4182617" user="Cali42" uid="94579" visible="true" version="3" changeset="862449" timestamp="2009-03-26T23:46:03Z"/>
