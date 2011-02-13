@@ -18,7 +18,15 @@ import org.json.simple.JSONObject;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel.MapProperty;
 
-// TODO
+/**
+ * Converter which converts a {@link MapModel} into a JSON formatted string.
+ * Only properties which are marked as "changed" in the given <code>MapModel</code>
+ * will be converted. The conversion of a <code>String</code> into a <code>MapModel</code>
+ * is not supported.<br />
+ * Notice that the <code>changeProperties</code> property is not converted.
+ * @author Stefan
+ *
+ */
 public class MapModelConverter implements Converter {
 
 	@Override
@@ -39,7 +47,7 @@ public class MapModelConverter implements Converter {
 		
 		MapModel m = (MapModel) arg2;
 		JSONObject result = new JSONObject();
-		
+		System.out.println("Converting");
 		for (MapProperty prop: m.getChangedProperties()) {
 			switch (prop) {
 			case building:
