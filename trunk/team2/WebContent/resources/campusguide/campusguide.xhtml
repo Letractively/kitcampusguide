@@ -26,10 +26,11 @@
 <h:outputText id="current-poi" value="#{campusGuide.currentPOI}" class="hidden">
 				<f:converter converterId="poiConverter" />
 	</h:outputText>
-<f:ajax render="current-poi" execute="search-field" event="valueChange">
 <o:suggestionField id="search-field" value="#{cc.attrs.headline.search}" 
 		promptText="#{msgs.search_field}" valueChangeListener="#{campusGuide.searchChanged}"
 		size="50"
+        customValueAllowed="false"
+        manuelListOpeningAllowed="true"
 		autoComplete="true"
         suggestionDelay="200"
         suggestionMinChars="2"
@@ -39,7 +40,6 @@
 <o:dropDownItems value="#{constantData.allPOIName}"/>
  <f:ajax render="current-poi" execute="search-field" event="valueChange"/>
 </o:suggestionField>
-</f:ajax>
 <h:commandButton id="search-button" value="#{msgs.search_button}"  
 		onclick="showPOI()">
 		<f:ajax render="@this"/>
@@ -54,8 +54,8 @@
 								 	<ma:map />
 				 -->
 	<h:form id="map-form" class="hidden">
-	<h:outputText id="all-poi" value="#{constantData.allPOI}" class="hidden">
-				<f:converter converterId="poiListConverter" />
+	<h:outputText id="all-poi" value="#{constantData.categories}" class="hidden">
+				<f:converter converterId="poiCategoryListConverter" />
 	</h:outputText>
 	</h:form>			
 <script type="text/javascript" src="resources/openlayers/OpenLayers.js" />
@@ -105,7 +105,7 @@
 	foldingDirection="up" contentStyle="line-height: 2; vertical-align: bottom; " 
 	style="width:50%;z-index:9999; position:relative;">
 	<o:forEach items="#{constantData.categoriesName}" var="category" varStatus="status">
-	<o:selectBooleanCheckbox value="true" onchange="showMarkers(this.value)"/>
+	<o:selectBooleanCheckbox value="true" onchange="showMarkers(this.value, '#{category}')"/>
 	<h:outputText value="#{category}" /> <br />
 	</o:forEach>					
 </o:foldingPanel>

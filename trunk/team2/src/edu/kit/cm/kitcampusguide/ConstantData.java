@@ -24,16 +24,21 @@ public class ConstantData {
 
 	public ConstantData() {
 		POILoader pl = new ConcretePOILoader();
-		this.allPOI = pl.getAllPOIs();
-		this.allPOIName = new ArrayList<String>();
-		for (POI p : allPOI) {
-			this.allPOIName.add(p.getName());
-		}
 		this.categories = pl.getAllPOICategory();
 		this.categoriesName = new ArrayList<String>();
 		for (POICategory p : categories) {
 			this.categoriesName.add(p.getName());
 		}		
+		this.allPOI = pl.getAllPOIs();
+		this.allPOIName = new ArrayList<String>();
+		for (POI p : allPOI) {
+			this.allPOIName.add(p.getName());
+		}
+		//TODO: entfernen
+		this.categories.get(1).addPOI(this.allPOI.get(0));
+		this.categories.get(0).addPOI(this.allPOI.get(1));
+		this.categories.get(1).addPOI(this.allPOI.get(2));
+		this.categories.get(1).addPOI(this.allPOI.get(3));
 	}
 
 	public List<POI> getAllPOI() {
@@ -75,10 +80,12 @@ public class ConstantData {
 	public List<POICategory> getCategories() {
 		return categories;
 	}
-	
+	//TODO: entfernen
 	public static void main(String[] args) {
 		ConstantData c = new ConstantData();
-		System.out.println(c.getAllPOI().get(1).getX());
+		for (POICategory p : c.getCategories()) {
+			System.out.println(p.getName());
+		}
 	}
 	
 }

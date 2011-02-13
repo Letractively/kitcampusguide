@@ -2,9 +2,10 @@ var map;
 var clientID;
 var layer_mapnik;
 var routeLayer;
-var layer_markers;
+var layer_markers = new Object();
 var current_poi;
 var all_poi = new Object();
+var all_cat;
 
 function setClientID(id) {
 	clientID = id;
@@ -45,6 +46,7 @@ function drawmap() {
 //    map.addControl(new OpenLayers.Control.Attribution());
 //    map.addControl(new OpenLayers.Control.MouseDefaults());
     map.addControl(new OpenLayers.Control.MousePosition());
+    map.addControl(new OpenLayers.Control.LayerSwitcher());
     map.minZoomLevel = minzoom;
     map.maxZoomLevel = maxzoom;
     map.restrictedExtent = extent;
@@ -57,15 +59,42 @@ function drawmap() {
     
   routeLayer = new OpenLayers.Layer.Vector("route", null);
   map.addLayer(routeLayer);
-
-  layer_markers = new OpenLayers.Layer.Markers("Markers", { projection: new OpenLayers.Projection("EPSG:4326"), 
-      visibility: true, displayInLayerSwitcher: true});
-  map.addLayer(layer_markers);
-
-  var allPOI = getElement("map-form:all-poi");
-  for (var i = 0; i < allPOI.length; i++) {
-	  addMarker(layer_markers, allPOI[i].lon, allPOI[i].lat, createPopupContent(allPOI[i]), allPOI[i].name);
+  
+  all_cat = getElement("map-form:all-poi");
+  for (var i = 0; i < all_cat.length; i++) {
+//	  layer_markers[allPOI[i].name] = new OpenLayers.Layer.Markers(allPOI[i].name, { projection: new OpenLayers.Projection("EPSG:4326"), 
+//	      visibility: true, displayInLayerSwitcher: true});
+//	  map.addLayer(layer_markers[allPOI[i].name]);
+//	  for (var j = 0; j < allPOI[i].pois.length; j++) {
+//		  addMarker(layer_markers[allPOI[i].name], allPOI[i].pois[j].lon, allPOI[i].pois[j].lat, createPopupContent(allPOI[i].pois[j]), allPOI[i].pois[j]);
+//	  }
+	  addPOILayer(all_cat[i]);
   }
+//  layer_markers = new OpenLayers.Layer.Markers("Markers", { projection: new OpenLayers.Projection("EPSG:4326"), 
+//      visibility: true, displayInLayerSwitcher: true});
+//  map.addLayer(layer_markers);
+  
+  all_poi['current'] = null;
+
+//  for (var i = 0; i < allPOI.length; i++) {
+//	  addMarker(layer_markers['Mensen'], allPOI[i].lon, allPOI[i].lat, createPopupContent(allPOI[i]), allPOI[i].name);
+//  }
+}
+function addPOILayer(poicat) {
+	layer_markers[poicat.name] = new OpenLayers.Layer.Markers(poicat.name, { projection: new OpenLayers.Projection("EPSG:4326"), 
+	      visibility: true, displayInLayerSwitcher: true});
+	  map.addLayer(layer_markers[poicat.name]);
+	  for (var j = 0; j < poicat.pois.length; j++) {
+		  addMarker(layer_markers[poicat.name], poicat.pois[j].lon, poicat.pois[j].lat, createPopupContent(poicat.pois[j]), poicat.pois[j]);
+	  }
+}
+
+function getPOICat(name) {
+	for (var i = 0; i < all_cat.length; i++) {
+		if (all_cat[i].name == name) {
+			return all_cat[i];
+		}
+	}
 }
 
 function getElement(id) {
@@ -106,20 +135,28 @@ function route() {
 			
 }
 
-function showMarkers(show) {
-	layer_markers.setOpacity(show ? 1.0 : 0.0);
+function showMarkers(show, layer) {
+//	layer_markers[layer].setOpacity(show ? 1.0 : 0.0);
+	if (!show) {
+		layer_markers[layer].destroy();
+	} else {
+		addPOILayer(getPOICat(layer));
+	}
 }
 
 function showPOI() {
-	if (current_poi != null) {
-		all_poi[current_poi.name].popup.hide();
+	if (all_poi['current'] != null && current_poi != null) {
+		all_poi['current'].popup.hide();
+		all_poi['current'].popup.clicked = false;
 	}
 	current_poi = getElement("search:current-poi");
 	setMyCenter(current_poi.lon, current_poi.lat, map.getZoom());
-	all_poi[current_poi.name].popup.show();
+	all_poi['current'] = all_poi[current_poi.name];
+	all_poi['current'].popup.show();
+	all_poi['current'].popup.clicked = true;
 }
 
-function addMarker(layer, lon, lat, popupContentHTML, name) {
+function addMarker(layer, lon, lat, popupContentHTML, poi) {
 
     var ll = createLonLat(lon, lat);
     var data = {};
@@ -132,15 +169,28 @@ function addMarker(layer, lon, lat, popupContentHTML, name) {
     feature.data.overflow = "hidden";
      
     var marker = feature.createMarker();
-    all_poi[name] = feature;
+    all_poi[poi.name] = feature;
   
     var markerClick = function(evt) {
         if (this.popup == null) {
             this.popup = this.createPopup(this.closeBox);
             map.addPopup(this.popup);
             this.popup.show();
+            all_poi['current'] = this;
         } else {
-            this.popup.toggle();
+//            this.popup.toggle();
+            if (all_poi['current'] == this) {
+            	all_poi['current'].popup.hide();
+            	all_poi['current'] = null;
+            	current_poi = null;
+            } else {
+            	if (all_poi['current'] != null) {
+                	all_poi['current'].popup.hide();
+            	}
+            	all_poi['current'] = this;
+            	all_poi['current'].popup.show();
+            	current_poi = poi;
+            }
         }
         OpenLayers.Event.stop(evt);
     };

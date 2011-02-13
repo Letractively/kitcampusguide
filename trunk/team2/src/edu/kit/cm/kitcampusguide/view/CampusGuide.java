@@ -100,7 +100,6 @@ public class CampusGuide {
 	
 	public void searchChanged(ValueChangeEvent ev) {
 		String newSearch = (String) ev.getNewValue();
-		System.out.println(newSearch);
 		if (newSearch != null) {
 			this.hlm.setSearch(newSearch);
 			this.submitSearch();
