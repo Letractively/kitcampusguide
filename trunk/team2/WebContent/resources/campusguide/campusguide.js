@@ -69,13 +69,11 @@ function drawmap() {
 }
 
 function getElement(id) {
-	alert(getFormElement(id));
 	var inner = getFormElement(id).innerHTML;
 	return (inner == "") ? null : JSON.parse(inner);	
 }
 
 function getFormElement(id) {
-	alert(clientID + ":" + id);
 	return document.getElementById(clientID + ":" + id);
 }
 
@@ -113,13 +111,12 @@ function showMarkers(show) {
 }
 
 function showPOI() {
-	alert("showPOI");
+	if (current_poi != null) {
+		all_poi[current_poi.name].popup.hide();
+	}
 	current_poi = getElement("search:current-poi");
-	alert("showPOI");
 	setMyCenter(current_poi.lon, current_poi.lat, map.getZoom());
-	alert("showPOI");
 	all_poi[current_poi.name].popup.show();
-	alert("showPOI");
 }
 
 function addMarker(layer, lon, lat, popupContentHTML, name) {

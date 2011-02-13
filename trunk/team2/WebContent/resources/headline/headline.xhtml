@@ -19,6 +19,12 @@
 <cc:implementation>
 <div id="headline" style="background: url(./css/img/intern/tab_inactive.gif) repeat-x;" align="center">
 <h:form id="search">
+<h:outputText id="current-poi" value="#{campusGuide.currentPOI}" >
+				<f:converter converterId="poiConverter" />
+</h:outputText>
+<script type="text/javascript">
+	showPOI();
+</script>
 <f:ajax render="current-poi" execute="search-field">
 <o:suggestionField id="search-field" value="#{cc.attrs.model.search}" 
 		promptText="#{msgs.search_field}" valueChangeListener="#{campusGuide.searchChanged}"
@@ -37,9 +43,6 @@
 		onclick="showPOI()">
 		<f:ajax render="current-poi" />
 </h:commandButton>
-<h:outputText id="current-poi" value="#{campusGuide.currentPOI}" >
-				<f:converter converterId="poiConverter" />
-</h:outputText>
 </h:form>
 </div>
 </cc:implementation>
