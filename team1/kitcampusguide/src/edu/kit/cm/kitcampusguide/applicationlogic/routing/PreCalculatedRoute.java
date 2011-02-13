@@ -39,40 +39,43 @@ class PreCalculatedRouting {
 		RoutingGraph graph = RoutingGraph.getInstance();
 		parentArray = new Integer[graph.getVerticesCount()][graph.getVerticesCount()];
 		logger.info("Calculating all routes from and to " + graph.getVerticesCount() + " vertices.");
-		double[] distance;
-		Integer[] parent;
 		for (int fromVertice = 0; fromVertice < graph.getVerticesCount(); fromVertice++) {
-			distance = new double[graph.getVerticesCount()];
-			for (int i = 0; i < graph.getVerticesCount(); i++) {
-				distance[i] = Double.POSITIVE_INFINITY;
-			}
-			parent = new Integer[graph.getVerticesCount()];
-			for (int i = 0; i < parent.length; i++) {
-				parent[i] = null;
-			}
-			parent[fromVertice] = fromVertice;
-			DijkstraPriorityQueue Queue= new DijkstraPriorityQueue(graph.getVerticesCount());
-			distance[fromVertice] = 0;
-			Queue.insert(fromVertice, distance[fromVertice]);
-			while(!Queue.isEmpty()) {
-				Integer currentCenter = Queue.deleteMin();
-				for (Integer currentVertice : graph.getNeighbours(currentCenter)) {
-					if (distance[currentCenter] + graph.getWeight(currentCenter, currentVertice) < distance[currentVertice]) {
-						distance[currentVertice] = distance[currentCenter] + graph.getWeight(currentCenter, currentVertice);
-						parent[currentVertice] = currentCenter;
-						if (Queue.contains(currentVertice)) {
-							Queue.decreaseKey(currentVertice, distance[currentVertice]);
-						} else {
-							Queue.insert(currentVertice, distance[currentVertice]);
-						}
-					}
-				}
-			}
-			parentArray[fromVertice] = parent;
+			parentArray[fromVertice] = preCalculateSingleRoute(fromVertice);
 		}
 		logger.info("Routes calculated");
 	}
 	
+	private Integer[] preCalculateSingleRoute(int fromVertice) {
+		RoutingGraph graph = RoutingGraph.getInstance();
+		double[] distance = new double[graph.getVerticesCount()];
+		for (int i = 0; i < distance.length; i++) {
+			distance[i] = Double.POSITIVE_INFINITY;
+		}
+		Integer[] parent = new Integer[graph.getVerticesCount()];
+		for (int i = 0; i < parent.length; i++) {
+			parent[i] = null;
+		}
+		parent[fromVertice] = fromVertice;
+		DijkstraPriorityQueue Queue= new DijkstraPriorityQueue(graph.getVerticesCount());
+		distance[fromVertice] = 0;
+		Queue.insert(fromVertice, distance[fromVertice]);
+		while(!Queue.isEmpty()) {
+			Integer currentCenter = Queue.deleteMin();
+			for (Integer currentVertice : graph.getNeighbours(currentCenter)) {
+				if (distance[currentCenter] + graph.getWeight(currentCenter, currentVertice) < distance[currentVertice]) {
+					distance[currentVertice] = distance[currentCenter] + graph.getWeight(currentCenter, currentVertice);
+					parent[currentVertice] = currentCenter;
+					if (Queue.contains(currentVertice)) {
+						Queue.decreaseKey(currentVertice, distance[currentVertice]);
+					} else {
+						Queue.insert(currentVertice, distance[currentVertice]);
+					}
+				}
+			}
+		}
+		return parent;
+	}
+
 	/**
 	 * The actual construction of a route. Travels along the parentArray, constructing
 	 * the route backwards and afterwards reverses it.

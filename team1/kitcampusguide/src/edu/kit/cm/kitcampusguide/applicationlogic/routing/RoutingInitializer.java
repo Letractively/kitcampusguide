@@ -109,21 +109,8 @@ public class RoutingInitializer {
 		HashMap<Integer, Integer> nodeList = new HashMap<Integer, Integer>();
 		int counter = 0;
 		for (Element currentWay : wayList) {
-			//Tests if the currently watched way has the highway tag.
-			boolean isHighway = false;
-			try {
-				List<Element> tags = currentWay.getChildren("tag");
-				for (Element tag : tags) {
-					if (tag.getAttribute("k").getValue().equalsIgnoreCase("highway")) {
-						isHighway = true;
-						break;
-					}
-				}
-			} catch(NullPointerException e) {
-				
-			}
-			//if it has the highway attribute, all elements (= nodes) will be adressed separately
-			if (isHighway) {
+			//if the way is acceptable, all elements (= nodes) will be adressed separately
+			if (isAcceptableWay(currentWay)) {
 				List<Element> currentWayNodes = currentWay.getChildren("nd");
 				for (Element node : currentWayNodes) {
 					//Checks the id of the node, if it is already contained in nodeList.
@@ -154,28 +141,29 @@ public class RoutingInitializer {
 			edgesLists[i] = new ArrayList<Integer>();
 		}
 		for (Element currentWay : wayList) {
-			//by looking if the way has the tag highway
-			boolean isHighway = false;
-			try {
-				List<Element> tags = currentWay.getChildren("tag");
-				for (Element tag : tags) {
-					if (tag.getAttribute("k").getValue().equalsIgnoreCase("highway")) {
-						isHighway = true;
-						break;
+			//by looking if the way is acceptable
+			if (isAcceptableWay(currentWay)) {
+				if (isArea(currentWay)) {
+					//If the way represents an area, edges are added between all vertices of this way
+					List<Element> nodeListOfCurrentWay = currentWay.getChildren("nd");
+					for (int i = 0; i < nodeListOfCurrentWay.size(); i++) {
+						Integer from = new Integer(nodeListOfCurrentWay.get(i).getAttributeValue("ref"));
+						for (int j = 0; j < nodeListOfCurrentWay.size(); j++) {
+							Integer to = new Integer(nodeListOfCurrentWay.get(j).getAttributeValue("ref"));
+							edgesLists[nodeList.get(from)].add(nodeList.get(to));
+						}
+					}
+				} else {
+					//If the way is a normal way, only the adjacent vertices share an edge.
+					List<Element> nodeListOfCurrentWay = currentWay.getChildren("nd");
+					for (int i = 0; i < nodeListOfCurrentWay.size() - 1; i++) {
+						Integer from = new Integer(nodeListOfCurrentWay.get(i).getAttributeValue("ref")); 
+						Integer to = new Integer(nodeListOfCurrentWay.get(i + 1).getAttributeValue("ref"));
+						edgesLists[nodeList.get(from)].add(nodeList.get(to));
+						edgesLists[nodeList.get(to)].add(nodeList.get(from));
 					}
 				}
-			} catch(NullPointerException e) {
 				
-			}
-			if (isHighway) {
-				//And if so, adding the respectively other node to the nodes from and which the way originates.
-				List<Element> nodeListOfCurrentWay = currentWay.getChildren("nd");
-				for (int i = 0; i < nodeListOfCurrentWay.size() - 1; i++) {
-					Integer from = new Integer(nodeListOfCurrentWay.get(i).getAttributeValue("ref")); 
-					Integer to = new Integer(nodeListOfCurrentWay.get(i + 1).getAttributeValue("ref"));
-					edgesLists[nodeList.get(from)].add(nodeList.get(to));
-					edgesLists[nodeList.get(to)].add(nodeList.get(from));
-				}
 			}
 		}
 		//The list of vertices and list of edges are constructed.
@@ -213,14 +201,26 @@ public class RoutingInitializer {
 			}
 		}
 		//And initializing the RoutingGraph object.
-		for (MapPosition pos: positionArray) {
-			if (pos.getMap() != Map.getMapByID(1)) {
-				logger.info(pos.getMap() + " " + pos.getLatitude() + " " + pos.getLongitude());
-			}
-		}
 		RoutingGraph.initializeGraph(verticesArray, edgeArray, weightArray, positionArray);
 	}
 	
+	private boolean isArea(Element e) {
+		boolean result = false;
+		try {
+			List<Element> tags = e.getChildren("tag");
+			for (Element tag : tags) {
+				if (tag.getAttributeValue("k").equalsIgnoreCase("area") && tag.getAttributeValue("v").equalsIgnoreCase("yes")) {
+					logger.info("area found");
+					result = true;
+					break;
+				}
+			}
+		} catch(NullPointerException e1) {
+			
+		}
+		return result;
+	}
+
 	/**
 	 * Returns the integer-represented vertices connected to <code>center</code>.
 	 * @param center The integer-represented vertice all returned vertices are connected to.
@@ -230,6 +230,23 @@ public class RoutingInitializer {
 		int[] result = new int[verticesArray[center+1] - verticesArray[center]]; 
 		for (int i = verticesArray[center]; i < verticesArray[center + 1]; i++) {
 			result[i - verticesArray[center]] = edgeArray[i];
+		}
+		return result;
+	}
+	
+	private boolean isAcceptableWay(Element e) {
+		boolean result = false;
+		try {
+			List<Element> tags = e.getChildren("tag");
+			for (Element tag : tags) {
+				String tagV = tag.getAttributeValue("v");
+				if ((tagV.equalsIgnoreCase("footway")) || (tagV.equalsIgnoreCase("path")) || (tagV.equalsIgnoreCase("cycleway")) || (tagV.equalsIgnoreCase("steps")) || (tagV.equalsIgnoreCase("pedestrian"))) {
+					result = true;
+					break;
+				}
+			}
+		} catch(NullPointerException e1) {
+			
 		}
 		return result;
 	}
