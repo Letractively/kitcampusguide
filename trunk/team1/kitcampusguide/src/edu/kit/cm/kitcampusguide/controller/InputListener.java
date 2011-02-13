@@ -27,6 +27,11 @@ public interface InputListener {
 	 */
 	public void searchTriggered(String searchTerm, InputFields inputField);
 	
+	/**
+	 * Ensures that the view will receive all information necessary to present the poi <code>soughtAfter</code>
+	 * as search result.
+	 * @param soughtAfter Poi that shall be presented as search result. Not null.
+	 */
 	public void searchTriggered(POI soughtAfter);	
 	
 	/**
@@ -35,13 +40,31 @@ public interface InputListener {
 	 * @param from Non-empty string that represents the starting point of the route. Not null.
 	 * @param to Non-empty string that represents the end point of the route. Not null.
 	 */
-	public void routeTriggered(String from, String to);
+	public void routeTriggered(String from, String to);	
 	
-	public void routeTriggered(MapPosition from, MapPosition to);
-	
+	/**
+	 * Triggers the calculation of a route from <code>from</code> to <code>to</code> and ensures that 
+	 * the view will receive all information necessary to present the result.
+	 * @param from Non-empty string that represents the starting point of the route. Not null.
+	 * @param to MapPosition that represents the end point of the route. Not null.
+	 */
 	public void routeTriggered(String from, MapPosition to);
 	
+	/**
+	 * Triggers the calculation of a route from <code>from</code> to <code>to</code> and ensures that 
+	 * the view will receive all information necessary to present the result.
+	 * @param from MapPosition that represents the starting point of the route. Not null.
+	 * @param to Non-empty string that represents the end point of the route. Not null.
+	 */
 	public void routeTriggered(MapPosition from, String to);
+	
+	/**
+	 * Triggers the calculation of a route from <code>from</code> to <code>to</code> and ensures that 
+	 * the view will receive all information necessary to present the result.
+	 * @param from MapPosition that represents the starting point of the route. Not null.
+	 * @param to MapPosition that represents the end point of the route. Not null.
+	 */
+	public void routeTriggered(MapPosition from, MapPosition to);
 	
 	/**
 	 * Changes the current language in which the view presents all text output to <code>language</code>.
