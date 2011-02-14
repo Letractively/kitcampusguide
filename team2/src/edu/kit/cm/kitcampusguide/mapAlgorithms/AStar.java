@@ -68,28 +68,6 @@ public class AStar implements RouteCalculator {
 		return Dijkstra.getSingleton().calculateRoute(from, to, mapGraph);
 	}
 	
-	/**
-	 * Calculates all necessary information to save the specified point as landmark for A-star algorithm. After that 
-	 * the new landmark is saved in the database.
-	 * Throws a IllegalArgumentException if the specified point is not part of the street graph.
-	 * 
-	 * @param point the point to become a landmark
-	 */
-	public void generateLandmark(Point point) {
-		Graph streetGraph = RouteCalculatingUtility.calculateStreetGraph();
-		if (streetGraph.getNodeIndex(point) == -1) {
-			throw new IllegalArgumentException();
-		}
-		double[] distances = new double[streetGraph.numberOfNodes()];
-		for (int i = 0; i < distances.length; i++) {
-			List<Point> route = Dijkstra.getSingleton().calculateRoute(streetGraph.getNode(i), point, streetGraph).getRoute();
-			for (int j = 0; j < route.size() - 1; j++) {
-				distances[i] += streetGraph.getEdge(streetGraph.getNodeIndex(route.get(j)), streetGraph.getNodeIndex(route.get(j + 1)));
-			}
-		}
-		RouteCalculatingUtility.MAP_LOADER.addLandmarkToDatabase(point, distances);
-	}
-	
 	/*
 	 * Compares the two specified Points and returns a number between -1 and 1. Where 1 means that they are located 
 	 * in the same direction from origin.

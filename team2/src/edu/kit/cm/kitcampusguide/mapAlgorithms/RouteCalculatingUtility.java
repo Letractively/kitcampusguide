@@ -1,5 +1,7 @@
 package edu.kit.cm.kitcampusguide.mapAlgorithms;
 
+import java.util.List;
+
 import edu.kit.cm.kitcampusguide.ConstantData;
 import edu.kit.cm.kitcampusguide.data.MapLoader;
 import edu.kit.cm.kitcampusguide.model.Graph;
@@ -70,5 +72,27 @@ public class RouteCalculatingUtility {
 		double distanceX = pOne.getX() - pTwo.getX();
 		double distanceY = pOne.getY() - pTwo.getY();
 		return Math.sqrt((distanceX * distanceX) + (distanceY + distanceY));
+	}
+	
+	/**
+	 * Calculates all necessary information to save the specified point as landmark for A-star algorithm. After that 
+	 * the new landmark is saved in the database.
+	 * Throws a IllegalArgumentException if the specified point is not part of the street graph.
+	 * 
+	 * @param point the point to become a landmark
+	 */
+	public static void generateLandmark(Point point) {
+		Graph streetGraph = RouteCalculatingUtility.calculateStreetGraph();
+		if (streetGraph.getNodeIndex(point) == -1) {
+			throw new IllegalArgumentException();
+		}
+		double[] distances = new double[streetGraph.numberOfNodes()];
+		for (int i = 0; i < distances.length; i++) {
+			List<Point> route = Dijkstra.getSingleton().calculateRoute(streetGraph.getNode(i), point, streetGraph).getRoute();
+			for (int j = 0; j < route.size() - 1; j++) {
+				distances[i] += streetGraph.getEdge(streetGraph.getNodeIndex(route.get(j)), streetGraph.getNodeIndex(route.get(j + 1)));
+			}
+		}
+		RouteCalculatingUtility.MAP_LOADER.addLandmarkToDatabase(point, distances);
 	}
 }
