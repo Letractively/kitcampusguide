@@ -51,36 +51,22 @@ function drawmap() {
     map.minZoomLevel = minzoom;
     map.maxZoomLevel = maxzoom;
     map.restrictedExtent = extent;
-    // Hier wird festgelegt, dass der Layer "Mapnik" verwendet wird;
-    // testweise kann hier auch "Osmarender" oder "Cycle Map" eingesetzt werden
+
     layer_mapnik = new OpenLayers.Layer.OSM("New Layer", "resources/tiles/campus/${z}/${x}/${y}.png");
     map.addLayer(layer_mapnik);
     setMyCenter(lon,lat,zoom);
-    // ende function drawmap
     
-  routeLayer = new OpenLayers.Layer.Vector("route", null);
-  map.addLayer(routeLayer);
+    routeLayer = new OpenLayers.Layer.Vector("route", null);
+    map.addLayer(routeLayer);
   
-  all_cat = getElement("map-form:all-poi");
-  for (var i = 0; i < all_cat.length; i++) {
-//	  layer_markers[allPOI[i].name] = new OpenLayers.Layer.Markers(allPOI[i].name, { projection: new OpenLayers.Projection("EPSG:4326"), 
-//	      visibility: true, displayInLayerSwitcher: true});
-//	  map.addLayer(layer_markers[allPOI[i].name]);
-//	  for (var j = 0; j < allPOI[i].pois.length; j++) {
-//		  addMarker(layer_markers[allPOI[i].name], allPOI[i].pois[j].lon, allPOI[i].pois[j].lat, createPopupContent(allPOI[i].pois[j]), allPOI[i].pois[j]);
-//	  }
-	  addPOILayer(all_cat[i]);
-  }
-//  layer_markers = new OpenLayers.Layer.Markers("Markers", { projection: new OpenLayers.Projection("EPSG:4326"), 
-//      visibility: true, displayInLayerSwitcher: true});
-//  map.addLayer(layer_markers);
+    all_cat = getElementInnerHTML("map-form:all-poi");
+    for (var i = 0; i < all_cat.length; i++) {
+    	addPOILayer(all_cat[i]);
+    }
   
-  all_poi['current'] = null;
-
-//  for (var i = 0; i < allPOI.length; i++) {
-//	  addMarker(layer_markers['Mensen'], allPOI[i].lon, allPOI[i].lat, createPopupContent(allPOI[i]), allPOI[i].name);
-//  }
+    all_poi['current'] = null;
 }
+
 function addPOILayer(poicat) {
 	layer_markers[poicat.name] = new OpenLayers.Layer.Markers(poicat.name, { projection: new OpenLayers.Projection("EPSG:4326"), 
 	      visibility: true, displayInLayerSwitcher: true});
@@ -98,12 +84,12 @@ function getPOICat(name) {
 	}
 }
 
-function getElement(id) {
-	var inner = getFormElement(id).innerHTML;
+function getElementInnerHTML(id) {
+	var inner = getElement(id).innerHTML;
 	return (inner == "") ? null : JSON.parse(inner);	
 }
 
-function getFormElement(id) {
+function getElement(id) {
 	return document.getElementById(clientID + ":" + id);
 }
 
@@ -151,7 +137,7 @@ function showPOI() {
 		all_poi['current'].popup.hide();
 		all_poi['current'].popup.clicked = false;
 	}
-	current_poi = getElement("search:current-poi");
+	current_poi = getElementInnerHTML("search:current-poi");
 	setMyCenter(current_poi.lon, current_poi.lat, map.getZoom());
 	all_poi['current'] = all_poi[current_poi.name];
 	all_poi['current'].popup.show();
