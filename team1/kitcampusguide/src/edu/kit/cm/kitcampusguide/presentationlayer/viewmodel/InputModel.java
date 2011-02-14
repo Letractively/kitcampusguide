@@ -1,10 +1,6 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel;
 
 import java.util.List;
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 
 /**
@@ -12,23 +8,24 @@ import edu.kit.cm.kitcampusguide.standardtypes.POI;
  * @author Fred
  *
  */
-@ManagedBean (name="inputModel")
-@SessionScoped
 public class InputModel {
 	
 	/** Content of the "Route from" field.*/
 	private String routeFromField;
 	/** Content of the "Route to" field.*/
 	private String routeToField;
-	/** The proposal list to be displayed after a search. Can be <code>null</code>.*/
+	/** The "Route From" field's proposal list to be displayed after a search with multiple results. 
+	 * Can be <code>null</code>.*/
 	private List<POI> routeFromProposalList;
+	/** The "Route To" field's proposal list to be displayed after a search with multiple results. 
+	 * Can be <code>null</code>.*/
 	private List<POI> routeToProposalList;
+	/** Describes whether the recent search triggered by the "Route from" field failed or not. */
 	private boolean routeFromSearchFailed = false;		
+	/** Describes whether the recent search triggered by the "Route to" field failed or not. */
 	private boolean routeToSearchFailed = false;
+	/** Describes whether the recent route calculation failed or not. */
 	private boolean routeCalculationFailed = false;
-	
-	
-	private boolean languageProposalListIsVisible = false;	
 		
 	/** The export link to be displayed. Can be <code>null</code>.*/
 	private String exportLink;
@@ -78,54 +75,87 @@ public class InputModel {
 		}
 	}
 
-	
+	/**
+	 * Returns the "Route From" field's proposal list.
+	 * @return The "Route From" field's proposal list. Can be <code>null</code>.
+	 */
 	public List<POI> getRouteFromProposalList() {
 		return routeFromProposalList;
 	}
 	
+	/**
+	 * Sets the "Route from" field's proposal list.
+	 * @param routeFromProposalList The "Route from" field's proposal list. Can be <code>null</code>.
+	 */
 	public void setRouteFromProposalList(List<POI> routeFromProposalList) {
 		this.routeFromProposalList = routeFromProposalList;
 	}	
 	
+	/**
+	 * Returns the "Route To" field's proposal list.
+	 * @return The "Route To" field's proposal list. Can be <code>null</code>.
+	 */
 	public List<POI> getRouteToProposalList() {
 		return routeToProposalList;
 	}
 	
+	/**
+	 * Sets the "Route to" field's proposal list.
+	 * @param routeFromProposalList The "Route to" field's proposal list. Can be <code>null</code>.
+	 */
 	public void setRouteToProposalList(List<POI> routeToProposalList) {
 		this.routeToProposalList = routeToProposalList;
 	}	
 
+	/**
+	 * Sets the routeFromSearchFailed-attribute.
+	 * @param routeFromSearchFailed <code>true</code> if the recent search triggered by the "Route from" field
+	 * failed, else <code>false</code>.
+	 */
 	public void setRouteFromSearchFailed(boolean routeFromSearchFailed) {
 		this.routeFromSearchFailed = routeFromSearchFailed;
 	}
 
+	/**
+	 * Returns <code>true</code> if the recent search triggered by the "Route from" field failed, else <code>false</code>.
+	 * @return <code>true</code> if the recent search triggered by the "Route from" field failed, else <code>false</code>.
+	 */
 	public boolean isRouteFromSearchFailed() {
 		return routeFromSearchFailed;
 	}
 
+	/**
+	 * Sets the routeToSearchFailed-attribute.
+	 * @param routeToSearchFailed <code>true</code> if the recent search triggered by the "Route to" field 
+	 * failed, else <code>false</code>.
+	 */
 	public void setRouteToSearchFailed(boolean routeToSearchFailed) {
 		this.routeToSearchFailed = routeToSearchFailed;
 	}
 
+	/**
+	 * Returns <code>true</code> if the recent search triggered by the "Route to" field failed, else <code>false</code>.
+	 * @return <code>true</code> if the recent search triggered by the "Route to" field failed, else <code>false</code>.
+	 */
 	public boolean isRouteToSearchFailed() {
 		return routeToSearchFailed;
 	}
 
+	/**
+	 * Sets the routeCalculationFailed-attribute.
+	 * @param routeCalculationFailed <code>true</code> if the recent route calculation failed,
+	 * else <code>false</code>.
+	 */	
 	public void setRouteCalculationFailed(boolean routeCalculationFailed) {
 		this.routeCalculationFailed = routeCalculationFailed;
 	}
 
+	/**
+	 * Returns <code>true</code> if the recent route calculation failed, else <code>false</code>.
+	 * @return <code>true</code> if the recent route calculation failed, else <code>false</code>.
+	 */
 	public boolean isRouteCalculationFailed() {
 		return routeCalculationFailed;
-	}
-
-	public void setLanguageProposalListIsVisible(
-			boolean languageProposalListIsVisible) {
-		this.languageProposalListIsVisible = languageProposalListIsVisible;
-	}
-
-	public boolean isLanguageProposalListIsVisible() {
-		return languageProposalListIsVisible;
 	}
 
 	/**

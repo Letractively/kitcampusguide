@@ -2,15 +2,10 @@ package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel;
 
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-
 /**
  * This class manages the language for a single user and therefore uses the {@link LanguageManager} and {@link Language} classes.
  * @author Fred
  */
-@ManagedBean (name="translationModel")
-@SessionScoped
 public class TranslationModelImpl implements TranslationModel {
 		
 	/** Stores the current language.*/
