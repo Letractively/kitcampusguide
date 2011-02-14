@@ -6,7 +6,9 @@ import java.util.List;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
+import edu.kit.cm.kitcampusguide.data.ConcreteMapLoader;
 import edu.kit.cm.kitcampusguide.data.ConcretePOILoader;
+import edu.kit.cm.kitcampusguide.data.MapLoader;
 import edu.kit.cm.kitcampusguide.data.POILoader;
 import edu.kit.cm.kitcampusguide.model.Graph;
 import edu.kit.cm.kitcampusguide.model.POI;
@@ -20,7 +22,8 @@ public class ConstantData {
 
 	private List<String> categoriesName;
 	private List<POICategory> categories;
-	private Graph graph;	
+	
+	private static Graph graph;
 
 	public ConstantData() {
 		POILoader pl = new ConcretePOILoader();
@@ -34,6 +37,7 @@ public class ConstantData {
 		for (POI p : allPOI) {
 			this.allPOIName.add(p.getName());
 		}
+		
 		//TODO: entfernen
 		this.categories.get(1).addPOI(this.allPOI.get(0));
 		this.categories.get(0).addPOI(this.allPOI.get(1));
@@ -65,12 +69,12 @@ public class ConstantData {
 		this.allPOIName = allPOIName;
 	}
 
-	public Graph getGraph() {
+	public static Graph getGraph() {
+		if (graph == null) {
+			MapLoader ml = new ConcreteMapLoader();
+			graph = ml.getGraph();
+		}
 		return graph;
-	}
-
-	public void setGraph(Graph graph) {
-		this.graph = graph;
 	}
 
 	public void setCategories(List<POICategory> categories) {
@@ -84,7 +88,7 @@ public class ConstantData {
 	public static void main(String[] args) {
 		ConstantData c = new ConstantData();
 		for (POICategory p : c.getCategories()) {
-			System.out.println(p.getName());
+			System.out.println(p.getAllPOI().size());
 		}
 	}
 	

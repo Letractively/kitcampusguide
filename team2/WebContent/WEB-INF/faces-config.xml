@@ -42,4 +42,10 @@
 		<converter-id>poiCategoryListConverter</converter-id>
 		<converter-class>edu.kit.cm.kitcampusguide.view.converter.POICategoryListConverter</converter-class>
 	</converter>
+	<converter>
+		<description>Converts a POI to its name</description>
+		<display-name>POINameConverter</display-name>
+		<converter-id>poiNameConverter</converter-id>
+		<converter-class>edu.kit.cm.kitcampusguide.view.converter.POINameConverter</converter-class>
+	</converter>
 </faces-config>
