@@ -234,7 +234,7 @@ public class ConcretePOILoader implements POILoader {
 		}
 		
 		Connection connection = Config.getPgSQLJDBCConnection();
-		String sqlquery = "SELECT poi_id FROM cg_poi-poicat WHERE category_id=" + poicat.getId();
+		String sqlquery = "SELECT poi_id FROM cg_poi-poicat WHERE category_id = " + poicat.getId();
 		
 		ResultSet resultset = null;
 
