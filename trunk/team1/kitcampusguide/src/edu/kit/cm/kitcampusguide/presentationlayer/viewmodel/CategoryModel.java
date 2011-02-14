@@ -1,9 +1,9 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 
-import edu.kit.cm.kitcampusguide.controller.DefaultModelValues;
 import edu.kit.cm.kitcampusguide.standardtypes.Category;
 
 /**
@@ -11,33 +11,16 @@ import edu.kit.cm.kitcampusguide.standardtypes.Category;
  * @author Fred
  *
  */
-public class CategoryModel {
-	/** Stores the currently active categories.*/
+public class CategoryModel implements Serializable {
+	/** Stores the currently active categories. Is a managed property. */
 	private Collection<Category> currentCategories;
 	
-	/** Stores all available categories */
+	/** Stores all available categories. Is a managed property. */
 	private Collection<Category> categories;
 	
-	private DefaultModelValues defaultModelValues = new DefaultModelValues();
 	
 	/**
-	 * Constructs a new category model.
-	 * @param currentCategories The categories set to visible at the beginning.
-	 * @param categories All available categories.
-	 */
-	/*public CategoryModel(Collection<Category> currentCategories, Collection<Category> categories) {
-		this.currentCategories = currentCategories;
-		this.categories = categories;
-	}*/
-	
-	public CategoryModel () {
-		//TODO
-		categories  = defaultModelValues.getDefaultCategories();
-		currentCategories = defaultModelValues.getDefaultCurrentCategories();
-	}
-	
-	/**
-	 * Returns all available categories.
+	 * Returns all available categories which a user can use for filtering.
 	 * @return All available categories.
 	 */
 	public Collection<Category> getCategories() {
@@ -45,18 +28,21 @@ public class CategoryModel {
 	}
 	
 	/**
-	 * Sets the current categories.
-	 * @param categories The current categories. If <code>null</code>, no changes are made.
+	 * Sets the current categories. Only these categories will be visible and shown
+	 * to the user.
+	 * @param categories The current categories.
+	 * @throws NullPointerException if <code>categories</code> is <code>null</code>
 	 */
 	public void setCurrentCategories(Collection<Category> categories) {
-		if (categories != null) {
-			this.currentCategories = categories;
+		if (categories == null) {
+			throw new NullPointerException();
 		}
+		this.currentCategories = categories;
 	}
 	
 	/**
-	 * Returns the current categories.
-	 * @return The current categories.
+	 * Returns the currently visible categories.
+	 * @return The currently visible categories.
 	 */
 	public Collection<Category> getCurrentCategories() {
 		return currentCategories;
