@@ -1,7 +1,9 @@
 package edu.kit.cm.kitcampusguide.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * This class represents a directed, weighted Graph consisting edges and nodes to 
@@ -25,21 +27,21 @@ public class Graph {
 	 * Holds all nodes, which a represented by Points, of this Graph. The index of any
 	 * Point in this array is it's unique index.
 	 */
-	private ArrayList<Point> points;
+	private List<Point> points;
 	/*
 	 * Holds the length of all edges within the Graph. The index of any edge in this 
 	 * array is it's unique index.
 	 */
-	private ArrayList<Double> length;
+	private List<Double> length;
 	/*
 	 * Holds for each node-index the edge-index of the first edge within this Graph that
 	 * is incident to it. 
 	 */
-	private ArrayList<Integer> nodes;
+	private List<Integer> nodes;
 	/*
 	 * Holds for each edge-index the node-index of the endnode of the edge.
 	 */
-	private ArrayList<Integer> edges;
+	private List<Integer> edges;
 	
 	
 	/**
@@ -65,10 +67,10 @@ public class Graph {
 	@SuppressWarnings("unchecked")
 	public Graph(ArrayList<Point> points, ArrayList<Double> length, ArrayList<Integer> nodes, ArrayList<Integer> edges) {
 		if (valid(points, length, nodes, edges)) {
-			this.points = (ArrayList<Point>) points.clone();
-			this.length = (ArrayList<Double>) length.clone();
-			this.nodes = (ArrayList<Integer>) nodes.clone();
-			this.edges = (ArrayList<Integer>) edges.clone();
+			this.points = (List<Point>) points.clone();
+			this.length = (List<Double>) length.clone();
+			this.nodes = (List<Integer>) nodes.clone();
+			this.edges = (List<Integer>) edges.clone();
 		}  else {
 			throw new IllegalArgumentException();
 		}
@@ -83,7 +85,14 @@ public class Graph {
 	 * @param nodes a list that defines a mapping from node indices to edge indices
 	 * @param edges a list containing the end node for eage edge, represented by there index
 	 */
-	public Graph(Point[] points, double[] length, int[] nodes, int[] edges) {
+	public Graph(Point[] points, Double[] length, Integer[] nodes, Integer[] edges) {
+		 this.points = copy(points);
+		 this.length = copy(length);
+		 this.nodes = copy(nodes);
+		 this.edges = copy(edges);
+		 if (!valid(this.points, this.length, this.nodes, this.edges)) {
+				throw new IllegalArgumentException();
+			}
 	}
 	
 	/**
@@ -286,7 +295,7 @@ public class Graph {
 	/*
 	 * This method checks if the specified lists could represent a consistent Graph.
 	 */
-	private static boolean valid(ArrayList<Point> points, ArrayList<Double> length, ArrayList<Integer> nodes, ArrayList<Integer> edges) {
+	private static boolean valid(List<Point> points, List<Double> length, List<Integer> nodes, List<Integer> edges) {
 		boolean valid = (points != null && length != null && nodes != null && edges != null);
 		valid &= points.size() == nodes.size() - 1 && length.size() == edges.size();
 		valid &= nodes.get(points.size()) == length.size();
@@ -297,6 +306,14 @@ public class Graph {
 			valid &= edges.get(i) < points.size();
 		}
 		return valid;
+	}
+	
+	private static <T> List<T> copy(T[] source) {
+		ArrayList<T> result = new ArrayList<T>();
+		for (T element : source) {
+			result.add(element);
+		}
+		return result;
 	}
 	
 	/*
