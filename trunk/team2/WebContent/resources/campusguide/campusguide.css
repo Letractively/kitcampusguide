@@ -45,11 +45,23 @@ span.hidden {
 }
 
 #headline {
+    background-image: url(../css/img/intern/headline.png);
+    background-repeat: repeat-x;
     border: 1px solid #000000;
-    margin:0;
-    font-weight:bold;
-    width: 733px;
+    font-weight: bold;
+	height: 25px;
+    margin: 0;
+    padding-left: 5px;
+    padding-top: 3px;
+    width: 753px;
     z-index: 9999;
+}
+
+.suchButton {
+	color: #009682;
+	font-weight: bold;
+	height: 18px;
+	vertical-align: top;
 }
 
 #sidebar-suggestions {

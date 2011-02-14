@@ -3,6 +3,7 @@ package edu.kit.cm.kitcampusguide.mapAlgorithms;
 import java.util.List;
 
 import edu.kit.cm.kitcampusguide.ConstantData;
+import edu.kit.cm.kitcampusguide.data.ConcreteMapLoader;
 import edu.kit.cm.kitcampusguide.data.MapLoader;
 import edu.kit.cm.kitcampusguide.model.Graph;
 import edu.kit.cm.kitcampusguide.model.Point;
@@ -19,7 +20,7 @@ public class RouteCalculatingUtility {
 	 * The MapLoader Implementation used by this Class
 	 */
 	// TODO set mapLoader
-	public static final MapLoader MAP_LOADER = null;
+	public static final MapLoader MAP_LOADER = new ConcreteMapLoader();
 
 	/*
 	 * Private constructor to prevent object instantiation
