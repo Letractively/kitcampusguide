@@ -31,7 +31,7 @@ public interface MapLoader {
 
 	/**
 	 * Loads a table containing the distances between each pair of intersection and landmark.
-	 * The first array index identifies a intersection node, the second array index identifies a 
+	 * The first array index identifies an intersection node, the second array index identifies a 
 	 * landmark. All indices are confirm to getGraph() and getLandmarks();
 	 * 
 	 * @return a 2-dimensional double-Array, the first array index identifies a intersection node,
@@ -40,10 +40,11 @@ public interface MapLoader {
 	// TODO zum Entwurf hinzufügen
 	public double[][] getLandmarkDistances();
 	
-	// TODO eine Methode mit wir die Landmarks einfach in die Datenbank bekommen ... wäre vielleicht hilfreich
 	/**
-	 * 
+	 * Adds a given landmark with all his distances to the database.
+	 * the index of the double-array identifies an intersection node.
 	 */
+	// TODO zum Entwurf hinzufügen
 	public void addLandmarkToDatabase(Point landmark, double[] distances);
 
 }

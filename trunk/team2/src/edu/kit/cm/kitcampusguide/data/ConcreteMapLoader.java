@@ -207,7 +207,6 @@ public class ConcreteMapLoader implements MapLoader {
 	      return result;
 	}
 	
-	// TODO eine Methode mit wir die Landmarks einfach in die Datenbank bekommen ... wäre vielleicht hilfreich
 	/**
 	 * {@inheritDoc}
 	 */
