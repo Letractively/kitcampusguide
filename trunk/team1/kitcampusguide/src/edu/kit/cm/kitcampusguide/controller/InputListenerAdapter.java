@@ -4,17 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.el.ELContext;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
-import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
-
-import org.apache.log4j.Logger;
+import javax.faces.component.UIOutput;
 
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
@@ -31,119 +24,91 @@ import edu.kit.cm.kitcampusguide.standardtypes.POI;
  * @author Team1
  *
  */
-@ManagedBean (name="inputListenerAdapter")
-@SessionScoped
 public class InputListenerAdapter {
 	
-	private Logger logger = Logger.getLogger(InputListenerImpl.class);
-	
-	private ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-	private InputModel inputModel = (InputModel) FacesContext.getCurrentInstance().getApplication()
-    		.getELResolver().getValue(elContext, null, "inputModel");
-	private TranslationModel translationModel = (TranslationModel) FacesContext.getCurrentInstance().getApplication()
-    .getELResolver().getValue(elContext, null, "translationModel");
-	private InputListenerImpl inputListener = (InputListenerImpl) FacesContext.getCurrentInstance().getApplication()
-	.getELResolver().getValue(elContext, null, "inputListener");
-	
-	private final String ROUTE_FROM_FIELD_ID = "form:routeFromField";
-	private final String ROUTE_TO_FIELD_ID = "form:routeToField";
-	
+	private InputModel inputModel;
+	private TranslationModel translationModel;
+	private InputListener inputListener;		
 	private POISource poiSource = POISourceImpl.getInstance();
 	
+	//Holds the id of the POI that has been selected in the routeFromProposalList.
 	private String routeFromSelection;
-	private String routeToSelection;
-	
+	//Holds the id of the POI that has been selected in the routeToProposalList.
+	private String routeToSelection;	
+	//Holds the language that has been selected in the languageProposalList.
 	private String languageSelection;
+	//Determines whether the languageProposalList shall be displayed in the view or not.
+	private boolean languageProposalListIsVisible = false;	
 	
+	/**
+	 * Default constructor.
+	 */
 	public InputListenerAdapter() {
 		
 	}
 	
+	/**
+	 * Returns the actual appropriate search button label.
+	 * @return Returns the actual appropriate search button label.
+	 */
 	public String getSearchButtonLabel() {
 		if ((inputModel.getRouteFromProposalList() != null 
-				|| (inputModel.getRouteFromField() != null && !inputModel.getRouteFromField().isEmpty()) && 
+				|| (inputModel.getRouteFromField() != null && !inputModel.getRouteFromField().isEmpty())) && 
 			(inputModel.getRouteToProposalList() != null 
-				|| (inputModel.getRouteToField() != null && !inputModel.getRouteToField().isEmpty())))) {
+				|| (inputModel.getRouteToField() != null && !inputModel.getRouteToField().isEmpty())))  {
 			return translationModel.tr("calculateRoute");
 		} else {
 			return translationModel.tr("search");
 		}
 	}
 		
-	
 	/**
-	 * Makes the error messages concerning problems with searching the term in the triggering input field 
-	 * or calculating the route invisible again.
-	 * @param ve Corresponding <code>ValueChangeEvent</code> that is triggered when something is typed into one of the input fields.
+	 * Triggers a search or route calculation after the search button has been pressed.
+	 * Therefor processes the input in the input fields and/or the selections made with the proposal lists
+	 * and delegates the resulting tasks to the InputListener.
+	 * @param ae The corresponding ActionEvent.
 	 */
-	/*public void refreshInputArea(ValueChangeEvent ve) {	
-		String src = ((UIComponent)ve.getSource()).getClientId();
-		if (src.equals("routeFromField")) {
-			inputModel.setRouteFromSearchFailed(false);
-		} else {		
-			inputModel.setRouteToSearchFailed(false);
-		}
-		inputModel.setRouteCalculationFailed(false);
-	}*/
-		
 	public void searchButtonPressed(ActionEvent ae) {
 		if (inputModel.getRouteFromProposalList() != null) {
-			POI poi = poiSource.getPOIByID(routeFromSelection);
-			inputModel.setRouteFromField(poi.getName());
+			POI routeFromPoi = poiSource.getPOIByID(routeFromSelection);
+			inputModel.setRouteFromField(routeFromPoi.getName());
 			if (inputModel.getRouteToProposalList() == null) {
-				if (inputModel.getRouteToField() == null || inputModel.getRouteToField().equals("") ) {						
-					inputListener.searchTriggered(poi);
+				if (inputModel.getRouteToField() == null || inputModel.getRouteToField().isEmpty()) {						
+					inputListener.searchTriggered(routeFromPoi);
 				} else {
-					MapPosition from = new MapPosition(poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
-					inputListener.routeTriggered(from,inputModel.getRouteToField().trim());
+					MapPosition from = new MapPosition(routeFromPoi.getPosition().getLatitude(), routeFromPoi.getPosition().getLongitude(), routeFromPoi.getMap());
+					inputListener.routeTriggered(from, inputModel.getRouteToField().trim());
 				}
 			} else {
-				POI start = poiSource.getPOIByID(routeFromSelection);
-				MapPosition from = new MapPosition(start.getPosition().getLatitude(), start.getPosition().getLongitude(), start.getMap());
-				inputModel.setRouteFromField(start.getName());
-				POI end = poiSource.getPOIByID(routeToSelection);
-				MapPosition to = new MapPosition(end.getPosition().getLatitude(), end.getPosition().getLongitude(), end.getMap());
-				inputModel.setRouteToField(end.getName());
+				MapPosition from = new MapPosition(routeFromPoi.getPosition().getLatitude(), routeFromPoi.getPosition().getLongitude(), routeFromPoi.getMap());
+				POI routeToPoi = poiSource.getPOIByID(routeToSelection);
+				inputModel.setRouteToField(routeToPoi.getName());
+				MapPosition to = new MapPosition(routeToPoi.getPosition().getLatitude(), routeToPoi.getPosition().getLongitude(), routeToPoi.getMap());
 				inputListener.routeTriggered(from, to);
 			}
 		} else if (inputModel.getRouteToProposalList() != null) {
-			POI poi = poiSource.getPOIByID(routeToSelection);
-			inputModel.setRouteToField(poi.getName());
-			if (inputModel.getRouteFromField() == null || inputModel.getRouteFromField().equals("") ) {				
-				inputListener.searchTriggered(poi);
+			POI routeToPoi = poiSource.getPOIByID(routeToSelection);
+			inputModel.setRouteToField(routeToPoi.getName());
+			if (inputModel.getRouteFromField() == null || inputModel.getRouteFromField().isEmpty()) {				
+				inputListener.searchTriggered(routeToPoi);
 			} else {
-				MapPosition to = new MapPosition(poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
+				MapPosition to = new MapPosition(routeToPoi.getPosition().getLatitude(), routeToPoi.getPosition().getLongitude(), routeToPoi.getMap());
 				inputListener.routeTriggered(inputModel.getRouteFromField().trim(), to);
 			}
-		} else {
-			String routeFromField = inputModel.getRouteFromField();
-			if (routeFromField == null) {
-					routeFromField = "";
-			}
-			routeFromField.trim();
-			String routeToField = inputModel.getRouteToField();
-			if (routeToField == null) {
-				routeToField = "";
-			}
-			routeToField.trim();
-			if (!(routeFromField.equals("")) && !( routeToField.equals(""))) {
-				logger.info("calculate route from " + routeFromField + " to " + routeToField);
-				inputListener.routeTriggered(routeFromField, routeToField);
-			} else if (!routeFromField.equals("")) {
-				logger.info("search for " + routeFromField);
-				inputListener.searchTriggered(routeFromField, InputFields.ROUTE_FROM);
-			} else if (!routeToField.equals("")) {
-				logger.info("search for " + routeToField);
-				inputListener.searchTriggered(routeToField, InputFields.ROUTE_TO);
+		} else if (inputModel.getRouteFromField() != null && !inputModel.getRouteFromField().isEmpty()) {
+			if (inputModel.getRouteToField() != null && !inputModel.getRouteToField().isEmpty()) {
+				inputListener.routeTriggered(inputModel.getRouteFromField().trim(), inputModel.getRouteToField().trim());
 			} else {
-				logger.info("search button has been pressed but the input fields are empty");
+				inputListener.searchTriggered(inputModel.getRouteFromField().trim(), InputField.ROUTE_FROM);
 			}
-		}
+		} else if (inputModel.getRouteToField() != null && !inputModel.getRouteToField().isEmpty()) {
+			inputListener.searchTriggered(inputModel.getRouteToField().trim(), InputField.ROUTE_TO);
+		}			
 	}
 	
 	/**
-	 * Returns the routeFromProposalList in a format that can be easily displayed by the view
-	 * @return Returns the routeFromProposalList in a format that can be easily displayed by the view
+	 * Returns the InputModels routeFromProposalList in a format that can be easily displayed by the view.
+	 * @return Returns the InputModels routeFromProposalList in a format that can be easily displayed by the view.
 	 */
 	public List<SelectItem> getRouteFromProposalList() {
 		List<POI> routeFromProposalList = inputModel.getRouteFromProposalList();
@@ -158,8 +123,8 @@ public class InputListenerAdapter {
 	}
 	
 	/**
-	 * Returns the routeToProposalList in a format that can be easily displayed by the view
-	 * @return Returns the routeToProposalList in a format that can be easily displayed by the view
+	 * Returns the InputModels routeToProposalList in a format that can be easily displayed by the view.
+	 * @return Returns the InputModels routeToProposalList in a format that can be easily displayed by the view.
 	 */
 	public List<SelectItem> getRouteToProposalList() {
 		List<POI> routeToProposalList = inputModel.getRouteToProposalList();
@@ -192,8 +157,8 @@ public class InputListenerAdapter {
 	} 
 	
 	/**
-	 * Returns a list with all available languages in a format that can be easily displayed by the view
-	 * @return Returns a list with all available languages in a format that can be easily displayed by the view
+	 * Returns a list with all available languages in a format that can be easily displayed by the view.
+	 * @return Returns a list with all available languages in a format that can be easily displayed by the view.
 	 */
 	public List<SelectItem> getLanguageProposalList() {
 		List<String> languages = translationModel.getLanguages();
@@ -236,18 +201,29 @@ public class InputListenerAdapter {
 		inputListener.languageChangeTriggered("Deutsch");
 	}
 	
-	//TODO
+	/**
+	 * Makes the view display the languageProposalList.
+	 * @param ae The corresponding ActionEvent.
+	 */
 	public void languageChangeLinkPressed(ActionEvent ae) {
-		inputModel.setLanguageProposalListIsVisible(true);
+		setLanguageProposalListIsVisible(true);
 	}
 	
+	/**
+	 * Unmakes the view display the languageProposalList.
+	 * @param ae The corresponding ActionEvent.
+	 */
 	public void languageChangeCancelled(ActionEvent ae) {
-		inputModel.setLanguageProposalListIsVisible(false);
+		setLanguageProposalListIsVisible(false);
 	}
 	
+	/**
+	 * Changes the current language to the one that has been selected in the languageProposalList.
+	 * @param ae The corresponding ActionEvent.
+	 */
 	public void languageChangeTriggered(ActionEvent ae) {
 		inputListener.languageChangeTriggered(languageSelection);
-		inputModel.setLanguageProposalListIsVisible(false);
+		setLanguageProposalListIsVisible(false);
 	}
 
 	/**
@@ -266,30 +242,96 @@ public class InputListenerAdapter {
 		Integer floorID =  (Integer) ((UIOutput) ae.getComponent().getChildren().get(0)).getValue();
 		inputListener.changeFloorTriggered(Map.getMapByID(floorID));
 	}
-
-
+	
+	/**
+	 * Sets the id of the POI that has been selected in the routeFromProposalList.
+	 * @param routeFromSelection The id of the POI that has been selected in the routeFromProposalList.
+	 */
 	public void setRouteFromSelection(String routeFromSelection) {
 		this.routeFromSelection = routeFromSelection;
 	}
-
+	
+	/**
+	 * Returns the id of the POI that has been selected in the routeFromProposalList.
+	 * @return The id of the POI that has been selected in the routeFromProposalList.
+	 */
 	public String getRouteFromSelection() {
 		return routeFromSelection;
 	}
 
+	/**
+	 * Sets the id of the POI that has been selected in the routeToProposalList.
+	 * @param routeToSelection The id of the POI that has been selected in the routeToProposalList.
+	 */
 	public void setRouteToSelection(String routeToSelection) {
 		this.routeToSelection = routeToSelection;
 	}
 
+	/**
+	 * Returns the id of the POI that has been selected in the routeToProposalList.
+	 * @return The id of the POI that has been selected in the routeToProposalList.
+	 */
 	public String getRouteToSelection() {
 		return routeToSelection;
 	}	
 
+	/**
+	 * Sets the language that has been selected in the languageProposalList.
+	 * @param languageSelection The language that has been selected in the languageProposalList.
+	 */
 	public void setLanguageSelection(String languageSelection) {
 		this.languageSelection = languageSelection;
 	}
 
+	/**
+	 * Returns the language that has been selected in the languageProposalList.
+	 * @return The language that has been selected in the languageProposalList.
+	 */
 	public String getLanguageSelection() {
 		return languageSelection;
 	}
 	
+	/**
+	 * Sets the languageProposalListIsVisible-attribute.
+	 * @param languageProposalListIsVisible <code>true</code> if the languageProposalList shall be displayed
+	 * in the view, else <code>false</code>.
+	 */
+	public void setLanguageProposalListIsVisible(
+			boolean languageProposalListIsVisible) {
+		this.languageProposalListIsVisible = languageProposalListIsVisible;
+	}
+
+	/**
+	 * Returns <code>true</code> if the languageProposalList shall be displayed in the view, 
+	 * else <code>false</code>.
+	 * @return <code>true</code> if the languageProposalList shall be displayed in the view, 
+	 * else <code>false</code>.
+	 */
+	public boolean isLanguageProposalListIsVisible() {
+		return languageProposalListIsVisible;
+	}
+	
+	/**
+	 * Sets the InputModel-property.
+	 * @param inputModel Not null.
+	 */
+	public void setInputModel(InputModel inputModel) {
+		this.inputModel = inputModel;
+	}
+	
+	/**
+	 * Sets the TranslationModel-property.
+	 * @param translationModel Not null.
+	 */
+	public void setTranslationModel(TranslationModel translationModel) {
+		this.translationModel = translationModel;
+	}
+	
+	/**
+	 * Sets the InputListener-property.
+	 * @param inputListener Not null.
+	 */
+	public void setInputListener(InputListener inputListener) {
+		this.inputListener = inputListener;
+	}	
 }

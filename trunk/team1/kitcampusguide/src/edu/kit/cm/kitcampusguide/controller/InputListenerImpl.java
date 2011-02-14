@@ -3,9 +3,6 @@ package edu.kit.cm.kitcampusguide.controller;
 import java.util.List;
 import org.apache.log4j.Logger;
 
-import javax.el.ELContext;
-import javax.faces.context.FacesContext;
-
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManager;
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManagerImpl;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
@@ -23,7 +20,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.Route;
 
 /**
- * Implements the interface <code>InputListener</code>.
+ * Implements the interface {@link InputListener}.
  *  
  * @author Team1
  */
@@ -35,17 +32,10 @@ public class InputListenerImpl implements InputListener {
 	private POISource poiSource = POISourceImpl.getInstance();	
 	private RoutingStrategy routing = RoutingStrategyImpl.getInstance();
 	
-	//TODO: Beanreferenzen als ManagedProperty
-	private ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-	private InputModel inputModel = (InputModel) FacesContext.getCurrentInstance().getApplication()
-    		.getELResolver().getValue(elContext, null, "inputModel");
-	private TranslationModel translationModel = (TranslationModel) FacesContext.getCurrentInstance().getApplication()
-			.getELResolver().getValue(elContext, null, "translationModel");	
 	private MapModel mapModel;
-	
-	ELContext el = FacesContext.getCurrentInstance().getELContext();
-	DefaultModelValues defaultModelValueClass = (DefaultModelValues) el.getELResolver().getValue(el, null,
-	    "defaultModelValues");
+	private InputModel inputModel;
+	private TranslationModel translationModel;
+	private DefaultModelValues defaultModelValueClass;	
 	
 	/**
 	 * Default constructor.
@@ -53,25 +43,16 @@ public class InputListenerImpl implements InputListener {
 	public InputListenerImpl() {
 		
 	}
-		
-	/**
-	 * Sets the mapModel-attribute to <code>mapModel</code>.
-	 * @param mapModel MapModel to which the mapModel-attribute shall be set.
-	 *
-	 */
-	public void setMapModel(MapModel mapModel) {
-		this.mapModel = mapModel;
-	}		
-	
+			
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void searchTriggered(String searchTerm, InputFields inputField) {
+	public void searchTriggered(String searchTerm, InputField inputField) {
 		resetView();
 		MapPosition position = positionRepresentedBySearchTerm(searchTerm, inputField);
 		if (position != null) {
-			if (inputField == InputFields.ROUTE_FROM) {
+			if (inputField == InputField.ROUTE_FROM) {
 				logger.info("set markerFrom to " + searchTerm);
 				mapModel.setMarkerFrom(position);
 			} else {
@@ -95,9 +76,11 @@ public class InputListenerImpl implements InputListener {
 		highlightPOI(soughtAfter);
 	}
 	
-	//Effects that the poi 'poi' is highlighted in the view.
+	//Effects that the POI 'poi' is highlighted in the view. 'poi' mustn't be null.
 	private void highlightPOI(POI poi) {
 		logger.info("highlight poi: " + poi.getName());
+		mapModel.setMarkerFrom(null);
+		mapModel.setMarkerTo(null);
 		mapModel.setHighlightedPOI(poi);
 		mapModel.setMapLocator(new MapLocator (new MapPosition(poi.getPosition().getLatitude(),
 				poi.getPosition().getLongitude(), poi.getMap())));
@@ -109,21 +92,9 @@ public class InputListenerImpl implements InputListener {
 	 */
 	@Override
 	public void routeTriggered(String routeFrom, String routeTo) {
-		MapPosition from = positionRepresentedBySearchTerm(routeFrom, InputFields.ROUTE_FROM);
-		if (from == null) {
-			POI poiFrom = performSearch(routeFrom, InputFields.ROUTE_FROM);
-			if (poiFrom != null) {
-				from = new MapPosition (poiFrom.getPosition().getLatitude(), poiFrom.getPosition().getLongitude(), poiFrom.getMap());
-			}
-		} 		
-		MapPosition to = positionRepresentedBySearchTerm(routeTo, InputFields.ROUTE_TO);
-		if (to == null) {
-			POI poiTo = performSearch(routeTo, InputFields.ROUTE_TO);
-			if (poiTo != null) {
-				to = new MapPosition (poiTo.getPosition().getLatitude(), poiTo.getPosition().getLongitude(), poiTo.getMap());
-			}
-		} 
 		resetView();
+		MapPosition from = determinePosition(routeFrom, InputField.ROUTE_FROM);	
+		MapPosition to = determinePosition(routeTo, InputField.ROUTE_TO);		
 		if (from != null && to != null) {			
 			calculateRoute(from, to);
 		}		
@@ -134,17 +105,10 @@ public class InputListenerImpl implements InputListener {
 	 */
 	@Override
 	public void routeTriggered(String routeFrom, MapPosition to) {
-		MapPosition from = positionRepresentedBySearchTerm(routeFrom, InputFields.ROUTE_FROM);
-		if (from != null) {
-			resetView();
+		resetView();
+		MapPosition from = determinePosition(routeFrom, InputField.ROUTE_FROM);		
+		if (from != null) {			
 			calculateRoute(from, to);
-		} else {
-			POI poi = performSearch(routeFrom, InputFields.ROUTE_FROM);
-			if (poi != null) {
-				from = new MapPosition (poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
-				resetView();
-				calculateRoute(from, to);
-			}
 		} 		
 	}
 	
@@ -153,17 +117,10 @@ public class InputListenerImpl implements InputListener {
 	 */
 	@Override
 	public void routeTriggered(MapPosition from, String routeTo) {
-		MapPosition to = positionRepresentedBySearchTerm(routeTo, InputFields.ROUTE_TO);
-		if (to != null) {
-			resetView();
+		resetView();
+		MapPosition to = determinePosition(routeTo, InputField.ROUTE_TO);		
+		if (to != null) {			
 			calculateRoute(from, to);
-		} else {
-			POI poi = performSearch(routeTo, InputFields.ROUTE_TO);
-			if (poi != null) {
-				to = new MapPosition (poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
-				resetView();
-				calculateRoute(from, to);
-			}
 		} 	
 	}
 	
@@ -176,13 +133,14 @@ public class InputListenerImpl implements InputListener {
 		calculateRoute(from, to);
 	}
 	
-	//Effects that route from 'from' to 'to' is calculated and displayed in the view.
+	//Effects that the route from 'from' to 'to' is calculated and displayed in the view.
+	//'from' and 'to' mustn't be null.
 	private void calculateRoute(MapPosition from, MapPosition to) {
 		Route route = routing.calculateRoute(from, to);
 		if (route != null) {
 			logger.info("Display route");
-			mapModel.setMarkerFrom(from);
-			mapModel.setMarkerTo(to);
+			mapModel.setMarkerFrom(route.getStart());
+			mapModel.setMarkerTo(route.getEnd());
 			mapModel.setRoute(route);
 			mapModel.setMapLocator(new MapLocator (route.getBoundingBox()));
 			if (from.getMap().getID() == to.getMap().getID()) {	
@@ -196,16 +154,17 @@ public class InputListenerImpl implements InputListener {
 		}
 	}
 	
-	//Tries to convert the string 'searchTerm' into a MapPosition and returns it.
-	//If the corresponding marker is set in the MapModel and equals the represented coordinates, 
-	//the MapPosition of this marker will be returned.
+	//Tries to interpret the String 'searchTerm', which was typed into the InputField 'inputField',
+	//as coordinates and returns the corresponding MapPosition. 'searchTerm' mustn't be null.
+	//If 'searchTerm' can be interpreted as coordinates and the corresponding marker is set in the MapModel
+	//at the same position (not necessary on the same Map), the MapPosition of this marker will be returned.
 	//If the conversion fails, null will be returned.
-	private MapPosition positionRepresentedBySearchTerm (String searchTerm, InputFields inputField) {
+	private MapPosition positionRepresentedBySearchTerm (String searchTerm, InputField inputField) {
 		WorldPosition coordinate = cm.stringToCoordinate(searchTerm);
 		if (coordinate == null) {
 			return null;
 		} else {
-			if (inputField.equals(InputFields.ROUTE_FROM)) {
+			if (inputField.equals(InputField.ROUTE_FROM)) {
 				MapPosition markerFrom = mapModel.getMarkerFrom();
 				if (markerFrom != null && equivalent(coordinate, markerFrom)) {	
 					return markerFrom; 
@@ -223,6 +182,8 @@ public class InputListenerImpl implements InputListener {
 		}
 	}
 	
+	//Returns true if the WorldPosition 'worldposition' and the MapPosition 'mapposition' are at the same 
+	//position, else false. 'worldposition' and 'mapposition' mustn't be null.
 	private boolean equivalent(WorldPosition worldposition, MapPosition mapposition) {
 		double eps = 1e-6;
 		if (Math.abs(worldposition.getLatitude() - mapposition.getLatitude()) < eps 
@@ -232,14 +193,32 @@ public class InputListenerImpl implements InputListener {
 			return false;
 		}
 	}
+	
+	//Tries to determine the position represented by the String 'searchTerm', which was typed into the
+	//InputField 'inputField', and returns it. 'searchTerm' mustn't be null.
+	//Tries to interpret 'searchTerm' as coordinates at first. If the conversion fails, a search after an 
+	//appropriate POI will be triggered and its position will be returned.
+	//If the position can't be determined, null will be returned.
+	private MapPosition determinePosition(String searchTerm, InputField inputField) {
+		MapPosition position = positionRepresentedBySearchTerm(searchTerm, inputField);
+		if (position == null) {
+			POI poi = performSearch(searchTerm, inputField);
+			if (poi != null) {
+				position = new MapPosition (poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
+			}
+		}
+		return position;
+	}
 
-	//Executes the search after 'searchTerm' and returns the poi that has been found if there's a unique search result.
-	//If there is no or more than one search result, null will be returned and the inputModel will be given the corresponding information.
-	private POI performSearch(String searchTerm, InputFields inputField) {
+	//Executes the search after 'searchTerm' and returns the POI that has been found 
+	//if there's a unique search result. 'searchTerm' mustn't be null.
+	//If there is no or more than one search result, null will be returned 
+	//and the inputModel will be given the corresponding information.
+	private POI performSearch(String searchTerm, InputField inputField) {
 		List<POI> searchResults = poiSource.getPOIsBySearch(searchTerm);	
 		if (searchResults == null || searchResults.size() == 0) {
 			logger.info("no search results for " + searchTerm);
-			if (inputField == InputFields.ROUTE_FROM) {
+			if (inputField == InputField.ROUTE_FROM) {
 				inputModel.setRouteFromSearchFailed(true);
 			} else {
 				inputModel.setRouteToSearchFailed(true);
@@ -250,7 +229,7 @@ public class InputListenerImpl implements InputListener {
 			return searchResults.get(0);
 		} else {
 			logger.info("multiple search results for " + searchTerm);	
-			if (inputField == InputFields.ROUTE_FROM) {
+			if (inputField == InputField.ROUTE_FROM) {
 				inputModel.setRouteFromField("");
 				inputModel.setRouteFromProposalList(searchResults);			
 			} else {
@@ -261,12 +240,13 @@ public class InputListenerImpl implements InputListener {
 		}
 	}	
 	
-	//Resets the view which means that no highlighted pois, routes and so on will be displayed anymore.
+	//Resets the view which means that no highlighted POIs, routes and error messages
+	//will be displayed anymore.
 	private void resetView() {
 		mapModel.setHighlightedPOI(null);
 		mapModel.setRoute(null);
-		mapModel.setMarkerFrom(null);
-		mapModel.setMarkerTo(null);
+		inputModel.setRouteFromProposalList(null);
+		inputModel.setRouteToProposalList(null);
 		inputModel.setRouteFromSearchFailed(false);
 		inputModel.setRouteToSearchFailed(false);
 		inputModel.setRouteCalculationFailed(false);
@@ -298,5 +278,37 @@ public class InputListenerImpl implements InputListener {
 		logger.info("change floor to: " + floor.getName());
 		mapModel.setMap(floor);
 	}
-		
+	
+	/**
+	 * Sets the MapModel-property.
+	 * @param mapModel Not null.
+	 *
+	 */
+	public void setMapModel(MapModel mapModel) {
+		this.mapModel = mapModel;
+	}
+	
+	/**
+	 * Sets the InputModel-property.
+	 * @param inputModel Not null.
+	 */
+	public void setInputModel(InputModel inputModel) {
+		this.inputModel = inputModel;
+	}
+	
+	/**
+	 * Sets the TranslationModel-property.
+	 * @param translationModel Not null.
+	 */
+	public void setTranslationModel(TranslationModel translationModel) {
+		this.translationModel = translationModel;
+	}
+	
+	/**
+	 * Sets the DefaultModelValueClass-property.
+	 * @param defaultModelValueClass Not null.
+	 */
+	public void setDefaultModelValueClass(DefaultModelValues defaultModelValueClass) {
+		this.defaultModelValueClass = defaultModelValueClass;
+	}		
 }

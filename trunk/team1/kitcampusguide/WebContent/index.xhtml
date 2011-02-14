@@ -16,16 +16,15 @@
 	
 </h:head>
 <h:body>
-	<h:panelGrid columns="2" class="fullWidth" columnClasses="fullWidth"
-		rowClasses="fullWidth">
+	<h:panelGrid columns="2" class="fullWidth" columnClasses="fullWidth" rowClasses="fullWidth">
 		<h:panelGroup id="map">
 			<map:mapcomponent mapModel="#{mapModel}"
 				additionalRenderIDs="routeFromField routeToField lateralBar">
 				<c:valueChangeListener for="valueChangeListener"
 					type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapEventsListener" />
-				<!--  TODO: Add appropriate action listeners -->
 			</map:mapcomponent>
 		</h:panelGroup>
+		
 		<h:panelGroup id="lateralBar" layout="block">
 			<h:form id="lateralForm" class="lateralForm" rendered="#{mapModel.building != null}">
 				<h:panelGrid columns="1">
@@ -39,17 +38,14 @@
 						</h:commandLink>
 					</h:column>
 				</h:dataTable>
-
-				<h:panelGroup class="backToCampusMap" layout="block">
+				<h:panelGroup class="backToCampusMap" layout="block" >
 					<h:commandLink id="backToCampusMap"
 						value="#{tr:translate('backToCampus')}"
 						actionListener="#{inputListenerAdapter.changeToMapViewTriggered}" />
 				</h:panelGroup>
-				</h:panelGrid>
-				
+				</h:panelGrid>				
 			</h:form>
 		</h:panelGroup>
-
 	</h:panelGrid>
 
 	<h:panelGroup id="bar" class="bar" layout="block" library="main">
@@ -64,12 +60,15 @@
 					<h:panelGrid columns="1" >
 						
 						<h:panelGroup id="routeFromInput" layout="block">					
-							<h:outputLabel id="routeFromLabel" for="routeFromField" value="#{tr:translate('routeFrom')}"/>
+							<h:outputLabel id="routeFromLabel" for="routeFromField" 
+								value="#{tr:translate('routeFrom')}"/>
 							<br />
 							<h:inputText id="routeFromField" value="#{inputModel.routeFromField}"
-								rendered="#{inputModel.routeFromProposalList == null}" onkeyup="setSearchButtonLabel()" >
+								rendered="#{inputModel.routeFromProposalList == null}"
+								onkeyup="setSearchButtonLabel()" >
 							</h:inputText>	
-							<h:selectOneMenu id="routeFromProposalList" rendered="#{inputModel.routeFromProposalList != null}" 
+							<h:selectOneMenu id="routeFromProposalList" 
+								rendered="#{inputModel.routeFromProposalList != null}" 
 								value="#{inputListenerAdapter.routeFromSelection}" >
 								<f:selectItems value="#{inputListenerAdapter.routeFromProposalList}" />
 							</h:selectOneMenu>						
@@ -89,12 +88,15 @@
 						</h:panelGroup>
 													
 						<h:panelGroup id="routeToInput" layout="block">							
-							<h:outputLabel id="routeToLabel" for="routeToField" value="#{tr:translate('routeTo')}" />
+							<h:outputLabel id="routeToLabel" for="routeToField" 
+								value="#{tr:translate('routeTo')}" />
 							<br />
 							<h:inputText id="routeToField" value="#{inputModel.routeToField}"
-								rendered="#{inputModel.routeToProposalList == null}" onkeyup="setSearchButtonLabel()" >
+								rendered="#{inputModel.routeToProposalList == null}" 
+								onkeyup="setSearchButtonLabel()" >
 							</h:inputText>													
-							<h:selectOneMenu id="routeToProposalList" rendered="#{inputModel.routeToProposalList != null}" 
+							<h:selectOneMenu id="routeToProposalList" 
+								rendered="#{inputModel.routeToProposalList != null}" 
 								value="#{inputListenerAdapter.routeToSelection}" >
 								<f:selectItems value="#{inputListenerAdapter.routeToProposalList}" />
 							</h:selectOneMenu>						
@@ -121,39 +123,41 @@
 				
 				<h:panelGroup id="button" layout="block" style="padding:10px">				
 					<h:commandButton id="searchButton" value="#{inputListenerAdapter.searchButtonLabel}" 
-					actionListener="#{inputListenerAdapter.searchButtonPressed}" />
+						actionListener="#{inputListenerAdapter.searchButtonPressed}" />
 					<div class="hidden">
-						<h:outputText class="hidden"
-						value="#{tr:translate('search')}"
-						id="searchLabel" />
-						<h:outputText class="hidden"
-						value="#{tr:translate('calculateRoute')}"
-						id="calculateRouteLabel" />
+						<h:outputText class="hidden" value="#{tr:translate('search')}" id="searchLabel" />
+						<h:outputText class="hidden" value="#{tr:translate('calculateRoute')}" 
+							id="calculateRouteLabel" />
 					</div>
 				</h:panelGroup>					
 			
 				<h:panelGroup id="navigation" layout="block" style="padding:30px">
 					<h:panelGrid columns="1">
 						<h:commandLink id="filterLink" value="#{tr:translate('filter')}" />
+						
 						<h:commandLink id="changeLanguageLink" value="#{tr:translate('changeLanguage')}"
 							actionListener="#{inputListenerAdapter.languageChangeLinkPressed}" >
 							<f:ajax execute="changeLanguageLink" render="navigation" />
 						</h:commandLink>
 						<h:panelGroup>
-							<h:selectOneMenu id="languageProposalList" value="#{inputListenerAdapter.languageSelection}" 
-								rendered="#{inputModel.languageProposalListIsVisible}" >
+							<h:selectOneMenu id="languageProposalList" 
+								value="#{inputListenerAdapter.languageSelection}" 
+								rendered="#{inputListenerAdapter.languageProposalListIsVisible}" >
 								<f:selectItems value="#{inputListenerAdapter.languageProposalList}" />
 							</h:selectOneMenu>	
-							<h:commandLink id="languageChangeTriggered" rendered="#{inputModel.languageProposalListIsVisible}"							
+							<h:commandLink id="languageChangeTriggered" 
+								rendered="#{inputListenerAdapter.languageProposalListIsVisible}"							
 								actionListener="#{inputListenerAdapter.languageChangeTriggered}" >								
 								<h:graphicImage name="yes_button.png" library="main" alt="ok" width="15" />
 							</h:commandLink>							
-							<h:commandLink id="languageChangeCancelled" rendered="#{inputModel.languageProposalListIsVisible}"							
+							<h:commandLink id="languageChangeCancelled" 
+								rendered="#{inputListenerAdapter.languageProposalListIsVisible}"							
 								actionListener="#{inputListenerAdapter.languageChangeCancelled}" >
 								<h:graphicImage name="cancel_button.png" library="main" alt="cancel" width="15" />
 								<f:ajax execute="form:languageChangeCancelled" render="form:navigation" />	
 							</h:commandLink>
 						</h:panelGroup>
+						
 						<h:panelGroup>
 							<h:commandLink actionListener="#{inputListenerAdapter.changeLanguageToEnglish}" >
 								<h:graphicImage name="eng.jpg" library="main" alt="English" width="20" />
@@ -164,8 +168,7 @@
 							</h:commandLink>
 						</h:panelGroup>
 					</h:panelGrid>
-				</h:panelGroup>		
-					
+				</h:panelGroup>							
 			</h:panelGrid>
 		</h:form>
 	</h:panelGroup>

@@ -106,6 +106,21 @@
 			<property-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel</property-class>
 			<value>#{mapModel}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>inputModel</property-name>
+			<property-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel</property-class>
+			<value>#{inputModel}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>translationModel</property-name>
+			<property-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModel</property-class>
+			<value>#{translationModel}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>defaultModelValueClass</property-name>
+			<property-class>edu.kit.cm.kitcampusguide.controller.DefaultModelValues</property-class>
+			<value>#{defaultModelValues}</value>
+		</managed-property>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>inputModel</managed-bean-name>
@@ -113,7 +128,7 @@
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
-		<managed-bean-name>translationModelImpl</managed-bean-name>
+		<managed-bean-name>translationModel</managed-bean-name>
 		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModelImpl</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
@@ -141,6 +156,21 @@
 		<managed-bean-name>inputListenerAdapter</managed-bean-name>
 		<managed-bean-class>edu.kit.cm.kitcampusguide.controller.InputListenerAdapter</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>inputModel</property-name>
+			<property-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel</property-class>
+			<value>#{inputModel}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>translationModel</property-name>
+			<property-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModel</property-class>
+			<value>#{translationModel}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>inputListener</property-name>
+			<property-class>edu.kit.cm.kitcampusguide.controller.InputListener</property-class>
+			<value>#{inputListener}</value>
+		</managed-property>
 	</managed-bean>
 	<lifecycle>
 		<phase-listener>edu.kit.cm.kitcampusguide.presentationlayer.view.MapPhaseListener</phase-listener>
