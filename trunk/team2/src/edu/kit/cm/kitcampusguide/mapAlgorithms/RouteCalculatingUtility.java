@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.mapAlgorithms;
 
+import edu.kit.cm.kitcampusguide.ConstantData;
 import edu.kit.cm.kitcampusguide.data.MapLoader;
 import edu.kit.cm.kitcampusguide.model.Graph;
 import edu.kit.cm.kitcampusguide.model.Point;
@@ -34,7 +35,7 @@ public class RouteCalculatingUtility {
 	 * @return a Graph containing the map and all Points specified in <code>nodes</code>
 	 */
 	public static Graph calculateStreetGraph(Point... nodes) {
-		Graph defaultGraph = MAP_LOADER.getGraph();
+		Graph defaultGraph = ConstantData.getGraph();//MAP_LOADER.getGraph();
 		Point[] graphNodes = defaultGraph.getNodes();
 		
 		for (int i = 0; i < nodes.length; i++) {

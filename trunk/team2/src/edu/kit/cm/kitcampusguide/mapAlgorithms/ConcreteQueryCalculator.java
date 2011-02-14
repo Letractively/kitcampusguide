@@ -85,7 +85,7 @@ public class ConcreteQueryCalculator implements QueryCalculator {
 		POI reply = null;
 		double similarity = -Double.MAX_VALUE;
 		for (POI poi : poiList) {
-			double poiSimilarity = getSimilarity(name, poi.getName());
+			double poiSimilarity = getSimilarity(name, new String[] {poi.getName(), poi.getDescription()});
 			if (poiSimilarity > similarity) {
 				reply = poi;
 				similarity = poiSimilarity;
