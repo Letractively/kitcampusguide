@@ -34,7 +34,12 @@ public class ConcretePOILoader implements POILoader {
 		Connection connection = Config.getPgSQLJDBCConnection();
 		String sqlquery = "SELECT * FROM cg_pois WHERE poi_id=" + id;
 		
-		ResultSet resultset = Config.executeSQLStatement(connection, sqlquery);
+		ResultSet resultset = null;
+		try {
+			resultset = Config.executeSQLStatement(connection, sqlquery);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		
 		try {
 			result = savePOI(resultset);
@@ -59,9 +64,14 @@ public class ConcretePOILoader implements POILoader {
 		Connection connection = Config.getPgSQLJDBCConnection();
 		String sqlquery = "SELECT * FROM cg_pois WHERE poi_name LIKE '" + name + "'";
 		
-		ResultSet resultset = Config.executeSQLStatement(connection, sqlquery);
+		ResultSet resultset = null;
+		try {
+			resultset = Config.executeSQLStatement(connection, sqlquery);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		
-	    try {
+        try {
 			result = savePOIs(resultset);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -81,7 +91,12 @@ public class ConcretePOILoader implements POILoader {
 		Connection connection = Config.getPgSQLJDBCConnection();
 		String sqlquery = "SELECT * FROM cg_pois";
 		
-		ResultSet resultset = Config.executeSQLStatement(connection, sqlquery);
+		ResultSet resultset = null;
+		try {
+			resultset = Config.executeSQLStatement(connection, sqlquery);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		
 		try {
 			result = savePOIs(resultset);
@@ -103,7 +118,25 @@ public class ConcretePOILoader implements POILoader {
 		
 		POICategory result = null;
 		
-		String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
+		Connection connection = Config.getPgSQLJDBCConnection();
+		String sqlquery = "SELECT * FROM cg_poicategory WHERE poicat_id=" + id;
+		
+		ResultSet resultset = null;
+		try {
+			resultset = Config.executeSQLStatement(connection, sqlquery);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		try {
+		result = savePOICategory(resultset);
+	    } catch (SQLException e) {
+		    e.printStackTrace();
+	    }
+		
+		return result;
+		
+		/* String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
 		
 		Connection connection = null;
 		Statement statement = null;
@@ -125,7 +158,7 @@ public class ConcretePOILoader implements POILoader {
 	        try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
 	    }
 	    
-	    result = addPOIsToCategory(result);
+	    result = addPOIsToCategory(result); */
 	      
 	    return result;
 	}
