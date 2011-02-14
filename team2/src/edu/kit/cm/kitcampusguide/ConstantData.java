@@ -80,11 +80,44 @@ public class ConstantData {
 	}
 	//TODO: entfernen
 	public static void main(String[] args) {
-		ConstantData c = new ConstantData();
+		/* ConstantData c = new ConstantData();
 		for (POICategory p : c.getCategories()) {
 			System.out.println(p.getAllPOI().size());
 		}
 		System.out.println(c.allPOI.size());
+		
+		POILoader pl = new ConcretePOILoader();
+		POI poi = pl.getPOI(1);
+		System.out.println("1 " + poi.getName());
+		poi = pl.getPOI(2);
+		System.out.println("2 " + poi.getName());
+		poi = pl.getPOI(3);
+		System.out.println("3 " + poi.getName());
+		poi = pl.getPOI(4);
+		System.out.println("4 " + poi.getName());
+		
+		List<POI> poilist = new ArrayList<POI>();
+	    poilist = pl.getPOIsByName("saal");
+	    System.out.println(poilist.size());
+		for (POI p : poilist) {
+			System.out.println("POIbyName: " + p.getName());
+		} 
+		
+		List<POICategory> poicatlist = new ArrayList<POICategory>();
+	    poicatlist = pl.getPOICategoryByName("e");
+	    System.out.println(poicatlist.size());
+		for (POICategory p : poicatlist) {
+			System.out.println("CatbyName: " + p.getName());
+		} 
+		
+		POICategory poicat = pl.getPOICategory(1);
+		System.out.println("1 Cat " + poicat.getName());
+		poicat = pl.getPOICategory(2);
+		System.out.println("2 Cat " + poicat.getName()); */
+		
+		MapLoader ml = new ConcreteMapLoader();
+		Graph graph = ml.getGraph();
+		
 	}
 	
 }

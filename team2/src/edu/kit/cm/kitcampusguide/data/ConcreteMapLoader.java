@@ -69,10 +69,16 @@ public class ConcreteMapLoader implements MapLoader {
 	      
 	      
 	      // process to Graph data structure.
+	      System.out.println("streetnode ID list size: " + streetnodeId.size());
+	      System.out.println("streetnode ID list size: " + streetnodeX.size());
+	      System.out.println("streetnode ID list size: " + streetnodeY.size());
+	      System.out.println("street From list size: " + streetFrom.size());
+	      System.out.println("street To list size: " + streetTo.size());
+	      System.out.println("street Length list size: " + streetLength.size());
 	      
 	      ArrayList<Point> resPoints = new ArrayList<Point>();
 	      
-	      for (int i = 0; i <= streetnodeId.size(); i++) {
+	      for (int i = 0; i < streetnodeId.size(); i++) {
 	    	  resPoints.set(streetnodeId.get(i), new Point(streetnodeX.get(i), streetnodeY.get(i))); 
 	      }
 	      
