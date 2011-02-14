@@ -40,6 +40,13 @@ public class SimpleSearchTest {
 		BasicConfigurator.configure();
 	}
 	
+	/**
+	 * Cleans up the database before each Test.
+	 * @throws ClassNotFoundException
+	 * @throws DatabaseUnitException
+	 * @throws SQLException
+	 * @throws MalformedURLException
+	 */
 	@Before
 	public void cleanDB() throws ClassNotFoundException, DatabaseUnitException, SQLException, MalformedURLException {
 		IDatabaseConnection connection = getConnection();
