@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.controller;
 
+import java.util.List;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
@@ -69,6 +70,14 @@ public interface InputListener {
 	 * @param to {@link MapPosition} that represents the end point of the route. Not null.
 	 */
 	public void routeTriggered(MapPosition from, MapPosition to);
+	
+	/**
+	 * Triggers the presentation of the proposal list <code>proposalList</code> after a search with 
+	 * multiple results.
+	 * @param proposalList List of {@link POI}s which have been found as search results. 
+	 * @param inputField {@link InputField} with which the search request was triggered.
+	 */
+	public void choiceProposalTriggered(List<POI> proposalList, InputField inputField);
 	
 	/**
 	 * Changes the current language in which the view presents all text output to <code>language</code>.

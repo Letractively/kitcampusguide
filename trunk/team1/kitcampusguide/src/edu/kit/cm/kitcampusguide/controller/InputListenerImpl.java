@@ -154,6 +154,19 @@ public class InputListenerImpl implements InputListener {
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	public void choiceProposalTriggered(List<POI> proposalList, InputField inputField) {
+		if (inputField == InputField.ROUTE_FROM) {
+			inputModel.setRouteFromField("");
+			inputModel.setRouteFromProposalList(proposalList);			
+		} else {
+			inputModel.setRouteToField("");
+			inputModel.setRouteToProposalList(proposalList);		
+		}
+	}
+	
 	//Tries to interpret the String 'searchTerm', which was typed into the InputField 'inputField',
 	//as coordinates and returns the corresponding MapPosition. 'searchTerm' mustn't be null.
 	//If 'searchTerm' can be interpreted as coordinates and the corresponding marker is set in the MapModel
@@ -229,13 +242,7 @@ public class InputListenerImpl implements InputListener {
 			return searchResults.get(0);
 		} else {
 			logger.info("multiple search results for " + searchTerm);	
-			if (inputField == InputField.ROUTE_FROM) {
-				inputModel.setRouteFromField("");
-				inputModel.setRouteFromProposalList(searchResults);			
-			} else {
-				inputModel.setRouteToField("");
-				inputModel.setRouteToProposalList(searchResults);		
-			}
+			choiceProposalTriggered(searchResults, inputField);
 			return null;
 		}
 	}	
