@@ -42,7 +42,6 @@ public class Settings {
 		setCenter(center);
 	}
 
-	// TODO SetWidth behalten? dann auch im Entwurf ändern
 	public void setWidth(double width) {
 		if (width <= 0) {
 			throw new IllegalArgumentException(
@@ -51,7 +50,6 @@ public class Settings {
 		this.width = width;
 	}
 
-	// TODO SetHeight behalten? dann auch im Entwurf ändern
 	public void setHeight(double height) {
 		if (height <= 0) {
 			throw new IllegalArgumentException(
@@ -128,7 +126,6 @@ public class Settings {
 		this.language = language;
 	}
 
-	// TODO im Entwurf hinzufüden
 	/**
 	 * Returns the width of the map.
 	 * 
@@ -138,7 +135,6 @@ public class Settings {
 		return this.width;
 	}
 	
-	// TODO im Entwurf hinzufüden
 	/**
 	 * Returns the height of the map.
 	 * 
