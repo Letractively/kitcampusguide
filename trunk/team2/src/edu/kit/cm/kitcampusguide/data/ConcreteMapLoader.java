@@ -249,6 +249,11 @@ public class ConcreteMapLoader implements MapLoader {
         try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
         }
     }
+	
+	// TODO optional zum einfacherem anlegen des Graphen...
+	public void addStreetToDatabase(int fromId, int toId, double length) {
+		
+	}
 
 
 }
