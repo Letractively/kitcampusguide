@@ -24,7 +24,7 @@ public interface MapLoader {
 	 * Loads a List containing all landmark Points stored in the database.
 	 * The indices are conform to the indices in getLandmarkDistances().
 	 * 
-	 * @return
+	 * @return a Point-Array with the coordinates of all landmarks.
 	 */
 	// TODO zum Entwurf hinzufügen
 	public Point[] getLandmarks();
@@ -34,12 +34,16 @@ public interface MapLoader {
 	 * The first array index identifies a intersection node, the second array index identifies a 
 	 * landmark. All indices are confirm to getGraph() and getLandmarks();
 	 * 
-	 * @return
+	 * @return a 2-dimensional double-Array, the first array index identifies a intersection node,
+	 * the second array index identifies a landmark.
 	 */
 	// TODO zum Entwurf hinzufügen
 	public double[][] getLandmarkDistances();
 	
 	// TODO eine Methode mit wir die Landmarks einfach in die Datenbank bekommen ... wäre vielleicht hilfreich
-	public void addLandmarkToDatabase(Point Landmark, double[] distances);
+	/**
+	 * 
+	 */
+	public void addLandmarkToDatabase(Point landmark, double[] distances);
 
 }

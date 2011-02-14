@@ -80,8 +80,8 @@ public class ConcreteMapLoader implements MapLoader {
 	      
 	      
 	      Integer vertices[] = new Integer[streetnodeId.size() + 1];
-	      Integer edges[] = new Integer[streetFrom.size() + 1];
-	      Double lengths[] = new Double[streetFrom.size() + 1];
+	      Integer edges[] = new Integer[streetFrom.size()];
+	      Double lengths[] = new Double[streetFrom.size()];
 	      vertices[0] = 1;
 	     
 	      // calculate amount of edges of a node.
@@ -208,8 +208,43 @@ public class ConcreteMapLoader implements MapLoader {
 	}
 	
 	// TODO eine Methode mit wir die Landmarks einfach in die Datenbank bekommen ... wäre vielleicht hilfreich
-	public void addLandmarkToDatabase(Point Landmark, double[] distances) {
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void addLandmarkToDatabase(Point landmark, double[] distances) {
+        String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
 		
-	}
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultset = null;
+
+		try { 
+			
+			Class.forName("org.postgresql.Driver" );
+	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
+
+	        statement = connection.createStatement();
+            statement.executeUpdate("INSERT INTO cg_landmark (latitude, longitude) " + 
+                "VALUES ('" + landmark.getX() + "', '" + landmark.getY() + "')");
+	        
+            resultset = statement.executeQuery("SELECT id FROM cg_landmark WHERE latitude = '" + landmark.getX() +
+            		"' AND longitude = '" + landmark.getY() + "')");
+            int landmarkid = resultset.getInt("id");
+            
+	        for (int i = 0; i < distances.length; i++) {
+	        	statement.executeUpdate("INSERT INTO cg_distances (streetnode_id, landmark_id, length) " + 
+	                    "VALUES ('" + i + "', '" + landmarkid + "', '" + distances[i] + "')");
+	        }
+
+            connection.close(); 
+        } catch (Exception e) { 
+            System.err.println("Got an exception! "); 
+            System.err.println(e.getMessage()); 
+        } finally {
+        try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
+        try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
+    }
+
 
 }
