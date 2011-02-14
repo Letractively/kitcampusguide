@@ -60,7 +60,7 @@ public class Dijkstra implements RouteCalculator {
 			}
 		}
 		
-		if (nodeQueue.peek().equals(to)) {
+		if (!nodeQueue.isEmpty() && nodeQueue.peek().equals(to)) {
 			Node activeNode = nodeQueue.poll();
 			while (activeNode != null) {
 				route.addFirst(activeNode.point);
