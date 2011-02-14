@@ -39,10 +39,10 @@ public class ConstantData {
 		}
 		
 		//TODO: entfernen
-		this.categories.get(1).addPOI(this.allPOI.get(0));
-		this.categories.get(0).addPOI(this.allPOI.get(1));
-		this.categories.get(1).addPOI(this.allPOI.get(2));
-		this.categories.get(1).addPOI(this.allPOI.get(3));
+		//this.categories.get(1).addPOI(this.allPOI.get(0));
+		//this.categories.get(0).addPOI(this.allPOI.get(1));
+		//this.categories.get(1).addPOI(this.allPOI.get(2));
+		//this.categories.get(1).addPOI(this.allPOI.get(3));
 	}
 
 	public List<POI> getAllPOI() {
@@ -89,7 +89,13 @@ public class ConstantData {
 		ConstantData c = new ConstantData();
 		for (POICategory p : c.getCategories()) {
 			System.out.println(p.getAllPOI().size());
-		}
+		} 
+//		ConstantData c = new ConstantData();
+		
+		
+	//	POILoader poiloader = new ConcretePOILoader();
+//		POI poi = poiloader.getPOI(1);
+//		System.out.println(poi.getName());
 	}
 	
 }
