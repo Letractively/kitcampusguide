@@ -48,4 +48,10 @@
 		<converter-id>poiNameConverter</converter-id>
 		<converter-class>edu.kit.cm.kitcampusguide.view.converter.POINameConverter</converter-class>
 	</converter>
+	<converter>
+		<description>Converts a Route to a String</description>
+		<display-name>RouteConverter</display-name>
+		<converter-id>routeConverter</converter-id>
+		<converter-class>edu.kit.cm.kitcampusguide.view.converter.RouteConverter</converter-class>
+	</converter>
 </faces-config>

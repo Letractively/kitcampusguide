@@ -1,4 +1,5 @@
 package edu.kit.cm.kitcampusguide.view;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -9,11 +10,15 @@ import javax.faces.event.ValueChangeEvent;
 
 import edu.kit.cm.kitcampusguide.ConstantData;
 import edu.kit.cm.kitcampusguide.data.ConcretePOILoader;
+import edu.kit.cm.kitcampusguide.mapAlgorithms.ConcreteMapAlgorithms;
 import edu.kit.cm.kitcampusguide.mapAlgorithms.Dijkstra;
+import edu.kit.cm.kitcampusguide.mapAlgorithms.MapAlgorithms;
 import edu.kit.cm.kitcampusguide.mapAlgorithms.RouteCalculator;
 import edu.kit.cm.kitcampusguide.model.HeadlineModel;
 import edu.kit.cm.kitcampusguide.model.InfoboxModel;
 import edu.kit.cm.kitcampusguide.model.POI;
+import edu.kit.cm.kitcampusguide.model.POICategory;
+import edu.kit.cm.kitcampusguide.model.Point;
 import edu.kit.cm.kitcampusguide.model.Route;
 import edu.kit.cm.kitcampusguide.model.Settings;
 import edu.kit.cm.kitcampusguide.model.SidebarModel;
@@ -24,7 +29,7 @@ public class CampusGuide {
 	
 	private HeadlineModel hlm;
 	private SidebarModel sbm;
-	private RouteCalculator rc;
+	private MapAlgorithms ma;
 	private Locale locale;
 	private POI currentPOI;
 	private Route currentRoute;
@@ -35,7 +40,7 @@ public class CampusGuide {
 		this.locale = FacesContext.getCurrentInstance().getApplication().getDefaultLocale();
 		this.setCurrentPOI(null);
 		this.currentRoute = null;
-		this.rc = Dijkstra.getSingleton();
+		this.ma = new ConcreteMapAlgorithms();
 	}
 
 	public SidebarModel getSbm() {
@@ -96,28 +101,39 @@ public class CampusGuide {
 		String newSearch = (String) ev.getNewValue();
 		if (newSearch != null) {
 			this.hlm.setSearch(newSearch);
-			this.submitSearch();
+			this.currentPOI = this.ma.searchPOI(this.hlm.getSearch());
 		}
 		FacesContext.getCurrentInstance().renderResponse();
 	}
 	
 	public void fromChanged(ValueChangeEvent ev) {
-		POI newFrom = (POI) ev.getNewValue();
-		System.out.println(newFrom.getX());
-		this.sbm.setFrom(newFrom);
+		String newFrom = (String) ev.getNewValue();
+		this.sbm.setFrom(this.ma.searchPOI(newFrom));
+		System.out.println(this.sbm.getFrom().getName());
 		if (this.sbm.getTo() != null) {
-			this.currentRoute = this.rc.calculateRoute(this.sbm.getFrom(), 
-									this.sbm.getTo(), ConstantData.getGraph());
+//			this.currentRoute = this.ma.calculateRoute(this.sbm.getFrom(), 
+//									this.sbm.getTo());
+			List<Point> route = new ArrayList<Point>();
+			route.add(this.sbm.getFrom());
+			route.add(this.sbm.getTo());
+			this.currentRoute = new Route(route);
+			System.out.println(this.currentRoute.toString());
 		}
 		FacesContext.getCurrentInstance().renderResponse();
 	}
 	
 	public void toChanged(ValueChangeEvent ev) {
-		POI newTo = (POI) ev.getNewValue();
-		this.sbm.setFrom(newTo);
+		String newTo = (String) ev.getNewValue();
+		this.sbm.setTo(this.ma.searchPOI(newTo));
+		System.out.println(this.sbm.getTo().getName());
 		if (this.sbm.getFrom() != null) {
-			this.currentRoute = this.rc.calculateRoute(this.sbm.getFrom(), 
-					this.sbm.getTo(), ConstantData.getGraph());
+//			this.currentRoute = this.ma.calculateRoute(this.sbm.getFrom(), 
+//									this.sbm.getTo());
+			List<Point> route = new ArrayList<Point>();
+			route.add(this.sbm.getFrom());
+			route.add(this.sbm.getTo());
+			this.currentRoute = new Route(route);
+			System.out.println(this.currentRoute.toString());
 		}
 		FacesContext.getCurrentInstance().renderResponse();
 	}

@@ -4,6 +4,7 @@ var layer_mapnik;
 var routeLayer;
 var layer_markers = new Object();
 var current_poi;
+var current_route;
 var all_poi = new Object();
 var all_cat;
 
@@ -127,12 +128,13 @@ function setMyCenter(lo,la,zo) {
 }
   
 function route() {
-		routeLayer.removeAllFeatures();
-		var routeFeature = new OpenLayers.Feature.Vector(
-				new OpenLayers.Geometry.LineString([new OpenLayers.Geometry.Point(10, 10),
-				                                    new OpenLayers.Geometry.Point(50, 50)]), null, null);
-		routeLayer.addFeatures([ routeFeature ]);
-			
+//		routeLayer.removeAllFeatures();
+//		var routeFeature = new OpenLayers.Feature.Vector(
+//				new OpenLayers.Geometry.LineString([new OpenLayers.Geometry.Point(10, 10),
+//				                                    new OpenLayers.Geometry.Point(50, 50)]), null, null);
+//		routeLayer.addFeatures([ routeFeature ]);	
+	current_route = getElement("route:current-route");
+	alert(current_route);
 }
 
 function showMarkers(show, layer) {

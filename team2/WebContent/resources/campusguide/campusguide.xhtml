@@ -11,8 +11,7 @@
   	xmlns:o="http://openfaces.org/">
 <head><title>campusguide</title></head><body>
 <cc:interface>
-	<cc:attribute name="headline" required="true" />
-	<cc:attribute name="sidebar" required="true" />
+	<cc:attribute name="model" required="true" />
 </cc:interface>
 <cc:implementation>
 	
@@ -23,11 +22,11 @@
  	 -->
  	 <div id="headline" style="background: url(./css/img/intern/tab_inactive.gif) repeat-x;" align="center">
 <h:form id="search">
-<h:outputText id="current-poi" value="#{campusGuide.currentPOI}" class="hidden">
+<h:outputText id="current-poi" value="#{cc.attrs.model.currentPOI}" class="hidden">
 				<f:converter converterId="poiConverter" />
 	</h:outputText>
-<o:suggestionField id="search-field" value="#{cc.attrs.headline.search}" 
-		promptText="#{msgs.search_field}" valueChangeListener="#{campusGuide.searchChanged}"
+<o:suggestionField id="search-field" value="#{cc.attrs.model.hlm.search}" 
+		promptText="#{msgs.search_field}" valueChangeListener="#{cc.attrs.model.searchChanged}"
 		size="50"
         customValueAllowed="false"
         manuelListOpeningAllowed="true"
@@ -62,6 +61,7 @@
 <h:outputScript target="head" library="javax.faces" name="jsf.js" />
 <div id="map"></div> 
 <script type="text/javascript" src="resources/campusguide/campusguide.js" />
+
 <script type="text/javascript">
 	setClientID('#{cc.clientId}');
 	drawmap();
@@ -74,9 +74,22 @@
 				
 				<div id="sidebar">
 <h:form id="route">
-<o:suggestionField id="from-field" value="#{cc.attrs.sidebar.from}"
-		promptText="#{msgs.route_from}" valueChangeListener="#{campusGuide.fromChanged}" 
-		converter="poiNameConverter"
+<h:outputText id="current-route" value="#{cc.attrs.model.currentRoute}" class="hidden">
+				<f:converter converterId="routeConverter" />
+</h:outputText>
+<script type="text/javascript">
+function route() {
+//	routeLayer.removeAllFeatures();
+//	var routeFeature = new OpenLayers.Feature.Vector(
+//			new OpenLayers.Geometry.LineString([new OpenLayers.Geometry.Point(10, 10),
+//			                                    new OpenLayers.Geometry.Point(50, 50)]), null, null);
+//	routeLayer.addFeatures([ routeFeature ]);	
+current_route = getElement("route:current-route");
+alert(current_route);
+}
+</script>
+<o:suggestionField id="from-field" 
+		promptText="#{msgs.route_from}" valueChangeListener="#{cc.attrs.model.fromChanged}" 
 		customValueAllowed="false"
         manuelListOpeningAllowed="true"
 		autoComplete="true"
@@ -85,12 +98,14 @@
         suggestionMode="substring"
         listStyle="z-index:9999;"
         style="width:95%;">
-<o:dropDownItems value="#{constantData.allPOI}" />
-<f:ajax render="@none" event="valueChange"/>
+<o:dropDownItems value="#{constantData.allPOIName}" />
+ <f:ajax render="current-route" execute="from-field" event="valueChange"/>
 </o:suggestionField>
 	<br />
 	<o:suggestionField id="to-field" 
-		promptText="#{msgs.route_to}"
+		promptText="#{msgs.route_to}" valueChangeListener="#{cc.attrs.model.toChanged}"
+		customValueAllowed="false"
+        manuelListOpeningAllowed="true"
 		autoComplete="true"
         suggestionDelay="200"
         suggestionMinChars="2" 
@@ -98,6 +113,7 @@
         listStyle="z-index:9999;"
         style="width:95%;">
 <o:dropDownItems value="#{constantData.allPOIName}" />
+ <f:ajax render="current-route" execute="to-field" event="valueChange"/>
 </o:suggestionField>
 <h:commandButton id="route" value="#{msgs.route_button}" style="left:165px;" onclick="route()">
 <f:ajax render="@this" />
