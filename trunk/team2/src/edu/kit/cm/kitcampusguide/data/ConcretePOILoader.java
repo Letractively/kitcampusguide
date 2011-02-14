@@ -167,7 +167,7 @@ public class ConcretePOILoader implements POILoader {
 	private POI savePOI(ResultSet resultset) throws SQLException {
 		POI poi = null;
 		
-		resultset.next();
+		//resultset.next();
 		if (resultset != null) {
 			int poiID = resultset.getInt("poi_id");
 			String poiName = resultset.getString("poi_name");
@@ -200,7 +200,7 @@ public class ConcretePOILoader implements POILoader {
 	private POICategory savePOICategory(ResultSet resultset) throws SQLException {
 		POICategory poiCat = null;
  
-		resultset.next();
+		//resultset.next();
 		if (resultset != null) {
 			int poiCatID = resultset.getInt(1);
 			String poiCatName = resultset.getString(2);
@@ -244,7 +244,10 @@ public class ConcretePOILoader implements POILoader {
 			resultset = Config.executeSQLStatement(connection, sqlquery);
 	        while(resultset.next()) {
 				int poiid = resultset.getInt("poi_id");
-	        	poicat.addPOI(this.getPOI(poiid));  	
+				sqlquery = "SELECT * FROM cg_pois WHERE poi_id='" + poiid + "'";
+                resultset = Config.executeSQLStatement(connection, sqlquery);
+				resultset.next();
+	        	poicat.addPOI(savePOI(resultset));  	
 	        }
 	    } catch (SQLException e) {
 		    e.printStackTrace();
