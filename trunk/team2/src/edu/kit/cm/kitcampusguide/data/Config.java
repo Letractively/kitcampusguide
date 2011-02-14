@@ -67,7 +67,7 @@ public final class Config {
 		return connection;
 	}
 	
-	public static ResultSet executeSQLStatement(Connection connection, String SQLquery) {
+	public static ResultSet executeSQLStatement(Connection connection, String SQLquery) throws SQLException {
 		if (connection == null) {
 			throw new IllegalArgumentException();
 		}
@@ -75,16 +75,8 @@ public final class Config {
 		Statement statement = null;
 		ResultSet resultset = null;
 		
-		try {
-	        statement = connection.createStatement();
-	        resultset = statement.executeQuery(SQLquery);     
-	    } catch( Exception ex ) {
-	        System.out.println( ex );
-	    } finally {
-	        try { if( null != resultset ) resultset.close(); } catch( Exception ex ) {}
-	        try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
-	        try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
-	    }
+	    statement = connection.createStatement();
+	    resultset = statement.executeQuery(SQLquery);     
 
 		return resultset;
 	}
