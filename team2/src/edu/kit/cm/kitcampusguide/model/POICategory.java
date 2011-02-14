@@ -1,11 +1,13 @@
 package edu.kit.cm.kitcampusguide.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * This class contains the description of a Category of POI.
  * 
  * @author Kateryna Yurchenko
+ * @author Tobias Zündorf
  * 
  */
 
@@ -30,11 +32,15 @@ public class POICategory {
 	 * @param visible determines if the category must be shown on the map.
 	 */
 	public POICategory(String name, int id, String icon, String description) {
+		this(name, id, icon, description, new ArrayList<POI>());
+	}
+	
+	public POICategory(String name, int id, String icon, String description, Collection<POI> poi) {
 		this.name = name;
 		this.id = id;
 		this.icon = icon;
 		this.description = description;
-		this.categoryPOI = new ArrayList<POI>();
+		this.categoryPOI = new ArrayList<POI>(poi);
 		this.visible = false;
 	}
 	
