@@ -57,9 +57,6 @@ public class SidebarModel {
 		this.suggestions = new ArrayList<POI>();
 		this.suggestionsFrom = new ArrayList<POI>();
 		this.suggestionsTo = new ArrayList<POI>();
-		
-//TODO hier anstatt von null richtigen error message schreiebn und attribut dann final machen
-//TODO oder so lassen aber noch einen setter hinzufügen? wenn so,dann auch im Entwurf ändern.
 		this.errorMessage = null;
 	}
 	
