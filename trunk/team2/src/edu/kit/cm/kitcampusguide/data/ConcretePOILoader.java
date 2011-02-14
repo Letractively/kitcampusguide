@@ -234,7 +234,7 @@ public class ConcretePOILoader implements POILoader {
 		}
 		
 		Connection connection = Config.getPgSQLJDBCConnection();
-		String sqlquery = "SELECT poi_id FROM cg_poi-poicat WHERE category_id = " + poicat.getId();
+		String sqlquery = "SELECT * FROM cg_poi-poicat WHERE category_id = " + poicat.getId();
 		
 		ResultSet resultset = null;
 
@@ -242,8 +242,8 @@ public class ConcretePOILoader implements POILoader {
 			resultset = Config.executeSQLStatement(connection, sqlquery);
 	        while(resultset.next()) {
 	        	System.out.println("POICat: " + poicat.getId() + ", " + poicat.getName());
-	        	System.out.println("Gefundener korresp. Eintrag: " + resultset.getInt("poi_id"));
-	        	System.out.println("Gefundener korresp. Eintrag2: " + resultset.getInt("1"));
+	        	System.out.println("poi_id Eintrag: " + resultset.getInt("poi_id"));
+	        	System.out.println("category_id Eintrag: " + resultset.getInt("category_id"));
 				poicat.addPOI(this.getPOI(resultset.getInt("poi_id")));  	
 	        }
 	    } catch (SQLException e) {
