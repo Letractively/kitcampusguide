@@ -15,37 +15,35 @@
 </cc:interface>
 <cc:implementation>
 	
-	<h:outputScript target="head" library="javax.faces" name="jsf.js"/>
+ 	<h:outputScript target="head" library="javax.faces" name="jsf.js" />
  	<h:outputStylesheet taget="head" library="campusguide" name="campusguide.css"/>
  	<!-- 
 	<hl:headline model="#{cc.attrs.headline}" />
- 	 
- 	<div id="headline" style="background: url(./css/img/intern/tab_inactive.gif) repeat-x;" align="center">
- 	-->
-	<div id="headline">
-		<h:form id="search">
-			<h:outputText id="current-poi" value="#{cc.attrs.model.currentPOI}" class="hidden">
+ 	 -->
+ 	 <div id="headline" style="background: url(./css/img/intern/tab_inactive.gif) repeat-x;" align="center">
+<h:form id="search">
+<h:outputText id="current-poi" value="#{cc.attrs.model.currentPOI}" class="hidden">
 				<f:converter converterId="poiConverter" />
-			</h:outputText>
-			<o:suggestionField id="search-field" value="#{cc.attrs.model.hlm.search}" 
-			promptText="#{msgs.search_field}" valueChangeListener="#{cc.attrs.model.searchChanged}"
-			size="50"
-        	customValueAllowed="false"
-        	manuelListOpeningAllowed="true"
-			autoComplete="true"
-        	suggestionDelay="200"
-        	suggestionMinChars="2"
-        	suggestionMode="substring"
-        	listStyle="z-index:9999;">
-				<o:dropDownItems value="#{constantData.allPOIName}"/>
-				<f:ajax render="current-poi" execute="search-field" event="valueChange"/>
-			</o:suggestionField>
-			<h:commandButton id="search-button" value="#{msgs.search_button}" onclick="showPOI()" class="suchButton">
-				<f:ajax render="@this"/>
-			</h:commandButton>
-		</h:form>
-	</div>
- 	<table id="map-sidebar" cellspacing="0" cellpadding="0" class="cgtable" >
+	</h:outputText>
+<o:suggestionField id="search-field" value="#{cc.attrs.model.hlm.search}" 
+		promptText="#{msgs.search_field}" valueChangeListener="#{cc.attrs.model.searchChanged}"
+		size="50"
+		autoComplete="true"
+        suggestionDelay="200"
+        suggestionMinChars="2"
+        suggestionMode="substring"
+        listStyle="z-index:9999;"
+     	>
+<o:dropDownItems value="#{constantData.allPOIName}"/>
+ <f:ajax render="current-poi" execute="search-field" event="valueChange"/>
+</o:suggestionField>
+<h:commandButton id="search-button" value="#{msgs.search_button}"
+		onclick="showPOI()">
+		<f:ajax render="@this"/>
+</h:commandButton>
+</h:form>
+</div>
+ 	 <table id="map-sidebar" cellspacing="0" cellpadding="0" class="cgtable" >
 		<tbody>			
 			<tr>
 				<td style="width:423px;">
@@ -77,10 +75,8 @@
 <h:outputText id="current-route" value="#{cc.attrs.model.currentRoute}" class="hidden">
 				<f:converter converterId="routeConverter" />
 </h:outputText>
-<o:suggestionField id="from-field" 
+<o:suggestionField id="from-field"
 		promptText="#{msgs.route_from}" valueChangeListener="#{cc.attrs.model.fromChanged}" 
-		customValueAllowed="false"
-        manuelListOpeningAllowed="true"
 		autoComplete="true"
         suggestionDelay="200"
         suggestionMinChars="1"
@@ -91,10 +87,8 @@
  <f:ajax render="current-route" execute="from-field" event="valueChange"/>
 </o:suggestionField>
 	<br />
-	<o:suggestionField id="to-field" 
+	<o:suggestionField id="to-field"
 		promptText="#{msgs.route_to}" valueChangeListener="#{cc.attrs.model.toChanged}"
-		customValueAllowed="false"
-        manuelListOpeningAllowed="true"
 		autoComplete="true"
         suggestionDelay="200"
         suggestionMinChars="2" 
@@ -104,8 +98,14 @@
 <o:dropDownItems value="#{constantData.allPOIName}" />
  <f:ajax render="current-route" execute="to-field" event="valueChange"/>
 </o:suggestionField>
-<h:commandButton id="route" value="#{msgs.route_button}" style="left:165px;" onclick="route();">
-<f:ajax render="@this" />
+<h:commandButton id="route" value="#{msgs.route_button}"
+onclick="route();">
+<f:ajax render="current-route" />
+</h:commandButton>
+<h:commandButton id="hide-route" value="#{msgs.route_hide}" 
+onclick="hideRoute();"
+action="#{cc.attrs.model.removeRoute}">
+<f:ajax render="@none" />
 </h:commandButton>
 </h:form>
 <script type="text/javascript" src="resources/campusguide/sidebar.js" />
@@ -117,7 +117,7 @@
 	<o:forEach items="#{constantData.categoriesName}" var="category" varStatus="status">
 	<o:selectBooleanCheckbox value="true" onchange="showMarkers(this.value, '#{category}')"/>
 	<h:outputText value="#{category}" /> <br />
-	</o:forEach>					
+	</o:forEach>				
 </o:foldingPanel>
 </div> 
 				</td>
