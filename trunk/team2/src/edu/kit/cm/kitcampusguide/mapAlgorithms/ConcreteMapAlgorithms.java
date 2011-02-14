@@ -31,6 +31,12 @@ public class ConcreteMapAlgorithms implements MapAlgorithms {
 	}
 
 	@Override
+	public List<String> getSuggestionsNames(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public POI searchPOI(String name) {
 		return queryCalculator.searchPOI(name);
 	}

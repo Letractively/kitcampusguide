@@ -80,6 +80,16 @@ public class ConcreteQueryCalculator implements QueryCalculator {
 	}
 
 	@Override
+	public List<String> getSuggestionsNames(String name) {
+		List<POI> pois = getSuggestions(name);
+		List<String> result = new LinkedList<String>();
+		for (POI poi : pois) {
+			result.add(poi.getName());
+		}
+		return result;
+	}
+
+	@Override
 	public POI searchPOI(String name) {
 		List<POI> poiList = POI_LOADER.getAllPOIs();
 		POI reply = null;
