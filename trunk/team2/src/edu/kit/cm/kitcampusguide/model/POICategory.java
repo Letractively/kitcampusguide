@@ -29,12 +29,20 @@ public class POICategory {
 	 * @param id an unique number set to each category.
 	 * @param icon the name of the icon on the map.
 	 * @param description a short description of the category.
-	 * @param visible determines if the category must be shown on the map.
 	 */
 	public POICategory(String name, int id, String icon, String description) {
 		this(name, id, icon, description, new ArrayList<POI>());
 	}
 	
+	/**
+	 * Creates a new category of POI with its characteristics which contains a list of POI. 
+	 * 
+	 * @param name the name of the category.
+	 * @param id an unique number set to each category.
+	 * @param icon the name of the icon on the map.
+	 * @param description a short description of the category.
+	 * @param poi a collection of POI which belong to this category.
+	 */
 	public POICategory(String name, int id, String icon, String description, Collection<POI> poi) {
 		this.name = name;
 		this.id = id;
