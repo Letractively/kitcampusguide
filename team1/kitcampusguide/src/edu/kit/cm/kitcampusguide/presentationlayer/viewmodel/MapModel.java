@@ -9,6 +9,7 @@ import java.util.Set;
 
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapPhaseListener;
+import edu.kit.cm.kitcampusguide.presentationlayer.view.converters.MapModelConverter;
 import edu.kit.cm.kitcampusguide.standardtypes.Building;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
@@ -16,46 +17,68 @@ import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.Route;
 
 /**
- * This class manages the properties of the shown map.
+ * This class manages the properties of the shown map. Only properties
+ * directly related to the map are stored. Additionally, the <code>MapModel</code>
+ * offers a mechanism to obtain which properties have changed since the last request
+ * and which not. This allows the converters only to convert data which has really changed,
+ * see {@link MapModelConverter}.
  * @author Fred
  *
  */
 public class MapModel implements Serializable {
 
-	/** The POIs currently shown.*/
+	/** The POIs currently shown. */
 	private Collection<POI> pois;
+	
 	/**
 	 * The building the currently displayed map is a floor of or
 	 * <code>null</code>.
 	 */
 	private Building building;
+	
 	/**
 	 * The index of the current floor in the current building or
 	 * <code>null</code>.
 	 */
 	private Integer currentFloorIndex;
+	
 	/** The currently displayed map section. */
 	private MapLocator mapLocator;
+	
 	/** The POI currently highlighted or <code>null</code>. */
 	private POI highlightedPOI;
+	
 	/** The current starting position for a route or <code>null</code>. */
 	private MapPosition markerFrom;
+	
 	/** The current end position for a route or <code>null</code>. */
 	private MapPosition markerTo;
+	
 	/** The currently displayed route or <code>null</code>. */
 	private Route route;
-	/**
-	 * The building POI for which a list of POIs inside the building should be
-	 * displayed or <code>null</code>.
-	 */
-	private POI buildingPOI;
-	/**
-	 * The list of POIs in the building for which the building POI is currently
-	 * displayed or <code>null</code>.
-	 */
-	private List<POI> buildingPOIList;
+	
 	/** The map currently displayed. */
 	private Map map;
+
+	/**
+	 * The building POI for which a list of POIs inside the building should be
+	 * displayed or <code>null</code>. If this property is <code>null</code>,
+	 * <code>buildingPOIList</code> will be <code>null</code> as well.
+	 * Furthermore, if the building POI is set, it is always equal to the
+	 * highlighted POI.
+	 * 
+	 * @see #getBuildingPOIList()
+	 */
+	private POI buildingPOI;
+
+	/**
+	 * The list of POIs in the building for which the building POI is currently
+	 * displayed or <code>null</code>. If this property is <code>null</code>,
+	 * <code>buildingPOI</code> will be <code>null</code> as well.
+	 * @see #getBuildingPOI()
+	 */
+	private List<POI> buildingPOIList;
+	
 
 	/**
 	 * Stores all changed properties. If the current request is not a partial request, all
@@ -63,11 +86,6 @@ public class MapModel implements Serializable {
 	 * execute application logic phase (see {@link MapPhaseListener})
 	 */
 	private Set<MapProperty> changedProperties = new HashSet<MapModel.MapProperty>();
-
-	public MapModel() {
-		System.out.println("created");
-		addAllProperties();
-	}
 
 	/**
 	 * Returns the map to display.
@@ -84,6 +102,8 @@ public class MapModel implements Serializable {
 	 * @param map
 	 *            The map to be displayed. If <code>null</code>, no change is
 	 *            made.
+	 * @throws NullPointerException
+	 *             if <code>map</code> is <code>null</code>
 	 */
 	public void setMap(Map map) {
 		if (map == null) {
@@ -94,8 +114,7 @@ public class MapModel implements Serializable {
 	}
 
 	/**
-	 * Returns the POIs to be displayed. TESTCODE, needs to be removed once
-	 * controller is finished.
+	 * Returns the POIs to be displayed.
 	 * 
 	 * @return The POIs to be displayed.
 	 */
@@ -109,6 +128,8 @@ public class MapModel implements Serializable {
 	 * @param pois
 	 *            The POIs to be displayed. If <code>null</code>, no change is
 	 *            made.
+	 * @throws NullPointerException
+	 *             if <code>pois</code> is <code>null</code>
 	 */
 	public void setPOIs(Collection<POI> pois) {
 		if (pois == null) {
@@ -128,10 +149,11 @@ public class MapModel implements Serializable {
 	}
 
 	/**
-	 * Sets the currently displayed building to building.
+	 * Sets the currently displayed building.
 	 * 
 	 * @param building
-	 *            The building to display. Can be <code>null</code>.
+	 *            The building to display. If no building should be shown
+	 *            anymore, <code>null</code> can be passed.
 	 */
 	public void setBuilding(Building building) {
 		changedProperties.add(MapProperty.building);
@@ -142,7 +164,8 @@ public class MapModel implements Serializable {
 	 * Returns the {@link MapLocator} which is used to determine the currently
 	 * displayed map section.
 	 * 
-	 * @return The MapSection currently displayed.
+	 * @return the current map locator which is used to determine the map
+	 *         section.
 	 */
 	public MapLocator getMapLocator() {
 		return this.mapLocator;
@@ -153,10 +176,14 @@ public class MapModel implements Serializable {
 	 * be displayed.
 	 * 
 	 * @param mapLocator
-	 *            Sets the MapSection to be displayed mapSection. If
-	 *            <code>null</code>, no change is made.
+	 *            a <code>MapLocator</code>
+	 * @throws NullPointerException
+	 *             if <code>mapLocator<code> is <code>null</code>
 	 */
 	public void setMapLocator(MapLocator mapLocator) {
+		if (mapLocator == null) {
+			throw new NullPointerException();
+		}
 		changedProperties.add(MapProperty.mapLocator);
 		this.mapLocator = mapLocator;
 	}
@@ -171,6 +198,7 @@ public class MapModel implements Serializable {
 	public void setHighlightedPOI(POI highlightedPOI) {
 		changedProperties.add(MapProperty.highlightedPOI);
 		this.highlightedPOI = highlightedPOI;
+		
 		// change Building POI as well
 		if (highlightedPOI == null) {
 			createBuildingPOIList(null, null);
@@ -187,21 +215,25 @@ public class MapModel implements Serializable {
 	}
 
 	/**
-	 * Returns the MapPosition a route is drawn from.
+	 * Returns the position of the from marker. If the from marker is set it
+	 * will be drawn on the map with a s special symbol. The from marker and the
+	 * to marker are used to let the user specify an arbitrary map position, for
+	 * example for calculating the route between to points on the campus map.
 	 * 
-	 * @return The MapPosition a route is drawn from. Can return
-	 *         <code>null</code>.
+	 * @return The position of the currently from marker or <code>null</code> if
+	 *         no such marker was set.
+	 * 
+	 * @see #getMarkerTo()
 	 */
 	public MapPosition getMarkerFrom() {
 		return markerFrom;
 	}
 
 	/**
-	 * Sets the MapPosition a route is drawn from.
+	 * Sets the <code>markerFrom</code> property, see {@link #getMarkerFrom()}
 	 * 
 	 * @param markerFrom
-	 *            The MapPosition a route is drawn from. Can be
-	 *            <code>null</code>.
+	 *            The new marker from location. Can be <code>null</code>.
 	 */
 	public void setMarkerFrom(MapPosition markerFrom) {
 		changedProperties.add(MapProperty.markerFrom);
@@ -209,19 +241,26 @@ public class MapModel implements Serializable {
 	}
 
 	/**
-	 * Returns the MapPosition a route is drawn to.
+	 * Returns the position of the to marker. If the to marker is set it
+	 * will be drawn on the map with a s special symbol. The from marker and the
+	 * to marker are used to let the user specify an arbitrary map position, for
+	 * example for calculating the route between to points on the campus map.
 	 * 
-	 * @return The MapPosition a route is drawn to. Can be <code>null</code>.
+	 * @return The position of the currently to marker or <code>null</code> if
+	 *         no such marker was set.
+	 * 
+	 * @see #getMarkerFrom()
 	 */
 	public MapPosition getMarkerTo() {
 		return markerTo;
 	}
 
 	/**
-	 * Sets the MapPosition a route is drawn to.
+	 * Sets the marker to location. See {@link #getMarkerTo()}.
 	 * 
 	 * @param markerTo
-	 *            The MapPosition a route is drawn to. Can be <code>null</code>.
+	 *            the new location of the marker to. If the marker should be
+	 *            deleted, pass <code>null</code>.
 	 */
 	public void setMarkerTo(MapPosition markerTo) {
 		changedProperties.add(MapProperty.markerTo);
@@ -229,9 +268,9 @@ public class MapModel implements Serializable {
 	}
 
 	/**
-	 * Sets the route to be drawn.
+	 * Returns the route currently drawn.
 	 * 
-	 * @return The route to be drawn. Can return <code>null</code>.
+	 * @return The current route or <code>null</code> if no route was set.
 	 */
 	public Route getRoute() {
 		return route;
@@ -241,7 +280,8 @@ public class MapModel implements Serializable {
 	 * Sets the route to be drawn.
 	 * 
 	 * @param route
-	 *            The route to be drawn. Can be <code>null</code>.
+	 *            The route to be drawn or <code>null</code> if no route should
+	 *            be displayed.
 	 */
 	public void setRoute(Route route) {
 		changedProperties.add(MapProperty.route);
@@ -249,7 +289,9 @@ public class MapModel implements Serializable {
 	}
 
 	/**
-	 * Returns the POI representing the building currently displayed.
+	 * Returns the POI representing the building currently displayed. If this
+	 * POI is not <code>null</code>, it is always the same as
+	 * {@link #getHighlightedPOI()}.
 	 * 
 	 * @return The POI representing the building currently displayed. Can be
 	 *         <code>null</code>.
@@ -260,8 +302,7 @@ public class MapModel implements Serializable {
 
 	/**
 	 * Sets the POI representing the current building and the list of POIs
-	 * inside the building. If both list and listPOI are <code>null</code>,or
-	 * both are not <code>null</code>, changes are made.
+	 * inside the building.
 	 * 
 	 * @param listPOI
 	 *            The POI representing the current building. Can be
@@ -271,6 +312,11 @@ public class MapModel implements Serializable {
 	 *            The list of POIs inside the building represented by
 	 *            <code>listPOI</code>. Can be <code>null</code> only if
 	 *            <code>listPOI</code> is <code>null</code> too.
+	 * @throws IllegalArgumentException
+	 *             if <code>list</code> is <code>null</code> and
+	 *             <code>listPOI</code> is not <code>null</code> or if
+	 *             <code>listPOI</code> is <code>null</code> and
+	 *             <code>list</code> is not <code>null</code>
 	 */
 	public void createBuildingPOIList(POI listPOI, List<POI> list) {
 		if ((listPOI == null && list == null)
@@ -280,13 +326,16 @@ public class MapModel implements Serializable {
 			changedProperties.add(MapProperty.buildingPOI);
 			changedProperties.add(MapProperty.buildingPOIList);
 		}
+		else {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	/**
 	 * Returns a list of POIs in the currently displayed building.
 	 * 
-	 * @return The POIs inside the currently displayed building. Can be
-	 *         <code>null</code>.
+	 * @return The POIs inside the currently displayed building or
+	 *         <code>null</code> if no building was set.
 	 */
 	public List<POI> getBuildingPOIList() {
 		return buildingPOIList;
@@ -299,6 +348,7 @@ public class MapModel implements Serializable {
 	 *            The index of the current floor. Can be <code>null</code>.
 	 */
 	public void setCurrentFloorIndex(Integer currentFloorIndex) {
+		// TODO: Integrate this method in createBuildingPOIList
 		changedProperties.add(MapProperty.currentFloorIndex);
 		this.currentFloorIndex = currentFloorIndex;
 	}
