@@ -7,8 +7,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import edu.kit.cm.kitcampusguide.model.Graph;
-import edu.kit.cm.kitcampusguide.model.POI;
-import edu.kit.cm.kitcampusguide.model.POICategory;
 import edu.kit.cm.kitcampusguide.model.Point;
 
 /**
