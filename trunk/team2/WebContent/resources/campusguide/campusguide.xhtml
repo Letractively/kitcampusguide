@@ -40,7 +40,7 @@
 <o:dropDownItems value="#{constantData.allPOIName}"/>
  <f:ajax render="current-poi" execute="search-field" event="valueChange"/>
 </o:suggestionField>
-<h:commandButton id="search-button" value="#{msgs.search_button}"  
+<h:commandButton id="search-button" value="#{msgs.search_button}"
 		onclick="showPOI()">
 		<f:ajax render="@this"/>
 </h:commandButton>
@@ -73,16 +73,20 @@
 				 -->
 				
 				<div id="sidebar">
-			<h:form id="route">
-	<o:suggestionField id="from-field"  
-		promptText="#{msgs.route_from}"
+<h:form id="route">
+<o:suggestionField id="from-field" value="#{cc.attrs.sidebar.from}"
+		promptText="#{msgs.route_from}" valueChangeListener="#{campusGuide.fromChanged}" 
+		converter="poiNameConverter"
+		customValueAllowed="false"
+        manuelListOpeningAllowed="true"
 		autoComplete="true"
         suggestionDelay="200"
-        suggestionMinChars="2"
+        suggestionMinChars="1"
         suggestionMode="substring"
         listStyle="z-index:9999;"
         style="width:95%;">
-<o:dropDownItems value="#{constantData.allPOIName}" />
+<o:dropDownItems value="#{constantData.allPOI}" />
+<f:ajax render="@none" event="valueChange"/>
 </o:suggestionField>
 	<br />
 	<o:suggestionField id="to-field" 

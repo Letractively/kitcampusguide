@@ -7,7 +7,10 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
+import edu.kit.cm.kitcampusguide.ConstantData;
 import edu.kit.cm.kitcampusguide.data.ConcretePOILoader;
+import edu.kit.cm.kitcampusguide.mapAlgorithms.Dijkstra;
+import edu.kit.cm.kitcampusguide.mapAlgorithms.RouteCalculator;
 import edu.kit.cm.kitcampusguide.model.HeadlineModel;
 import edu.kit.cm.kitcampusguide.model.InfoboxModel;
 import edu.kit.cm.kitcampusguide.model.POI;
@@ -21,18 +24,18 @@ public class CampusGuide {
 	
 	private HeadlineModel hlm;
 	private SidebarModel sbm;
-	private InfoboxModel ibm;
-	private Settings settings;
+	private RouteCalculator rc;
 	private Locale locale;
 	private POI currentPOI;
+	private Route currentRoute;
 	
 	public CampusGuide() {
 		this.hlm = new HeadlineModel();
 		this.sbm = new SidebarModel();
-		this.ibm = new InfoboxModel();
-		this.settings = null;
-		this.locale = Locale.GERMAN;
+		this.locale = FacesContext.getCurrentInstance().getApplication().getDefaultLocale();
 		this.setCurrentPOI(null);
+		this.currentRoute = null;
+		this.rc = Dijkstra.getSingleton();
 	}
 
 	public SidebarModel getSbm() {
@@ -41,22 +44,6 @@ public class CampusGuide {
 
 	public void setSbm(SidebarModel sbm) {
 		this.sbm = sbm;
-	}
-
-	public InfoboxModel getIbm() {
-		return ibm;
-	}
-
-	public void setIbm(InfoboxModel ibm) {
-		this.ibm = ibm;
-	}
-
-	public Settings getSettings() {
-		return settings;
-	}
-
-	public void setSettings(Settings settings) {
-		this.settings = settings;
 	}
 
 	public HeadlineModel getHlm() {
@@ -90,6 +77,13 @@ public class CampusGuide {
 	public POI getCurrentPOI() {
 		return currentPOI;
 	}
+	public void setCurrentRoute(Route currentRoute) {
+		this.currentRoute = currentRoute;
+	}
+	
+	public Route getCurrentRoute() {
+		return currentRoute;
+	}
 	
 	public void submitSearch() {
 		List<POI> pl = new ConcretePOILoader().getPOIsByName(this.hlm.getSearch());
@@ -106,4 +100,26 @@ public class CampusGuide {
 		}
 		FacesContext.getCurrentInstance().renderResponse();
 	}
+	
+	public void fromChanged(ValueChangeEvent ev) {
+		POI newFrom = (POI) ev.getNewValue();
+		System.out.println(newFrom.getX());
+		this.sbm.setFrom(newFrom);
+		if (this.sbm.getTo() != null) {
+			this.currentRoute = this.rc.calculateRoute(this.sbm.getFrom(), 
+									this.sbm.getTo(), ConstantData.getGraph());
+		}
+		FacesContext.getCurrentInstance().renderResponse();
+	}
+	
+	public void toChanged(ValueChangeEvent ev) {
+		POI newTo = (POI) ev.getNewValue();
+		this.sbm.setFrom(newTo);
+		if (this.sbm.getFrom() != null) {
+			this.currentRoute = this.rc.calculateRoute(this.sbm.getFrom(), 
+					this.sbm.getTo(), ConstantData.getGraph());
+		}
+		FacesContext.getCurrentInstance().renderResponse();
+	}
+
 }
