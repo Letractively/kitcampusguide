@@ -53,10 +53,10 @@ public class InputListenerImpl implements InputListener {
 		MapPosition position = positionRepresentedBySearchTerm(searchTerm, inputField);
 		if (position != null) {
 			if (inputField == InputField.ROUTE_FROM) {
-				logger.info("set markerFrom to " + searchTerm);
+				logger.debug("set markerFrom to " + searchTerm);
 				mapModel.setMarkerFrom(position);
 			} else {
-				logger.info("set markerTo to " + searchTerm);
+				logger.debug("set markerTo to " + searchTerm);
 				mapModel.setMarkerTo(position);
 			}
 		} else {
@@ -78,13 +78,16 @@ public class InputListenerImpl implements InputListener {
 	
 	//Effects that the POI 'poi' is highlighted in the view. 'poi' mustn't be null.
 	private void highlightPOI(POI poi) {
-		logger.info("highlight poi: " + poi.getName());
+		logger.debug("highlight poi: " + poi.getName());
 		mapModel.setMarkerFrom(null);
 		mapModel.setMarkerTo(null);
 		mapModel.setHighlightedPOI(poi);
 		mapModel.setMapLocator(new MapLocator (new MapPosition(poi.getPosition().getLatitude(),
 				poi.getPosition().getLongitude(), poi.getMap())));
 		mapModel.setMap(poi.getMap());
+		if (poi.getMap().getID() != defaultModelValueClass.getDefaultMap().getID()) {
+			mapModel.setBuilding(poi.getMap().getBuilding());
+		}
 	}	
 	
 	/**
@@ -138,7 +141,7 @@ public class InputListenerImpl implements InputListener {
 	private void calculateRoute(MapPosition from, MapPosition to) {
 		Route route = routing.calculateRoute(from, to);
 		if (route != null) {
-			logger.info("Display route");
+			logger.debug("Display route");
 			mapModel.setMarkerFrom(route.getStart());
 			mapModel.setMarkerTo(route.getEnd());
 			mapModel.setRoute(route);
@@ -230,7 +233,7 @@ public class InputListenerImpl implements InputListener {
 	private POI performSearch(String searchTerm, InputField inputField) {
 		List<POI> searchResults = poiSource.getPOIsBySearch(searchTerm);	
 		if (searchResults == null || searchResults.size() == 0) {
-			logger.info("no search results for " + searchTerm);
+			logger.debug("no search results for " + searchTerm);
 			if (inputField == InputField.ROUTE_FROM) {
 				inputModel.setRouteFromSearchFailed(true);
 			} else {
@@ -238,10 +241,10 @@ public class InputListenerImpl implements InputListener {
 			}
 			return null;
 		} else if (searchResults.size() == 1) {
-			logger.info("unique search result for " + searchTerm + " : " + searchResults.get(0).getName());
+			logger.debug("unique search result for " + searchTerm + " : " + searchResults.get(0).getName());
 			return searchResults.get(0);
 		} else {
-			logger.info("multiple search results for " + searchTerm);	
+			logger.debug("multiple search results for " + searchTerm);	
 			choiceProposalTriggered(searchResults, inputField);
 			return null;
 		}
@@ -264,7 +267,7 @@ public class InputListenerImpl implements InputListener {
 	 */
 	@Override
 	public void languageChangeTriggered(String language) {
-		logger.info("change language to: " + language);
+		logger.debug("change language to: " + language);
 		translationModel.setCurrentLanguage(language);
 	}	
 
@@ -273,7 +276,7 @@ public class InputListenerImpl implements InputListener {
 	 */
 	@Override
 	public void changeToMapViewTriggered() {
-		logger.info("change to map view");
+		logger.debug("change to map view");
 		mapModel.setMap(defaultModelValueClass.getDefaultMap());
 		mapModel.setBuilding(null);
 	}
@@ -282,7 +285,7 @@ public class InputListenerImpl implements InputListener {
 	 * {@inheritDoc}
 	 */
 	public void changeFloorTriggered(Map floor) {
-		logger.info("change floor to: " + floor.getName());
+		logger.debug("change floor to: " + floor.getName());
 		mapModel.setMap(floor);
 	}
 	
