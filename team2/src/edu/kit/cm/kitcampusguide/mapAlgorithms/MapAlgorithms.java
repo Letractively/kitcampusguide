@@ -30,6 +30,9 @@ public interface MapAlgorithms {
 	 */
 	public List<POI> getSuggestions(String name);
 	
+	// TODO
+	public List<String> getSuggestionsNames(String name);
+	
 	/**
 	 * Searches through the entire POI database and compares each POI-name with the specified 
 	 * String. After that the POI with the highest correspondence is returned
