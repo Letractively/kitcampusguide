@@ -1,6 +1,6 @@
 package data;
 
 
-public class ConcretePOILoader {
+public class ConcretePOILoaderTest {
 
 }
