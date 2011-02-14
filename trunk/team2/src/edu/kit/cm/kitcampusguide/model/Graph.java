@@ -75,6 +75,18 @@ public class Graph {
 	}
 	
 	/**
+	 * Tries to setup a new Graph with specified nodes and edges. Throws a IllegalArgumentException if the specified 
+	 * lists of nodes and edges don not represent a consistent Graph.
+	 * 
+	 * @param points a list containing Points, representing the geographic of each node 
+	 * @param length a list containing the length of each edge represented by there index 
+	 * @param nodes a list that defines a mapping from node indices to edge indices
+	 * @param edges a list containing the end node for eage edge, represented by there index
+	 */
+	public Graph(Point[] points, double[] length, int[] nodes, int[] edges) {
+	}
+	
+	/**
 	 * Adds the specified Point as a node to the Graph. The index of the new node is
 	 * .numberOfNodes(). After adding the node .numberOfNodes is increased by one.
 	 * 
