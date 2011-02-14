@@ -10,6 +10,7 @@ import edu.kit.cm.kitcampusguide.data.ConcreteMapLoader;
 import edu.kit.cm.kitcampusguide.data.ConcretePOILoader;
 import edu.kit.cm.kitcampusguide.data.MapLoader;
 import edu.kit.cm.kitcampusguide.data.POILoader;
+import edu.kit.cm.kitcampusguide.mapAlgorithms.RouteCalculatingUtility;
 import edu.kit.cm.kitcampusguide.model.Graph;
 import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.model.POICategory;
@@ -117,7 +118,7 @@ public class ConstantData {
 		
 		MapLoader ml = new ConcreteMapLoader();
 		Graph graph = ml.getGraph();
-		
+		RouteCalculatingUtility.generateLandmark(graph.getNode(0));
 	}
 	
 }
