@@ -47,4 +47,13 @@ public interface MapLoader {
 	// TODO zum Entwurf hinzufügen
 	public void addLandmarkToDatabase(Point landmark, double[] distances);
 
+	/**
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param length
+	 */
+	// TODO zum Entwurf hinzufügen
+	public void addStreetToDatabase(int fromId, int toId, double length);
+
 }
