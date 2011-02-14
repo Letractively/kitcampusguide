@@ -122,9 +122,6 @@ public class ConcreteMapLoader implements MapLoader {
 	public Point[] getLandmarks() {
 		ArrayList<Point> pointlist = new ArrayList<Point>();
 		
-		
-		
-		
 		Connection connection = Config.getPgSQLJDBCConnection();
 		String sqlquery = "SELECT * FROM cg_landmark";
 		
@@ -156,41 +153,29 @@ public class ConcreteMapLoader implements MapLoader {
 		ArrayList<Integer> landmarklist = new ArrayList<Integer>();
 		ArrayList<Double> lengthlist = new ArrayList<Double>();
 		
-		String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
+		Connection connection = Config.getPgSQLJDBCConnection();
+		String sqlquery = "SELECT * FROM cg_distance";
 		
-		Connection connection = null;
-		Statement statement = null;
 		ResultSet resultset = null;
 		
 		try {
-	        Class.forName("org.postgresql.Driver" );
-	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
-
-	        statement = connection.createStatement();
-	        resultset = statement.executeQuery("SELECT * FROM cg_distance");     
-	        
+			resultset = Config.executeSQLStatement(connection, sqlquery);
 	        while(resultset.next()) {
 	        	streetnodelist.add(resultset.getInt(1));
 	        	landmarklist.add(resultset.getInt(2));
 	        	lengthlist.add(resultset.getDouble(3));
 			}
-	        
-	      } catch( Exception ex ) {
-	          System.out.println( ex );
-	      } finally {
-	          try { if( null != resultset ) resultset.close(); } catch( Exception ex ) {}
-	          try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
-	          try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
-	      }
-	      
-	      double[][] result = new double[streetnodelist.size()][streetnodelist.size()];
-	      
-	      // unschön? ;)
-	      for (int i = 0; i < streetnodelist.size(); i++) {
-	          result[streetnodelist.get(i)][landmarklist.get(i)] = lengthlist.get(i);
-	      }
+	    } catch (SQLException e) {
+		    e.printStackTrace();
+	    }
 
-	      return result;
+	    double[][] result = new double[streetnodelist.size()][streetnodelist.size()];
+	    
+	    for (int i = 0; i < streetnodelist.size(); i++) {
+	        result[streetnodelist.get(i)][landmarklist.get(i)] = lengthlist.get(i);
+	    }
+
+	    return result;
 	}
 	
 	/**
@@ -214,11 +199,12 @@ public class ConcreteMapLoader implements MapLoader {
                 "VALUES ('" + landmark.getX() + "', '" + landmark.getY() + "')");
 	        
             resultset = statement.executeQuery("SELECT id FROM cg_landmark WHERE latitude = '" + landmark.getX() +
-            		"' AND longitude = '" + landmark.getY() + "')");
+            		"' AND longitude = '" + landmark.getY() + "'");
+            resultset.next();
             int landmarkid = resultset.getInt("id");
             
 	        for (int i = 0; i < distances.length; i++) {
-	        	statement.executeUpdate("INSERT INTO cg_distances (streetnode_id, landmark_id, length) " + 
+	        	statement.executeUpdate("INSERT INTO cg_distance (streetnode_id, landmark_id, length) " + 
 	                    "VALUES ('" + i + "', '" + landmarkid + "', '" + distances[i] + "')");
 	        }
 
@@ -226,6 +212,7 @@ public class ConcreteMapLoader implements MapLoader {
         } catch (Exception e) { 
             System.err.println("Got an exception! "); 
             System.err.println(e.getMessage()); 
+            System.err.println(e.getStackTrace());
         } finally {
         try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
         try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
