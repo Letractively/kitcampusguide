@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class contains the information about the sidebar, which can be expanded
@@ -30,16 +31,16 @@ public class SidebarModel {
 	private boolean extended;
 	
 	/* Categories of POI which must be shown on the map. */
-	private ArrayList<POICategory> categories;
+	private List<POICategory> categories;
 	
 	/* Textual suggestions of POI which must be shown if no matching POI are found. */
-	private ArrayList<POI> suggestions;
+	private List<POI> suggestions;
 	
 	/* Suggestions for the starting point. */
-	private ArrayList<POI> suggestionsFrom;
+	private List<POI> suggestionsFrom;
 
 	/* Suggestions for the ending point. */
-	private ArrayList<POI> suggestionsTo;
+	private List<POI> suggestionsTo;
 	
 	/* An error message which can be shown within the sidebar. */
 	private String errorMessage;
@@ -85,7 +86,7 @@ public class SidebarModel {
 	 * 
 	 * @param categories categories of POI which must be shown on the map.
 	 */
-	public void setCategories(ArrayList<POICategory> categories) {
+	public void setCategories(List<POICategory> categories) {
 		this.categories = categories; 
 	}
 	
@@ -96,7 +97,7 @@ public class SidebarModel {
 	 * @param suggestions the textual suggestions of POI which must be shown
 	 * during the input.
 	 */
-	public void setSuggestions(ArrayList<POI> suggestions) {
+	public void setSuggestions(List<POI> suggestions) {
 		this.suggestions = suggestions; 
 	}
 	
@@ -118,7 +119,7 @@ public class SidebarModel {
 	 * @param suggestions the textual suggestions of POI which must be shown
 	 * during the input of the ending point.
 	 */
-	public void setSuggestionsTo(ArrayList<POI> suggestionsTo) {
+	public void setSuggestionsTo(List<POI> suggestionsTo) {
 		this.suggestionsTo = suggestionsTo; 
 	}
 	
@@ -193,7 +194,7 @@ public class SidebarModel {
 	 * 
 	 * @return the categories of POI which must be shown on the map.
 	 */
-	public ArrayList<POICategory> getCategories() {
+	public List<POICategory> getCategories() {
 		return this.categories;
 	}
 
@@ -202,7 +203,7 @@ public class SidebarModel {
 	 * 
 	 * @return the textual suggestions of POI which must be shown if no matching POI are found.
 	 */
-	public ArrayList<POI> getSuggestions() {
+	public List<POI> getSuggestions() {
 		return this.suggestions;
 	}
 
@@ -211,7 +212,7 @@ public class SidebarModel {
 	 * 
 	 * @return the suggestions for the starting point.
 	 */
-	public ArrayList<POI> getSuggestionsFrom() {
+	public List<POI> getSuggestionsFrom() {
 		return this.suggestionsFrom;
 	}
 
@@ -220,7 +221,7 @@ public class SidebarModel {
 	 * 
 	 * @return the suggestions for the ending point.
 	 */
-	public ArrayList<POI> getSuggestionsTo() {
+	public List<POI> getSuggestionsTo() {
 		return this.suggestionsTo;
 	}
 
