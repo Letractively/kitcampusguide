@@ -31,7 +31,7 @@ public interface MapAlgorithms {
 	public List<POI> getSuggestions(String name);
 	
 	// TODO
-	public List<String> getSuggestionsNames(String name);
+	// public List<String> getSuggestionsNames(String name);
 	
 	/**
 	 * Searches through the entire POI database and compares each POI-name with the specified 
