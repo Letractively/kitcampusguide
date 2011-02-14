@@ -89,13 +89,13 @@ public class ConstantData {
 		ConstantData c = new ConstantData();
 		for (POICategory p : c.getCategories()) {
 			System.out.println(p.getAllPOI().size());
+			System.out.println(p.getName()); 
 		} 
-//		ConstantData c = new ConstantData();
 		
-		
-	//	POILoader poiloader = new ConcretePOILoader();
-//		POI poi = poiloader.getPOI(1);
-//		System.out.println(poi.getName());
+		for (POI p : c.getAllPOI()) {
+			//System.out.println(p.getAllPOI().size());
+			System.out.println(p.getName());
+		} 
 	}
 	
 }
