@@ -2,6 +2,7 @@ package edu.kit.cm.kitcampusguide.standardtypes;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Represents a map.
@@ -135,6 +136,21 @@ public class Map implements Serializable {
 		Map result = null;
 		result = maps.get(new Integer(id));
 		return result;
+	}
+	
+	/**
+	 * Returns the building to which this map belongs. If no appropriate building can be found, null is returned.
+	 * @return Returns the building to which this map belongs. If no appropriate building can be found, null is returned.
+	 */
+	public Building getBuilding() {
+		for (Building building : Building.getAllBuildings()) {
+			for (Map floor : building.getFloors()) {
+				if (floor.getID() == this.getID()) {
+					return building;
+				}
+			}
+		}	
+		return null;
 	}
 	
 	

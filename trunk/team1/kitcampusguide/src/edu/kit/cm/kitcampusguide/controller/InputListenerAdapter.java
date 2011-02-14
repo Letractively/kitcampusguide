@@ -319,8 +319,7 @@ public class InputListenerAdapter {
 		this.inputModel = inputModel;
 	}
 	
-	/**
-	 * Sets the TranslationModel-property.
+	/**tionModel-property.
 	 * @param translationModel Not null.
 	 */
 	public void setTranslationModel(TranslationModel translationModel) {
