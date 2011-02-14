@@ -90,13 +90,6 @@ public class CampusGuide {
 		return currentRoute;
 	}
 	
-	public void submitSearch() {
-		List<POI> pl = new ConcretePOILoader().getPOIsByName(this.hlm.getSearch());
-		if (!pl.isEmpty()) {			
-			this.currentPOI = pl.get(0);
-		}
-	}
-	
 	public void searchChanged(ValueChangeEvent ev) {
 		String newSearch = (String) ev.getNewValue();
 		if (newSearch != null) {
@@ -109,21 +102,19 @@ public class CampusGuide {
 	public void fromChanged(ValueChangeEvent ev) {
 		String newFrom = (String) ev.getNewValue();
 		this.sbm.setFrom(this.ma.searchPOI(newFrom));
-		if (this.sbm.getTo() != null) {
-//			this.currentRoute = this.ma.calculateRoute(this.sbm.getFrom(), 
-//									this.sbm.getTo());
-			List<Point> route = new ArrayList<Point>();
-			route.add(this.sbm.getFrom());
-			route.add(this.sbm.getTo());
-			this.currentRoute = new Route(route);
-		}
+		this.updateRoute();
 		FacesContext.getCurrentInstance().renderResponse();
 	}
 	
 	public void toChanged(ValueChangeEvent ev) {
 		String newTo = (String) ev.getNewValue();
 		this.sbm.setTo(this.ma.searchPOI(newTo));
-		if (this.sbm.getFrom() != null) {
+		this.updateRoute();
+		FacesContext.getCurrentInstance().renderResponse();
+	}
+	
+	private void updateRoute() {
+		if (this.sbm.getFrom() != null && this.sbm.getTo() != null) {
 //			this.currentRoute = this.ma.calculateRoute(this.sbm.getFrom(), 
 //									this.sbm.getTo());
 			List<Point> route = new ArrayList<Point>();
@@ -131,7 +122,6 @@ public class CampusGuide {
 			route.add(this.sbm.getTo());
 			this.currentRoute = new Route(route);
 		}
-		FacesContext.getCurrentInstance().renderResponse();
 	}
 
 }
