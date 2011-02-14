@@ -148,11 +148,12 @@ public class InputListenerImpl implements InputListener {
 			mapModel.setMarkerTo(route.getEnd());
 			mapModel.setRoute(route);
 			mapModel.setMapLocator(new MapLocator (route.getBoundingBox()));
-			if (from.getMap().getID() == to.getMap().getID()) {	
-				mapModel.setMap(from.getMap());
-			} else {
+			if (from.getMap().getID() != to.getMap().getID() || 
+				from.getMap().getID() == defaultModelValueClass.getDefaultMap().getID()) {				
 				mapModel.setMap(defaultModelValueClass.getDefaultMap());
 				mapModel.setBuilding(null);
+			} else {
+				mapModel.setMap(from.getMap());				
 			}
 		} else {
 			inputModel.setRouteCalculationFailed(true);
