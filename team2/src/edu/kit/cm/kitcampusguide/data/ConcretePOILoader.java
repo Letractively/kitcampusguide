@@ -168,12 +168,12 @@ public class ConcretePOILoader implements POILoader {
 		POI poi = null;
 		
 		if (resultset != null) {
-			int poiID = resultset.getInt(1);
-			String poiName = resultset.getString(2);
-			double poiX = resultset.getDouble(3);
-			double poiY = resultset.getDouble(4);
-			String poiIcon = resultset.getString(5);
-			String poiDescription = resultset.getString(6);
+			int poiID = resultset.getInt("poi_id");
+			String poiName = resultset.getString("poi_name");
+			double poiX = resultset.getDouble("poi_latitude");
+			double poiY = resultset.getDouble("poi_longitude");
+			String poiIcon = resultset.getString("poi_icon");
+			String poiDescription = resultset.getString("poi_description");
 			poi = new POI(poiName, poiID, poiIcon, poiDescription, poiX, poiY);
 		}
 		
@@ -234,7 +234,7 @@ public class ConcretePOILoader implements POILoader {
 		}
 		
 		Connection connection = Config.getPgSQLJDBCConnection();
-		String sqlquery = "SELECT * FROM cg_poi-poicat WHERE category_id = " + poicat.getId();
+		String sqlquery = "SELECT * FROM cg_poi_poicat WHERE category_id=" + poicat.getId();
 		
 		ResultSet resultset = null;
 
@@ -244,7 +244,9 @@ public class ConcretePOILoader implements POILoader {
 	        	System.out.println("POICat: " + poicat.getId() + ", " + poicat.getName());
 	        	System.out.println("poi_id Eintrag: " + resultset.getInt("poi_id"));
 	        	System.out.println("category_id Eintrag: " + resultset.getInt("category_id"));
-				poicat.addPOI(this.getPOI(resultset.getInt("poi_id")));  	
+				int poiid = resultset.getInt("poi_id");
+				System.out.println("category_id Eintrag: " + resultset.getInt("category_id"));
+	        	poicat.addPOI(this.getPOI(poiid));  	
 	        }
 	    } catch (SQLException e) {
 		    e.printStackTrace();
