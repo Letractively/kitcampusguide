@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * Concrete Implementation of the POILoader, works on a PostgreSQL Database
  * and loads our data into Objects.
  * 
- * @author Michael Hauber (michael.hauber2{at}student.kit.edu)
+ * @author Michael Hauber
  */
 public class ConcretePOILoader implements POILoader {
 
@@ -161,8 +161,9 @@ public class ConcretePOILoader implements POILoader {
         return result;
 	}
 	
-	
-	
+	/*
+	 * TBA
+	 */
 	private POI savePOI(ResultSet resultset) throws SQLException {
 		POI poi = null;
 		
@@ -177,11 +178,12 @@ public class ConcretePOILoader implements POILoader {
 		}
 		
 		return poi;
-		
 	}
 	
+	/*
+	 * TBA
+	 */
 	private ArrayList<POI> savePOIs(ResultSet resultset) throws SQLException {
-		/* delegate to savePOI */
 		ArrayList<POI> result = new ArrayList<POI>();
 		
         while(resultset.next()) {
@@ -189,7 +191,6 @@ public class ConcretePOILoader implements POILoader {
         }
         
 		return result;
-		
 	}
 	
 	/*
@@ -233,13 +234,16 @@ public class ConcretePOILoader implements POILoader {
 		}
 		
 		Connection connection = Config.getPgSQLJDBCConnection();
-		String sqlquery = "SELECT * FROM cg_poi-poicat WHERE category_id=" + poicat.getId();
+		String sqlquery = "SELECT poi_id FROM cg_poi-poicat WHERE category_id=" + poicat.getId();
 		
 		ResultSet resultset = null;
 
 		try {
 			resultset = Config.executeSQLStatement(connection, sqlquery);
 	        while(resultset.next()) {
+	        	System.out.println("POICat: " + poicat.getId() + ", " + poicat.getName());
+	        	System.out.println("Gefundener korresp. Eintrag: " + resultset.getInt("poi_id"));
+	        	System.out.println("Gefundener korresp. Eintrag2: " + resultset.getInt("1"));
 				poicat.addPOI(this.getPOI(resultset.getInt("poi_id")));  	
 	        }
 	    } catch (SQLException e) {
