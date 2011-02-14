@@ -45,7 +45,6 @@ public class Point {
 	}
 
 	@Override
-	// TODO zum entwurf hinzufügen
 	public boolean equals(Object obj) {
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
