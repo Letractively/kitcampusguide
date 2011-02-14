@@ -68,17 +68,6 @@ public class ConcreteMapLoader implements MapLoader {
 	          try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
 	      }
 	      
-	      
-	      // process to Graph data structure.
-	      System.out.println("streetnode ID list size: " + streetnodeId.size());
-	      System.out.println("streetnode X list size: " + streetnodeX.size());
-	      System.out.println("streetnode Y list size: " + streetnodeY.size());
-	      System.out.println("street From list size: " + streetFrom.size());
-	      System.out.println("street To list size: " + streetTo.size());
-	      System.out.println("street Length list size: " + streetLength.size());
-	      
-	    // ArrayList<Point> resPoints = new ArrayList<Point>();
-	      
 	      Point[] points = new Point[streetnodeId.size()];
 	      
 	      for (int i = 0; i < streetnodeId.size(); i++) {
@@ -183,16 +172,12 @@ public class ConcreteMapLoader implements MapLoader {
 	 */
 	@Override
 	public void addLandmarkToDatabase(Point landmark, double[] distances) {
-        String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
-		
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultset = null;
 
 		try { 
-			
-			Class.forName("org.postgresql.Driver" );
-	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
+	        connection = Config.getPgSQLJDBCConnection();
 
 	        statement = connection.createStatement();
             statement.executeUpdate("INSERT INTO cg_landmark (latitude, longitude) " + 
@@ -208,7 +193,6 @@ public class ConcreteMapLoader implements MapLoader {
 	                    "VALUES ('" + i + "', '" + landmarkid + "', '" + distances[i] + "')");
 	        }
 
-            connection.close(); 
         } catch (Exception e) { 
             System.err.println("Got an exception! "); 
             System.err.println(e.getMessage()); 
@@ -220,8 +204,29 @@ public class ConcreteMapLoader implements MapLoader {
     }
 	
 	// TODO optional zum einfacherem anlegen des Graphen...
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void addStreetToDatabase(int fromId, int toId, double length) {
-		
+		Connection connection = null;
+		Statement statement = null;
+
+		try { 
+	        connection = Config.getPgSQLJDBCConnection();
+
+	        statement = connection.createStatement();
+            statement.executeUpdate("INSERT INTO cg_street (from, to, length) " + 
+                "VALUES ('" + fromId + "', '" + toId + "', '" + length + "')");
+            
+        } catch (Exception e) { 
+            System.err.println("Got an exception! "); 
+            System.err.println(e.getMessage()); 
+            System.err.println(e.getStackTrace());
+        } finally {
+        try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
+        try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
+        }
 	}
 
 
