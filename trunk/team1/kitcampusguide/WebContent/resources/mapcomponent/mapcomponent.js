@@ -725,7 +725,21 @@ KITCampusMap.prototype.getTooltipContentHTML = function(poi) {
 	return "<div>" + poi.name + "</div>";
 };
 
-
+/**
+ * Represents an event occuring on the map. This can be one of the events
+ * specified in the <code>POIListener</code> and <code>MapListener</code>.
+ * 
+ * @param type
+ *            identifies which event occured, can be "clickOnPOI" or
+ *            "setRouteFromByContextMenu" for example.
+ * @param data
+ *            an arbitrary data argument which will be passed to the server as
+ *            well
+ * @param dataType
+ *            the type of the <code>data</code> argument. See
+ *            <code>OutputConverter</code> for a list of supported types.
+ * @returns {KITCampusEvent} a newly created <code>KITCampusEvent</code>
+ */
 function KITCampusEvent(type, data, dataType) {
 	this.type = type;
 	this.dataType = dataType ? dataType : "String";
