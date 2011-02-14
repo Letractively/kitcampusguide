@@ -40,7 +40,7 @@ public class ConcreteMapLoader implements MapLoader {
 	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
 
 	        statement = connection.createStatement();
-	        resultset = statement.executeQuery("SELECT * FROM cg_street");     
+	        resultset = statement.executeQuery("SELECT * FROM cg_streetnode");     
 	        
 	        while(resultset.next()) {
 	            streetnodeId.add(resultset.getInt(1));
@@ -50,7 +50,7 @@ public class ConcreteMapLoader implements MapLoader {
 	        
 	        
 	        statement = connection.createStatement();
-	        resultset = statement.executeQuery("SELECT * FROM cg_streetnode");     
+	        resultset = statement.executeQuery("SELECT * FROM cg_street");     
 	        
 	        while(resultset.next()) {
 	        	streetFrom.add(resultset.getInt(1));
@@ -85,9 +85,9 @@ public class ConcreteMapLoader implements MapLoader {
 	      }
 	      
 	      
-	      int[] vertices = new int[streetnodeId.size() + 1];
-	      int[] edges = new int[streetFrom.size()];
-	      double[] lengths = new double[streetFrom.size()];
+	      Integer[] vertices = new Integer[streetnodeId.size() + 1];
+	      Integer[] edges = new Integer[streetFrom.size()];
+	      Double[] lengths = new Double[streetFrom.size()];
 	      vertices[0] = 1;
 	     
 	      // calculate amount of edges of a node.
@@ -103,22 +103,9 @@ public class ConcreteMapLoader implements MapLoader {
 		  for (int i = 0; i < streetFrom.size(); i++) {
 			  edges[--vertices[streetFrom.get(i)]] = streetTo.get(i);
 			  lengths[--vertices[streetFrom.get(i)]] = streetLength.get(i);
-			  
 		  }
 		  
 		 
-		   ArrayList<Integer> resVertices = new ArrayList<Integer>();
-		   for (int i = 0; i < vertices.length; i++) {
-			   resVertices.add(vertices[i]);
-		   }
-		   
-		   ArrayList<Integer> resEdges = new ArrayList<Integer>();
-		   ArrayList<Double> resLengths = new ArrayList<Double>();
-		   for (int i = 0; i < edges.length; i++) {
-			   resEdges.add(edges[i]);
-			   resLengths.add(lengths[i]);
-		   }
-
 		  Graph graph = new Graph(points, lengths, vertices, edges);
 	      return graph;
 	}
