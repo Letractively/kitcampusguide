@@ -3,6 +3,7 @@ package edu.kit.cm.kitcampusguide.data;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -91,7 +92,7 @@ public class ConcreteMapLoader implements MapLoader {
 	      vertices[0] = 0;
 	     
 	      for (int i = 1; i < vertices.length; i++) {
-	    	  vertices[i] = -1;
+	    	  vertices[i] = 0;
 	      }
 	      
 	      // calculate amount of edges of a node.
@@ -121,39 +122,29 @@ public class ConcreteMapLoader implements MapLoader {
 	public Point[] getLandmarks() {
 		ArrayList<Point> pointlist = new ArrayList<Point>();
 		
-		String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
 		
-		Connection connection = null;
-		Statement statement = null;
+		
+		
+		Connection connection = Config.getPgSQLJDBCConnection();
+		String sqlquery = "SELECT * FROM cg_landmark";
+		
 		ResultSet resultset = null;
 		
 		try {
-	        Class.forName("org.postgresql.Driver" );
-	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
-	        
-	        
-	        
-	        statement = connection.createStatement();
-	        resultset = statement.executeQuery("SELECT * FROM cg_landmark");     
-	        
+			resultset = Config.executeSQLStatement(connection, sqlquery);
 	        while(resultset.next()) {
 	        	double latitude = resultset.getDouble(2);
 	        	double longitude = resultset.getDouble(3);
 	        	pointlist.add(new Point(latitude, longitude));
 			}
-	        
-	      } catch( Exception ex ) {
-	          System.out.println( ex );
-	      } finally {
-	          try { if( null != resultset ) resultset.close(); } catch( Exception ex ) {}
-	          try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
-	          try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
-	      }
-	      
-	      // unschön? ;)
-	      Point[] landmarks = new Point[pointlist.size()];
-	      landmarks = pointlist.toArray(landmarks);
-	      return landmarks;
+	    } catch (SQLException e) {
+		    e.printStackTrace();
+	    }
+		
+	    
+	    Point[] landmarks = new Point[pointlist.size()];
+	    landmarks = pointlist.toArray(landmarks);
+	    return landmarks;
 	}
 
 	/**
