@@ -308,6 +308,9 @@ public class Graph {
 		return valid;
 	}
 	
+	/*
+	 * This method copies the content of an specified Array into a List. 
+	 */
 	private static <T> List<T> copy(T[] source) {
 		ArrayList<T> result = new ArrayList<T>();
 		for (T element : source) {
