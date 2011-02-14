@@ -1,4 +1,5 @@
 package edu.kit.cm.kitcampusguide.view;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -8,19 +9,12 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
-import edu.kit.cm.kitcampusguide.ConstantData;
-import edu.kit.cm.kitcampusguide.data.ConcretePOILoader;
 import edu.kit.cm.kitcampusguide.mapAlgorithms.ConcreteMapAlgorithms;
-import edu.kit.cm.kitcampusguide.mapAlgorithms.Dijkstra;
 import edu.kit.cm.kitcampusguide.mapAlgorithms.MapAlgorithms;
-import edu.kit.cm.kitcampusguide.mapAlgorithms.RouteCalculator;
 import edu.kit.cm.kitcampusguide.model.HeadlineModel;
-import edu.kit.cm.kitcampusguide.model.InfoboxModel;
 import edu.kit.cm.kitcampusguide.model.POI;
-import edu.kit.cm.kitcampusguide.model.POICategory;
 import edu.kit.cm.kitcampusguide.model.Point;
 import edu.kit.cm.kitcampusguide.model.Route;
-import edu.kit.cm.kitcampusguide.model.Settings;
 import edu.kit.cm.kitcampusguide.model.SidebarModel;
 
 @ManagedBean
@@ -109,11 +103,13 @@ public class CampusGuide {
 	public void toChanged(ValueChangeEvent ev) {
 		String newTo = (String) ev.getNewValue();
 		this.sbm.setTo(this.ma.searchPOI(newTo));
+		System.out.println(this.sbm.getTo());
 		this.updateRoute();
 		FacesContext.getCurrentInstance().renderResponse();
 	}
 	
-	private void updateRoute() {
+	public void updateRoute() {
+		System.out.println("Route vorher: " + this.currentRoute);
 		if (this.sbm.getFrom() != null && this.sbm.getTo() != null) {
 //			this.currentRoute = this.ma.calculateRoute(this.sbm.getFrom(), 
 //									this.sbm.getTo());
@@ -121,7 +117,14 @@ public class CampusGuide {
 			route.add(this.sbm.getFrom());
 			route.add(this.sbm.getTo());
 			this.currentRoute = new Route(route);
+		} else {
+			this.currentRoute = null;
 		}
+		System.out.println("Route nach Update: " + this.currentRoute);
+	}
+	
+	public void removeRoute() {
+		this.currentRoute = null;
 	}
 
 }
