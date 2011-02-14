@@ -7,6 +7,8 @@ import org.json.simple.JSONObject;
 
 import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.model.POICategory;
+import edu.kit.cm.kitcampusguide.model.Point;
+import edu.kit.cm.kitcampusguide.model.Route;
 
 /**
  * This utility class provides several methods to convert model objects to a JSON String.
@@ -67,6 +69,24 @@ public final class JSONConverter {
 			result.add(convertPOICategory(p));
 		}
 		return result;
+	}
+	
+	private static JSONObject convertPoint(Point p) {
+		JSONObject result = new JSONObject();
+		result.put("lon", p.getX());
+		result.put("lat", p.getY());
+		return result;
+	}
+	
+	public static JSONArray convertRoute(Route r) {
+		if (r == null) {
+			return null;
+		}
+		JSONArray result = new JSONArray();
+		for (Point point : r.getRoute()) {
+			result.add(convertPoint(point));
+		}
+		return result;		
 	}
 
 }
