@@ -6,11 +6,9 @@ import java.util.List;
 import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.model.POICategory;
 
-import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * Concrete Implementation of the POILoader, works on a PostgreSQL Database
@@ -37,11 +35,6 @@ public class ConcretePOILoader implements POILoader {
 		ResultSet resultset = null;
 		try {
 			resultset = Config.executeSQLStatement(connection, sqlquery);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		
-		try {
 			result = savePOI(resultset);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -67,11 +60,6 @@ public class ConcretePOILoader implements POILoader {
 		ResultSet resultset = null;
 		try {
 			resultset = Config.executeSQLStatement(connection, sqlquery);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		
-        try {
 			result = savePOIs(resultset);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -94,11 +82,6 @@ public class ConcretePOILoader implements POILoader {
 		ResultSet resultset = null;
 		try {
 			resultset = Config.executeSQLStatement(connection, sqlquery);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		
-		try {
 			result = savePOIs(resultset);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -124,12 +107,7 @@ public class ConcretePOILoader implements POILoader {
 		ResultSet resultset = null;
 		try {
 			resultset = Config.executeSQLStatement(connection, sqlquery);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		
-		try {
-		result = savePOICategory(resultset);
+		    result = savePOICategory(resultset);
 	    } catch (SQLException e) {
 		    e.printStackTrace();
 	    }
@@ -148,33 +126,18 @@ public class ConcretePOILoader implements POILoader {
 		
 		ArrayList<POICategory> result = new ArrayList<POICategory>();
 		
-		String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
+		Connection connection = Config.getPgSQLJDBCConnection();
+		String sqlquery = "SELECT * FROM cg_poicategory WHERE poicat_name LIKE '" + name + "'";
 		
-		Connection connection = null;
-		Statement statement = null;
 		ResultSet resultset = null;
 		try {
-
-	        Class.forName("org.postgresql.Driver" );
-	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
-	        statement = connection.createStatement();
-	        resultset = statement.executeQuery("SELECT * FROM cg_poicategory WHERE poicat_name LIKE '" + name + "'");
-
-	        result = savePOICategories(resultset);
-
-	      } catch( Exception ex ) {
-	        System.out.println( ex );
-	      } finally {
-	        try { if( null != resultset ) resultset.close(); } catch( Exception ex ) {}
-	        try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
-	        try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
-	      }
-	      
-	      for (POICategory poicat : result) {
-	          poicat = addPOIsToCategory(poicat);
-	      }
-	      
-	      return result;
+			resultset = Config.executeSQLStatement(connection, sqlquery);
+			result = savePOICategories(resultset);
+	    } catch (SQLException e) {
+		    e.printStackTrace();
+	    }
+	    
+        return result;
 	}
 
 	/**
@@ -184,33 +147,18 @@ public class ConcretePOILoader implements POILoader {
 	public List<POICategory> getAllPOICategory() {	
 		ArrayList<POICategory> result = new ArrayList<POICategory>();
 		
-		String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
+		Connection connection = Config.getPgSQLJDBCConnection();
+		String sqlquery = "SELECT * FROM cg_poicategory";
 		
-		Connection connection = null;
-		Statement statement = null;
 		ResultSet resultset = null;
 		try {
-
-	        Class.forName("org.postgresql.Driver" );
-	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
-	        statement = connection.createStatement();
-	        resultset = statement.executeQuery("SELECT * FROM cg_poicategory");
-
-	        result = savePOICategories(resultset);
-
-	      } catch( Exception ex ) {
-	        System.out.println( ex );
-	      } finally {
-	        try { if( null != resultset ) resultset.close(); } catch( Exception ex ) {}
-	        try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
-	        try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
-	      }
-	      
-	      for (POICategory poicat : result) {
-	          poicat = addPOIsToCategory(poicat);
-	      }
-	      
-	      return result;
+			resultset = Config.executeSQLStatement(connection, sqlquery);
+			result = savePOICategories(resultset);
+	    } catch (SQLException e) {
+		    e.printStackTrace();
+	    }
+	    
+        return result;
 	}
 	
 	
@@ -244,7 +192,9 @@ public class ConcretePOILoader implements POILoader {
 		
 	}
 	
-
+	/*
+	 * TBA
+	 */
 	private POICategory savePOICategory(ResultSet resultset) throws SQLException {
 		POICategory poiCat = null;
 		
@@ -255,13 +205,15 @@ public class ConcretePOILoader implements POILoader {
 			String poiCatDescription = resultset.getString(4);
 			poiCat = new POICategory(poiCatName, poiCatID, poiCatIcon, poiCatDescription);
 		}
-		
+		addPOIsToCategory(poiCat);
 		return poiCat;
 		
 	}
 	
+	/*
+	 * TBA
+	 */
 	private ArrayList<POICategory> savePOICategories(ResultSet resultset) throws SQLException {
-		/* delegate to savePOI */
 		ArrayList<POICategory> result = new ArrayList<POICategory>();
 		
         while(resultset.next()) {
@@ -272,41 +224,27 @@ public class ConcretePOILoader implements POILoader {
 		
 	}
 	
-	
-	private POICategory addPOIsToCategory(POICategory poicat) {
+	/*
+	 * TBA
+	 */
+	private void addPOIsToCategory(POICategory poicat) {
 		if (poicat == null) {
 			throw new IllegalArgumentException("poicat cannot be null.");
 		}
 		
-		String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
+		Connection connection = Config.getPgSQLJDBCConnection();
+		String sqlquery = "SELECT * FROM cg_poi-poicat WHERE category_id=" + poicat.getId();
 		
-		Connection connection = null;
-		Statement statement = null;
 		ResultSet resultset = null;
+
 		try {
-
-	        Class.forName("org.postgresql.Driver" );
-	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
-	        statement = connection.createStatement();
-	        resultset = statement.executeQuery("SELECT * FROM cg_poi-poicat WHERE category_id=" + poicat.getId());
-
-	        
+			resultset = Config.executeSQLStatement(connection, sqlquery);
 	        while(resultset.next()) {
 				poicat.addPOI(this.getPOI(resultset.getInt("poi_id")));  	
 	        }
-
-	      } catch( Exception ex ) {
-	        System.out.println( ex );
-	      } finally {
-	        try { if( null != resultset ) resultset.close(); } catch( Exception ex ) {}
-	        try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
-	        try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
-	      }
-
-		return poicat;
+	    } catch (SQLException e) {
+		    e.printStackTrace();
+	    }
 	}
-
-
-
 
 }
