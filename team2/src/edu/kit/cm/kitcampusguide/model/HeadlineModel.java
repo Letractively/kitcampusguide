@@ -53,7 +53,6 @@ public class HeadlineModel {
 		this.suggestions = suggestions; 
 	}	
 	
-// TODO im Entwurf hinzufügen
 	/**
 	 * This method returns the suggestions for the input.
 	 * 
