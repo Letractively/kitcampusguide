@@ -243,6 +243,7 @@ public class ConcreteMapLoader implements MapLoader {
         } finally {
         try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
         try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
+        }
     }
 
 
