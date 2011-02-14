@@ -2,6 +2,7 @@ package edu.kit.cm.kitcampusguide.standardtypes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -117,5 +118,13 @@ public class Building implements Serializable {
 	 */
 	public Map getGroundFloor() {
 		return floors.get(groundfloorIndex);
+	}
+	
+	/**
+	 * Returns a list containing all buildings.
+	 * @return a list containing all buildings.
+	 */
+	public static List<Building> getAllBuildings() {
+		return new ArrayList<Building>(allBuildings.values());
 	}
 }
