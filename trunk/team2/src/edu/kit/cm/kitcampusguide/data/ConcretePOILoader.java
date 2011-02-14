@@ -218,6 +218,7 @@ public class ConcretePOILoader implements POILoader {
 	 * {@inheritDoc}
 	 */
 	@Override
+	// TODO Die POICatergorys die zurückgegeben werden müssen auch die POI's enthalten die zu ihnen gehören
 	public List<POICategory> getAllPOICategory() {	
 		ArrayList<POICategory> result = new ArrayList<POICategory>();
 		
