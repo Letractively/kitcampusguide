@@ -18,7 +18,13 @@ public class CategoryModel implements Serializable {
 	/** Stores all available categories. Is a managed property. */
 	private Collection<Category> categories;
 	
-	
+	/**
+	 * Default constructor.
+	 */
+	public CategoryModel() {
+		
+	}
+		
 	/**
 	 * Returns all available categories which a user can use for filtering.
 	 * @return All available categories.
@@ -48,6 +54,10 @@ public class CategoryModel implements Serializable {
 		return currentCategories;
 	}
 	
+	/**
+	 * Sets the categories-property.
+	 * @param categories Not null.
+	 */
 	public void setCategories(Collection<Category> categories) {
 		this.categories = categories;
 	}
