@@ -6,9 +6,19 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 
+import edu.kit.cm.kitcampusguide.presentationlayer.view.converters.MapModelConverter;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
 
-// TODO
+/**
+ * Implements a JSF Phase Listener to manage the <code>changedProperties</code> property of {@link MapModel}.
+ * The changedProperties have to be reset for each request because they still might be set from
+ * the request before. Even more, if the web page is requested for the first time, all properties
+ * need to be marked as changed for being converted correctly.
+ * 
+ * @see MapModel
+ * @see MapModelConverter
+ * @author Stefan
+ */
 public class MapPhaseListener implements PhaseListener {
 
 	@Override
@@ -16,7 +26,11 @@ public class MapPhaseListener implements PhaseListener {
 		ELContext elContext = FacesContext.getCurrentInstance().getELContext();
 		MapModel mapModel = (MapModel) elContext.getELResolver().getValue(
 				elContext, null, "mapModel");
+		
 		if (event.getPhaseId().equals(PhaseId.RESTORE_VIEW)) {
+			// Always add all properties at the beginning of a new event. This is necessary
+			// if the page is called for the first time. the update model values phase will
+			// not be executed then.
 			mapModel.addAllProperties();
 		}
 		else if (event.getPhaseId().equals(PhaseId.UPDATE_MODEL_VALUES)) {
@@ -27,16 +41,16 @@ public class MapPhaseListener implements PhaseListener {
 				// properties changed by the controller components will be updated
 				mapModel.resetChangedProperties();
 			}
-//			else {
-//				System.out.println("AddAll");
-//				mapModel.addAllProperties();
-//			}
+			else {
+				System.out.println("AddAll");
+				mapModel.addAllProperties();
+			}
 		}
 	}
 
 	@Override
 	public void beforePhase(PhaseEvent arg0) {
-		
+		// Nothing to do here
 	}
 
 	@Override

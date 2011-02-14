@@ -151,6 +151,16 @@
 		<managed-bean-name>categoryModel</managed-bean-name>
 		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.CategoryModel</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>categories</property-name>
+			<property-class>java.util.Collection</property-class>
+			<value>#{defaultModelValues.defaultCategories}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>currentCategories</property-name>
+			<property-class>java.util.Collection</property-class>
+			<value>#{categoryModel.defaultCurrentCategories}</value>
+		</managed-property>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>inputListenerAdapter</managed-bean-name>
