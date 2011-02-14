@@ -87,6 +87,8 @@ public class InputListenerImpl implements InputListener {
 		mapModel.setMap(poi.getMap());
 		if (poi.getMap().getID() != defaultModelValueClass.getDefaultMap().getID()) {
 			mapModel.setBuilding(poi.getMap().getBuilding());
+		} else {
+			mapModel.setBuilding(null);
 		}
 	}	
 	

@@ -47,4 +47,8 @@ public class CategoryModel implements Serializable {
 	public Collection<Category> getCurrentCategories() {
 		return currentCategories;
 	}
+	
+	public void setCategories(Collection<Category> categories) {
+		this.categories = categories;
+	}
 }

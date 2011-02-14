@@ -159,7 +159,7 @@
 		<managed-property>
 			<property-name>currentCategories</property-name>
 			<property-class>java.util.Collection</property-class>
-			<value>#{categoryModel.defaultCurrentCategories}</value>
+			<value>#{defaultModelValues.defaultCurrentCategories}</value>
 		</managed-property>
 	</managed-bean>
 	<managed-bean>
