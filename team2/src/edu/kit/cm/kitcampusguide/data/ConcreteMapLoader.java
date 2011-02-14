@@ -90,7 +90,17 @@ public class ConcreteMapLoader implements MapLoader {
 	      Double[] lengths = new Double[streetFrom.size()];
 	      vertices[0] = 1;
 	     
+		/*  for (Integer from : streetFrom) {
+		      if (from == null) {
+		    	  System.out.println("NULL!!!");
+		      }
+		  } */
+	      
 	      // calculate amount of edges of a node.
+	      for (int i = 1; i < vertices.length; i++) {
+	    	  vertices[i] = 0;
+	      }
+	      
 		  for (Integer from : streetFrom) {
 		      vertices[from]++;
 		  }
