@@ -109,7 +109,6 @@ public class CampusGuide {
 	public void fromChanged(ValueChangeEvent ev) {
 		String newFrom = (String) ev.getNewValue();
 		this.sbm.setFrom(this.ma.searchPOI(newFrom));
-		System.out.println(this.sbm.getFrom().getName());
 		if (this.sbm.getTo() != null) {
 //			this.currentRoute = this.ma.calculateRoute(this.sbm.getFrom(), 
 //									this.sbm.getTo());
@@ -117,7 +116,6 @@ public class CampusGuide {
 			route.add(this.sbm.getFrom());
 			route.add(this.sbm.getTo());
 			this.currentRoute = new Route(route);
-			System.out.println(this.currentRoute.toString());
 		}
 		FacesContext.getCurrentInstance().renderResponse();
 	}
@@ -125,7 +123,6 @@ public class CampusGuide {
 	public void toChanged(ValueChangeEvent ev) {
 		String newTo = (String) ev.getNewValue();
 		this.sbm.setTo(this.ma.searchPOI(newTo));
-		System.out.println(this.sbm.getTo().getName());
 		if (this.sbm.getFrom() != null) {
 //			this.currentRoute = this.ma.calculateRoute(this.sbm.getFrom(), 
 //									this.sbm.getTo());
@@ -133,7 +130,6 @@ public class CampusGuide {
 			route.add(this.sbm.getFrom());
 			route.add(this.sbm.getTo());
 			this.currentRoute = new Route(route);
-			System.out.println(this.currentRoute.toString());
 		}
 		FacesContext.getCurrentInstance().renderResponse();
 	}
