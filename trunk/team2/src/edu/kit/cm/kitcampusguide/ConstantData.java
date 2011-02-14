@@ -37,12 +37,6 @@ public class ConstantData {
 		for (POI p : allPOI) {
 			this.allPOIName.add(p.getName());
 		}
-		
-		//TODO: entfernen
-//		this.categories.get(1).addPOI(this.allPOI.get(0));
-//		this.categories.get(0).addPOI(this.allPOI.get(1));
-//		this.categories.get(1).addPOI(this.allPOI.get(2));
-//		this.categories.get(1).addPOI(this.allPOI.get(3));
 	}
 
 	public List<POI> getAllPOI() {

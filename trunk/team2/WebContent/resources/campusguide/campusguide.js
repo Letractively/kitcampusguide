@@ -127,15 +127,15 @@ function setMyCenter(lo,la,zo) {
     map.setCenter (lonLat, zo);
 }
   
-function route() {
-//		routeLayer.removeAllFeatures();
-//		var routeFeature = new OpenLayers.Feature.Vector(
-//				new OpenLayers.Geometry.LineString([new OpenLayers.Geometry.Point(10, 10),
-//				                                    new OpenLayers.Geometry.Point(50, 50)]), null, null);
-//		routeLayer.addFeatures([ routeFeature ]);	
-	current_route = getElement("route:current-route");
-	alert(current_route);
-}
+//function route() {
+////		routeLayer.removeAllFeatures();
+////		var routeFeature = new OpenLayers.Feature.Vector(
+////				new OpenLayers.Geometry.LineString([new OpenLayers.Geometry.Point(10, 10),
+////				                                    new OpenLayers.Geometry.Point(50, 50)]), null, null);
+////		routeLayer.addFeatures([ routeFeature ]);	
+//	current_route = getElement("route:current-route");
+//	alert(current_route);
+//}
 
 function showMarkers(show, layer) {
 //	layer_markers[layer].setOpacity(show ? 1.0 : 0.0);

@@ -77,17 +77,6 @@
 <h:outputText id="current-route" value="#{cc.attrs.model.currentRoute}" class="hidden">
 				<f:converter converterId="routeConverter" />
 </h:outputText>
-<script type="text/javascript">
-function route() {
-//	routeLayer.removeAllFeatures();
-//	var routeFeature = new OpenLayers.Feature.Vector(
-//			new OpenLayers.Geometry.LineString([new OpenLayers.Geometry.Point(10, 10),
-//			                                    new OpenLayers.Geometry.Point(50, 50)]), null, null);
-//	routeLayer.addFeatures([ routeFeature ]);	
-current_route = getElement("route:current-route");
-alert(current_route);
-}
-</script>
 <o:suggestionField id="from-field" 
 		promptText="#{msgs.route_from}" valueChangeListener="#{cc.attrs.model.fromChanged}" 
 		customValueAllowed="false"
@@ -119,6 +108,7 @@ alert(current_route);
 <f:ajax render="@this" />
 </h:commandButton>
 </h:form>
+<script type="text/javascript" src="resources/campusguide/sidebar.js" />
 <div id="sidebar-suggestions">
 </div>
 <o:foldingPanel id="poi-filter" caption="#{msgs.poi_filter}" expanded="true"
