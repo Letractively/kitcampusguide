@@ -210,7 +210,6 @@ public class RoutingInitializer {
 			List<Element> tags = e.getChildren("tag");
 			for (Element tag : tags) {
 				if (tag.getAttributeValue("k").equalsIgnoreCase("area") && tag.getAttributeValue("v").equalsIgnoreCase("yes")) {
-					logger.info("area found");
 					result = true;
 					break;
 				}
