@@ -1,5 +1,11 @@
 package edu.kit.cm.kitcampusguide.data;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  * This utility-class saves important data to connect to the current used database.
  * Every class, which works with the database have to use this data to connect to the database.
@@ -38,5 +44,50 @@ public final class Config {
 	 * Saves the password of the current used database.
 	 */
 	public static String dbPassword = "katja";
+	
+	
+	public static Connection getPgSQLJDBCConnection(){
+		try {
+			Class.forName("org.postgresql.Driver");	
+
+		} catch(java.lang.ClassNotFoundException e) {
+			System.err.print("ClassNotFoundException: ");
+			System.err.println(e.getMessage());
+		}
+		
+		String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
+		Connection connection = null;
+		
+		try {
+			connection = DriverManager.getConnection(dbURL, dbUsername, dbPassword);
+		} catch(SQLException ex) {
+			System.err.println("SQLException: " + ex.getMessage());
+		}
+
+		return connection;
+	}
+	
+	public static ResultSet executeSQLStatement(Connection connection, String SQLquery) {
+		if (connection == null) {
+			throw new IllegalArgumentException();
+		}
+		
+		Statement statement = null;
+		ResultSet resultset = null;
+		
+		try {
+	        statement = connection.createStatement();
+	        resultset = statement.executeQuery(SQLquery);     
+	    } catch( Exception ex ) {
+	        System.out.println( ex );
+	    } finally {
+	        try { if( null != resultset ) resultset.close(); } catch( Exception ex ) {}
+	        try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
+	        try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
+	    }
+
+		return resultset;
+	}
+
 	
 }
