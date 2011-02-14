@@ -70,8 +70,8 @@ public class ConcreteMapLoader implements MapLoader {
 	      
 	      // process to Graph data structure.
 	      System.out.println("streetnode ID list size: " + streetnodeId.size());
-	      System.out.println("streetnode ID list size: " + streetnodeX.size());
-	      System.out.println("streetnode ID list size: " + streetnodeY.size());
+	      System.out.println("streetnode X list size: " + streetnodeX.size());
+	      System.out.println("streetnode Y list size: " + streetnodeY.size());
 	      System.out.println("street From list size: " + streetFrom.size());
 	      System.out.println("street To list size: " + streetTo.size());
 	      System.out.println("street Length list size: " + streetLength.size());
@@ -88,19 +88,13 @@ public class ConcreteMapLoader implements MapLoader {
 	      Integer[] vertices = new Integer[streetnodeId.size() + 1];
 	      Integer[] edges = new Integer[streetFrom.size()];
 	      Double[] lengths = new Double[streetFrom.size()];
-	      vertices[0] = 1;
+	      vertices[0] = 0;
 	     
-		/*  for (Integer from : streetFrom) {
-		      if (from == null) {
-		    	  System.out.println("NULL!!!");
-		      }
-		  } */
-	      
-	      // calculate amount of edges of a node.
 	      for (int i = 1; i < vertices.length; i++) {
-	    	  vertices[i] = 0;
+	    	  vertices[i] = -1;
 	      }
 	      
+	      // calculate amount of edges of a node.
 		  for (Integer from : streetFrom) {
 		      vertices[from]++;
 		  }
@@ -112,7 +106,7 @@ public class ConcreteMapLoader implements MapLoader {
 	      
 		  for (int i = 0; i < streetFrom.size(); i++) {
 			  edges[--vertices[streetFrom.get(i)]] = streetTo.get(i);
-			  lengths[--vertices[streetFrom.get(i)]] = streetLength.get(i);
+			  lengths[vertices[streetFrom.get(i)]] = streetLength.get(i);
 		  }
 		  
 		 
