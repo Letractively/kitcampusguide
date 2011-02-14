@@ -12,11 +12,6 @@ import java.util.List;
  */
 
 public class SidebarModel {
-
-	// TODO : im Entwurf from und to sind vom Typ String (in der Beschreibung),
-	// TODO : aber in den Mehtoden zB getFrom wird POI zurückgegeben usw,
-	// TODO : deshalb habe ich zu POI hier geändert, wenn ok, ändert bitte auch im Entwurf.
-	
 	
 	/* The starting point. */
 	private POI from;
@@ -148,8 +143,6 @@ public class SidebarModel {
 		this.extended = extended; 
 	}
 
-	//TODO: im Entwurf Getter hinzufuegen!
-	
 	/**
 	 * This method returns the starting point of the route to be calculated.
 	 * 
