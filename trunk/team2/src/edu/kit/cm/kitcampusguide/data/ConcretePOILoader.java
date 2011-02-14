@@ -135,32 +135,6 @@ public class ConcretePOILoader implements POILoader {
 	    }
 		
 		return result;
-		
-		/* String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
-		
-		Connection connection = null;
-		Statement statement = null;
-		ResultSet resultset = null;
-		try {
-
-	        Class.forName("org.postgresql.Driver" );
-	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
-	        statement = connection.createStatement();
-	        resultset = statement.executeQuery("SELECT * FROM cg_poicategory WHERE poicat_id=" + id);
-
-	        result = savePOICategory(resultset);
-
-	    } catch( Exception ex ) {
-	        System.out.println( ex );
-	    } finally {
-	        try { if( null != resultset ) resultset.close(); } catch( Exception ex ) {}
-	        try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
-	        try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
-	    }
-	    
-	    result = addPOIsToCategory(result); */
-	      
-	    return result;
 	}
 
 	/**
