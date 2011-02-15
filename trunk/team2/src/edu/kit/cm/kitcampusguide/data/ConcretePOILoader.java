@@ -35,7 +35,9 @@ public class ConcretePOILoader implements POILoader {
 		ResultSet resultset = null;
 		try {
 			resultset = Config.executeSQLStatement(connection, sqlquery);
-			resultset.next();
+			if (!resultset.next()) {
+				resultset = null;
+			}
 			result = savePOI(resultset);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -66,6 +68,9 @@ public class ConcretePOILoader implements POILoader {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		if (result.size() == 0) {
+			result = null;
+		}
 
 	    return result;
 	}
@@ -88,6 +93,9 @@ public class ConcretePOILoader implements POILoader {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		if (result.size() == 0) {
+			result = null;
+		}
 
 	    return result;
 	}
@@ -109,8 +117,9 @@ public class ConcretePOILoader implements POILoader {
 		ResultSet resultset = null;
 		try {
 			resultset = Config.executeSQLStatement(connection, sqlquery);
-			resultset.next();
+			if (resultset.next()) {
 		    result = savePOICategory(resultset);
+		    }
 	    } catch (SQLException e) {
 		    e.printStackTrace();
 	    }
@@ -140,7 +149,10 @@ public class ConcretePOILoader implements POILoader {
 	    } catch (SQLException e) {
 		    e.printStackTrace();
 	    }
-	    
+		if (result.size() == 0) {
+			result = null;
+		}
+		
         return result;
 	}
 
@@ -161,12 +173,16 @@ public class ConcretePOILoader implements POILoader {
 	    } catch (SQLException e) {
 		    e.printStackTrace();
 	    }
+		if (result.size() == 0) {
+			result = null;
+		}
 	    
         return result;
 	}
 	
 	/*
-	 * 
+	 * Supporting-method to save a POI of the database
+	 * in a POI object by using a given ResultSet.
 	 */
 	private POI savePOI(ResultSet resultset) throws SQLException {
 		POI poi = null;
@@ -185,7 +201,8 @@ public class ConcretePOILoader implements POILoader {
 	}
 	
 	/*
-	 * 
+	 * Supporting-method to save a list of POIs of the database into a
+	 * List of POIs.
 	 */
 	private ArrayList<POI> savePOIs(ResultSet resultset) throws SQLException {
 		ArrayList<POI> result = new ArrayList<POI>();
@@ -198,7 +215,8 @@ public class ConcretePOILoader implements POILoader {
 	}
 	
 	/*
-	 * 
+	 * Supporting-method to save a POICategory of the database
+	 * in a POICategory object.
 	 */
 	private POICategory savePOICategory(ResultSet resultset) throws SQLException {
 		POICategory poiCat = null;
@@ -216,7 +234,8 @@ public class ConcretePOILoader implements POILoader {
 	}
 	
 	/*
-	 * 
+	 * Supporting-method to save a list of POICategory of the database
+	 * in a list of POICategory objects.
 	 */
 	private ArrayList<POICategory> savePOICategories(ResultSet resultset) throws SQLException {
 		ArrayList<POICategory> result = new ArrayList<POICategory>();
@@ -227,7 +246,7 @@ public class ConcretePOILoader implements POILoader {
 	}
 	
 	/*
-	 * 
+	 * Supporting-method to add all found POIs to a given POICategory.
 	 */
 	private void addPOIsToCategory(POICategory poicat) {
 		if (poicat == null) {
