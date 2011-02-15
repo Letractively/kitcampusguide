@@ -109,7 +109,6 @@ public class CampusGuide {
 	}
 	
 	public void updateRoute() {
-		System.out.println("Route vorher: " + this.currentRoute);
 		if (this.sbm.getFrom() != null && this.sbm.getTo() != null) {
 //			this.currentRoute = this.ma.calculateRoute(this.sbm.getFrom(), 
 //									this.sbm.getTo());
@@ -120,7 +119,6 @@ public class CampusGuide {
 		} else {
 			this.currentRoute = null;
 		}
-		System.out.println("Route nach Update: " + this.currentRoute);
 	}
 	
 	public void removeRoute() {
