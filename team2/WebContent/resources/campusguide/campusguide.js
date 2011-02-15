@@ -5,6 +5,7 @@ var layer_route;
 var layer_markers = new Object();
 var current_poi;
 var current_route;
+var current_tooltip;
 var all_poi = new Object();
 var all_cat;
 
@@ -124,7 +125,8 @@ function addMarker(layer, lon, lat, popupContentHTML, poi) {
 	var feature = new OpenLayers.Feature(layer, ll, data);
     feature.closeBox = true;
     feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {
-		'autoSize': true, 'maxSize': new OpenLayers.Size(320, 200), 'panMapIfOutOfView': true, minSize: new OpenLayers.Size(200, 120)
+		'autoSize': true, 'maxSize': new OpenLayers.Size(320, 200), 'panMapIfOutOfView': true, 
+		'minSize': new OpenLayers.Size(200, 120), 'opacity': 0.7, 'border': "1px solid #009682"
     });
     feature.data.popupContentHTML = popupContentHTML;
     feature.data.overflow = "hidden";
@@ -132,7 +134,7 @@ function addMarker(layer, lon, lat, popupContentHTML, poi) {
     var marker = feature.createMarker();
     all_poi[poi.name] = feature;
   
-    var markerClick = function(evt) {
+    var mouseDown = function(evt) {
         if (this.popup == null) {
             this.popup = this.createPopup(this.closeBox);
             map.addPopup(this.popup);
@@ -155,7 +157,22 @@ function addMarker(layer, lon, lat, popupContentHTML, poi) {
         OpenLayers.Event.stop(evt);
     };
     
-    marker.events.register("mousedown", feature, markerClick);
+    var mouseOver = function(evt) {
+    	if (current_tooltip == null) {
+    		var tooltip = new OpenLayers.Popup(poi.name, ll, null, "<div> poi </div>", false);
+    		tooltip.autoSize = true;
+    		tooltip.maxSize = new OpenLayers.Size(400, 20);
+//    		tooltip.setBorder("1px solid #009682");
+//    		tooltip.opacity = 0.7;
+//    		tooltip.updateSize();
+    		current_tooltip = tooltip;
+    		alert("ja");
+    		map.addPopup(tooltip);
+    	}
+    };
+    
+    marker.events.register("mousedown", feature, mouseDown);
+    marker.events.register("mouseover", marker, mouseOver);
 	
     layer.addMarker(marker);
     map.addPopup(feature.createPopup(feature.closeBox));
