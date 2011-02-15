@@ -5,7 +5,7 @@ import java.util.List;
 import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.model.Point;
 import edu.kit.cm.kitcampusguide.model.Route;
-import edu.kit.cm.kitcampusguide.view.CampusGuide;
+import edu.kit.cm.kitcampusguide.controller.CampusGuide;
 
 /**
  * This interface represents a facade of the map algorithms package and encapsulates all functionality provided by this
