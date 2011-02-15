@@ -1,18 +1,24 @@
 @CHARSET "UTF-8";
 #map {
-	height: 500px;
 	border: 1px solid black;
+    border-top-width: 0px;
+	height: 500px;
 	margin-bottom:10px;
     width:558px;
-    border-top-width: 0px;
 }
 
 #sidebar {
-	width: 172px; 
-	height: 500px; 
+	background-color:#ffffff;
 	border: 1px solid black;
+    border-left-width: 0px;
+    border-top-width: 0px;
+	height: 500px; 
+	left: 560px;
+    margin: 0;
+    position: relative;
+    top: -516px;
+	width: 199px; 
 	z-index: 9999;
-	background-color:#FFFFFF;
 }
 
 table.cgtable {
