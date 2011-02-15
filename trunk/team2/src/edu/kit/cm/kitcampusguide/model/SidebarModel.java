@@ -46,7 +46,7 @@ public class SidebarModel {
 	public SidebarModel() {
 		this.setFrom(null);
 		this.setTo(null);
-		this.setFilterVisible(true);
+		this.setFilterVisible(false);
 		this.setExtended(true);
 		this.categories = new ArrayList<POICategory>();
 		this.suggestions = new ArrayList<POI>();
