@@ -211,6 +211,12 @@
 			
 		</description>
 	</POI>
+	<POI name="Null POI">
+		<position longitude="8.411280" mapID="1" latitude="49.011771" ></position> 
+		<categories>
+			<category ID="2" />
+		</categories>
+	</POI> 
 </POIs>
 
 <!-- <category id="1" name="streets"/> <category id="2" name="buildings" 
