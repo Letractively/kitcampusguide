@@ -56,9 +56,6 @@ public class RouteCalculatingUtility {
 				defaultGraph.addEdge(defaultGraph.numberOfNodes() - 1, neighbour, distance);
 				defaultGraph.addEdge(neighbour, defaultGraph.numberOfNodes() - 1, distance);
 			}
-			System.out.println(defaultGraph.numberOfNodes());
-			System.out.println(defaultGraph.getNodeIndex(node));
-			System.out.println("----------------------------------");
 		}
 		
 		return defaultGraph;
