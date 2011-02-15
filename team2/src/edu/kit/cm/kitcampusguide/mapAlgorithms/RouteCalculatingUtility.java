@@ -41,21 +41,24 @@ public class RouteCalculatingUtility {
 		Graph defaultGraph = ConstantData.getGraph();//MAP_LOADER.getGraph();
 		Point[] graphNodes = defaultGraph.getNodes();
 		
-		for (int i = 0; i < nodes.length; i++) {
-			int neighbour = 0;
-			double distance = distance(graphNodes[neighbour], nodes[i]);
-			for (int j = 1; j < graphNodes.length; j++) {
-				double newDistance = distance(graphNodes[j], nodes[i]);
-				if (newDistance < distance) {
-					neighbour = j;
-					distance = newDistance;
+		for (Point node : nodes) {
+			if (defaultGraph.getNodeIndex(node) == -1) {
+				int neighbour = 0;
+				double distance = getDistance(graphNodes[neighbour], node);
+				for (int j = 1; j < graphNodes.length; j++) {
+					double newDistance = getDistance(graphNodes[j], node);
+					if (newDistance < distance) {
+						neighbour = j;
+						distance = newDistance;
+					}
 				}
-			}
-			if (distance > 0) {
-				defaultGraph.addNode(nodes[i]);
+				defaultGraph.addNode(node);
 				defaultGraph.addEdge(defaultGraph.numberOfNodes() - 1, neighbour, distance);
 				defaultGraph.addEdge(neighbour, defaultGraph.numberOfNodes() - 1, distance);
 			}
+			System.out.println(defaultGraph.numberOfNodes());
+			System.out.println(defaultGraph.getNodeIndex(node));
+			System.out.println("----------------------------------");
 		}
 		
 		return defaultGraph;
