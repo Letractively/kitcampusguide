@@ -4,6 +4,7 @@
 	border: 1px solid black;
 	margin-bottom:10px;
     width:558px;
+    border-top-width: 0px;
 }
 
 #sidebar {
