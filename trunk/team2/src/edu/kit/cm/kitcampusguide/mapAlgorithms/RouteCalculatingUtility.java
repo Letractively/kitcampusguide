@@ -64,28 +64,14 @@ public class RouteCalculatingUtility {
 		return defaultGraph;
 	}
 	
-	/**
-	 * Calculates and returns the mathematics distance between two specified Points. 
-	 * 
-	 * @param pOne the first Point
-	 * @param pTwo the second Point
-	 * @return the mathematics distance between two specified Points
-	 */
-	// TODO im Entwurf eintragen
-	public static double distance(Point pOne, Point pTwo) {
-		double distanceX = pOne.getX() - pTwo.getX();
-		double distanceY = pOne.getY() - pTwo.getY();
-		return Math.sqrt((distanceX * distanceX) + (distanceY + distanceY));
-	}
-	
-	/**
+	/*
 	 * Calculates all necessary information to save the specified point as landmark for A-star algorithm. After that 
 	 * the new landmark is saved in the database.
 	 * Throws a IllegalArgumentException if the specified point is not part of the street graph.
 	 * 
 	 * @param point the point to become a landmark
 	 */
-	public static void generateLandmark(Point point) {
+	private static void generateLandmark(Point point) {
 		Graph streetGraph = RouteCalculatingUtility.calculateStreetGraph();
 		if (streetGraph.getNodeIndex(point) == -1) {
 			throw new IllegalArgumentException();
@@ -115,13 +101,13 @@ public class RouteCalculatingUtility {
 		return radius / 180 * Math.PI;
 	}
 	
-	/**
+	/*
 	 * Returns the distance in meters between two points on the map with help of their geographical coordinates.
 	 * @param pointFrom is the point, from which we calculate the distance.
 	 * @param pointTo is the point, to which we calculate the distance.
 	 * @return the distance between the two points in meters.
 	 */
-	public static double getDistance(Point pointFrom, Point pointTo){
+	private static double getDistance(Point pointFrom, Point pointTo){
 		double widthFrom, widthTo, heightFrom, heightTo;
 		heightFrom = getLengthByPolarCoordinates(pointFrom.getX());
 		heightTo = getLengthByPolarCoordinates(pointTo.getX());
@@ -131,6 +117,11 @@ public class RouteCalculatingUtility {
 		return e * 6378.137 * 1000;
 	}
 	
+	/**
+	 * Generates the Streets for the database.
+	 * 
+	 * @param args Command-line arguments
+	 */
 	public static void main(String[] args) {
 		int[][] streets = {{0, 1}, {1, 2}, {1, 3}, {2, 3}, {2, 4}, {3, 17}, {4, 17}, {4, 5}, 
 		{5, 6}, {5, 7}, {16, 17}, {7, 8}, {8, 9}, {9, 10}, {10, 11}, {11, 12}, {12, 13}, {12, 14}, {13, 30}, 
