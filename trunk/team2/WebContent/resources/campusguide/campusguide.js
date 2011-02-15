@@ -52,7 +52,6 @@ function drawmap() {
     map.addControl(new OpenLayers.Control.ZoomPanel());
 //    map.addControl(new OpenLayers.Control.LayerSwitcher());
     map.addControl(new OpenLayers.Control.ScaleLine());
-//    map.addControl(new OpenLayers.Control.PermaLink(clientID + ':permalink:create-permalink'));
     map.minZoomLevel = minzoom;
     map.maxZoomLevel = maxzoom;
     map.restrictedExtent = extent;
@@ -73,11 +72,13 @@ function drawmap() {
 }
 
 function addPOILayer(poicat) {
-	layer_markers[poicat.name] = new OpenLayers.Layer.Markers(poicat.name, { projection: new OpenLayers.Projection("EPSG:4326"), 
+	layer_markers[poicat.name] = new OpenLayers.Layer.Markers(poicat.name, 
+		{ projection: new OpenLayers.Projection("EPSG:4326"), 
 	      visibility: true, displayInLayerSwitcher: true});
 	  map.addLayer(layer_markers[poicat.name]);
 	  for (var j = 0; j < poicat.pois.length; j++) {
-		  addMarker(layer_markers[poicat.name], poicat.pois[j].lon, poicat.pois[j].lat, createPopupContent(poicat.pois[j]), poicat.pois[j]);
+		  addMarker(layer_markers[poicat.name], poicat.pois[j].lon, poicat.pois[j].lat, 
+				  createPopupContent(poicat.pois[j]), poicat.pois[j]);
 	  }
 }
 
@@ -90,7 +91,11 @@ function getPOICat(name) {
 }
 
 function createPopupContent(poi) {
-	return "<h2>" + poi.name + "</h2><p>" + poi.description + "</p>";
+	return "<h2>" + poi.name + "</h2><p>" + poi.description + "</p><br><br><div class=\"infobox-links\"><a " +
+			" onclick=\"javascript:getElement('route:from-field').value = '" + 
+			poi.name + "';getElement('route:from-field').focus();\">Route von hier</a>&nbsp;|&nbsp;<a " +
+			" onclick=\"javascript:getElement('route:to-field').value = '" + 
+			poi.name + "';getElement('route:to-field').focus();\">Route hierher</a></div><br>";
 }
 
 function setMyCenter(lo,la,zo) {

@@ -14,3 +14,11 @@ function createLonLat(lon, lat) {
     	new OpenLayers.Projection("EPSG:900913") // to Spherical Mercator Projection
     );
 }
+
+function click(element) {
+	alert("click");
+	var event = document.createEvent("MouseEvents");
+	event.initMouseEvent("click", true, true, window,0, 0, 0, 0, 0,
+		false, false, false, false, 0, null);
+	element.dispatchEvent(event);
+}
