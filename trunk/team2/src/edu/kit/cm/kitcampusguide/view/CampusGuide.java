@@ -95,6 +95,7 @@ public class CampusGuide {
 	
 	public void fromChanged(ValueChangeEvent ev) {
 		String newFrom = (String) ev.getNewValue();
+		System.out.println(newFrom);
 		this.sbm.setFrom(this.ma.searchPOI(newFrom));
 		this.updateRoute();
 		FacesContext.getCurrentInstance().renderResponse();
