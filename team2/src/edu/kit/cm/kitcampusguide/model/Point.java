@@ -50,8 +50,12 @@ public class Point {
 			return false;
 		} else {
 			Point other = (Point) obj;
-			return this.x == other.x && this.y == other.y;
+			return equal(this.x, other.x) && equal(this.y, other.y);
 		}
+	}
+	
+	private boolean equal(double x, double y) {
+		return Math.abs(x - y) <= 0E-5;
 	}
 	
 }
