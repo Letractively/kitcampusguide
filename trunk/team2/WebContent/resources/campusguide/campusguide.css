@@ -57,6 +57,10 @@ span.hidden {
     z-index: 9999;
 }
 
+.search-field {
+	height: 16px;
+}
+	
 .search-button {
 	color: #009682;
 	font-weight: bold;
