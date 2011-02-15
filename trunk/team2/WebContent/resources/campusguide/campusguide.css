@@ -122,6 +122,22 @@ span.hidden {
 	z-index: 10000;
 }
 
+.map-popup {
+	display: none;
+}
+
+.poi-name{
+}
+
+.poi-description {
+}
+
+.poi-close {
+}
+
+.poi-menu {
+}
+
 #sidebar-suggestions {
 }
 
