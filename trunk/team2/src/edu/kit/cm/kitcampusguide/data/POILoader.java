@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Interface of a POILoader.
  * 
- * @author Michael Hauber (michael.hauber2{at}student.kit.edu)
+ * @author Michael Hauber
  */
 public interface POILoader {
 

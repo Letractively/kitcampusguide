@@ -10,7 +10,7 @@ import java.sql.Statement;
  * This utility-class saves important data to connect to the current used database.
  * Every class, which works with the database have to use this data to connect to the database.
  * 
- * @author Michael Hauber (michael.hauber2{at}student.kit.edu)
+ * @author Michael Hauber
  *
  */
 public final class Config {
