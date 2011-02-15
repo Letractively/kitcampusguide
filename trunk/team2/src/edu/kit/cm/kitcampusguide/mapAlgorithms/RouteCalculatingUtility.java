@@ -128,4 +128,14 @@ public class RouteCalculatingUtility {
 		return e * 6378.137 * 1000;
 	}
 	
+	public static void main(String[] args) {
+		int[][] streets = {{0, 1}};
+		MapLoader ml = new ConcreteMapLoader();
+		Graph g = ml.getGraph();
+		for (int[] street : streets) {
+			ml.addStreetToDatabase(street[0], street[1], getDistance(g.getNode(street[0]), g.getNode(street[1])));
+			ml.addStreetToDatabase(street[1], street[0], getDistance(g.getNode(street[0]), g.getNode(street[1])));
+		}
+	}
+	
 }
