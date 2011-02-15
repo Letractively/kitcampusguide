@@ -48,7 +48,7 @@ public class Dijkstra implements RouteCalculator {
 		
 		nodeQueue.add(mapNodes[mapGraph.getNodeIndex(from)]);
 		nodeQueue.peek().distance = 0;
-		while (!nodeQueue.isEmpty() && !nodeQueue.peek().equals(to)) {
+		while (!nodeQueue.isEmpty() && !nodeQueue.peek().point.equals(to)) {
 			Node activeNode = nodeQueue.poll();
 			for (Integer edge : mapGraph.getEdges(activeNode.index)) {
 				if (activeNode.distance + mapGraph.getEdgeLength(edge) < mapNodes[mapGraph.getEdgeNode(edge)].distance) {
@@ -60,7 +60,7 @@ public class Dijkstra implements RouteCalculator {
 			}
 		}
 		
-		if (!nodeQueue.isEmpty() && nodeQueue.peek().equals(to)) {
+		if (!nodeQueue.isEmpty() && nodeQueue.peek().point.equals(to)) {
 			Node activeNode = nodeQueue.poll();
 			while (activeNode != null) {
 				route.addFirst(activeNode.point);

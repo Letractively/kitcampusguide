@@ -262,7 +262,7 @@ public class Graph {
 	 */
 	// TODO im Entwurf ergänzen
 	public Iterable<Integer> getEdges(int index) {
-		return new EdgeIterator(this.nodes.get(index + 1), this.nodes.get(index) - 1);
+		return new EdgeIterator(this.nodes.get(index), this.nodes.get(index + 1) - 1);
 	}
 	
 	/**

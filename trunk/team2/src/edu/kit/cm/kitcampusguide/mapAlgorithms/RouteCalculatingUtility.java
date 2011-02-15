@@ -90,9 +90,17 @@ public class RouteCalculatingUtility {
 		double[] distances = new double[streetGraph.numberOfNodes()];
 		for (int i = 0; i < distances.length; i++) {
 			List<Point> route = Dijkstra.getSingleton().calculateRoute(streetGraph.getNode(i), point, streetGraph).getRoute();
+			System.out.print("    route> " + i + ": ");
+			for (Point p : route) {
+				System.out.print("(" + p.getX() + " | " + p.getY() + ") ");
+			}
+			System.out.println();
 			for (int j = 0; j < route.size() - 1; j++) {
 				distances[i] += streetGraph.getEdge(streetGraph.getNodeIndex(route.get(j)), streetGraph.getNodeIndex(route.get(j + 1)));
 			}
+		}
+		for (int i = 0; i < distances.length; i++) {
+			System.out.println("    > " + i + ": " + distances[i]);
 		}
 		RouteCalculatingUtility.MAP_LOADER.addLandmarkToDatabase(point, distances);
 	}
