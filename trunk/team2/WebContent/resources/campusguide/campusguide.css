@@ -115,8 +115,18 @@ span.hidden {
 	margin: 0 0 0 5px;
 }
 
-#sidebar-suggestions {
-	height:430px;
+#poi-pane {
+    padding: 5px;
+    bottom: 0px;
+    position: absolute;
+	z-index: 10000;
+}
+
+#sidebar-suggestions {s
+}
+
+.o_folding_panel {
+	border-bottom-width: 0;
 }
 
 .infobox-links {
