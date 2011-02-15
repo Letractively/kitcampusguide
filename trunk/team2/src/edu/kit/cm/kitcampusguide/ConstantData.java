@@ -14,6 +14,7 @@ import edu.kit.cm.kitcampusguide.mapAlgorithms.RouteCalculatingUtility;
 import edu.kit.cm.kitcampusguide.model.Graph;
 import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.model.POICategory;
+import edu.kit.cm.kitcampusguide.model.Point;
 
 @ManagedBean
 @ApplicationScoped
@@ -117,8 +118,56 @@ public class ConstantData {
 		System.out.println("2 Cat " + poicat.getName()); */
 		
 		MapLoader ml = new ConcreteMapLoader();
-		Graph graph = ml.getGraph();
-		RouteCalculatingUtility.generateLandmark(graph.getNode(0));
+		//Graph graph = ml.getGraph();
+		
+		ml.addStreetToDatabase(7, 7, 7.77);
+		
+		//RouteCalculatingUtility.generateLandmark(graph.getNode(0));
+		
+		//Point landmark = new Point(1337, 1338);
+		//double[] distances = {12, 13, 14};
+		
+		//ml.addLandmarkToDatabase(landmark, distances);
+		
+	/*	double[][] checkdist = ml.getLandmarkDistances();
+		Point[] checklanddmarks = ml.getLandmarks();
+		
+		for (int i = 0; i < checklanddmarks.length; i++) {
+			System.out.println("Landmark No. " + i + ": (" + checklanddmarks[i].getX() +
+					"/" + checklanddmarks[i].getY() + ")");
+		}
+		
+		for (int i = 0; i < checkdist.length; i++) {
+			for (int j = 0; j < checkdist[0].length; j++) {
+				System.out.println("StreetNode No. " + i + " to Landmark No. " + j +
+						" has distance: " + checkdist[i][j]);
+			}
+		}
+		 */
+		
+		
+		POILoader poiloader = new ConcretePOILoader();
+		List<POI> poilist = new ArrayList<POI>();
+		poilist = poiloader.getPOIsByName("Audimax");
+		
+		System.out.println("Size of POIList: " + poilist.size());
+		for (POI poi : poilist) {
+			System.out.println(poi.getName());
+		}
+		
+		List<POICategory> poicatlist = new ArrayList<POICategory>();
+		poicatlist = poiloader.getPOICategoryByName("Mensen");
+		
+		System.out.println("Size of POICatList: " + poicatlist.size());
+		for (POICategory poicat : poicatlist) {
+			System.out.println(poicat.getName());
+		}
+		
+		poiloader.getPOI(65);
+		poiloader.getPOICategory(65);
+		
+		
+		
 	}
 	
 }
