@@ -109,12 +109,12 @@ public class CampusGuide {
 	
 	public void updateRoute() {
 		if (this.sbm.getFrom() != null && this.sbm.getTo() != null) {
-//			this.currentRoute = this.ma.calculateRoute(this.sbm.getFrom(), 
-//									this.sbm.getTo());
-			List<Point> route = new ArrayList<Point>();
-			route.add(this.sbm.getFrom());
-			route.add(this.sbm.getTo());
-			this.currentRoute = new Route(route);
+			this.currentRoute = this.ma.calculateRoute(this.sbm.getFrom(), 
+									this.sbm.getTo());
+//			List<Point> route = new ArrayList<Point>();
+//			route.add(this.sbm.getFrom());
+//			route.add(this.sbm.getTo());
+//			this.currentRoute = new Route(route);
 		} else {
 			this.currentRoute = null;
 		}
