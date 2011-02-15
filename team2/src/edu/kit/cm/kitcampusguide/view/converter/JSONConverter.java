@@ -29,6 +29,7 @@ public final class JSONConverter {
 		poi.put("lon", p.getX());
 		poi.put("lat", p.getY());
 		poi.put("name", p.getName());
+		poi.put("nameSize", p.getName().length());
 		poi.put("description", p.getDescription());
 		poi.put("icon", p.getIcon());
 		

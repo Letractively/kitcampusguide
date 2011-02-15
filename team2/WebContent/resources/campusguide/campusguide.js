@@ -136,8 +136,7 @@ function addMarker(layer, lon, lat, popupContentHTML, poi) {
   
     var mouseDown = function(evt) {
         if (this.popup == null) {
-            this.popup = this.createPopup(this.closeBox);
-            map.addPopup(this.popup);
+            this.popup = this.createPopup(this.closeBox);        
             this.popup.show();
             all_poi['current'] = this;
         } else {
@@ -157,26 +156,35 @@ function addMarker(layer, lon, lat, popupContentHTML, poi) {
         OpenLayers.Event.stop(evt);
     };
     
-    var mouseOver = function(evt) {
+    var tooltip = new OpenLayers.Popup(poi.name, ll, new OpenLayers.Size(poi.nameSize*5.7 + 25, 23), poi.name, false);
+	tooltip.minSize = new OpenLayers.Size(50, 20);
+	tooltip.setBorder("1px solid #009682");
+	tooltip.opacity = 0.7;
+	 
+    var mouseOver = function(evt) {    	
     	if (current_tooltip == null) {
-    		var tooltip = new OpenLayers.Popup(poi.name, ll, null, "<div> poi </div>", false);
-    		tooltip.autoSize = true;
-    		tooltip.maxSize = new OpenLayers.Size(400, 20);
-//    		tooltip.setBorder("1px solid #009682");
-//    		tooltip.opacity = 0.7;
-//    		tooltip.updateSize();
     		current_tooltip = tooltip;
-    		alert("ja");
-    		map.addPopup(tooltip);
+    		current_tooltip.show();
+    	}
+    };
+    
+    var mouseOut = function(evt) {    
+    	if (current_tooltip != null) {
+    		current_tooltip.hide();
+    		current_tooltip = null;
     	}
     };
     
     marker.events.register("mousedown", feature, mouseDown);
-    marker.events.register("mouseover", marker, mouseOver);
+    marker.events.register("mouseover", this, mouseOver);
+    marker.events.register("mouseout", this, mouseOut);
+    
 	
     layer.addMarker(marker);
     map.addPopup(feature.createPopup(feature.closeBox));
-    
+    map.addPopup(tooltip);
+      
     feature.popup.hide();
     feature.popup.clicked = false;
+    tooltip.hide();
 }
