@@ -39,7 +39,8 @@ function drawmap() {
 //            new OpenLayers.Control.MouseDefaults(),
 //            new OpenLayers.Control.LayerSwitcher(),
 //            new OpenLayers.Control.PanZoomBar(),
-//            new OpenLayers.Control.MousePosition()],
+//            new OpenLayers.Control.MousePosition()
+//		],
         maxExtent: extent,
         restrictedExtent: extent,
         numZoomLevel: 3,
@@ -48,7 +49,10 @@ function drawmap() {
 //    map.addControl(new OpenLayers.Control.Attribution());
 //    map.addControl(new OpenLayers.Control.MouseDefaults());
     map.addControl(new OpenLayers.Control.MousePosition());
-    map.addControl(new OpenLayers.Control.LayerSwitcher());
+    map.addControl(new OpenLayers.Control.ZoomPanel());
+//    map.addControl(new OpenLayers.Control.LayerSwitcher());
+    map.addControl(new OpenLayers.Control.ScaleLine());
+//    map.addControl(new OpenLayers.Control.PermaLink(clientID + ':permalink:create-permalink'));
     map.minZoomLevel = minzoom;
     map.maxZoomLevel = maxzoom;
     map.restrictedExtent = extent;
