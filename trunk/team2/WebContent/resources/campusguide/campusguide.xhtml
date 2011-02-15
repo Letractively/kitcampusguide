@@ -28,12 +28,12 @@
        	 	suggestionDelay="200" suggestionMinChars="2"
         	suggestionMode="substring"
         	listStyle="z-index:9999;">
-		<o:dropDownItems value="#{constantData.allPOIName}"/>
- 		<f:ajax render="current-poi" execute="search-field" event="valueChange"/>
+			<o:dropDownItems value="#{constantData.allPOIName}"/>
+ 			<f:ajax render="current-poi" execute="search-field" event="valueChange"/>
 		</o:suggestionField>
 		<h:commandButton id="search-button" value="#{msgs.search_button}"
-			onclick="showPOI()" class="green-button"> 
-		<f:ajax render="@this"/>
+			onclick="showPOI();" class="green-button"> 
+			<f:ajax render="@this"/>
 		</h:commandButton>
 		</h:form>
 		<div id="headline-corner"></div>
@@ -84,7 +84,14 @@
 			</h:commandButton>
 		</h:form>
 		<script type="text/javascript" src="resources/campusguide/sidebar.js" />
-		<div id="sidebar-suggestions">
+		<h:panelGroup id="sidebar-suggestions" layout="block">
+			<h:outputText id="suggestion-headline" value="#{msgs.suggestions}" 
+				rendered="#{cc.attrs.hlm.suggestions} != null" />
+			<br />
+			<o:forEach items="#{cc.attrs.hlm.suggestions}" var="sug" varStatus="status">
+					<h:outputText value="#{sug.name}" /> <br />
+			</o:forEach>	
+		</h:panelGroup>
 		<div id="poi-pane">
 			<o:foldingPanel id="poi-filter" caption="#{msgs.poi_filter}" expanded="true"
 				foldingDirection="up" contentStyle="line-height: 2; vertical-align: bottom;" >
@@ -93,7 +100,6 @@
 					<h:outputText value="#{category}" /> <br />
 				</o:forEach>				
 			</o:foldingPanel>
-		</div>
 		</div>
 	</div> 
 
