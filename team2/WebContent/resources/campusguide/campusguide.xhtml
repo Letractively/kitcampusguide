@@ -85,15 +85,16 @@
 		</h:form>
 		<script type="text/javascript" src="resources/campusguide/sidebar.js" />
 		<div id="sidebar-suggestions">
+		<div id="poi-pane">
+			<o:foldingPanel id="poi-filter" caption="#{msgs.poi_filter}" expanded="true"
+				foldingDirection="up" contentStyle="line-height: 2; vertical-align: bottom;" >
+				<o:forEach items="#{constantData.categoriesName}" var="category" varStatus="status">
+					<o:selectBooleanCheckbox value="true" onchange="showMarkers(this.value, '#{category}')"/>
+					<h:outputText value="#{category}" /> <br />
+				</o:forEach>				
+			</o:foldingPanel>
 		</div>
-		<o:foldingPanel id="poi-filter" caption="#{msgs.poi_filter}" expanded="true"
-			foldingDirection="up" contentStyle="line-height: 2; vertical-align: bottom;" 
-			style="width:50%;z-index:9999; position:relative;">
-			<o:forEach items="#{constantData.categoriesName}" var="category" varStatus="status">
-				<o:selectBooleanCheckbox value="true" onchange="showMarkers(this.value, '#{category}')"/>
-				<h:outputText value="#{category}" /> <br />
-			</o:forEach>				
-		</o:foldingPanel>
+		</div>
 	</div> 
 
 </cc:implementation>
