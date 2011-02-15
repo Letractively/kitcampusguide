@@ -1,7 +1,7 @@
 var map;
 var clientID;
 var layer_mapnik;
-var routeLayer;
+var layer_route;
 var layer_markers = new Object();
 var current_poi;
 var current_route;
@@ -56,8 +56,8 @@ function drawmap() {
     map.addLayer(layer_mapnik);
     setMyCenter(lon,lat,zoom);
     
-    routeLayer = new OpenLayers.Layer.Vector("route", null);
-    map.addLayer(routeLayer);
+    layer_route = new OpenLayers.Layer.Vector("route", null);
+    map.addLayer(layer_route);
   
     all_cat = getElementInnerHTML("map-form:all-poi");
     for (var i = 0; i < all_cat.length; i++) {
@@ -84,26 +84,8 @@ function getPOICat(name) {
 	}
 }
 
-function getElementInnerHTML(id) {
-	var inner = getElement(id).innerHTML;
-	return (inner == "") ? null : JSON.parse(inner);	
-}
-
-function getElement(id) {
-	return document.getElementById(clientID + ":" + id);
-}
-
 function createPopupContent(poi) {
 	return "<h2>" + poi.name + "</h2><p>" + poi.description + "</p>";
-}
-
-
-function createLonLat(lon, lat) {
-	return new OpenLayers.LonLat(lon, lat) // Center of the map
-    .transform(
-    	new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-    	new OpenLayers.Projection("EPSG:900913") // to Spherical Mercator Projection
-    );
 }
 
 function setMyCenter(lo,la,zo) {
@@ -112,19 +94,8 @@ function setMyCenter(lo,la,zo) {
     );
     map.setCenter (lonLat, zo);
 }
-  
-//function route() {
-////		routeLayer.removeAllFeatures();
-////		var routeFeature = new OpenLayers.Feature.Vector(
-////				new OpenLayers.Geometry.LineString([new OpenLayers.Geometry.Point(10, 10),
-////				                                    new OpenLayers.Geometry.Point(50, 50)]), null, null);
-////		routeLayer.addFeatures([ routeFeature ]);	
-//	current_route = getElement("route:current-route");
-//	alert(current_route);
-//}
 
 function showMarkers(show, layer) {
-//	layer_markers[layer].setOpacity(show ? 1.0 : 0.0);
 	if (!show) {
 		layer_markers[layer].destroy();
 	} else {
@@ -138,10 +109,12 @@ function showPOI() {
 		all_poi['current'].popup.clicked = false;
 	}
 	current_poi = getElementInnerHTML("search:current-poi");
-	setMyCenter(current_poi.lon, current_poi.lat, map.getZoom());
-	all_poi['current'] = all_poi[current_poi.name];
-	all_poi['current'].popup.show();
-	all_poi['current'].popup.clicked = true;
+	if (current_poi != null) {		
+		setMyCenter(current_poi.lon, current_poi.lat, map.getZoom());
+		all_poi['current'] = all_poi[current_poi.name];
+		all_poi['current'].popup.show();
+		all_poi['current'].popup.clicked = true;
+	}
 }
 
 function addMarker(layer, lon, lat, popupContentHTML, poi) {
@@ -166,7 +139,6 @@ function addMarker(layer, lon, lat, popupContentHTML, poi) {
             this.popup.show();
             all_poi['current'] = this;
         } else {
-//            this.popup.toggle();
             if (all_poi['current'] == this) {
             	all_poi['current'].popup.hide();
             	all_poi['current'] = null;

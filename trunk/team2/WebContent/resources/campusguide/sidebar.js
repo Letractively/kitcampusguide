@@ -19,12 +19,12 @@ function route() {
 			};
 		var routeFeature = new OpenLayers.Feature.Vector(
 			new OpenLayers.Geometry.LineString(newRoute, null, null), null, routeStyle);
-		routeLayer.addFeatures([ routeFeature ]);
+		layer_route.addFeatures([ routeFeature ]);
 		getElement("route:hide-route").style.visibility = 'visible';
 	} 
 }
 
 function hideRoute() {
-	routeLayer.removeAllFeatures();
+	layer_route.removeAllFeatures();
 	getElement("route:hide-route").style.visibility = 'hidden';
 }

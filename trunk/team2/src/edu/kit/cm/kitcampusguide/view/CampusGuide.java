@@ -103,7 +103,6 @@ public class CampusGuide {
 	public void toChanged(ValueChangeEvent ev) {
 		String newTo = (String) ev.getNewValue();
 		this.sbm.setTo(this.ma.searchPOI(newTo));
-		System.out.println(this.sbm.getTo());
 		this.updateRoute();
 		FacesContext.getCurrentInstance().renderResponse();
 	}
