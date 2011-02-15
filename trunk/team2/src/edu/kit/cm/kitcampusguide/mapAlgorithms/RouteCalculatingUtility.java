@@ -66,7 +66,7 @@ public class RouteCalculatingUtility {
 	 * the new landmark is saved in the database.
 	 * Throws a IllegalArgumentException if the specified point is not part of the street graph.
 	 * 
-	 * @param point the point to become a landmark
+	 * @param point the point to become a landmark 
 	 */
 	private static void generateLandmark(Point point) {
 		Graph streetGraph = RouteCalculatingUtility.calculateStreetGraph();
