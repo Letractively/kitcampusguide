@@ -38,73 +38,80 @@
 		</h:form>
 		<div id="headline-corner"></div>
 	</div>
+<!-- 
  	<table id="map-sidebar" cellspacing="0" cellpadding="0" class="cgtable" >
 	<tbody>			
 	<tr>
-		<td style="width:423px;">				
-		<h:form id="map-form" class="hidden">
-			<h:outputText id="all-poi" value="#{constantData.categories}" class="hidden">
-				<f:converter converterId="poiCategoryListConverter" />
-			</h:outputText>
-		</h:form>			
-			<script type="text/javascript" src="resources/openlayers/OpenLayers.js" />
-			<div id="map"></div> 
-			<div id="map-corner"></div>
-			<script type="text/javascript" src="resources/campusguide/campusguide.js" />
-			<script type="text/javascript" src="resources/campusguide/util.js" />
-			<script type="text/javascript">
-				setClientID('#{cc.clientId}');
-				drawmap();
-			</script>
+		<td style="width:423px;">		
+-->		
+		
+	<h:form id="map-form" class="hidden">
+		<h:outputText id="all-poi" value="#{constantData.categories}" class="hidden">
+			<f:converter converterId="poiCategoryListConverter" />
+		</h:outputText>
+	</h:form>			
+	<script type="text/javascript" src="resources/openlayers/OpenLayers.js" />
+	<div id="map"></div> 
+	<div id="map-corner"></div>
+	<script type="text/javascript" src="resources/campusguide/campusguide.js" />
+	<script type="text/javascript" src="resources/campusguide/util.js" />
+	<script type="text/javascript">
+		setClientID('#{cc.clientId}');
+		drawmap();
+	</script>
+	
+<!--
 		</td>
 		<td style="width:141px;">
-			<div id="sidebar">
-				<h:form id="route">
-					<h:outputText id="current-route" value="#{cc.attrs.model.currentRoute}" 
-						class="hidden">
-						<f:converter converterId="routeConverter" />
-					</h:outputText>
-					<o:suggestionField id="from-field" promptText="#{msgs.route_from}" 
-						valueChangeListener="#{cc.attrs.model.fromChanged}" autoComplete="true"
-       					suggestionDelay="200" suggestionMinChars="1" suggestionMode="substring"
-        				listStyle="z-index:9999;" style="width:95%;">
-						<o:dropDownItems value="#{constantData.allPOIName}" />
- 						<f:ajax render="current-route" execute="from-field" event="valueChange"/>
-					</o:suggestionField>
-					<br />
-					<o:suggestionField id="to-field" promptText="#{msgs.route_to}" 
-						valueChangeListener="#{cc.attrs.model.toChanged}"
-						autoComplete="true" suggestionDelay="200"
-        				suggestionMinChars="2" suggestionMode="substring"
-       					listStyle="z-index:9999;" style="width:95%;">
-						<o:dropDownItems value="#{constantData.allPOIName}" />
- 						<f:ajax render="current-route" execute="to-field" event="valueChange"/>
-					</o:suggestionField>
-					<h:commandButton id="route" value="#{msgs.route_button}" onclick="route();">
-						<f:ajax render="@none" />
-					</h:commandButton>
-					<h:commandButton id="hide-route" value="#{msgs.route_hide}" 
-						onclick="hideRoute();" action="#{cc.attrs.model.removeRoute}">
-						<f:ajax render="@none" />
-					</h:commandButton>
-				</h:form>
-				<script type="text/javascript" src="resources/campusguide/sidebar.js" />
-				<div id="sidebar-suggestions">
-				</div>
-				<o:foldingPanel id="poi-filter" caption="#{msgs.poi_filter}" expanded="true"
-					foldingDirection="up" contentStyle="line-height: 2; vertical-align: bottom;" 
-					style="width:50%;z-index:9999; position:relative;">
-					<o:forEach items="#{constantData.categoriesName}" var="category" 
-						varStatus="status">
-						<o:selectBooleanCheckbox value="true" 
-							onchange="showMarkers(this.value, '#{category}')"/>
-						<h:outputText value="#{category}" /> <br />
-					</o:forEach>				
-				</o:foldingPanel>
-			</div> 
+-->
+
+	<div id="sidebar">
+		<h:form id="route">
+			<h:outputText id="current-route" value="#{cc.attrs.model.currentRoute}" class="hidden">
+				<f:converter converterId="routeConverter" />
+			</h:outputText>
+			<o:suggestionField id="from-field" promptText="#{msgs.route_from}" 
+				valueChangeListener="#{cc.attrs.model.fromChanged}" autoComplete="true"
+       			suggestionDelay="200" suggestionMinChars="1" suggestionMode="substring"
+        		listStyle="z-index:9999;" style="width:95%;">
+				<o:dropDownItems value="#{constantData.allPOIName}" />
+ 				<f:ajax render="current-route" execute="from-field" event="valueChange"/>
+			</o:suggestionField>
+			<br />
+			<o:suggestionField id="to-field" promptText="#{msgs.route_to}" 
+				valueChangeListener="#{cc.attrs.model.toChanged}"
+				autoComplete="true" suggestionDelay="200"
+        		suggestionMinChars="2" suggestionMode="substring"
+       			listStyle="z-index:9999;" style="width:95%;">
+				<o:dropDownItems value="#{constantData.allPOIName}" />
+ 				<f:ajax render="current-route" execute="to-field" event="valueChange"/>
+			</o:suggestionField>
+			<h:commandButton id="route" value="#{msgs.route_button}" onclick="route();">
+				<f:ajax render="@none" />
+			</h:commandButton>
+			<h:commandButton id="hide-route" value="#{msgs.route_hide}" onclick="hideRoute();" action="#{cc.attrs.model.removeRoute}">
+				<f:ajax render="@none" />
+			</h:commandButton>
+		</h:form>
+		<script type="text/javascript" src="resources/campusguide/sidebar.js" />
+		<div id="sidebar-suggestions">
+		</div>
+		<o:foldingPanel id="poi-filter" caption="#{msgs.poi_filter}" expanded="true"
+			foldingDirection="up" contentStyle="line-height: 2; vertical-align: bottom;" 
+			style="width:50%;z-index:9999; position:relative;">
+			<o:forEach items="#{constantData.categoriesName}" var="category" varStatus="status">
+				<o:selectBooleanCheckbox value="true" onchange="showMarkers(this.value, '#{category}')"/>
+				<h:outputText value="#{category}" /> <br />
+			</o:forEach>				
+		</o:foldingPanel>
+	</div> 
+		
+<!--
 		</td>
 	</tr>
 	</tbody>
 	</table> 
+-->
+
 </cc:implementation>
 </body></html>
