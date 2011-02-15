@@ -88,8 +88,23 @@ span.hidden {
     z-index: 10000;
 }
 
+#hide-sidebar {
+    border: 0px;
+	height: 20px;
+    margin: 0;
+    width: 200px;
+    z-index: 9999;
+}
+
 .search-field {
 	height: 16px;
+}
+
+.route-field {
+	height: 16px;
+	margin: 0 0 5px 5px;
+    width: 187px;
+    z-index: 9999;
 }
 	
 .green-button {
@@ -97,6 +112,7 @@ span.hidden {
 	font-weight: bold;
 	height: 18px;
 	vertical-align: top;
+	margin: 0 0 0 5px;
 }
 
 #sidebar-suggestions {
