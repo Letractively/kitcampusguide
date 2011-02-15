@@ -26,7 +26,6 @@ public interface MapLoader {
 	 * 
 	 * @return a Point-Array with the coordinates of all landmarks.
 	 */
-	// TODO zum Entwurf hinzufügen
 	public Point[] getLandmarks();
 
 	/**
@@ -37,23 +36,22 @@ public interface MapLoader {
 	 * @return a 2-dimensional double-Array, the first array index identifies a intersection node,
 	 * the second array index identifies a landmark.
 	 */
-	// TODO zum Entwurf hinzufügen
 	public double[][] getLandmarkDistances();
 	
 	/**
 	 * Adds a given landmark with all his distances to the database.
 	 * the index of the double-array identifies an intersection node.
 	 */
-	// TODO zum Entwurf hinzufügen
 	public void addLandmarkToDatabase(Point landmark, double[] distances);
 
 	/**
+	 * Adds a given street to the saved graph in the database.
+	 * It adds just the given street, not a street in two directions.
 	 * 
-	 * @param fromId
-	 * @param toId
-	 * @param length
+	 * @param fromId streetnode id of the outgoing node.
+	 * @param toId streetnode id of the incoming node.
+	 * @param length length of the street.
 	 */
-	// TODO zum Entwurf hinzufügen
 	public void addStreetToDatabase(int fromId, int toId, double length);
 
 }
