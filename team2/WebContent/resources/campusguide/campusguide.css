@@ -118,5 +118,21 @@ span.hidden {
 #sidebar-suggestions {
 	height:430px;
 }
+
+.infobox-links {
+	right: 0px;
+	height:2.5455em;
+	line-height:2.5455em;
+	text-align:right;
+}
+
+.infobox-links a {
+    color:#009682;
+    text-decoration:none;
+}
+
+.infobox-links a:hover {
+	text-decoration:underline;
+}
 	
 
