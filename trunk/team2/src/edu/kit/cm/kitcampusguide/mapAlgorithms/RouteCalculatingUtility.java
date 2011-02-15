@@ -104,4 +104,28 @@ public class RouteCalculatingUtility {
 		}
 		RouteCalculatingUtility.MAP_LOADER.addLandmarkToDatabase(point, distances);
 	}
+	
+	/*
+	 * 
+	 */
+	private static double getLengthByPolarCoordinates(double radius) {
+		return radius / 180 * Math.PI;
+	}
+	
+	/**
+	 * Returns the distance in meters between two points on the map with help of their geographical coordinates.
+	 * @param pointFrom is the point, from which we calculate the distance.
+	 * @param pointTo is the point, to which we calculate the distance.
+	 * @return the distance between the two points in meters.
+	 */
+	public static double getDistance(Point pointFrom, Point pointTo){
+		double widthFrom, widthTo, heightFrom, heightTo;
+		heightFrom = getLengthByPolarCoordinates(pointFrom.getX());
+		heightTo = getLengthByPolarCoordinates(pointTo.getX());
+		widthFrom = getLengthByPolarCoordinates(pointFrom.getY());
+		widthTo = getLengthByPolarCoordinates(pointTo.getY());
+		Double e = Math.acos(Math.sin(widthFrom) * Math.sin(widthTo) + Math.cos(widthFrom) * Math.cos(widthTo) * Math.cos(heightTo - heightFrom));
+		return e * 6378.137 * 1000;
+	}
+	
 }
