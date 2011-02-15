@@ -56,7 +56,7 @@ public class POI implements Serializable {
 	 * @throws NullPointerException If either id, name, description, position, map or categories is <code>null</code>.
 	 */
 	public POI(String id, String name, String description, WorldPosition position, Map map, Integer buildingID, Collection<Category> categories) {
-		if (id == null || name == null || description == null || position == null || map == null || categories == null) {
+		if (id == null || name == null || position == null || map == null || categories == null) {
 			throw new NullPointerException();
 		}
 		this.id = id;
