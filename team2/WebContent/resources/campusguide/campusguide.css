@@ -45,7 +45,7 @@ span.hidden {
 }
 
 #headline {
-    background-image: url(../css/img/intern/headline.png);
+    background-image: url(../resources/campusguide/img/headline_corner.png);
     background-repeat: repeat-x;
     border: 1px solid #000000;
     font-weight: bold;
@@ -58,7 +58,7 @@ span.hidden {
 }
 
 #headline-corner {
-    background-image: url(../css/img/intern/headline_corner.png);
+    background-image: url(../resources/campusguide/img/headline_corner.png);
     border: 0px;
 	height: 15px;
 	left: 739px;
