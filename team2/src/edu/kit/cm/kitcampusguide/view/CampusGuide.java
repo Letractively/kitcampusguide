@@ -1,5 +1,6 @@
 package edu.kit.cm.kitcampusguide.view;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -91,6 +92,12 @@ public class CampusGuide {
 		if (newSearch != null) {
 			this.hlm.setSearch(newSearch);
 			this.currentPOI = this.ma.searchPOI(this.hlm.getSearch());
+			if (this.currentPOI == null) {
+				this.hlm.setSuggestions(this.ma.getSuggestions(this.hlm.getSearch()));
+				System.out.println(this.hlm.getSuggestions().size());
+			} else {
+				this.hlm.setSuggestions(new ArrayList<POI>());
+			}
 		}
 		FacesContext.getCurrentInstance().renderResponse();
 	}
@@ -113,10 +120,6 @@ public class CampusGuide {
 		if (this.sbm.getFrom() != null && this.sbm.getTo() != null) {
 			this.currentRoute = this.ma.calculateRoute(this.sbm.getFrom(), 
 									this.sbm.getTo());
-//			List<Point> route = new ArrayList<Point>();
-//			route.add(this.sbm.getFrom());
-//			route.add(this.sbm.getTo());
-//			this.currentRoute = new Route(route);
 		} else {
 			this.currentRoute = null;
 		}
@@ -124,12 +127,6 @@ public class CampusGuide {
 	
 	public void removeRoute() {
 		this.currentRoute = null;
-	}
-	
-	public void expandFilter(ActionEvent ev) {
-		this.sbm.setFilterVisible(!this.sbm.isFilterVisible());
-		System.out.println("ja");
-		
 	}
 
 }

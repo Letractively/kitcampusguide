@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class contains the information about the headline which contains
@@ -16,7 +17,7 @@ public class HeadlineModel {
 	private String search;
 	
 	/* The suggestions for the input. */
-	private ArrayList<POI> suggestions;
+	private List<POI> suggestions;
 	
 	/**
 	 * Creates a new headline which contains a search input field.
@@ -47,10 +48,10 @@ public class HeadlineModel {
 	/**
 	 * This method sets the suggestions for the input.
 	 * 
-	 * @param suggestions the suggestions for the input.
+	 * @param list the suggestions for the input.
 	 */
-	public void setSuggestions(ArrayList<POI> suggestions) {
-		this.suggestions = suggestions; 
+	public void setSuggestions(List<POI> list) {
+		this.suggestions = list; 
 	}	
 	
 	/**
@@ -58,7 +59,7 @@ public class HeadlineModel {
 	 * 
 	 * @return the suggestions for the input.
 	 */
-	public ArrayList<POI> getSuggestions() {
+	public List<POI> getSuggestions() {
 		return this.suggestions; 
 	}	
 }
