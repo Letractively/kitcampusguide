@@ -1,4 +1,4 @@
-package edu.kit.cm.kitcampusguide.view;
+package edu.kit.cm.kitcampusguide.controller;
 
 import java.util.ArrayList;
 import java.util.Iterator;
