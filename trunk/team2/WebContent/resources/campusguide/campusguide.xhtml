@@ -32,7 +32,7 @@
  		<f:ajax render="current-poi" execute="search-field" event="valueChange"/>
 		</o:suggestionField>
 		<h:commandButton id="search-button" value="#{msgs.search_button}"
-			onclick="showPOI()" class="search-button"> 
+			onclick="showPOI()" class="green-button"> 
 		<f:ajax render="@this"/>
 		</h:commandButton>
 		</h:form>
@@ -55,6 +55,7 @@
 	</script>
 
 	<div id="sidebar">
+		<div id="hide-sidebar"></div>
 		<h:form id="route">
 			<h:outputText id="current-route" value="#{cc.attrs.model.currentRoute}" class="hidden">
 				<f:converter converterId="routeConverter" />
@@ -62,7 +63,7 @@
 			<o:suggestionField id="from-field" promptText="#{msgs.route_from}" 
 				valueChangeListener="#{cc.attrs.model.fromChanged}" autoComplete="true"
        			suggestionDelay="200" suggestionMinChars="1" suggestionMode="substring"
-        		listStyle="z-index:9999;" style="width:95%;">
+        		styleClass="route-field">
 				<o:dropDownItems value="#{constantData.allPOIName}" />
  				<f:ajax render="current-route" execute="from-field" event="valueChange"/>
 			</o:suggestionField>
@@ -71,14 +72,14 @@
 				valueChangeListener="#{cc.attrs.model.toChanged}"
 				autoComplete="true" suggestionDelay="200"
         		suggestionMinChars="2" suggestionMode="substring"
-       			listStyle="z-index:9999;" style="width:95%;">
+       			 styleClass="route-field">
 				<o:dropDownItems value="#{constantData.allPOIName}" />
  				<f:ajax render="current-route" execute="to-field" event="valueChange"/>
 			</o:suggestionField>
-			<h:commandButton id="route" value="#{msgs.route_button}" onclick="route();">
+			<h:commandButton id="route" value="#{msgs.route_button}" onclick="route();" class="green-button">
 				<f:ajax render="@none" />
 			</h:commandButton>
-			<h:commandButton id="hide-route" value="#{msgs.route_hide}" onclick="hideRoute();" action="#{cc.attrs.model.removeRoute}">
+			<h:commandButton id="hide-route" value="#{msgs.route_hide}" onclick="hideRoute();" action="#{cc.attrs.model.removeRoute}" class="green-button">
 				<f:ajax render="@none" />
 			</h:commandButton>
 		</h:form>
