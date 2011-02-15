@@ -156,7 +156,7 @@ function addMarker(layer, lon, lat, popupContentHTML, poi) {
         OpenLayers.Event.stop(evt);
     };
     
-    var tooltip = new OpenLayers.Popup(poi.name, ll, new OpenLayers.Size(poi.nameSize*5.7 + 25, 23), poi.name, false);
+    var tooltip = new OpenLayers.Popup(poi.name, ll, new OpenLayers.Size(poi.nameSize*6 + 25, 23), poi.name, false);
 	tooltip.minSize = new OpenLayers.Size(50, 20);
 	tooltip.setBorder("1px solid #009682");
 	tooltip.opacity = 0.7;
