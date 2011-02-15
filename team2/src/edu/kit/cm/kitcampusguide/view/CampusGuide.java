@@ -1,11 +1,16 @@
 package edu.kit.cm.kitcampusguide.view;
 
+import java.util.Iterator;
 import java.util.Locale;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
+
+import org.openfaces.component.panel.FoldingPanel;
 
 import edu.kit.cm.kitcampusguide.mapAlgorithms.ConcreteMapAlgorithms;
 import edu.kit.cm.kitcampusguide.mapAlgorithms.MapAlgorithms;
@@ -119,6 +124,12 @@ public class CampusGuide {
 	
 	public void removeRoute() {
 		this.currentRoute = null;
+	}
+	
+	public void expandFilter(ActionEvent ev) {
+		this.sbm.setFilterVisible(!this.sbm.isFilterVisible());
+		System.out.println("ja");
+		
 	}
 
 }
