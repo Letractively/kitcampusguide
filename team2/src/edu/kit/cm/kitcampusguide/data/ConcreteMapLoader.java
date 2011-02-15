@@ -141,24 +141,33 @@ public class ConcreteMapLoader implements MapLoader {
 		ArrayList<Integer> streetnodelist = new ArrayList<Integer>();
 		ArrayList<Integer> landmarklist = new ArrayList<Integer>();
 		ArrayList<Double> lengthlist = new ArrayList<Double>();
+		int count = 0;
 		
 		Connection connection = Config.getPgSQLJDBCConnection();
-		String sqlquery = "SELECT * FROM cg_distance";
+		String sqlquery_distance = "SELECT * FROM cg_distance";
+		String sqlquery_landmarks = "SELECT * FROM cg_landmark";
 		
 		ResultSet resultset = null;
 		
 		try {
-			resultset = Config.executeSQLStatement(connection, sqlquery);
+			resultset = Config.executeSQLStatement(connection, sqlquery_distance);
 	        while(resultset.next()) {
 	        	streetnodelist.add(resultset.getInt(1));
 	        	landmarklist.add(resultset.getInt(2));
 	        	lengthlist.add(resultset.getDouble(3));
 			}
+	        
+	        
+	        resultset = Config.executeSQLStatement(connection, sqlquery_landmarks);
+	        while(resultset.next()) {
+	        	count++;
+			}
+	        
 	    } catch (SQLException e) {
 		    e.printStackTrace();
 	    }
-
-	    double[][] result = new double[streetnodelist.size()][streetnodelist.size()];
+	    System.out.println(count);
+	    double[][] result = new double[streetnodelist.size()][count];
 	    
 	    for (int i = 0; i < streetnodelist.size(); i++) {
 	        result[streetnodelist.get(i)][landmarklist.get(i)] = lengthlist.get(i);
@@ -198,12 +207,11 @@ public class ConcreteMapLoader implements MapLoader {
             System.err.println(e.getMessage()); 
             System.err.println(e.getStackTrace());
         } finally {
-        try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
-        try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
+            try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
+            try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
         }
     }
 	
-	// TODO optional zum einfacherem anlegen des Graphen...
 	/**
 	 * {@inheritDoc}
 	 */
@@ -216,7 +224,7 @@ public class ConcreteMapLoader implements MapLoader {
 	        connection = Config.getPgSQLJDBCConnection();
 
 	        statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO cg_street (from, to, length) " + 
+            statement.executeUpdate("INSERT INTO cg_street (from_id, to_id, length) " + 
                 "VALUES ('" + fromId + "', '" + toId + "', '" + length + "')");
             
         } catch (Exception e) { 
@@ -224,8 +232,8 @@ public class ConcreteMapLoader implements MapLoader {
             System.err.println(e.getMessage()); 
             System.err.println(e.getStackTrace());
         } finally {
-        try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
-        try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
+            try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
+            try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
         }
 	}
 
