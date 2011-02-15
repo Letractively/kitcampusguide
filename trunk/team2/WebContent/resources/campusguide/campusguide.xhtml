@@ -77,10 +77,10 @@
  				<f:ajax render="current-route" execute="to-field" event="valueChange"/>
 			</o:suggestionField>
 			<h:commandButton id="route" value="#{msgs.route_button}" onclick="route();" class="green-button">
-				<f:ajax render="@none" />
+				<f:ajax render="to-field from-field" execute="from-field to-field"/>
 			</h:commandButton>
 			<h:commandButton id="hide-route" value="#{msgs.route_hide}" onclick="hideRoute();" action="#{cc.attrs.model.removeRoute}" class="green-button">
-				<f:ajax render="@none" />
+				<f:ajax render="to-field from-field" execute="from-field to-field" />
 			</h:commandButton>
 		</h:form>
 		<script type="text/javascript" src="resources/campusguide/sidebar.js" />

@@ -92,9 +92,11 @@ function getPOICat(name) {
 function createPopupContent(poi) {
 	return "<h2>" + poi.name + "</h2><p>" + poi.description + "</p><br><br><div class=\"infobox-links\"><a " +
 			" onclick=\"javascript:getElement('route:from-field').value = '" + 
-			poi.name + "';getElement('route:from-field').focus();\">Route von hier</a>&nbsp;|&nbsp;<a " +
+			poi.name + "';getElement('route:from-field').focus(); all_poi['current'].popup.hide();" +
+            	"all_poi['current'] = null; current_poi = null;\">Route von hier</a>&nbsp;|&nbsp;<a " +
 			" onclick=\"javascript:getElement('route:to-field').value = '" + 
-			poi.name + "';getElement('route:to-field').focus();\">Route hierher</a></div><br>";
+			poi.name + "';getElement('route:to-field').focus();all_poi['current'].popup.hide();" +
+            	"all_poi['current'] = null; current_poi = null;\">Route hierher</a></div><br>";
 }
 
 function setMyCenter(lo,la,zo) {

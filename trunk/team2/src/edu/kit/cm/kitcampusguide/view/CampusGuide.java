@@ -1,7 +1,5 @@
 package edu.kit.cm.kitcampusguide.view;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import javax.faces.bean.ManagedBean;
@@ -13,7 +11,6 @@ import edu.kit.cm.kitcampusguide.mapAlgorithms.ConcreteMapAlgorithms;
 import edu.kit.cm.kitcampusguide.mapAlgorithms.MapAlgorithms;
 import edu.kit.cm.kitcampusguide.model.HeadlineModel;
 import edu.kit.cm.kitcampusguide.model.POI;
-import edu.kit.cm.kitcampusguide.model.Point;
 import edu.kit.cm.kitcampusguide.model.Route;
 import edu.kit.cm.kitcampusguide.model.SidebarModel;
 
@@ -83,7 +80,7 @@ public class CampusGuide {
 	public Route getCurrentRoute() {
 		return currentRoute;
 	}
-	
+
 	public void searchChanged(ValueChangeEvent ev) {
 		String newSearch = (String) ev.getNewValue();
 		if (newSearch != null) {
@@ -95,7 +92,6 @@ public class CampusGuide {
 	
 	public void fromChanged(ValueChangeEvent ev) {
 		String newFrom = (String) ev.getNewValue();
-		System.out.println(newFrom);
 		this.sbm.setFrom(this.ma.searchPOI(newFrom));
 		this.updateRoute();
 		FacesContext.getCurrentInstance().renderResponse();
