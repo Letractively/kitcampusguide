@@ -57,6 +57,18 @@ span.hidden {
     z-index: 9999;
 }
 
+#headline_corner {
+    background-image: url(../css/img/intern/headline_corner.png);
+    border: 0px;
+	height: 15px;
+	left: 739px;
+    margin: 0;
+    position: relative;
+    top: -24px;
+    width: 15px;
+    z-index: 10000;
+}
+
 .search-field {
 	height: 16px;
 }
