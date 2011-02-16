@@ -110,6 +110,40 @@ function setRouteTo(name) {
 	current_poi = null;
 }
 
+function hideSidebar() {
+	var map = document.getElementById("map");
+	var sidebar = document.getElementById("sidebar");
+	var mapWidth = parseInt(map.style.width.replace(/px/g, ""));
+	var sidebarWidth = parseInt(sidebar.style.width.replace(/px/g, "")) + 1;
+	var sidebarLeft = parseInt(sidebar.style.left.replace(/px/g, ""));
+	if (sidebarLeft == -1) {
+		map.style.width = (mapWidth + sidebarWidth) + "px";
+		document.getElementById("hide-sidebar").style.visibility = "hidden";
+		document.getElementById("show-sidebar").style.visibility = "visible";
+	}
+	if (sidebarLeft < sidebarWidth) {
+		sidebar.style.left = (sidebarLeft + 1) + "px";
+		setTimeout(hideSidebar, 5);
+	}
+}
+
+function showSidebar() {
+	var map = document.getElementById("map");
+	var sidebar = document.getElementById("sidebar");
+	var mapWidth = parseInt(map.style.width.replace(/px/g, ""));
+	var sidebarWidth = parseInt(sidebar.style.width.replace(/px/g, "")) + 1;
+	var sidebarLeft = parseInt(sidebar.style.left.replace(/px/g, ""));
+	if (sidebarLeft == -1) {
+		map.style.width = (mapWidth - sidebarWidth) + "px";
+		document.getElementById("hide-sidebar").style.visibility = "visible";
+		document.getElementById("show-sidebar").style.visibility = "hidden";
+	}
+	if (sidebarLeft > -1) {
+		sidebar.style.left = (sidebarLeft - 1) + "px";
+		setTimeout(showSidebar, 5);
+	}
+}
+
 function addPOILayer(poicat) {
 	layer_markers[poicat.name] = new OpenLayers.Layer.Markers(poicat.name, 
 		{ projection: new OpenLayers.Projection("EPSG:4326"), 

@@ -45,8 +45,8 @@
 		</h:outputText>
 	</h:form>			
 	<script type="text/javascript" src="resources/openlayers/OpenLayers.js" />
-	<div id="map"></div> 
 	<div id="map-corner"></div>
+	<div id="map" style="width: 558px;"></div> 
 	<div id="map-popup" class="map-popup"><div class="map-popup-pane">
 		<div class="poi-name"></div>
 		<div class="poi-description"></div>
@@ -64,8 +64,8 @@
 		setupPopups();
 	</script>
 
-	<div id="sidebar">
-		<div id="hide-sidebar"></div>
+	<div id="sidebar-pane" class="sidebar"><div id="sidebar" class="sidebar" style="width: 199px; left: -1px;">
+		<div id="hide-sidebar" onclick="hideSidebar()"></div>
 		<h:form id="route">
 			<h:outputText id="current-route" value="#{cc.attrs.model.currentRoute}" class="hidden">
 				<f:converter converterId="routeConverter" />
@@ -111,7 +111,9 @@
 				</o:forEach>				
 			</o:foldingPanel>
 		</div>
-	</div> 
+	</div></div>
+	<div id = "sidebar-border" class="sidebar"></div>
+	<div id="show-sidebar" onclick="showSidebar()" style="visibility: hidden;"></div>
 
 </cc:implementation>
 </body></html>
