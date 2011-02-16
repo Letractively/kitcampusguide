@@ -1,17 +1,14 @@
 package edu.kit.cm.kitcampusguide.controller;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Locale;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.FacesEvent;
 import javax.faces.event.ValueChangeEvent;
-
-import org.openfaces.component.panel.FoldingPanel;
 
 import edu.kit.cm.kitcampusguide.mapAlgorithms.ConcreteMapAlgorithms;
 import edu.kit.cm.kitcampusguide.mapAlgorithms.MapAlgorithms;
