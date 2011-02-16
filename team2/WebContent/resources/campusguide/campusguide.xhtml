@@ -47,11 +47,21 @@
 	<script type="text/javascript" src="resources/openlayers/OpenLayers.js" />
 	<div id="map"></div> 
 	<div id="map-corner"></div>
-	<script type="text/javascript" src="resources/campusguide/campusguide.js" />
+	<div id="map-popup" class="map-popup"><div class="map-popup-pane">
+		<div class="poi-name"></div>
+		<div class="poi-description"></div>
+		<div class="poi-menu"><form>
+			<input type="hidden" name="poiName" />
+			<input type="button" value="#{msgs.route_from_here}" class="green-button" onblur="setRouteFrom(this.form.poiName.value)" />
+			<input type="button" value="#{msgs.route_to_here}" class="green-button" onblur="setRouteTo(this.form.poiName.value)" />
+		</form></div></div>
+	</div>
 	<script type="text/javascript" src="resources/campusguide/util.js" />
+	<script type="text/javascript" src="resources/campusguide/campusguide.js" />
 	<script type="text/javascript">
 		setClientID('#{cc.clientId}');
 		drawmap();
+		setupPopups();
 	</script>
 
 	<div id="sidebar">

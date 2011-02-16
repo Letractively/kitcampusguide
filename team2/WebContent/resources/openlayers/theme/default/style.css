@@ -316,7 +316,8 @@ div.olControlSaveFeaturesItemInactive {
 }
 
 .olFramedCloudPopupContent {
-    padding: 5px;
+	min-height: 88px;
+    padding: 0;
     position: absolute;
     z-index: 1;
 }

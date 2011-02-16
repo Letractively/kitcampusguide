@@ -126,16 +126,31 @@ span.hidden {
 	display: none;
 }
 
+.map-popup-pane {
+	height: 100%;
+	position: relative;
+	top: -8px;
+	left: -8px;
+}
+
 .poi-name{
+	color: #009682;
+    font-size: 15px;
+    font-weight: bold;
+    min-width: 233px;
+    padding: 6px;
 }
 
 .poi-description {
-}
-
-.poi-close {
+    padding: 6px;
 }
 
 .poi-menu {
+	bottom: 0;
+    padding: 6px;
+    position: absolute;
+    text-align: right;
+    right: 0;
 }
 
 #sidebar-suggestions {

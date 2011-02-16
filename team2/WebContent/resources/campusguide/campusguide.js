@@ -70,6 +70,46 @@ function drawmap() {
     all_poi['current'] = null;
 }
 
+function setupPopups() {
+	var divs = document.getElementsByTagName("div");
+	for (var i = 0; i < divs.length; i++) {
+		if (divs[i].className == "olFramedCloudPopupContent") {
+			var height = parseInt(divs[i].style.height.replace(/px/g, ""));
+			divs[i].style.overflow = "";
+			divs[i].style.width = "100%";
+			divs[i].style.height = (height + 17) + "px";
+		}
+	}
+	//repositionPupups();
+}
+
+function repositionPupups() {
+	var divs = document.getElementsByTagName("div");
+	for (var i = 0; i < divs.length; i++) {
+		if (divs[i].className == "olFramedCloudPopupContent") {
+			var top = parseInt(divs[i].style.top.replace(/px/g, ""));
+			divs[i].style.top = (top < 20) ? "" : "32px";
+			divs[i].style.left = "";
+		}
+	}
+}
+
+function setRouteFrom(name) {
+	getElement('route:from-field').value = name;
+	getElement('route:from-field').focus();
+	all_poi['current'].popup.hide();
+	all_poi['current'] = null;
+	current_poi = null;
+}
+
+function setRouteTo(name) {
+	getElement('route:to-field').value = name;
+	getElement('route:to-field').focus();
+	all_poi['current'].popup.hide();
+	all_poi['current'] = null;
+	current_poi = null;
+}
+
 function addPOILayer(poicat) {
 	layer_markers[poicat.name] = new OpenLayers.Layer.Markers(poicat.name, 
 		{ projection: new OpenLayers.Projection("EPSG:4326"), 
@@ -90,13 +130,11 @@ function getPOICat(name) {
 }
 
 function createPopupContent(poi) {
-	return "<h2>" + poi.name + "</h2><p>" + poi.description + "</p><br><br><div class=\"infobox-links\"><a " +
-			" onclick=\"javascript:getElement('route:from-field').value = '" + 
-			poi.name + "';getElement('route:from-field').focus(); all_poi['current'].popup.hide();" +
-            	"all_poi['current'] = null; current_poi = null;\">Route von hier</a>&nbsp;|&nbsp;<a " +
-			" onclick=\"javascript:getElement('route:to-field').value = '" + 
-			poi.name + "';getElement('route:to-field').focus();all_poi['current'].popup.hide();" +
-            	"all_poi['current'] = null; current_poi = null;\">Route hierher</a></div><br>";
+	var popup = document.getElementById("map-popup").cloneNode(true);
+	popup.getElementsByTagName("input")[0].value = poi.name;
+	popup.getElementsByTagName("div")[1].innerHTML = poi.name;
+	popup.getElementsByTagName("div")[2].innerHTML = poi.description;
+	return popup.innerHTML;
 }
 
 function setMyCenter(lo,la,zo) {
