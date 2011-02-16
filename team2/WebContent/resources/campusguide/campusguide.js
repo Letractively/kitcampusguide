@@ -80,10 +80,10 @@ function setupPopups() {
 			divs[i].style.height = (height + 17) + "px";
 		}
 	}
-	repositionPupups();
+	repositionPopups();
 }
 
-function repositionPupups() {
+function repositionPopups() {
 	var divs = document.getElementsByTagName("div");
 	for (var i = 0; i < divs.length; i++) {
 		if (divs[i].className == "olPopupCloseBox") {
