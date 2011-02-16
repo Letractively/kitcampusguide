@@ -52,8 +52,8 @@
 		<div class="poi-description"></div>
 		<div class="poi-menu"><form>
 			<input type="hidden" name="poiName" />
-			<input type="button" value="#{msgs.route_from_here}" class="green-button" onblur="setRouteFrom(this.form.poiName.value)" />
-			<input type="button" value="#{msgs.route_to_here}" class="green-button" onblur="setRouteTo(this.form.poiName.value)" />
+			<input type="button" value="#{msgs.route_from_here}" class="green-button" onclick="setRouteFrom(this.form.poiName.value)" />
+			<input type="button" value="#{msgs.route_to_here}" class="green-button" onclick="setRouteTo(this.form.poiName.value)" />
 		</form></div></div>
 	</div>
 	<script type="text/javascript" src="resources/campusguide/util.js" />
@@ -90,7 +90,7 @@
 				<f:ajax render="to-field from-field" execute="from-field to-field"/>
 			</h:commandButton>
 			<h:commandButton id="hide-route" value="#{msgs.route_hide}" onclick="hideRoute();" action="#{cc.attrs.model.removeRoute}" class="green-button">
-				<f:ajax render="to-field from-field" execute="from-field to-field" />
+				<f:ajax render="@none" execute="from-field to-field" />
 			</h:commandButton>
 		</h:form>
 		<script type="text/javascript" src="resources/campusguide/sidebar.js" />

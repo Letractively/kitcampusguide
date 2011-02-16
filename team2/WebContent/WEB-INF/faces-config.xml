@@ -12,9 +12,9 @@
 			<default-locale>de</default-locale>
 			<supported-locale>en</supported-locale>
 		</locale-config>
-		<message-bundle>edu.kit.cm.kitcampusguide.view.language.messages</message-bundle>
+		<message-bundle>edu.kit.cm.kitcampusguide.data.language.messages</message-bundle>
 		<resource-bundle>
-			<base-name>edu.kit.cm.kitcampusguide.view.language.messages</base-name>
+			<base-name>edu.kit.cm.kitcampusguide.data.language.messages</base-name>
 			<var>msgs</var>
 		</resource-bundle>
 	</application>
