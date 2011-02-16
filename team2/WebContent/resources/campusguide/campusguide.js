@@ -80,16 +80,16 @@ function setupPopups() {
 			divs[i].style.height = (height + 17) + "px";
 		}
 	}
-	//repositionPupups();
+	repositionPupups();
 }
 
 function repositionPupups() {
 	var divs = document.getElementsByTagName("div");
 	for (var i = 0; i < divs.length; i++) {
-		if (divs[i].className == "olFramedCloudPopupContent") {
-			var top = parseInt(divs[i].style.top.replace(/px/g, ""));
-			divs[i].style.top = (top < 20) ? "" : "32px";
-			divs[i].style.left = "";
+		if (divs[i].className == "olPopupCloseBox") {
+			divs[i].style.right = "6px";
+			divs[i].style.height = "36px";
+			divs[i].style.width = "19px";
 		}
 	}
 }
