@@ -10,15 +10,34 @@
 #sidebar {
 	background-color:#ffffff;
 	border: 1px solid black;
-    border-left-width: 0px;
     border-top-width: 0px;
+    left: -1px;
 	height: 500px; 
-	left: 560px;
+}
+
+#sidebar-pane {
+	height: 501px; 
+    top: 221px;
+    right: 42px;
+    overflow: hidden;
+}
+
+#sidebar-border {
+	background-color:#ffffff;
+	border: 1px solid black;
+    border-top-width: 0px;
+    width = 200px;
+	z-index: 1;
+    top: 221px;
+    right: 41px;
+}
+
+.sidebar {
+	height: 500px; 
     margin: 0;
-    position: relative;
-    top: -516px;
 	width: 199px; 
 	z-index: 9999;
+    position: absolute;
 }
 
 table.cgtable {
@@ -80,20 +99,37 @@ span.hidden {
     background-image: url(../resources/campusguide/img/map_corner.png);
     border: 0px;
 	height: 15px;
-	left: 0px;
+	left: 214px;
     margin: 0;
-    position: relative;
-    top: -15px;
-    width: 15px;
+    position: absolute;
+    top: 707px;
+    width: 11px;
     z-index: 10000;
 }
 
 #hide-sidebar {
+    background-image: url(../resources/campusguide/img/hide.png);
+    background-repeat: no-repeat;    
     border: 0px;
-	height: 20px;
+	height: 15px;
     margin: 0;
-    width: 200px;
+    margin-top: 2px;
+    width: 11px;
     z-index: 9999;
+}
+
+#show-sidebar {
+    background-image: url(../resources/campusguide/img/show.png);
+    background-repeat: no-repeat;    
+    border: 0px;
+	height: 15px;
+    margin: 0;
+    margin-top: 2px;
+    width: 11px;
+    z-index: 9999;    
+    right: 40px;
+    top: 221px;
+    position: absolute;
 }
 
 .search-field {
