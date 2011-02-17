@@ -138,11 +138,10 @@ function showSidebar() {
 	var mapWidth = parseInt(map.style.width.replace(/px/g, ""));
 	var sidebarWidth = parseInt(sidebar.style.width.replace(/px/g, "")) + 1;
 	var sidebarLeft = parseInt(sidebar.style.left.replace(/px/g, ""));
-	if (sidebarLeft == -1) {
+	if (sidebarLeft == -1 && document.getElementById("show-sidebar").style.visibility != "hidden") {
 		map.style.width = (mapWidth - sidebarWidth) + "px";
 		document.getElementById("hide-sidebar").style.visibility = "visible";
 		document.getElementById("show-sidebar").style.visibility = "hidden";
-		document.getElementById("sidebar-pane").style.zIndex = 9999;
 	}
 	if (sidebarLeft == sidebarWidth) {
 		document.getElementById("sidebar-pane").style.zIndex = 9999;
