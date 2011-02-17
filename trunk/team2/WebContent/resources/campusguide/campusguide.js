@@ -200,7 +200,7 @@ function showPOI() {
 	}
 	current_poi = getElementInnerHTML("search:current-poi");
 	if (current_poi != null) {		
-		setMyCenter(current_poi.lon, current_poi.lat, map.getZoom());
+		setMyCenter(current_poi.lon, current_poi.lat, 16);
 		all_poi['current'] = all_poi[current_poi.name];
 		all_poi['current'].popup.show();
 		all_poi['current'].popup.clicked = true;
