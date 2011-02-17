@@ -21,6 +21,8 @@ function route() {
 			new OpenLayers.Geometry.LineString(newRoute, null, null), null, routeStyle);
 		layer_route.addFeatures([ routeFeature ]);
 		getElement("route:hide-route").style.visibility = 'visible';
+		setMyCenter(current_route[Math.floor(current_route.length / 2)].lon, 
+				current_route[Math.floor(current_route.length / 2)].lat, 16);
 	} 
 }
 
