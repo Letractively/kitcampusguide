@@ -187,6 +187,7 @@ span.hidden {
     position: absolute;
     text-align: right;
     right: 0;
+    min-width: 233px;
 }
 
 #sidebar-suggestions {
