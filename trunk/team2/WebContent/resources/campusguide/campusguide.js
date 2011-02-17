@@ -95,6 +95,7 @@ function repositionPopups() {
 }
 
 function setRouteFrom(name) {
+	showSidebar();
 	getElement('route:from-field').value = name;
 	getElement('route:from-field').focus();
 	all_poi['current'].popup.hide();
@@ -103,6 +104,7 @@ function setRouteFrom(name) {
 }
 
 function setRouteTo(name) {
+	showSidebar();
 	getElement('route:to-field').value = name;
 	getElement('route:to-field').focus();
 	all_poi['current'].popup.hide();
