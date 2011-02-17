@@ -184,15 +184,16 @@ function setMyCenter(lo,la,zo) {
     var lonLat = new OpenLayers.LonLat(lo, la)
     .transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913") // to Spherical Mercator Projection
     );
-    map.setCenter (lonLat, zo);
+    map.setCenter(lonLat, zo);
 }
 
 function showMarkers(show, layer) {
-	if (!show) {
-		layer_markers[layer].destroy();
-	} else {
-		addPOILayer(getPOICat(layer));
-	}
+	layer_markers[layer].setVisibility(show);
+//	if (!show) {
+//		layer_markers[layer].destroy();
+//	} else {
+//		addPOILayer(getPOICat(layer));
+//	}
 }
 
 function showPOI() {
