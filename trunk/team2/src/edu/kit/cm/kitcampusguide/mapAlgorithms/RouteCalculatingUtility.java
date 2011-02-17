@@ -19,7 +19,6 @@ public class RouteCalculatingUtility {
 	/**
 	 * The MapLoader Implementation used by this Class
 	 */
-	// TODO set mapLoader
 	public static final MapLoader MAP_LOADER = new ConcreteMapLoader();
 
 	/*
@@ -43,18 +42,21 @@ public class RouteCalculatingUtility {
 		
 		for (Point node : nodes) {
 			if (defaultGraph.getNodeIndex(node) == -1) {
-				int neighbour = 0;
-				double distance = getDistance(graphNodes[neighbour], node);
-				for (int j = 1; j < graphNodes.length; j++) {
-					double newDistance = getDistance(graphNodes[j], node);
-					if (newDistance < distance) {
-						neighbour = j;
-						distance = newDistance;
+				defaultGraph.addNode(node);
+				double[] distances = new double[graphNodes.length];
+				int min = 0;
+				for (int j = 0; j < graphNodes.length; j++) {
+					distances[j] =  getDistance(graphNodes[j], node);
+					if (distances[j] < distances[min]) {
+						min = j;
 					}
 				}
-				defaultGraph.addNode(node);
-				defaultGraph.addEdge(defaultGraph.numberOfNodes() - 1, neighbour, distance);
-				defaultGraph.addEdge(neighbour, defaultGraph.numberOfNodes() - 1, distance);
+				for (int j = 0; j < graphNodes.length; j++) {
+					if (distances[j] <= distances[min] * 1) {
+						defaultGraph.addEdge(defaultGraph.numberOfNodes() - 1, j, distances[j]);
+						defaultGraph.addEdge(j, defaultGraph.numberOfNodes() - 1, distances[j]);
+					}
+				}
 			}
 		}
 		
@@ -68,6 +70,7 @@ public class RouteCalculatingUtility {
 	 * 
 	 * @param point the point to become a landmark 
 	 */
+	@SuppressWarnings("unused") // use this method to fill the database
 	private static void generateLandmark(Point point) {
 		Graph streetGraph = RouteCalculatingUtility.calculateStreetGraph();
 		if (streetGraph.getNodeIndex(point) == -1) {
@@ -119,6 +122,7 @@ public class RouteCalculatingUtility {
 	 * 
 	 * @param args Command-line arguments
 	 */
+	 // use this method to fill the database
 	public static void main(String[] args) {
 		int[][] streets = {{0, 1}, {1, 2}, {1, 3}, {2, 3}, {2, 4}, {3, 17}, {4, 17}, {4, 5}, 
 		{5, 6}, {5, 7}, {16, 17}, {7, 8}, {8, 9}, {9, 10}, {10, 11}, {11, 12}, {12, 13}, {12, 14}, {13, 30}, 
@@ -133,7 +137,7 @@ public class RouteCalculatingUtility {
 		, {84, 85}, {85, 86}, {87, 86}, {87, 88}, {88, 89}, {87, 90}, {89, 90}, {91, 90}, {91, 92}
 		, {86, 93}, {93, 92}, {93, 95}, {94, 95}, {93, 94}, {95, 92}, {96, 73}, {69, 96}, {96, 98}, {98, 72}
 		, {101, 98}, {101, 102}, {101, 100}, {54, 102}, {100, 55}, {99, 98}, {99, 103}, {103, 56}
-		, {103, 104}, {104, 56}, {56, 105}, {105, 106}, {106, 107}, {107, 112}, {112, 108}, {110, 112}, {111, 110}, {110, 6}, {110, 109}
+		, {103, 104}, {104, 56}, {56, 105}, {105, 106}, {106, 107}, {107, 112}, {112, 108}, {110, 112}, {111, 110}, {111, 6}, {110, 109}
 		, {109, 76}, {108, 109}, {104, 107}, {81,13}, {75, 113}, {113, 114}, {113, 122}, {116, 122}, {114, 115}, {115, 116}, {116, 117}
 		, {117, 118}, {118, 119}, {119, 120}, {120, 121}, {104, 121}, {77, 121}, {122, 99}, {72, 122}};
 		MapLoader ml = new ConcreteMapLoader();

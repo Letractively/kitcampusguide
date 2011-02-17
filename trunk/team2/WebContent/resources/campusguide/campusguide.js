@@ -118,12 +118,15 @@ function hideSidebar() {
 	var sidebarLeft = parseInt(sidebar.style.left.replace(/px/g, ""));
 	if (sidebarLeft == -1) {
 		map.style.width = (mapWidth + sidebarWidth) + "px";
+	}
+	if (sidebarLeft == sidebarWidth) {
 		document.getElementById("hide-sidebar").style.visibility = "hidden";
 		document.getElementById("show-sidebar").style.visibility = "visible";
+		document.getElementById("sidebar-pane").style.zIndex = 0;
 	}
 	if (sidebarLeft < sidebarWidth) {
 		sidebar.style.left = (sidebarLeft + 1) + "px";
-		setTimeout(hideSidebar, 5);
+		setTimeout(hideSidebar, 2);
 	}
 }
 
@@ -137,10 +140,14 @@ function showSidebar() {
 		map.style.width = (mapWidth - sidebarWidth) + "px";
 		document.getElementById("hide-sidebar").style.visibility = "visible";
 		document.getElementById("show-sidebar").style.visibility = "hidden";
+		document.getElementById("sidebar-pane").style.zIndex = 9999;
+	}
+	if (sidebarLeft == sidebarWidth) {
+		document.getElementById("sidebar-pane").style.zIndex = 9999;
 	}
 	if (sidebarLeft > -1) {
 		sidebar.style.left = (sidebarLeft - 1) + "px";
-		setTimeout(showSidebar, 5);
+		setTimeout(showSidebar, 2);
 	}
 }
 
