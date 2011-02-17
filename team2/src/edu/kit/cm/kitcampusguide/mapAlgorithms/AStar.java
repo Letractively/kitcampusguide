@@ -1,7 +1,5 @@
 package edu.kit.cm.kitcampusguide.mapAlgorithms;
 
-import java.util.List;
-
 import edu.kit.cm.kitcampusguide.model.Graph;
 import edu.kit.cm.kitcampusguide.model.Point;
 import edu.kit.cm.kitcampusguide.model.Route;
