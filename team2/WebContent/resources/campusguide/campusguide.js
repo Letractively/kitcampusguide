@@ -187,7 +187,11 @@ function setMyCenter(lo,la,zo) {
 }
 
 function showMarkers(show, layer) {
-	layer_markers[layer].setVisibility(show);
+	if (!show) {
+		layer_markers[layer].setVisibility(false);
+	} else {
+		layer_markers[layer].setVisibility(true);
+	}
 //	if (!show) {
 //		layer_markers[layer].destroy();
 //	} else {
