@@ -198,7 +198,6 @@ public class MapModel implements Serializable {
 	public void setHighlightedPOI(POI highlightedPOI) {
 		changedProperties.add(MapProperty.highlightedPOI);
 		this.highlightedPOI = highlightedPOI;
-		
 		// change Building POI as well
 		if (highlightedPOI == null) {
 			createBuildingPOIList(null, null);
