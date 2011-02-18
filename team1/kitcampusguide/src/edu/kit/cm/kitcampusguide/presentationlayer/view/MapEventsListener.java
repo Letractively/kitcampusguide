@@ -9,8 +9,8 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.event.ValueChangeListener;
 
-import edu.kit.cm.kitcampusguide.controller.MapListener;
-import edu.kit.cm.kitcampusguide.controller.POIListener;
+import edu.kit.cm.kitcampusguide.presentationlayer.controller.MapListener;
+import edu.kit.cm.kitcampusguide.presentationlayer.controller.POIListener;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 
 /**
