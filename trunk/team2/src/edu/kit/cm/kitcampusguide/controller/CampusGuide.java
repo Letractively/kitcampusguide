@@ -53,7 +53,7 @@ public class CampusGuide {
 		this.hlm = hlm;
 	}
 	
-	public void changeLocale() {
+	public String changeLocale() {
 		if (this.locale.getLanguage().equals(Locale.GERMAN.getLanguage())) {
 			this.locale = Locale.ENGLISH;
 			FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.ENGLISH);
@@ -61,6 +61,7 @@ public class CampusGuide {
 			this.locale = Locale.GERMAN;
 			FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.GERMAN);
 		}
+		return "campuskarte";
 	}
 
 	public Locale getLocale() {
