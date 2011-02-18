@@ -8,7 +8,7 @@
     <application>
     	<system-event-listener>
     		<system-event-listener-class>
-    			edu.kit.cm.kitcampusguide.controller.StartupEventListener
+    			edu.kit.cm.kitcampusguide.presentationlayer.controller.StartupEventListener
     		</system-event-listener-class>
     		<system-event-class>
     			javax.faces.event.PostConstructApplicationEvent
@@ -78,7 +78,7 @@
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>mapListener</managed-bean-name>
-		<managed-bean-class>edu.kit.cm.kitcampusguide.controller.MapListenerImpl</managed-bean-class>
+		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.controller.MapListenerImpl</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
 			<property-name>inputModel</property-name>
@@ -94,12 +94,12 @@
 	<managed-bean>
 		<description>Holds some default values which are used to initialise a new model</description>
 		<managed-bean-name>defaultModelValues</managed-bean-name>
-		<managed-bean-class>edu.kit.cm.kitcampusguide.controller.DefaultModelValues</managed-bean-class>
+		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.controller.DefaultModelValues</managed-bean-class>
 		<managed-bean-scope>application</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>inputListener</managed-bean-name>
-		<managed-bean-class>edu.kit.cm.kitcampusguide.controller.InputListenerImpl</managed-bean-class>
+		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.controller.InputListenerImpl</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
 			<property-name>mapModel</property-name>
@@ -118,7 +118,7 @@
 		</managed-property>
 		<managed-property>
 			<property-name>defaultModelValueClass</property-name>
-			<property-class>edu.kit.cm.kitcampusguide.controller.DefaultModelValues</property-class>
+			<property-class>edu.kit.cm.kitcampusguide.presentationlayer.controller.DefaultModelValues</property-class>
 			<value>#{defaultModelValues}</value>
 		</managed-property>
 	</managed-bean>
@@ -134,7 +134,7 @@
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>poiListener</managed-bean-name>
-		<managed-bean-class>edu.kit.cm.kitcampusguide.controller.POIListenerImpl</managed-bean-class>
+		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.controller.POIListenerImpl</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
 			<property-name>mapModel</property-name>
@@ -164,7 +164,7 @@
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>inputListenerAdapter</managed-bean-name>
-		<managed-bean-class>edu.kit.cm.kitcampusguide.controller.InputListenerAdapter</managed-bean-class>
+		<managed-bean-class>edu.kit.cm.kitcampusguide.presentationlayer.controller.InputListenerAdapter</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
 			<property-name>inputModel</property-name>
@@ -178,7 +178,7 @@
 		</managed-property>
 		<managed-property>
 			<property-name>inputListener</property-name>
-			<property-class>edu.kit.cm.kitcampusguide.controller.InputListener</property-class>
+			<property-class>edu.kit.cm.kitcampusguide.presentationlayer.controller.InputListener</property-class>
 			<value>#{inputListener}</value>
 		</managed-property>
 	</managed-bean>
