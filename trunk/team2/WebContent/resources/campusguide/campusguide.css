@@ -1,73 +1,11 @@
 @CHARSET "UTF-8";
-#map {
-	border: 1px solid black;
-    border-top-width: 0px;
-	height: 500px;
-	margin-bottom:10px;
-    width:558px;
-}
-
-#sidebar {
-	background-color:#ffffff;
-	border: 1px solid black;
-    border-top-width: 0px;
-    left: -1px;
-	height: 500px; 
-}
-
-#sidebar-pane {
-	height: 501px; 
-    top: 221px;
-    right: 42px;
-    overflow: hidden;
-}
-
-#sidebar-border {
-	background-color:#ffffff;
-	border: 1px solid black;
-    border-top-width: 0px;
-    width = 200px;
-	z-index: 1;
-    top: 221px;
-    right: 41px;
-}
-
-.sidebar {
-	height: 500px; 
-    margin: 0;
-	width: 199px; 
-	z-index: 9999;
-    position: absolute;
-}
-
-table.cgtable {
-    color:#000000;
-    margin-bottom:10px;
-    width:730px;
-}
-table.cgtable th {
-    background-color:#e5e5e5;
-    color:#000000;
-    padding:4px 5px 5px;
-    text-align:left;
-    vertical-align:bottom;
-    z-index: -10;
-}
-table.cgtable row1 {
-    width:558px;
-}
-table.cgtable row2 {
-    width:172px;
-}
-
-.hidden {
-	visibility: hidden;
-	display: none;
-}
-
-span.hidden {
-	visibility: hidden;
-	display: none;
+	
+.green-button {
+	color: #009682;
+	font-weight: bold;
+	height: 18px;
+	vertical-align: top;
+	margin: 0 0 0 5px;
 }
 
 #headline {
@@ -95,18 +33,6 @@ span.hidden {
     z-index: 10000;
 }
 
-#map-corner {
-    background-image: url(../resources/campusguide/img/map_corner.png);
-    border: 0px;
-	height: 15px;
-	left: 214px;
-    margin: 0;
-    position: absolute;
-    top: 707px;
-    width: 11px;
-    z-index: 10000;
-}
-
 #hide-sidebar {
     background-image: url(../resources/campusguide/img/hide.png);
     background-repeat: no-repeat;    
@@ -118,83 +44,9 @@ span.hidden {
     z-index: 9999;
 }
 
-#show-sidebar {
-    background-image: url(../resources/campusguide/img/show.png);
-    background-repeat: no-repeat;    
-    border: 0px;
-	height: 15px;
-    margin: 0;
-    margin-top: 2px;
-    width: 11px;
-    z-index: 9999;    
-    right: 40px;
-    top: 221px;
-    position: absolute;
-}
-
-.search-field {
-	height: 16px;
-}
-
-.route-field {
-	height: 16px;
-	margin: 0 0 5px 5px;
-    width: 187px;
-    z-index: 9999;
-}
-	
-.green-button {
-	color: #009682;
-	font-weight: bold;
-	height: 18px;
-	vertical-align: top;
-	margin: 0 0 0 5px;
-}
-
-#poi-pane {
-    padding: 5px;
-    bottom: 0px;
-    position: absolute;
-	z-index: 10000;
-}
-
-.map-popup {
+.hidden {
+	visibility: hidden;
 	display: none;
-}
-
-.map-popup-pane {
-	height: 100%;
-	position: relative;
-	top: -8px;
-	left: -8px;
-}
-
-.poi-name{
-	color: #009682;
-    font-size: 15px;
-    font-weight: bold;
-    min-width: 233px;
-    padding: 6px;
-}
-
-.poi-description {
-    padding: 6px;
-}
-
-.poi-menu {
-	bottom: 0;
-    padding: 6px;
-    position: absolute;
-    text-align: right;
-    right: 0;
-    min-width: 233px;
-}
-
-#sidebar-suggestions {
-}
-
-.o_folding_panel {
-	border-bottom-width: 0;
 }
 
 .infobox-links {
@@ -212,5 +64,153 @@ span.hidden {
 .infobox-links a:hover {
 	text-decoration:underline;
 }
-	
 
+#map {
+	border: 1px solid black;
+    border-top-width: 0px;
+	height: 500px;
+	margin-bottom:10px;
+    width:558px;
+}
+
+#map-corner {
+    background-image: url(../resources/campusguide/img/map_corner.png);
+    border: 0px;
+	height: 15px;
+	left: 214px;
+    margin: 0;
+    position: absolute;
+    top: 707px;
+    width: 11px;
+    z-index: 10000;
+}
+
+.map-popup {
+	display: none;
+}
+
+.map-popup-pane {
+	height: 100%;
+	position: relative;
+	top: -8px;
+	left: -8px;
+	min-width: 300px;
+}
+
+.poi-description {
+    padding: 6px;
+}
+
+.poi-menu {
+	bottom: 0;
+    padding: 6px;
+    position: absolute;
+    text-align: right;
+    right: 0;
+    min-width: 233px;
+}
+
+.poi-name{
+	color: #009682;
+    font-size: 15px;
+    font-weight: bold;
+    min-width: 233px;
+    padding: 6px;
+}
+
+#poi-pane {
+    padding: 5px;
+    bottom: 0px;
+    position: absolute;
+	z-index: 10000;
+}
+
+.route-field {
+	height: 16px;
+	margin: 0 0 5px 5px;
+    width: 187px;
+    z-index: 9999;
+}
+
+.search-field {
+	height: 16px;
+}
+
+#show-sidebar {
+    background-image: url(../resources/campusguide/img/show.png);
+    background-repeat: no-repeat;    
+    border: 0px;
+	height: 15px;
+    margin: 0;
+    margin-top: 2px;
+    width: 11px;
+    z-index: 9999;    
+    right: 40px;
+    top: 221px;
+    position: absolute;
+}
+
+#sidebar {
+	background-color:#ffffff;
+	border: 1px solid black;
+    border-top-width: 0px;
+    left: -1px;
+	height: 500px; 
+}
+
+.sidebar {
+	height: 500px; 
+    margin: 0;
+	width: 199px; 
+	z-index: 9999;
+    position: absolute;
+}
+
+#sidebar-border {
+	background-color:#ffffff;
+	border: 1px solid black;
+    border-top-width: 0px;
+    width = 200px;
+	z-index: 1;
+    top: 221px;
+    right: 41px;
+}
+
+#sidebar-pane {
+	height: 501px; 
+    top: 221px;
+    right: 42px;
+    overflow: hidden;
+}
+
+#sidebar-suggestions {
+}
+
+span.hidden {
+	visibility: hidden;
+	display: none;
+}
+
+table.cgtable {
+    color:#000000;
+    margin-bottom:10px;
+    width:730px;
+}
+
+table.cgtable th {
+    background-color:#e5e5e5;
+    color:#000000;
+    padding:4px 5px 5px;
+    text-align:left;
+    vertical-align:bottom;
+    z-index: -10;
+}
+
+table.cgtable row1 {
+    width:558px;
+}
+
+table.cgtable row2 {
+    width:172px;
+}
+	

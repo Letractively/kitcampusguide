@@ -310,6 +310,10 @@ div.olControlSaveFeaturesItemInactive {
     background-position: 0px 18px;
 }
 
+.olPopup {	
+	min-width: 300px;
+}
+
 .olPopupCloseBox {
   background: url("img/close.gif") no-repeat;
   cursor: pointer;
