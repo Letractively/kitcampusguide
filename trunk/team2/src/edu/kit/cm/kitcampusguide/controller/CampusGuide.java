@@ -56,8 +56,10 @@ public class CampusGuide {
 	public void changeLocale() {
 		if (this.locale.getLanguage().equals(Locale.GERMAN.getLanguage())) {
 			this.locale = Locale.ENGLISH;
+			FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.ENGLISH);
 		} else {
 			this.locale = Locale.GERMAN;
+			FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.GERMAN);
 		}
 	}
 
