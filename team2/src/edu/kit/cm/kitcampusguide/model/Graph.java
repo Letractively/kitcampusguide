@@ -1,7 +1,6 @@
 package edu.kit.cm.kitcampusguide.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -139,7 +138,6 @@ public class Graph {
 	 * @param index the index of the searched Point
 	 * @return the degree of the node with the specified index
 	 */
-	// TODO zum Entwurf hinzufügen
 	public int getNodeDegree(int index) {
 		if (index < 0 || index >= this.points.size()) {
 			throw new IndexOutOfBoundsException("index has to be in range of 0 to .numberOfNodes() - 1");
@@ -153,7 +151,6 @@ public class Graph {
 	 * @param node the Point to search for
 	 * @return the index of the specified Point if it is contained in this Graph, -1 otherwise
 	 */
-	// TODO zum Entwurf hinzufügen
 	public int getNodeIndex(Point node) {
 		int index = -1;
 		for (int i = 0; i < this.numberOfNodes() && index == -1; i++) {
@@ -172,7 +169,6 @@ public class Graph {
 	 * @param to the endnode of the edge
 	 * @param length the weight of the edge
 	 */
-	// TODO entwurf/Graph/addEdge falsch 
 	public void addEdge(int from, int to, double length) {
 		if (from < 0 || from >= this.points.size()) {
 			throw new IndexOutOfBoundsException("from has to be in range of 0 to .numberOfNodes() - 1");
@@ -196,7 +192,6 @@ public class Graph {
 	 * @param index the edge to change
 	 * @param length the new length of the edge
 	 */
-	// TODO zum entwurf hinzufügen
 	public void setEdge(int index, double length) {
 		if (index < 0 || index >= this.length.size()) {
 			throw new IndexOutOfBoundsException("index has to be in range of 0 to number of edges - 1");
@@ -210,7 +205,6 @@ public class Graph {
 	 * @param index the index of the searched edge
 	 * @return the length of the Edge identified by the specified index
 	 */
-	// TODO zum entwurf hinzufügen
 	public double getEdgeLength(int index) {
 		if (index < 0 || index >= this.length.size()) {
 			throw new IndexOutOfBoundsException("index has to be in range of 0 to number of edges - 1");
@@ -224,7 +218,6 @@ public class Graph {
 	 * @param index the index of the searched edge
 	 * @return the endnode of the Edge identified by the specified index
 	 */
-	// TODO Entwurf
 	public int getEdgeNode(int index) {
 		if (index < 0 || index >= this.edges.size()) {
 			throw new IndexOutOfBoundsException("index has to be in range of 0 to number of edges - 1");
@@ -255,12 +248,11 @@ public class Graph {
 	}
 	
 	/**
-	 * Returns an Iterable containing all edges that can be reached from the specified node. 
+	 * Returns an iterable containing all edges that can be reached from the specified node. 
 	 * 
 	 * @param index 
-	 * @return an Iterable containing all edges that can be reached from the specified node
+	 * @return an iterable containing all edges that can be reached from the specified node
 	 */
-	// TODO im Entwurf ergänzen
 	public Iterable<Integer> getEdges(int index) {
 		return new EdgeIterator(this.nodes.get(index), this.nodes.get(index + 1) - 1);
 	}
