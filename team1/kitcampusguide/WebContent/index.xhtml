@@ -11,21 +11,18 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>KITCampusGuide</title>
 	<h:outputStylesheet name="design.css" library="main" target="head" />
-	<h:outputScript name="jsf.js" library="javax.faces" target="head" />
-	<h:outputScript target="head" library="inputcomponent" name="inputcomponent.js" />
 	
 </h:head>
 <h:body>
-	<h:panelGrid columns="2" class="fullWidth" columnClasses="fullWidth" rowClasses="fullWidth">
-		<h:panelGroup id="map">
-			<map:mapcomponent mapModel="#{mapModel}"
-				additionalRenderIDs="routeFromField routeToField lateralBar">
+<!--	<h:panelGrid columns="2" class="fullWidth" columnClasses="fullWidth" rowClasses="fullWidth"> -->
+<!--		<h:panelGroup id="map">-->
+			<map:mapcomponent mapModel="#{mapModel}" inputModel="#{inputModel}" >
 				<c:valueChangeListener for="valueChangeListener"
 					type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapEventsListener" />
 			</map:mapcomponent>
-		</h:panelGroup>
+<!--		</h:panelGroup>-->
 		
-		<h:panelGroup id="lateralBar" layout="block">
+<!-- 		<h:panelGroup id="lateralBar" layout="block">
 			<h:form id="lateralForm" class="lateralForm" rendered="#{mapModel.building != null}">
 				<h:panelGrid columns="1">
 				<h:dataTable id="floors" value="#{mapModel.building.floors}" var="floor">
@@ -46,9 +43,9 @@
 				</h:panelGrid>				
 			</h:form>
 		</h:panelGroup>
-	</h:panelGrid>
+	</h:panelGrid> -->
 
-	<h:panelGroup id="bar" class="bar" layout="block" library="main">
+	<!-- <h:panelGroup id="bar" class="bar" layout="block" library="main">
 		<h:form id="form" prependId="false">
 			<h:panelGrid columns="4">
 		
@@ -171,6 +168,6 @@
 				</h:panelGroup>							
 			</h:panelGrid>
 		</h:form>
-	</h:panelGroup>
+	</h:panelGroup> -->
 </h:body>
 </html>

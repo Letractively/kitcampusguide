@@ -87,5 +87,24 @@ var KITCampusHelper = {
 		var EPS = 5E-7;
 		return (Math.abs(pos1.longitude - pos2.longitude) < EPS
 				&& Math.abs(pos1.latitude - pos2.latitude) < EPS);
+	},
+	
+	
+	
+	getTranslation: function(label, clientId) {
+		return document.getElementById(clientId + ":inputForm:" + label).innerHTML;
+	},
+
+	setSearchButtonLabel: function(clientId) {
+		var routeFromField = document.getElementById(clientId + ':inputForm:routeFromField');
+		var routeToField = document.getElementById(clientId + ':inputForm:routeToField');
+		var label;
+		if ((routeFromField == null || (routeFromField.value != null && routeFromField.value != ''))
+				&& (routeToField == null || (routeToField.value != null && routeToField.value != ''))) {
+			label = KITCampusHelper.getTranslation("calculateRouteLabel", clientId);
+		} else {
+			label = KITCampusHelper.getTranslation("searchLabel", clientId);
+		}
+		document.getElementById(clientId + ':inputForm:searchButton').value = label;
 	}
 };
