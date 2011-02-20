@@ -310,9 +310,15 @@ KITCampusMap.prototype.handleMove = function(event) {
  */
 KITCampusMap.prototype.eventCallback = function(data) {
 	if (data.status == "success") {
-		var clientId = data.source.id.substring(0, data.source.id.length
-				- ":form".length);
-		var campusMap = KITCampusMap.maps[clientId];
+		var id;
+		// TODO: Find a legal way to retrieve the id, not just a working one...
+		for (clientId in KITCampusMap.maps) {
+			id = clientId;
+			break;
+		}
+//		var clientId = data.source.id.substring(0, data.source.id.length
+//				- ":form".length);
+		var campusMap = KITCampusMap.maps[id];
 		campusMap.applyChanges.call(campusMap);
 	}
 };
@@ -335,9 +341,13 @@ KITCampusMap.prototype.requestUpdate = function(events) {
 	var outputField = this.getFormElement("outputField");
 	outputField.value = JSON.stringify(events);
 	var id = this.form.id;
+	var additionalIDs = this.clientId + ":inputForm:routeFromField " +
+			this.clientId + ":inputForm:routeToField " + this.clientId
+			+ ":lateralBar";
+	
 	jsf.ajax.request(this.form, null, {
-		execute : id + ":outputField " + this.additionalRenderIDs,
-		render : id + ":mapModel " + this.additionalRenderIDs,
+		execute : id + ":outputField ",
+		render : id + ":mapModel " + additionalIDs,
 		onevent : this.eventCallback
 	});
 };
@@ -369,19 +379,17 @@ KITCampusMap.prototype.setMapLocator = function() {
 	} else if (mapLocator.center != null) {
 		if (!this.changed['highlightedPOI'] && this.model.highlightedPOI != null) {
 			// Only change the map position if no highlighted POI was set. Instead, the map
-			// section will be panned until the higlightedPOIPopup fits inside 
+			// section will be panned until the higlightedPOIPopup fits inside
 			// (see setHighlightedPopup).
 			if (!this.changed['map']) {
-				// Panning is only used when the map hasn't changed for this request.
-				this.olData.map.panTo(KITCampusHelper.transformWorldPosition(mapLocator.center));
+				// Panning is only used when the map hasn't changed for this
+				// request.
+				this.olData.map.panTo(KITCampusHelper
+						.transformWorldPosition(mapLocator.center));
 			} else {
-				this.olData.map.setCenter(KITCampusHelper.transformWorldPosition(mapLocator.center));
+				this.olData.map.setCenter(KITCampusHelper
+						.transformWorldPosition(mapLocator.center));
 			}
-		}
-		else {
-			// Always zoom on the desired location
-			this.olData.map.setCenter(KITCampusHelper.transformWorldPosition(
-					mapLocator.center));
 		}
 	}
 };
