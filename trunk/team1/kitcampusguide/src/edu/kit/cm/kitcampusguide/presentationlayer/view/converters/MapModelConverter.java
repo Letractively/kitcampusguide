@@ -47,7 +47,6 @@ public class MapModelConverter implements Converter {
 		
 		MapModel m = (MapModel) arg2;
 		JSONObject result = new JSONObject();
-		System.out.println("Converting");
 		for (MapProperty prop: m.getChangedProperties()) {
 			switch (prop) {
 			case building:

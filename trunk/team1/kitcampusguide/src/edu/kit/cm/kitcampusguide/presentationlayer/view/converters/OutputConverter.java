@@ -33,6 +33,9 @@ public class OutputConverter implements Converter {
 	public List<MapEvent> getAsObject(FacesContext context, UIComponent component,
 			String value) {
 		try {
+			if(value.isEmpty()) {
+				return null;
+			}
 			JSONArray val = (JSONArray) JSONValue.parseWithException(value);
 			List<MapEvent> result = new ArrayList<MapEvent>(val.size());
 			for (Object eventObject: val) {

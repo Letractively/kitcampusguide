@@ -35,6 +35,9 @@ public class MapEventsListener implements ValueChangeListener {
 			event.queue();
 		} else {
 			List<MapEvent> events = (List<MapEvent>) event.getNewValue();
+			if (events == null) {
+				return;
+			}
 			for (MapEvent mapEvent: events) {
 				String type = mapEvent.getType();
 				if (type.equals("mapLocatorChanged")) {
