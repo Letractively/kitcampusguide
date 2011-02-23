@@ -13,4 +13,9 @@
 	<entry key="choose">Choisissez s'il vous plaît</entry>
 	<entry key="ok">Vas-y</entry>
 	<entry key="cancel">Abandon</entry>
+	<entry key="showBuildingMap">Plan de cet bâtiment</entry>
+	<entry key="showPOIsInBuilding">Points importants dans cet bâtiment</entry>
+	<entry key="setRouteFrom">Route de ici</entry>
+	<entry key="setRouteTo">Route à là-bas</entry>
+	<entry key="backToCampus">Plan du campus universitaire</entry>
 </language>

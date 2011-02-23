@@ -112,7 +112,7 @@ function KITCampusMap(clientId) {
 			thiss.handleMenuOpen(e.clientX + scrollX - div.offsets[0], 
 					e.clientY + scrollY - div.offsets[1]);
 		}
-		return false; // For IE browsers.
+		return false; // For IE broowsers.
 	};
 	
 	// Read all ids which should be rerendered as well on an ajax request
@@ -231,9 +231,8 @@ KITCampusMap.prototype.handleMenuOpen = function(x, y) {
 				+ "onmouseover=\"KITCampusMap.maps['" + clientId
 				+ "'].colorMenu(this.id, true);\">" + text + "</div>";
 	}
-	var menuHTML = createRouteFromToDiv(this
-			.getTranslation("setRouteFromLabel"), "markerFrom");
-	menuHTML += createRouteFromToDiv(this.getTranslation("setRouteToLabel"),
+	var menuHTML = createRouteFromToDiv(KITCampusHelper.getTranslation("setRouteFromLabel", this.clientId), "markerFrom");
+	menuHTML += createRouteFromToDiv(KITCampusHelper.getTranslation("setRouteToLabel", this.clientId),
 			"markerTo");
 	
 	this.olData.rightClickMenuPosition = mapPosition; // make the WorldPosition to a MapPosition
@@ -481,26 +480,12 @@ KITCampusMap.prototype.getPOIContentHTML = function (poi){
 		result += "<div class='mapBuildingPOILinks'>"
 				+ "<a href=\"javascript:KITCampusMap.maps['" + this.clientId
 				+ "'].handleSwitchToBuilding()\">"
-				+ this.getTranslation("showBuildingMapLabel") + "</a>";
+				+ KITCampusHelper.getTranslation("showBuildingMapLabel", this.clientId) + "</a>";
 		result += "<br /><a href=\"javascript:KITCampusMap.maps['"
 				+ this.clientId + "'].handleShowPOIsInBuilding()\">"
-				+ this.getTranslation("showPOIsInBuildingLabel") + "</a></div>";
+				+ KITCampusHelper.getTranslation("showPOIsInBuildingLabel", this.clientId) + "</a></div>";
 	}
 	return result;
-};
-
-/**
- * Gets the translation for a given label. All translation fields must have the
- * id <code>{clientID}:{label}</code>. An exception is thrown if the label
- * could not found in the component.
- * 
- * @param label
- *            a String
- * @returns the translated String.
- */
-KITCampusMap.prototype.getTranslation = function(label) {
-	return document.getElementById(this.clientId
-			+ ":" + label).innerHTML;
 };
 
 /**

@@ -88,23 +88,67 @@ var KITCampusHelper = {
 		return (Math.abs(pos1.longitude - pos2.longitude) < EPS
 				&& Math.abs(pos1.latitude - pos2.latitude) < EPS);
 	},
-	
-	
-	
+		
+	/**
+	 * Gets the translation for a given label. All translation fields must have the
+	 * id <code>{clientID}:{label}</code>. An exception is thrown if the label
+	 * could not be found in the component.
+	 * 
+	 * @param label
+	 *            a String
+	 * @param clientId
+	 * 			  a String
+	 * @returns the translated String.
+	 */
 	getTranslation: function(label, clientId) {
-		return document.getElementById(clientId + ":inputForm:" + label).innerHTML;
+		return document.getElementById(clientId + ":" + label).innerHTML;
 	},
 
+	/**
+	 * Sets the search button's label suitably.
+	 * @param clientId
+	 * 				a String representing the JSF client id of the map component
+	 */
 	setSearchButtonLabel: function(clientId) {
 		var routeFromField = document.getElementById(clientId + ':inputForm:routeFromField');
 		var routeToField = document.getElementById(clientId + ':inputForm:routeToField');
+		var routeFromInput = null;
+		var routeToInput = null;
+		if (routeFromField != null) {
+			routeFromInput = routeFromField.value;
+			if (routeFromInput != null) {
+				routeFromInput = trim(routeFromInput);
+			}
+		}
+		if (routeToField != null) {
+			routeToInput = routeToField.value;
+			if (routeToInput != null) {
+				routeToInput = trim(routeToInput);
+			}
+		}	
 		var label;
-		if ((routeFromField == null || (routeFromField.value != null && routeFromField.value != ''))
-				&& (routeToField == null || (routeToField.value != null && routeToField.value != ''))) {
+		if ((routeFromField == null || (routeFromInput != null && routeFromInput != ''))
+				&& (routeToField == null || (routeToInput != null && routeToInput != ''))) {
 			label = KITCampusHelper.getTranslation("calculateRouteLabel", clientId);
 		} else {
 			label = KITCampusHelper.getTranslation("searchLabel", clientId);
 		}
 		document.getElementById(clientId + ':inputForm:searchButton').value = label;
 	}
+};
+
+/**
+ * Trims the given String <code>s</code>.
+ * @param s 
+ * 			a String
+ * @returns the trimmed String
+ */
+function trim(s) {
+	while (s.substring(0,1) == ' ') {
+		s = s.substring(1,s.length);
+	}
+	while (s.substring(s.length-1,s.length) == ' ') {
+		s = s.substring(0,s.length-1);
+	}
+	return s;
 };

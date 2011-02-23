@@ -11,76 +11,84 @@
 		<cc:attribute name="mapModel"
 			type="edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel" required="true" />
 		<cc:attribute name="additionalRenderIDs" default="" />
-		<cc:attribute name="inputModel" required="true" />
+		<cc:attribute name="inputModel" 
+			type="edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel" required="true" />
 		<!-- EditableValueHolders -->
-		<cc:editableValueHolder name="valueChangeListener"
-			targets="form:outputField" />
+		<cc:editableValueHolder name="valueChangeListener" targets="form:outputField" />
 	</cc:interface>
 	<cc:implementation>
+		<h:outputScript target="head" library="javax.faces" name="jsf.js" />
 		<!-- This script is used for HTML encoding/decoding	-->
 		<h:outputScript target="head" library="mapcomponent" name="encoder.js" />
 		<h:outputScript target="head" library="mapcomponent" name="mapcomponent.js" />
 		<h:outputScript target="head" library="mapcomponent" name="kitcampushelper.js" />
 		<!-- //TODO: If possible, check if this include can be done via an output script -->
 		<script type="text/javascript" src="resources/mapcomponent/openlayers/lib/OpenLayers.js" />
-<!--				<h:outputScript target="head" library="mapcomponent"-->
-<!--					name="openlayers.js" />-->
-		<h:outputStylesheet target="head" library="mapcomponent"
-			name="map.css" />
-		<h:outputScript target="head" library="javax.faces" name="jsf.js" />
-		<h:panelGrid columns="2" class="fullWidth" columnClasses="fullWidth" rowClasses="fullWidth">
+<!--	<h:outputScript target="head" library="mapcomponent" name="openlayers.js" />-->
+		<h:outputStylesheet target="head" library="mapcomponent" name="map.css" />
+		<h:outputStylesheet target="head" library="main" name="design.css" />
+		
+		<!-- Provides the current translations for labels which are set via JavaScript -->
+		<div class="hidden">
+			<h:outputText class="hidden"
+				value="#{tr:translate('showBuildingMap')}"
+				id="showBuildingMapLabel" />
+			<h:outputText class="hidden"
+				value="#{tr:translate('showPOIsInBuilding')}"
+				id="showPOIsInBuildingLabel" />
+			<h:outputText class="hidden"
+				value="#{tr:translate('setRouteTo')}"
+				id="setRouteToLabel" />
+			<h:outputText class="hidden"
+				value="#{tr:translate('setRouteFrom')}"
+				id="setRouteFromLabel" />
+			<h:outputText class="hidden" 
+				value="#{tr:translate('search')}" 
+				id="searchLabel" />
+			<h:outputText class="hidden" 
+				value="#{tr:translate('calculateRoute')}" 
+				id="calculateRouteLabel" />
+		</div>
+		
+		<h:panelGrid columns="2" class="fullWidth" columnClasses="fullWidth" rowClasses="fullWidth" >
 			<h:panelGroup>
-				<div id="#{cc.clientId}:map" class="map"></div>
+				<div id="#{cc.clientId}:map" class="map" />
 				<h:form id="form" class="hidden">
 					<h:outputText id="mapModel" value="#{cc.attrs.mapModel}" class="hidden">
 						<f:converter converterId="mapModelConverter" />
 					</h:outputText>
-					<h:outputText id="additionalRenderIDs" class="hidden"
-						value="#{cc.attrs.additionalRenderIDs}" />
+					<h:outputText id="additionalRenderIDs" value="#{cc.attrs.additionalRenderIDs}"
+						class="hidden" />
 					<h:inputHidden id="outputField" class="hidden">
 						<f:converter converterId="outputConverter" />
 					</h:inputHidden>
-				</h:form>
-			<div class="hidden">
-				<h:outputText class="hidden"
-					value="#{tr:translate('showBuildingMap')}"
-					id="showBuildingMapLabel" />
-				<h:outputText class="hidden"
-				value="#{tr:translate('showPOIsInBuilding')}"
-				id="showPOIsInBuildingLabel" />
-				<h:outputText class="hidden"
-				value="#{tr:translate('setRouteTo')}"
-				id="setRouteToLabel" />
-				<h:outputText class="hidden"
-				value="#{tr:translate('setRouteFrom')}"
-				id="setRouteFromLabel" />
-			</div>
-			<script type="text/javascript">
-			function load() {
-					new KITCampusMap('#{cc.clientId}');
-			}
-		
-			// Add map as startup listener
-			if (document.addEventListener)
-				document.addEventListener("DOMContentLoaded", load, false);
-			else {
-				document.onreadystatechange = function() {
-					if (document.readyState == "interactive"
-							|| document.readyState == "complete")
-						load();
-				}
-			}
-			</script>
+				</h:form>				
+				<script type="text/javascript">
+					function load() {
+						new KITCampusMap('#{cc.clientId}');
+					}
+				
+					// Add map as startup listener
+					if (document.addEventListener)
+						document.addEventListener("DOMContentLoaded", load, false);
+					else {
+						document.onreadystatechange = function() {
+							if (document.readyState == "interactive"
+									|| document.readyState == "complete")
+								load();
+						}
+					}
+				</script>
 			</h:panelGroup>
-			<h:panelGroup id="lateralBar" layout="block">
-				<h:form id="lateralForm" class="lateralForm" rendered="#{mapModel.building != null}">
-					<h:panelGrid columns="1">
+			
+			<h:panelGroup id="lateralBar" layout="block" >
+				<h:form id="lateralForm" class="lateralForm" rendered="#{mapModel.building != null}" >
 					<h:dataTable id="floors" value="#{mapModel.building.floors}" var="floor">
 						<h:column>
 							<h:commandLink value="#{floor.name}"
 								actionListener="#{inputListenerAdapter.changeFloorTriggered}" 
-								disabled = "#{floor.ID == mapModel.map.ID}"
-								style="color:#{(floor.ID == mapModel.map.ID) ? '#000000' : '#009d82' }" >
+								disabled="#{floor.ID == mapModel.map.ID}"
+								style="color:#{(floor.ID == mapModel.map.ID) ? '#000000' : '#009d82'}" >
 								<h:outputText class="hidden" value="#{floor.ID}" />
 							</h:commandLink>
 						</h:column>
@@ -89,139 +97,132 @@
 						<h:commandLink id="backToCampusMap"
 							value="#{tr:translate('backToCampus')}"
 							actionListener="#{inputListenerAdapter.changeToMapViewTriggered}" />
-					</h:panelGroup>
-					</h:panelGrid>				
+					</h:panelGroup>				
 				</h:form>
 			</h:panelGroup>
 		</h:panelGrid>	
-	<h:panelGroup id="bar" class="bar" layout="block" library="main">
-		<h:form id="inputForm">
-			<h:panelGrid columns="4">
 		
-				<h:panelGroup id="kitlogo" class="kitlogo" layout="block">
-					<h:graphicImage name="logo_KITCampusGuide_grey.jpg" library="main" alt="KITLogo" />
-				</h:panelGroup>				
-			
-				<h:panelGroup id="input" layout="block" style="padding:5px">
-					<h:panelGrid columns="1" >
-						
-						<h:panelGroup id="routeFromInput" layout="block">					
-							<h:outputLabel id="routeFromLabel" for="routeFromField" 
-								value="#{tr:translate('routeFrom')}"/>
-							<br />
-							<h:inputText id="routeFromField" value="#{inputModel.routeFromField}"
-								rendered="#{inputModel.routeFromProposalList == null}"
-								onkeyup="KITCampusHelper.setSearchButtonLabel('#{cc.clientId}')" >
-							</h:inputText>	
-							<h:selectOneMenu id="routeFromProposalList" 
-								rendered="#{inputModel.routeFromProposalList != null}" 
-								value="#{inputListenerAdapter.routeFromSelection}" >
-								<f:selectItems value="#{inputListenerAdapter.routeFromProposalList}" />
-							</h:selectOneMenu>						
-							<br />											
-							<h:commandLink id="resetRouteFromProposalList" value="#{tr:translate('reset')}" 
-								actionListener="#{inputListenerAdapter.resetRouteFromProposalList}" 
-								rendered="#{inputModel.routeFromProposalList != null}" >
-								<f:ajax execute="resetRouteFromProposalList" render="routeFromInput" />
-							</h:commandLink>						
-							<br />	
-							<h:panelGroup id="routeFromInformation" layout="block" >				
-								<h:outputText id="routeFromSearchFailed" value="#{tr:translate('searchFailed')}" 
-									rendered="#{inputModel.routeFromSearchFailed}" />	
-								<h:outputText id="routeFromChoose" value="#{tr:translate('choose')}" 
-									rendered="#{inputModel.routeFromProposalList != null}" />	
-							</h:panelGroup>																					
-						</h:panelGroup>
-													
-						<h:panelGroup id="routeToInput" layout="block">
-							<h:outputLabel id="routeToLabel" for="routeToField" 
-								value="#{tr:translate('routeTo')}" />
-							<br />
-							<h:inputText id="routeToField" value="#{inputModel.routeToField}"
-								rendered="#{inputModel.routeToProposalList == null}" 
-								onkeyup="KITCampusHelper.setSearchButtonLabel('#{cc.clientId}')" >
-							</h:inputText>													
-							<h:selectOneMenu id="routeToProposalList" 
-								rendered="#{inputModel.routeToProposalList != null}" 
-								value="#{inputListenerAdapter.routeToSelection}" >
-								<f:selectItems value="#{inputListenerAdapter.routeToProposalList}" />
-							</h:selectOneMenu>						
-							<br />											
-							<h:commandLink id="resetRouteToProposalList" value="#{tr:translate('reset')}" 
-								actionListener="#{inputListenerAdapter.resetRouteToProposalList}" 
-								rendered="#{inputModel.routeToProposalList != null}" >
-								<f:ajax execute="resetRouteToProposalList" render="routeToInput" />
-							</h:commandLink>						
-							<br />			
-							<h:panelGroup id="routeToInformation" layout="block" >			
-								<h:outputText id="routeToSearchFailed" value="#{tr:translate('searchFailed')}" 
-									rendered="#{inputModel.routeToSearchFailed}" />	
-								<h:outputText id="routeToChoose" value="#{tr:translate('choose')}" 
-									rendered="#{inputModel.routeToProposalList != null}" />	
-							</h:panelGroup>				
-						</h:panelGroup>			
-						
-						<h:outputText id="routeCalculationFailed" value="#{tr:translate('routeCalculationFailed')}" 
-							rendered="#{inputModel.routeCalculationFailed}"/>
-										
-					</h:panelGrid>		
-				</h:panelGroup>
+		<h:panelGroup id="bar" class="bar" layout="block" library="main" >
+			<h:form id="inputForm">
+				<h:panelGrid columns="4">			
+					<h:panelGroup class="kitlogo" layout="block">
+						<h:graphicImage name="logo_KITCampusGuide_grey.jpg" library="main" alt="KITLogo" />
+					</h:panelGroup>				
 				
-				<h:panelGroup id="button" layout="block" style="padding:10px">				
-						<h:commandButton id="searchButton" value="#{inputListenerAdapter.searchButtonLabel}" 
-						actionListener="#{inputListenerAdapter.searchButtonPressed}" >
-							<f:ajax
-								execute="inputForm:searchButton inputForm:routeFromField inputForm:routeToField 
-							inputForm:routeToInput inputForm:routeFromInput #{cc.clientId}:form"
+					<h:panelGroup id="input" layout="block" style="padding:5px">
+						<h:panelGrid columns="1" >							
+							<h:panelGroup id="routeFromInput" layout="block">					
+								<h:outputLabel id="routeFromLabel" for="routeFromField" 
+									value="#{tr:translate('routeFrom')}"/>
+								<br />
+								<h:inputText id="routeFromField" value="#{inputModel.routeFromField}"
+									rendered="#{inputModel.routeFromProposalList == null}"
+									onkeyup="KITCampusHelper.setSearchButtonLabel('#{cc.clientId}')" >
+								</h:inputText>	
+								<h:selectOneMenu id="routeFromProposalList" 
+									rendered="#{inputModel.routeFromProposalList != null}" 
+									value="#{inputListenerAdapter.routeFromSelection}" >
+									<f:selectItems value="#{inputListenerAdapter.routeFromProposalList}" />
+								</h:selectOneMenu>						
+								<br />											
+								<h:commandLink id="resetRouteFromProposalList" value="#{tr:translate('reset')}" 
+									actionListener="#{inputListenerAdapter.resetRouteFromProposalList}" 
+									rendered="#{inputModel.routeFromProposalList != null}" >
+									<f:ajax execute="resetRouteFromProposalList" render="routeFromInput" />
+								</h:commandLink>						
+								<br />	
+								<h:panelGroup id="routeFromInformation" layout="block" >				
+									<h:outputText id="routeFromSearchFailed" value="#{tr:translate('searchFailed')}" 
+										rendered="#{inputModel.routeFromSearchFailed}" />	
+									<h:outputText id="routeFromChoose" value="#{tr:translate('choose')}" 
+										rendered="#{inputModel.routeFromProposalList != null}" />	
+								</h:panelGroup>																					
+							</h:panelGroup>
+														
+							<h:panelGroup id="routeToInput" layout="block">
+								<h:outputLabel id="routeToLabel" for="routeToField" 
+									value="#{tr:translate('routeTo')}" />
+								<br />
+								<h:inputText id="routeToField" value="#{inputModel.routeToField}"
+									rendered="#{inputModel.routeToProposalList == null}" 
+									onkeyup="KITCampusHelper.setSearchButtonLabel('#{cc.clientId}')" >
+								</h:inputText>													
+								<h:selectOneMenu id="routeToProposalList" 
+									rendered="#{inputModel.routeToProposalList != null}" 
+									value="#{inputListenerAdapter.routeToSelection}" >
+									<f:selectItems value="#{inputListenerAdapter.routeToProposalList}" />
+								</h:selectOneMenu>						
+								<br />											
+								<h:commandLink id="resetRouteToProposalList" value="#{tr:translate('reset')}" 
+									actionListener="#{inputListenerAdapter.resetRouteToProposalList}" 
+									rendered="#{inputModel.routeToProposalList != null}" >
+									<f:ajax execute="resetRouteToProposalList" render="routeToInput" />
+								</h:commandLink>						
+								<br />			
+								<h:panelGroup id="routeToInformation" layout="block" >			
+									<h:outputText id="routeToSearchFailed" value="#{tr:translate('searchFailed')}" 
+										rendered="#{inputModel.routeToSearchFailed}" />	
+									<h:outputText id="routeToChoose" value="#{tr:translate('choose')}" 
+										rendered="#{inputModel.routeToProposalList != null}" />	
+								</h:panelGroup>				
+							</h:panelGroup>			
+							
+							<h:outputText id="routeCalculationFailed" value="#{tr:translate('routeCalculationFailed')}" 
+								rendered="#{inputModel.routeCalculationFailed}"/>
+											
+						</h:panelGrid>		
+					</h:panelGroup>
+					
+					<h:panelGroup id="button" layout="block" style="padding:10px">				
+						<h:commandButton id="searchButton" 
+							value="#{inputListenerAdapter.searchButtonLabel}" 
+							actionListener="#{inputListenerAdapter.searchButtonPressed}" >
+							<f:ajax execute="inputForm:searchButton inputForm:routeFromField 
+								inputForm:routeToField inputForm:routeToInput inputForm:routeFromInput
+								#{cc.clientId}:form"
 								render="#{cc.clientId}:form:mapModel inputForm #{cc.clientId}:lateralBar"
 								onevent="KITCampusMap.maps['#{cc.clientId}'].eventCallback" />
 						</h:commandButton>
-					<div class="hidden">
-						<h:outputText class="hidden" value="#{tr:translate('search')}" id="searchLabel" />
-						<h:outputText class="hidden" value="#{tr:translate('calculateRoute')}" 
-							id="calculateRouteLabel" />
-					</div>
-				</h:panelGroup>					
-			
-				<h:panelGroup id="navigation" layout="block" style="padding:30px">
-					<h:panelGrid columns="1">
-						<h:commandLink id="filterLink" value="#{tr:translate('filter')}" />
-						<h:commandLink id="changeLanguageLink" value="#{tr:translate('changeLanguage')}"
-							actionListener="#{inputListenerAdapter.languageChangeLinkPressed}" >
-							<f:ajax execute="changeLanguageLink" render="navigation" />
-						</h:commandLink>
-						<h:panelGroup>
-							<h:selectOneMenu id="languageProposalList" 
-								value="#{inputListenerAdapter.languageSelection}" 
-								rendered="#{inputListenerAdapter.languageProposalListIsVisible}" >
-								<f:selectItems value="#{inputListenerAdapter.languageProposalList}" />
-							</h:selectOneMenu>	
-							<h:commandLink id="languageChangeTriggered" 
-								rendered="#{inputListenerAdapter.languageProposalListIsVisible}"							
-								actionListener="#{inputListenerAdapter.languageChangeTriggered}" >								
-								<h:graphicImage name="yes_button.png" library="main" alt="ok" width="15" />
-							</h:commandLink>							
-							<h:commandLink id="languageChangeCancelled" 
-								rendered="#{inputListenerAdapter.languageProposalListIsVisible}"							
-								actionListener="#{inputListenerAdapter.languageChangeCancelled}" >
-								<h:graphicImage name="cancel_button.png" library="main" alt="cancel" width="15" />
-								<f:ajax execute="languageChangeCancelled" render="inputForm:navigation" />	
+					</h:panelGroup>					
+				
+					<h:panelGroup id="navigation" layout="block" style="padding:30px">
+						<h:panelGrid columns="1">
+							<h:commandLink id="filterLink" value="#{tr:translate('filter')}" />
+							<h:commandLink id="changeLanguageLink" value="#{tr:translate('changeLanguage')}"
+								actionListener="#{inputListenerAdapter.languageChangeLinkPressed}" >
+								<f:ajax execute="changeLanguageLink" render="navigation" />
 							</h:commandLink>
-						</h:panelGroup>
-						
-						<h:panelGroup>
-							<h:commandLink actionListener="#{inputListenerAdapter.changeLanguageToEnglish}" >
-								<h:graphicImage name="eng.jpg" library="main" alt="English" width="20" />
-							</h:commandLink>
-							<h:outputText value=" : " />
-							<h:commandLink actionListener="#{inputListenerAdapter.changeLanguageToGerman}" >
-								<h:graphicImage name="ger.jpg" library="main" alt="German" width="20" />
-							</h:commandLink>
-						</h:panelGroup>
-					</h:panelGrid>
-				</h:panelGroup>							
-			</h:panelGrid>
-		</h:form>
-	</h:panelGroup>
+							<h:panelGroup layout="block">
+								<h:selectOneMenu id="languageProposalList" 
+									value="#{inputListenerAdapter.languageSelection}" 
+									rendered="#{inputListenerAdapter.languageProposalListIsVisible}" >
+									<f:selectItems value="#{inputListenerAdapter.languageProposalList}" />
+								</h:selectOneMenu>	
+								<h:commandLink id="languageChangeTriggered" 
+									rendered="#{inputListenerAdapter.languageProposalListIsVisible}"							
+									actionListener="#{inputListenerAdapter.languageChangeTriggered}" >								
+									<h:graphicImage name="yes_button.png" library="main" alt="ok" width="15" />
+								</h:commandLink>							
+								<h:commandLink id="languageChangeCancelled" 
+									rendered="#{inputListenerAdapter.languageProposalListIsVisible}"							
+									actionListener="#{inputListenerAdapter.languageChangeCancelled}" >
+									<h:graphicImage name="cancel_button.png" library="main" alt="cancel" width="15" />
+									<f:ajax execute="languageChangeCancelled" render="inputForm:navigation" />	
+								</h:commandLink>
+							</h:panelGroup>							
+							<h:panelGroup layout="block">
+								<h:commandLink actionListener="#{inputListenerAdapter.changeLanguageToEnglish}" >
+									<h:graphicImage name="eng.jpg" library="main" alt="English" width="20" />
+								</h:commandLink>
+								<h:outputText value=" : " />
+								<h:commandLink actionListener="#{inputListenerAdapter.changeLanguageToGerman}" >
+									<h:graphicImage name="ger.jpg" library="main" alt="German" width="20" />
+								</h:commandLink>
+							</h:panelGroup>
+						</h:panelGrid>
+					</h:panelGroup>							
+				</h:panelGrid>
+			</h:form>
+		</h:panelGroup>
 	</cc:implementation>
 </ui:component>

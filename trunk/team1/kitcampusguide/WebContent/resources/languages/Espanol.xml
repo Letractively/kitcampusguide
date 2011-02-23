@@ -12,4 +12,10 @@
 	<entry key="routeCalculationFailed">Error calculando ruta.</entry>	
 	<entry key="choose">Elijan por favor</entry>
 	<entry key="ok">OK</entry>
+	<entry key="cancel">Cancelar</entry>
+	<entry key="showBuildingMap">Mapa de este edificio</entry>
+	<entry key="showPOIsInBuilding">Puntos importantes en este edificio</entry>
+	<entry key="setRouteFrom">Ruta de aquí</entry>
+	<entry key="setRouteTo">Ruta a ahí</entry>
+	<entry key="backToCampus">Mapa del campus </entry>
 </language>
