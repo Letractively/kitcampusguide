@@ -45,9 +45,15 @@ public class ConcreteMapAlgorithmsTest {
 	}
 
 	@Test
-	public void searchPOI() {
+	public void searchPOITest() {
 		MapAlgorithms concreteMapAlgorithms = new ConcreteMapAlgorithms();
 		Assert.assertEquals(1, concreteMapAlgorithms.searchPOI("Ger").getId());
+	}
+	
+	@Test
+//TODO
+	public void calculateRouteTest() {
+	MapAlgorithms concreteMapAlgorithms = new ConcreteMapAlgorithms();
 	}
 	
 	/*
