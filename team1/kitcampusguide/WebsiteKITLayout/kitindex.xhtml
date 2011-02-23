@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:map="http://java.sun.com/jsf/composite/mapcomponent"
+	xmlns:c="http://java.sun.com/jsf/core">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
 	<meta name="author" content="Isabel Gruhler"></meta>
@@ -145,8 +147,13 @@
 	<!-- Homepage-Container [start] --> <a id="block11" name="block11"><!-- Sprungmarke --></a>
 
 	<div class="flash-intro">
-	<div class="text" style="width:100%;">
-	<ui:include	src="index.xhtml" /></div>
+	<div class="text" style="width:100%;">	
+<!-- The proper KITCampusGuide-part -->	
+	<map:mapcomponent mapModel="#{mapModel}" inputModel="#{inputModel}" >
+		<c:valueChangeListener for="valueChangeListener"
+			type="edu.kit.cm.kitcampusguide.presentationlayer.view.MapEventsListener" />
+	</map:mapcomponent>	
+	</div>
 		
 	<div style="clear: both; height: 3px">&nbsp;</div>
 	</div>
