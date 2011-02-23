@@ -83,21 +83,35 @@
 			
 			<h:panelGroup id="lateralBar" layout="block" >
 				<h:form id="lateralForm" class="lateralForm" rendered="#{mapModel.building != null}" >
-					<h:dataTable id="floors" value="#{mapModel.building.floors}" var="floor">
+					<table class="lateralArea" >
+					<tr><td style="vertical-align:top;">
+					<h:dataTable value="#{mapModel.building.floors}" var="floor">
 						<h:column>
 							<h:commandLink value="#{floor.name}"
-								actionListener="#{inputListenerAdapter.changeFloorTriggered}" 
 								disabled="#{floor.ID == mapModel.map.ID}"
-								style="color:#{(floor.ID == mapModel.map.ID) ? '#000000' : '#009d82'}" >
+								style="color:#{(floor.ID == mapModel.map.ID) ? '#000000' : '#009d82'}"
+								actionListener="#{inputListenerAdapter.changeFloorTriggered}" >
 								<h:outputText class="hidden" value="#{floor.ID}" />
+								<f:ajax execute="#{cc.clientId}:form"
+									render="#{cc.clientId}:form:mapModel #{cc.clientId}:lateralBar"
+									onevent="KITCampusMap.maps['#{cc.clientId}'].eventCallback" />
 							</h:commandLink>
 						</h:column>
 					</h:dataTable>
+					</td></tr>
+					
+					<tr><td style="vertical-align:bottom;">
 					<h:panelGroup class="backToCampusMap" layout="block" >
-						<h:commandLink id="backToCampusMap"
-							value="#{tr:translate('backToCampus')}"
-							actionListener="#{inputListenerAdapter.changeToMapViewTriggered}" />
-					</h:panelGroup>				
+						<h:commandLink value="#{tr:translate('backToCampus')}"
+							actionListener="#{inputListenerAdapter.changeToMapViewTriggered}" >
+<!--//TODO: macht Probleme, weil "lateralBar" im Anschluss nicht mehr dargestellt werden soll-->
+<!--							<f:ajax execute="#{cc.clientId}:lateralBar #{cc.clientId}:form"-->
+<!--								render="#{cc.clientId}:form:mapModel #{cc.clientId}:lateralBar "-->
+<!--								onevent="KITCampusMap.maps['#{cc.clientId}'].eventCallback" />-->
+						</h:commandLink>
+					</h:panelGroup>	
+					</td></tr>
+					</table>
 				</h:form>
 			</h:panelGroup>
 		</h:panelGrid>	
@@ -109,32 +123,34 @@
 						<h:graphicImage name="logo_KITCampusGuide_grey.jpg" library="main" alt="KITLogo" />
 					</h:panelGroup>				
 				
-					<h:panelGroup id="input" layout="block" style="padding:5px">
+					<h:panelGroup id="inputFields" layout="block" style="padding:5px">
 						<h:panelGrid columns="1" >							
 							<h:panelGroup id="routeFromInput" layout="block">					
 								<h:outputLabel id="routeFromLabel" for="routeFromField" 
 									value="#{tr:translate('routeFrom')}"/>
 								<br />
 								<h:inputText id="routeFromField" value="#{inputModel.routeFromField}"
+									style="width:160px"
 									rendered="#{inputModel.routeFromProposalList == null}"
 									onkeyup="KITCampusHelper.setSearchButtonLabel('#{cc.clientId}')" >
 								</h:inputText>	
 								<h:selectOneMenu id="routeFromProposalList" 
-									rendered="#{inputModel.routeFromProposalList != null}" 
-									value="#{inputListenerAdapter.routeFromSelection}" >
+									value="#{inputListenerAdapter.routeFromSelection}"
+									style="width:160px"
+									rendered="#{inputModel.routeFromProposalList != null}" >
 									<f:selectItems value="#{inputListenerAdapter.routeFromProposalList}" />
 								</h:selectOneMenu>						
 								<br />											
-								<h:commandLink id="resetRouteFromProposalList" value="#{tr:translate('reset')}" 
+								<h:commandLink value="#{tr:translate('reset')}" 
 									actionListener="#{inputListenerAdapter.resetRouteFromProposalList}" 
 									rendered="#{inputModel.routeFromProposalList != null}" >
-									<f:ajax execute="resetRouteFromProposalList" render="routeFromInput" />
+									<f:ajax execute="routeFromInput" render="routeFromInput" />
 								</h:commandLink>						
 								<br />	
-								<h:panelGroup id="routeFromInformation" layout="block" >				
-									<h:outputText id="routeFromSearchFailed" value="#{tr:translate('searchFailed')}" 
+								<h:panelGroup layout="block" >				
+									<h:outputText value="#{tr:translate('searchFailed')}" 
 										rendered="#{inputModel.routeFromSearchFailed}" />	
-									<h:outputText id="routeFromChoose" value="#{tr:translate('choose')}" 
+									<h:outputText value="#{tr:translate('choose')}" 
 										rendered="#{inputModel.routeFromProposalList != null}" />	
 								</h:panelGroup>																					
 							</h:panelGroup>
@@ -144,30 +160,32 @@
 									value="#{tr:translate('routeTo')}" />
 								<br />
 								<h:inputText id="routeToField" value="#{inputModel.routeToField}"
+									style="width:160px"
 									rendered="#{inputModel.routeToProposalList == null}" 
 									onkeyup="KITCampusHelper.setSearchButtonLabel('#{cc.clientId}')" >
 								</h:inputText>													
 								<h:selectOneMenu id="routeToProposalList" 
-									rendered="#{inputModel.routeToProposalList != null}" 
-									value="#{inputListenerAdapter.routeToSelection}" >
+									value="#{inputListenerAdapter.routeToSelection}"
+									style="width:160px"
+									rendered="#{inputModel.routeToProposalList != null}" >
 									<f:selectItems value="#{inputListenerAdapter.routeToProposalList}" />
 								</h:selectOneMenu>						
 								<br />											
-								<h:commandLink id="resetRouteToProposalList" value="#{tr:translate('reset')}" 
+								<h:commandLink value="#{tr:translate('reset')}" 
 									actionListener="#{inputListenerAdapter.resetRouteToProposalList}" 
 									rendered="#{inputModel.routeToProposalList != null}" >
-									<f:ajax execute="resetRouteToProposalList" render="routeToInput" />
+									<f:ajax execute="routeToInput" render="routeToInput" />
 								</h:commandLink>						
 								<br />			
-								<h:panelGroup id="routeToInformation" layout="block" >			
-									<h:outputText id="routeToSearchFailed" value="#{tr:translate('searchFailed')}" 
+								<h:panelGroup layout="block" >			
+									<h:outputText value="#{tr:translate('searchFailed')}" 
 										rendered="#{inputModel.routeToSearchFailed}" />	
-									<h:outputText id="routeToChoose" value="#{tr:translate('choose')}" 
+									<h:outputText value="#{tr:translate('choose')}" 
 										rendered="#{inputModel.routeToProposalList != null}" />	
 								</h:panelGroup>				
 							</h:panelGroup>			
 							
-							<h:outputText id="routeCalculationFailed" value="#{tr:translate('routeCalculationFailed')}" 
+							<h:outputText value="#{tr:translate('routeCalculationFailed')}" 
 								rendered="#{inputModel.routeCalculationFailed}"/>
 											
 						</h:panelGrid>		
@@ -177,10 +195,8 @@
 						<h:commandButton id="searchButton" 
 							value="#{inputListenerAdapter.searchButtonLabel}" 
 							actionListener="#{inputListenerAdapter.searchButtonPressed}" >
-							<f:ajax execute="inputForm:searchButton inputForm:routeFromField 
-								inputForm:routeToField inputForm:routeToInput inputForm:routeFromInput
-								#{cc.clientId}:form"
-								render="#{cc.clientId}:form:mapModel inputForm #{cc.clientId}:lateralBar"
+							<f:ajax execute="inputForm:inputFields #{cc.clientId}:form"
+								render="#{cc.clientId}:form:mapModel inputForm:inputFields #{cc.clientId}:lateralBar"
 								onevent="KITCampusMap.maps['#{cc.clientId}'].eventCallback" />
 						</h:commandButton>
 					</h:panelGroup>					
@@ -188,9 +204,9 @@
 					<h:panelGroup id="navigation" layout="block" style="padding:30px">
 						<h:panelGrid columns="1">
 							<h:commandLink id="filterLink" value="#{tr:translate('filter')}" />
-							<h:commandLink id="changeLanguageLink" value="#{tr:translate('changeLanguage')}"
+							<h:commandLink value="#{tr:translate('changeLanguage')}"
 								actionListener="#{inputListenerAdapter.languageChangeLinkPressed}" >
-								<f:ajax execute="changeLanguageLink" render="navigation" />
+								<f:ajax execute="navigation" render="navigation" />
 							</h:commandLink>
 							<h:panelGroup layout="block">
 								<h:selectOneMenu id="languageProposalList" 
@@ -207,7 +223,7 @@
 									rendered="#{inputListenerAdapter.languageProposalListIsVisible}"							
 									actionListener="#{inputListenerAdapter.languageChangeCancelled}" >
 									<h:graphicImage name="cancel_button.png" library="main" alt="cancel" width="15" />
-									<f:ajax execute="languageChangeCancelled" render="inputForm:navigation" />	
+									<f:ajax execute="navigation" render="navigation" />	
 								</h:commandLink>
 							</h:panelGroup>							
 							<h:panelGroup layout="block">
