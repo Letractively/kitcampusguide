@@ -39,10 +39,11 @@ table.fullWidth {
 	padding-left: 5px;
 }
 
-.backToCampusMap {
-	vertical-align:bottom;
+.lateralArea {
+	width: 136px;
+	height: 270px;
+	padding-left: 5px;	
 }
-	
 
 .kitlogo {
 	width: 100px;
