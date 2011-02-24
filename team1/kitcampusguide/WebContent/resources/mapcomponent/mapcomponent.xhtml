@@ -136,7 +136,7 @@
 								<h:inputText id="routeFromField" value="#{inputModel.routeFromField}"
 									style="width:160px"
 									rendered="#{inputModel.routeFromProposalList == null}"
-									onkeydown="KITCampusHelper.setSearchButtonLabel('#{cc.clientId}')" >
+									onkeyup="KITCampusHelper.setSearchButtonLabel('#{cc.clientId}')" >
 								</h:inputText>	
 								<h:selectOneMenu id="routeFromProposalList" 
 									value="#{inputListenerAdapter.routeFromSelection}"
