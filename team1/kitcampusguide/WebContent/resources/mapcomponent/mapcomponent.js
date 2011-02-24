@@ -3,10 +3,15 @@
  */
 KITCampusMap.maps = new Object();
 
-// This offsets is added to each point of the route. Otherwise, the route
-// will be rendered slightly beneath the routes from the osm tiles.
-KITCampusMap.OFFSET_X = -5;
-KITCampusMap.OFFSET_Y = -5.4;
+/*
+ * For some reason the open layers XYZ layer draws the campus map with a small
+ * offset, all graphic images are rendered some degrees too far away from their
+ * original position. This causes problems when drawing a route or when a marker
+ * is set, the positions will not be shown as expected. As a solution, a fixed
+ * offset will be added to each geographical position rendered on the map.
+ */
+KITCampusMap.OFFSET_LON = -5;
+KITCampusMap.OFFSET_LAT = -5.4;
 
 /**
  * Is called when the map is initiated after loading the page. The method loads
@@ -223,8 +228,8 @@ KITCampusMap.prototype.getFormElement = function(relativeId) {
 KITCampusMap.prototype.handleMenuOpen = function(x, y) {
 	var lonLat = this.olData.map.getLonLatFromPixel(new OpenLayers.Pixel(
 	x, y));
-	lonLat.lon -= KITCampusMap.OFFSET_X;
-	lonLat.lat -= KITCampusMap.OFFSET_Y;
+	lonLat.lon -= KITCampusMap.OFFSET_LON;
+	lonLat.lat -= KITCampusMap.OFFSET_LAT;
 	var mapPosition = KITCampusHelper.untransformLonLat(lonLat);
 	if (this.olData.rightClickMenu) {
 		this.olData.rightClickMenu.destroy();
@@ -437,8 +442,8 @@ KITCampusMap.prototype.setPOIs = function() {
  */
 KITCampusMap.prototype.createPOIMarker = function(poi) {
 	var position = KITCampusHelper.transformWorldPosition(poi.position);
-	position.lon += KITCampusMap.OFFSET_X;
-	position.lat += KITCampusMap.OFFSET_Y;
+	position.lon += KITCampusMap.OFFSET_LON;
+	position.lat += KITCampusMap.OFFSET_LAT;
 	var feature = new OpenLayers.Feature(this.olData.poiMarkerLayer, position);
 	var marker = feature.createMarker();
 	var markerClick = function(evt) {
@@ -529,8 +534,8 @@ KITCampusMap.prototype.setRoute = function() {
 		for ( var p = 0; p < wp.length; ++p) {
 			var lonlat = KITCampusHelper.transformWorldPosition(wp[p]);
 			pointList.push(new OpenLayers.Geometry.Point(lonlat.lon
-							+ KITCampusMap.OFFSET_X, lonlat.lat
-							+ KITCampusMap.OFFSET_Y));
+							+ KITCampusMap.OFFSET_LON, lonlat.lat
+							+ KITCampusMap.OFFSET_LAT));
 		}
 
 		var style_red = {
@@ -565,8 +570,8 @@ KITCampusMap.prototype.setMarker = function(markerFromTo) {
 		var icon = new OpenLayers.Icon('http://openlayers.org/dev/img/marker-'
 				+ iconColor + '.png', size, anchor);
 		var position = KITCampusHelper.transformWorldPosition(m[markerFromTo]);
-		position.lon += KITCampusMap.OFFSET_X;
-		position.lat += KITCampusMap.OFFSET_Y;
+		position.lon += KITCampusMap.OFFSET_LON;
+		position.lat += KITCampusMap.OFFSET_LAT;
 		this[markerFromTo + 'Marker'] = new OpenLayers.Marker(position, icon);
 		this.olData.markerLayer.addMarker(this[markerFromTo + 'Marker']);
 	}
