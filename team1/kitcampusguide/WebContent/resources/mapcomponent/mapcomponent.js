@@ -3,6 +3,11 @@
  */
 KITCampusMap.maps = new Object();
 
+// This offsets is added to each point of the route. Otherwise, the route
+// will be rendered slightly beneath the routes from the osm tiles.
+KITCampusMap.OFFSET_X = -5;
+KITCampusMap.OFFSET_Y = -5.4;
+
 /**
  * Is called when the map is initiated after loading the page. The method loads
  * an OpenLayers map into a dom-Element (usually a div) with the relative id
@@ -77,7 +82,7 @@ function KITCampusMap(clientId) {
 	 */
 	this.olData.markerLayer = new OpenLayers.Layer.Markers("markers");
 	this.olData.map.addLayer(this.olData.markerLayer);
-	
+
 	// Init marker layer for POIs
 	/**
 	 * Contains the layer displaying the markers for all POIs.
@@ -218,6 +223,8 @@ KITCampusMap.prototype.getFormElement = function(relativeId) {
 KITCampusMap.prototype.handleMenuOpen = function(x, y) {
 	var lonLat = this.olData.map.getLonLatFromPixel(new OpenLayers.Pixel(
 	x, y));
+	lonLat.lon -= KITCampusMap.OFFSET_X;
+	lonLat.lat -= KITCampusMap.OFFSET_Y;
 	var mapPosition = KITCampusHelper.untransformLonLat(lonLat);
 	if (this.olData.rightClickMenu) {
 		this.olData.rightClickMenu.destroy();
@@ -429,8 +436,10 @@ KITCampusMap.prototype.setPOIs = function() {
  * 
  */
 KITCampusMap.prototype.createPOIMarker = function(poi) {
-	var feature = new OpenLayers.Feature(this.olData.poiMarkerLayer,
-			KITCampusHelper.transformWorldPosition(poi.position));
+	var position = KITCampusHelper.transformWorldPosition(poi.position);
+	position.lon += KITCampusMap.OFFSET_X;
+	position.lat += KITCampusMap.OFFSET_Y;
+	var feature = new OpenLayers.Feature(this.olData.poiMarkerLayer, position);
 	var marker = feature.createMarker();
 	var markerClick = function(evt) {
 		var event = new KITCampusEvent("clickOnPOI", poi.id);
@@ -513,18 +522,15 @@ KITCampusMap.prototype.handleShowPOIsInBuilding = function() {
  */
 KITCampusMap.prototype.setRoute = function() {
 	this.olData.routeLayer.removeAllFeatures();
-	// This offsets is added to each point of the route. Otherwise, the route
-	// will be rendered slightly beneath the routes from the osm tiles.
-	var offsetX = -5;
-	var offsetY = -5.4;
 	
 	if (this.model.route != null) {
 		var pointList = [];
 		var wp = this.model.route.waypoints;
 		for ( var p = 0; p < wp.length; ++p) {
 			var lonlat = KITCampusHelper.transformWorldPosition(wp[p]);
-			pointList.push(new OpenLayers.Geometry.Point(lonlat.lon + offsetX,
-					lonlat.lat + offsetY));
+			pointList.push(new OpenLayers.Geometry.Point(lonlat.lon
+							+ KITCampusMap.OFFSET_X, lonlat.lat
+							+ KITCampusMap.OFFSET_Y));
 		}
 
 		var style_red = {
@@ -559,6 +565,8 @@ KITCampusMap.prototype.setMarker = function(markerFromTo) {
 		var icon = new OpenLayers.Icon('http://openlayers.org/dev/img/marker-'
 				+ iconColor + '.png', size, anchor);
 		var position = KITCampusHelper.transformWorldPosition(m[markerFromTo]);
+		position.lon += KITCampusMap.OFFSET_X;
+		position.lat += KITCampusMap.OFFSET_Y;
 		this[markerFromTo + 'Marker'] = new OpenLayers.Marker(position, icon);
 		this.olData.markerLayer.addMarker(this[markerFromTo + 'Marker']);
 	}
