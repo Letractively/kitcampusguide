@@ -82,35 +82,39 @@
 			</h:panelGroup>
 			
 			<h:panelGroup id="lateralBar" layout="block" >
-				<h:form id="lateralForm" class="lateralForm" rendered="#{mapModel.building != null}" >
-					<table class="lateralArea" >
-					<tr><td style="vertical-align:top;">
-					<h:dataTable value="#{mapModel.building.floors}" var="floor">
-						<h:column>
-							<h:commandLink value="#{floor.name}"
-								disabled="#{floor.ID == mapModel.map.ID}"
-								style="color:#{(floor.ID == mapModel.map.ID) ? '#000000' : '#009d82'}"
-								actionListener="#{inputListenerAdapter.changeFloorTriggered}" >
-								<h:outputText class="hidden" value="#{floor.ID}" />
-								<f:ajax execute="#{cc.clientId}:form"
-									render="#{cc.clientId}:form:mapModel #{cc.clientId}:lateralBar"
-									onevent="KITCampusMap.maps['#{cc.clientId}'].eventCallback" />
-							</h:commandLink>
-						</h:column>
-					</h:dataTable>
-					</td></tr>
-					
-					<tr><td style="vertical-align:bottom;">
-					<h:panelGroup class="backToCampusMap" layout="block" >
-						<h:commandLink value="#{tr:translate('backToCampus')}"
-							actionListener="#{inputListenerAdapter.changeToMapViewTriggered}" >
-<!--//TODO: macht Probleme, weil "lateralBar" im Anschluss nicht mehr dargestellt werden soll-->
-<!--							<f:ajax execute="#{cc.clientId}:lateralBar #{cc.clientId}:form"-->
-<!--								render="#{cc.clientId}:form:mapModel #{cc.clientId}:lateralBar "-->
-<!--								onevent="KITCampusMap.maps['#{cc.clientId}'].eventCallback" />-->
-						</h:commandLink>
-					</h:panelGroup>	
-					</td></tr>
+				<h:form id="lateralForm"
+					class="#{mapModel.building != null? 'lateralForm' : 'hidden'}">
+					<table class="lateralArea">
+						<tr>
+							<td style="vertical-align: top;">
+							<h:dataTable
+								value="#{mapModel.building.floors}" var="floor" rendered="#{mapModel.building != null}">
+								<h:column>
+									<h:commandLink value="#{floor.name}"
+										disabled="#{floor.ID == mapModel.map.ID}"
+										style="color:#{(floor.ID == mapModel.map.ID) ? '#000000' : '#009d82'}"
+										actionListener="#{inputListenerAdapter.changeFloorTriggered}">
+										<h:outputText class="hidden" value="#{floor.ID}" />
+										<f:ajax execute="#{cc.clientId}:form"
+											render="#{cc.clientId}:form:mapModel #{cc.clientId}:lateralBar"
+											onevent="KITCampusMap.maps['#{cc.clientId}'].eventCallback" />
+									</h:commandLink>
+								</h:column>
+							</h:dataTable></td>
+						</tr>
+
+						<tr>
+							<td style="vertical-align: bottom;"><h:panelGroup
+								class="backToCampusMap" layout="block">
+								<h:commandLink value="#{tr:translate('backToCampus')}"
+									onclick="jsf.ajax.request(this, event, {execute:'#{cc.clientId}:lateralBar #{cc.clientId}:form #{cc.clientId}:lateralForm', render:'#{cc.clientId}:form:mapModel #{cc.clientId}:lateralBar', onevent:KITCampusMap.maps['#{cc.clientId}'].eventCallback}); return false"
+									actionListener="#{inputListenerAdapter.changeToMapViewTriggered}">
+									<f:ajax execute="#{cc.clientId}:lateralBar #{cc.clientId}:form"
+										render="#{cc.clientId}:form:mapModel #{cc.clientId}:lateralBar "
+										onevent="KITCampusMap.maps['#{cc.clientId}'].eventCallback" />
+								</h:commandLink>
+							</h:panelGroup></td>
+						</tr>
 					</table>
 				</h:form>
 			</h:panelGroup>
@@ -132,7 +136,7 @@
 								<h:inputText id="routeFromField" value="#{inputModel.routeFromField}"
 									style="width:160px"
 									rendered="#{inputModel.routeFromProposalList == null}"
-									onkeyup="KITCampusHelper.setSearchButtonLabel('#{cc.clientId}')" >
+									onkeydown="KITCampusHelper.setSearchButtonLabel('#{cc.clientId}')" >
 								</h:inputText>	
 								<h:selectOneMenu id="routeFromProposalList" 
 									value="#{inputListenerAdapter.routeFromSelection}"

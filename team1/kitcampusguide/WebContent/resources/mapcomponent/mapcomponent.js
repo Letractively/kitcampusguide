@@ -340,8 +340,7 @@ KITCampusMap.prototype.requestUpdate = function(events) {
 	var outputField = this.getFormElement("outputField");
 	outputField.value = JSON.stringify(events);
 	var id = this.form.id;
-	var additionalIDs = this.clientId + ":inputForm:routeFromField " +
-			this.clientId + ":inputForm:routeToField " + this.clientId
+	var additionalIDs = this.clientId + ":inputForm " + this.clientId
 			+ ":lateralBar";
 	
 	jsf.ajax.request(this.form, null, {
