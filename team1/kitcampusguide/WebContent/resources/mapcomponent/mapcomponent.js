@@ -71,19 +71,19 @@ function KITCampusMap(clientId) {
 	this.olData.routeLayer = new OpenLayers.Layer.Vector("route", null);
 	this.olData.map.addLayer(this.olData.routeLayer);
 	
-	// Init marker layer for POIs
-	/**
-	 * Contains the layer displaying the markers for all POIs.
-	 */
-	this.olData.poiMarkerLayer = new OpenLayers.Layer.Markers("poiMarkers");
-	this.olData.map.addLayer(this.olData.poiMarkerLayer);
-
 	// Init marker layer
 	/**
 	 * Stores the layer displaying the "routeFrom" and "routeTo" marker.
 	 */
 	this.olData.markerLayer = new OpenLayers.Layer.Markers("markers");
 	this.olData.map.addLayer(this.olData.markerLayer);
+	
+	// Init marker layer for POIs
+	/**
+	 * Contains the layer displaying the markers for all POIs.
+	 */
+	this.olData.poiMarkerLayer = new OpenLayers.Layer.Markers("poiMarkers");
+	this.olData.map.addLayer(this.olData.poiMarkerLayer);
 
 	var thiss = this;	
 	this.olData.map.div.oncontextmenu = function (e) {
