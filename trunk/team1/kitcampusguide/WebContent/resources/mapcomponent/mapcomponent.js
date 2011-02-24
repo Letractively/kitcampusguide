@@ -189,6 +189,9 @@ KITCampusMap.prototype.applyChanges = function() {
 		this.model.route = mapModel.route;
 		this.setRoute();
 	}
+	 
+	 // Update the search button's label as well, maybe the text in the input fields changed
+	 KITCampusHelper.setSearchButtonLabel(this.clientId);
 };
 
 /**

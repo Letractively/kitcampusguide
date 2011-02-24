@@ -114,41 +114,29 @@ var KITCampusHelper = {
 		var routeToField = document.getElementById(clientId + ':inputForm:routeToField');
 		var routeFromInput = null;
 		var routeToInput = null;
-		if (routeFromField != null) {
+		if (routeFromField != null && routeToField != null) {
 			routeFromInput = routeFromField.value;
-			if (routeFromInput != null) {
-				routeFromInput = trim(routeFromInput);
-			}
-		}
-		if (routeToField != null) {
+			routeFromInput = KITCampusHelper.trim(routeFromInput);
 			routeToInput = routeToField.value;
-			if (routeToInput != null) {
-				routeToInput = trim(routeToInput);
+			routeToInput = KITCampusHelper.trim(routeToInput);
+			var label;
+			if (routeFromInput== '' || routeToInput == '') {
+				label = KITCampusHelper.getTranslation("searchLabel", clientId);
+			} else {
+				label = KITCampusHelper.getTranslation("calculateRouteLabel", clientId);
 			}
+			document.getElementById(clientId + ':inputForm:searchButton').value = label;
 		}	
-		var label;
-		if ((routeFromField == null || (routeFromInput != null && routeFromInput != ''))
-				&& (routeToField == null || (routeToInput != null && routeToInput != ''))) {
-			label = KITCampusHelper.getTranslation("calculateRouteLabel", clientId);
-		} else {
-			label = KITCampusHelper.getTranslation("searchLabel", clientId);
-		}
-		document.getElementById(clientId + ':inputForm:searchButton').value = label;
-	}
-};
+	},
 
-/**
- * Trims the given String <code>s</code>.
- * @param s 
- * 			a String
- * @returns the trimmed String
- */
-function trim(s) {
-	while (s.substring(0,1) == ' ') {
-		s = s.substring(1,s.length);
+	/**
+	 * Trims the given String <code>s</code>.
+	 * 
+	 * @param str
+	 *            a String
+	 * @returns the trimmed String
+	 */
+	trim: function (str) {
+		return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 	}
-	while (s.substring(s.length-1,s.length) == ' ') {
-		s = s.substring(0,s.length-1);
-	}
-	return s;
 };
