@@ -66,6 +66,11 @@
 				<script type="text/javascript">
 					function load() {
 						new KITCampusMap('#{cc.clientId}');
+						jsf.ajax.addOnEvent(function(evt) {
+							if (evt.status == "success") {
+								KITCampusHelper.setSearchButtonLabel('#{cc.clientId}');
+							}
+						});
 					}
 				
 					// Add map as startup listener
@@ -107,7 +112,7 @@
 							<td style="vertical-align: bottom;"><h:panelGroup
 								class="backToCampusMap" layout="block">
 								<h:commandLink value="#{tr:translate('backToCampus')}"
-									onclick="jsf.ajax.request(this, event, {execute:'#{cc.clientId}:lateralBar #{cc.clientId}:form #{cc.clientId}:lateralForm', render:'#{cc.clientId}:form:mapModel #{cc.clientId}:lateralBar', onevent:KITCampusMap.maps['#{cc.clientId}'].eventCallback}); return false"
+									
 									actionListener="#{inputListenerAdapter.changeToMapViewTriggered}">
 									<f:ajax execute="#{cc.clientId}:lateralBar #{cc.clientId}:form"
 										render="#{cc.clientId}:form:mapModel #{cc.clientId}:lateralBar "
@@ -174,12 +179,12 @@
 									rendered="#{inputModel.routeToProposalList != null}" >
 									<f:selectItems value="#{inputListenerAdapter.routeToProposalList}" />
 								</h:selectOneMenu>						
-								<br />											
-								<h:commandLink value="#{tr:translate('reset')}" 
-									actionListener="#{inputListenerAdapter.resetRouteToProposalList}" 
-									rendered="#{inputModel.routeToProposalList != null}" >
+								<br />
+								<h:commandLink value="#{tr:translate('reset')}"
+									actionListener="#{inputListenerAdapter.resetRouteToProposalList}"
+									rendered="#{inputModel.routeToProposalList != null}">
 									<f:ajax execute="routeToInput" render="routeToInput" />
-								</h:commandLink>						
+								</h:commandLink>
 								<br />			
 								<h:panelGroup layout="block" >			
 									<h:outputText value="#{tr:translate('searchFailed')}" 
