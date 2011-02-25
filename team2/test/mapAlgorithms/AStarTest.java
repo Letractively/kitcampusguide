@@ -1,5 +1,6 @@
 package mapAlgorithms;
 
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -8,6 +9,11 @@ import edu.kit.cm.kitcampusguide.model.Graph;
 import edu.kit.cm.kitcampusguide.model.Point;
 import edu.kit.cm.kitcampusguide.model.Route;
 
+/**
+ * 
+ * @author Monica
+ *
+ */
 public class AStarTest {
 	/*
 	@BeforeClass
@@ -31,7 +37,7 @@ public class AStarTest {
 		graph.addNode(nodes[2]);
 		graph.addNode(nodes[3]);
 		Route testRoute = AStar.getSingleton().calculateRoute(from, to, graph);
-		Assert.assertTrue(testRoute != null);
+		Assert.assertNotNull(testRoute);
 	}
 
 	/*
