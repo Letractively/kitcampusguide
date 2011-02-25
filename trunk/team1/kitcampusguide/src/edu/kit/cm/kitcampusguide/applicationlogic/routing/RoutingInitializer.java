@@ -17,6 +17,7 @@ import org.jdom.input.SAXBuilder;
 import edu.kit.cm.kitcampusguide.standardtypes.InitializationException;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
+import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 
 /**
  * Initializes the Routing sub system.
@@ -196,7 +197,7 @@ public class RoutingInitializer {
 		for (int i = 0; i < verticesArray.length - 1; i++) {
 			int[] neighbours = getNeighbours(i);
 			for (int j = 0; j < neighbours.length; j++) {
-				weightArray[verticesArray[i] + j] = MapPosition
+				weightArray[verticesArray[i] + j] = WorldPosition
 						.calculateDistance(positionArray[i], positionArray[neighbours[j]]);
 			}
 		}
@@ -238,8 +239,8 @@ public class RoutingInitializer {
 		try {
 			List<Element> tags = e.getChildren("tag");
 			for (Element tag : tags) {
-				String tagV = tag.getAttributeValue("v");
-				if ((tagV.equalsIgnoreCase("footway")) || (tagV.equalsIgnoreCase("path")) || (tagV.equalsIgnoreCase("cycleway")) || (tagV.equalsIgnoreCase("steps")) || (tagV.equalsIgnoreCase("pedestrian"))) {
+				String tagK = tag.getAttributeValue("k");
+				if (tagK.equalsIgnoreCase("highway")) {
 					result = true;
 					break;
 				}
