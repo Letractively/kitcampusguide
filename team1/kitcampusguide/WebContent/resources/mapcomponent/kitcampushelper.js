@@ -114,19 +114,21 @@ var KITCampusHelper = {
 		var routeToField = document.getElementById(clientId + ':inputForm:routeToField');
 		var routeFromInput = null;
 		var routeToInput = null;
-		if (routeFromField != null && routeToField != null) {
-			routeFromInput = routeFromField.value;
-			routeFromInput = KITCampusHelper.trim(routeFromInput);
+		if (routeToField != null) {
 			routeToInput = routeToField.value;
 			routeToInput = KITCampusHelper.trim(routeToInput);
-			var label;
-			if (routeFromInput== '' || routeToInput == '') {
-				label = KITCampusHelper.getTranslation("searchLabel", clientId);
-			} else {
-				label = KITCampusHelper.getTranslation("calculateRouteLabel", clientId);
-			}
-			document.getElementById(clientId + ':inputForm:searchButton').value = label;
-		}	
+		}
+		if (routeFromField != null) {
+			routeFromInput = routeFromField.value;
+			routeFromInput = KITCampusHelper.trim(routeFromInput);
+		}
+		var label;
+		if (((routeFromInput == '' && routeFromInput != null) || (routeToInput == '' && routeToInput != null))) {
+			label = KITCampusHelper.getTranslation("searchLabel", clientId);
+		} else {
+			label = KITCampusHelper.getTranslation("calculateRouteLabel", clientId);
+		}
+		document.getElementById(clientId + ':inputForm:searchButton').value = label;
 	},
 
 	/**

@@ -125,12 +125,6 @@ function KITCampusMap(clientId) {
 		return false; // For IE broowsers.
 	};
 	
-	// Read all ids which should be rerendered as well on an ajax request
-	/**
-	 * Contains a white space separated list of client IDs. These ID's will be added to the "execute" and "render" IDs on 
-	 * every AJAX request (see jsf.ajax.request for more information).
-	 */
-	this.additionalRenderIDs = this.getFormElement("additionalRenderIDs").innerHTML;
 	this.applyChanges();
 }
 
@@ -199,9 +193,6 @@ KITCampusMap.prototype.applyChanges = function() {
 		this.model.route = mapModel.route;
 		this.setRoute();
 	}
-	 
-	 // Update the search button's label as well, maybe the text in the input fields changed
-	 KITCampusHelper.setSearchButtonLabel(this.clientId);
 };
 
 /**
@@ -339,8 +330,7 @@ KITCampusMap.prototype.eventCallback = function(data) {
 
 /**
  * This method sends an AJAX request to the server and sets
- * <code>eventCallback</code> as callback method. Aditional fields which
- * should be updated can be specified via <code>this.additionalRenderIDs</code>.
+ * <code>eventCallback</code> as callback method.
  * The given MapEvents will be retrieved by the class MapEventsListener
  * 
  * @param events
@@ -356,13 +346,23 @@ KITCampusMap.prototype.requestUpdate = function(events) {
 	outputField.value = JSON.stringify(events);
 	var id = this.form.id;
 	var additionalIDs = this.clientId + ":inputForm " + this.clientId
-			+ ":lateralBar";
-	
-	jsf.ajax.request(this.form, null, {
-		execute : id + ":outputField ",
+			+ ":lateralBar " + this.clientId + ":inputForm:routeToField "
+			+ this.clientId + ":inputForm:routeFromField";
+
+		
+	var args = {
+		execute : id + ":outputField " + additionalIDs,
 		render : id + ":mapModel " + additionalIDs,
 		onevent : this.eventCallback
-	});
+	};
+	
+//	args[this.clientId + ":inputForm"] = this.clientId + ":inputForm";
+//	args[this.clientId + ":inputForm:routeFromField"] = document
+//		.getElementById(this.clientId + ":inputForm:routeFromField").value;
+//	args[this.clientId + ":inputForm:routeToField"] = document
+//		.getElementById(this.clientId + ":inputForm:routeToField").value;
+
+	jsf.ajax.request(this.form.id, null, args);
 };
 
 // Property setters -------------------------------------------------------
