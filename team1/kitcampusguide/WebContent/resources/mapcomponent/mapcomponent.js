@@ -227,8 +227,9 @@ KITCampusMap.prototype.getFormElement = function(relativeId) {
  *            the y-coordinate as pixel relative to the map div
  */
 KITCampusMap.prototype.handleMenuOpen = function(x, y) {
-	var lonLat = this.olData.map.getLonLatFromPixel(new OpenLayers.Pixel(
+	var lonLatSrc = this.olData.map.getLonLatFromPixel(new OpenLayers.Pixel(
 	x, y));
+	var lonLat = lonLatSrc.clone();
 	lonLat.lon -= KITCampusMap.OFFSET_LON;
 	lonLat.lat -= KITCampusMap.OFFSET_LAT;
 	var mapPosition = KITCampusHelper.untransformLonLat(lonLat);
@@ -253,7 +254,7 @@ KITCampusMap.prototype.handleMenuOpen = function(x, y) {
 	
 	this.olData.rightClickMenuPosition = mapPosition; // make the WorldPosition to a MapPosition
 	this.olData.rightClickMenuPosition.map = this.model.map;
-	this.olData.rightClickMenu = new OpenLayers.Popup(null, KITCampusHelper.transformWorldPosition(mapPosition), null, menuHTML, false);
+	this.olData.rightClickMenu = new OpenLayers.Popup(null, lonLatSrc, null, menuHTML, false);
     this.olData.rightClickMenu.autoSize = true;
     this.olData.map.addPopup(this.olData.rightClickMenu);
 };
@@ -457,7 +458,7 @@ KITCampusMap.prototype.createPOIMarker = function(poi) {
     // This method draws a small tooltip menu
     var markerMouseOver = function (evt) {
     	if (!this.olData.tooltip) {
-    		var tooltip = new OpenLayers.Popup(null,KITCampusHelper.transformWorldPosition(poi.position), null, this.getTooltipContentHTML(poi), false);
+    		var tooltip = new OpenLayers.Popup(null ,position, null, this.getTooltipContentHTML(poi), false);
     		tooltip.maxSize = new OpenLayers.Size(400, 20);
     		tooltip.opacity = .7;
     		tooltip.setBorder("1px solid #009d82");
@@ -598,7 +599,7 @@ KITCampusMap.prototype.setHighlightedPOI = function() {
 	if (poi != null) {
 		// Set new highlighted POI
 		var marker = this.createPOIMarker(poi, true);
-		var feature = new OpenLayers.Feature(this.olData.poiMarkerLayer, KITCampusHelper.transformWorldPosition(poi.position)); 
+		var feature = new OpenLayers.Feature(this.olData.poiMarkerLayer, marker.lonlat); 
 		feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {
 			'autoSize': true, 'maxSize': new OpenLayers.Size(320, 200), 'panMapIfOutOfView': true
 		});
