@@ -20,9 +20,12 @@ KITCampusMap.OFFSET_LAT = -5.4;
  * 
  * @param clientId
  *            the jsf map component's id
+ * @param enableMapSectionChangeEvents
+ *            <code>true</code> if an event should be generated for each
+ *            change of the current map section
  * @returns {KITCampusMap} a newly created KITCampusMap instance.
  */
-function KITCampusMap(clientId) {
+function KITCampusMap(clientId, enableMapSectionChangeEvents) {
 	
 	/**
 	 * Stores the JSF client id of the map composite component.
@@ -46,6 +49,13 @@ function KITCampusMap(clientId) {
 	 * the attributes of MapModel.
 	 */
 	this.model = new Object();
+	
+
+	/**
+	 * <code>true</code> if an event should be generate for each change of
+	 * the displayed map section.
+	 */
+	this.enableMapSectionChangeEvents = enableMapSectionChangeEvents;
 	
 	// Register map as global variable
 	KITCampusMap.maps[clientId] = this;
@@ -700,22 +710,18 @@ KITCampusMap.prototype.handleBuildingPOIListClick = function(poiID) {
  * occurs.
  */
 KITCampusMap.prototype.enableMapEvents = function() {
-	this.olData.map.events.on({
-		"moveend" : this.handleMove,
-		"zoomend" : this.handleZoomEnd,
-		scope : this
-	});
+	if (this.enableMapSectionChangeEvents) {
+		this.olData.map.events.register("moveend", this, this.handleMove);
+	}
+	this.olData.map.events.register("zoomend", this, this.handleZoomEnd);
 };
 
 /**
  * Disables all event listeners. The event handling methods will not be called.
  */
 KITCampusMap.prototype.disableMapEvents = function() {
-	this.olData.map.events.un({
-		"moveend" : this.handleMove,
-		"zoomend" : this.handleZoomEnd,
-		scope : this
-	});
+	this.olData.map.events.unregister("moveend", this, this.handleMove);
+	this.olData.map.events.unregister("zoomend", this, this.handleZoomEnd);
 };
 
 /**

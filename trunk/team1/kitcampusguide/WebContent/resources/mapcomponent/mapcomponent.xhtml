@@ -13,6 +13,8 @@
 		<cc:attribute name="additionalRenderIDs" default="" />
 		<cc:attribute name="inputModel" 
 			type="edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel" required="true" />
+		<cc:attribute name="enableMapSectionChangeEvents" required="false"
+			default="false" type="java.lang.Boolean" />
 		<!-- EditableValueHolders -->
 		<cc:editableValueHolder name="valueChangeListener" targets="form:outputField" />
 	</cc:interface>
@@ -55,7 +57,7 @@
 				<div id="#{cc.clientId}:map" class="map" />
 				<script type="text/javascript">
 					function load() {
-						new KITCampusMap('#{cc.clientId}');
+						new KITCampusMap('#{cc.clientId}', #{cc.attrs.enableMapSectionChangeEvents});
 						jsf.ajax.addOnEvent(function(evt) {
 							if (evt.status == "success") {
 								KITCampusHelper.setSearchButtonLabel('#{cc.clientId}');
@@ -98,7 +100,8 @@
 						</tr>
 
 						<tr>
-							<td style="vertical-align: bottom;"><h:panelGroup
+							<td style="vertical-align: bottom;">
+							<h:panelGroup
 								class="backToCampusMap" layout="block">
 								<h:commandLink value="#{tr:translate('backToCampus')}"
 									

@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.controller;
 
 import java.util.List;
+
 import org.apache.log4j.Logger;
 
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManager;
@@ -9,15 +10,16 @@ import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 import edu.kit.cm.kitcampusguide.applicationlogic.routing.RoutingStrategy;
 import edu.kit.cm.kitcampusguide.applicationlogic.routing.RoutingStrategyImpl;
+import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
+import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.CategoryModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModel;
-import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
-import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.Route;
+import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 
 /**
  * Implements the interface {@link InputListener}.
@@ -32,10 +34,12 @@ public class InputListenerImpl implements InputListener {
 	private POISource poiSource = POISourceImpl.getInstance();	
 	private RoutingStrategy routing = RoutingStrategyImpl.getInstance();
 	
+	// Managed properties, see faces-config.xml
 	private MapModel mapModel;
 	private InputModel inputModel;
 	private TranslationModel translationModel;
-	private DefaultModelValues defaultModelValueClass;	
+	private DefaultModelValues defaultModelValueClass;
+	private CategoryModel categoryModel;	
 	
 	/**
 	 * Default constructor.
@@ -76,7 +80,7 @@ public class InputListenerImpl implements InputListener {
 		highlightPOI(soughtAfter);
 	}
 	
-	//Effects that the POI 'poi' is highlighted in the view. 'poi' mustn't be null.
+	// Effects that the POI 'poi' is highlighted in the view. 'poi' must not be null.
 	private void highlightPOI(POI poi) {
 		logger.debug("highlight poi: " + poi.getName());
 		mapModel.setMarkerFrom(null);
@@ -84,8 +88,8 @@ public class InputListenerImpl implements InputListener {
 		mapModel.setHighlightedPOI(poi);
 		mapModel.setMapLocator(new MapLocator (new MapPosition(poi.getPosition().getLatitude(),
 				poi.getPosition().getLongitude(), poi.getMap())));
-		mapModel.setMap(poi.getMap());
-		if (poi.getMap().getID() != defaultModelValueClass.getDefaultMap().getID()) {
+		ControllerUtil.setMap(mapModel, null, poi.getMap());
+		if (!poi.getMap().equals(defaultModelValueClass.getDefaultMap())) {
 			mapModel.setBuilding(poi.getMap().getBuilding());
 		} else {
 			mapModel.setBuilding(null);
@@ -138,8 +142,8 @@ public class InputListenerImpl implements InputListener {
 		calculateRoute(from, to);
 	}
 	
-	//Effects that the route from 'from' to 'to' is calculated and displayed in the view.
-	//'from' and 'to' mustn't be null.
+	// Effects that the route from 'from' to 'to' is calculated and displayed in the view.
+	// 'from' and 'to' must not be null.
 	private void calculateRoute(MapPosition from, MapPosition to) {
 		Route route = routing.calculateRoute(from, to);
 		if (route != null) {
@@ -148,12 +152,14 @@ public class InputListenerImpl implements InputListener {
 			mapModel.setMarkerTo(route.getEnd());
 			mapModel.setRoute(route);
 			mapModel.setMapLocator(new MapLocator (route.getBoundingBox()));
-			if (from.getMap().getID() != to.getMap().getID() || 
-				from.getMap().getID() == defaultModelValueClass.getDefaultMap().getID()) {				
-				mapModel.setMap(defaultModelValueClass.getDefaultMap());
+			if (from.getMap().getID() != to.getMap().getID()
+					|| from.getMap().getID() == defaultModelValueClass
+							.getDefaultMap().getID()) {
+				ControllerUtil.setMap(mapModel,
+						null, defaultModelValueClass.getDefaultMap());
 				mapModel.setBuilding(null);
 			} else {
-				mapModel.setMap(from.getMap());				
+				ControllerUtil.setMap(mapModel, categoryModel, from.getMap());
 			}
 		} else {
 			inputModel.setRouteCalculationFailed(true);
@@ -280,7 +286,7 @@ public class InputListenerImpl implements InputListener {
 	@Override
 	public void changeToMapViewTriggered() {
 		logger.debug("change to map view");
-		mapModel.setMap(defaultModelValueClass.getDefaultMap());
+		ControllerUtil.setMap(mapModel, null, defaultModelValueClass.getDefaultMap());
 		mapModel.setBuilding(null);
 	}
 	
@@ -289,7 +295,7 @@ public class InputListenerImpl implements InputListener {
 	 */
 	public void changeFloorTriggered(Map floor) {
 		logger.debug("change floor to: " + floor.getName());
-		mapModel.setMap(floor);
+		ControllerUtil.setMap(mapModel, null, floor);
 	}
 	
 	/**
@@ -324,4 +330,12 @@ public class InputListenerImpl implements InputListener {
 	public void setDefaultModelValueClass(DefaultModelValues defaultModelValueClass) {
 		this.defaultModelValueClass = defaultModelValueClass;
 	}		
+	
+	/**
+	 * Sets the CategoryModel-property.
+	 * @param categoryModel categoryModel Not null
+	 */
+	public void setCategoryModel(CategoryModel categoryModel) {
+		this.categoryModel = categoryModel;
+	}
 }
