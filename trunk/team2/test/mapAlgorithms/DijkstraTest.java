@@ -17,15 +17,18 @@ import edu.kit.cm.kitcampusguide.model.Point;
  *
  */
 public class DijkstraTest {
+	
 	/*
-	 * @BeforeClass public void beforeClass() {
-	 * 
-	 * }
-	 * 
-	 * @Before public void before() {
-	 * 
-	 * }
-	 */
+	@BeforeClass
+	public void beforeClass() {
+		
+	}
+	
+	@Before
+	public void before() {
+		
+	}
+	*/
 	@Test
 	public void routeCalculatingTest() {
 
