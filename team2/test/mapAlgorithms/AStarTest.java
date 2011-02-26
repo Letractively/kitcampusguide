@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import edu.kit.cm.kitcampusguide.mapAlgorithms.AStar;
+import edu.kit.cm.kitcampusguide.mapAlgorithms.RouteCalculatingUtility;
 import edu.kit.cm.kitcampusguide.model.Graph;
 import edu.kit.cm.kitcampusguide.model.Point;
 import edu.kit.cm.kitcampusguide.model.Route;
@@ -28,16 +29,19 @@ public class AStarTest {
 	*/
 	@Test
 	public void AStarRouteTest() {
-		Point from = new Point(0,0);
-		Point to = new Point(1,1);
-		Graph graph = new Graph();
-		Point[] nodes = {new Point(0,0), new Point(1,0), new Point(0,1), new Point(1,1)};
-		graph.addNode(nodes[0]);
-		graph.addNode(nodes[1]);
-		graph.addNode(nodes[2]);
-		graph.addNode(nodes[3]);
-		Route testRoute = AStar.getSingleton().calculateRoute(from, to, graph);
+		AStar aStar = AStar.getSingleton();
+		Graph graph= RouteCalculatingUtility.MAP_LOADER.getGraph();
+		Point pointFrom = graph.getNode(8);
+		Point pointTo = graph.getNode(12);
+		
+		Route testRoute = aStar.calculateRoute(pointFrom, pointTo, graph);
 		Assert.assertNotNull(testRoute);
+		Assert.assertEquals(5, testRoute.getRoute().size());
+		Assert.assertEquals(graph.getNode(8), testRoute.getRoute().get(0));
+		Assert.assertEquals(graph.getNode(9), testRoute.getRoute().get(1));
+		Assert.assertEquals(graph.getNode(10), testRoute.getRoute().get(2));
+		Assert.assertEquals(graph.getNode(11), testRoute.getRoute().get(3));
+		Assert.assertEquals(graph.getNode(12), testRoute.getRoute().get(4));
 	}
 
 	/*
