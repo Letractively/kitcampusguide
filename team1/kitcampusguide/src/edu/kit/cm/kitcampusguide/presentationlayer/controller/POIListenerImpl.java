@@ -27,9 +27,7 @@ public class POIListenerImpl implements POIListener {
 		System.out.println("ChangeToBuildingMap: " + buildingID);
 		Building building = Building.getBuildingByID(buildingID);
 		mapModel.setBuilding(building);
-		mapModel.setMap(building.getGroundFloor());
-		// TODO: Apply category filter
-		mapModel.setPOIs(source.getPOIsBySection(null, mapModel.getMap(), null));
+		ControllerUtil.setMap(mapModel, null, building.getGroundFloor());
 		mapModel.setHighlightedPOI(null);
 	}
 
@@ -58,8 +56,7 @@ public class POIListenerImpl implements POIListener {
 		// TODO Auto-generated method stub
 		POI poi = source.getPOIByID(poiID);
 		mapModel.setBuilding(mapModel.getBuildingPOI().getBuilding());
-		mapModel.setMap(poi.getMap());
-		mapModel.setPOIs(source.getPOIsBySection(null, mapModel.getMap(), null));
+		ControllerUtil.setMap(mapModel, categoryModel, poi.getMap());
 		mapModel.setHighlightedPOI(poi);
 		mapModel.setMapLocator(new MapLocator(poi.getPosition()));
 	}
