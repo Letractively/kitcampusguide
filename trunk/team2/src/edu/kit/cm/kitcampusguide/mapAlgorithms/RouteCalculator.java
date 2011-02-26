@@ -15,13 +15,13 @@ import edu.kit.cm.kitcampusguide.model.Route;
 public interface RouteCalculator {
 
 	/**
-	 * Calculates and Returns the shortest route between the two specified Points within
+	 * Calculates and returns the shortest route between the two specified points within
 	 * the mapGraph. 
 	 * 
 	 * @param from	the start point of the route
 	 * @param to the end point of the route
 	 * @param mapGraph the Graph to search in
-	 * @return the shortest route between the two specified Points
+	 * @return the shortest route between the two specified points
 	 */
 	// TODO parameter mapGraph im Entwurf einfügen
 	public Route calculateRoute(Point from, Point to, Graph mapGraph);
