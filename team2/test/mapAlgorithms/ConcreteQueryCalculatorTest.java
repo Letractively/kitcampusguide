@@ -16,15 +16,18 @@ import edu.kit.cm.kitcampusguide.model.POI;
  * 
  */
 public class ConcreteQueryCalculatorTest {
+	
 	/*
-	 * @BeforeClass public void beforeClass() {
-	 * 
-	 * }
-	 * 
-	 * @Before public void before() {
-	 * 
-	 * }
-	 */
+	@BeforeClass
+	public void beforeClass() {
+		
+	}
+	
+	@Before
+	public void before() {
+		
+	}
+	*/
 
 	@Test
 	public void getSuggestionsTest() {
