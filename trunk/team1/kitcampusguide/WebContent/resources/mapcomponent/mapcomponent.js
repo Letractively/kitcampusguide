@@ -204,7 +204,7 @@ KITCampusMap.prototype.applyChanges = function() {
  * @returns the appropriate form element
  */
 KITCampusMap.prototype.getFormElement = function(relativeId) {
-	return document.getElementById(this.clientId + ":form:" + relativeId);
+	return document.getElementById(this.form.id + ":" + relativeId);
 };
 
 // Event handlers -------------------------------------------------------
@@ -345,23 +345,15 @@ KITCampusMap.prototype.requestUpdate = function(events) {
 	var outputField = this.getFormElement("outputField");
 	outputField.value = JSON.stringify(events);
 	var id = this.form.id;
-	var additionalIDs = this.clientId + ":inputForm " + this.clientId
-			+ ":lateralBar " + this.clientId + ":inputForm:routeToField "
-			+ this.clientId + ":inputForm:routeFromField";
+	var additionalIDs = this.clientId + ":lateralBar";
 
 		
 	var args = {
 		execute : id + ":outputField " + additionalIDs,
-		render : id + ":mapModel " + additionalIDs,
+		render : id + " " + additionalIDs,
 		onevent : this.eventCallback
 	};
 	
-//	args[this.clientId + ":inputForm"] = this.clientId + ":inputForm";
-//	args[this.clientId + ":inputForm:routeFromField"] = document
-//		.getElementById(this.clientId + ":inputForm:routeFromField").value;
-//	args[this.clientId + ":inputForm:routeToField"] = document
-//		.getElementById(this.clientId + ":inputForm:routeToField").value;
-
 	jsf.ajax.request(this.form.id, null, args);
 };
 
