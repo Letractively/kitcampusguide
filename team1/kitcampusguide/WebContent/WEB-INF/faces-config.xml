@@ -121,6 +121,11 @@
 			<property-class>edu.kit.cm.kitcampusguide.presentationlayer.controller.DefaultModelValues</property-class>
 			<value>#{defaultModelValues}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>categoryModel</property-name>
+			<property-class>edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.CategoryModel</property-class>
+			<value>#{categoryModel}</value>
+		</managed-property>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>inputModel</managed-bean-name>
