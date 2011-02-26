@@ -400,7 +400,8 @@ OpenLayers.Util.onImageLoadError = function() {
             this.src = this.src;
         }
     } else {
-        OpenLayers.Element.addClass(this, "olImageLoadError");
+    	OpenLayers.Element.addClass(this, "olImageLoadError");
+    	this.src = OpenLayers.Util.getImagesLocation() + "blank.gif";
     }
     this.style.display = "";
 };
