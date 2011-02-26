@@ -110,8 +110,8 @@ var KITCampusHelper = {
 	 * 				a String representing the JSF client id of the map component
 	 */
 	setSearchButtonLabel: function(clientId) {
-		var routeFromField = document.getElementById(clientId + ':inputForm:routeFromField');
-		var routeToField = document.getElementById(clientId + ':inputForm:routeToField');
+		var routeFromField = document.getElementById(clientId + ':form:routeFromField');
+		var routeToField = document.getElementById(clientId + ':form:routeToField');
 		var routeFromInput = null;
 		var routeToInput = null;
 		if (routeToField != null) {
@@ -128,7 +128,7 @@ var KITCampusHelper = {
 		} else {
 			label = KITCampusHelper.getTranslation("calculateRouteLabel", clientId);
 		}
-		document.getElementById(clientId + ':inputForm:searchButton').value = label;
+		document.getElementById(clientId + ':form:searchButton').value = label;
 	},
 
 	/**
