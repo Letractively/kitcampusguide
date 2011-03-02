@@ -28,19 +28,29 @@ public class AStarTest {
 	 */
 
 	/**
+	 * This class checks if the singleton-object AStar is really created.
+	 */
+	@Test
+	public void AStarObjectNotNullTest() {
+		AStar aStar = AStar.getSingleton();
+		Assert.assertNotNull(aStar);
+	}
+	/**
 	 * This method tests if by a small graph the algorithm is able so calculate a short path. 
 	 */
 	@Test
 	public void AStarCalculateRouteTest() {
 		AStar aStar = AStar.getSingleton();
 		Graph mapGraph = new Graph();
-
+		
 		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1),
 				new Point(1, 1) };
+		
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);
 		mapGraph.addNode(nodes[2]);
 		mapGraph.addNode(nodes[3]);
+	
 		mapGraph.addEdge(0, 1, 2);
 		mapGraph.addEdge(1, 0, 3);
 		mapGraph.addEdge(1, 2, 5);
@@ -51,6 +61,8 @@ public class AStarTest {
 		mapGraph.addEdge(2, 0, 5);
 
 		Route route = aStar.calculateRoute(nodes[0], nodes[3], mapGraph);
+		Assert.assertNotNull(route);
+		Assert.assertNotNull(route.getRoute());
 		Assert.assertEquals(3, route.getRoute().size());
 		Assert.assertEquals(mapGraph.getNode(0), route.getRoute().get(0));
 		Assert.assertEquals(mapGraph.getNode(2), route.getRoute().get(1));
@@ -69,6 +81,7 @@ public class AStarTest {
 		
 		Point[] nodes = { new Point(5, 5), new Point(1, 0), new Point(-1, -1),
 				new Point(1, 1) };
+		
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);
 		mapGraph.addNode(nodes[2]);
@@ -107,10 +120,12 @@ public class AStarTest {
 
 		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1),
 				new Point(1, 1) };
+		
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);
 		mapGraph.addNode(nodes[2]);
 		mapGraph.addNode(nodes[3]);
+	
 		mapGraph.addEdge(0, 1, 2);
 		mapGraph.addEdge(1, 0, 3);
 		mapGraph.addEdge(1, 2, 5);
@@ -139,6 +154,7 @@ public class AStarTest {
 		mapGraph.addNode(nodes[1]);
 		mapGraph.addNode(nodes[2]);
 		mapGraph.addNode(nodes[3]);
+		
 		mapGraph.addEdge(0, 1, 2);
 		mapGraph.addEdge(1, 0, 3);
 		mapGraph.addEdge(1, 2, 5);
