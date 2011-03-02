@@ -13,10 +13,7 @@ above]" BuildingPOIID = "[ID of the building POI]">
 -->
 
 <configuration>
-	<building id = "0" groundfloorIndex = "0" BuildingPOIID = "1">
-		<map id = "2"/>
-	</building>
-	<building id = "1" groundfloorIndex = "1" BuildingPOIID = "5">
+	<building id = "1" groundfloorIndex = "1" >
 		<map id = "4"/>
 		<map id="3"></map>
 	</building>
