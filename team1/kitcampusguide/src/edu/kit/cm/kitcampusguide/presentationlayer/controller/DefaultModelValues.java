@@ -3,7 +3,6 @@ package edu.kit.cm.kitcampusguide.presentationlayer.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -109,7 +108,7 @@ public class DefaultModelValues {
 	 * @return The default POIs to be shown.
 	 */
 	public Collection<POI> getDefaultPOIs() {
-		// TODO: Apply map and category filter
+		// TODO: Apply map and category filter, maybe use ControllerUtil
 		return POISourceImpl.getInstance().getPOIsBySection(
 				getDefaultMapLocator().getMapSection(), getDefaultMap(), null);
 	}

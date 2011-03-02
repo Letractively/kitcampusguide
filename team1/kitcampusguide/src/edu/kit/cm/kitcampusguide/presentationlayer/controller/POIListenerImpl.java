@@ -51,10 +51,8 @@ public class POIListenerImpl implements POIListener {
 		Building building = Building.getBuildingByID(buildingID);
 		mapModel.createBuildingPOIList(
 				building.getBuildingPOI(),
+				// TODO: Add category filter, maybe move this call into ControllerUtil
 				 new ArrayList<POI>(source.getPOIsByBuilding(building,
-						 // TODO: Add category filter, maybe move this call into
-						 // ControllerUtil
-//						 categoryModel.getCategories()
 						 null)));
 	}
 
