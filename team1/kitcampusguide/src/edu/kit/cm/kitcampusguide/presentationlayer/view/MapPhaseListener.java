@@ -31,7 +31,6 @@ public class MapPhaseListener implements PhaseListener {
 			// Always add all properties at the beginning of a new event. This is necessary
 			// if the page is called for the first time. the update model values phase will
 			// not be executed then.
-//			System.out.println("AddAll (rv)");
 			mapModel.addAllProperties();
 		}
 		else if (event.getPhaseId().equals(PhaseId.UPDATE_MODEL_VALUES)) {
@@ -40,13 +39,8 @@ public class MapPhaseListener implements PhaseListener {
 			if (FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) {
 				// ajax request ==> there is no need to update all map properties. Only 
 				// properties changed by the controller components will be updated
-				System.out.println("reset");
 				mapModel.resetChangedProperties();
 			}
-//			else {
-//				System.out.println("AddAll");
-//				mapModel.addAllProperties();
-//			}
 		}
 	}
 

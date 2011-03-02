@@ -2,6 +2,8 @@ package edu.kit.cm.kitcampusguide.presentationlayer.controller;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
@@ -21,43 +23,62 @@ public class POIListenerImpl implements POIListener {
 	private MapModel mapModel;
 	private POISource source = POISourceImpl.getInstance();
 	private CategoryModel categoryModel;
+	private static Logger logger = Logger.getLogger(POIListenerImpl.class);
 	
 	@Override
 	public void changeToBuildingMap(int buildingID) {
-		System.out.println("ChangeToBuildingMap: " + buildingID);
+		logger.debug("changeToBuildingMap recieved, buildingID: " + buildingID);
 		Building building = Building.getBuildingByID(buildingID);
-		mapModel.setBuilding(building);
-		ControllerUtil.setMap(mapModel, null, building.getGroundFloor());
-		mapModel.setHighlightedPOI(null);
+		if (building != null) {
+			mapModel.setBuilding(building);
+			ControllerUtil.setMap(mapModel, null, building.getGroundFloor());
+			mapModel.setHighlightedPOI(null);
+		}
 	}
 
 	@Override
 	public void showPOIsInBuilding(int buildingID) {
-		System.out.println("ShowPOIsInBuilding");
+		logger.debug("showPOIsInBuilding recieved, buildingID: " + buildingID);
 		Building building = Building.getBuildingByID(buildingID);
-		// TODO: Add category filter
 		mapModel.createBuildingPOIList(
 				building.getBuildingPOI(),
-				 new ArrayList<POI>(source.getPOIsByBuilding(building, 
+				 new ArrayList<POI>(source.getPOIsByBuilding(building,
+						 // TODO: Add category filter
 //						 categoryModel.getCategories()
 						 null)));
 	}
 
+	/**
+	 * Sets the new map model for this instance. This method is used by the jsf
+	 * managed property injection mechanism.
+	 * 
+	 * @param mapModel
+	 *            the new map model
+	 */
 	public void setMapModel(MapModel mapModel) {
 		this.mapModel = mapModel;
 	}
-	
+
+	/**
+	 * Sets the new category model for this instance. This method is used by the
+	 * jsf managed property injeciton mechanism.
+	 * 
+	 * @param categoryModel
+	 *            the new category model
+	 */
 	public void setCategoryModel(CategoryModel categoryModel) {
 		this.categoryModel = categoryModel;
 	}
 
 	@Override
 	public void listEntryClicked(String poiID) {
-		// TODO Auto-generated method stub
+		logger.debug("listEntryClicked recieved, poiID: " + poiID);
 		POI poi = source.getPOIByID(poiID);
-		mapModel.setBuilding(mapModel.getBuildingPOI().getBuilding());
-		ControllerUtil.setMap(mapModel, categoryModel, poi.getMap());
-		mapModel.setHighlightedPOI(poi);
-		mapModel.setMapLocator(new MapLocator(poi.getPosition()));
+		if (poi != null) {
+			mapModel.setBuilding(mapModel.getBuildingPOI().getBuilding());
+			ControllerUtil.setMap(mapModel, categoryModel, poi.getMap());
+			mapModel.setHighlightedPOI(poi);
+			mapModel.setMapLocator(new MapLocator(poi.getPosition()));
+		}
 	}
 }
