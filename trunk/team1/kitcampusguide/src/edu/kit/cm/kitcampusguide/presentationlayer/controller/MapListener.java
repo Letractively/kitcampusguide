@@ -13,9 +13,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 public interface MapListener {
 
 	/**
-	 * The Method changes the {@link presentationlayer.view.MapLocator} of the
-	 * current {@link presentationlayer.view.MapModel} to
-	 * <code>mapLocator</code>.
+	 * This method is called when the user changed the shown map section.
 	 * 
 	 * @param mapLocator
 	 *            the new mapLocator which determines the new map location the
@@ -24,34 +22,27 @@ public interface MapListener {
 	public void mapLocatorChanged(MapLocator mapLocator);
 
 	/**
-	 * Sets the {@link presentationlayer.view.POI} specified by
-	 * <code>poiID</code> as the highlighted one in the current
-	 * {@link presentationlayer.view.MapModel}.
+	 * Is called when the user clicked on POI marker.
 	 * 
 	 * @param poiID
-	 *            specifies the POI by his unique ID.
+	 *            specifies the clicked POI
 	 */
 	public void clickOnPOI(String poiID);
 
 	/**
-	 * Sets the parameter {@link presentationlayer.view.MapModel#markerFrom} to
-	 * the {@link presentationlayer.view.MapPositon} provided by
-	 * <code>position</code>. Thereby changing where a route calculation should
-	 * start.
+	 * Is called when the user wants to calculate a route from a given start
+	 * point.
 	 * 
 	 * @param position
-	 *            the MapPosition provided.
+	 *            the MapPosition which marks the start of the route.
 	 */
 	public void setRouteFromByContextMenu(MapPosition position);
 
 	/**
-	 * Sets the parameter {@link presentationlayer.view.MapModel.markerTo} to
-	 * the {@link presentationlayer.view.MapPositon} provided by
-	 * <code>position</code>. Thereby changing where a route calculation should
-	 * end.
+	 * Is called when the user wants to calculate a route to a given end point.
 	 * 
 	 * @param position
-	 *            the MapPosition provided.
+	 *            the MapPosition which marks the end point of the route.
 	 */
 	public void setRouteToByContextMenu(MapPosition position);
 }

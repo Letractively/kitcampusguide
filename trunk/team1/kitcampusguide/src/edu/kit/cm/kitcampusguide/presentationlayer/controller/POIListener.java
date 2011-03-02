@@ -1,7 +1,5 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.controller;
 
-import edu.kit.cm.kitcampusguide.standardtypes.Map;
-import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 
 /**
  * Classes that implement this interfaces are used to react to events that
@@ -14,22 +12,28 @@ import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 public interface POIListener {
 
 	/**
-	 * Changes the {@link Map} displayed to the map specified by
-	 * <code>mapID</code> by setting the attribute {@link MapPosition.map}
+	 * Is called when the user wants to change into a building.
 	 * 
 	 * @param buildingID
 	 *            the unique ID of the building to which should be switched
 	 */
 	public void changeToBuildingMap(int buildingID);
 
-	// TODO
+	/**
+	 * Is called when the user selects an entry of a POI list of the currently
+	 * highlighted building POI.
+	 * 
+	 * @param poiID
+	 *            the selected poiID of the clicked POI.
+	 * @throws NullPointerException
+	 *             if poiID is <code>null</code>
+	 */
 	public void listEntryClicked(String poiID);
 	
 	
 	/**
-	 * Changes the attribute <code>pois</code> of the current MapModel to the
-	 * list of POIs, which are in the building specified by
-	 * <code>buildingID</code>
+	 * Is called when the user wants to see a list of all POIs inside a specific
+	 * building.
 	 * 
 	 * @param buildingID
 	 *            the unique ID of the building
