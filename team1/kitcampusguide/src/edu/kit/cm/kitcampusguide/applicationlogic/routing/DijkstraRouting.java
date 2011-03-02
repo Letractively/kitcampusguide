@@ -3,7 +3,8 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
-import edu.kit.cm.kitcampusguide.standardtypes.*;
+import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
+import edu.kit.cm.kitcampusguide.standardtypes.Route;
 
 /**
  * Represents the dijkstra strategy for routing calculation. Singleton.
@@ -33,6 +34,7 @@ class DijkstraRouting {
 	 * @return The {@link Route route} between <code>from</code> and <code>to</code> or <code>null</code>.
 	 */
 	public Route calculateRoute(MapPosition from, MapPosition to) {
+		logger.debug("Route calculation started");
 		Route result = null;
 		DijkstraRoutingCalculation calculation;
 		RoutingGraph graph = RoutingGraph.getInstance();

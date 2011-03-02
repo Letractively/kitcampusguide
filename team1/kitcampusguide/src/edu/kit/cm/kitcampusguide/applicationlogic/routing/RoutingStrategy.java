@@ -3,6 +3,13 @@ package edu.kit.cm.kitcampusguide.applicationlogic.routing;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.Route;
 
+/**
+ * Describes a routing algorithm for calculating a route between to points on
+ * the KITCampus.
+ * 
+ * @author Fred
+ * 
+ */
 public interface RoutingStrategy {
 	
 	/**

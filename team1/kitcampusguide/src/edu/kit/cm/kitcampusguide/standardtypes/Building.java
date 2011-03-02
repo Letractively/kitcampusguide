@@ -62,7 +62,7 @@ public class Building implements Serializable {
 	
 	/**
 	 * Returns the ID of the building. This id is unique, and can therefore be used in combination with
-	 * {@link getBuildingByID()} to get a specific building.
+	 * {@link #getBuildingByID} to get a specific building.
 	 * @return The ID of the building.
 	 */
 	public int getID() {
@@ -71,7 +71,7 @@ public class Building implements Serializable {
 	
 	/**
 	 * Returns the {@link Map maps} representing the floors of the building. This list is ordered from the top floor down.
-	 * To identify the ground floor, use {@link getGroundFloorIndex()}, or use getGroundFloor() to get its map directly.
+	 * To identify the ground floor, use {@link #getGroundFloorIndex()}, or use {@link #getGroundFloor()} to get its map directly.
 	 * @return The {@link Map maps} representing the floors of the building.
 	 */
 	public List<Map> getFloors() {

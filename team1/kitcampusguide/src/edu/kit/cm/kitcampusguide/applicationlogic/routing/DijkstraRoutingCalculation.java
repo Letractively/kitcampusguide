@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
-import edu.kit.cm.kitcampusguide.standardtypes.*;
+import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
+import edu.kit.cm.kitcampusguide.standardtypes.Route;
 
 /**
  * Represents a calculation of the dijkstra algorithm from a single position to every other position.
