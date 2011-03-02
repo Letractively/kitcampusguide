@@ -177,7 +177,7 @@ public class Graph {
 			throw new IndexOutOfBoundsException("to has to be in range of 0 to .numberOfNodes() - 1");
 		}
 		if (length < 0) {
-			throw new IllegalArgumentException("length has t be a positve number");
+			throw new IllegalArgumentException("length has to be a positve number");
 		}
 		this.length.add(this.nodes.get(from), length);
 		this.edges.add(this.nodes.get(from), to);
