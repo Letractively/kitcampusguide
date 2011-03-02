@@ -99,7 +99,7 @@ public class WorldPosition implements Serializable {
 	 * Calculates the distance between the positions pos1 and pos2.
 	 * @param pos1 The first position.
 	 * @param pos2 The second position.
-	 * @return The distance between pos1 and pos2.
+	 * @return The distance between pos1 and pos2 in meters.
 	 */
 	public static double calculateDistance(WorldPosition pos1,
 			WorldPosition pos2) {

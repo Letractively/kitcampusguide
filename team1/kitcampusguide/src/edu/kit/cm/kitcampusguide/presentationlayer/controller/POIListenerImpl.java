@@ -24,7 +24,11 @@ public class POIListenerImpl implements POIListener {
 	private POISource source = POISourceImpl.getInstance();
 	private CategoryModel categoryModel;
 	private static Logger logger = Logger.getLogger(POIListenerImpl.class);
-	
+
+	/**
+	 * Changes the currently displayed map to the map belonging to the
+	 * given building.
+	 */
 	@Override
 	public void changeToBuildingMap(int buildingID) {
 		logger.debug("changeToBuildingMap recieved, buildingID: " + buildingID);
@@ -36,6 +40,11 @@ public class POIListenerImpl implements POIListener {
 		}
 	}
 
+	/**
+	 * This implementation will create a building POI list which is shown
+	 * afterwards. The list contains all POIs in the building specified by the
+	 * given id.
+	 */
 	@Override
 	public void showPOIsInBuilding(int buildingID) {
 		logger.debug("showPOIsInBuilding recieved, buildingID: " + buildingID);
@@ -43,7 +52,8 @@ public class POIListenerImpl implements POIListener {
 		mapModel.createBuildingPOIList(
 				building.getBuildingPOI(),
 				 new ArrayList<POI>(source.getPOIsByBuilding(building,
-						 // TODO: Add category filter
+						 // TODO: Add category filter, maybe move this call into
+						 // ControllerUtil
 //						 categoryModel.getCategories()
 						 null)));
 	}
@@ -70,6 +80,11 @@ public class POIListenerImpl implements POIListener {
 		this.categoryModel = categoryModel;
 	}
 
+	/**
+	 * This implementation will simply highlight the POI defined by the give id,
+	 * change the map to the map where the POI is placed on and center the view
+	 * on the given POI.
+	 */
 	@Override
 	public void listEntryClicked(String poiID) {
 		logger.debug("listEntryClicked recieved, poiID: " + poiID);

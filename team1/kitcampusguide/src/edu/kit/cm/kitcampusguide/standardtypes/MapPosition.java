@@ -43,8 +43,20 @@ public class MapPosition  extends WorldPosition {
 		return (other == this)
 				|| (super.equals(other) && other.map.equals(this.map));
 	}
-	
-	// TODO
+
+	/**
+	 * Calculates the distance between to given MapPositions. If the positions
+	 * are placed on different maps, <code>Double.MAX_VALUE</code> is returned.
+	 * Otherwise the distance in meters as calculated in
+	 * {@link WorldPosition#calculateDistance(WorldPosition, WorldPosition)} is
+	 * returned.
+	 * 
+	 * @param pos1
+	 *            a <code>MapPosition</code>
+	 * @param pos2
+	 *            a <code>MapPosition</code>
+	 * @return the distance between the two given points.
+	 */
 	public static double calculateDistance(MapPosition pos1, MapPosition pos2) {
 		return (pos1.map.equals(pos2.map)) ? WorldPosition.calculateDistance(
 				pos1, pos2) : Double.MAX_VALUE;
