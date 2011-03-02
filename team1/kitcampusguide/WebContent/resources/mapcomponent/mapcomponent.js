@@ -428,7 +428,7 @@ KITCampusMap.prototype.setPOIs = function() {
 	if (this.olData.highlightedMarker) {
 		var marker = this.olData.highlightedMarker;
 		this.olData.poiMarkerLayer.addMarker(marker);
-		marker.setUrl("resources/mapcomponent/openlayers/img/marker-gold.png");
+		marker.setUrl(OpenLayers.Util.getImagesLocation() + "marker-gold.png");
 	}
 };
 
@@ -570,8 +570,8 @@ KITCampusMap.prototype.setMarker = function(markerFromTo) {
 		var size = new OpenLayers.Size(21, 25);
 		var anchor = new OpenLayers.Pixel(-(size.w / 2), -size.h);
 		var iconColor = (markerFromTo == "markerTo" ? 'green' : 'blue');
-		var icon = new OpenLayers.Icon('http://openlayers.org/dev/img/marker-'
-				+ iconColor + '.png', size, anchor);
+		var icon = new OpenLayers.Icon(OpenLayers.Util.getImagesLocation()
+				+ 'marker-' + iconColor + '.png', size, anchor);
 		var position = KITCampusHelper.transformWorldPosition(m[markerFromTo]);
 		position.lon += KITCampusMap.OFFSET_LON;
 		position.lat += KITCampusMap.OFFSET_LAT;
@@ -614,7 +614,6 @@ KITCampusMap.prototype.setHighlightedPOI = function() {
 		var p = feature.popup = feature.createPopup(true, closeClick, this);
 		
 		this.olData.map.addPopup(feature.popup, true);
-//		feature.popup.show();
 		
 		this.olData.popupPOI = poi;
 		this.olData.highlightedMarker = marker;

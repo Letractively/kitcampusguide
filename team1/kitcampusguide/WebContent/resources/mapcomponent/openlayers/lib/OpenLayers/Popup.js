@@ -873,7 +873,7 @@ OpenLayers.Popup = OpenLayers.Class({
      */
     addCloseBox: function(callback, execContext) {
         this.closeDiv = OpenLayers.Util.createDiv(
-            this.id + "_close", null, new OpenLayers.Size(17, 17), "http://openlayers.org/dev/theme/default/img/close.gif"
+            this.id + "_close", null, new OpenLayers.Size(17, 17), OpenLayers.Util.getImagesLocation() + "close.gif"
         );
         this.closeDiv.className = "olPopupCloseBox"; 
         
