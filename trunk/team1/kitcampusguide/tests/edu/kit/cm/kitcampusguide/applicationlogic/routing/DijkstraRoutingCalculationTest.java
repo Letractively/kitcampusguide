@@ -3,12 +3,11 @@
  */
 package edu.kit.cm.kitcampusguide.applicationlogic.routing;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-
 
 import org.apache.log4j.BasicConfigurator;
 import org.junit.BeforeClass;
@@ -120,14 +119,13 @@ public class DijkstraRoutingCalculationTest {
 		if (waypoints1.size() != waypoints2.size()) {
 			return false;
 		} else {
-			for(int i = 0; i < waypoints1.size(); i++) {
+			for (int i = 0; i < waypoints1.size(); i++) {
 				if (!waypoints1.get(i).equals(waypoints2.get(i))) {
 					return false;
 				}
-				return true;
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	

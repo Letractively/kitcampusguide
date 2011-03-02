@@ -29,6 +29,7 @@ public class TranslationModelImpl implements TranslationModel {
 	 * @param key The key identifying the text to be translated.
 	 * @return The text corresponding to <code>key</code> in the current language or the default language or <code>key</code>.
 	 */
+	@Override
 	public String tr(String key) {
 		String result = currentLanguage.tr(key);
 		if (result == null) {
@@ -42,9 +43,10 @@ public class TranslationModelImpl implements TranslationModel {
 		
 	/**
 	 * Sets the current language to the language identified by <code>language</code>.
-	 * Best used with {@link getLanguages()}. Only changes the language if it is available on the system.
+	 * Best used with {@link #getLanguages()}. Only changes the language if it is available on the system.
 	 * @param language The <code>String</code> identifying the language. 
 	 */
+	@Override
 	public void setCurrentLanguage(String language) {
 		if (manager.getLanguageByString(language) != null) {
 			currentLanguage = manager.getLanguageByString(language);
@@ -55,6 +57,7 @@ public class TranslationModelImpl implements TranslationModel {
 	 * Returns the name of the current language.
 	 * @return The name of the current language.
 	 */
+	@Override
 	public String getCurrentLanguage() {
 		return currentLanguage.getName();
 	}
@@ -63,6 +66,7 @@ public class TranslationModelImpl implements TranslationModel {
 	 * Returns a list of the names of every available language.
 	 * @return A list of the names of every available language.
 	 */
+	@Override
 	public List<String> getLanguages() {
 		return manager.getLanguagesAsString();
 	}

@@ -23,7 +23,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
  * cause some runtime exceptions if a JSON object is passed without
  * all necessary properties.
  * 
- * @see http://www.json.org
+ * @see <a href="http://www.json.org">http://www.json.org</a>
  * @author Stefan
  * 
  */

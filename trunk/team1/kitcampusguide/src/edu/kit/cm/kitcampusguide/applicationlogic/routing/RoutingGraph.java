@@ -115,10 +115,6 @@ class RoutingGraph {
 	MapPosition getPositionFromVertice(int vertice) {
 		return positionArray[vertice];
 	}
-	
-	private double sqr(double d) {
-		return d*d;
-	}
 
 	/**
 	 * Returns the only instance of RoutingGraph.

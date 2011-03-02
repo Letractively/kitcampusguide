@@ -46,9 +46,7 @@ public class CoordinateManagerImpl implements CoordinateManager {
 		return instance;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public WorldPosition stringToCoordinate(String position) {
 		String[] coordinates = position.split("[,]");
 		if (coordinates.length != 2) {
@@ -92,9 +90,7 @@ public class CoordinateManagerImpl implements CoordinateManager {
 		return Double.valueOf(formatter.format(d));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public String coordinateToString(WorldPosition position) {
 		if (formatter instanceof DecimalFormat) {
 		     ((DecimalFormat) formatter).applyPattern(numberPattern);

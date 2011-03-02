@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel;
 
 import java.util.List;
+
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 
 /**
@@ -101,7 +102,7 @@ public class InputModel {
 	
 	/**
 	 * Sets the "Route to" field's proposal list.
-	 * @param routeFromProposalList The "Route to" field's proposal list. Can be <code>null</code>.
+	 * @param routeToProposalList The "Route to" field's proposal list. Can be <code>null</code>.
 	 */
 	public void setRouteToProposalList(List<POI> routeToProposalList) {
 		this.routeToProposalList = routeToProposalList;

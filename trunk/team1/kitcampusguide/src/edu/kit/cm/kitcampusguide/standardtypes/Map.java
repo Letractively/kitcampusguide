@@ -2,7 +2,6 @@ package edu.kit.cm.kitcampusguide.standardtypes;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Represents a map.

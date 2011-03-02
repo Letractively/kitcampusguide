@@ -1,11 +1,23 @@
 package edu.kit.cm.kitcampusguide.applicationlogic.routing;
-import edu.kit.cm.kitcampusguide.standardtypes.*;
+import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
+import edu.kit.cm.kitcampusguide.standardtypes.Route;
 
+/**
+ * A simple routing strategy that uses the {@link PreCalculatedRouting} class
+ * for calculations. If necessary, other strategies for finding a route can be
+ * easily added in the future.
+ * 
+ * @author Stefan
+ * 
+ */
 public class RoutingStrategyImpl implements RoutingStrategy {
 	
-	/**Stores the only instance of RoutingStrategy.*/ 
+	/** Stores the singleton instance of <code>RoutingStrategyImpl</code>. */
 	private static RoutingStrategyImpl instance;
-	
+
+	/**
+	 * Until now all calculations are executed with this strategy.
+	 */
 	private PreCalculatedRouting routing;
 	
 	/**
@@ -14,10 +26,8 @@ public class RoutingStrategyImpl implements RoutingStrategy {
 	private RoutingStrategyImpl() {
 		routing = PreCalculatedRouting.getInstance();
 	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
+
+	@Override
 	public Route calculateRoute(MapPosition from, MapPosition to) {
 		return routing.calculateRoute(from, to);
 	}

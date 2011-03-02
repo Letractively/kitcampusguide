@@ -166,9 +166,7 @@ public class InputListenerImpl implements InputListener {
 		}
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public void choiceProposalTriggered(List<POI> proposalList, InputField inputField) {
 		if (inputField == InputField.ROUTE_FROM) {
 			inputModel.setRouteFromField("");
@@ -271,18 +269,12 @@ public class InputListenerImpl implements InputListener {
 		inputModel.setRouteCalculationFailed(false);
 	}
 		
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void languageChangeTriggered(String language) {
 		logger.debug("change language to: " + language);
 		translationModel.setCurrentLanguage(language);
 	}	
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void changeToMapViewTriggered() {
 		logger.debug("change to map view");
@@ -290,9 +282,7 @@ public class InputListenerImpl implements InputListener {
 		mapModel.setBuilding(null);
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	public void changeFloorTriggered(Map floor) {
 		logger.debug("change floor to: " + floor.getName());
 		ControllerUtil.setMap(mapModel, null, floor);

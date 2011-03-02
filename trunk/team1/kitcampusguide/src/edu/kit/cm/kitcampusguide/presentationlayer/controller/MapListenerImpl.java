@@ -13,7 +13,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.POI;
 
 /**
  * Implements the interface {@link MapListener}
- * @see MapListner
+ * @see MapListener
  * @author Fabian, Stefan
  * 
  */

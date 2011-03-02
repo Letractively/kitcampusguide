@@ -60,6 +60,14 @@ public interface POIDB {
 	 */
 	public List<POI> getPOIsBySearch(String text);
 	
-	// TODO
+	/**
+	 * Returns the building POI for a given building id. The building POI is a
+	 * POI describing a building.
+	 * 
+	 * @param buildingID
+	 *            a building id
+	 * @return the building poi for a given building or <code>null</code> if no
+	 *         appropriate building could be found.
+	 */
 	public POI getBuildingPOI(int buildingID);
 }
