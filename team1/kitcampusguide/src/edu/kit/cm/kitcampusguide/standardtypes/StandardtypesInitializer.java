@@ -13,7 +13,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
-import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
+import edu.kit.cm.kitcampusguide.datalayer.poidb.DefaultPOIDB;
 
 /**
  * Initializes the standardtypes in need of initialization. More specific: buildings, maps and categories.
@@ -161,7 +161,7 @@ public class StandardtypesInitializer {
 			for (Element e : listOfBuildings) {
 				int id = Integer.parseInt(e.getAttributeValue("id"));
 				int groundfloorIndex = Integer.parseInt(e.getAttributeValue("groundfloorIndex"));
-				POI buildingPOI = POISourceImpl.getInstance().getPOIByID(e.getAttributeValue("BuildingPOIID"));
+				POI buildingPOI = DefaultPOIDB.getInstance().getBuildingPOI(id);
 				List<Map> floors = new ArrayList<Map>();
 				List<Element> mapElements= e.getChildren("map");
 				for (Element mapElement : mapElements) {

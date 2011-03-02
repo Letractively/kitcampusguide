@@ -59,4 +59,7 @@ public interface POIDB {
 	 *             if text is <code>null</code>
 	 */
 	public List<POI> getPOIsBySearch(String text);
+	
+	// TODO
+	public POI getBuildingPOI(int buildingID);
 }

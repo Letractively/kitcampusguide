@@ -32,8 +32,16 @@ import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
  */
 public class DefaultPOIDB implements POIDB {
 
+	/**
+	 * The singleton instance of <code>DefaultPOIDB</code>.
+	 */
 	private static POIDB instance;
 
+	/**
+	 * The logger used by this class.
+	 */
+	private static Logger logger = Logger.getLogger(DefaultPOIDB.class);
+	
 	/**
 	 * Stores the database's URL.
 	 */
@@ -82,7 +90,6 @@ public class DefaultPOIDB implements POIDB {
 		if (instance != null) {
 			throw new IllegalStateException("Database already instantiated.");
 		}
-		Logger logger = Logger.getLogger(DefaultPOIDB.class);
 		instance = new DefaultPOIDB(dbURL, searcher, create);
 		logger.info("DefaultPOIDB initialized");
 	}
@@ -111,7 +118,6 @@ public class DefaultPOIDB implements POIDB {
 		if (name == null || position == null) {
 			throw new NullPointerException();
 		}
-		Logger logger = Logger.getLogger(getClass());
 		try {
 			String query = "INSERT INTO POIDB (name, description, "
 					+ "lon, lat, mapid, buildingid) VALUES (?,?,?,?,?,?)";
@@ -178,7 +184,6 @@ public class DefaultPOIDB implements POIDB {
 		
 		List<POI> returnList;
 		// Execute the Query
-		Logger logger = Logger.getLogger(getClass());
 		logger.debug("Generated Query: " + queryString);
 		try {
 			Connection connection = getConnection();
@@ -214,7 +219,6 @@ public class DefaultPOIDB implements POIDB {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			Logger logger = Logger.getLogger(getClass());
 			logger.error(e.getMessage(), e);
 		} catch (NumberFormatException e) {
 			// Return null
@@ -261,7 +265,6 @@ public class DefaultPOIDB implements POIDB {
 	 * they exist.
 	 */
 	private void removeTables() throws SQLException {
-		Logger logger = Logger.getLogger(getClass());
 		Statement statement = getConnection().createStatement();
 		String query = "DROP TABLE IF EXISTS POIDB";
 		statement.execute(query);
@@ -277,7 +280,6 @@ public class DefaultPOIDB implements POIDB {
 	 */
 	private void createTables() throws SQLException {
 
-		Logger logger = Logger.getLogger(getClass());
 		Statement statement = getConnection().createStatement();
 		
 		String query = "CREATE TABLE POIDB " 
@@ -414,5 +416,20 @@ public class DefaultPOIDB implements POIDB {
 		public int mapID;
 		public Integer buildingID;
 		public List<Integer> categoryIDs = new ArrayList<Integer>();
+	}
+
+	@Override
+	public POI getBuildingPOI(int buildingID) {
+		try {
+			Connection con = getConnection();
+			String query = "SELECT * FROM POIDB WHERE buildingid = "
+					+ buildingID;
+			ResultSet rs = con.createStatement().executeQuery(query);
+			List<POI> pois = getPOIsByResultSet(rs, con);
+			return pois.isEmpty() ? null : pois.get(0);
+		} catch (SQLException e) {
+			logger.error(e.getMessage(), e);
+			return null;
+		}
 	}
 }
