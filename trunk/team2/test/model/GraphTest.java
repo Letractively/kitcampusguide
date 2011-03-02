@@ -53,6 +53,10 @@ public class GraphTest {
 		Assert.assertTrue(testGraph.getEdge(3, 2) == 7);
 	}
 	
+	
+	//TODO negative weights... exception
+	
+	
 	/*
 	@Test
 	public void edgeTest() {
