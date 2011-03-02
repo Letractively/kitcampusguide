@@ -2,7 +2,6 @@ package edu.kit.cm.kitcampusguide.standardtypes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -103,7 +102,7 @@ public class Building implements Serializable {
 	 * As the id should be unique, this gives the possibility to exactly identify buildings and - provided a consistent source for buildings
 	 * exists, store buildings over program starts and shutdowns.
 	 * @param id The ID the building given back has.
-	 * @return The building specified by <code>id</code> or <code>null</code>, if no such building exists.
+	 * @return The building specified by <code>id</code> or <code>null</code> if no such building exists.
 	 */
 	public static Building getBuildingByID(int id) {
 		Building result = null;

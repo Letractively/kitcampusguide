@@ -4,13 +4,21 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import org.apache.log4j.Logger;
+
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 
+/**
+ * Implements a simple coordinate manager which will simply format a given
+ * position by separating the position's coordinates with a comma.
+ * 
+ */
 public class CoordinateManagerImpl implements CoordinateManager {
 	
 	private static final String numberPattern = "##0.000000";
 	private static final String separator = ", ";
 	private NumberFormat formatter = NumberFormat.getInstance(new Locale("en", "US"));
+	private static Logger logger = Logger.getLogger(CoordinateManagerImpl.class);
 	
 	/**
 	 * The singleton instance of <code>CoordinateManager</code>.
@@ -32,6 +40,7 @@ public class CoordinateManagerImpl implements CoordinateManager {
 	 */
 	public static CoordinateManager getInstance() {
 		if (instance == null) {
+			logger.info("CoordinateManager initialized");
 			instance = new CoordinateManagerImpl();
 		}
 		return instance;
@@ -53,12 +62,17 @@ public class CoordinateManagerImpl implements CoordinateManager {
 				latitude = round(Double.parseDouble(coordinates[0]));
 				longitude = round(Double.parseDouble(coordinates[1]));				
 			} catch (NumberFormatException e) {
-				System.out.println(e.getMessage());
+				// The string doesn't encode a valid number, return null
+				logger.debug("No valid coordinate: no valid numbers");
 				return null;
 			}
-			try {
+			if (WorldPosition.checkBounds(latitude, longitude)) {
+				logger.debug("Coordinate decoded successfully");
 				return new WorldPosition(latitude, longitude);
-			} catch (IllegalArgumentException e) {
+			} else {
+				// The coordinates are valid double values but do
+				// not describe a valid position
+				logger.debug("No valid coordinate: values out of range");
 				return null;
 			}
 		}
@@ -87,6 +101,7 @@ public class CoordinateManagerImpl implements CoordinateManager {
 		}
 		String latitude = formatter.format(position.getLatitude());		
 		String longitude = formatter.format(position.getLongitude());
+		logger.debug("Coordinate translated successfully");
 		return (latitude + separator + longitude);
 	}
 

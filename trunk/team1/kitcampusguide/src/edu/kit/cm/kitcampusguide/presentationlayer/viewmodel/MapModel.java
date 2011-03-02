@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapPhaseListener;
 import edu.kit.cm.kitcampusguide.presentationlayer.view.converters.MapModelConverter;
@@ -27,6 +29,8 @@ import edu.kit.cm.kitcampusguide.standardtypes.Route;
  */
 public class MapModel implements Serializable {
 
+	private static Logger logger = Logger.getLogger(MapModel.class);
+	
 	/** The POIs currently shown. */
 	private Collection<POI> pois;
 	
@@ -110,7 +114,9 @@ public class MapModel implements Serializable {
 			throw new NullPointerException();
 		}
 		if (this.map == null || !this.map.equals(map)) {
-			changedProperties.add(MapProperty.map);
+			if (changedProperties.add(MapProperty.map)) {
+				logger.trace("map changed");
+			}
 			this.map = map;
 		}
 	}
@@ -138,7 +144,9 @@ public class MapModel implements Serializable {
 			throw new NullPointerException();
 		}
 		this.pois = pois;
-		changedProperties.add(MapProperty.POIs);
+		if (changedProperties.add(MapProperty.POIs)) {
+			logger.trace("pois changed");
+		}
 	}
 
 	/**
@@ -158,7 +166,9 @@ public class MapModel implements Serializable {
 	 *            anymore, <code>null</code> can be passed.
 	 */
 	public void setBuilding(Building building) {
-		changedProperties.add(MapProperty.building);
+		if (changedProperties.add(MapProperty.building)) {
+			logger.trace("building changed");
+		}
 		this.building = building;
 	}
 
@@ -186,7 +196,9 @@ public class MapModel implements Serializable {
 		if (mapLocator == null) {
 			throw new NullPointerException();
 		}
-		changedProperties.add(MapProperty.mapLocator);
+		if (changedProperties.add(MapProperty.mapLocator)) {
+			logger.trace("mapLocator changed");
+		}
 		this.mapLocator = mapLocator;
 	}
 
@@ -198,7 +210,9 @@ public class MapModel implements Serializable {
 	 *            if no POI should be highlighted
 	 */
 	public void setHighlightedPOI(POI highlightedPOI) {
-		changedProperties.add(MapProperty.highlightedPOI);
+		if (changedProperties.add(MapProperty.highlightedPOI)) {
+			logger.trace("highlightedPOI changed");
+		}
 		this.highlightedPOI = highlightedPOI;
 		// change Building POI as well
 		if (highlightedPOI == null) {
@@ -237,7 +251,9 @@ public class MapModel implements Serializable {
 	 *            The new marker from location. Can be <code>null</code>.
 	 */
 	public void setMarkerFrom(MapPosition markerFrom) {
-		changedProperties.add(MapProperty.markerFrom);
+		if (changedProperties.add(MapProperty.markerFrom)) {
+			logger.trace("markerFrom changed");
+		}
 		this.markerFrom = markerFrom;
 	}
 
@@ -264,7 +280,9 @@ public class MapModel implements Serializable {
 	 *            deleted, pass <code>null</code>.
 	 */
 	public void setMarkerTo(MapPosition markerTo) {
-		changedProperties.add(MapProperty.markerTo);
+		if(changedProperties.add(MapProperty.markerTo)) {
+			logger.trace("markerTo changed");
+		}
 		this.markerTo = markerTo;
 	}
 
@@ -285,7 +303,9 @@ public class MapModel implements Serializable {
 	 *            be displayed.
 	 */
 	public void setRoute(Route route) {
-		changedProperties.add(MapProperty.route);
+		if(changedProperties.add(MapProperty.route)) {
+			logger.trace("route changed");
+		}
 		this.route = route;
 	}
 
@@ -324,8 +344,12 @@ public class MapModel implements Serializable {
 				|| (listPOI != null && list != null)) {
 			buildingPOI = listPOI;
 			buildingPOIList = list;
-			changedProperties.add(MapProperty.buildingPOI);
-			changedProperties.add(MapProperty.buildingPOIList);
+			if (changedProperties.add(MapProperty.buildingPOI)){
+				logger.trace("buildingPOI changed");
+			}
+			if (changedProperties.add(MapProperty.buildingPOIList)) {
+				logger.trace("buildingPOIList changed");
+			}
 		}
 		else {
 			throw new IllegalArgumentException();
@@ -349,8 +373,9 @@ public class MapModel implements Serializable {
 	 *            The index of the current floor. Can be <code>null</code>.
 	 */
 	public void setCurrentFloorIndex(Integer currentFloorIndex) {
-		// TODO: Integrate this method in createBuildingPOIList
-		changedProperties.add(MapProperty.currentFloorIndex);
+		if (changedProperties.add(MapProperty.currentFloorIndex)) {
+			logger.trace("currentFloorIndex changed");
+		}
 		this.currentFloorIndex = currentFloorIndex;
 	}
 
@@ -380,6 +405,7 @@ public class MapModel implements Serializable {
 	 */
 	public void resetChangedProperties() {
 		this.changedProperties.clear();
+		logger.debug("changed properties were reset");
 	}
 
 	/**
@@ -387,6 +413,7 @@ public class MapModel implements Serializable {
 	 * model is created the first time.
 	 */
 	public void addAllProperties() {
+		logger.debug("all properties added");
 		for (MapProperty prop : MapProperty.values()) {
 			changedProperties.add(prop);
 		}

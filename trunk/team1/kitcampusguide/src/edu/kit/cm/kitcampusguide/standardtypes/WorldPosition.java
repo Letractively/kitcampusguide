@@ -2,6 +2,8 @@ package edu.kit.cm.kitcampusguide.standardtypes;
 
 import java.io.Serializable;
 
+import com.sun.xml.rpc.processor.modeler.j2ee.xml.trueFalseType;
+
 /**
  * Represents a position in the world. Saves the <code>longitude</code> and
  * <code>latitude</code>.
@@ -32,18 +34,30 @@ public class WorldPosition implements Serializable {
 	 * 
 	 * @throws IllegalArgumentException
 	 *             If either <code>latitude</code> or <code>longitude</code> are
-	 *             out of bounds.
+	 *             out of bounds, see {@link #checkBounds}
 	 */
 	public WorldPosition(double latitude, double longitude)
 			throws IllegalArgumentException {
-		if ((latitude > 90) || (latitude < -90) || (longitude > 180)
-				|| (longitude < -180)) {
-			throw new IllegalArgumentException(
-					"Latitude or Langitude out of bounds (lat: " + latitude
-							+ " lon: " + longitude + ")");
-		}
+		checkBounds(latitude, longitude);
 		this.longitude = longitude;
 		this.latitude = latitude;
+	}
+
+	/**
+	 * Checks if two given coordinates specify a valid position. That means that
+	 * latitude is in the range of -90° and +90°, the longitude needs to be
+	 * between -180° and +180°.
+	 * 
+	 * @param latitude
+	 *            the latitude
+	 * @param longitude
+	 *            the longitude
+	 * @return {@link trueFalseType} if the given coordinates specify a valid
+	 *         position.
+	 */
+	public static boolean checkBounds(double latitude, double longitude) {
+		return (latitude <= 90) && (latitude >= -90) && (longitude <= 180)
+				&& (longitude >= -180);
 	}
 
 	/**
