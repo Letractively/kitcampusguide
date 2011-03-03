@@ -135,6 +135,7 @@ function KITCampusMap(clientId, enableMapSectionChangeEvents) {
 		return false; // For IE broowsers.
 	};
 	
+	jsf.ajax.addOnEvent(this.eventCallback);
 	this.applyChanges();
 }
 

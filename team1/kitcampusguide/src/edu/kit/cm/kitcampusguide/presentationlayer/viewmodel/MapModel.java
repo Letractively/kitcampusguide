@@ -413,9 +413,11 @@ public class MapModel implements Serializable {
 	 * model is created the first time.
 	 */
 	public void addAllProperties() {
-		logger.debug("all properties added");
-		for (MapProperty prop : MapProperty.values()) {
-			changedProperties.add(prop);
+		if (changedProperties.size() != MapProperty.values().length) {
+			logger.debug("all properties added");
+			for (MapProperty prop : MapProperty.values()) {
+				changedProperties.add(prop);
+			}
 		}
 	}
 	

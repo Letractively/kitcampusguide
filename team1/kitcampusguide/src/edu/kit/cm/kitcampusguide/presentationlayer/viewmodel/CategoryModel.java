@@ -1,8 +1,8 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 import edu.kit.cm.kitcampusguide.standardtypes.Category;
 
@@ -13,10 +13,10 @@ import edu.kit.cm.kitcampusguide.standardtypes.Category;
  */
 public class CategoryModel implements Serializable {
 	/** Stores the currently active categories. Is a managed property. */
-	private Collection<Category> currentCategories;
+	private Set<Category> currentCategories;
 	
 	/** Stores all available categories. Is a managed property. */
-	private Collection<Category> categories;
+	private Set<Category> categories;
 	
 	/**
 	 * Default constructor.
@@ -29,8 +29,8 @@ public class CategoryModel implements Serializable {
 	 * Returns all available categories which a user can use for filtering.
 	 * @return All available categories.
 	 */
-	public Collection<Category> getCategories() {
-		return Collections.unmodifiableCollection(categories);
+	public Set<Category> getCategories() {
+		return Collections.unmodifiableSet(categories);
 	}
 	
 	/**
@@ -39,7 +39,7 @@ public class CategoryModel implements Serializable {
 	 * @param categories The current categories.
 	 * @throws NullPointerException if <code>categories</code> is <code>null</code>
 	 */
-	public void setCurrentCategories(Collection<Category> categories) {
+	public void setCurrentCategories(Set<Category> categories) {
 		if (categories == null) {
 			throw new NullPointerException();
 		}
@@ -50,7 +50,7 @@ public class CategoryModel implements Serializable {
 	 * Returns the currently visible categories.
 	 * @return The currently visible categories.
 	 */
-	public Collection<Category> getCurrentCategories() {
+	public Set<Category> getCurrentCategories() {
 		return currentCategories;
 	}
 	
@@ -58,7 +58,7 @@ public class CategoryModel implements Serializable {
 	 * Sets the categories-property.
 	 * @param categories Not null.
 	 */
-	public void setCategories(Collection<Category> categories) {
+	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
 	}
 }

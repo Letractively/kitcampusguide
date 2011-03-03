@@ -1,6 +1,9 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.controller;
 
 import java.util.List;
+import java.util.Set;
+
+import edu.kit.cm.kitcampusguide.standardtypes.Category;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
@@ -96,5 +99,13 @@ public interface InputListener {
 	 * @param floor {@link Map} presenting the floor that shall be displayed. Not null.
 	 */
 	public void changeFloorTriggered(Map floor);
-	
+
+	/**
+	 * Is triggered when the user chooses a different set of categories which
+	 * should be used for filtering.
+	 * 
+	 * @param enabledCategories
+	 *            the new set of categories used for filtering.
+	 */
+	public void changeCategoryFilterTriggered(Set<Category> enabledCategories);
 }

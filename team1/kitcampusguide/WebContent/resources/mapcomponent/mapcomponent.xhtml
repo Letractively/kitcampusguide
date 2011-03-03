@@ -27,9 +27,12 @@
 		<!-- //TODO: If possible, check if this include can be done via an output script -->
 		<script type="text/javascript" src="resources/mapcomponent/openlayers/lib/OpenLayers.js" />
 <!--	<h:outputScript target="head" library="mapcomponent" name="openlayers.js" />-->
-		<h:outputStylesheet target="head" library="mapcomponent" name="map.css" />
+		<h:outputStylesheet target="head" library="mapcomponent"
+			name="map.css" />
 		<h:outputStylesheet target="head" library="main" name="design.css" />
-		
+		<link rel="stylesheet"
+			href="http://dojotoolkit.org/reference-guide/_static/js/dijit/themes/claro/claro.css" />
+
 		<!-- Provides the current translations for labels which are set via JavaScript -->
 		<div class="hidden">
 			<h:outputText class="hidden"
@@ -55,6 +58,9 @@
 		<h:panelGrid columns="2" class="fullWidth" columnClasses="fullWidth" rowClasses="fullWidth" >
 			<h:panelGroup>
 				<div id="#{cc.clientId}:map" class="map" />
+				<script
+					src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js"
+					djConfig="parseOnLoad: true" type="text/javascript"></script>
 				<script type="text/javascript">
 					function load() {
 						new KITCampusMap('#{cc.clientId}', #{cc.attrs.enableMapSectionChangeEvents});
@@ -63,6 +69,7 @@
 								KITCampusHelper.setSearchButtonLabel('#{cc.clientId}');
 							}
 						});
+						dojo.require("dijit.Dialog");
 					}
 				
 					// Add map as startup listener
@@ -92,8 +99,7 @@
 										actionListener="#{inputListenerAdapter.changeFloorTriggered}">
 										<h:outputText class="hidden" value="#{floor.ID}" />
 										<f:ajax execute="#{cc.clientId}:form"
-											render="#{cc.clientId}:form #{cc.clientId}:lateralBar"
-											onevent="KITCampusMap.maps['#{cc.clientId}'].eventCallback" />
+											render="#{cc.clientId}:form #{cc.clientId}:lateralBar" />
 									</h:commandLink>
 								</h:column>
 							</h:dataTable></td>
@@ -107,8 +113,7 @@
 									
 									actionListener="#{inputListenerAdapter.changeToMapViewTriggered}">
 									<f:ajax execute="#{cc.clientId}:lateralBar #{cc.clientId}:form"
-										render="#{cc.clientId}:form #{cc.clientId}:lateralBar "
-										onevent="KITCampusMap.maps['#{cc.clientId}'].eventCallback" />
+										render="#{cc.clientId}:form #{cc.clientId}:lateralBar " />
 								</h:commandLink>
 							</h:panelGroup></td>
 						</tr>
@@ -209,16 +214,16 @@
 							value="#{inputListenerAdapter.searchButtonLabel}" 
 							actionListener="#{inputListenerAdapter.searchButtonPressed}" >
 							<f:ajax execute="form:inputFields"
-								render="form #{cc.clientId}:lateralBar"
-								onevent="KITCampusMap.maps['#{cc.clientId}'].eventCallback" />
+								render="form #{cc.clientId}:lateralBar" />
 						</h:commandButton>
 					</h:panelGroup>					
 				
 					<h:panelGroup id="navigation" layout="block" style="padding:30px">
 						<h:panelGrid columns="1">
-							<h:commandLink id="filterLink" value="#{tr:translate('filter')}" />
+							<h:commandLink id="filterLink" value="#{tr:translate('filter')}"
+								onclick="dijit.byId('#{cc.clientId}:filterDlg').show(); return false" />
 							<h:commandLink value="#{tr:translate('changeLanguage')}"
-								actionListener="#{inputListenerAdapter.languageChangeLinkPressed}" >
+								actionListener="#{inputListenerAdapter.languageChangeLinkPressed}">
 								<f:ajax execute="navigation" render="navigation" />
 							</h:commandLink>
 							<h:panelGroup layout="block">
@@ -253,5 +258,21 @@
 				</h:panelGrid>
 			</h:form>
 		</h:panelGroup>
+		<div style="display: none" dojoType="dijit.Dialog"
+					id="#{cc.clientId}:filterDlg" title="Filter">
+			<h:form>
+					<h:dataTable id="table"
+					value="#{inputListenerAdapter.categoryEntries}" var="entry" >
+					<h:column >
+						<h:selectBooleanCheckbox value="#{entry.active}" />
+						<h:outputText value="#{tr:translate(entry.category.name)}" />
+					</h:column>
+				</h:dataTable>
+				<h:commandButton value="Apply" actionListener="#{inputListenerAdapter.applyFilterTriggered}" 
+				onclick="dijit.byId('#{cc.clientId}:filterDlg').hide()">
+				<f:ajax execute="table" render="#{cc.clientId}:form"></f:ajax>
+				</h:commandButton>
+			</h:form>
+		</div>
 	</cc:implementation>
 </ui:component>

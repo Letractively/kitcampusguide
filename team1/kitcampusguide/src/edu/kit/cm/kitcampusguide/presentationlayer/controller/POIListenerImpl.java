@@ -35,7 +35,7 @@ public class POIListenerImpl implements POIListener {
 		Building building = Building.getBuildingByID(buildingID);
 		if (building != null) {
 			mapModel.setBuilding(building);
-			ControllerUtil.setMap(mapModel, null, building.getGroundFloor());
+			ControllerUtil.setMap(mapModel, categoryModel, building.getGroundFloor());
 			mapModel.setHighlightedPOI(null);
 		}
 	}
