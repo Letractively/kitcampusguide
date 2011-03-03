@@ -24,9 +24,7 @@
 		<h:outputScript target="head" library="mapcomponent" name="encoder.js" />
 		<h:outputScript target="head" library="mapcomponent" name="mapcomponent.js" />
 		<h:outputScript target="head" library="mapcomponent" name="kitcampushelper.js" />
-		<!-- //TODO: If possible, check if this include can be done via an output script -->
 		<script type="text/javascript" src="resources/mapcomponent/openlayers/lib/OpenLayers.js" />
-<!--	<h:outputScript target="head" library="mapcomponent" name="openlayers.js" />-->
 		<h:outputStylesheet target="head" library="mapcomponent"
 			name="map.css" />
 		<link rel="stylesheet"
@@ -61,7 +59,7 @@
 					src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js"
 					djConfig="parseOnLoad: true" type="text/javascript"></script>
 				<script type="text/javascript">
-					function load() {
+					dojo.addOnLoad(function() {
 						new KITCampusMap('#{cc.clientId}', #{cc.attrs.enableMapSectionChangeEvents});
 						jsf.ajax.addOnEvent(function(evt) {
 							if (evt.status == "success") {
@@ -69,18 +67,7 @@
 							}
 						});
 						dojo.require("dijit.Dialog");
-					}
-				
-					// Add map as startup listener
-					if (document.addEventListener)
-						document.addEventListener("DOMContentLoaded", load, false);
-					else {
-						document.onreadystatechange = function() {
-							if (document.readyState == "interactive"
-									|| document.readyState == "complete")
-								load();
-						}
-					}
+					});
 				</script>
 			</h:panelGroup>
 			

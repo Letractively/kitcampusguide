@@ -151,6 +151,8 @@ KITCampusMap.prototype.applyChanges = function() {
 	var inner = this.getFormElement("mapModel").innerHTML;
 	var mapModel = (inner == "") ? null : JSON.parse(inner);
 	
+	this.getFormElement("mapModel").innerHTML = "";
+	
 	// Fetch all changed properties
 	this.changed = new Object();
 	for (var prop in mapModel) {
@@ -367,6 +369,8 @@ KITCampusMap.prototype.requestUpdate = function(events) {
 	};
 	
 	jsf.ajax.request(this.form.id, null, args);
+	
+	outputField.value = "";
 };
 
 // Property setters -------------------------------------------------------
