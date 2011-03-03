@@ -54,8 +54,9 @@ public final class ControllerUtil {
 	 * @param categoryModel
 	 *            the currently used category model
 	 */
-	public static void refreshPOIs(MapModel mapModel, CategoryModel categoryModel) {
-		// TODO: Apply category filter
-		mapModel.setPOIs(poiSource.getPOIsBySection(null, mapModel.getMap(), null));
+	public static void refreshPOIs(MapModel mapModel,
+			CategoryModel categoryModel) {
+		mapModel.setPOIs(poiSource.getPOIsBySection(null, mapModel.getMap(),
+				categoryModel.getCurrentCategories()));
 	}
 }

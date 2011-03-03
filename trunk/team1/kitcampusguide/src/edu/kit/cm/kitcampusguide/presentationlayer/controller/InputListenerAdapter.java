@@ -1,18 +1,23 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.el.ELContext;
+import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
-import javax.faces.component.UIOutput;
 
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
+import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.CategoryModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModel;
+import edu.kit.cm.kitcampusguide.standardtypes.Category;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
@@ -27,6 +32,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.POI;
 public class InputListenerAdapter {
 	
 	private InputModel inputModel;
+	private CategoryModel categoryModel;
 	private TranslationModel translationModel;
 	private InputListener inputListener;		
 	private POISource poiSource = POISourceImpl.getInstance();
@@ -38,7 +44,9 @@ public class InputListenerAdapter {
 	//Holds the language that has been selected in the languageProposalList.
 	private String languageSelection;
 	//Determines whether the languageProposalList shall be displayed in the view or not.
-	private boolean languageProposalListIsVisible = false;	
+	private boolean languageProposalListIsVisible = false;
+	
+	private List<CategoryEntry> categoryEntries;	
 	
 	/**
 	 * Default constructor.
@@ -332,5 +340,62 @@ public class InputListenerAdapter {
 	 */
 	public void setInputListener(InputListener inputListener) {
 		this.inputListener = inputListener;
-	}	
+	}
+
+	public List<CategoryEntry> getCategoryEntries() {
+		Set<Category> all = categoryModel.getCategories();
+		Set<Category> current = categoryModel.getCurrentCategories();
+		List<CategoryEntry> listEntries = new ArrayList<CategoryEntry>(
+				all.size());
+		for (Category category : all) {
+			listEntries.add(new CategoryEntry(category, current
+					.contains(category)));
+		}
+		this.categoryEntries = listEntries;
+		return this.categoryEntries;
+	}
+	
+	public void setCategoryModel(CategoryModel categoryModel) {
+		this.categoryModel = categoryModel;
+	}
+	
+	public void applyFilterTriggered(ActionEvent e) {
+		HashSet newSet = new HashSet<Category>();
+		for(CategoryEntry c: categoryEntries) {
+			if (c.isActive()) {
+				newSet.add(c.getCategory());
+			}
+		}
+		System.out.println("size: " + newSet.size());
+		inputListener.changeCategoryFilterTriggered(newSet);
+	}
+	
+	public static class CategoryEntry implements Serializable {
+
+		private Category category;
+		private boolean active;
+
+		public Category getCategory() {
+			return category;
+		}
+		
+		public CategoryEntry(Category category, boolean active) {
+			super();
+			this.category = category;
+			this.active = active;
+		}
+		
+		/**
+		 * @return the active
+		 */
+		public boolean isActive() {
+			return active;
+		}
+		/**
+		 * @param active the active to set
+		 */
+		public void setActive(boolean active) {
+			this.active = active;
+		}
+	}
 }

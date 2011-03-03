@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.presentationlayer.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -15,6 +16,7 @@ import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.CategoryModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModel;
+import edu.kit.cm.kitcampusguide.standardtypes.Category;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
@@ -88,7 +90,7 @@ public class InputListenerImpl implements InputListener {
 		mapModel.setHighlightedPOI(poi);
 		mapModel.setMapLocator(new MapLocator (new MapPosition(poi.getPosition().getLatitude(),
 				poi.getPosition().getLongitude(), poi.getMap())));
-		ControllerUtil.setMap(mapModel, null, poi.getMap());
+		ControllerUtil.setMap(mapModel, categoryModel, poi.getMap());
 		if (!poi.getMap().equals(defaultModelValueClass.getDefaultMap())) {
 			mapModel.setBuilding(poi.getMap().getBuilding());
 		} else {
@@ -156,7 +158,7 @@ public class InputListenerImpl implements InputListener {
 					|| from.getMap().getID() == defaultModelValueClass
 							.getDefaultMap().getID()) {
 				ControllerUtil.setMap(mapModel,
-						null, defaultModelValueClass.getDefaultMap());
+						categoryModel, defaultModelValueClass.getDefaultMap());
 				mapModel.setBuilding(null);
 			} else {
 				ControllerUtil.setMap(mapModel, categoryModel, from.getMap());
@@ -278,14 +280,14 @@ public class InputListenerImpl implements InputListener {
 	@Override
 	public void changeToMapViewTriggered() {
 		logger.debug("change to map view");
-		ControllerUtil.setMap(mapModel, null, defaultModelValueClass.getDefaultMap());
+		ControllerUtil.setMap(mapModel, categoryModel, defaultModelValueClass.getDefaultMap());
 		mapModel.setBuilding(null);
 	}
 	
 	@Override
 	public void changeFloorTriggered(Map floor) {
 		logger.debug("change floor to: " + floor.getName());
-		ControllerUtil.setMap(mapModel, null, floor);
+		ControllerUtil.setMap(mapModel, categoryModel, floor);
 	}
 	
 	/**
@@ -327,5 +329,11 @@ public class InputListenerImpl implements InputListener {
 	 */
 	public void setCategoryModel(CategoryModel categoryModel) {
 		this.categoryModel = categoryModel;
+	}
+
+	@Override
+	public void changeCategoryFilterTriggered(Set<Category> enabledCategories) {
+		categoryModel.setCurrentCategories(enabledCategories);
+		ControllerUtil.refreshPOIs(mapModel, categoryModel);
 	}
 }

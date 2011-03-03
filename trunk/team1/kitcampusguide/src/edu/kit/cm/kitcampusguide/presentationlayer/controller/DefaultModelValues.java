@@ -5,7 +5,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -47,10 +49,10 @@ public class DefaultModelValues {
 	private static Map defaultMap;
 	
 	/** The categories a user can choose between*/
-	private static Collection<Category> defaultCategories;
+	private static Set<Category> defaultCategories;
 	
 	/**The categories visible to a user as default*/
-	private static Collection<Category> defaultCurrentCategories;
+	private static Set<Category> defaultCurrentCategories;
 	
 	/**
 	 * Constructs a new DefaultModelValues class. Note that all DefaultModelValues classes are identical in their functions.
@@ -65,7 +67,7 @@ public class DefaultModelValues {
 	 */
 	private static void initializeDefaultCurrentCategories(Document document) {
 		Collection<Element> defaultCurrentCategoriesElements = (document.getRootElement().getChild("defaultCurrentCategories").getChildren("category"));
-		defaultCurrentCategories = new ArrayList<Category>();
+		defaultCurrentCategories = new HashSet<Category>();
 		List<Integer> defaultCurrentCategoriesIDs = new ArrayList<Integer>();
 		for (Element e : defaultCurrentCategoriesElements) {
 			defaultCurrentCategoriesIDs.add(Integer.parseInt(e.getAttributeValue("id")));
@@ -79,7 +81,7 @@ public class DefaultModelValues {
 	 */
 	private static void initializeDefaultCategories(Document document) {
 		Collection<Element> defaultCategoriesElements = (document.getRootElement().getChild("defaultCategories").getChildren("category"));
-		defaultCategories = new ArrayList<Category>();
+		defaultCategories = new HashSet<Category>();
 		List<Integer> defaultCategoriesIDs = new ArrayList<Integer>();
 		for (Element e : defaultCategoriesElements) {
 			defaultCategoriesIDs.add(Integer.parseInt(e.getAttributeValue("id")));
@@ -181,16 +183,16 @@ public class DefaultModelValues {
 	 * Returns the default current categories.
 	 * @return The default current categories.
 	 */
-	public Collection<Category> getDefaultCurrentCategories() {		
-		return Collections.unmodifiableCollection(defaultCurrentCategories);		
+	public Set<Category> getDefaultCurrentCategories() {		
+		return Collections.unmodifiableSet(defaultCurrentCategories);		
 	}
 	
 	/**
 	 * Returns the default categories.
 	 * @return The default categories.
 	 */
-	public Collection<Category> getDefaultCategories() {
-		return Collections.unmodifiableCollection(defaultCategories);	
+	public Set<Category> getDefaultCategories() {
+		return Collections.unmodifiableSet(defaultCategories);	
 	}
 	/**
 	 * Sets the default values of all DefaultModelValues classes to those defined in the document given by inputStream.
