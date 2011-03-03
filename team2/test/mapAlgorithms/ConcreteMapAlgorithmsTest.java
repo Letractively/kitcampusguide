@@ -79,12 +79,21 @@ public class ConcreteMapAlgorithmsTest {
 		Assert.assertNull(concreteMapAlgorithms.searchPOI("ABC"));
 	}
 
+	/**
+	 * This method searches simple a POI with a specific string. It should find a single POI.
+	 */
 	@Test
 	public void searchPOITest() {
 		MapAlgorithms concreteMapAlgorithms = new ConcreteMapAlgorithms();
-		Assert.assertEquals(1, concreteMapAlgorithms.searchPOI("Ger").getId());
+		POI searchedPOI=concreteMapAlgorithms.searchPOI("Ger");
+		Assert.assertNotNull(searchedPOI);
+		Assert.assertEquals(1, searchedPOI.getId());
 	}
 
+	/**
+	 * This method tests if by setting two points as parameters in the method calculateRoute() 
+	 * it returns a correct route between the 2 points. Both points are included in the database.
+	 */
 	@Test
 	public void calculateRouteForSavedPOISTest() {
 		MapAlgorithms concreteMapAlgorithms = new ConcreteMapAlgorithms();
@@ -108,6 +117,11 @@ public class ConcreteMapAlgorithmsTest {
 
 	}
 
+	/**
+	 * This method tests if by setting two points as parameters in the method calculateRoute() 
+	 * it returns a correct route between the 2 points. Neither of the points are included in the database.
+	 */
+	
 	@Test
 	public void calculateRouteForNotSavedPoisTest() {
 		MapAlgorithms concreteMapAlgorithms = new ConcreteMapAlgorithms();
