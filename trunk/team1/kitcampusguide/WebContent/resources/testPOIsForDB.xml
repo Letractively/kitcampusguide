@@ -217,6 +217,31 @@
 			<category ID="2" />
 		</categories>
 	</POI> 
+	
+	<POI name="Nusselt Hörsaal">
+		<position longitude="8.413873" mapID="1" latitude="49.009503" ></position> 
+		<categories>
+			<category ID="2" />
+			<category ID="5" />
+		</categories>
+		<description>
+			Das Bemerkenswerte am Nusselt Hörsaal ist, dass er über einige kuschelige Sitze verfügt. Leider
+			kann man davon nicht immer profitieren, denn die Beinfreiheit lässt sehr zu wünschen übrig.
+			Au&amp;szlig; ist der Hörsaal auch noch Einsturzgefährdet wie man sagt. Viel Vergnügen!
+		</description>
+	</POI>
+	<POI name="Gaede Hörsaal">
+		<position longitude="8.410419" mapID="1" latitude="49.0126" ></position> 
+		<categories>
+			<category ID="2" />
+			<category ID="5" />
+		</categories>
+		<description>
+			Der Gaede Hörsaal wird vor allem von Physikern häufig benutzt. Sicherlich ist er auch ein
+			bemerkenswerte Hörsaal, das müsste jedoch ein Physiker beurteilen...
+		</description>
+	</POI>
+	
 </POIs>
 
 <!-- <category id="1" name="streets"/> <category id="2" name="buildings" 
