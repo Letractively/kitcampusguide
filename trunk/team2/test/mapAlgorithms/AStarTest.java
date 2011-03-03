@@ -34,6 +34,9 @@ public class AStarTest {
 	public void AStarObjectNotNullTest() {
 		AStar aStar = AStar.getSingleton();
 		Assert.assertNotNull(aStar);
+		AStar newAStar = AStar.getSingleton();
+		Assert.assertNotNull(newAStar);
+		Assert.assertEquals(aStar, newAStar);
 	}
 	/**
 	 * This method tests if by a small graph the algorithm is able so calculate a short path. 
