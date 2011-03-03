@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<category id="1" name="streets"/>
+	<category id="2" name="buildings" />
+	<category id="3" name="events" />
+	<category id="4" name="various" />
+	<category id="5" name="auditoriums" />
+	<category id="6" name="faculty" />
+</configuration>

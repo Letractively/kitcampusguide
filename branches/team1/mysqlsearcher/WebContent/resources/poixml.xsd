@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.kit.edu/kitcampusguide/poixml" 
+xmlns:tns="http://www.kit.edu/kitcampusguide/poixml" elementFormDefault="qualified">
+
+
+
+    <complexType name="POIType">
+    	<all>
+            <element name="description" type="anyType" minOccurs="0" maxOccurs="1">
+    		</element>
+            <element name="position" type="tns:positionType" minOccurs="1" maxOccurs="1">
+    		</element>
+            <element name="categories" type="tns:categoriesType" minOccurs="1" maxOccurs="1"></element>
+    	</all>
+    	<attribute name="name" use="required">
+    		<simpleType>
+    			<restriction base="string">
+    				<maxLength value="63"></maxLength>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
+    </complexType>
+
+    <complexType name="positionType">
+    	<attribute name="latitude" type="double" use="required"></attribute>
+    	<attribute name="longitude" type="double" use="required"></attribute>
+    	<attribute name="mapID" type="int" use="required"></attribute>
+    	<attribute name="buildingID" type="int" use="optional"></attribute>
+    </complexType>
+
+    <complexType name="categoriesType">
+    	<sequence>
+    		<element name="category" type="tns:categoryType" minOccurs="0" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="categoryType">
+    	<attribute name="ID" type="int" use="required"></attribute>
+    </complexType>
+
+    <element name="POIs" type="tns:POIsType"></element>
+
+    <complexType name="POIsType">
+    	<sequence>
+    		<element name="POI" type="tns:POIType" minOccurs="0"
+    			maxOccurs="unbounded">
+    		</element>
+    	</sequence>
+    </complexType>
+
+</schema>
