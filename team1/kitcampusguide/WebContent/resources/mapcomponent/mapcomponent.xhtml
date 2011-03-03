@@ -29,7 +29,6 @@
 <!--	<h:outputScript target="head" library="mapcomponent" name="openlayers.js" />-->
 		<h:outputStylesheet target="head" library="mapcomponent"
 			name="map.css" />
-		<h:outputStylesheet target="head" library="main" name="design.css" />
 		<link rel="stylesheet"
 			href="http://dojotoolkit.org/reference-guide/_static/js/dijit/themes/claro/claro.css" />
 
@@ -258,17 +257,17 @@
 				</h:panelGrid>
 			</h:form>
 		</h:panelGroup>
-		<div style="display: none" dojoType="dijit.Dialog"
-					id="#{cc.clientId}:filterDlg" title="Filter">
+		<div style="display:none" dojoType="dijit.Dialog"
+					id="#{cc.clientId}:filterDlg" title="#{tr:translate('FilterWindowHeader')}">
 			<h:form>
-					<h:dataTable id="table"
+				<h:dataTable id="table"
 					value="#{inputListenerAdapter.categoryEntries}" var="entry" >
 					<h:column >
 						<h:selectBooleanCheckbox value="#{entry.active}" />
-						<h:outputText value="#{tr:translate(entry.category.name)}" />
+						<h:outputText class="filterBoxLabel" value="#{tr:translate(entry.category.name)}" />
 					</h:column>
 				</h:dataTable>
-				<h:commandButton value="Apply" actionListener="#{inputListenerAdapter.applyFilterTriggered}" 
+				<h:commandButton value="#{tr:translate('ApplyFilter')}" actionListener="#{inputListenerAdapter.applyFilterTriggered}" 
 				onclick="dijit.byId('#{cc.clientId}:filterDlg').hide()">
 				<f:ajax execute="table" render="#{cc.clientId}:form"></f:ajax>
 				</h:commandButton>
