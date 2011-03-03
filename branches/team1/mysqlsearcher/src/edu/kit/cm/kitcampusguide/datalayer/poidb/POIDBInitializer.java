@@ -101,7 +101,7 @@ public class POIDBInitializer {
 			if (e.getAttributeValue("create").equalsIgnoreCase("true")) {
 				create = true;
 			}
-			Class.forName("org.sqlite.JDBC"); //TODO change, inside POIDB.init
+			Class.forName(e.getAttributeValue("jdbcDriverClass"));
 			DefaultPOIDB.init(dbURL, searcher, create);
 			logger.info("Created POIDB from " + dbURL + " with searcher " + e.getAttributeValue("searcherClass") + ". Create is " + create);
 		} catch (ClassNotFoundException e) {

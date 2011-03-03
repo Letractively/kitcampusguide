@@ -91,7 +91,7 @@ public class DefaultPOIDB implements POIDB {
 			throw new IllegalStateException("Database already instantiated.");
 		}
 		instance = new DefaultPOIDB(dbURL, searcher, create);
-		logger.info("DefaultPOIDB initialized");
+		logger.info("DefaultPOIDB initialized, connected to " + dbURL);
 	}
 	
 	/**
@@ -122,7 +122,8 @@ public class DefaultPOIDB implements POIDB {
 			String query = "INSERT INTO POIDB (name, description, "
 					+ "lon, lat, mapid, buildingid) VALUES (?,?,?,?,?,?)";
 			Connection connection2 = getConnection();
-			PreparedStatement statement = connection2.prepareStatement(query);
+			PreparedStatement statement = connection2.prepareStatement(query,
+					Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, name);
 			statement.setString(2, description);
 			statement.setDouble(3, position.getLongitude());
@@ -135,7 +136,12 @@ public class DefaultPOIDB implements POIDB {
 				statement.setInt(6, buildingID);
 			}
 			statement.execute();
-			int poiID = statement.getGeneratedKeys().getInt(1);
+			ResultSet rs = statement.getGeneratedKeys();
+			if (!rs.next()) {
+				logger.error("No key was generated");
+				return false;
+			}
+			int poiID = rs.getInt(1);
 			statement.close();
 			
 			query = "INSERT INTO CATEGORY (poiid, categoryid) VALUES (?,?)";
@@ -251,6 +257,13 @@ public class DefaultPOIDB implements POIDB {
 			removeTables();
 			createTables();
 		}
+		Connection con = getConnection();
+		Statement stmt = con.createStatement();
+		stmt.execute("SELECT COUNT(*) FROM POIDB");
+		ResultSet rs = stmt.getResultSet();
+		if (rs.next()) {
+			logger.debug(rs.getInt(1) + " POI(s) found");
+		}
 	}
 
 	/**
@@ -266,10 +279,10 @@ public class DefaultPOIDB implements POIDB {
 	 */
 	private void removeTables() throws SQLException {
 		Statement statement = getConnection().createStatement();
-		String query = "DROP TABLE IF EXISTS POIDB";
+		String query = "DROP TABLE IF EXISTS POIDB;";
 		statement.execute(query);
 		logger.info("POIDB deleted");
-		query = "DROP TABLE IF EXISTS CATEGORY";
+		query = "DROP TABLE IF EXISTS CATEGORY;";
 		statement.execute(query);
 		logger.info("CATEGORY deleted");
 	}
@@ -283,19 +296,19 @@ public class DefaultPOIDB implements POIDB {
 		Statement statement = getConnection().createStatement();
 		
 		String query = "CREATE TABLE POIDB " 
-			+ "(id INTEGER not NULL,"
+			+ "(id INTEGER not NULL AUTO_INCREMENT,"
 			+ "name VARCHAR(63) not NULL," 
 			+ "description TEXT," 
 			+ "lon REAL not NULL,"
 			+ "lat REAL not NULL," 
 			+ "mapid INTEGER not NULL," 
 			+ "buildingid INTEGER,"
-			+ "PRIMARY KEY ( id ))";
+			+ "PRIMARY KEY ( id ), FULLTEXT(name)) ENGINE = MYISAM";
 		statement.execute(query);
 		logger.info("POIDB table created");
 		
 		query = "CREATE TABLE CATEGORY "
-			+ "(id INTEGER not NULL,"
+			+ "(id INTEGER not NULL AUTO_INCREMENT,"
 			+ "poiid INTEGER not NULL,"
 			+ "categoryid INTEGER not NULL," 
 			+ "PRIMARY KEY ( id ))";
