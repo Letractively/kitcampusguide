@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.standardtypes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,35 +17,35 @@ public class Route implements Serializable {
 	/** Stores the {@link MapPosition position} the route starts at.*/
 	private final MapPosition start;
 	
-	/** Stores the {@link MapPosition position} the route ends at.*/
+	/** Stores the MapPosition position the route ends at.*/
 	private final MapPosition end;
 	
-	/** Stores the {@link MapPosition waypoints} defining the route*/
+	/** Stores the waypoints defining the route*/
 	private final List<MapPosition> waypoints;
 	
-	/** Stores the {@link MapSection bounding box} the route lies in.*/
+	/** Stores the smallest bounding box which contains the route.*/
 	private final MapSection boundingBox;
-	
+
 	/**
-	 * Constructs a new route.
-	 * Two objects representing the same route are not the same object.
-	 * Due to the nature of the map positions it is recommended to construct a new route every time one is needed. 
-	 * @param waypoints The {@link MapPosition MapPositions} defining the route. If it contains only one, a second waypoint will be constructed.
+	 * Constructs a new route from a given list of waypoints.
 	 * 
-	 * @throws NullPointerException If <code>waypoints</code> is null.
-	 * @throws IllegalArgumentException If <code>waypoints</code> has less than two elements.
+	 * @param waypoints
+	 *            The {@link MapPosition MapPositions} defining the route. At
+	 *            least two points must be passed.
+	 * 
+	 * @throws NullPointerException
+	 *             If <code>waypoints</code> is <code>null</code>.
+	 * @throws IllegalArgumentException
+	 *             If <code>waypoints</code> has less than two elements.
 	 */
 	public Route(List<MapPosition> waypoints) throws NullPointerException, IllegalArgumentException{
 		if (waypoints == null) {
 			throw new NullPointerException("Waypoints is null.");
 		}
-		if (waypoints.size() < 1) {
-			throw new IllegalArgumentException("Waypoints required to have a length of at least 1.");
+		if (waypoints.size() < 2) {
+			throw new IllegalArgumentException("Waypoints required to have a length of at least 2.");
 		}
-		List<MapPosition> waypointsTmp = waypoints;
-		if (waypoints.size() == 1) {
-			waypointsTmp.add(waypointsTmp.get(0));
-		}
+		List<MapPosition> waypointsTmp = new ArrayList<MapPosition>(waypoints);
 		this.waypoints = Collections.unmodifiableList(waypointsTmp);
 		this.start = waypoints.get(0);
 		this.end = waypoints.get(waypoints.size() - 1);
