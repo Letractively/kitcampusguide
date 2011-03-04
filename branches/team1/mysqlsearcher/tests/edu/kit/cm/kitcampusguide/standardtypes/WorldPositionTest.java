@@ -18,8 +18,9 @@ public class WorldPositionTest {
 
 	/**
 	 * Creates 1000 WorldPositions with random positions and checks whether they
-	 * are created correctly. Tests {@link WorldPosition#getLongitude()} and
-	 * {@link WorldPosition#getLatitude()} as well.
+	 * are created correctly. Tests {@link WorldPosition#getLongitude()},
+	 * {@link WorldPosition#getLatitude()} and {@link WorldPosition#equals} as
+	 * well.
 	 */
 	@Test
 	public void testWorldPosition() {
@@ -27,6 +28,8 @@ public class WorldPositionTest {
 			double lon = Math.random();
 			double lat = Math.random();
 			WorldPosition wp = new WorldPosition(lat, lon);
+			WorldPosition wp2 = new WorldPosition(lat, lon);
+			assertTrue(wp.equals(wp2));
 			assertEquals(lon, wp.getLongitude(), EPSILON);
 			assertEquals(lat, wp.getLatitude(), EPSILON);
 		}
