@@ -23,10 +23,10 @@ import org.junit.Test;
 
 public class SimpleSearchTest {
 
-	private static final String dbURL = "jdbc:sqlite:simplesearchtest.db";
+	private static final String dbURL = "jdbc:mysql://localhost:3306/testdb?user=root&password=pwd";
 	private static String _testDir        = "tests/testDB";
     private static String _dbFile         = "dbSimpleSearchTest.xml";
-    private static String _driverClass    = "org.sqlite.JDBC";
+    private static String _driverClass    = "com.mysql.jdbc.Driver";
     private static File file = new File(_testDir, _dbFile);
 	
 	/**

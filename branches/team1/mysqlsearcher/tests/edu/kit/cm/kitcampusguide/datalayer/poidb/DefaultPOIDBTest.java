@@ -48,11 +48,11 @@ import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
  */
 public class DefaultPOIDBTest {
 
-	private static final String dbURL = "jdbc:sqlite:defaultpoidbtest.db";
+	private static final String dbURL = "jdbc:mysql://localhost:3306/testdb?user=root&password=pwd";
 	private static POIDB db;
-	private static String _testDir        = "tests/testDB";
-    private static String _dbFile         = "dbDefaultPOIDBTest.xml";
-    private static String _driverClass    = "org.sqlite.JDBC";
+	private static final String _testDir        = "tests/testDB";
+    private static final String _dbFile         = "dbDefaultPOIDBTest.xml";
+    private static final String _driverClass    = "com.mysql.jdbc.Driver";
     private static File file = new File(_testDir, _dbFile);
 
 	/**

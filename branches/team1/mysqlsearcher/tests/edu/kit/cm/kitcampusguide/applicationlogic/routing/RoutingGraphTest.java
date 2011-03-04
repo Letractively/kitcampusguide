@@ -53,8 +53,8 @@ public class RoutingGraphTest {
 		WorldPosition pos1 = new WorldPosition(0, 0);
 		WorldPosition pos2 = new WorldPosition(3, 3);
 		MapSection boundingBox = new MapSection(pos1, pos2);
-		Map rootmap = new Map(1, "rootmap", boundingBox , "null", 0, 0);
-		Map map2 = new Map(2, "map", boundingBox , "null", 0, 0);
+		Map rootmap = new Map(12345, "rootmap", boundingBox , "null", 0, 0);
+		Map map2 = new Map(12346, "map", boundingBox , "null", 0, 0);
 		MapPosition[] positionArray = {	new MapPosition(1, 0, rootmap), 
 										new MapPosition(1, 2, rootmap), 
 										new MapPosition(0, 0, rootmap),
@@ -126,7 +126,7 @@ public class RoutingGraphTest {
 	 */
 	@Test
 		public void getNearestVerticeOffMap() {
-		Map map0 = new Map(0,"0",new MapSection(new WorldPosition(1, 1), new WorldPosition(2, 2)), "0", 1, 1);
+		Map map0 = new Map(13247,"0",new MapSection(new WorldPosition(1, 1), new WorldPosition(2, 2)), "0", 1, 1);
 		MapPosition pos3 = new MapPosition(0.5, 1, map0);
 		assertEquals(0, testGraph.getNearestVertice(pos3));
 	}
