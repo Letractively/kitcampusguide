@@ -201,16 +201,6 @@
 		</description>
 	</POI>
 	
-	
-	<POI name="114.1">
-		<position longitude="8.407999" mapID="4" latitude="49.012104" ></position> 
-		<categories>
-			<category ID="4" />
-		</categories>
-		<description>
-			
-		</description>
-	</POI>
 	<POI name="Null POI">
 		<position longitude="8.411280" mapID="1" latitude="49.011771" ></position> 
 		<categories>
