@@ -18,6 +18,8 @@ public class RoutingGraphTest {
 	
 	private static RoutingGraph testGraph;
 	private static int verticesCount;
+	private static int rootmapID;
+	private static int map2ID;
 
 	/**
 	 * Creates an instance of {@link RoutingGraph} to run the tests.
@@ -63,6 +65,8 @@ public class RoutingGraphTest {
 										new MapPosition(1.5, 2.5, map2)};
 		RoutingGraph.initializeGraph(verticesArray, edgeArray, weightArray, positionArray);
 		testGraph = RoutingGraph.getInstance();
+		rootmapID = rootmap.getID();
+		map2ID = map2.getID();
 	}
 
 	/**
@@ -109,12 +113,12 @@ public class RoutingGraphTest {
 	 */
 	@Test
 	public void getNearestVerticeOnMap() {
-		Map map = Map.getMapByID(1);
+		Map map = Map.getMapByID(rootmapID);
 		MapPosition pos1 = new MapPosition(1.5, 2.5, map);
 		assertEquals(4, testGraph.getNearestVertice(pos1));
 		MapPosition pos2 = new MapPosition(0.5, 1, map);
 		assertEquals(0, testGraph.getNearestVertice(pos2));
-		Map map2 = Map.getMapByID(2);
+		Map map2 = Map.getMapByID(map2ID);
 		MapPosition pos3 = new MapPosition(1.5, 2.5, map2);
 		assertEquals(5, testGraph.getNearestVertice(pos3));
 	}
@@ -136,6 +140,6 @@ public class RoutingGraphTest {
 	 */
 	@Test
 	public void getPositionFromVertice() {
-		assertEquals(new MapPosition(1.5, 2.5, Map.getMapByID(1)), testGraph.getPositionFromVertice(4));
+		assertEquals(new MapPosition(1.5, 2.5, Map.getMapByID(rootmapID)), testGraph.getPositionFromVertice(4));
 	}
 }
