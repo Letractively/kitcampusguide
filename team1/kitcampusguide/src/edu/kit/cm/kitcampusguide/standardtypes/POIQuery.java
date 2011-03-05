@@ -46,7 +46,7 @@ public class POIQuery {
 	 * @return A Collection of {@link Map maps} by which will be filtered. Can return <code>null</code>.
 	 */
 	public Collection<Map> getMaps() {
-		return maps;
+		return (maps == null) ? null : Collections.unmodifiableCollection(maps);
 	}
 	
 	/**
