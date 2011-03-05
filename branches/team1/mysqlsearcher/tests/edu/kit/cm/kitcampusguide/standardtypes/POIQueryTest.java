@@ -91,7 +91,8 @@ public class POIQueryTest {
 	 *            a list
 	 * @return a sublist containing some elements of the given list
 	 */
-	private <E> List<E> randomSubset(List<E> elements) {
+	public static <E> List<E> randomSubset(List<E> elements) {
+		// TODO: Move this method to a better position, something like "TestUtil"
 		int size = rnd.nextInt(elements.size());
 		List<E> copy = new ArrayList<E>(elements);
 		Collections.shuffle(copy);
