@@ -103,6 +103,9 @@ public class DijkstraRoutingCalculation {
 		if (parent[tmp] != null) {
 			waypoints.add(graph.getPositionFromVertice(fromVertice));
 			Collections.reverse(waypoints);
+			if (waypoints.size() == 1) {
+				waypoints.add(waypoints.get(0));
+			}
 			result = new Route(waypoints);
 		}
 		if (result != null) {
