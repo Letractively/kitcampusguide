@@ -1,4 +1,4 @@
-package edu.kit.kitcampusguide.applicationlogic.coordinatemanager;
+package edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager;
 
 import static junit.framework.Assert.*;
 
