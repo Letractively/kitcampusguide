@@ -47,7 +47,7 @@ public class Map implements Serializable {
 	/**
 	 * Creates a new map.
 	 * Once this constructor has been successfully called, the map is added to the list of all maps and can later be retrieved by getMapByID. 
-	 * @param id ID of the new map. Is required to be unique for a correct result. However, this is not tested.
+	 * @param id ID of the new map. Is required to be unique for a correct result.
 	 * @param name Name of the map. Required not to be <code>null</code>.
 	 * @param boundingBox The boundaries of this map. Required not to be <code>null</code>.
 	 * @param tilesURL The path to the files.
