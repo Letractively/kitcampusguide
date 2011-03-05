@@ -25,9 +25,6 @@ import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
  */
 public class DijkstraRoutingCalculationTest {
 
-	private static int verticesCount;
-	private static RoutingGraph testGraph;
-
 	/**
 	 * Creates an instance of {@link RoutingGraph} to run the tests.
 	 * The Graph has the following edges (start -> end|weight):
@@ -58,7 +55,6 @@ public class DijkstraRoutingCalculationTest {
 	public static void setUpBeforeClass() throws Exception {
 		BasicConfigurator.configure();
 		int[] verticesArray = {0, 1, 5, 8, 10, 12, 12};
-		verticesCount = verticesArray.length - 1;
 		int[] edgeArray = {2, 0, 2, 3, 4, 0, 1, 3, 1, 2, 1, 3};
 		double[] weightArray = {1, 2, 3, 1.2, 1.5, 1, 3, 1, 1.2, 1, 1.5, 2.5};
 		WorldPosition pos1 = new WorldPosition(0, 0);
@@ -79,7 +75,7 @@ public class DijkstraRoutingCalculationTest {
 										new MapPosition(1.5, 2.5, rootmap),
 										new MapPosition(1.5, 2.5, map2)};
 		RoutingGraph.initializeGraph(verticesArray, edgeArray, weightArray, positionArray);
-		testGraph = RoutingGraph.getInstance();
+		RoutingGraph.getInstance();
 	}
 
 	/**

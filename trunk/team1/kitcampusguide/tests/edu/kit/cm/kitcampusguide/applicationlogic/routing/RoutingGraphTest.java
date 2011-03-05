@@ -55,8 +55,14 @@ public class RoutingGraphTest {
 		WorldPosition pos1 = new WorldPosition(0, 0);
 		WorldPosition pos2 = new WorldPosition(3, 3);
 		MapSection boundingBox = new MapSection(pos1, pos2);
-		Map rootmap = new Map(231, "rootmap", boundingBox , "null", 0, 0);
-		Map map2 = new Map(234, "map", boundingBox , "null", 0, 0);
+		Map rootmap = Map.getMapByID(1);
+		if (rootmap == null) {
+			rootmap = new Map(1, "rootmap", boundingBox , "null", 0, 0);
+		}
+		Map map2 = Map.getMapByID(2);
+		if (map2 == null) {
+			map2 = new Map(2, "map", boundingBox , "null", 0, 0);
+		}
 		MapPosition[] positionArray = {	new MapPosition(1, 0, rootmap), 
 										new MapPosition(1, 2, rootmap), 
 										new MapPosition(0, 0, rootmap),
