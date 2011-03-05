@@ -59,6 +59,6 @@ public class MapPosition  extends WorldPosition {
 	 */
 	public static double calculateDistance(MapPosition pos1, MapPosition pos2) {
 		return (pos1.map.equals(pos2.map)) ? WorldPosition.calculateDistance(
-				pos1, pos2) : Double.MAX_VALUE;
+				pos1, pos2) : Double.POSITIVE_INFINITY;
 	}
 }
