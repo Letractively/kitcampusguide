@@ -13,7 +13,7 @@ import org.junit.Test;
  */
 public class MapSectionTest {
 
-	private static final Random random = new Random();
+	private static final Random random = new Random(1234);
 	
 	/**
 	 * Test all methods implemented by {@link MapSection}. Random test data is

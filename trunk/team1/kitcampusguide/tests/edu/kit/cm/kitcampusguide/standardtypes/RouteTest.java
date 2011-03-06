@@ -21,7 +21,7 @@ public class RouteTest {
 	 */
 	private static final int MAX_SIZE = 500;
 
-	private static final Random rnd = new Random();
+	private static final Random rnd = new Random(1234);
 
 	/**
 	 * Tests all functions implemented by {@link Route}.

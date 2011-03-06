@@ -18,7 +18,7 @@ import org.junit.Test;
  */
 public class MapPositionTest {
 
-	private static final Random random = new Random();
+	private static final Random random = new Random(1234);
 
 	private static final double EPSILON = 1E-12;
 	
