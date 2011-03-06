@@ -3,6 +3,7 @@ package edu.kit.cm.kitcampusguide.standardtypes;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -16,7 +17,7 @@ import org.junit.Test;
  */
 public class POITest {
 
-	private static final Random random = new Random();
+	private static final Random random = new Random(1234);
 
 	/**
 	 * Tests the methods implemented by {@link POI}. The methods generates
@@ -55,7 +56,7 @@ public class POITest {
 			Map map = maps.get(random.nextInt(maps.size()));
 			Integer buildingID = (random.nextDouble() > .8) ? buildings.get(
 					random.nextInt(buildings.size())).getID() : null;
-			List<Category> curCategories = POIQueryTest
+			List<Category> curCategories = POITest
 					.randomSubset(categories);
 
 			POI poi = new POI(id, name, description, position, map, buildingID,
@@ -81,5 +82,24 @@ public class POITest {
 			curCategories.add(categories.get(0));
 			assertFalse(curCategories.equals(poi.getCategories()));
 		}
+	}
+
+	/**
+	 * Returns a sublist containing random elements of a given parent list of
+	 * elements.
+	 * 
+	 * @param <E>
+	 *            an arbitrary type
+	 * @param elements
+	 *            a list
+	 * @return a sublist containing some elements of the given list
+	 */
+	private static <E> List<E> randomSubset(List<E> elements) {
+		// TODO: Move this method to a better position, something like
+		// "TestUtil"
+		int size = random.nextInt(elements.size());
+		List<E> copy = new ArrayList<E>(elements);
+		Collections.shuffle(copy);
+		return elements.subList(0, size);
 	}
 }
