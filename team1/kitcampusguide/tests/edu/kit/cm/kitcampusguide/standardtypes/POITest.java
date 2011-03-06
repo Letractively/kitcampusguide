@@ -94,7 +94,7 @@ public class POITest {
 	 *            a list
 	 * @return a sublist containing some elements of the given list
 	 */
-	private static <E> List<E> randomSubset(List<E> elements) {
+	public static <E> List<E> randomSubset(List<E> elements) {
 		// TODO: Move this method to a better position, something like
 		// "TestUtil"
 		int size = random.nextInt(elements.size());

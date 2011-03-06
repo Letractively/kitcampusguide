@@ -41,7 +41,7 @@ public class Building implements Serializable {
 	 * 
 	 * @throws IllegalArgumentException If a duplicate ID is given.
 	 */
-	Building(int id, List<Map> floors, int groundfloorIndex, POI buildingPOI) throws IllegalArgumentException {
+	public Building(int id, List<Map> floors, int groundfloorIndex, POI buildingPOI) throws IllegalArgumentException {
 		if (floors == null || buildingPOI == null) {
 			throw new NullPointerException("Either floors or buildingPOI is null");
 		}
