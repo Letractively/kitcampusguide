@@ -51,6 +51,7 @@ public final class JSONConversionHelper {
 		for (Category c : poi.getCategories()) {
 			JSONObject category = new JSONObject();
 			category.put("id", c.getID());
+			category.put("name", c.getName());
 			categories.add(category);
 		}
 
@@ -64,8 +65,9 @@ public final class JSONConversionHelper {
 		if (poi.getBuilding() != null) {
 			// only store the buildingID and not the building object,
 			// otherwise a stack overflow will occur
-			result.put("buildingID",poi.getBuilding().getID());
 		}
+		result.put("buildingID", (poi.getBuilding() == null) ? null : poi
+				.getBuilding().getID());
 		return result;
 	}
 
@@ -158,7 +160,7 @@ public final class JSONConversionHelper {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Converts a given {@link Map} into a {@link JSONObject}. All properties of
 	 * the {@link Map} will be stored.
@@ -177,6 +179,8 @@ public final class JSONConversionHelper {
 		jsonMap.put("boundingBox", convertMapSection(map.getBoundingBox()));
 		jsonMap.put("minZoom", map.getMinZoom());
 		jsonMap.put("maxZoom", map.getMaxZoom());
+		jsonMap.put("buildingID", (map.getBuilding() == null) ? null : map
+				.getBuilding().getID());
 		return jsonMap;
 	}
 
