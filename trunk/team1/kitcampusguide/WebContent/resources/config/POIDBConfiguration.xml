@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<POIDB DBURL="jdbc:mysql://localhost:3306/kitcampusdb?user=root&amp;password=pwd"
-	searcherClass="edu.kit.cm.kitcampusguide.datalayer.poidb.MySQLSearcher"
-	create="false" 
-	jdbcDriverClass="com.mysql.jdbc.Driver"/>
+	<POIDB DBURL="jdbc:sqlite:defaultpoidbtest.db" searcherClass="edu.kit.cm.kitcampusguide.datalayer.poidb.SimpleSearch" create="false"/>
 </configuration>
