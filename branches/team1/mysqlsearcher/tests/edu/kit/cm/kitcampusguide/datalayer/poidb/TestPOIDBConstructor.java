@@ -96,8 +96,8 @@ public class TestPOIDBConstructor {
 	 * @throws SQLException
 	 */
 	private static void constructPOIDB(Document document) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.jdbc.Driver");
-		DefaultPOIDB.init("jdbc:mysql://localhost:3306/kitcampusdb?user=root&password=pwd", new SimpleSearch(), true);
+		Class.forName("org.sqlite.JDBC");
+		DefaultPOIDB.init("jdbc:sqlite:defaultpoidbtest.db", new SimpleSearch(), true);
 		DefaultPOIDB DB = (DefaultPOIDB) DefaultPOIDB.getInstance();
 		List<Element> listOfPOIElements = document.getRootElement().getChildren("POI");
 		for (Element p : listOfPOIElements) {
@@ -128,10 +128,7 @@ public class TestPOIDBConstructor {
 				categoryIDs.add(id);
 			}
 			categories = Category.getCategoriesByIDs(categoryIDs);
-			if (!DB.addPOI(name, description, position, buildingID, categories)) {
-				logger.error("An error occured, a POI couldn't be added to the database");
-				return;
-			}
+			DB.addPOI(name, description, position, buildingID, categories);
 		}
 	}
 }

@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Random;
+
 import org.junit.Test;
 
 /**
@@ -15,7 +17,9 @@ import org.junit.Test;
 public class WorldPositionTest {
 
 	private static final double EPSILON = 1E-14;
-
+	
+	private static final Random random = new Random(314159265);
+	
 	/**
 	 * Creates 1000 WorldPositions with random positions and checks whether they
 	 * are created correctly. Tests {@link WorldPosition#getLongitude()},
@@ -25,8 +29,8 @@ public class WorldPositionTest {
 	@Test
 	public void testWorldPosition() {
 		for (int i = 0; i < 1000; i++) {
-			double lon = Math.random();
-			double lat = Math.random();
+			double lon = random.nextDouble();
+			double lat = random.nextDouble();
 			WorldPosition wp = new WorldPosition(lat, lon);
 			WorldPosition wp2 = new WorldPosition(lat, lon);
 			assertTrue(wp.equals(wp2));

@@ -18,6 +18,8 @@ public class RoutingGraphTest {
 	
 	private static RoutingGraph testGraph;
 	private static int verticesCount;
+	private static int rootmapID;
+	private static int map2ID;
 
 	/**
 	 * Creates an instance of {@link RoutingGraph} to run the tests.
@@ -53,8 +55,14 @@ public class RoutingGraphTest {
 		WorldPosition pos1 = new WorldPosition(0, 0);
 		WorldPosition pos2 = new WorldPosition(3, 3);
 		MapSection boundingBox = new MapSection(pos1, pos2);
-		Map rootmap = new Map(12345, "rootmap", boundingBox , "null", 0, 0);
-		Map map2 = new Map(12346, "map", boundingBox , "null", 0, 0);
+		Map rootmap = Map.getMapByID(1);
+		if (rootmap == null) {
+			rootmap = new Map(1, "rootmap", boundingBox , "null", 0, 0);
+		}
+		Map map2 = Map.getMapByID(2);
+		if (map2 == null) {
+			map2 = new Map(2, "map", boundingBox , "null", 0, 0);
+		}
 		MapPosition[] positionArray = {	new MapPosition(1, 0, rootmap), 
 										new MapPosition(1, 2, rootmap), 
 										new MapPosition(0, 0, rootmap),
@@ -63,6 +71,8 @@ public class RoutingGraphTest {
 										new MapPosition(1.5, 2.5, map2)};
 		RoutingGraph.initializeGraph(verticesArray, edgeArray, weightArray, positionArray);
 		testGraph = RoutingGraph.getInstance();
+		rootmapID = rootmap.getID();
+		map2ID = map2.getID();
 	}
 
 	/**
@@ -109,12 +119,12 @@ public class RoutingGraphTest {
 	 */
 	@Test
 	public void getNearestVerticeOnMap() {
-		Map map = Map.getMapByID(1);
+		Map map = Map.getMapByID(rootmapID);
 		MapPosition pos1 = new MapPosition(1.5, 2.5, map);
 		assertEquals(4, testGraph.getNearestVertice(pos1));
 		MapPosition pos2 = new MapPosition(0.5, 1, map);
 		assertEquals(0, testGraph.getNearestVertice(pos2));
-		Map map2 = Map.getMapByID(2);
+		Map map2 = Map.getMapByID(map2ID);
 		MapPosition pos3 = new MapPosition(1.5, 2.5, map2);
 		assertEquals(5, testGraph.getNearestVertice(pos3));
 	}
@@ -136,6 +146,6 @@ public class RoutingGraphTest {
 	 */
 	@Test
 	public void getPositionFromVertice() {
-		assertEquals(new MapPosition(1.5, 2.5, Map.getMapByID(1)), testGraph.getPositionFromVertice(4));
+		assertEquals(new MapPosition(1.5, 2.5, Map.getMapByID(rootmapID)), testGraph.getPositionFromVertice(4));
 	}
 }

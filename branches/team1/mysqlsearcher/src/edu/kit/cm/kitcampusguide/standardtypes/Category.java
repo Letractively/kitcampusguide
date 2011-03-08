@@ -95,4 +95,16 @@ public class Category implements Serializable {
 		}
 		return result;
 	}
+
+	/**
+	 * Returns the category belonging to a specific id.
+	 * 
+	 * @param id
+	 *            an id
+	 * @return the category matching the given id or <code>null</code> if no
+	 *         such category exists
+	 */
+	public static Category getCategoryByID(int id) {
+		return categories.get(id);
+	}
 }
