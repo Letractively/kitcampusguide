@@ -32,6 +32,8 @@ import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.POIQuery;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 
+import static edu.kit.cm.kitcampusguide.testframework.Idgenerator.*;
+
 /**
  * Tests the the methods {@link DefaultPOIDB#getPOIsByQuery(POIQuery)} and
  * {@link DefaultPOIDB#getPOIsByQuery(POIQuery)}
@@ -80,7 +82,7 @@ public class DefaultPOIDBTest {
         for (int i = 0; i < poidbtable.getRowCount(); i++) {
         	String s = (String) poidbtable.getValue(i, "mapid");
         	Integer k =  Integer.parseInt(s);
-        	if (Map.getMapByID(k) == null) {
+        	if (requestMapID(k)) {
         		new Map(k, "map" + k.toString(), box, "null", 1, 2);
         	}
         }
@@ -90,7 +92,7 @@ public class DefaultPOIDBTest {
         for (int i = 0; i < categoriesTable.getRowCount(); i++) {
         	String s = (String) categoriesTable.getValue(i, "categoryid");
         	Integer k =  Integer.parseInt(s);
-        	if (Category.getCategoriesByIDs(Arrays.asList(k)).isEmpty()) {
+        	if (requestCategoryID(k)) {
         		new Category(k, "category" + k.toString());
         	}
         }
