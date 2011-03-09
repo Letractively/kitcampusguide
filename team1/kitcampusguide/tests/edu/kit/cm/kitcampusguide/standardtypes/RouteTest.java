@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.junit.Test;
-
+import static edu.kit.cm.kitcampusguide.testframework.Idgenerator.*;
 
 /**
  * Tests the {@link Route} class.
@@ -31,7 +31,7 @@ public class RouteTest {
 		ArrayList<MapPosition> positions = new ArrayList<MapPosition>(MAX_SIZE);
 		ArrayList<MapPosition> positionsCopy = new ArrayList<MapPosition>(
 				MAX_SIZE);
-		Map map = new Map(0, "", new MapSection(new WorldPosition(1, 2),
+		Map map = new Map(getFreeMapID(), "", new MapSection(new WorldPosition(1, 2),
 				new WorldPosition(3, 4)), "", 0, 0);
 
 		for (int i = 0; i < 1000; i++) {

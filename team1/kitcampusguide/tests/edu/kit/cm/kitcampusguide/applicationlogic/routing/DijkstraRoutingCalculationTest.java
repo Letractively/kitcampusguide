@@ -18,6 +18,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
 import edu.kit.cm.kitcampusguide.standardtypes.Route;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
+import static edu.kit.cm.kitcampusguide.testframework.Idgenerator.*;
 
 /**
  * @author Fabian
@@ -60,13 +61,17 @@ public class DijkstraRoutingCalculationTest {
 		WorldPosition pos1 = new WorldPosition(0, 0);
 		WorldPosition pos2 = new WorldPosition(3, 3);
 		MapSection boundingBox = new MapSection(pos1, pos2);
-		Map rootmap = Map.getMapByID(1);
-		if (rootmap == null) {
+		Map rootmap;
+		if (requestMapID(1)) {
 			rootmap = new Map(1, "rootmap", boundingBox , "null", 0, 0);
+		} else {
+			rootmap = Map.getMapByID(1);
 		}
-		Map map2 = Map.getMapByID(2);
-		if (map2 == null) {
+		Map map2;
+		if (requestMapID(2)) {
 			map2 = new Map(2, "map", boundingBox , "null", 0, 0);
+		} else {
+			map2 = Map.getMapByID(2);
 		}
 		MapPosition[] positionArray = {	new MapPosition(1, 0, rootmap), 
 										new MapPosition(1, 2, rootmap), 
