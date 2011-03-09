@@ -13,17 +13,20 @@ import java.util.HashSet;
  * @author Fabian
  *
  */
-public class Idgenerator {
+public final class Idgenerator {
 	
-	private static int freeMapID = Integer.MIN_VALUE;
-	private static int freeBuildingID = Integer.MIN_VALUE;
-	private static int freeCategoryID = Integer.MIN_VALUE;
+	private static int freeMapID = 0;
+	private static int freeBuildingID = 0;
+	private static int freeCategoryID = 0;
 	private static Integer freePOIID = Integer.MIN_VALUE;
 	private static HashSet<Integer> takenMapIDs = new HashSet<Integer>();
 	private static HashSet<Integer> takenBuildingIDs = new HashSet<Integer>();
 	private static HashSet<Integer> takenCategoryIDs = new HashSet<Integer>();
 	private static HashSet<String> takenPOIIds = new HashSet<String>();
 	
+	/**
+	 * Prevents instantiation.
+	 */
 	private Idgenerator() {};
 
 	/**
@@ -85,12 +88,7 @@ public class Idgenerator {
 	 * @return True if the ID is free, false otherwise.
 	 */
 	public static boolean requestMapID(int id) {
-		if (takenMapIDs.contains(id)) {
-			return false;
-		} else {
-			takenMapIDs.add(id);
-			return true;
-		}
+		return takenMapIDs.add(id);
 	}
 	
 	/**
@@ -100,12 +98,7 @@ public class Idgenerator {
 	 * @return True if the ID is free, false otherwise.
 	 */
 	public static boolean requestBuildingID(int id) {
-		if (takenBuildingIDs.contains(id)) {
-			return false;
-		} else {
-			takenBuildingIDs.add(id);
-			return true;
-		}
+		return takenBuildingIDs.add(id);
 	}
 	
 	/**
@@ -115,12 +108,7 @@ public class Idgenerator {
 	 * @return True if the ID is free, false otherwise.
 	 */
 	public static boolean requestCategoryID(int id) {
-		if (takenCategoryIDs.contains(id)) {
-			return false;
-		} else {
-			takenCategoryIDs.add(id);
-			return true;
-		}
+		return takenCategoryIDs.add(id);
 	}
 	
 	/**
@@ -130,11 +118,6 @@ public class Idgenerator {
 	 * @return True if the ID is free, false otherwise.
 	 */
 	public static boolean requestPOIID(String id) {
-		if (takenPOIIds.contains(id)) {
-			return false;
-		} else {
-			takenPOIIds.add(id);
-			return true;
-		}
+		return takenPOIIds.add(id);
 	}
 }
