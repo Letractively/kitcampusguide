@@ -1,5 +1,8 @@
 package edu.kit.cm.kitcampusguide.testframework;
 
+import java.util.HashSet;
+
+
 
 /**
  * Utility class to provide a framework so Object-IDs used in testing are unique.
@@ -15,7 +18,11 @@ public class Idgenerator {
 	private static int freeMapID = Integer.MIN_VALUE;
 	private static int freeBuildingID = Integer.MIN_VALUE;
 	private static int freeCategoryID = Integer.MIN_VALUE;
-	private static int freePOIID = Integer.MIN_VALUE;
+	private static Integer freePOIID = Integer.MIN_VALUE;
+	private static HashSet<Integer> takenMapIDs = new HashSet<Integer>();
+	private static HashSet<Integer> takenBuildingIDs = new HashSet<Integer>();
+	private static HashSet<Integer> takenCategoryIDs = new HashSet<Integer>();
+	private static HashSet<String> takenPOIIds = new HashSet<String>();
 	
 	private Idgenerator() {};
 
@@ -24,7 +31,11 @@ public class Idgenerator {
 	 * @return the free Map ID
 	 */
 	public static int getFreeMapID() {
-		int result = freeMapID++;
+		int result;
+		do {
+			result = freeMapID++;
+		} while (takenMapIDs.contains(result));
+		takenMapIDs.add(result);
 		return result;
 	}
 	
@@ -33,7 +44,11 @@ public class Idgenerator {
 	 * @return the free Building ID
 	 */
 	public static int getFreeBuildingID() {
-		int result = freeBuildingID++;
+		int result;
+		do {
+			result = freeBuildingID++;
+		} while (takenBuildingIDs.contains(result));
+		takenBuildingIDs.add(result);
 		return result;
 	}
 	
@@ -42,7 +57,11 @@ public class Idgenerator {
 	 * @return the free Category ID
 	 */
 	public static int getFreeCategoryID() {
-		int result = freeCategoryID++;
+		int result;
+		do {
+			result= freeCategoryID++;
+		} while (takenCategoryIDs.contains(result));
+		takenCategoryIDs.add(result);
 		return result;
 	}
 	
@@ -51,7 +70,71 @@ public class Idgenerator {
 	 * @return the free POI ID
 	 */
 	public static String getFreePOIID() {
-		Integer result = freePOIID++;
-		return result.toString();
+		String result;
+		do {
+			result = (freePOIID++).toString();
+		} while (takenPOIIds.contains(result));
+		takenPOIIds.add(result);
+		return result;
+	}
+	
+	/**
+	 * Checks if <code>id</code> is free or not. If the id is free, it will be marked as taken.
+	 * So if the first call with a specific id returns <code>true</code> any subsequent call will be <code>false</code>.
+	 * @param id the ID to be checked.
+	 * @return True if the ID is free, false otherwise.
+	 */
+	public static boolean requestMapID(int id) {
+		if (takenMapIDs.contains(id)) {
+			return false;
+		} else {
+			takenMapIDs.add(id);
+			return true;
+		}
+	}
+	
+	/**
+	 * Checks if <code>id</code> is free or not. If the id is free, it will be marked as taken.
+	 * So if the first call with a specific id returns <code>true</code> any subsequent call will be <code>false</code>.
+	 * @param id the ID to be checked.
+	 * @return True if the ID is free, false otherwise.
+	 */
+	public static boolean requestBuildingID(int id) {
+		if (takenBuildingIDs.contains(id)) {
+			return false;
+		} else {
+			takenBuildingIDs.add(id);
+			return true;
+		}
+	}
+	
+	/**
+	 * Checks if <code>id</code> is free or not. If the id is free, it will be marked as taken.
+	 * So if the first call with a specific id returns <code>true</code> any subsequent call will be <code>false</code>.
+	 * @param id the ID to be checked.
+	 * @return True if the ID is free, false otherwise.
+	 */
+	public static boolean requestCategoryID(int id) {
+		if (takenCategoryIDs.contains(id)) {
+			return false;
+		} else {
+			takenCategoryIDs.add(id);
+			return true;
+		}
+	}
+	
+	/**
+	 * Checks if <code>id</code> is free or not. If the id is free, it will be marked as taken.
+	 * So if the first call with a specific id returns <code>true</code> any subsequent call will be <code>false</code>.
+	 * @param id the ID to be checked.
+	 * @return True if the ID is free, false otherwise.
+	 */
+	public static boolean requestPOIID(String id) {
+		if (takenPOIIds.contains(id)) {
+			return false;
+		} else {
+			takenPOIIds.add(id);
+			return true;
+		}
 	}
 }
