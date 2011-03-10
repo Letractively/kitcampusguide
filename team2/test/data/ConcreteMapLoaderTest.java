@@ -21,8 +21,15 @@ public class ConcreteMapLoaderTest {
 		
 	}
 	*/
+	
+	
 	@Test
-	public void Test() {
+	public void addLandMarkTest() {
+		// tba
+	}
+	
+	@Test
+	public void addStreetTest() {
 		// tba
 	}
 	

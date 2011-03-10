@@ -14,7 +14,7 @@ public interface AccountLoader {
 	 * @param name given name to verify.
 	 * @return true if the name was found in the database, false if not.
 	 */
-	public boolean verifyName(String name);
+	boolean verifyName(String name);
 	
 	/**
 	 * Returns a Password hash of a given name,
@@ -23,6 +23,6 @@ public interface AccountLoader {
 	 * @param name given name to search for hash.
 	 * @return password hash of the found name, null if none was found.
 	 */
-	public String getPasswordHash(String name);
+	String getPasswordHash(String name);
 	
 }

@@ -37,13 +37,13 @@ public class ConcreteMapLoader implements MapLoader {
 		ResultSet resultset = null;
 		
 		try {
-	        Class.forName("org.postgresql.Driver" );
+	        Class.forName("org.postgresql.Driver");
 	        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
 
 	        statement = connection.createStatement();
 	        resultset = statement.executeQuery("SELECT * FROM cg_streetnode");     
 	        
-	        while(resultset.next()) {
+	        while (resultset.next()) {
 	            streetnodeId.add(resultset.getInt(1));
 	            streetnodeX.add(resultset.getDouble(2));
 	            streetnodeY.add(resultset.getDouble(3));
@@ -53,14 +53,14 @@ public class ConcreteMapLoader implements MapLoader {
 	        statement = connection.createStatement();
 	        resultset = statement.executeQuery("SELECT * FROM cg_street");     
 	        
-	        while(resultset.next()) {
+	        while (resultset.next()) {
 	        	streetFrom.add(resultset.getInt(1));
 	        	streetTo.add(resultset.getInt(2));
 	        	streetLength.add(resultset.getDouble(3));
 			}
 
 	        
-	      } catch( Exception ex ) {
+	      } catch (Exception ex) {
 	          System.out.println( ex );
 	      } finally {
 	          try { if( null != resultset ) resultset.close(); } catch( Exception ex ) {}
@@ -118,7 +118,7 @@ public class ConcreteMapLoader implements MapLoader {
 		
 		try {
 			resultset = Config.executeSQLStatement(connection, sqlquery);
-	        while(resultset.next()) {
+	        while (resultset.next()) {
 	        	double latitude = resultset.getDouble(2);
 	        	double longitude = resultset.getDouble(3);
 	        	pointlist.add(new Point(latitude, longitude));
@@ -144,22 +144,22 @@ public class ConcreteMapLoader implements MapLoader {
 		int count = 0;
 		
 		Connection connection = Config.getPgSQLJDBCConnection();
-		String sqlquery_distance = "SELECT * FROM cg_distance";
-		String sqlquery_landmarks = "SELECT * FROM cg_landmark";
+		String sqlqueryDistance = "SELECT * FROM cg_distance";
+		String sqlqueryLandmarks = "SELECT * FROM cg_landmark";
 		
 		ResultSet resultset = null;
 		
 		try {
-			resultset = Config.executeSQLStatement(connection, sqlquery_distance);
-	        while(resultset.next()) {
+			resultset = Config.executeSQLStatement(connection, sqlqueryDistance);
+	        while (resultset.next()) {
 	        	streetnodelist.add(resultset.getInt(1));
 	        	landmarklist.add(resultset.getInt(2));
 	        	lengthlist.add(resultset.getDouble(3));
 			}
 	        
 	        
-	        resultset = Config.executeSQLStatement(connection, sqlquery_landmarks);
-	        while(resultset.next()) {
+	        resultset = Config.executeSQLStatement(connection, sqlqueryLandmarks);
+	        while (resultset.next()) {
 	        	count++;
 			}
 	        

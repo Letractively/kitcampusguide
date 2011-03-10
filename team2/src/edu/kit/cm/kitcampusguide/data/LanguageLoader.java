@@ -15,7 +15,7 @@ public interface LanguageLoader {
 	 * @param lang id of the language to be translated in.
 	 * @return translated string of the given expression.
 	 */
-	public String getText(String key, Integer lang);
+	String getText(String key, Integer lang);
 
 
 }

@@ -207,7 +207,7 @@ public class ConcretePOILoader implements POILoader {
 	private ArrayList<POI> savePOIs(ResultSet resultset) throws SQLException {
 		ArrayList<POI> result = new ArrayList<POI>();
 		
-        while(resultset.next()) {
+        while (resultset.next()) {
 			result.add(savePOI(resultset));	            	
         }
         
@@ -239,7 +239,7 @@ public class ConcretePOILoader implements POILoader {
 	 */
 	private ArrayList<POICategory> savePOICategories(ResultSet resultset) throws SQLException {
 		ArrayList<POICategory> result = new ArrayList<POICategory>();
-        while(resultset.next()) {
+        while (resultset.next()) {
 			result.add(savePOICategory(resultset));	            	
         }
 		return result;
@@ -260,7 +260,7 @@ public class ConcretePOILoader implements POILoader {
 
 		try {
 			resultset = Config.executeSQLStatement(connection, sqlquery);
-	        while(resultset.next()) {
+	        while (resultset.next()) {
 				int poiid = resultset.getInt("poi_id");
 	        	poicat.addPOI(getPOI(poiid));  	
 	        }
