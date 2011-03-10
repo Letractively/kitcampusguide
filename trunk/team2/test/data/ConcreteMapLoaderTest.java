@@ -23,11 +23,17 @@ public class ConcreteMapLoaderTest {
 	*/
 	
 	
+	/**
+	 * TODO addLandMark-Methode testen
+	 */
 	@Test
 	public void addLandMarkTest() {
 		// tba
 	}
 	
+	/**
+	 * TODO addStreet-Methode testen
+	 */
 	@Test
 	public void addStreetTest() {
 		// tba
