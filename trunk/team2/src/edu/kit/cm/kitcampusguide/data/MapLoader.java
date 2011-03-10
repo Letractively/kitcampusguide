@@ -6,7 +6,6 @@ import edu.kit.cm.kitcampusguide.model.*;
  * Interface of a MapLoader.
  * 
  * @author Michael Hauber
- * @author Tobias Zündorf
  *
  */
 public interface MapLoader {
@@ -17,7 +16,7 @@ public interface MapLoader {
 	 * 
 	 * @return a Graph representing the map
 	 */
-	public Graph getGraph();
+	Graph getGraph();
 	
 
 	/**
@@ -26,7 +25,7 @@ public interface MapLoader {
 	 * 
 	 * @return a Point-Array with the coordinates of all landmarks.
 	 */
-	public Point[] getLandmarks();
+	Point[] getLandmarks();
 
 	/**
 	 * Loads a table containing the distances between each pair of intersection and landmark.
@@ -36,13 +35,16 @@ public interface MapLoader {
 	 * @return a 2-dimensional double-Array, the first array index identifies a intersection node,
 	 * the second array index identifies a landmark.
 	 */
-	public double[][] getLandmarkDistances();
+	double[][] getLandmarkDistances();
 	
 	/**
 	 * Adds a given landmark with all his distances to the database.
 	 * the index of the double-array identifies an intersection node.
+	 * 
+	 * @param landmark a
+	 * @param distances a
 	 */
-	public void addLandmarkToDatabase(Point landmark, double[] distances);
+	void addLandmarkToDatabase(Point landmark, double[] distances);
 
 	/**
 	 * Adds a given street to the saved graph in the database.
@@ -52,6 +54,6 @@ public interface MapLoader {
 	 * @param toId streetnode id of the incoming node.
 	 * @param length length of the street.
 	 */
-	public void addStreetToDatabase(int fromId, int toId, double length);
+	void addStreetToDatabase(int fromId, int toId, double length);
 
 }

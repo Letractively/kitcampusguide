@@ -14,6 +14,10 @@ import java.sql.Statement;
  *
  */
 public final class Config {
+	
+	private Config() {
+		assert false;
+	}
 
 	/**
 	 * Saves the type of the current used database.
@@ -46,11 +50,11 @@ public final class Config {
 	public static String dbPassword = "katja";
 	
 	
-	public static Connection getPgSQLJDBCConnection(){
+	public static Connection getPgSQLJDBCConnection() {
 		try {
 			Class.forName("org.postgresql.Driver");	
 
-		} catch(java.lang.ClassNotFoundException e) {
+		} catch (java.lang.ClassNotFoundException e) {
 			System.err.print("ClassNotFoundException: ");
 			System.err.println(e.getMessage());
 		}
@@ -60,14 +64,21 @@ public final class Config {
 		
 		try {
 			connection = DriverManager.getConnection(dbURL, dbUsername, dbPassword);
-		} catch(SQLException ex) {
+		} catch (SQLException ex) {
 			System.err.println("SQLException: " + ex.getMessage());
 		}
 
 		return connection;
 	}
 	
-	public static ResultSet executeSQLStatement(Connection connection, String SQLquery) throws SQLException {
+	/**
+	 * aaa
+	 * @param connection a
+	 * @param sqlQuery a
+	 * @return a
+	 * @throws SQLException a
+	 */
+	public static ResultSet executeSQLStatement(Connection connection, String sqlQuery) throws SQLException {
 		if (connection == null) {
 			throw new IllegalArgumentException();
 		}
@@ -76,7 +87,7 @@ public final class Config {
 		ResultSet resultset = null;
 		
 	    statement = connection.createStatement();
-	    resultset = statement.executeQuery(SQLquery);     
+	    resultset = statement.executeQuery(sqlQuery);     
 
 		return resultset;
 	}

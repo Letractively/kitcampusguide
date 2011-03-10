@@ -1,6 +1,8 @@
 package edu.kit.cm.kitcampusguide.data;
 
-import edu.kit.cm.kitcampusguide.model.*;
+import edu.kit.cm.kitcampusguide.model.POI;
+import edu.kit.cm.kitcampusguide.model.POICategory;
+
 import java.util.List;
 
 /**
