@@ -3,8 +3,8 @@ package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
@@ -55,11 +55,32 @@ public class TranslationInitializer {
 		FacesContext context = FacesContext.getCurrentInstance();
 		List<Element> listLanguages = document.getRootElement().getChild("LanguageManagerConfiguration").getChildren("Language");
 		for (Element e : listLanguages) {
-			Language tmp = new Language(context.getExternalContext().getResourceAsStream(e.getAttributeValue("filepath")));
+			Language tmp = constructLanguage(context.getExternalContext().getResourceAsStream(e.getAttributeValue("filepath")));
 			allLanguages.add(tmp);
 		}
 		defaultLanguage = document.getRootElement().getChild("LanguageManagerConfiguration").getAttributeValue("defaultLanguage");
 		LanguageManager.initializeLanguageManager(allLanguages, defaultLanguage);
+	}
+
+	private Language constructLanguage(InputStream resourceAsStream) {
+		Language result = null;
+		try {
+			HashMap<String, String> translateMap = new HashMap<String, String>();
+			Document document = new SAXBuilder().build(resourceAsStream);
+			String name = document.getRootElement().getAttributeValue("name");
+			List<Element> entries = document.getRootElement().getChildren("entry");
+			for (Element entry : entries) {
+				String key = entry.getAttributeValue("key");
+				String value = entry.getValue();
+				translateMap.put(key, value);
+			}
+			result = new Language(name, translateMap);
+		} catch (IOException e) {
+			logger.error("Language construction of failed.", e);
+		} catch (JDOMException e) {
+			logger.error("Language construction of failed.", e);
+		}
+		return result;
 	}
 
 	/**
@@ -75,4 +96,6 @@ public class TranslationInitializer {
 			instance = new TranslationInitializer(inputStream);
 		}
 	}
+	
+	
 }
