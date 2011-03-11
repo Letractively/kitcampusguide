@@ -201,9 +201,11 @@ KITCampusMap.prototype.applyChanges = function() {
 		this.model.markerFrom = mapModel.markerFrom;
 		this.setMarker('markerFrom');
 	}
-	
-	 if (this.changed['route']) {
-		this.model.route = mapModel.route;
+
+	if (this.changed['route'] || this.changed['map']) {
+		if (this.changed['route']) {
+			this.model.route = mapModel.route;
+		}
 		this.setRoute();
 	}
 };
@@ -534,28 +536,38 @@ KITCampusMap.prototype.handleShowPOIsInBuilding = function() {
  * route is <code>null</code> the old route will be removed from the map.
  */
 KITCampusMap.prototype.setRoute = function() {
-	this.olData.routeLayer.removeAllFeatures();
-	
+	var features = [];
 	if (this.model.route != null) {
-		var pointList = [];
+		var style_red = {
+				strokeColor : "#FF0000",
+				strokeWidth : 3
+		};
 		var wp = this.model.route.waypoints;
+		var pointList = [];
 		for ( var p = 0; p < wp.length; ++p) {
 			var lonlat = KITCampusHelper.transformWorldPosition(wp[p]);
 			pointList.push(new OpenLayers.Geometry.Point(lonlat.lon
 							+ KITCampusMap.OFFSET_LON, lonlat.lat
 							+ KITCampusMap.OFFSET_LAT));
+			if (!this.isDrawnPoint(wp[p]) || p == wp.length - 1) {
+				if (pointList.length >= 2) {
+					features.push(new OpenLayers.Feature.Vector(
+							new OpenLayers.Geometry.LineString(pointList),
+							null, style_red));
+				}
+				pointList = [];
+			}
 		}
-
-		var style_red = {
-			strokeColor : "#FF0000",
-			strokeWidth : 3
-		};
-
-		var routeFeature = new OpenLayers.Feature.Vector(
-				new OpenLayers.Geometry.LineString(pointList), null, style_red);
-		this.olData.routeLayer.addFeatures([ routeFeature ]);
+		this.olData.routeLayer.removeAllFeatures();
+		this.olData.routeLayer.addFeatures(features);
 	}
 };
+
+KITCampusMap.prototype.isDrawnPoint = function(mapPosition) {
+	return (mapPosition.map.isGroundFloor && this.model.map.isGroundFloor)
+			|| (this.model.map.id == mapPosition.map.id);
+};
+
 
 /**
  * Sets the markers indicating the start or the end point of a route

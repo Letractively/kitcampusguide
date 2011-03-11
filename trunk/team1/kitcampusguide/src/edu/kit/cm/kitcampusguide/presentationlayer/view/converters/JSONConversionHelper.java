@@ -179,8 +179,9 @@ public final class JSONConversionHelper {
 		jsonMap.put("boundingBox", convertMapSection(map.getBoundingBox()));
 		jsonMap.put("minZoom", map.getMinZoom());
 		jsonMap.put("maxZoom", map.getMaxZoom());
-		jsonMap.put("buildingID", (map.getBuilding() == null) ? null : map
-				.getBuilding().getID());
+		Building building = map.getBuilding();
+		jsonMap.put("buildingID", (building == null) ? null : building.getID());
+		jsonMap.put("isGroundFloor", (building == null) || (building.getGroundFloor().equals(map)));
 		return jsonMap;
 	}
 
