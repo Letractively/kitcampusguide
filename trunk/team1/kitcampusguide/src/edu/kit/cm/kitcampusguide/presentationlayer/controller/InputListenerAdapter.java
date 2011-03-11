@@ -319,28 +319,6 @@ public class InputListenerAdapter {
 		return languageProposalListIsVisible;
 	}
 	
-	/**
-	 * Sets the InputModel-property.
-	 * @param inputModel Not null.
-	 */
-	public void setInputModel(InputModel inputModel) {
-		this.inputModel = inputModel;
-	}
-	
-	/**tionModel-property.
-	 * @param translationModel Not null.
-	 */
-	public void setTranslationModel(TranslationModel translationModel) {
-		this.translationModel = translationModel;
-	}
-	
-	/**
-	 * Sets the InputListener-property.
-	 * @param inputListener Not null.
-	 */
-	public void setInputListener(InputListener inputListener) {
-		this.inputListener = inputListener;
-	}
 
 	/**
 	 * Returns the currently available categories as a list of
@@ -363,17 +341,6 @@ public class InputListenerAdapter {
 	}
 	
 	/**
-	 * Sets the category model to a new value. This method is used by the jsf
-	 * managed property injection mechanism.
-	 * 
-	 * @param categoryModel
-	 *            the new category model
-	 */
-	public void setCategoryModel(CategoryModel categoryModel) {
-		this.categoryModel = categoryModel;
-	}
-
-	/**
 	 * Is called when the users wants to apply a new category filter. The method
 	 * converts the new category entries set by jsf to a set containing all
 	 * currently active categories and passes the set to the currently used
@@ -391,6 +358,50 @@ public class InputListenerAdapter {
 			}
 		}
 		inputListener.changeCategoryFilterTriggered(newSet);
+	}
+	
+	/**
+	 * Sets the input model to a new value. This method is used by the jsf
+	 * managed property injection mechanism.
+	 * 
+	 * @param inputModel
+	 *            the new input model
+	 */
+	public void setInputModel(InputModel inputModel) {
+		this.inputModel = inputModel;
+	}
+	
+	/**
+	 * Sets the translation model to a new value. This method is used by the jsf
+	 * managed property injection mechanism.
+	 * 
+	 * @param translationModel
+	 *            the new translation model
+	 */
+	public void setTranslationModel(TranslationModel translationModel) {
+		this.translationModel = translationModel;
+	}
+	
+	/**
+	 * Sets the input listener to a new value. This method is used by the jsf
+	 * managed property injection mechanism.
+	 * 
+	 * @param inputListener
+	 *            the new input listener
+	 */
+	public void setInputListener(InputListener inputListener) {
+		this.inputListener = inputListener;
+	}
+	
+	/**
+	 * Sets the category model to a new value. This method is used by the jsf
+	 * managed property injection mechanism.
+	 * 
+	 * @param categoryModel
+	 *            the new category model
+	 */
+	public void setCategoryModel(CategoryModel categoryModel) {
+		this.categoryModel = categoryModel;
 	}
 	
 	/**
