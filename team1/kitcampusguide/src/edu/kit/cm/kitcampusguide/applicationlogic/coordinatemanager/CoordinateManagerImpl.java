@@ -9,8 +9,11 @@ import org.apache.log4j.Logger;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 
 /**
+ * Implements the interface {@link CoordinateManager}.
  * Implements a simple coordinate manager which will simply format a given
  * position by separating the position's coordinates with a comma.
+ * 
+ * @author Team1
  * 
  */
 public class CoordinateManagerImpl implements CoordinateManager {
@@ -26,17 +29,17 @@ public class CoordinateManagerImpl implements CoordinateManager {
 	private static CoordinateManager instance;
 	
 	/**
-	 * Private constructor to prevent instantiation
+	 * Private constructor to prevent instantiation.
 	 */
 	private CoordinateManagerImpl() {
 		
 	}
 	
 	/**
-	 * Returns the single instance of this <code>CoordinateManagerImplementation</code>.
+	 * Returns the single instance of this <code>CoordinateManagerImpl</code>.
 	 * 
 	 * @return Returns the single instance of this 
-	 * 		<code>CoordinateManagerImplementation</code>.
+	 * 		<code>CoordinateManagerImpl</code>.
 	 */
 	public static CoordinateManager getInstance() {
 		if (instance == null) {
@@ -46,6 +49,22 @@ public class CoordinateManagerImpl implements CoordinateManager {
 		return instance;
 	}
 	
+	/**
+	 *
+	 * @param position String that is meant to be converted into an instance of the 
+	 * 		class {@link WorldPosition}.
+	 * 		<code>position</code> has to declare the geographical latitude first,
+	 * 		followed by the geographical longitude.
+	 * 		Consider that the geographical latitude must range between -90 and 90 and the
+	 * 		geographical longitude between -180 and 180.
+	 * 		Both numbers must be valid FloatingPointLiterals as defined in §3.10.2 
+	 * 		of the Java Language Specification and may be rounded to an appropriate exactness.
+	 * 		A minus sign is allowed in front of each number to declare it negative.
+	 * 		They must be separated by a comma.		
+	 * @return Returns an instance of the class {@link WorldPosition} with the geographical
+	 * 		coordinates represented by <code>position</code> or <code>null</code>,
+	 * 		if <code>position</code> cannot be interpreted as geographical coordinates.
+	 */
 	@Override
 	public WorldPosition stringToCoordinate(String position) {
 		String[] coordinates = position.split("[,]");
@@ -90,6 +109,12 @@ public class CoordinateManagerImpl implements CoordinateManager {
 		return Double.valueOf(formatter.format(d));
 	}
 
+	/**
+	 * @return Returns a string representation of the geographical coordinates of the 
+	 * 		WorldPosition <code>position</code>. 
+	 * 		The first number in this <code>String</code> will be the geographical latitude, the second
+	 * 		the geographical longitude.
+	 */
 	@Override
 	public String coordinateToString(WorldPosition position) {
 		if (formatter instanceof DecimalFormat) {
