@@ -36,20 +36,17 @@ public class Language {
 	}
 	
 	/**
-	 * Constructs a new language object from the xml-file specified by filename.
-	 * Needs to have a special format which will be specified later.
-	 * @param inputStream The path to the file the language is defined in.
+	 * Constructs a language with the specified name and the specified translations.
+	 * @param name The name of the language. Required to be unique.
+	 * @param translateMap The Hashmap defining the translation. Key is the key value which will
+	 * be translated by the associated value-string.
 	 */
 	Language(String name, HashMap<String, String> translateMap) {
+		if (name == null) {
+			throw new NullPointerException("Language constructed with name null");
+		}
 		this.name = name;
 		this.translateMap = (HashMap<String, String>) translateMap.clone();
-	}
-
-	/**
-	 * Constructs this language from the xml-document <code>document</code>.
-	 * @param document The document the language is to be constructed from.
-	 */
-	private void constructLanguage(Document document) {
-		
+		logger.debug("Created language " + name);
 	}
 }
