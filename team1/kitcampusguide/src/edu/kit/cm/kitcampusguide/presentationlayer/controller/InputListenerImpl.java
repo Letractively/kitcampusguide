@@ -51,7 +51,10 @@ public class InputListenerImpl implements InputListener {
 	}
 			
 	/**
-	 * {@inheritDoc}
+	 * If <code>searchTerm</code> can be interpreted as geographical coordinates, the view will be provoked to
+	 * set an appropriate marker at the corresponding position. 
+	 * Else a search after an appropriate POI will be triggered. If this results in a unique search result, the
+	 * POI which was found will be highlighted. Else the view will be provoked to display the corresponding information.
 	 */
 	@Override
 	public void searchTriggered(String searchTerm, InputField inputField) {
@@ -74,12 +77,64 @@ public class InputListenerImpl implements InputListener {
 	}
 	
 	/**
-	 * {@inheritDoc}
+	 * Provokes the view to highlight the POI <code>soughtAfter</code>.
 	 */
 	@Override
 	public void searchTriggered(POI soughtAfter) {
 		resetView();
 		highlightPOI(soughtAfter);
+	}
+		
+	/**
+	 * Tries to determine the positions represented by the given <code>String</code>s at first. 
+	 * If both can be determined definitely, the calculation of a route in between is triggered.
+	 * Else the view will be provoked to display the corresponding information.
+	 */
+	@Override
+	public void routeTriggered(String routeFrom, String routeTo) {
+		resetView();
+		MapPosition from = determinePosition(routeFrom, InputField.ROUTE_FROM);	
+		MapPosition to = determinePosition(routeTo, InputField.ROUTE_TO);		
+		if (from != null && to != null) {			
+			calculateRoute(from, to);
+		}		
+	}	
+	
+	/**
+	 * Tries to determine the position represented by <code>routeFrom</code> at first. 
+	 * If it can be determined definitely, the calculation of a route to <code>to</code> is triggered.
+	 * Else the view will be provoked to display the corresponding information.
+	 */
+	@Override
+	public void routeTriggered(String routeFrom, MapPosition to) {
+		resetView();
+		MapPosition from = determinePosition(routeFrom, InputField.ROUTE_FROM);		
+		if (from != null) {			
+			calculateRoute(from, to);
+		} 		
+	}
+	
+	/**
+	 * Tries to determine the position represented by <code>routeTo</code> at first. 
+	 * If it can be determined definitely, the calculation of a route from <code>from</code> is triggered.
+	 * Else the view will be provoked to display the corresponding information.
+	 */
+	@Override
+	public void routeTriggered(MapPosition from, String routeTo) {
+		resetView();
+		MapPosition to = determinePosition(routeTo, InputField.ROUTE_TO);		
+		if (to != null) {			
+			calculateRoute(from, to);
+		} 	
+	}
+	
+	/**
+	 * Triggers the calculation of a route from <code>from</code> to <code>to</code>.
+	 */
+	@Override
+	public void routeTriggered(MapPosition from, MapPosition to) {
+		resetView();
+		calculateRoute(from, to);
 	}
 	
 	// Effects that the POI 'poi' is highlighted in the view. 'poi' must not be null.
@@ -98,62 +153,17 @@ public class InputListenerImpl implements InputListener {
 		}
 	}	
 	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void routeTriggered(String routeFrom, String routeTo) {
-		resetView();
-		MapPosition from = determinePosition(routeFrom, InputField.ROUTE_FROM);	
-		MapPosition to = determinePosition(routeTo, InputField.ROUTE_TO);		
-		if (from != null && to != null) {			
-			calculateRoute(from, to);
-		}		
-	}	
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void routeTriggered(String routeFrom, MapPosition to) {
-		resetView();
-		MapPosition from = determinePosition(routeFrom, InputField.ROUTE_FROM);		
-		if (from != null) {			
-			calculateRoute(from, to);
-		} 		
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void routeTriggered(MapPosition from, String routeTo) {
-		resetView();
-		MapPosition to = determinePosition(routeTo, InputField.ROUTE_TO);		
-		if (to != null) {			
-			calculateRoute(from, to);
-		} 	
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void routeTriggered(MapPosition from, MapPosition to) {
-		resetView();
-		calculateRoute(from, to);
-	}
-	
 	// Effects that the route from 'from' to 'to' is calculated and displayed in the view.
+	// If the route can't be calculated, an error message will be displayed.
 	// 'from' and 'to' must not be null.
 	private void calculateRoute(MapPosition from, MapPosition to) {
 		Route route = routing.calculateRoute(from, to);
 		if (route != null) {
 			logger.debug("Display route");
-			if (!inputWasSetByContextMenu(inputModel.getRouteFromField(), InputField.ROUTE_FROM)) {
+			if (!inputWasSetViaContextMenu(inputModel.getRouteFromField(), InputField.ROUTE_FROM)) {
 				mapModel.setMarkerFrom(route.getStart());
 			}
-			if (!inputWasSetByContextMenu(inputModel.getRouteToField(), InputField.ROUTE_TO)) {
+			if (!inputWasSetViaContextMenu(inputModel.getRouteToField(), InputField.ROUTE_TO)) {
 				mapModel.setMarkerTo(route.getEnd());
 			}
 			mapModel.setRoute(route);
@@ -172,6 +182,9 @@ public class InputListenerImpl implements InputListener {
 		}
 	}
 	
+	/**
+	 * Provokes the view to display the proposal list <code>proposalList</code>.
+	 */
 	@Override
 	public void choiceProposalTriggered(List<POI> proposalList, InputField inputField) {
 		if (inputField == InputField.ROUTE_FROM) {
@@ -183,16 +196,56 @@ public class InputListenerImpl implements InputListener {
 		}
 	}
 	
+	//Tries to determine the position represented by the String 'searchTerm', which was typed into the
+	//InputField 'inputField', and returns it. 'searchTerm' mustn't be null.
+	//Tries to interpret 'searchTerm' as coordinates at first. If the conversion fails, a search after an 
+	//appropriate POI will be triggered and its position will be returned.
+	//If the position can't be determined, null will be returned.
+	private MapPosition determinePosition(String searchTerm, InputField inputField) {
+		MapPosition position = positionRepresentedBySearchTerm(searchTerm, inputField);
+		if (position == null) {
+			POI poi = performSearch(searchTerm, inputField);
+			if (poi != null) {
+				position = new MapPosition (poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
+			}
+		}
+		return position;
+	}
+	
+	//Executes the search after 'searchTerm' and returns the POI that has been found 
+	//if there's a unique search result. 'searchTerm' mustn't be null.
+	//If there is no search result, an error message will be displayed and null will be returned.
+	//If there are multiple search results, the view will be provoked to display the corresponding proposal list.
+	private POI performSearch(String searchTerm, InputField inputField) {
+		List<POI> searchResults = poiSource.getPOIsBySearch(searchTerm);	
+		if (searchResults == null || searchResults.size() == 0) {
+			logger.debug("no search results for " + searchTerm);
+			if (inputField == InputField.ROUTE_FROM) {
+				inputModel.setRouteFromSearchFailed(true);
+			} else {
+				inputModel.setRouteToSearchFailed(true);
+			}
+			return null;
+		} else if (searchResults.size() == 1) {
+			logger.debug("unique search result for " + searchTerm + " : " + searchResults.get(0).getName());
+			return searchResults.get(0);
+		} else {
+			logger.debug("multiple search results for " + searchTerm);	
+			choiceProposalTriggered(searchResults, inputField);
+			return null;
+		}
+	}
+	
 	//Tries to interpret the String 'searchTerm', which was typed into the InputField 'inputField',
 	//as coordinates and returns the corresponding MapPosition. 'searchTerm' mustn't be null.
-	//If the corresponding marker and thus the 'searchTerm' has been set by the context menu, 
+	//If the corresponding marker and thus the content of the input field has been set via the context menu, 
 	//the MapPosition of this marker will be returned.
 	//If the conversion fails, null will be returned.
 	private MapPosition positionRepresentedBySearchTerm (String searchTerm, InputField inputField) {
 		WorldPosition coordinate = cm.stringToCoordinate(searchTerm);
 		if (coordinate == null) {
 			return null;
-		} else if (inputWasSetByContextMenu(searchTerm, inputField)) {
+		} else if (inputWasSetViaContextMenu(searchTerm, inputField)) {
 			if (inputField.equals(InputField.ROUTE_FROM)) {
 				return mapModel.getMarkerFrom(); 
 			} else {
@@ -207,7 +260,7 @@ public class InputListenerImpl implements InputListener {
 	//has been set by the context menu.
 	//This is the case if 'searchTerm' can be interpreted as coordinates and the corresponding marker 
 	//is set at the same position (not necessary on the same Map).
-	private boolean inputWasSetByContextMenu (String searchTerm, InputField inputField) {
+	private boolean inputWasSetViaContextMenu (String searchTerm, InputField inputField) {
 		WorldPosition coordinate = cm.stringToCoordinate(searchTerm);
 		if (coordinate == null) {
 			return false;
@@ -241,47 +294,7 @@ public class InputListenerImpl implements InputListener {
 		} else {
 			return false;
 		}
-	}
-	
-	//Tries to determine the position represented by the String 'searchTerm', which was typed into the
-	//InputField 'inputField', and returns it. 'searchTerm' mustn't be null.
-	//Tries to interpret 'searchTerm' as coordinates at first. If the conversion fails, a search after an 
-	//appropriate POI will be triggered and its position will be returned.
-	//If the position can't be determined, null will be returned.
-	private MapPosition determinePosition(String searchTerm, InputField inputField) {
-		MapPosition position = positionRepresentedBySearchTerm(searchTerm, inputField);
-		if (position == null) {
-			POI poi = performSearch(searchTerm, inputField);
-			if (poi != null) {
-				position = new MapPosition (poi.getPosition().getLatitude(), poi.getPosition().getLongitude(), poi.getMap());
-			}
-		}
-		return position;
-	}
-
-	//Executes the search after 'searchTerm' and returns the POI that has been found 
-	//if there's a unique search result. 'searchTerm' mustn't be null.
-	//If there is no or more than one search result, null will be returned 
-	//and the inputModel will be given the corresponding information.
-	private POI performSearch(String searchTerm, InputField inputField) {
-		List<POI> searchResults = poiSource.getPOIsBySearch(searchTerm);	
-		if (searchResults == null || searchResults.size() == 0) {
-			logger.debug("no search results for " + searchTerm);
-			if (inputField == InputField.ROUTE_FROM) {
-				inputModel.setRouteFromSearchFailed(true);
-			} else {
-				inputModel.setRouteToSearchFailed(true);
-			}
-			return null;
-		} else if (searchResults.size() == 1) {
-			logger.debug("unique search result for " + searchTerm + " : " + searchResults.get(0).getName());
-			return searchResults.get(0);
-		} else {
-			logger.debug("multiple search results for " + searchTerm);	
-			choiceProposalTriggered(searchResults, inputField);
-			return null;
-		}
-	}	
+	}		
 	
 	//Resets the view which means that no highlighted POIs, routes and error messages
 	//will be displayed anymore.
@@ -294,13 +307,20 @@ public class InputListenerImpl implements InputListener {
 		inputModel.setRouteToSearchFailed(false);
 		inputModel.setRouteCalculationFailed(false);
 	}
-		
+	
+	/**
+	 * Sets the current language to <code>language</code>.
+	 * Only changes the language if it is available on the system.
+	 */
 	@Override
 	public void languageChangeTriggered(String language) {
 		logger.debug("change language to: " + language);
 		translationModel.setCurrentLanguage(language);
 	}	
 
+	/**
+	 * Provokes the view to change to map view.
+	 */
 	@Override
 	public void changeToMapViewTriggered() {
 		logger.debug("change to map view");
@@ -308,6 +328,9 @@ public class InputListenerImpl implements InputListener {
 		mapModel.setBuilding(null);
 	}
 	
+	/**
+	 * Changes the floor being displayed to <code>floor</code>. 
+	 */
 	@Override
 	public void changeFloorTriggered(Map floor) {
 		logger.debug("change floor to: " + floor.getName());
@@ -315,49 +338,68 @@ public class InputListenerImpl implements InputListener {
 	}
 	
 	/**
-	 * Sets the MapModel-property.
-	 * @param mapModel Not null.
-	 *
+	 * Sets the current categories to <code>enabledCategories</code>.
+	 */
+	@Override
+	public void changeCategoryFilterTriggered(Set<Category> enabledCategories) {
+		categoryModel.setCurrentCategories(enabledCategories);
+		ControllerUtil.refreshPOIs(mapModel, categoryModel);
+	}
+	
+	/**
+	 * Sets the map model for this instance. This method is necessary for the
+	 * jsf managed property injection mechanism.
+	 * 
+	 * @param mapModel
+	 *            the new map model
 	 */
 	public void setMapModel(MapModel mapModel) {
 		this.mapModel = mapModel;
 	}
 	
 	/**
-	 * Sets the InputModel-property.
-	 * @param inputModel Not null.
+	 * Sets the input model for this instance. This method is necessary for the
+	 * jsf managed property injection mechanism.
+	 * 
+	 * @param inputModel
+	 *            the new input model
 	 */
 	public void setInputModel(InputModel inputModel) {
 		this.inputModel = inputModel;
 	}
 	
 	/**
-	 * Sets the TranslationModel-property.
-	 * @param translationModel Not null.
+	 * Sets the translation model for this instance. This method is necessary for the
+	 * jsf managed property injection mechanism.
+	 * 
+	 * @param translationModel
+	 *            the new translation model
 	 */
 	public void setTranslationModel(TranslationModel translationModel) {
 		this.translationModel = translationModel;
 	}
 	
 	/**
-	 * Sets the DefaultModelValueClass-property.
-	 * @param defaultModelValueClass Not null.
+	 * Sets the default model value class for this instance. This method is necessary for the
+	 * jsf managed property injection mechanism.
+	 * 
+	 * @param defaultModelValueClass
+	 *            the new default model value class
 	 */
 	public void setDefaultModelValueClass(DefaultModelValues defaultModelValueClass) {
 		this.defaultModelValueClass = defaultModelValueClass;
 	}		
 	
 	/**
-	 * Sets the CategoryModel-property.
-	 * @param categoryModel categoryModel Not null
+	 * Sets the category model for this instance. This method is necessary for the
+	 * jsf managed property injection mechanism.
+	 * 
+	 * @param categoryModel
+	 *            the new category model
 	 */
 	public void setCategoryModel(CategoryModel categoryModel) {
 		this.categoryModel = categoryModel;
 	}
 
-	@Override
-	public void changeCategoryFilterTriggered(Set<Category> enabledCategories) {
-		categoryModel.setCurrentCategories(enabledCategories);
-		ControllerUtil.refreshPOIs(mapModel, categoryModel);
-	}
+	
 }
