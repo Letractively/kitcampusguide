@@ -29,7 +29,7 @@ public class TranslationInitializer {
 	 * Initializes the translation. 
 	 * @param inputStream The input stream to the configuration file.
 	 * 
-	 * @throws InitializationException If an error occured during initialization.
+	 * @throws InitializationException If an error occurred during initialization.
 	 */
 	private TranslationInitializer(InputStream inputStream) throws InitializationException {
 			try {
@@ -48,8 +48,9 @@ public class TranslationInitializer {
 	/**
 	 * Initializes the languages.
 	 * @param document The document defining the languages.
+	 * @throws InitializationException If the construction of any of the languages failed.
 	 */
-	private void initializeLanguages(Document document) {
+	private void initializeLanguages(Document document) throws InitializationException {
 		List<Language> allLanguages = new ArrayList<Language>();
 		String defaultLanguage;
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -62,7 +63,15 @@ public class TranslationInitializer {
 		LanguageManager.initializeLanguageManager(allLanguages, defaultLanguage);
 	}
 
-	private Language constructLanguage(InputStream resourceAsStream) {
+	/**
+	 * Constructs a language from the input file specified by resourceAsStream by reading the entries
+	 * of the file and calling the constructor of Language.
+	 * @param resourceAsStream Specifies the file in which the name and the translations will be saved.
+	 * Required having a special format.
+	 * @return The newly constructed language.
+	 * @throws InitializationException If the construction of the language failed. 
+	 */
+	private Language constructLanguage(InputStream resourceAsStream) throws InitializationException {
 		Language result = null;
 		try {
 			HashMap<String, String> translateMap = new HashMap<String, String>();
@@ -76,9 +85,9 @@ public class TranslationInitializer {
 			}
 			result = new Language(name, translateMap);
 		} catch (IOException e) {
-			logger.error("Language construction of failed.", e);
+			throw new InitializationException("Construction of a language failed.", e);
 		} catch (JDOMException e) {
-			logger.error("Language construction of failed.", e);
+			throw new InitializationException("Construction of a language failed.", e);
 		}
 		return result;
 	}
