@@ -9,6 +9,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static edu.kit.cm.kitcampusguide.testframework.Idgenerator.*;
 
+/**
+ * Tests {@link edu.kit.cm.kitcampusguide.standardtypes.Building}
+ * @author Fabian
+ *
+ */
 public class BuildingTest {
 
 	private static Building building;
@@ -52,7 +57,7 @@ public class BuildingTest {
 							new Map(getFreeMapID(), "worldmap", box, "null", 0 ,0), 
 							id, 
 							Arrays.asList(new Category(getFreeCategoryID(), "buildingTestPOICategory")));
-		Building building = new Building(buildingID, floors, 1, poi);
+		new Building(buildingID, floors, 1, poi);
 	}
 	
 	/**
@@ -71,7 +76,7 @@ public class BuildingTest {
 							new Map(getFreeMapID(), "worldmap", box, "null", 0 ,0), 
 							id, 
 							Arrays.asList(new Category(getFreeCategoryID(), "buildingTestPOICategory")));
-		Building building = new Building(id, floors, -1, poi);
+		new Building(id, floors, -1, poi);
 	}
 	
 	/**
@@ -90,7 +95,7 @@ public class BuildingTest {
 							new Map(getFreeMapID(), "worldmap", box, "null", 0 ,0), 
 							id, 
 							Arrays.asList(new Category(getFreeCategoryID(), "buildingTestPOICategory")));
-		Building building = new Building(id, floors, 6, poi);
+		new Building(id, floors, 6, poi);
 	}
 	
 	/**
@@ -105,7 +110,7 @@ public class BuildingTest {
 							new Map(getFreeMapID(), "worldmap", box, "null", 0 ,0), 
 							id, 
 							Arrays.asList(new Category(getFreeCategoryID(), "buildingTestPOICategory")));
-		Building building = new Building(id, null, 1, poi);
+		new Building(id, null, 1, poi);
 	}
 	
 	/**
@@ -119,7 +124,7 @@ public class BuildingTest {
 											new Map(getFreeMapID(), "first floor", box, "null", 0 ,0),
 											new Map(getFreeMapID(), "second floor", box, "null", 0 ,0));
 		int id = getFreeBuildingID();
-		Building building = new Building(id, floors, 1, null);
+		new Building(id, floors, 1, null);
 	}
 	
 	/**
@@ -180,17 +185,9 @@ public class BuildingTest {
 	@Test
 	public void testGetAllBuildings() {
 		List<Building> buildings = Building.getAllBuildings();
-		assertTrue(buildingListContainsBuildingId(buildingID, buildings));
+		assertTrue(buildings.contains(building));
 	}
-	
-	private static boolean buildingListContainsBuildingId(int id, List<Building> buildings) {
-		for (Building b : buildings) {
-			if (b.getID() == id) {
-				return true;
-			}
-		}
-		return false;
-	}
+
 	
 	private static boolean mapListContainsMapName(String mapName, List<Map> maps) {
 		for (Map m : maps) {
