@@ -150,8 +150,12 @@ public class InputListenerImpl implements InputListener {
 		Route route = routing.calculateRoute(from, to);
 		if (route != null) {
 			logger.debug("Display route");
-			mapModel.setMarkerFrom(route.getStart());
-			mapModel.setMarkerTo(route.getEnd());
+			if (!inputWasSetByContextMenu(inputModel.getRouteFromField(), InputField.ROUTE_FROM)) {
+				mapModel.setMarkerFrom(route.getStart());
+			}
+			if (!inputWasSetByContextMenu(inputModel.getRouteToField(), InputField.ROUTE_TO)) {
+				mapModel.setMarkerTo(route.getEnd());
+			}
 			mapModel.setRoute(route);
 			mapModel.setMapLocator(new MapLocator (route.getBoundingBox()));
 			if (from.getMap().getID() != to.getMap().getID()
@@ -181,34 +185,54 @@ public class InputListenerImpl implements InputListener {
 	
 	//Tries to interpret the String 'searchTerm', which was typed into the InputField 'inputField',
 	//as coordinates and returns the corresponding MapPosition. 'searchTerm' mustn't be null.
-	//If 'searchTerm' can be interpreted as coordinates and the corresponding marker is set in the MapModel
-	//at the same position (not necessary on the same Map), the MapPosition of this marker will be returned.
+	//If the corresponding marker and thus the 'searchTerm' has been set by the context menu, 
+	//the MapPosition of this marker will be returned.
 	//If the conversion fails, null will be returned.
 	private MapPosition positionRepresentedBySearchTerm (String searchTerm, InputField inputField) {
 		WorldPosition coordinate = cm.stringToCoordinate(searchTerm);
 		if (coordinate == null) {
 			return null;
+		} else if (inputWasSetByContextMenu(searchTerm, inputField)) {
+			if (inputField.equals(InputField.ROUTE_FROM)) {
+				return mapModel.getMarkerFrom(); 
+			} else {
+				return mapModel.getMarkerTo();
+			} 
+		} else {
+			return new MapPosition(coordinate.getLatitude(), coordinate.getLongitude(), defaultModelValueClass.getDefaultMap());		
+		}
+	}
+	
+	//Determines, whether the String 'searchTerm', which was typed into the InputField 'inputField', 
+	//has been set by the context menu.
+	//This is the case if 'searchTerm' can be interpreted as coordinates and the corresponding marker 
+	//is set at the same position (not necessary on the same Map).
+	private boolean inputWasSetByContextMenu (String searchTerm, InputField inputField) {
+		WorldPosition coordinate = cm.stringToCoordinate(searchTerm);
+		if (coordinate == null) {
+			return false;
 		} else {
 			if (inputField.equals(InputField.ROUTE_FROM)) {
 				MapPosition markerFrom = mapModel.getMarkerFrom();
 				if (markerFrom != null && equivalent(coordinate, markerFrom)) {	
-					return markerFrom; 
+					return true; 
 				} else {
-					return new MapPosition(coordinate.getLatitude(), coordinate.getLongitude(), defaultModelValueClass.getDefaultMap());
+					return false;
 				}
 			} else {
 				MapPosition markerTo = mapModel.getMarkerTo();
 				if (markerTo != null && equivalent(coordinate, markerTo)) {		
-					return markerTo;
+					return true;
 				} else {
-					return new MapPosition(coordinate.getLatitude(), coordinate.getLongitude(), defaultModelValueClass.getDefaultMap());
+					return false;
 				}
-			}			
+			}
 		}
 	}
 	
 	//Returns true if the WorldPosition 'worldposition' and the MapPosition 'mapposition' are at the same 
-	//position, else false. 'worldposition' and 'mapposition' mustn't be null.
+	//position, else false. 
+	//'worldposition' and 'mapposition' mustn't be null.
 	private boolean equivalent(WorldPosition worldposition, MapPosition mapposition) {
 		double eps = 1e-6;
 		if (Math.abs(worldposition.getLatitude() - mapposition.getLatitude()) < eps 
