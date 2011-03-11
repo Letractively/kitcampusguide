@@ -54,11 +54,4 @@ public class POIDBTestFramework {
 		db.addPOI("testPOI1", "", pos, null, catList);
 		db.addPOI("testPOI2", "", pos, null, catList);
 	}
-
-	public static void main(String[] args) throws SecurityException, IllegalArgumentException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, SQLException {
-		constructPOIDB();
-		System.out.println(DefaultPOIDB.getInstance().getPOIByID("2").getName());
-		
-	}
-	
 }
