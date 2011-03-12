@@ -76,7 +76,7 @@ public final class Idgenerator {
 		String result;
 		do {
 			result = (freePOIID++).toString();
-		} while (takenPOIIds.contains(result));
+		} while ((takenPOIIds.contains(result) || (result == "1") || (result == "2")));
 		takenPOIIds.add(result);
 		return result;
 	}
