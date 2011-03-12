@@ -28,7 +28,7 @@ public class BuildingTest {
 	public static void setUpBeforeClass() throws Exception {
 		MapSection box = new MapSection(new WorldPosition(0, 0), new WorldPosition(2, 2));
 		List<Map> floors = Arrays.asList(	new Map(getFreeMapID(), "cellar", box, "null", 0 ,0),
-											new Map(getFreeMapID(), "groudfloor", box, "null", 0 ,0),
+											new Map(getFreeMapID(), "groundfloor", box, "null", 0 ,0),
 											new Map(getFreeMapID(), "first floor", box, "null", 0 ,0),
 											new Map(getFreeMapID(), "second floor", box, "null", 0 ,0));
 		buildingID = getFreeBuildingID();
