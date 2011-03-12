@@ -14,6 +14,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
+import edu.kit.cm.kitcampusguide.testframework.Idgenerator;
 
 /**
  * Utility class for functions of the POIDB which are used by several test classes.
@@ -33,9 +34,7 @@ public class POIDBTestFramework {
 		searcherClass = (Class<POIDBSearcher>) Class.forName("edu.kit.cm.kitcampusguide.datalayer.poidb.SimpleSearch");
 		Constructor<POIDBSearcher> con = searcherClass.getConstructor();
 		searcher = con.newInstance();
-		
 		String dbURL = "jdbc:sqlite:defaultpoidbtest.db";
-		
 		boolean create = true;
 		Class.forName("org.sqlite.JDBC"); //TODO change, inside POIDB.init
 		DefaultPOIDB.init(dbURL, searcher, create);
@@ -46,11 +45,10 @@ public class POIDBTestFramework {
 	 *Adds two POIs, only difference is their name.
 	 */
 	private static void addPOIs() {
-		Map map = new Map(1, "testMap", new MapSection(new WorldPosition(49.0179, 8.40232), new WorldPosition(49.0078, 8.42622)), "", 0, 1);
+		Map map = new Map(Idgenerator.getFreeMapID(), "testMap", new MapSection(new WorldPosition(49.0179, 8.40232), new WorldPosition(49.0078, 8.42622)), "", 0, 1);
 		DefaultPOIDB db = (DefaultPOIDB) DefaultPOIDB.getInstance();
 		MapPosition pos = new MapPosition(49.012743, 8.415631, map);
 		Collection<Category> catList= new ArrayList<Category>();
-		
 		db.addPOI("testPOI1", "", pos, null, catList);
 		db.addPOI("testPOI2", "", pos, null, catList);
 	}
