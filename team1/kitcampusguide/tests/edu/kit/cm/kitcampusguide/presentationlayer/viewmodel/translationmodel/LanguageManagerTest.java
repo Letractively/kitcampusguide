@@ -33,7 +33,11 @@ public class LanguageManagerTest {
 		allLanguages.add(new Language("testLanguage2", emptyHashmap));
 		allLanguages.add(new Language("testLanguage3", emptyHashmap));
 		allLanguages.add(new Language("testLanguage4", emptyHashmap));
-		allLanguages.add(new Language("defaultLanguage", emptyHashmap));
+		HashMap<String, String> defaultTranslation = new HashMap<String, String>();
+		defaultTranslation.put("testKey0", "testValue0");
+		defaultTranslation.put("testKey1", "testValue1");
+		defaultTranslation.put("testKey2", "testValue2");
+		allLanguages.add(new Language("defaultLanguage", defaultTranslation));
 		LanguageManager.initializeLanguageManager(allLanguages, "defaultLanguage");
 	}
 
