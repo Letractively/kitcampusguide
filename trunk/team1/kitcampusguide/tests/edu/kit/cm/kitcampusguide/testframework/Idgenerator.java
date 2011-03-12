@@ -15,8 +15,8 @@ import java.util.HashSet;
  */
 public final class Idgenerator {
 	
-	private static int freeMapID = 0;
-	private static int freeBuildingID = 0;
+	private static int freeMapID = 4;
+	private static int freeBuildingID = 2;
 	private static int freeCategoryID = 0;
 	private static Integer freePOIID = Integer.MIN_VALUE;
 	private static HashSet<Integer> takenMapIDs = new HashSet<Integer>();
@@ -76,7 +76,8 @@ public final class Idgenerator {
 		String result;
 		do {
 			result = (freePOIID++).toString();
-		} while ((takenPOIIds.contains(result) || (result == "1") || (result == "2")));
+		} while ((takenPOIIds.contains(result) || (result == "1") || (result == "2") 
+				|| (result == "3") || (result == "4")));
 		takenPOIIds.add(result);
 		return result;
 	}

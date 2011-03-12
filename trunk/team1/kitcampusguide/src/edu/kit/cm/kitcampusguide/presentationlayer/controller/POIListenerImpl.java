@@ -31,7 +31,7 @@ public class POIListenerImpl implements POIListener {
 	 */
 	@Override
 	public void changeToBuildingMap(int buildingID) {
-		logger.debug("changeToBuildingMap recieved, buildingID: " + buildingID);
+		logger.debug("changeToBuildingMap received, buildingID: " + buildingID);
 		Building building = Building.getBuildingByID(buildingID);
 		if (building != null) {
 			mapModel.setBuilding(building);
@@ -47,15 +47,31 @@ public class POIListenerImpl implements POIListener {
 	 */
 	@Override
 	public void showPOIsInBuilding(int buildingID) {
-		logger.debug("showPOIsInBuilding recieved, buildingID: " + buildingID);
+		logger.debug("showPOIsInBuilding received, buildingID: " + buildingID);
 		Building building = Building.getBuildingByID(buildingID);
 		mapModel.createBuildingPOIList(
 				building.getBuildingPOI(),
 				// TODO: Add category filter, maybe move this call into ControllerUtil
-				 new ArrayList<POI>(source.getPOIsByBuilding(building,
-						 null)));
-	}
+				 new ArrayList<POI>(source.getPOIsByBuilding(building, null)));
+	}	
 
+	/**
+	 * This implementation will simply highlight the POI defined by the given id,
+	 * change the map to the map where the POI is placed on and center the view
+	 * on the given POI.
+	 */
+	@Override
+	public void listEntryClicked(String poiID) {
+		logger.debug("listEntryClicked received, poiID: " + poiID);
+		POI poi = source.getPOIByID(poiID);
+		if (poi != null) {
+			mapModel.setBuilding(mapModel.getBuildingPOI().getBuilding());
+			ControllerUtil.setMap(mapModel, categoryModel, poi.getMap());
+			mapModel.setHighlightedPOI(poi);
+			mapModel.setMapLocator(new MapLocator(poi.getPosition()));
+		}
+	}
+	
 	/**
 	 * Sets the new map model for this instance. This method is used by the jsf
 	 * managed property injection mechanism.
@@ -69,29 +85,12 @@ public class POIListenerImpl implements POIListener {
 
 	/**
 	 * Sets the new category model for this instance. This method is used by the
-	 * jsf managed property injeciton mechanism.
+	 * jsf managed property injection mechanism.
 	 * 
 	 * @param categoryModel
 	 *            the new category model
 	 */
 	public void setCategoryModel(CategoryModel categoryModel) {
 		this.categoryModel = categoryModel;
-	}
-
-	/**
-	 * This implementation will simply highlight the POI defined by the give id,
-	 * change the map to the map where the POI is placed on and center the view
-	 * on the given POI.
-	 */
-	@Override
-	public void listEntryClicked(String poiID) {
-		logger.debug("listEntryClicked recieved, poiID: " + poiID);
-		POI poi = source.getPOIByID(poiID);
-		if (poi != null) {
-			mapModel.setBuilding(mapModel.getBuildingPOI().getBuilding());
-			ControllerUtil.setMap(mapModel, categoryModel, poi.getMap());
-			mapModel.setHighlightedPOI(poi);
-			mapModel.setMapLocator(new MapLocator(poi.getPosition()));
-		}
 	}
 }

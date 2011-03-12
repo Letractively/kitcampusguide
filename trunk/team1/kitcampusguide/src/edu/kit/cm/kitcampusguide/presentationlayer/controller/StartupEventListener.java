@@ -11,7 +11,7 @@ import javax.faces.event.SystemEventListener;
  * @author Fred
  *
  */
-public class StartupEventListener implements SystemEventListener{
+public class StartupEventListener implements SystemEventListener {
 	 
 	/**
 	 * Processes a SystemEvent by checking if it is a post construct event and then calling the initializer.
@@ -33,4 +33,4 @@ public class StartupEventListener implements SystemEventListener{
 		return (source instanceof Application);
 	}
 	 
-	}
+}
