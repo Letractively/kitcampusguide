@@ -64,9 +64,10 @@ public class CoordinateManagerImpl implements CoordinateManager {
 	 * @return Returns an instance of the class {@link WorldPosition} with the geographical
 	 * 		coordinates represented by <code>position</code> or <code>null</code>,
 	 * 		if <code>position</code> cannot be interpreted as geographical coordinates.
+	 * @throws NullPointerException if <code>position</code> is null.	  
 	 */
 	@Override
-	public WorldPosition stringToCoordinate(String position) {
+	public WorldPosition stringToCoordinate(String position) throws NullPointerException {
 		String[] coordinates = position.split("[,]");
 		if (coordinates.length != 2) {
 			return null;
@@ -98,7 +99,7 @@ public class CoordinateManagerImpl implements CoordinateManager {
 	/**
 	 * Rounds a given floating-point number according to the stated <code>numberPattern</code>
 	 * and returns it.
-	 * @param d Double that shall be rounded.
+	 * @param d Double that shall be rounded. Not null.
 	 * @return Rounds the given double according to the stated <code>numberPattern</code>
 	 * 		and returns it.
 	 */
@@ -114,9 +115,10 @@ public class CoordinateManagerImpl implements CoordinateManager {
 	 * 		WorldPosition <code>position</code>. 
 	 * 		The first number in this <code>String</code> will be the geographical latitude, the second
 	 * 		the geographical longitude.
+	 * @throws NullPointerException if <code>position</code> is null
 	 */
 	@Override
-	public String coordinateToString(WorldPosition position) {
+	public String coordinateToString(WorldPosition position) throws NullPointerException {
 		if (formatter instanceof DecimalFormat) {
 		     ((DecimalFormat) formatter).applyPattern(numberPattern);
 		}
