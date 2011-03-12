@@ -34,7 +34,9 @@ public class MapListenerImplTest {
 	private static MapListenerImpl mapListener;
 	private static MapModel mapModel;
 	private static InputModel inputModel;
+	private static String testPOIID = "1";
 	private static POI testPOI;
+	private static POI testPOI2;
 	private static MapLocator testMapLocator;
 	private static MapPosition testMapPosition;
 	
@@ -42,22 +44,18 @@ public class MapListenerImplTest {
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	public static void setUpBeforeClass() throws Exception {		
+		POIDBTestFramework.constructPOIDB();		
+		testPOI = POISourceImpl.getInstance().getPOIByID(testPOIID);
+		testPOI2 = POISourceImpl.getInstance().getPOIByID("2");
+		testMapLocator = new MapLocator(new WorldPosition(0.0, 0.0));
+		testMapPosition = new MapPosition(0.0, 0.0, Map.getMapByID(1));
+		
 		mapListener = new MapListenerImpl();
 		mapModel = new MapModel();
 		inputModel = new InputModel();
 		mapListener.setMapModel(mapModel);
 		mapListener.setInputModel(inputModel);	
-		POIDBTestFramework.constructPOIDB();
-		
-		WorldPosition testPosition = new WorldPosition(0.0, 0.0);
-		MapSection testBoundingBox = new MapSection(testPosition, testPosition);
-		Map testMap = new Map(Idgenerator.getFreeMapID(), "testMap", testBoundingBox, "tilesURL", 0, 0);
-		Category testCategory = new Category(Idgenerator.getFreeCategoryID(),"testCategory");
-		Collection<Category> testCategories = Arrays.asList(testCategory);
-		testPOI = new POI(Idgenerator.getFreePOIID(), "testPOI", null, testPosition, testMap, null, testCategories);
-		testMapLocator = new MapLocator(testPosition);
-		testMapPosition = new MapPosition(0.0, 0.0, testMap);
 	}
 
 	/**
@@ -74,21 +72,19 @@ public class MapListenerImplTest {
 	 */
 	@Test
 	public void testClickOnPOI() {
-		mapListener.clickOnPOI("1");
-		assertEquals("1", mapModel.getHighlightedPOI().getID());
-		assertEquals(POISourceImpl.getInstance().getPOIByID("1").getPosition(), mapModel.getMapLocator().getCenter());
+		mapListener.clickOnPOI(testPOIID);
+		assertEquals(testPOI.getID(), mapModel.getHighlightedPOI().getID());
+		assertEquals(testPOI.getPosition(), mapModel.getMapLocator().getCenter());
 		
-		mapModel.setHighlightedPOI(testPOI);
+		mapModel.setHighlightedPOI(testPOI2);
 		mapModel.setMapLocator(testMapLocator);
-		String formerID = mapModel.getHighlightedPOI().getID();
-		MapLocator formerMapLocator = mapModel.getMapLocator();
 		mapListener.clickOnPOI("ajkfhkhgleiu");
-		assertEquals(formerID, mapModel.getHighlightedPOI().getID());		
-		assertEquals(formerMapLocator, mapModel.getMapLocator());
+		assertEquals(testPOI2.getID(), mapModel.getHighlightedPOI().getID());		
+		assertEquals(testMapLocator, mapModel.getMapLocator());
 		
 		mapListener.clickOnPOI(null);
 		assertNull(mapModel.getHighlightedPOI());
-		assertEquals(formerMapLocator, mapModel.getMapLocator());
+		assertEquals(testMapLocator, mapModel.getMapLocator());
 	}
 
 	/**

@@ -2,7 +2,7 @@ package edu.kit.cm.kitcampusguide.presentationlayer.controller;
 
 
 /**
- * Classes that implement this interfaces are used to react to events that
+ * Classes that implement this interface are used to react to events that
  * originate from POIs by changing the model accordingly and updating the view
  * if necessary.
  * 
@@ -15,16 +15,16 @@ public interface POIListener {
 	 * Is called when the user wants to change into a building.
 	 * 
 	 * @param buildingID
-	 *            the unique ID of the building to which should be switched
+	 *            the unique ID of the building to which shall be switched
 	 */
 	public void changeToBuildingMap(int buildingID);
 
 	/**
-	 * Is called when the user selects an entry of a POI list of the currently
+	 * Is called when the user selects an entry of the POI list of the currently
 	 * highlighted building POI.
 	 * 
 	 * @param poiID
-	 *            the selected poiID of the clicked POI.
+	 *            the selected poiID of the clicked POI in the POI list.
 	 * @throws NullPointerException
 	 *             if poiID is <code>null</code>
 	 */
