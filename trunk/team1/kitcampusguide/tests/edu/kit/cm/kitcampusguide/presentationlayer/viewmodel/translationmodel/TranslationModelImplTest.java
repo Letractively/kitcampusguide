@@ -25,11 +25,13 @@ public class TranslationModelImplTest {
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	public static void setUpBeforeClass() throws Exception {	
 		List<Language> allLanguages = new ArrayList<Language>();
 		allLanguages.add(new Language("testLanguage0", new HashMap<String, String>()));
 		allLanguages.add(new Language("testLanguage1", new HashMap<String, String>()));
 		allLanguages.add(new Language("testLanguage2", new HashMap<String, String>()));
+		allLanguages.add(new Language("testLanguage3", new HashMap<String, String>()));
+		allLanguages.add(new Language("testLanguage4", new HashMap<String, String>()));
 		HashMap<String, String> defaultTranslation = new HashMap<String, String>();
 		defaultTranslation.put("testKey0", "testValue0");
 		defaultTranslation.put("testKey1", "testValue1");
@@ -56,6 +58,7 @@ public class TranslationModelImplTest {
 	 */
 	@Test
 	public void testTr() {
+		assertEquals("routeFrom", model.tr("routeFrom")); //To make sure the server is not running.
 		assertEquals("testValue0", model.tr("testKey0"));
 		assertEquals("testValue1", model.tr("testKey1"));
 		assertEquals("testValue2", model.tr("testKey2"));
@@ -95,10 +98,12 @@ public class TranslationModelImplTest {
 	@Test
 	public void testGetLanguages() {
 		List<String> languages = model.getLanguages();
-		assertEquals(languages.size(), 4);
+		assertEquals(6, languages.size());
 		assertTrue(languages.contains("testLanguage0"));
 		assertTrue(languages.contains("testLanguage1"));
 		assertTrue(languages.contains("testLanguage2"));
+		assertTrue(languages.contains("testLanguage3"));
+		assertTrue(languages.contains("testLanguage4"));
 		assertTrue(languages.contains("defaultLanguage"));
 	}
 
