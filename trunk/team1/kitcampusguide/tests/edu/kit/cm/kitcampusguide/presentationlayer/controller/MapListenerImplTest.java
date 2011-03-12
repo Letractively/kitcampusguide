@@ -94,26 +94,32 @@ public class MapListenerImplTest {
 	/**
 	 * Test method for {@link edu.kit.cm.kitcampusguide.presentationlayer.controller.MapListenerImpl#setRouteFromByContextMenu(edu.kit.cm.kitcampusguide.standardtypes.MapPosition)}.
 	 */
-	@Test (expected=NullPointerException.class)
+	@Test
 	public void testSetRouteFromByContextMenu() {
 		mapListener.setRouteFromByContextMenu(testMapPosition);
 		String expectedInputFieldContent = CoordinateManagerImpl.getInstance().coordinateToString(testMapPosition);
 		assertEquals(testMapPosition, mapModel.getMarkerFrom());
-		assertEquals(expectedInputFieldContent, inputModel.getRouteFromField());	
+		assertEquals(expectedInputFieldContent, inputModel.getRouteFromField());					
+	}
 	
-		mapListener.setRouteFromByContextMenu(null);		
+	@Test (expected=NullPointerException.class)
+	public void testSetRouteFromByContextMenu_WithNullParameter() {
+		mapListener.setRouteFromByContextMenu(null);
 	}
 
 	/**
 	 * Test method for {@link edu.kit.cm.kitcampusguide.presentationlayer.controller.MapListenerImpl#setRouteToByContextMenu(edu.kit.cm.kitcampusguide.standardtypes.MapPosition)}.
 	 */
-	@Test (expected=NullPointerException.class)
+	@Test
 	public void testSetRouteToByContextMenu() {
 		mapListener.setRouteToByContextMenu(testMapPosition);
 		String expectedInputFieldContent = CoordinateManagerImpl.getInstance().coordinateToString(testMapPosition);
 		assertEquals(testMapPosition, mapModel.getMarkerTo());
 		assertEquals(expectedInputFieldContent, inputModel.getRouteToField());	
+	}
 	
+	@Test (expected=NullPointerException.class)
+	public void testSetRouteToByContextMenu_WithNullParameter() {
 		mapListener.setRouteToByContextMenu(null);	
 	}
 
