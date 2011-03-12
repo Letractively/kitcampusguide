@@ -20,10 +20,9 @@ import edu.kit.cm.kitcampusguide.standardtypes.POI;
 public class MapListenerImpl implements MapListener {
 
 	/**
-	 * The coorinate manager used by this implementation.
+	 * The coordinate manager used by this implementation.
 	 */
-	private static final CoordinateManager coordinateManager = CoordinateManagerImpl
-			.getInstance();
+	private static final CoordinateManager coordinateManager = CoordinateManagerImpl.getInstance();
 	
 	/**
 	 * The map model which is changed by this instance. This is a managed
@@ -32,7 +31,7 @@ public class MapListenerImpl implements MapListener {
 	private MapModel mapModel;
 	
 	/**
-	 * The input which is changed by this instance. This is a managed property,
+	 * The input model which is changed by this instance. This is a managed property,
 	 * see face-config.xml.
 	 */
 	private InputModel inputModel;
@@ -48,27 +47,27 @@ public class MapListenerImpl implements MapListener {
 	 */
 	@Override
 	public void mapLocatorChanged(MapLocator mapLocator) {
-		logger.debug("mapLocatorChanged recieved");
+		logger.debug("mapLocatorChanged received");
 	}
 
 	/**
 	 * The POI referenced by the given id will be retrieved from the database
-	 * and higlighted.
+	 * and will be highlighted.
 	 */
 	@Override
 	public void clickOnPOI(String poiID) {
 		if (poiID != null) {
+			//TODO: performanter, wenn die POISource-Instanz als Attribut gehalten und nicht
+				//jedes Mal abgefragt wird?
 			POI poiByID = POISourceImpl.getInstance().getPOIByID(poiID);
 			if (poiByID != null) {
-				logger.debug("clickOnPOI recieved, POI with ID " + poiID
+				logger.debug("clickOnPOI received, POI with ID " + poiID
 						+ " is highlighted");
-				mapModel.setMapLocator(
-						new MapLocator(poiByID.getPosition()));
+				mapModel.setMapLocator(new MapLocator(poiByID.getPosition()));
 				mapModel.setHighlightedPOI(poiByID);
 			}
-		}
-		else {
-			logger.debug("clickOnPOI recieved, highlighted POI is deleted");
+		} else {
+			logger.debug("clickOnPOI received, highlighted POI is deleted");
 			mapModel.setHighlightedPOI(null);
 		}
 	}
@@ -79,10 +78,9 @@ public class MapListenerImpl implements MapListener {
 	 */
 	@Override
 	public void setRouteFromByContextMenu(MapPosition position) {
-		logger.debug("setRouteFromByContextMenu recieved");
+		logger.debug("setRouteFromByContextMenu received");
 		mapModel.setMarkerFrom(position);
-		inputModel.setRouteFromField(coordinateManager
-				.coordinateToString(position));
+		inputModel.setRouteFromField(coordinateManager.coordinateToString(position));
 	}
 
 	/**
@@ -91,7 +89,7 @@ public class MapListenerImpl implements MapListener {
 	 */
 	@Override
 	public void setRouteToByContextMenu(MapPosition position) {
-		logger.debug("setRouteToByContextMenu recieved");
+		logger.debug("setRouteToByContextMenu received");
 		mapModel.setMarkerTo(position);
 		inputModel.setRouteToField(coordinateManager.coordinateToString(position));
 	}

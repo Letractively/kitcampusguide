@@ -143,8 +143,7 @@ public class InputListenerImpl implements InputListener {
 		mapModel.setMarkerFrom(null);
 		mapModel.setMarkerTo(null);
 		mapModel.setHighlightedPOI(poi);
-		mapModel.setMapLocator(new MapLocator (new MapPosition(poi.getPosition().getLatitude(),
-				poi.getPosition().getLongitude(), poi.getMap())));
+		mapModel.setMapLocator(new MapLocator (poi.getPosition()));
 		ControllerUtil.setMap(mapModel, categoryModel, poi.getMap());
 		if (!poi.getMap().equals(defaultModelValueClass.getDefaultMap())) {
 			mapModel.setBuilding(poi.getMap().getBuilding());
