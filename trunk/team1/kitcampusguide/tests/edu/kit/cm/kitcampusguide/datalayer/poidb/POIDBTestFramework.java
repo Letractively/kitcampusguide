@@ -1,5 +1,7 @@
 package edu.kit.cm.kitcampusguide.datalayer.poidb;
 
+import static edu.kit.cm.kitcampusguide.testframework.Idgenerator.requestMapID;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
@@ -50,7 +52,13 @@ public class POIDBTestFramework {
 	 */
 	private static void addPOIs() {
 		//Map with ID 1
-		Map testMap = new Map(1, "testMap", new MapSection(new WorldPosition(49.0179, 8.40232), new WorldPosition(49.0078, 8.42622)), "", 0, 1);
+		Map testMap;
+		MapSection boundingBox = new MapSection(new WorldPosition(49.0179, 8.40232), new WorldPosition(49.0078, 8.42622));
+		if (requestMapID(1)) {
+			 testMap = new Map(1, "testMap", boundingBox , "null", 0, 0);
+		} else {
+			testMap = Map.getMapByID(1);
+		}
 		DefaultPOIDB db = (DefaultPOIDB) DefaultPOIDB.getInstance();
 		MapPosition pos = new MapPosition(49.012743, 8.415631, testMap);
 		Collection<Category> catList= new ArrayList<Category>();
@@ -58,9 +66,19 @@ public class POIDBTestFramework {
 		db.addPOI("testPOI2", "", pos, null, catList); //new POI with ID 2
 	
 		//Floor with ID 2
-		Map floor1 = new Map(2, "floor1", new MapSection(new WorldPosition(49.0179, 8.40232), new WorldPosition(49.0078, 8.42622)), "", 0, 1);
+		Map floor1;
+		if (requestMapID(2)) {
+			 floor1 = new Map(1, "floor1", boundingBox , "null", 0, 0);
+		} else {
+			floor1 = Map.getMapByID(2);
+		}
 		//Floor with ID 3
-		Map floor2 = new Map(3, "floor2", new MapSection(new WorldPosition(49.0179, 8.40232), new WorldPosition(49.0078, 8.42622)), "", 0, 1);
+		Map floor2;
+		if (requestMapID(1)) {
+			 floor2 = new Map(3, "floor1", boundingBox , "null", 0, 0);
+		} else {
+			floor2 = Map.getMapByID(1);
+		}
 		List<Map> testFloors = Arrays.asList(floor1, floor2);
 		 //new Building with ID 1 and "testPOI1" as buildingPOI
 		Building testBuilding = new Building(1, testFloors, 0, POISourceImpl.getInstance().getPOIByID("1"));
