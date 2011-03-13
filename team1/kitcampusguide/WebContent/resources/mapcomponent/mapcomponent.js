@@ -161,7 +161,7 @@ KITCampusMap.prototype.applyChanges = function() {
 	
 	if (this.changed['map']) {
 		this.model.map = mapModel.map;
-		this.setMapLayer();
+		this.setMap();
 	}
 	if (this.changed['highlightedPOI']) {
 		this.model.highlightedPOI = mapModel.highlightedPOI;
@@ -643,7 +643,7 @@ KITCampusMap.prototype.setHighlightedPOI = function() {
  * by its tiles URL. Navigation will be restricted to the current map's bounding
  * box. The current map must be stored in this.model.map.
  */
-KITCampusMap.prototype.setMapLayer = function() {
+KITCampusMap.prototype.setMap = function() {
 	this.disableMapEvents();
 	if (this.olData.mapLayer) {
 		this.olData.map.removeLayer(this.olData.mapLayer);
