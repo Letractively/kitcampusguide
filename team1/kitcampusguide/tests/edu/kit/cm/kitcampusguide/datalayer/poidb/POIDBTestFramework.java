@@ -29,29 +29,32 @@ import edu.kit.cm.kitcampusguide.testframework.Idgenerator;
  */
 public class POIDBTestFramework {
 
+	private static boolean alreadyConstructed = false;
+	
 	/**
 	 * Initializes a POIDB + Searcher, Adds the POIs defined in addPOIs.
 	 * 
 	 * @throws a whole bunch of exceptions.
 	 */
 	public static void constructPOIDB() throws ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException, SQLException {
-		POIDBSearcher searcher;
-		Class<POIDBSearcher> searcherClass;
-		searcherClass = (Class<POIDBSearcher>) Class.forName("edu.kit.cm.kitcampusguide.datalayer.poidb.SimpleSearch");
-		Constructor<POIDBSearcher> con = searcherClass.getConstructor();
-		searcher = con.newInstance();
-		String dbURL = "jdbc:sqlite:defaultpoidbtest.db";
-		boolean create = true;
-		Class.forName("org.sqlite.JDBC"); //TODO change, inside POIDB.init
-		DefaultPOIDB.init(dbURL, searcher, create);
-		addPOIs();
+		if (!alreadyConstructed) {
+			POIDBSearcher searcher;
+			Class<POIDBSearcher> searcherClass;
+			searcherClass = (Class<POIDBSearcher>) Class.forName("edu.kit.cm.kitcampusguide.datalayer.poidb.SimpleSearch");
+			Constructor<POIDBSearcher> con = searcherClass.getConstructor();
+			searcher = con.newInstance();
+			String dbURL = "jdbc:sqlite:defaultpoidbtest.db";
+			boolean create = true;
+			Class.forName("org.sqlite.JDBC"); //TODO change, inside POIDB.init
+			DefaultPOIDB.init(dbURL, searcher, create);
+			addPOIs();
+		}
 	}
 	
 	/**
 	 *
 	 */
 	private static void addPOIs() {
-		//Map with ID 1
 		Map testMap;
 		MapSection boundingBox = new MapSection(new WorldPosition(49.0179, 8.40232), new WorldPosition(49.0078, 8.42622));
 		if (requestMapID(1)) {
