@@ -48,6 +48,7 @@ public class POIDBTestFramework {
 			Class.forName("org.sqlite.JDBC"); //TODO change, inside POIDB.init
 			DefaultPOIDB.init(dbURL, searcher, create);
 			addPOIs();
+			alreadyConstructed = true;
 		}
 	}
 	
