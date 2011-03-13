@@ -4,9 +4,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import edu.kit.cm.kitcampusguide.ConstantData;
+import edu.kit.cm.kitcampusguide.model.Graph;
 
 /**
  * This class tests the ManagedBean {@see ConstantData} of the KITCampusGuide. 
+ * The tests assume that the data loaders of package data are working.
  * 
  * @author Kateryna Yurchenko
  */
@@ -28,6 +30,8 @@ public class ConstantDataTest {
 
 	@Test
 	public void testGetGraph() {
-		Assert.assertNotNull(ConstantData.getGraph());
+		Graph g = ConstantData.getGraph();
+		Assert.assertNotNull(g);
+		Assert.assertSame(g, ConstantData.getGraph());
 	}
 }
