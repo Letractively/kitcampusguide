@@ -71,16 +71,16 @@ public class POIDBTestFramework {
 		//Floor with ID 2
 		Map floor1;
 		if (requestMapID(2)) {
-			 floor1 = new Map(1, "floor1", boundingBox , "null", 0, 0);
+			 floor1 = new Map(2, "floor1", boundingBox , "null", 0, 0);
 		} else {
 			floor1 = Map.getMapByID(2);
 		}
 		//Floor with ID 3
 		Map floor2;
-		if (requestMapID(1)) {
+		if (requestMapID(3)) {
 			 floor2 = new Map(3, "floor1", boundingBox , "null", 0, 0);
 		} else {
-			floor2 = Map.getMapByID(1);
+			floor2 = Map.getMapByID(3);
 		}
 		List<Map> testFloors = Arrays.asList(floor1, floor2);
 		 //new Building with ID 1 and "testPOI1" as buildingPOI
