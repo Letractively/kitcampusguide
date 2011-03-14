@@ -62,12 +62,12 @@ public class LanguageManagerTest {
 	@Test
 	public void testGetLanguageByString() {
 		LanguageManager manager = LanguageManager.getInstance();
-		assertEquals(allLanguages.get(0), manager.getLanguageByString("testLanguage0"));
-		assertEquals(allLanguages.get(1), manager.getLanguageByString("testLanguage1"));
-		assertEquals(allLanguages.get(2), manager.getLanguageByString("testLanguage2"));
-		assertEquals(allLanguages.get(3), manager.getLanguageByString("testLanguage3"));
-		assertEquals(allLanguages.get(4), manager.getLanguageByString("testLanguage4"));
-		assertEquals(allLanguages.get(5), manager.getLanguageByString("defaultLanguage"));
+		assertEquals(allLanguages.get(0).getName(), manager.getLanguageByString("testLanguage0").getName());
+		assertEquals(allLanguages.get(1).getName(), manager.getLanguageByString("testLanguage1").getName());
+		assertEquals(allLanguages.get(2).getName(), manager.getLanguageByString("testLanguage2").getName());
+		assertEquals(allLanguages.get(3).getName(), manager.getLanguageByString("testLanguage3").getName());
+		assertEquals(allLanguages.get(4).getName(), manager.getLanguageByString("testLanguage4").getName());
+		assertEquals(allLanguages.get(5).getName(), manager.getLanguageByString("defaultLanguage").getName());
 	}
 	
 	/**
