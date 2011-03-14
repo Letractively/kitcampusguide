@@ -14,7 +14,7 @@ import edu.kit.cm.kitcampusguide.presentationlayer.controller.POIListener;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 
 /**
- * This class is directly informed about any event happening on the map.#
+ * This class is directly informed about any event happening on the map.
  * @see MapListener
  * @see POIListener
  * 
@@ -66,7 +66,6 @@ public class MapEventsListener implements ValueChangeListener {
 				}
 			}
 		}
-
 	}
 
 	private POIListener getPOIListener() {
