@@ -13,7 +13,7 @@ function setClientID(id) {
 	clientID = id;
 }
 
-function drawmap() {
+function createMap() {
     OpenLayers.Lang.setCode('de');
     // Position und Zoomstufe der Karte
     var lon = 8.41356;
@@ -217,14 +217,14 @@ function addMarker(layer, lon, lat, popupContentHTML, poi) {
 
     var ll = createLonLat(lon, lat);
     var data = {};
-	var feature = new OpenLayers.Feature(layer, ll, data);
+	var feature = new OpenLayers.Feature(null, ll, data);
     feature.closeBox = true;
     feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {
-		'autoSize': true, 'maxSize': new OpenLayers.Size(320, 200), 'panMapIfOutOfView': true, 
-		'minSize': new OpenLayers.Size(200, 120), 'opacity': 0.7, 'border': "1px solid #009682"
+		'autoSize': true, 'maxSize': new OpenLayers.Size(320, 400), 'panMapIfOutOfView': true, 
+		'minSize': new OpenLayers.Size(300, 120),   'min-width': "300px"
     });
     feature.data.popupContentHTML = popupContentHTML;
-    feature.data.overflow = "hidden";
+    //feature.data.overflow = "hidden";
      
     var marker = feature.createMarker();
     all_poi[poi.name] = feature;

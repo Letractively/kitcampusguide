@@ -1,116 +1,128 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
- 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-  	xmlns:cc="http://java.sun.com/jsf/composite"
-  	xmlns:f="http://java.sun.com/jsf/core"
-  	xmlns:o="http://openfaces.org/">
-<head><title>campusguide</title></head><body>
-<cc:interface>
-	<cc:attribute name="model" required="true" />
-</cc:interface>
-<cc:implementation>
-	
- 	<h:outputScript target="head" library="javax.faces" name="jsf.js" />
- 	<h:outputStylesheet taget="head" library="campusguide" name="campusguide.css"/>
- 	<div id="headline">
-		<h:form id="search">
-		<h:outputText id="current-poi" value="#{cc.attrs.model.currentPOI}" class="hidden">
-				<f:converter converterId="poiConverter" />
-		</h:outputText>
-		<o:suggestionField id="search-field" value="#{cc.attrs.model.hlm.search}" 
-			promptText="#{msgs.search_field}" valueChangeListener="#{cc.attrs.model.searchChanged}"
-			size="50" autoComplete="true" styleClass="search-field"
-       	 	suggestionDelay="200" suggestionMinChars="2"
-        	suggestionMode="substring"
-        	listStyle="z-index:9999;">
-			<o:dropDownItems value="#{constantData.allPOIName}"/>
- 			<f:ajax render="current-poi" execute="search-field" event="valueChange"/>
-		</o:suggestionField>
-		<h:commandButton id="search-button" value="#{msgs.search_button}"
-			onclick="showPOI();" class="green-button"> 
-			<f:ajax render="@this"/>
-		</h:commandButton>
-		</h:form>
-		<div id="headline-corner"></div>
-	</div>
-		
-	<h:form id="map-form" class="hidden">
-		<h:outputText id="all-poi" value="#{constantData.categories}" class="hidden">
-			<f:converter converterId="poiCategoryListConverter" />
-		</h:outputText>
-	</h:form>			
-	<script type="text/javascript" src="resources/openlayers/OpenLayers.js" />
-	<div id="map-corner"></div>
-	<div id="map" style="width: 558px;"></div> 
-	<div id="map-popup" class="map-popup"><div class="map-popup-pane">
-		<div class="poi-name"></div>
-		<div class="poi-description"></div>
-		<div class="poi-menu"><form>
-			<input type="hidden" name="poiName" />
-			<input type="button" value="#{msgs.route_from_here}" class="green-button" onclick="setRouteFrom(this.form.poiName.value)" />
-			<input type="button" value="#{msgs.route_to_here}" class="green-button" onclick="setRouteTo(this.form.poiName.value)" />
-		</form></div></div>
-	</div>
-	<script type="text/javascript" src="resources/campusguide/util.js" />
-	<script type="text/javascript" src="resources/campusguide/campusguide.js" />
-	<script type="text/javascript">
-		setClientID('#{cc.clientId}');
-		drawmap();
-		setupPopups();
-	</script>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:cc="http://java.sun.com/jsf/composite" xmlns:f="http://java.sun.com/jsf/core" xmlns:o="http://openfaces.org/">
 
-	<div id="sidebar-pane" class="sidebar"><div id="sidebar" class="sidebar" style="width: 199px; left: -1px;">
-		<div id="hide-sidebar" onclick="hideSidebar()"></div>
-		<h:form id="route">
-			<h:outputText id="current-route" value="#{cc.attrs.model.currentRoute}" class="hidden">
-				<f:converter converterId="routeConverter" />
-			</h:outputText>
-			<o:suggestionField id="from-field" promptText="#{msgs.route_from}" 
-				valueChangeListener="#{cc.attrs.model.fromChanged}" autoComplete="true"
-       			suggestionDelay="200" suggestionMinChars="1" suggestionMode="substring"
-        		styleClass="route-field">
-				<o:dropDownItems value="#{constantData.allPOIName}" />
- 				<f:ajax render="current-route" execute="from-field" event="valueChange"/>
-			</o:suggestionField>
-			<br />
-			<o:suggestionField id="to-field" promptText="#{msgs.route_to}" 
-				valueChangeListener="#{cc.attrs.model.toChanged}"
-				autoComplete="true" suggestionDelay="200"
-        		suggestionMinChars="2" suggestionMode="substring"
-       			 styleClass="route-field">
-				<o:dropDownItems value="#{constantData.allPOIName}" />
- 				<f:ajax render="current-route" execute="to-field" event="valueChange"/>
-			</o:suggestionField>
-			<h:commandButton id="route" value="#{msgs.route_button}" onclick="route();" class="green-button">
-				<f:ajax render="to-field from-field" execute="from-field to-field"/>
-			</h:commandButton>
-			<h:commandButton id="hide-route" value="#{msgs.route_hide}" onclick="hideRoute();" action="#{cc.attrs.model.removeRoute}" class="green-button">
-				<f:ajax render="@none" execute="from-field to-field" />
-			</h:commandButton>
-		</h:form>
-		<script type="text/javascript" src="resources/campusguide/sidebar.js" />
-		<h:panelGroup id="sidebar-suggestions" layout="block">
-			<h:outputText id="suggestion-headline" value="#{msgs.suggestions}" 
-				rendered="#{cc.attrs.hlm.suggestions} != null" />
-			<br />
-			<o:forEach items="#{cc.attrs.hlm.suggestions}" var="sug" varStatus="status">
-					<h:outputText value="#{sug.name}" /> <br />
-			</o:forEach>	
-		</h:panelGroup>
-		<div id="poi-pane">
-			<o:foldingPanel id="poi-filter" caption="#{msgs.poi_filter}" expanded="true"
-				foldingDirection="up" contentStyle="line-height: 2; vertical-align: bottom;" >
-				<o:forEach items="#{constantData.categoriesName}" var="category" varStatus="status">
-					<o:selectBooleanCheckbox value="true" onchange="showMarkers(this.value, '#{category}')"/>
-					<h:outputText value="#{category}" /> <br />
-				</o:forEach>				
-			</o:foldingPanel>
-		</div>
-	</div></div>
-	<div id = "sidebar-border" class="sidebar"></div>
-	<div id="show-sidebar" onclick="showSidebar()" style="visibility: hidden;"></div>
+    <head>
+        <title>KIT - CampusGuide</title>
+    </head>
 
-</cc:implementation>
-</body></html>
+    <body>
+        <cc:interface>
+            <cc:attribute name="model" required="true" />
+        </cc:interface>
+
+        <cc:implementation>
+             <h:outputScript target="head" library="javax.faces" name="jsf.js" />
+             <h:outputStylesheet taget="head" library="campusguide" name="campusguide.css"/>
+             <div id="headline">
+
+                <!-- load scripts required for the campusguide -->
+                <script type="text/javascript" src="resources/openlayers/OpenLayers.js" />
+                <script type="text/javascript" src="resources/campusguide/sidebar.js" />
+                <script type="text/javascript" src="resources/campusguide/map.js" />
+
+                <h:form id="search">
+                <h:outputText id="current-poi" value="#{cc.attrs.model.currentPOI}" class="hidden">
+                    <f:converter converterId="poiConverter" />
+                </h:outputText>
+                <o:suggestionField id="search-field" value="#{cc.attrs.model.hlm.search}"
+                    promptText="#{msgs.search_field}" valueChangeListener="#{cc.attrs.model.searchChanged}"
+                    size="50" autoComplete="true" styleClass="search-field"
+                    suggestionDelay="200" suggestionMinChars="2"
+                    suggestionMode="substring"
+                    listStyle="z-index:9999;">
+                    <o:dropDownItems value="#{constantData.allPOIName}"/>
+                     <f:ajax render="current-poi" execute="search-field" event="valueChange"/>
+                </o:suggestionField>
+                <h:commandButton id="search-button" value="#{msgs.search_button}"
+                    onclick="showPOI();" class="green-button"> 
+                    <f:ajax render="@this"/>
+                </h:commandButton>
+                </h:form>
+                <div id="headline-corner"></div>
+            </div>
+
+            <h:form id="map-form" class="hidden">
+                <h:outputText id="all-poi" value="#{constantData.categories}" class="hidden">
+                    <f:converter converterId="poiCategoryListConverter" />
+                </h:outputText>
+            </h:form>
+            <div id="map-corner"></div>
+            <div id="map" style="width: 558px;"></div> 
+            <div id="map-popup" class="map-popup">
+                <div class="map-popup-pane">
+                    <div class="poi-name"></div>
+                    <div class="poi-description"></div>
+                    <div class="poi-menu">
+                        <form>
+                            <input type="hidden" name="poiName" />
+                            <input type="button" value="#{msgs.route_from_here}" class="green-button" onclick="changeValue('route:from-field', this.form.poiName.value)" />
+                            <input type="button" value="#{msgs.route_to_here}" class="green-button" onclick="changeValue('route:to-field', this.form.poiName.value)" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- initialize the map and all javascript components -->
+            <script type="text/javascript">
+                setClientID('#{cc.clientId}');
+                createMap();
+                setupPopups();
+            </script>
+
+            <div id="sidebar-pane" class="sidebar"><div id="sidebar" class="sidebar" style="width: 199px; left: -1px;">
+                <div id="hide-sidebar" onclick="hideSidebar()">
+                    </div>
+                        <h:form id="route">
+                            <h:outputText id="current-route" value="#{cc.attrs.model.currentRoute}" class="hidden">
+                                <f:converter converterId="routeConverter" />
+                            </h:outputText>
+                            <o:suggestionField id="from-field" promptText="#{msgs.route_from}"
+                                valueChangeListener="#{cc.attrs.model.fromChanged}" autoComplete="true"
+                                suggestionDelay="200" suggestionMinChars="2" suggestionMode="substring"
+                                styleClass="route-field">
+                                <o:dropDownItems value="#{constantData.allPOIName}" />
+                                 <f:ajax render="current-route" execute="from-field" event="valueChange"/>
+                            </o:suggestionField>
+                            <br />
+                            <o:suggestionField id="to-field" promptText="#{msgs.route_to}" 
+                                valueChangeListener="#{cc.attrs.model.toChanged}"
+                                autoComplete="true" suggestionDelay="200"
+                                suggestionMinChars="2" suggestionMode="substring"
+                                styleClass="route-field">
+                                <o:dropDownItems value="#{constantData.allPOIName}" />
+                                 <f:ajax render="current-route" execute="to-field" event="valueChange"/>
+                            </o:suggestionField>
+                            <h:commandButton id="route" value="#{msgs.route_button}" onclick="showRoute();" class="green-button">
+                                <f:ajax render="to-field from-field current-route" execute="from-field to-field"/>
+                            </h:commandButton>
+                            <h:commandButton id="hide-route" value="#{msgs.route_hide}" onclick="hideRoute();" action="#{cc.attrs.model.removeRoute}" class="green-button" style="visibility:hidden">
+                                <f:ajax render="@none" execute="from-field to-field" />
+                            </h:commandButton>
+                        </h:form>
+                        <h:panelGroup id="sidebar-suggestions" layout="block">
+                            <h:outputText id="suggestion-headline" value="#{msgs.suggestions}" rendered="#{cc.attrs.hlm.suggestions} != null" />
+                            <br />
+                            <o:forEach items="#{cc.attrs.hlm.suggestions}" var="sug" varStatus="status">
+                                <h:outputText value="#{sug.name}" />
+                                <br />
+                            </o:forEach>
+                        </h:panelGroup>
+                        <div id="poi-pane">
+                            <o:foldingPanel id="poi-filter" caption="#{msgs.poi_filter}" expanded="true"
+                                foldingDirection="up" contentStyle="line-height: 2; vertical-align: bottom;" >
+                                <o:forEach items="#{constantData.categoriesName}" var="category" varStatus="status">
+                                    <o:selectBooleanCheckbox value="true" onchange="showMarkers(this.value, '#{category}')"/>
+                                    <h:outputText value="#{category}" />
+                                    <br />
+                                </o:forEach>
+                            </o:foldingPanel>
+                        </div>
+                    </div>
+                </div>
+            <div id = "sidebar-border" class="sidebar"></div>
+            <div id="show-sidebar" onclick="showSidebar()" style="visibility: hidden;"></div>
+        </cc:implementation>
+    </body>
+    
+</html>

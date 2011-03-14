@@ -1,32 +1,77 @@
-hideRoute();
-
-function route() {
-	hideRoute();
-	current_route = getElementInnerHTML("route:current-route");
-	if (current_route != null) {
-		var newRoute = new Array();
-		for (var i = 0; i < current_route.length; i++) {
-			var ll = createLonLat(current_route[i].lon, current_route[i].lat);
-			newRoute.push(new OpenLayers.Geometry.Point(ll.lon, ll.lat));
-		}
-		var routeStyle = {
-				fillColor: "#0000FF",
-				strokeColor: "#0000FF",
-				strokeOpacity: 1,
-				strokeWidth: 3,
-				pointRadius: 6,
-				pointerEvents: "visiblePainted"
-			};
-		var routeFeature = new OpenLayers.Feature.Vector(
-			new OpenLayers.Geometry.LineString(newRoute, null, null), null, routeStyle);
-		layer_route.addFeatures([ routeFeature ]);
-		getElement("route:hide-route").style.visibility = 'visible';
-		setMyCenter(current_route[Math.floor(current_route.length / 2)].lon, 
-				current_route[Math.floor(current_route.length / 2)].lat, 16);
-	} 
+/**
+ * Returns the time, in milliseconds, needed to show the sidebar.
+ * 
+ * @returns the time, in milliseconds, needed to show the sidebar
+ */
+function getSidebarDelay() {
+    var sidebarLeft = parseInt(document.getElementById("sidebar").style.left.replace(/px/g, "")) + 1;
+    return sidebarLeft * 2;
 }
 
-function hideRoute() {
-	layer_route.removeAllFeatures();
-	getElement("route:hide-route").style.visibility = 'hidden';
+/**
+ * Hides the sidebar.
+ */
+function hideSidebar() {
+    var map = document.getElementById("map");
+    var sidebar = document.getElementById("sidebar");
+    var mapWidth = parseInt(map.style.width.replace(/px/g, ""));
+    var sidebarWidth = parseInt(sidebar.style.width.replace(/px/g, "")) + 1;
+    var sidebarLeft = parseInt(sidebar.style.left.replace(/px/g, ""));
+    if (sidebarLeft == -1) {
+        map.style.width = (mapWidth + sidebarWidth) + "px";
+    }
+    if (sidebarLeft >= sidebarWidth) {
+        document.getElementById("hide-sidebar").style.visibility = "hidden";
+        document.getElementById("show-sidebar").style.visibility = "visible";
+        document.getElementById("sidebar-pane").style.zIndex = 0;
+    }
+    if (sidebarLeft < sidebarWidth) {
+        sidebar.style.left = (sidebarLeft + 10) + "px";
+        setTimeout(hideSidebar, 20);
+    }
+}
+
+/**
+ * Shows the sidebar.
+ */
+function showSidebar() {
+    var map = document.getElementById("map");
+    var sidebar = document.getElementById("sidebar");
+    var mapWidth = parseInt(map.style.width.replace(/px/g, ""));
+    var sidebarWidth = parseInt(sidebar.style.width.replace(/px/g, "")) + 1;
+    var sidebarLeft = parseInt(sidebar.style.left.replace(/px/g, ""));
+    if (sidebarLeft <= -1 && document.getElementById("show-sidebar").style.visibility != "hidden") {
+        map.style.width = (mapWidth - sidebarWidth) + "px";
+        document.getElementById("hide-sidebar").style.visibility = "visible";
+        document.getElementById("show-sidebar").style.visibility = "hidden";
+    }
+    if (sidebarLeft >= sidebarWidth) {
+        document.getElementById("sidebar-pane").style.zIndex = 9999;
+    }
+    if (sidebarLeft > -1) {
+        sidebar.style.left = (sidebarLeft - 10) + "px";
+        setTimeout(showSidebar, 20);
+    }
+    if (sidebarLeft < -1) {
+        sidebar.style.left = "-1px";
+    }
+}
+
+/**
+ * Changes the value of the input element with specified id to the given value.
+ * 
+ * @param id the id of the element to change
+ * @param value the new value 
+ */
+function changeValue(id, value) {
+    hidePOI();
+    var delay = getSidebarDelay();
+    if (delay > 0) {
+        showSidebar();
+        setTimeout(function(){setRouteFrom(id, value);}, delay);
+    } else {
+        getElement(id).focus();
+        getElement(id).setValue(value);
+        getElement('route:route').focus();
+    }
 }
