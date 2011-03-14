@@ -38,10 +38,15 @@ public class CategoryModel implements Serializable {
 	 * to the user.
 	 * @param categories The current categories.
 	 * @throws NullPointerException if <code>categories</code> is <code>null</code>
+	 * @throws IllegalArgumentException if <code>categories</code> is not not contained
+	 * in categories attribute.
 	 */
 	public void setCurrentCategories(Set<Category> categories) {
 		if (categories == null) {
 			throw new NullPointerException();
+		}
+		if (!this.categories.containsAll(categories)) {
+			throw new IllegalArgumentException();
 		}
 		this.currentCategories = categories;
 	}
