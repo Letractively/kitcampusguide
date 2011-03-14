@@ -68,7 +68,7 @@ function changeValue(id, value) {
     var delay = getSidebarDelay();
     if (delay > 0) {
         showSidebar();
-        setTimeout(function(){setRouteFrom(id, value);}, delay);
+        setTimeout(function(){changeValue(id, value);}, delay);
     } else {
         getElement(id).focus();
         getElement(id).setValue(value);
