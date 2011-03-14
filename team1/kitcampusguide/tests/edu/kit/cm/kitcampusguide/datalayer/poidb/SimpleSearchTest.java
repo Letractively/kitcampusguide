@@ -15,6 +15,7 @@ import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import org.junit.Before;
@@ -54,7 +55,34 @@ public class SimpleSearchTest {
         builder.setColumnSensing(true);
         builder.setDtdMetadata(true);
         IDataSet dataSet = builder.build(file);
-        DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
+        
+        Statement statement = DriverManager.getConnection(dbURL).createStatement();
+        
+        String query = "DROP TABLE IF EXISTS POIDB";
+		statement.execute(query);
+		query = "DROP TABLE IF EXISTS CATEGORY";
+		statement.execute(query);
+        
+		query = "CREATE TABLE POIDB " 
+			+ "(id INTEGER not NULL,"
+			+ "name VARCHAR(63) not NULL," 
+			+ "description TEXT," 
+			+ "lon REAL not NULL,"
+			+ "lat REAL not NULL," 
+			+ "mapid INTEGER not NULL," 
+			+ "buildingid INTEGER,"
+			+ "PRIMARY KEY ( id ))";
+		statement.execute(query);
+		
+		
+		query = "CREATE TABLE CATEGORY "
+			+ "(id INTEGER not NULL,"
+			+ "poiid INTEGER not NULL,"
+			+ "categoryid INTEGER not NULL," 
+			+ "PRIMARY KEY ( id ))";
+		statement.execute(query);
+        
+        DatabaseOperation.REFRESH.execute(connection, dataSet);
 	}
 	
 	
