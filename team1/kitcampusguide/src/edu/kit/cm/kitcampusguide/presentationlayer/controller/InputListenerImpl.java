@@ -56,6 +56,7 @@ public class InputListenerImpl implements InputListener {
 	 * Else a search after an appropriate POI will be triggered. If this results in a unique search result, the
 	 * POI which was found will be highlighted. Else the view will be provoked to display the corresponding information.
 	 */
+	//TODO THROWS
 	@Override
 	public void searchTriggered(String searchTerm, InputField inputField) {
 		resetView();
@@ -324,7 +325,7 @@ public class InputListenerImpl implements InputListener {
 	public void changeToMapViewTriggered() {
 		logger.debug("change to map view");
 		ControllerUtil.setMap(mapModel, categoryModel, defaultModelValueClass.getDefaultMap());
-		mapModel.setBuilding(null);
+		mapModel.setBuilding(defaultModelValueClass.getDefaultBuilding());
 	}
 	
 	/**
