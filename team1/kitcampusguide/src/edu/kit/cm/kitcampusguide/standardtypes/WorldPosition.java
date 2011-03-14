@@ -2,8 +2,6 @@ package edu.kit.cm.kitcampusguide.standardtypes;
 
 import java.io.Serializable;
 
-import com.sun.xml.rpc.processor.modeler.j2ee.xml.trueFalseType;
-
 /**
  * Represents a position in the world. Saves the <code>longitude</code> and
  * <code>latitude</code>.
@@ -52,7 +50,7 @@ public class WorldPosition implements Serializable {
 	 *            the latitude
 	 * @param longitude
 	 *            the longitude
-	 * @return {@link trueFalseType} if the given coordinates specify a valid
+	 * @return <code>true</code> if the given coordinates specify a valid
 	 *         position.
 	 */
 	public static boolean checkBounds(double latitude, double longitude) {
