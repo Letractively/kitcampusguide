@@ -217,6 +217,10 @@ public class ConcreteMapLoader implements MapLoader {
 	 */
 	@Override
 	public void addStreetToDatabase(int fromId, int toId, double length) {
+		if (fromId <= 0 || toId <= 0 || length <= 0) {
+			throw new IllegalArgumentException();
+		}
+		
 		Connection connection = null;
 		Statement statement = null;
 

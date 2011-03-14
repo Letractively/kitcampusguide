@@ -1,5 +1,7 @@
 package data;
 
+import static org.junit.Assert.fail;
+
 import java.util.List;
 
 import org.junit.After;
@@ -9,9 +11,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import edu.kit.cm.kitcampusguide.data.ConcretePOILoader;
+import edu.kit.cm.kitcampusguide.data.POILoader;
 import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.model.POICategory;
 
+/**
+ * 
+ * @author Michael Hauber
+ *
+ */
 public class ConcretePOILoaderTest {
 
 
@@ -28,58 +37,65 @@ public class ConcretePOILoaderTest {
 	*/
 	
 	
-	
 	/**
 	 * getPOI(Integer id)
 	 */
 	@Test
-	public void test1() {
-		// tba
+	public void testExceptionsofGetter() {
+		POILoader poiloader = new ConcretePOILoader();
+		
+	    try {
+	        final int negativeId = -2;
+	        poiloader.getPOI(negativeId);
+	        fail("Should have raised an IllegalArgumentException");
+	    } catch (IllegalArgumentException expected) {
+	    }
+	    
+	    try {
+	        poiloader.getPOI(null);
+	        fail("Should have raised an IllegalArgumentException");
+	    } catch (IllegalArgumentException expected) {
+	    }
+		
+	    try {
+	        final String emptyString = "";
+	        poiloader.getPOIsByName(emptyString);
+	        fail("Should have raised an IllegalArgumentException");
+	    } catch (IllegalArgumentException expected) {
+	    }
+	    
+	    try {
+	        poiloader.getPOIsByName(null);
+	        fail("Should have raised an IllegalArgumentException");
+	    } catch (IllegalArgumentException expected) {
+	    }
+		
+	    try {
+	        final int negativeId = -2;
+	        poiloader.getPOICategory(negativeId);
+	        fail("Should have raised an IllegalArgumentException");
+	    } catch (IllegalArgumentException expected) {
+	    }
+	    
+	    try {
+	        poiloader.getPOICategory(null);
+	        fail("Should have raised an IllegalArgumentException");
+	    } catch (IllegalArgumentException expected) {
+	    }
+	    
+	    try {
+	        final String emptyString = "";
+	        poiloader.getPOICategoryByName(emptyString);
+	        fail("Should have raised an IllegalArgumentException");
+	    } catch (IllegalArgumentException expected) {
+	    }
+	    
+	    try {
+	        poiloader.getPOICategoryByName(null);
+	        fail("Should have raised an IllegalArgumentException");
+	    } catch (IllegalArgumentException expected) {
+	    }
 	}
-	
-	/**
-	 * getPOIsByName(String name)
-	 */
-	@Test
-	public void test2() {
-		// tba
-	}
-	
-	/**
-	 * getAllPOIs()
-	 */
-	@Test
-	public void test3() {
-		// tba
-	}
-	
-	/**
-	 * getPOICategory(Integer id)
-	 */
-	@Test
-	public void test4() {
-		// tba
-	}
-	
-	
-	/**
-	 * getPOICategoryByName(String name)
-	 */
-	@Test
-	public void test5() {
-		// tba
-	}
-	
-	/**
-	 * getAllPOICategory
-	 */
-	@Test
-	public void test6() {
-		// tba
-	}
-	
-	
-	
 	
 	
 	/*
