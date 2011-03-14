@@ -17,19 +17,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManager;
-import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManagerImpl;
-import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISource;
 import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
 import edu.kit.cm.kitcampusguide.applicationlogic.routing.PreCalculatedRoutingTest;
-import edu.kit.cm.kitcampusguide.applicationlogic.routing.RoutingStrategy;
 import edu.kit.cm.kitcampusguide.applicationlogic.routing.RoutingStrategyImpl;
 import edu.kit.cm.kitcampusguide.datalayer.poidb.POIDBTestFramework;
-import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.CategoryModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
-import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.LanguageManager;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.LanguageManagerTest;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.translationmodel.TranslationModelImpl;
 import edu.kit.cm.kitcampusguide.standardtypes.Category;
@@ -38,7 +32,6 @@ import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 import edu.kit.cm.kitcampusguide.testframework.Idgenerator;
-import edu.kit.cm.kitcampusguide.testframework.TestInitializer;
 
 /**
  * @author Frederik
