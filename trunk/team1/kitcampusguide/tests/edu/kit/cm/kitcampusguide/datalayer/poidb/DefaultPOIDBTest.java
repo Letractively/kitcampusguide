@@ -8,9 +8,9 @@ import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.BasicConfigurator;
@@ -31,6 +31,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.POIQuery;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
+import edu.kit.cm.kitcampusguide.testframework.DBConfigurator;
 
 import static edu.kit.cm.kitcampusguide.testframework.Idgenerator.*;
 
@@ -70,10 +71,15 @@ public class DefaultPOIDBTest {
 
 		BasicConfigurator.configure();
 		IDatabaseConnection connection = getConnection();
-		DefaultPOIDB.init(dbURL, new SimpleSearch(), true);
+		try {
+			db = DefaultPOIDB.getInstance();
+		} catch(IllegalStateException e) {
+			DefaultPOIDB.init(dbURL, new SimpleSearch(), true);
+		}
+		
         FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
         builder.setColumnSensing(true);
-        builder.setDtdMetadata(true);
+        builder.setDtdMetadata(false);
         IDataSet dataSet = builder.build(file);
         
         //Initialize Maps
@@ -96,8 +102,34 @@ public class DefaultPOIDBTest {
         		new Category(k, "category" + k.toString());
         	}
         }
-
-        DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
+        
+        Statement statement = DriverManager.getConnection(dbURL).createStatement();
+        
+        String query = "DROP TABLE IF EXISTS POIDB";
+		statement.execute(query);
+		
+		query = "DROP TABLE IF EXISTS CATEGORY";
+		statement.execute(query);
+        
+		query = "CREATE TABLE POIDB " 
+			+ "(id INTEGER not NULL,"
+			+ "name VARCHAR(63) not NULL," 
+			+ "description TEXT," 
+			+ "lon REAL not NULL,"
+			+ "lat REAL not NULL," 
+			+ "mapid INTEGER not NULL," 
+			+ "buildingid INTEGER,"
+			+ "PRIMARY KEY ( id ))";
+		statement.execute(query);
+		
+		query = "CREATE TABLE CATEGORY "
+			+ "(id INTEGER not NULL,"
+			+ "poiid INTEGER not NULL,"
+			+ "categoryid INTEGER not NULL," 
+			+ "PRIMARY KEY ( id ))";
+		statement.execute(query);
+		
+        DatabaseOperation.REFRESH.execute(connection, dataSet);
 		db = DefaultPOIDB.getInstance();
 	}
 	
