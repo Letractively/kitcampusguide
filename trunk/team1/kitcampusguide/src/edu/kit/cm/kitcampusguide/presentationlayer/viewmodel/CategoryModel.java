@@ -57,8 +57,12 @@ public class CategoryModel implements Serializable {
 	/**
 	 * Sets the categories-property.
 	 * @param categories Not null.
+	 * @throws NullPointerException if <code>categories</code> is <code>null</code>
 	 */
 	public void setCategories(Set<Category> categories) {
+		if (categories == null) {
+			throw new NullPointerException();
+		}
 		this.categories = categories;
 	}
 }
