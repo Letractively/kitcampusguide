@@ -97,6 +97,9 @@ class PreCalculatedRouting {
 		if (parentArray[fromVertice][tmp] != null) {
 			waypoints.add(graph.getPositionFromVertice(fromVertice));
 			Collections.reverse(waypoints);
+			if (waypoints.size() == 1) {
+				waypoints.add(graph.getPositionFromVertice(fromVertice));
+			}
 			result = new Route(waypoints);
 		}
 		if (result != null) {
