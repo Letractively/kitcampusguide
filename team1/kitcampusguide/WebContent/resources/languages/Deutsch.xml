@@ -17,4 +17,12 @@
 	<entry key="setRouteFrom">Route von hier</entry>
 	<entry key="setRouteTo">Route nach hier</entry>
 	<entry key="backToCampus">zurück zur Campusansicht</entry>
+	<entry key="FilterWindowHeader">Filter Menu</entry>
+	<entry key="ApplyFilter">Anwenden</entry>
+	<entry key="streets">Straßen</entry>
+	<entry key="buildings">Gebäude</entry>
+	<entry key="events">Veranstaltungen</entry>
+	<entry key="various">Verschiedenes</entry>
+	<entry key="auditoriums">Hörsäle</entry>
+	<entry key="faculty">Fakultäten</entry>
 </language>
