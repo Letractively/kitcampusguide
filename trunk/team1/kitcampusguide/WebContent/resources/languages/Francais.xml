@@ -18,4 +18,12 @@
 	<entry key="setRouteFrom">Route de ici</entry>
 	<entry key="setRouteTo">Route à là-bas</entry>
 	<entry key="backToCampus">Plan du campus universitaire</entry>
+	<entry key="FilterWindowHeader">Menue filtre</entry>
+	<entry key="ApplyFilter">Applique</entry>
+	<entry key="streets">Rues</entry>
+	<entry key="buildings">Bâtiments</entry>
+	<entry key="events">Manifestations</entry>
+	<entry key="various">Divers</entry>
+	<entry key="auditoriums">Amphithéâtres</entry>
+	<entry key="faculty">Facultés</entry>
 </language>
