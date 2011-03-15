@@ -42,56 +42,6 @@
                 <div id="headline-corner"></div>
             </div>
 
-	<div id="sidebar-pane" class="sidebar"><div id="sidebar" class="sidebar" style="width: 199px; left: -1px;">
-		<div id="hide-sidebar" onclick="hideSidebar()"></div>
-		<h:form id="route">
-			<h:outputText id="current-route" value="#{cc.attrs.model.currentRoute}" class="hidden">
-				<f:converter converterId="routeConverter" />
-			</h:outputText>
-			<o:suggestionField id="from-field" promptText="#{msgs.route_from}" 
-				valueChangeListener="#{cc.attrs.model.fromChanged}" autoComplete="true"
-       			suggestionDelay="200" suggestionMinChars="1" suggestionMode="substring"
-        		styleClass="route-field">
-				<o:dropDownItems value="#{constantData.allPOIName}" />
- 				<f:ajax render="current-route" execute="from-field" event="valueChange"/>
-			</o:suggestionField>
-			<br />
-			<o:suggestionField id="to-field" promptText="#{msgs.route_to}" 
-				valueChangeListener="#{cc.attrs.model.toChanged}"
-				autoComplete="true" suggestionDelay="200"
-        		suggestionMinChars="2" suggestionMode="substring"
-       			 styleClass="route-field">
-				<o:dropDownItems value="#{constantData.allPOIName}" />
- 				<f:ajax render="current-route" execute="to-field" event="valueChange"/>
-			</o:suggestionField>
-			<h:commandButton id="route"  value="#{msgs.route_button}" onfocus="this.border='solid';border-width:5px;" onclick="route();" class="green-button">
-				<f:ajax render="to-field from-field" execute="from-field to-field"/>
-			</h:commandButton>
-			<h:commandButton id="hide-route" value="#{msgs.route_hide}" onclick="hideRoute();" action="#{cc.attrs.model.removeRoute}" class="green-button">
-				<f:ajax render="@none" execute="from-field to-field" />
-			</h:commandButton>
-		</h:form>
-		<script type="text/javascript" src="resources/campusguide/sidebar.js" />
-		<h:panelGroup id="sidebar-suggestions" layout="block">
-			<h:outputText id="suggestion-headline" value="#{msgs.suggestions}" 
-				rendered="#{cc.attrs.hlm.suggestions} != null" />
-			<br />
-			<o:forEach items="#{cc.attrs.hlm.suggestions}" var="sug" varStatus="status">
-					<h:outputText value="#{sug.name}" /> <br />
-			</o:forEach>	
-		</h:panelGroup>
-		<div id="poi-pane">
-			<o:foldingPanel id="poi-filter" caption="#{msgs.poi_filter}" expanded="true"
-				foldingDirection="up" contentStyle="line-height: 2; vertical-align: bottom;"  styleClass="poi-filter">
-				<o:forEach items="#{constantData.categoriesName}" var="category" varStatus="status" styleClass="poi-categories">
-					<o:selectBooleanCheckbox value="true" onchange="showMarkers(this.value, '#{category}')"/>
-					<h:outputText value="#{category}"/> <br />
-				</o:forEach>				
-			</o:foldingPanel>
-		</div>
-	</div></div>
-	<div id = "sidebar-border" class="sidebar"></div>
-	<div id="show-sidebar" onclick="showSidebar()" style="visibility: hidden;"></div>
             <h:form id="map-form" class="hidden">
                 <h:outputText id="all-poi" value="#{constantData.categories}" class="hidden">
                     <f:converter converterId="poiCategoryListConverter" />
@@ -170,18 +120,17 @@
                             </o:forEach>
                         </h:panelGroup>
                         <div id="poi-pane">
-			  <div id="poi-pane">
-				<o:foldingPanel id="poi-filter" caption="#{msgs.poi_filter}" expanded="true"
-					foldingDirection="up" contentStyle="line-height: 2; vertical-align: bottom;"  styleClass="poi-filter">
-					<o:forEach items="#{constantData.categoriesName}" var="category" varStatus="status" styleClass="poi-categories">
-						<o:selectBooleanCheckbox value="true" onchange="showMarkers(this.value, '#{category}')"/>
-						<h:outputText value="#{category}"/> <br />
-					</o:forEach>				
-				</o:foldingPanel>
-			</div>
-		</div>
-	</div>
-</div>
+                            <o:foldingPanel id="poi-filter" caption="#{msgs.poi_filter}" expanded="true"
+                                foldingDirection="up" contentStyle="line-height: 2; vertical-align: bottom;" >
+                                <o:forEach items="#{constantData.categoriesName}" var="category" varStatus="status">
+                                    <o:selectBooleanCheckbox value="true" onchange="showMarkers(this.value, '#{category}')"/>
+                                    <h:outputText value="#{category}" />
+                                    <br />
+                                </o:forEach>
+                            </o:foldingPanel>
+                        </div>
+                    </div>
+                </div>
             <div id = "sidebar-border" class="sidebar"></div>
             <div id="show-sidebar" onclick="showSidebar()" style="visibility: hidden;"></div>
         </cc:implementation>
