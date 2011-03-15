@@ -108,12 +108,11 @@ public class RouteCalculatingUtility {
 	 * @return the distance between the two points in meters.
 	 */
 	private static double getDistance(Point pointFrom, Point pointTo){
-		double widthFrom, widthTo, heightFrom, heightTo;
-		heightFrom = getLengthByPolarCoordinates(pointFrom.getX());
-		heightTo = getLengthByPolarCoordinates(pointTo.getX());
-		widthFrom = getLengthByPolarCoordinates(pointFrom.getY());
-		widthTo = getLengthByPolarCoordinates(pointTo.getY());
-		Double e = Math.acos(Math.sin(widthFrom) * Math.sin(widthTo) + Math.cos(widthFrom) * Math.cos(widthTo) * Math.cos(heightTo - heightFrom));
+		double heightFrom = getLengthByPolarCoordinates(pointFrom.getX());
+		double heightTo = getLengthByPolarCoordinates(pointTo.getX());
+		double widthFrom = getLengthByPolarCoordinates(pointFrom.getY());
+		double widthTo = getLengthByPolarCoordinates(pointTo.getY());
+		double e = Math.acos(Math.sin(widthFrom) * Math.sin(widthTo) + Math.cos(widthFrom) * Math.cos(widthTo) * Math.cos(heightTo - heightFrom));
 		return e * 6378.137 * 1000;
 	}
 	

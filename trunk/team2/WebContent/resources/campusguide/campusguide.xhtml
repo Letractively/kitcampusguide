@@ -53,6 +53,7 @@
                 <div class="map-popup-pane">
                     <div class="poi-name"></div>
                     <div class="poi-description"></div>
+                    <div style="width: 20px; height: 10px;"></div>
                     <div class="poi-menu">
                         <form>
                             <input type="hidden" name="poiName" />
@@ -65,11 +66,13 @@
             <div id="map-contextmenu">
                 <div class="map-contextmenu">
                     <form>
-                        <input type="hidden" name="lonlat" />
-                        <input type="button" value="#{msgs.route_from_here}" class="green-button" onclick="changeValue('route:from-field', this.form.poiName.value)" />
-                        <input type="button" value="#{msgs.route_to_here}" class="green-button" onclick="changeValue('route:to-field', this.form.poiName.value)" />
-                        <input type="button" value="#{msgs.route_to_here}" class="green-button" onclick="changeValue('route:to-field', this.form.poiName.value)" />
-                        <input type="button" value="#{msgs.route_to_here}" class="green-button" onclick="changeValue('route:to-field', this.form.poiName.value)" />
+                        <input type="hidden" name="name" />
+                        <input type="hidden" name="lon" />
+                        <input type="hidden" name="lat" />
+                        <input type="button" value="#{msgs.route_from_here}" class="green-menubutton" onclick="changeValue('route:from-field', this.form.name.value); hideContextMenu();" />
+                        <input type="button" value="#{msgs.route_to_here}" class="green-menubutton" onclick="changeValue('route:to-field', this.form.name.value); hideContextMenu();" />
+                        <input type="button" value="#{msgs.set_marker}" class="green-menubutton" onclick="createPositionMarker(this.form.name.value, this.form.lon.value, this.form.lat.value); hideContextMenu();" />
+                        <input type="button" value="#{msgs.center_map}" class="green-menubutton" onclick="setMyCenter(this.form.lon.value, this.form.lat.value, 17); hideContextMenu();" />
                     </form>
                 </div>
             </div>

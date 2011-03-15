@@ -6,8 +6,6 @@ import java.util.Locale;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.faces.event.FacesEvent;
 import javax.faces.event.ValueChangeEvent;
 
 import edu.kit.cm.kitcampusguide.mapAlgorithms.ConcreteMapAlgorithms;
@@ -20,6 +18,15 @@ import edu.kit.cm.kitcampusguide.model.SidebarModel;
 @ManagedBean
 @SessionScoped
 public class CampusGuide {
+	
+	/**
+	 * Pattern for a double number
+	 */
+	public static final String NUMBER = "-?\\d+(\\.\\d+)?";
+	/**
+	 * Pattern for String coordinates
+	 */
+	public static final String COORDINATES = ".*\\("+ NUMBER + "\\, " + NUMBER + "\\)";
 	
 	private HeadlineModel hlm;
 	private SidebarModel sbm;
@@ -94,7 +101,7 @@ public class CampusGuide {
 			this.currentPOI = this.ma.searchPOI(this.hlm.getSearch());
 			if (this.currentPOI == null) {
 				this.hlm.setSuggestions(this.ma.getSuggestions(this.hlm.getSearch()));
-				System.out.println(this.hlm.getSuggestions().size());
+				//System.out.println(this.hlm.getSuggestions().size());
 			} else {
 				this.hlm.setSuggestions(new ArrayList<POI>());
 			}
@@ -104,22 +111,37 @@ public class CampusGuide {
 	
 	public void fromChanged(ValueChangeEvent ev) {
 		String newFrom = (String) ev.getNewValue();
-		this.sbm.setFrom(this.ma.searchPOI(newFrom));
+		POI newPOI = newFrom.matches(COORDINATES) ? generateMarker(newFrom) : this.ma.searchPOI(newFrom);
+		this.sbm.setFrom(newPOI);
 		this.updateRoute();
 		FacesContext.getCurrentInstance().renderResponse();
 	}
 	
 	public void toChanged(ValueChangeEvent ev) {
 		String newTo = (String) ev.getNewValue();
-		this.sbm.setTo(this.ma.searchPOI(newTo));
+		POI newPOI = newTo.matches(COORDINATES) ? generateMarker(newTo) : this.ma.searchPOI(newTo);
+		this.sbm.setTo(newPOI);
 		this.updateRoute();
 		FacesContext.getCurrentInstance().renderResponse();
 	}
 	
+	/**
+	 * Creates a new POI representing a custom marker out of the given text. 
+	 * 
+	 * @param text a String containing the coordinates of the Marker
+	 * @return a POI representing the coordinates specified in text
+	 */
+	private POI generateMarker(String text) {
+		if (!text.matches(COORDINATES)) {
+			throw new IllegalArgumentException();
+		}
+		String[] coordinates = text.substring(text.indexOf('(') + 1, text.indexOf(')')).split("\\, ");
+		return new POI(text, -1, null, "", new Double(coordinates[0]), new Double(coordinates[1]));
+	}
+	
 	public void updateRoute() {
 		if (this.sbm.getFrom() != null && this.sbm.getTo() != null) {
-			this.currentRoute = this.ma.calculateRoute(this.sbm.getFrom(), 
-									this.sbm.getTo());
+			this.currentRoute = this.ma.calculateRoute(this.sbm.getFrom(), this.sbm.getTo());
 		} else {
 			this.currentRoute = null;
 		}
@@ -129,4 +151,9 @@ public class CampusGuide {
 		this.currentRoute = null;
 	}
 
+	public static void main(String[] args) {
+		System.out.println(COORDINATES);
+		System.out.println("Positionsmarker (8.41313, 49.01113)".matches(COORDINATES));
+	}
+	
 }

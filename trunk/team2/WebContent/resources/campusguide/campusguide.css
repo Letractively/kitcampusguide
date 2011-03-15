@@ -6,6 +6,16 @@
 	height: 18px;
 	vertical-align: top;
 	margin: 0 0 0 5px;
+	background-color: #e8e8e8;
+}   
+.green-menubutton {
+    color: #009682;
+    font-weight: bold;
+    height: 18px;
+    width: 146px;
+    vertical-align: top;
+    margin: 0 0 5px 0;
+    background-color: #dddddd;
 }
 
 #headline {
@@ -73,6 +83,14 @@
     width:558px;
 }
 
+#map-contextmenu {
+    display: none;
+}
+
+.map-contextmenu {
+    
+}
+
 #map-corner {
     background-image: url(../resources/campusguide/img/map_corner.png);
     border: 0px;
@@ -106,6 +124,8 @@
 
 .poi-description {
     padding: 6px;
+    margin-right: 20px;
+    min-height: 20px;
 }
 
 .poi-filter {
@@ -144,6 +164,8 @@
     font-weight: bold;
     min-width: 233px;
     padding: 6px;
+    height: 11px;
+    white-space: nowrap;
 }
 
 #poi-pane {

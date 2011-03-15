@@ -10,8 +10,8 @@ var mapLayer;
 /** layer for displaying routes */
 var routeLayer;
 
-/** layer for displaying routes */
-var routeLayer;
+/** layer for displaying a position marker */
+var positionMarkerLayer;
 
 /** layers for displaying POI categories */
 var POICategorieLayers = new Object();
@@ -24,6 +24,9 @@ var POIFeatures = new Object();
 
 /** holds the POI currently selected */
 var currentPOI = null;
+
+/** holds the context menu */
+var contextmenu;
 
 /** Coordinates in World Geodetic System 1984 */
 var WGS1984 = new OpenLayers.Projection("EPSG:4326");
@@ -69,8 +72,9 @@ function createMap() {
     };
     
     // creating the map object
+    var mouse = new OpenLayers.Control.MousePosition();
     map = new OpenLayers.Map('map', options);
-    map.addControl(new OpenLayers.Control.MousePosition());
+    map.addControl(mouse);
     map.addControl(new OpenLayers.Control.ScaleLine());
     map.minZoomLevel = minzoom;
     map.maxZoomLevel = maxzoom;
@@ -90,6 +94,14 @@ function createMap() {
         POICategorieLayers[POICategories[key].name] = createPOICategoryLayer(POICategories[key]);
         map.addLayer(POICategorieLayers[POICategories[key].name]);
     }
+    
+    // creating the right click menu (context menu)
+    positionMarkerLayer = createPOICategoryLayer({pois: {}});
+    map.addLayer(positionMarkerLayer);
+    map.div.onclick = hideContextMenu;
+    map.div.oncontextmenu = function(evt) {
+    	showContextMenu(evt, mouse.div.innerHTML);
+    };
 }
 
 /**
@@ -121,8 +133,8 @@ function createMarker(poi) {
     var position = createLonLat(poi.lon, poi.lat);
     var properties = {
         'autoSize': true, 
-        'maxSize': new OpenLayers.Size(300, 400), 
-        'minSize': new OpenLayers.Size(300, 140), 
+        'maxSize': new OpenLayers.Size(330, 400), 
+        'minSize': new OpenLayers.Size(330, 110), 
         'panMapIfOutOfView': true, 
         'min-width': "300px"
     };
@@ -139,7 +151,8 @@ function createMarker(poi) {
     
     // create the tooltip
     var tooltip = new OpenLayers.Popup(poi.name, position, size, poi.name, false);
-    tooltip.minSize = new OpenLayers.Size(50, 20);
+    tooltip.minSize = new OpenLayers.Size(40, 22);
+    tooltip.maxSize = new OpenLayers.Size(400, 22);
     tooltip.setBorder("1px solid #009682");
     tooltip.opacity = 0.7;
     
@@ -174,6 +187,8 @@ function createMarker(poi) {
     popup.hide();
     popup.clicked = false;
     tooltip.hide();
+    tooltip.div.style.height = "22px";
+    setupPopup(popup);
     
     return marker;
 }
@@ -224,6 +239,21 @@ function getElement(id) {
 }
 
 /**
+ * Sets up width and height of the specified popup.
+ */
+function setupPopup(popup) {
+    var divs = popup.div.getElementsByTagName("div");
+    divs[1].style.width = "100%";
+    
+	var height = parseInt(popup.div.style.height.replace(/px/g, ""));
+	divs[2].style.height = (height - 35) + "px";
+	
+	divs[7].style.right = "6px";
+	divs[7].style.height = "36px";
+	divs[7].style.width = "19px";
+}
+
+/**
  * Sets up width and height for each popups
  */
 function setupPopups() {
@@ -231,12 +261,12 @@ function setupPopups() {
     for (var i = 0; i < divs.length; i++) {
         if (divs[i].className == "olFramedCloudPopupContent") {
             var height = parseInt(divs[i].style.height.replace(/px/g, ""));
-            divs[i].style.overflow = "";
-            divs[i].style.width = "100%";
-            divs[i].style.height = (height + 17) + "px";
+            //divs[i].style.overflow = "";
+            //divs[i].style.width = "100%";
+            //divs[i].style.height = (height + 17) + "px";
         }
     }
-    repositionPopups();
+    //repositionPopups();
 }
 
 /**
@@ -246,6 +276,7 @@ function repositionPopups() {
     var divs = document.getElementsByTagName("div");
     for (var i = 0; i < divs.length; i++) {
         if (divs[i].className == "olPopupCloseBox") {
+        	alert(i);
             divs[i].style.right = "6px";
             divs[i].style.height = "36px";
             divs[i].style.width = "19px";
@@ -330,7 +361,7 @@ function showRoute() {
         var lon = (route[0].lon + route[route.length - 1].lon) / 2;
         var lat = (route[0].lat + route[route.length - 1].lat) / 2;
         var distance = getDistance(route[0], route[route.length - 1]);
-        var zoom = Math.round(-0.0033 * distance + 18.279);
+        var zoom = Math.min(18, Math.max(15, Math.round(-0.0033 * distance + 18.279)));
         setMyCenter(lon, lat, zoom);
     } 
 }
@@ -341,6 +372,51 @@ function showRoute() {
 function hideRoute() {
     routeLayer.removeAllFeatures();
     getElement("route:hide-route").style.visibility = 'hidden';
+}
+
+/**
+ * Shows a context menu triggered by the specified event.
+ * 
+ * @param evt the trigger event
+ */
+function showContextMenu(evt, lonlat) {
+	hideContextMenu();
+    var content = document.getElementById("map-contextmenu").cloneNode(true);
+    var lon = parseFloat(lonlat.substring(0, lonlat.indexOf(',')));
+    var lat = parseFloat(lonlat.substring(lonlat.indexOf(',') + 2));
+    var size = new OpenLayers.Size(146, 87);
+    content.getElementsByTagName("input")[0].value = "Positionsmarker (" + lonlat + ")";
+    content.getElementsByTagName("input")[1].value = lon;
+    content.getElementsByTagName("input")[2].value = lat;
+    contextmenu = new OpenLayers.Popup("contextmenu", createLonLat(lon, lat), size, content.innerHTML, false);
+    contextmenu.setBorder("1px solid #009682");
+    contextmenu.minSize = size;
+    contextmenu.maxSize = size;
+    contextmenu.opacity = 0.8;
+    map.addPopup(contextmenu);
+    document.getElementById("contextmenu_contentDiv").removeAttribute("style");
+    OpenLayers.Event.stop(evt);
+}
+
+/**
+ * Hides the contextmenu if currently visible.
+ */
+function hideContextMenu() {
+	if (contextmenu != null) {
+		map.removePopup(contextmenu);
+	}
+}
+
+function createPositionMarker(name, lon, lat) {
+	var newPOI = {
+		name: name,
+		lon: lon,
+		lat: lat,
+		nameSize: 32,
+		description: ""
+	};
+    positionMarkerLayer.clearMarkers();
+    positionMarkerLayer.addMarker(createMarker(newPOI));
 }
 
 /**
