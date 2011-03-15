@@ -14,13 +14,13 @@
         <cc:implementation>
              <h:outputScript target="head" library="javax.faces" name="jsf.js" />
              <h:outputStylesheet taget="head" library="campusguide" name="campusguide.css"/>
+             
+             <!-- load scripts required for the campusguide -->
+             <script type="text/javascript" src="resources/openlayers/OpenLayers.js" />
+             <script type="text/javascript" src="resources/campusguide/sidebar.js" />
+             <script type="text/javascript" src="resources/campusguide/map.js" />
+                
              <div id="headline">
-
-                <!-- load scripts required for the campusguide -->
-                <script type="text/javascript" src="resources/openlayers/OpenLayers.js" />
-                <script type="text/javascript" src="resources/campusguide/sidebar.js" />
-                <script type="text/javascript" src="resources/campusguide/map.js" />
-
                 <h:form id="search">
                 <h:outputText id="current-poi" value="#{cc.attrs.model.currentPOI}" class="hidden">
                     <f:converter converterId="poiConverter" />
@@ -60,6 +60,17 @@
                             <input type="button" value="#{msgs.route_to_here}" class="green-button" onclick="changeValue('route:to-field', this.form.poiName.value)" />
                         </form>
                     </div>
+                </div>
+            </div> 
+            <div id="map-contextmenu">
+                <div class="map-contextmenu">
+                    <form>
+                        <input type="hidden" name="lonlat" />
+                        <input type="button" value="#{msgs.route_from_here}" class="green-button" onclick="changeValue('route:from-field', this.form.poiName.value)" />
+                        <input type="button" value="#{msgs.route_to_here}" class="green-button" onclick="changeValue('route:to-field', this.form.poiName.value)" />
+                        <input type="button" value="#{msgs.route_to_here}" class="green-button" onclick="changeValue('route:to-field', this.form.poiName.value)" />
+                        <input type="button" value="#{msgs.route_to_here}" class="green-button" onclick="changeValue('route:to-field', this.form.poiName.value)" />
+                    </form>
                 </div>
             </div>
 
