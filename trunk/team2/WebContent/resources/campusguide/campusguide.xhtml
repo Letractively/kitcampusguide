@@ -121,8 +121,8 @@
                         </h:panelGroup>
                         <div id="poi-pane">
                             <o:foldingPanel id="poi-filter" caption="#{msgs.poi_filter}" expanded="true"
-                                foldingDirection="up" contentStyle="line-height: 2; vertical-align: bottom;" >
-                                <o:forEach items="#{constantData.categoriesName}" var="category" varStatus="status">
+                                foldingDirection="up" contentStyle="line-height: 2; vertical-align: bottom;" styleClass="poi-filter">
+                                <o:forEach items="#{constantData.categoriesName}" var="category" varStatus="status" styleClass="poi-categories">
                                     <o:selectBooleanCheckbox value="true" onchange="showMarkers(this.value, '#{category}')"/>
                                     <h:outputText value="#{category}" />
                                     <br />
