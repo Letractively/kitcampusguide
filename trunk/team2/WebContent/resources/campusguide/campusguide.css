@@ -97,8 +97,36 @@
 	min-width: 300px;
 }
 
+.poi-categories {
+	color: #000000;
+	font-weight: normal;
+	height: 16px;
+	vertical-align: top;
+}
+
 .poi-description {
     padding: 6px;
+}
+
+.poi-filter {
+	color: #009682;
+	font-weight: bold;
+	vertical-align: top;
+	margin: 0 0 0 5px;
+	border-width: 0px;
+    border: none;
+}
+
+.poi-filter table{
+    background: none;  
+    background-color: none;
+    border: none;
+    background-image: url(../resources/campusguide/img/poi-filter.png);
+    background-repeat: no-repeat; 
+    height: 17px;
+	width: 117px;     
+    padding-left: 10px;
+    padding-right: 10px
 }
 
 .poi-menu {
@@ -110,7 +138,7 @@
     min-width: 233px;
 }
 
-.poi-name{
+.poi-name {
 	color: #009682;
     font-size: 15px;
     font-weight: bold;
