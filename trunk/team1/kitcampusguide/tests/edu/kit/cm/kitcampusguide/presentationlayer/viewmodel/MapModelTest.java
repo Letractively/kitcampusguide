@@ -23,20 +23,62 @@ import edu.kit.cm.kitcampusguide.standardtypes.Route;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
 import edu.kit.cm.kitcampusguide.testframework.Idgenerator;
 
+/**
+ * Tests methods implemented by {@link MapModel}.
+ * @author Cornelius
+ *
+ */
 
 public class MapModelTest {
 
+	/**
+	 * Contains some testing maps.
+	 */
 	private static List<Map> testMaps;
+	/**
+	 * Constant indicating the number of testing maps used.
+	 */
 	private static final int NUM_MAPS = 30;
+	/**
+	 * Contains some testing POIs.
+	 */
 	private static List<POI> testPOIs;
+
+	/**
+	 * Constant indicating the number of testing POIs used.
+	 */
+	private static final int NUM_POIS = 50;	
+	/**
+	 * Contains some testing POI collections
+	 */
 	private static List<Collection<POI>> testPOICollections;
+	/**
+	 * Constant indicating the number of testing POI Collections used.
+	 */
 	private static final int NUM_COLLECTIONS = 20;
-	private static final int NUM_POIS = 50;
+	/**
+	 * Contains some testing categories.
+	 */
 	private static Collection<Category> testCategories;
+	/**
+	 * Contains some testing buildings.
+	 */
 	private static List<Building> testBuildings;
+	/**
+	 * Constant indicating the number of testing buildings used.
+	 */
 	private static final int NUM_BUILDINGS = 10;
+	/**
+	 * Contains some testing routes.
+	 */
 	private static List<Route> testRoutes;
+	/**
+	 * Constant indicating the number of testing routes used.
+	 */
 	private static final int NUM_ROUTES = 10;
+	/**
+	 * Instance of the MapModel for testing.
+	 */
 	private static MapModel testModel;
 	
 	/**
@@ -87,11 +129,7 @@ public class MapModelTest {
 	}
 	
 	/**
-	 * Tests if the Default Model Values are set correctly.
-	 */
-	
-	/**
-	 * Tests if NullPointerException is thrown when setting map attribute to null
+	 * Tests if NullPointerException is thrown when setting map attribute to null.
 	 */
 	@Test(expected = NullPointerException.class)
 	public void testSetMapNull() {
@@ -131,7 +169,7 @@ public class MapModelTest {
 	
 	/**
 	 * Tests if IllegalArgumentException is thrown when passing invalid parameters to
-	 * createBuildingPOIList (listpoi == null &&  list != null)
+	 * createBuildingPOIList in this case listpoi == null &&  list != null.
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateBuildingPOIListInvalid0() {
@@ -140,7 +178,7 @@ public class MapModelTest {
 	
 	/**
 	 * Tests if IllegalArgumentException is thrown when passing invalid parameters to
-	 * createBuildingPOIList (listpoi == null && list != null)
+	 * createBuildingPOIList in this case listpoi == null && list != null.
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateBuildingPOIListInvalid1() {

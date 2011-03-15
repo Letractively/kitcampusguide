@@ -13,17 +13,26 @@ import edu.kit.cm.kitcampusguide.testframework.Idgenerator;
 import edu.kit.cm.kitcampusguide.standardtypes.Category;
 
 /**
- * 
- * @author Corny
+ * Tests all method implemented by {@link CategoryModel}
+ * @author Cornelius
  * 
  **/
 
 public class CategoryModelTest {
 
-	
+		/**
+		 * Instance of CategoryModel for testing.
+		 */
 		private static CategoryModel testModel;
+		/**
+		 * Constant indicating the number of testing categories used.
+		 */
 		private static final Integer MAX_CAT = 10;
+		/**
+		 * Contains some testing Categories
+		 */
 		private static Set<Category> testingCategories;
+		
 		/**
 		 * Creates a testing Category Model
 		 */
@@ -125,4 +134,4 @@ public class CategoryModelTest {
 			}
 			testModel.setCurrentCategories(testCurrentCategories);
 		}
-		}
+}
