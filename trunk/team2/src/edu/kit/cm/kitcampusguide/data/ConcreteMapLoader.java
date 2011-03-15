@@ -240,6 +240,13 @@ public class ConcreteMapLoader implements MapLoader {
             try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
         }
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int addStreetNodeToDatabase(double longitude, double latitude) {
+		return 0;
+	}
 
 }
