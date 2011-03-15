@@ -79,6 +79,9 @@ public class MapModelConverter implements Converter {
 			case buildingPOIList:
 				result.put(prop.toString(), convertPOIList(m.getBuildingPOIList()));
 				break;
+			case currentFloorIndex:
+				result.put(prop.toString(), m.getCurrentFloorIndex());
+				break;
 			}
 		}
 		return result.toJSONString();
