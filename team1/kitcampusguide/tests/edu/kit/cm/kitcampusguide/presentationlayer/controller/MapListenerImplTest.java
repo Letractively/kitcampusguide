@@ -2,11 +2,8 @@ package edu.kit.cm.kitcampusguide.presentationlayer.controller;
 
 import static org.junit.Assert.*;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import org.junit.BeforeClass;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 
 import edu.kit.cm.kitcampusguide.applicationlogic.coordinatemanager.CoordinateManagerImpl;
@@ -15,13 +12,10 @@ import edu.kit.cm.kitcampusguide.datalayer.poidb.POIDBTestFramework;
 import edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel;
 import edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel;
-import edu.kit.cm.kitcampusguide.standardtypes.Category;
 import edu.kit.cm.kitcampusguide.standardtypes.Map;
 import edu.kit.cm.kitcampusguide.standardtypes.MapPosition;
-import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
-import edu.kit.cm.kitcampusguide.testframework.Idgenerator;
 
 /**
  * Test if {@link MapListenerImpl} works properly.
@@ -31,21 +25,29 @@ import edu.kit.cm.kitcampusguide.testframework.Idgenerator;
  */
 public class MapListenerImplTest {
 
-	private static MapListenerImpl mapListener;
-	private static MapModel mapModel;
-	private static InputModel inputModel;
-	private static String testPOIID = "1";
-	private static POI testPOI;
-	private static POI testPOI2;
-	private static MapLocator testMapLocator;
-	private static MapPosition testMapPosition;
+	private MapListenerImpl mapListener;
+	private MapModel mapModel;
+	private InputModel inputModel;
+	private String testPOIID;
+	private POI testPOI;
+	private POI testPOI2;
+	private MapLocator testMapLocator;
+	private MapPosition testMapPosition;
 	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {		
-		POIDBTestFramework.constructPOIDB();		
+		POIDBTestFramework.constructPOIDB();			
+	}
+	
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@Before
+	public void setUp() throws Exception {
+		testPOIID = "1";
 		testPOI = POISourceImpl.getInstance().getPOIByID(testPOIID);
 		testPOI2 = POISourceImpl.getInstance().getPOIByID("2");
 		testMapLocator = new MapLocator(new WorldPosition(0.0, 0.0));
@@ -61,10 +63,10 @@ public class MapListenerImplTest {
 	/**
 	 * Test method for {@link edu.kit.cm.kitcampusguide.presentationlayer.controller.MapListenerImpl#mapLocatorChanged(edu.kit.cm.kitcampusguide.presentationlayer.view.MapLocator)}.
 	 */
-	@Ignore("in this implementation this method does nothing") 
 	@Test
 	public void testMapLocatorChanged() {
-		fail("Not yet implemented");
+		mapListener.mapLocatorChanged(testMapLocator);
+		//nothing to test here
 	}
 
 	/**
@@ -75,13 +77,21 @@ public class MapListenerImplTest {
 		mapListener.clickOnPOI(testPOIID);
 		assertEquals(testPOI.getID(), mapModel.getHighlightedPOI().getID());
 		assertEquals(testPOI.getPosition(), mapModel.getMapLocator().getCenter());
-		
+	}
+	
+	@Test
+	public void testClickOnPOI_invalidID() {
 		mapModel.setHighlightedPOI(testPOI2);
 		mapModel.setMapLocator(testMapLocator);
 		mapListener.clickOnPOI("ajkfhkhgleiu");
 		assertEquals(testPOI2.getID(), mapModel.getHighlightedPOI().getID());		
 		assertEquals(testMapLocator, mapModel.getMapLocator());
-		
+	}
+	
+	@Test
+	public void testClickOnPOI_null() {
+		mapModel.setHighlightedPOI(testPOI2);
+		mapModel.setMapLocator(testMapLocator);
 		mapListener.clickOnPOI(null);
 		assertNull(mapModel.getHighlightedPOI());
 		assertEquals(testMapLocator, mapModel.getMapLocator());
@@ -99,7 +109,7 @@ public class MapListenerImplTest {
 	}
 	
 	@Test (expected=NullPointerException.class)
-	public void testSetRouteFromByContextMenu_WithNullParameter() {
+	public void testSetRouteFromByContextMenu_null() {
 		mapListener.setRouteFromByContextMenu(null);
 	}
 
@@ -115,26 +125,7 @@ public class MapListenerImplTest {
 	}
 	
 	@Test (expected=NullPointerException.class)
-	public void testSetRouteToByContextMenu_WithNullParameter() {
+	public void testSetRouteToByContextMenu_null() {
 		mapListener.setRouteToByContextMenu(null);	
 	}
-
-	/**
-	 * Test method for {@link edu.kit.cm.kitcampusguide.presentationlayer.controller.MapListenerImpl#setMapModel(edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel)}.
-	 */
-	@Ignore("trivial setter-method")
-	@Test
-	public void testSetMapModel() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link edu.kit.cm.kitcampusguide.presentationlayer.controller.MapListenerImpl#setInputModel(edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel)}.
-	 */
-	@Ignore("trivial setter-method")
-	@Test
-	public void testSetInputModel() {
-		fail("Not yet implemented");
-	}
-
 }

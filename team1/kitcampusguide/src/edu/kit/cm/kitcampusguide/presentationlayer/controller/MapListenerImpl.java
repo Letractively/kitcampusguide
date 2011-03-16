@@ -78,9 +78,9 @@ public class MapListenerImpl implements MapListener {
 	 */
 	@Override
 	public void setRouteFromByContextMenu(MapPosition position) {
-		logger.debug("setRouteFromByContextMenu received");
-		mapModel.setMarkerFrom(position);
+		logger.debug("setRouteFromByContextMenu received");		
 		inputModel.setRouteFromField(coordinateManager.coordinateToString(position));
+		mapModel.setMarkerFrom(position);
 	}
 
 	/**
@@ -89,9 +89,9 @@ public class MapListenerImpl implements MapListener {
 	 */
 	@Override
 	public void setRouteToByContextMenu(MapPosition position) {
-		logger.debug("setRouteToByContextMenu received");
-		mapModel.setMarkerTo(position);
+		logger.debug("setRouteToByContextMenu received");		
 		inputModel.setRouteToField(coordinateManager.coordinateToString(position));
+		mapModel.setMarkerTo(position);
 	}
 
 	/**
