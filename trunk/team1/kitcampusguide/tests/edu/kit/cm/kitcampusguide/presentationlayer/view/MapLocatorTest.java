@@ -60,6 +60,7 @@ public class MapLocatorTest {
 	public void testMapLocatorMapSection() {
 		mapLocator = new MapLocator(testMapSection);
 		assertEquals(testMapSection, mapLocator.getMapSection());
+		assertNull(mapLocator.getCenter());
 	}
 	
 	@Test (expected=NullPointerException.class)
@@ -75,6 +76,7 @@ public class MapLocatorTest {
 	public void testMapLocatorWorldPosition() {
 		mapLocator = new MapLocator(testWorldPosition);
 		assertEquals(testWorldPosition, mapLocator.getCenter());
+		assertNull(mapLocator.getMapSection());
 	}
 	
 	@Test (expected=NullPointerException.class)

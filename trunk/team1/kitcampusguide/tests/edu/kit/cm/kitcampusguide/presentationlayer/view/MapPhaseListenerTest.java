@@ -21,6 +21,7 @@ public class MapPhaseListenerTest extends AbstractJsfTestCase {
 	MapPhaseListener mapPhaseListener;
 	PhaseEvent testPhaseEvent1;
 	PhaseEvent testPhaseEvent2;
+	PhaseEvent testPhaseEvent3;
 	MapModel mapModel;
 	
 	public MapPhaseListenerTest(String name) {
@@ -62,6 +63,7 @@ public class MapPhaseListenerTest extends AbstractJsfTestCase {
 		//nothing to test here
 		
 		//missing test case: mapPhaseListener.afterPhase() with a PhaseEvent with PhaseId UPDATE_MODEL_VALUES
+		//shale doesn't support a partial view context mock
 	}
 		
 	public void testBeforePhase() {

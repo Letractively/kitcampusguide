@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.kit.cm.kitcampusguide.datalayer.poidb.POIDBTestFramework;
@@ -31,28 +30,36 @@ import edu.kit.cm.kitcampusguide.applicationlogic.poisource.POISourceImpl;
  */
 public class POIListenerImplTest {
 	
-	private static POIListenerImpl poiListener;
-	private static MapModel mapModel;
-	private static CategoryModel categoryModel;
-	private static int testBuildingID = 1;
-	private static Building testBuilding1;
-	private static POI testBuildingPOI;
-	private static List<POI> testBuildingPOIList;
-	private static Building testBuilding2;
-	private static List<POI> testBuildingPOIList2;
-	private static String testClickPOIID = "3";
-	private static POI testClickPOI;
-	private static Map testFloor;
-	private static Map testMap;
-	private static POI testPOI;
-	private static MapLocator testMapLocator;
+	private POIListenerImpl poiListener;
+	private MapModel mapModel;
+	private CategoryModel categoryModel;
+	private int testBuildingID;
+	private Building testBuilding1;
+	private POI testBuildingPOI;
+	private List<POI> testBuildingPOIList;
+	private Building testBuilding2;
+	private List<POI> testBuildingPOIList2;
+	private String testClickPOIID;
+	private POI testClickPOI;
+	private Map testFloor;
+	private Map testMap;
+	private POI testPOI;
+	private MapLocator testMapLocator;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		POIDBTestFramework.constructPOIDB();
+		POIDBTestFramework.constructPOIDB();						
+	}
+
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@Before
+	public void setUp() throws Exception {		
+		testBuildingID = 1;
 		testBuilding1 = Building.getBuildingByID(testBuildingID);
 		testBuildingPOI = testBuilding1.getBuildingPOI();
 		testBuildingPOIList = new ArrayList<POI>(POISourceImpl.getInstance().getPOIsByBuilding(testBuilding1, null));
@@ -61,25 +68,19 @@ public class POIListenerImplTest {
 				1, POISourceImpl.getInstance().getPOIByID("2"));
 		testBuildingPOIList2 = new ArrayList<POI>();
 		testBuildingPOIList2.add(POISourceImpl.getInstance().getPOIByID("1"));
+		testClickPOIID = "3";
 		testClickPOI = (POISourceImpl.getInstance().getPOIByID(testClickPOIID));
 		testFloor = testClickPOI.getMap();
 		testMap = Map.getMapByID(1);
-		testPOI = POISourceImpl.getInstance().getPOIByID("2");
+		testPOI = POISourceImpl.getInstance().getPOIByID("4");
 		testMapLocator = new MapLocator(new WorldPosition(0.0, 0.0));
 		
 		poiListener = new POIListenerImpl();
-		mapModel = new MapModel();		
+		mapModel = new MapModel();	
+		mapModel.setMap(testMap);
 		categoryModel = new CategoryModel();
 		poiListener.setMapModel(mapModel);
-		poiListener.setCategoryModel(categoryModel);				
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-		mapModel.setMap(testMap);
+		poiListener.setCategoryModel(categoryModel);
 	}
 
 	/**
@@ -90,8 +91,11 @@ public class POIListenerImplTest {
 		poiListener.changeToBuildingMap(testBuildingID);
 		assertEquals(testBuilding1, mapModel.getBuilding());
 		assertNull(mapModel.getHighlightedPOI());
-		assertEquals(testBuilding1.getGroundFloor(), mapModel.getMap());		
+		assertEquals(testBuilding1.getGroundFloor(), mapModel.getMap());
+	}
 	
+	@Test
+	public void testChangeToBuildingMap_invalidID() {	
 		mapModel.setBuilding(testBuilding2);
 		mapModel.setHighlightedPOI(testPOI);
 		mapModel.setMap(testMap);
@@ -111,18 +115,21 @@ public class POIListenerImplTest {
 		//this test may fail once the POIs in the building are filtered, 
 		//cf. the construction of "testBuildingPOIList"	
 		List<POI> buildingPOIList = mapModel.getBuildingPOIList(); 		
-		assertEquals(buildingPOIList.size(), testBuildingPOIList.size());
+		assertEquals(testBuildingPOIList.size(), buildingPOIList.size());
 		for (int i = 0; i < buildingPOIList.size(); i++) {
-			assertEquals(buildingPOIList.get(i).getID(), testBuildingPOIList.get(i).getID());
+			assertEquals(testBuildingPOIList.get(i).getID(), buildingPOIList.get(i).getID());
 		}
-		
+	}
+	
+	@Test
+	public void testShowPOIsInBuilding_invalidID() {		
 		mapModel.createBuildingPOIList(testPOI, testBuildingPOIList2);
 		poiListener.changeToBuildingMap(Integer.MIN_VALUE);
 		assertEquals(testPOI, mapModel.getBuildingPOI());
-		buildingPOIList = mapModel.getBuildingPOIList(); 		
-		assertEquals(buildingPOIList.size(), testBuildingPOIList2.size());
+		List<POI> buildingPOIList = mapModel.getBuildingPOIList(); 	
+		assertEquals(testBuildingPOIList2.size(), buildingPOIList.size());
 		for (int i = 0; i < buildingPOIList.size(); i++) {
-			assertEquals(buildingPOIList.get(i).getID(), testBuildingPOIList2.get(i).getID());
+			assertEquals(testBuildingPOIList2.get(i).getID(), buildingPOIList.get(i).getID());
 		}		
 	}
 
@@ -130,15 +137,17 @@ public class POIListenerImplTest {
 	 * Test method for {@link edu.kit.cm.kitcampusguide.presentationlayer.controller.POIListenerImpl#listEntryClicked(java.lang.String)}.
 	 */
 	@Test
-	public void testListEntryClicked() {
-	
-		poiListener.showPOIsInBuilding(testBuildingID);			
+	public void testListEntryClicked() {	
+		poiListener.showPOIsInBuilding(testBuildingID);	//ensure valid state		
 		poiListener.listEntryClicked(testClickPOIID);
 		assertEquals(testBuilding1, mapModel.getBuilding());
 		assertEquals(testFloor, mapModel.getMap());
 		assertEquals(testClickPOI.getID(), mapModel.getHighlightedPOI().getID());
 		assertEquals(testClickPOI.getPosition(), mapModel.getMapLocator().getCenter());
-
+	}
+	
+	@Test
+	public void testEntryListClicked_invalidID() {
 		mapModel.setMap(testMap);
 		mapModel.setBuilding(null);
 		mapModel.setHighlightedPOI(testPOI);
@@ -149,7 +158,10 @@ public class POIListenerImplTest {
 		assertEquals(testMap, mapModel.getMap());
 		assertEquals(testPOI, mapModel.getHighlightedPOI());
 		assertEquals(testMapLocator, mapModel.getMapLocator());		
-		
+	}
+	
+	@Test
+	public void testEntryListClicked_null() {
 		mapModel.setMap(testMap);
 		mapModel.setBuilding(null);
 		mapModel.setHighlightedPOI(testPOI);
@@ -160,25 +172,5 @@ public class POIListenerImplTest {
 		assertEquals(testMap, mapModel.getMap());
 		assertEquals(testPOI, mapModel.getHighlightedPOI());
 		assertEquals(testMapLocator, mapModel.getMapLocator());	
-	}
-
-	/**
-	 * Test method for {@link edu.kit.cm.kitcampusguide.presentationlayer.controller.POIListenerImpl#setMapModel(edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel)}.
-	 */
-	@Ignore("trivial setter-method")
-	@Test
-	public void testSetMapModel() {
-		fail("Not yet implemented"); 
-	}
-
-	/**
-	 * Test method for {@link edu.kit.cm.kitcampusguide.presentationlayer.controller.POIListenerImpl#setCategoryModel(edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.CategoryModel)}.
-	 */
-	@Ignore("trivial setter-method")
-	@Test
-	public void testSetCategoryModel() {
-		fail("Not yet implemented"); 
-	}
-
-	
+	}	
 }
