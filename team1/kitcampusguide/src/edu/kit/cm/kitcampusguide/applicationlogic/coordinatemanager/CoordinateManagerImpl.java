@@ -50,9 +50,8 @@ public class CoordinateManagerImpl implements CoordinateManager {
 	}
 	
 	/**
-	 *
 	 * @param position String that is meant to be converted into an instance of the 
-	 * 		class {@link WorldPosition}.
+	 * 		class {@link WorldPosition}. Not <code>null</code>.
 	 * 		<code>position</code> has to declare the geographical latitude first,
 	 * 		followed by the geographical longitude.
 	 * 		Consider that the geographical latitude must range between -90 and 90 and the
@@ -63,8 +62,7 @@ public class CoordinateManagerImpl implements CoordinateManager {
 	 * 		They must be separated by a comma.		
 	 * @return Returns an instance of the class {@link WorldPosition} with the geographical
 	 * 		coordinates represented by <code>position</code> or <code>null</code>,
-	 * 		if <code>position</code> cannot be interpreted as geographical coordinates.
-	 * @throws NullPointerException if <code>position</code> is null.	  
+	 * 		if <code>position</code> cannot be interpreted as geographical coordinates. 	  
 	 */
 	@Override
 	public WorldPosition stringToCoordinate(String position) throws NullPointerException {
@@ -99,7 +97,7 @@ public class CoordinateManagerImpl implements CoordinateManager {
 	/**
 	 * Rounds a given floating-point number according to the stated <code>numberPattern</code>
 	 * and returns it.
-	 * @param d Double that shall be rounded. Not null.
+	 * @param d Double that shall be rounded.
 	 * @return Rounds the given double according to the stated <code>numberPattern</code>
 	 * 		and returns it.
 	 */
@@ -115,10 +113,9 @@ public class CoordinateManagerImpl implements CoordinateManager {
 	 * 		WorldPosition <code>position</code>. 
 	 * 		The first number in this <code>String</code> will be the geographical latitude, the second
 	 * 		the geographical longitude.
-	 * @throws NullPointerException if <code>position</code> is null
 	 */
 	@Override
-	public String coordinateToString(WorldPosition position) throws NullPointerException {
+	public String coordinateToString(WorldPosition position) throws NullPointerException{
 		if (formatter instanceof DecimalFormat) {
 		     ((DecimalFormat) formatter).applyPattern(numberPattern);
 		}

@@ -53,12 +53,16 @@ public class InputListenerImpl implements InputListener {
 	/**
 	 * If <code>searchTerm</code> can be interpreted as geographical coordinates, the view will be provoked to
 	 * set an appropriate marker at the corresponding position. 
-	 * Else a search after an appropriate POI will be triggered. If this results in a unique search result, the
-	 * POI which was found will be highlighted. Else the view will be provoked to display the corresponding information.
+	 * Else a search after an appropriate <code>POI</code> will be triggered. 
+	 * If this results in a unique search result, the <code>POI</code> which was found will be highlighted. 
+	 * If there is no search result, an error message will be displayed.
+	 * If there are multiple search results, the view will be provoked to display the corresponding proposal list.
 	 */
-	//TODO THROWS
 	@Override
-	public void searchTriggered(String searchTerm, InputField inputField) {
+	public void searchTriggered(String searchTerm, InputField inputField) throws NullPointerException {
+		if (searchTerm == null || inputField == null) {
+			throw new NullPointerException();
+		}
 		resetView();
 		MapPosition position = positionRepresentedBySearchTerm(searchTerm, inputField);
 		if (position != null) {
@@ -78,21 +82,31 @@ public class InputListenerImpl implements InputListener {
 	}
 	
 	/**
-	 * Provokes the view to highlight the POI <code>soughtAfter</code>.
+	 * Provokes the view to highlight the <code>POI</code> <code>soughtAfter</code>.
 	 */
 	@Override
-	public void searchTriggered(POI soughtAfter) {
+	public void searchTriggered(POI soughtAfter) throws NullPointerException {
+		if (soughtAfter == null) {
+			throw new NullPointerException();
+		}
 		resetView();
 		highlightPOI(soughtAfter);
 	}
 		
 	/**
 	 * Tries to determine the positions represented by the given <code>String</code>s at first. 
+	 * If the position of <code>routeFrom</code> or <code>routeTo</code> can't be determined,
+	 * an appropriate error message will be displayed.
+	 * If there are several possible positions of <code>routeFrom</code> or <code>routeTo</code>,
+	 * the view will be provoked to display the corresponding proposal list.
 	 * If both can be determined definitely, the calculation of a route in between is triggered.
-	 * Else the view will be provoked to display the corresponding information.
+	 * If the route can be calculated successfully, it is displayed, else an error message is displayed.
 	 */
 	@Override
-	public void routeTriggered(String routeFrom, String routeTo) {
+	public void routeTriggered(String routeFrom, String routeTo) throws NullPointerException {
+		if (routeFrom == null || routeTo == null) {
+			throw new NullPointerException();
+		}
 		resetView();
 		MapPosition from = determinePosition(routeFrom, InputField.ROUTE_FROM);	
 		MapPosition to = determinePosition(routeTo, InputField.ROUTE_TO);		
@@ -103,11 +117,17 @@ public class InputListenerImpl implements InputListener {
 	
 	/**
 	 * Tries to determine the position represented by <code>routeFrom</code> at first. 
-	 * If it can be determined definitely, the calculation of a route to <code>to</code> is triggered.
-	 * Else the view will be provoked to display the corresponding information.
+	 * If the position of <code>routeFrom</code> can't be determined, an error message will be displayed.
+	 * If there are several possible positions of <code>routeFrom</code>,
+	 * the view will be provoked to display the corresponding proposal list.
+	 * If the position can be determined definitely, the calculation of a route to <code>to</code> is triggered.
+	 * If the route can be calculated successfully, it is displayed, else an error message is displayed.
 	 */
 	@Override
-	public void routeTriggered(String routeFrom, MapPosition to) {
+	public void routeTriggered(String routeFrom, MapPosition to) throws NullPointerException {
+		if (routeFrom == null || to == null) {
+			throw new NullPointerException();
+		}
 		resetView();
 		MapPosition from = determinePosition(routeFrom, InputField.ROUTE_FROM);		
 		if (from != null) {			
@@ -116,12 +136,18 @@ public class InputListenerImpl implements InputListener {
 	}
 	
 	/**
-	 * Tries to determine the position represented by <code>routeTo</code> at first. 
-	 * If it can be determined definitely, the calculation of a route from <code>from</code> is triggered.
-	 * Else the view will be provoked to display the corresponding information.
+	 * Tries to determine the position represented by <code>routeTo</code> at first.
+	 * If the position of <code>routeTo</code> can't be determined, an error message will be displayed.
+	 * If there are several possible positions of <code>routeTo</code>,
+	 * the view will be provoked to display the corresponding proposal list.
+	 * If the position can be determined definitely, the calculation of a route from <code>from</code> is triggered.
+	 * If the route can be calculated successfully, it is displayed, else an error message is displayed.
 	 */
 	@Override
-	public void routeTriggered(MapPosition from, String routeTo) {
+	public void routeTriggered(MapPosition from, String routeTo) throws NullPointerException {
+		if (from == null || routeTo == null) {
+			throw new NullPointerException();
+		}
 		resetView();
 		MapPosition to = determinePosition(routeTo, InputField.ROUTE_TO);		
 		if (to != null) {			
@@ -131,32 +157,40 @@ public class InputListenerImpl implements InputListener {
 	
 	/**
 	 * Triggers the calculation of a route from <code>from</code> to <code>to</code>.
+	 * If the route can be calculated successfully, it is displayed, else an error message is displayed.
 	 */
 	@Override
-	public void routeTriggered(MapPosition from, MapPosition to) {
+	public void routeTriggered(MapPosition from, MapPosition to) throws NullPointerException {
+		if (from == null || to == null) {
+			throw new NullPointerException();
+		}
 		resetView();
 		calculateRoute(from, to);
 	}
 	
 	// Effects that the POI 'poi' is highlighted in the view. 'poi' must not be null.
 	private void highlightPOI(POI poi) {
+		assert poi != null;
 		logger.debug("highlight poi: " + poi.getName());
-		mapModel.setMarkerFrom(null);
-		mapModel.setMarkerTo(null);
+		mapModel.setMarkerFrom(defaultModelValueClass.getDefaultMarkerFrom());
+		mapModel.setMarkerTo(defaultModelValueClass.getDefaultMarkerTo());
 		mapModel.setHighlightedPOI(poi);
 		mapModel.setMapLocator(new MapLocator (poi.getPosition()));
 		ControllerUtil.setMap(mapModel, categoryModel, poi.getMap());
 		if (!poi.getMap().equals(defaultModelValueClass.getDefaultMap())) {
 			mapModel.setBuilding(poi.getMap().getBuilding());
 		} else {
-			mapModel.setBuilding(null);
+			mapModel.setBuilding(defaultModelValueClass.getDefaultBuilding());
 		}
 	}	
 	
-	// Effects that the route from 'from' to 'to' is calculated and displayed in the view.
+	// Effects that the route from the MapPosition 'from' to the MapPosition 'to' is calculated and displayed
+	// in the view.
 	// If the route can't be calculated, an error message will be displayed.
 	// 'from' and 'to' must not be null.
 	private void calculateRoute(MapPosition from, MapPosition to) {
+		assert from != null;
+		assert to != null;
 		Route route = routing.calculateRoute(from, to);
 		if (route != null) {
 			logger.debug("Display route");
@@ -173,7 +207,7 @@ public class InputListenerImpl implements InputListener {
 							.getDefaultMap().getID()) {
 				ControllerUtil.setMap(mapModel,
 						categoryModel, defaultModelValueClass.getDefaultMap());
-				mapModel.setBuilding(null);
+				mapModel.setBuilding(defaultModelValueClass.getDefaultBuilding());
 			} else {
 				ControllerUtil.setMap(mapModel, categoryModel, from.getMap());
 			}
@@ -186,7 +220,10 @@ public class InputListenerImpl implements InputListener {
 	 * Provokes the view to display the proposal list <code>proposalList</code>.
 	 */
 	@Override
-	public void choiceProposalTriggered(List<POI> proposalList, InputField inputField) {
+	public void choiceProposalTriggered(List<POI> proposalList, InputField inputField) throws NullPointerException {
+		if (proposalList == null || inputField == null) {
+			throw new NullPointerException();
+		}
 		if (inputField == InputField.ROUTE_FROM) {
 			inputModel.setRouteFromField("");
 			inputModel.setRouteFromProposalList(proposalList);			
@@ -197,11 +234,13 @@ public class InputListenerImpl implements InputListener {
 	}
 	
 	//Tries to determine the position represented by the String 'searchTerm', which was typed into the
-	//InputField 'inputField', and returns it. 'searchTerm' mustn't be null.
+	//InputField 'inputField', and returns it. 'searchTerm' and 'inputField' mustn't be null.
 	//Tries to interpret 'searchTerm' as coordinates at first. If the conversion fails, a search after an 
 	//appropriate POI will be triggered and its position will be returned.
 	//If the position can't be determined, null will be returned.
 	private MapPosition determinePosition(String searchTerm, InputField inputField) {
+		assert searchTerm != null;
+		assert inputField != null;
 		MapPosition position = positionRepresentedBySearchTerm(searchTerm, inputField);
 		if (position == null) {
 			POI poi = performSearch(searchTerm, inputField);
@@ -213,10 +252,12 @@ public class InputListenerImpl implements InputListener {
 	}
 	
 	//Executes the search after 'searchTerm' and returns the POI that has been found 
-	//if there's a unique search result. 'searchTerm' mustn't be null.
+	//if there's a unique search result. 'searchTerm' and 'inputField' mustn't be null.
 	//If there is no search result, an error message will be displayed and null will be returned.
 	//If there are multiple search results, the view will be provoked to display the corresponding proposal list.
 	private POI performSearch(String searchTerm, InputField inputField) {
+		assert searchTerm != null;
+		assert inputField != null;
 		List<POI> searchResults = poiSource.getPOIsBySearch(searchTerm);	
 		if (searchResults == null || searchResults.size() == 0) {
 			logger.debug("no search results for " + searchTerm);
@@ -237,11 +278,13 @@ public class InputListenerImpl implements InputListener {
 	}
 	
 	//Tries to interpret the String 'searchTerm', which was typed into the InputField 'inputField',
-	//as coordinates and returns the corresponding MapPosition. 'searchTerm' mustn't be null.
+	//as coordinates and returns the corresponding MapPosition. 'searchTerm' and 'inputField' mustn't be null.
 	//If the corresponding marker and thus the content of the input field has been set via the context menu, 
 	//the MapPosition of this marker will be returned.
 	//If the conversion fails, null will be returned.
 	private MapPosition positionRepresentedBySearchTerm (String searchTerm, InputField inputField) {
+		assert searchTerm != null;
+		assert inputField != null;
 		WorldPosition coordinate = cm.stringToCoordinate(searchTerm);
 		if (coordinate == null) {
 			return null;
@@ -260,25 +303,20 @@ public class InputListenerImpl implements InputListener {
 	//has been set by the context menu.
 	//This is the case if 'searchTerm' can be interpreted as coordinates and the corresponding marker 
 	//is set at the same position (not necessary on the same Map).
+	//'searchTerm' and 'inputField' mustn't be null;
 	private boolean inputWasSetViaContextMenu (String searchTerm, InputField inputField) {
+		assert searchTerm != null;
+		assert inputField != null;
 		WorldPosition coordinate = cm.stringToCoordinate(searchTerm);
 		if (coordinate == null) {
 			return false;
 		} else {
 			if (inputField.equals(InputField.ROUTE_FROM)) {
 				MapPosition markerFrom = mapModel.getMarkerFrom();
-				if (markerFrom != null && equivalent(coordinate, markerFrom)) {	
-					return true; 
-				} else {
-					return false;
-				}
+				return (markerFrom != null && equivalent(coordinate, markerFrom));
 			} else {
 				MapPosition markerTo = mapModel.getMarkerTo();
-				if (markerTo != null && equivalent(coordinate, markerTo)) {		
-					return true;
-				} else {
-					return false;
-				}
+				return (markerTo != null && equivalent(coordinate, markerTo));
 			}
 		}
 	}
@@ -287,20 +325,18 @@ public class InputListenerImpl implements InputListener {
 	//position, else false. 
 	//'worldposition' and 'mapposition' mustn't be null.
 	private boolean equivalent(WorldPosition worldposition, MapPosition mapposition) {
+		assert worldposition != null;
+		assert mapposition != null;
 		double eps = 1e-6;
-		if (Math.abs(worldposition.getLatitude() - mapposition.getLatitude()) < eps 
-				&& Math.abs(worldposition.getLongitude() - mapposition.getLongitude()) < eps) {
-			return true;
-		} else {
-			return false;
-		}
+		return (Math.abs(worldposition.getLatitude() - mapposition.getLatitude()) < eps 
+				&& Math.abs(worldposition.getLongitude() - mapposition.getLongitude()) < eps);
 	}		
 	
-	//Resets the view which means that no highlighted POIs, routes and error messages
-	//will be displayed anymore.
+	//Resets the view to its default state, which means that no highlighted POIs, routes, error messages
+	//and so on will be displayed anymore.
 	private void resetView() {
-		mapModel.setHighlightedPOI(null);
-		mapModel.setRoute(null);
+		mapModel.setHighlightedPOI(defaultModelValueClass.getDefaultHighlightedPOI());
+		mapModel.setRoute(defaultModelValueClass.getDefaultRoute());
 		inputModel.setRouteFromProposalList(null);
 		inputModel.setRouteToProposalList(null);
 		inputModel.setRouteFromSearchFailed(false);
@@ -332,7 +368,10 @@ public class InputListenerImpl implements InputListener {
 	 * Changes the floor being displayed to <code>floor</code>. 
 	 */
 	@Override
-	public void changeFloorTriggered(Map floor) {
+	public void changeFloorTriggered(Map floor) throws NullPointerException {
+		if (floor == null) {
+			throw new NullPointerException();
+		}
 		logger.debug("change floor to: " + floor.getName());
 		ControllerUtil.setMap(mapModel, categoryModel, floor);
 	}
@@ -341,7 +380,7 @@ public class InputListenerImpl implements InputListener {
 	 * Sets the current categories to <code>enabledCategories</code>.
 	 */
 	@Override
-	public void changeCategoryFilterTriggered(Set<Category> enabledCategories) {
+	public void changeCategoryFilterTriggered(Set<Category> enabledCategories) throws NullPointerException {
 		categoryModel.setCurrentCategories(enabledCategories);
 		ControllerUtil.refreshPOIs(mapModel, categoryModel);
 	}
