@@ -16,12 +16,14 @@ public interface CoordinateManager {
 	 * converts it into an instance of the class {@link WorldPosition} and returns the latter.
 	 * 
 	 * @param position 
-	 * 				<code>String</code> that is meant to be converted.	
+	 * 				<code>String</code> that is meant to be converted. Not <code>null</code>.
 	 * @return 
 	 * 				Returns the instance of the class {@link WorldPosition} into which <code>position</code>
 	 * 				has been converted.
+	 * @throws 
+	 * 				NullPointerException if <code>position</code> is <code>null</code>.
 	 */
-	public WorldPosition stringToCoordinate(String position);
+	public WorldPosition stringToCoordinate(String position) throws NullPointerException;
 	
 	
 	/**
@@ -30,10 +32,13 @@ public interface CoordinateManager {
 	 * 
 	 * @param position 
 	 * 				{@link WorldPosition} that is meant to be converted into a <code>String</code>.
+	 * 				Not <code>null</code>.
 	 * @return 
 	 * 				Returns a string representation of the geographical coordinates of the 
 	 * 				WorldPosition <code>position</code>. 
+	 * @throws 
+	 * 				NullPointerException if <code>position</code> is null
 	 */
-	public String coordinateToString(WorldPosition position);
+	public String coordinateToString(WorldPosition position) throws NullPointerException;
 	
 }
