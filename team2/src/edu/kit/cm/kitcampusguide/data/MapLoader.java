@@ -30,11 +30,11 @@ public interface MapLoader {
 
 	/**
 	 * Loads a table containing the distances between each pair of intersection and landmark.
-	 * The first array index identifies an intersection node, the second array index identifies a 
-	 * landmark. All indices are confirm to getGraph() and getLandmarks();
+	 * The first array index identifies a landmark, the second array index identifies an intersection node. All 
+	 * indices are confirm to getGraph() and getLandmarks();
 	 * 
-	 * @return a 2-dimensional double-Array, the first array index identifies a intersection node,
-	 * the second array index identifies a landmark.
+	 * @return a 2-dimensional double-Array, the first array index identifies a landmark,
+	 * the second array index identifies an intersection node.
 	 */
 	double[][] getLandmarkDistances();
 	

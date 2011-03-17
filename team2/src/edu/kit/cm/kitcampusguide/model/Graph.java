@@ -42,6 +42,18 @@ public class Graph {
 	 */
 	private List<Integer> edges;
 	
+	/**
+	 * Creates a new Graph instance that uses the attributes of the given Graph
+	 * 
+	 * @param graph the Graph to use its attributes
+	 */
+	protected Graph(Graph graph) {
+		this.points = graph.points;
+		this.length = graph.length;
+		this.nodes = graph.nodes;
+		this.edges = graph.edges;
+	}
+	
 	
 	/**
 	 * Creates a new but empty Graph.
@@ -90,8 +102,8 @@ public class Graph {
 		 this.nodes = copy(nodes);
 		 this.edges = copy(edges);
 		 if (!valid(this.points, this.length, this.nodes, this.edges)) {
-				throw new IllegalArgumentException();
-			}
+			 throw new IllegalArgumentException();
+		 }
 	}
 	
 	/**
@@ -100,13 +112,37 @@ public class Graph {
 	 * 
 	 * @param point the Point to add
 	 */
-	// TODO return wert zu int ändern und NodeIndex zurückgeben?
 	public void addNode(Point point) {
 		if (point == null) {
 			throw new NullPointerException("point should not be null");
 		}
 		this.points.add(point);
 		this.nodes.add(new Integer(this.nodes.get(this.nodes.size() - 1)));
+	}
+	
+	/**
+	 * Adds a new edge to the Graph. The edge connects the node with index from with
+	 * node with index to and has the weight length.
+	 * 
+	 * @param indexFrom the startnode of the edge
+	 * @param indexTo the endnode of the edge
+	 * @param length the weight of the edge
+	 */
+	public void addEdge(int indexFrom, int indexTo, double length) {
+		if (indexFrom < 0 || indexFrom >= this.points.size()) {
+			throw new IndexOutOfBoundsException("from has to be in range of 0 to .numberOfNodes() - 1");
+		}
+		if (indexTo < 0 || indexTo >= this.points.size()) {
+			throw new IndexOutOfBoundsException("to has to be in range of 0 to .numberOfNodes() - 1");
+		}
+		if (length < 0) {
+			throw new IllegalArgumentException("length has to be a positve number");
+		}
+		this.length.add(this.nodes.get(indexFrom), length);
+		this.edges.add(this.nodes.get(indexFrom), indexTo);
+		for (int i = indexFrom + 1; i < this.nodes.size(); i++) {
+			this.nodes.set(i, this.nodes.get(i).intValue() + 1);
+		}
 	}
 	
 	/**
@@ -122,27 +158,59 @@ public class Graph {
 	/**
 	 * Returns the Point of the node with the specified index.
 	 * 
-	 * @param index the index of the searched Point
+	 * @param nodeIndex the index of the searched Point
 	 * @return the Point with the specified index
 	 */
-	public Point getNode(int index) {
-		if (index < 0 || index >= this.points.size()) {
+	public Point getNode(int nodeIndex) {
+		if (nodeIndex < 0 || nodeIndex >= this.points.size()) {
 			throw new IndexOutOfBoundsException("index has to be in range of 0 to .numberOfNodes() - 1");
 		}
-		return this.points.get(index);
+		return this.points.get(nodeIndex);
 	}
 	
 	/**
 	 * Returns the degree of the node with the specified index.
 	 * 
-	 * @param index the index of the searched Point
+	 * @param nodeIndex the index of the searched Point
 	 * @return the degree of the node with the specified index
 	 */
-	public int getNodeDegree(int index) {
-		if (index < 0 || index >= this.points.size()) {
-			throw new IndexOutOfBoundsException("index has to be in range of 0 to .numberOfNodes() - 1");
+	public int getNodeDegree(int nodeIndex) {
+		if (nodeIndex < 0 || nodeIndex >= this.points.size()) {
+			throw new IndexOutOfBoundsException("nodeIndex has to be in range of 0 to .numberOfNodes() - 1");
 		}
-		return (this.nodes.get(index + 1) - this.nodes.get(index));
+		return (this.nodes.get(nodeIndex + 1) - this.nodes.get(nodeIndex));
+	}
+	
+	/**
+	 * This method gives the Possibility to iterate over all neighbours of the specified node.
+	 * 
+	 * @param nodeIndex the node, who's neighbours shall be iterated
+	 * @return An iterable instance for the neighbours of the specified node
+	 */
+	public Iterable<Integer> NeighboursOf(final int nodeIndex) {
+		return new Iterable<Integer>() {
+			public Iterator<Integer> iterator() {
+				return new Iterator<Integer>() {
+					int index = nodes.get(nodeIndex) - 1;
+					int last = nodes.get(nodeIndex + 1) - 1;
+
+					@Override
+					public boolean hasNext() {
+						return index < last;
+					}
+
+					@Override
+					public Integer next() {
+						return edges.get(++index);
+					}
+
+					@Override
+					public void remove() {
+						throw new UnsupportedOperationException();
+					}
+				};
+			}
+		};
 	}
 	
 	/**
@@ -162,117 +230,25 @@ public class Graph {
 	}
 	
 	/**
-	 * Adds a new edge to the Graph. The edge connects the node with index from with
-	 * node with index to and has the weight length.
-	 * 
-	 * @param from the startnode of the edge
-	 * @param to the endnode of the edge
-	 * @param length the weight of the edge
-	 */
-	public void addEdge(int from, int to, double length) {
-		if (from < 0 || from >= this.points.size()) {
-			throw new IndexOutOfBoundsException("from has to be in range of 0 to .numberOfNodes() - 1");
-		}
-		if (to < 0 || to >= this.points.size()) {
-			throw new IndexOutOfBoundsException("to has to be in range of 0 to .numberOfNodes() - 1");
-		}
-		if (length < 0) {
-			throw new IllegalArgumentException("length has to be a positve number");
-		}
-		this.length.add(this.nodes.get(from), length);
-		this.edges.add(this.nodes.get(from), to);
-		for (int i = from + 1; i < this.nodes.size(); i++) {
-			this.nodes.set(i, this.nodes.get(i).intValue() + 1);
-		}
-	}
-	
-	/**
-	 * Changes the length of the specified edge to the specified length value, if the edge exists.
-	 * 
-	 * @param index the edge to change
-	 * @param length the new length of the edge
-	 */
-	public void setEdge(int index, double length) {
-		if (index < 0 || index >= this.length.size()) {
-			throw new IndexOutOfBoundsException("index has to be in range of 0 to number of edges - 1");
-		}
-		this.length.set(index, length);
-	}
-	
-	/**
-	 * Returns the length of the Edge identified by the specified index.
-	 * 
-	 * @param index the index of the searched edge
-	 * @return the length of the Edge identified by the specified index
-	 */
-	public double getEdgeLength(int index) {
-		if (index < 0 || index >= this.length.size()) {
-			throw new IndexOutOfBoundsException("index has to be in range of 0 to number of edges - 1");
-		}
-		return this.length.get(index);
-	}
-	
-	/**
-	 * Returns the endnode of the Edge identified by the specified index.
-	 * 
-	 * @param index the index of the searched edge
-	 * @return the endnode of the Edge identified by the specified index
-	 */
-	public int getEdgeNode(int index) {
-		if (index < 0 || index >= this.edges.size()) {
-			throw new IndexOutOfBoundsException("index has to be in range of 0 to number of edges - 1");
-		}
-		return this.edges.get(index);
-	}
-	
-	/**
 	 * Returns the length of the Edge identified by it's startnode and endnode.
 	 * 
-	 * @param from the startnode of the searcjed edge
-	 * @param to the endnode of the searched edge
+	 * @param indexFrom the startnode of the searcjed edge
+	 * @param indexTo the endnode of the searched edge
 	 * @return the length of the Edge identified by it's startnode and endnode
 	 */
-	public double getEdge(int from, int to) {
-		if (from < 0 || from >= this.points.size()) {
+	public double getEdge(int indexFrom, int indexTo) {
+		if (indexFrom < 0 || indexFrom >= this.points.size()) {
 			throw new IndexOutOfBoundsException("from has to be in range of 0 to .numberOfNodes() - 1");
 		}
-		if (to < 0 || to >= this.points.size()) {
+		if (indexTo < 0 || indexTo >= this.points.size()) {
 			throw new IndexOutOfBoundsException("to has to be in range of 0 to .numberOfNodes() - 1");
 		}
-		for (int i = this.nodes.get(from); i < this.nodes.get(from + 1); i++) {
-			if (this.edges.get(i).intValue() == to) {
+		for (int i = this.nodes.get(indexFrom); i < this.nodes.get(indexFrom + 1); i++) {
+			if (this.edges.get(i).intValue() == indexTo) {
 				return this.length.get(i);
 			}
 		}
 		return Double.NaN;
-	}
-	
-	/**
-	 * Returns an iterable containing all edges that can be reached from the specified node. 
-	 * 
-	 * @param index 
-	 * @return an iterable containing all edges that can be reached from the specified node
-	 */
-	public Iterable<Integer> getEdges(int index) {
-		return new EdgeIterator(this.nodes.get(index), this.nodes.get(index + 1) - 1);
-	}
-	
-	/**
-	 * Returns an array containing the indices of all neighbours of the specified node.
-	 * 
-	 * @param index
-	 * @return an array containing the indices of all neighbours of the specified node.
-	 */
-	public int[] getNeighbours(int index) {
-		if (index < 0 || index >= this.points.size()) {
-			throw new IndexOutOfBoundsException("index has to be in range of 0 to .numberOfNodes() - 1");
-		}
-		int[] neighbours = new int[this.nodes.get(index + 1) - this.nodes.get(index)];
-		int offset = this.nodes.get(index);
-		for (int i = offset; i < this.nodes.get(index + 1); i++) {
-			neighbours[i - offset] = this.edges.get(i);
-		}
-		return neighbours;
 	}
 	
 	/**
@@ -309,51 +285,6 @@ public class Graph {
 			result.add(element);
 		}
 		return result;
-	}
-	
-	/*
-	 * A private helper class, to support easy iteration over all edges of one node.
-	 */
-	private class EdgeIterator implements Iterator<Integer>, Iterable<Integer> {
-
-		/*
-		 * Holds the edge that is currently viewed by the Iterator
-		 */
-		int active;
-		
-		/*
-		 * Holds the last edge that can be viewed by this Iterator
-		 */
-		int last;
-		
-		/*
-		 * Creates a new EdgeIterator that iterates over all edges between from and to.
-		 */
-		private EdgeIterator(int from, int to) {
-			this.active = from - 1;
-			this.last = to;
-		}
-		
-		@Override
-		public Iterator<Integer> iterator() {
-			return this;
-		}
-
-		@Override
-		public boolean hasNext() {
-			return this.active < this.last;
-		}
-
-		@Override
-		public Integer next() {
-			return (++this.active);
-		}
-
-		@Override
-		public void remove() {
-			throw new UnsupportedOperationException();
-		}
-		
 	}
 
 }
