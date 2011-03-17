@@ -226,6 +226,9 @@ public class Graph {
 				index = i;
 			}
 		}
+		if (index == -1) {
+			throw new IllegalArgumentException("The given Point is not a Graph node");
+		}
 		return index;
 	}
 	

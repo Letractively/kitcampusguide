@@ -46,8 +46,11 @@ public class Dijkstra implements RouteCalculator {
 	 */
 	@Override
 	public Route calculateRoute(Point from, Point to, Graph mapGraph) {
-		int fromIndex = mapGraph.getNodeIndex(from);
+		if (from == null || to == null || mapGraph == null) {
+			throw new NullPointerException();
+		}
 		
+		int fromIndex = mapGraph.getNodeIndex(from);
 		AddressableRadixHeap<Node> nodeQueue = new AddressableRadixHeap<Node>((int) maxEdgeLength(mapGraph));
 		GenericArray<AddressableRadixHeap<Node>.Handle> handles = new GenericArray<AddressableRadixHeap<Node>.Handle>(mapGraph.numberOfNodes());
 		handles.set(fromIndex, nodeQueue.insert(new Node(fromIndex, null), 0));
