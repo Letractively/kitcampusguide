@@ -37,6 +37,6 @@ CampusguideTest.prototype.testSetUp = function() {
 };
 
 CampusguideTest.prototype.testDrawMap = function() {
-	drawmap();
+	createMap();
 	assertNotNull(map);
 }
