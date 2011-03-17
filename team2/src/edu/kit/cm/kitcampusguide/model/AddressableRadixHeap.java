@@ -1,7 +1,5 @@
 package edu.kit.cm.kitcampusguide.model;
 
-import java.util.ArrayList;
-
 /**
  * This class implements a addressable, monotonically increasing heap with integer keys. The implementation is a so 
  * called RadixHeap. This class guarantees amortized O(1) running time for each of its methods.
@@ -59,7 +57,7 @@ public class AddressableRadixHeap<T> {
 	 * @return the handle with minimal key within the heap
 	 */
 	public Handle min() {
-		return this.isEmpty() ? null : this.buckets.get(0).getMin();
+		return this.isEmpty() ? null : this.buckets.get(0).next.getMin();
 	}
 	
 	/**
@@ -124,10 +122,10 @@ public class AddressableRadixHeap<T> {
 	 * @param h the handle to insert
 	 */
 	private void insert(Handle h) {
-		if (!this.isEmpty() && h.key < this.buckets.get(0).getMin().key) {
+		if (!this.isEmpty() && h.key < this.buckets.get(0).next.getMin().key) {
 			throw new IllegalArgumentException("This heap is monotonically increasing, key has to be greater then min");
 		}
-		if (!this.isEmpty() && h.key - this.buckets.get(0).getMin().key > this.maxKeyOffset) {
+		if (!this.isEmpty() && h.key - this.buckets.get(0).next.getMin().key > this.maxKeyOffset) {
 			throw new IllegalArgumentException("key has to be less then (min + maxKeyOffset)");
 		}		
 		
@@ -183,6 +181,8 @@ public class AddressableRadixHeap<T> {
 		private Handle(T element, int key) {
 			this.element = element;
 			this.key = key;
+			this.prev = this;
+			this.next = this;
 		}
 		
 		/**
