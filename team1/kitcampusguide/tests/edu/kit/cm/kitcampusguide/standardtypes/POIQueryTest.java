@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import edu.kit.cm.kitcampusguide.testframework.Idgenerator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -63,14 +64,14 @@ public class POIQueryTest {
 	public static void createTestData() {
 		categories = new ArrayList<Category>();
 		for (int i = 0; i < 20; i++) {
-			categories.add(new Category(i + 150, ""));
+			categories.add(new Category(Idgenerator.getFreeCategoryID(), ""));
 		}
 		maps = new ArrayList<Map>();
 		MapSection boundingBox = new MapSection(new WorldPosition(1, 2),
 				new WorldPosition(2, 4));
 
 		for (int i = 0; i < 10; i++) {
-			maps.add(new Map(i + 23200, "", boundingBox, "", 0, 0));
+			maps.add(new Map(Idgenerator.getFreeMapID(), "", boundingBox, "", 0, 0));
 		}
 		testMaps = new List[] {
 				null,
