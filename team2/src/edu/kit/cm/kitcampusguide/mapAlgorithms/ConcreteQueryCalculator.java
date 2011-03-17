@@ -114,7 +114,9 @@ public class ConcreteQueryCalculator implements QueryCalculator {
 	 */
 	private double getSimilarity(String request, String... texts) {
 		double similarity = 0;
-		String[] requests = request.toLowerCase().concat(" " + request.trim()).split("\\s+");
+		request = request.toLowerCase();
+		String[] requests = "x ".concat(request.trim()).split("\\s+");
+		requests[0] = request;
 		for (String regex : requests) {
 			Pattern pattern = Pattern.compile(regex);
 			for (String text : texts) {
