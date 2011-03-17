@@ -15,8 +15,8 @@ import java.util.HashSet;
  */
 public final class Idgenerator {
 	
-	private static int freeMapID = 4;
-	private static int freeBuildingID = 2;
+	private static int freeMapID = 4; //XXX Auf 4 gesetzt, damit POIDBTestFramework funktioniert.
+	private static int freeBuildingID = 2; //XXX Auf 2 gesetzt, damit POIDBTestFramework funktioniert.
 	private static int freeCategoryID = 0;
 	private static Integer freePOIID = Integer.MIN_VALUE;
 	private static HashSet<Integer> takenMapIDs = new HashSet<Integer>();
