@@ -25,6 +25,7 @@ import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.POITest;
 import edu.kit.cm.kitcampusguide.standardtypes.Route;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
+import edu.kit.cm.kitcampusguide.testframework.Idgenerator;
 
 /**
  * Tests all methods implemented by {@link JSONConversionHelper}.
@@ -60,19 +61,19 @@ public class JSONConversionHelperTest {
 		MapSection boundingBox = new MapSection(new WorldPosition(1, 2),
 				new WorldPosition(2, 4));
 		for (int i = 0; i < 10; i++) {
-			maps.add(new Map(i + 232032, "", boundingBox, "", 0, 0));
+			maps.add(new Map(Idgenerator.getFreeMapID(), "", boundingBox, "", 0, 0));
 		}
 
 		categories = new ArrayList<Category>();
 		for (int i = 0; i < 20; i++) {
-			categories.add(new Category(i + 233211250, ""));
+			categories.add(new Category(Idgenerator.getFreeCategoryID(), ""));
 		}
 
 		POI theBuildingPOI = new POI("buildingPOI", "", null,
 				new WorldPosition(1, 1), maps.get(0), null, categories);
 		buildings = new ArrayList<Building>();
 		for (int i = 0; i < 20; i++) {
-			buildings.add(new Building(i + 103320, maps, 0, theBuildingPOI));
+			buildings.add(new Building(Idgenerator.getFreeBuildingID(), maps, 0, theBuildingPOI));
 		}
 	}
 
@@ -317,7 +318,7 @@ public class JSONConversionHelperTest {
 	@Test
 	public void testConvertPOI() {
 		for (int i = 0; i < 1000; i++) {
-			String id = String.valueOf(random.nextInt());
+			String id = Idgenerator.getFreePOIID();
 			String name = String.valueOf(random.nextInt());
 			String description = random.nextDouble() > .8 ? null : String
 					.valueOf(random.nextInt());
@@ -342,7 +343,7 @@ public class JSONConversionHelperTest {
 	 */
 	@Test
 	public void testConvertPOIList() {
-		POI poi = new POI("", "", null, new WorldPosition(random.nextDouble(),
+		POI poi = new POI(Idgenerator.getFreePOIID(), "", null, new WorldPosition(random.nextDouble(),
 				random.nextDouble()), maps.get(0), null, Collections.EMPTY_LIST);
 		JSONArray array = JSONConversionHelper
 				.convertPOIList(Collections.EMPTY_LIST);
