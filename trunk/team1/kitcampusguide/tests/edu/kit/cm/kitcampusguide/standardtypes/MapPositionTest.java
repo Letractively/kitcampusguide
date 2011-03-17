@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import edu.kit.cm.kitcampusguide.testframework.Idgenerator;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -34,7 +35,7 @@ public class MapPositionTest {
 	public static void createMaps() {
 		maps = new ArrayList<Map>();
 		for (int i = 0; i < 20; i++) {
-			maps.add(new Map(i + 37600, "", new MapSection(
+			maps.add(new Map(Idgenerator.getFreeMapID(), "", new MapSection(
 					new WorldPosition(0, 0), new WorldPosition(1, 1)), "", 0, 0));
 		}
 	}

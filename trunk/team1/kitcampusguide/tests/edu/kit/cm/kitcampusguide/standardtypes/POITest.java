@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import edu.kit.cm.kitcampusguide.testframework.Idgenerator;
 
 import org.junit.Test;
 
@@ -31,23 +32,22 @@ public class POITest {
 				new WorldPosition(2, 4));
 
 		for (int i = 0; i < 10; i++) {
-			maps.add(new Map(i + 2320, "", boundingBox, "", 0, 0));
+			maps.add(new Map(Idgenerator.getFreeMapID(), "", boundingBox, "", 0, 0));
 		}
 
 		List<Category> categories = new ArrayList<Category>();
 		for (int i = 0; i < 20; i++) {
-			categories.add(new Category(i + 250, ""));
+			categories.add(new Category(Idgenerator.getFreeCategoryID(), ""));
 		}
-
 		POI theBuildingPOI = new POI("buildingPOI", "", null,
 				new WorldPosition(1, 1), maps.get(0), null, categories);
 		List<Building> buildings = new ArrayList<Building>();
 		for (int i = 0; i < 20; i++) {
-			buildings.add(new Building(i + 100, maps, 0, theBuildingPOI));
+			buildings.add(new Building(Idgenerator.getFreeBuildingID(), maps, 0, theBuildingPOI));
 		}
 
 		for (int i = 0; i < 1000; i++) {
-			String id = String.valueOf(random.nextInt());
+			String id = Idgenerator.getFreePOIID();
 			String name = String.valueOf(random.nextInt());
 			String description = random.nextDouble() > .8 ? null : String
 					.valueOf(random.nextInt());
