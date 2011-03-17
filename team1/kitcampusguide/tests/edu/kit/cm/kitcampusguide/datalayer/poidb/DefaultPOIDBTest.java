@@ -31,7 +31,6 @@ import edu.kit.cm.kitcampusguide.standardtypes.MapSection;
 import edu.kit.cm.kitcampusguide.standardtypes.POI;
 import edu.kit.cm.kitcampusguide.standardtypes.POIQuery;
 import edu.kit.cm.kitcampusguide.standardtypes.WorldPosition;
-import edu.kit.cm.kitcampusguide.testframework.DBConfigurator;
 
 import static edu.kit.cm.kitcampusguide.testframework.Idgenerator.*;
 
