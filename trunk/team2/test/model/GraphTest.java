@@ -44,10 +44,6 @@ public class GraphTest {
 		Assert.assertTrue(testGraph.numberOfNodes() == 4);
 		Assert.assertArrayEquals(testGraph.getNodes(),nodes);
 		Assert.assertTrue(testGraph.getNode(2) == nodes[2]);
-		Assert.assertArrayEquals(testGraph.getNeighbours(0), new int[] {2, 3, 1, 0});
-		Assert.assertArrayEquals(testGraph.getNeighbours(1), new int[] {3, 0});
-		Assert.assertArrayEquals(testGraph.getNeighbours(2), new int[] {3});
-		Assert.assertArrayEquals(testGraph.getNeighbours(3), new int[] {2});
 		Assert.assertTrue(testGraph.getEdge(0, 3) == 5);
 		Assert.assertTrue(testGraph.getEdge(1, 3) == 6);
 		Assert.assertTrue(testGraph.getEdge(3, 2) == 7);

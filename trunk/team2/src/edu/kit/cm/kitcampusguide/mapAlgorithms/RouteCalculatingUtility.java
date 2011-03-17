@@ -19,7 +19,7 @@ public class RouteCalculatingUtility {
 	/**
 	 * The MapLoader Implementation used by this Class
 	 */
-	public static final MapLoader MAP_LOADER = new ConcreteMapLoader();
+	public static MapLoader MAP_LOADER = new ConcreteMapLoader();
 
 	/*
 	 * Private constructor to prevent object instantiation

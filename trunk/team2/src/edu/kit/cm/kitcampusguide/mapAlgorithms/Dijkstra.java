@@ -1,8 +1,9 @@
 package edu.kit.cm.kitcampusguide.mapAlgorithms;
 
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 
+import edu.kit.cm.kitcampusguide.model.AddressableRadixHeap;
+import edu.kit.cm.kitcampusguide.model.GenericArray;
 import edu.kit.cm.kitcampusguide.model.Graph;
 import edu.kit.cm.kitcampusguide.model.Point;
 import edu.kit.cm.kitcampusguide.model.Route;
@@ -40,31 +41,36 @@ public class Dijkstra implements RouteCalculator {
 		return singleton;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Route calculateRoute(Point from, Point to, Graph mapGraph) {
-		LinkedList<Point> route = new LinkedList<Point>();
-		Node[] mapNodes = extractNodes(mapGraph);
-		PriorityQueue<Dijkstra.Node> nodeQueue = new PriorityQueue<Dijkstra.Node>();
+		int fromIndex = mapGraph.getNodeIndex(from);
 		
-		nodeQueue.add(mapNodes[mapGraph.getNodeIndex(from)]);
-		nodeQueue.peek().distance = 0;
-		while (!nodeQueue.isEmpty() && !nodeQueue.peek().point.equals(to)) {
-			Node activeNode = nodeQueue.poll();
-			for (Integer edge : mapGraph.getEdges(activeNode.index)) {
-				if (activeNode.distance + mapGraph.getEdgeLength(edge) < mapNodes[mapGraph.getEdgeNode(edge)].distance) {
-					nodeQueue.remove(mapNodes[mapGraph.getEdgeNode(edge)]);
-					mapNodes[mapGraph.getEdgeNode(edge)].distance = activeNode.distance + mapGraph.getEdgeLength(edge);
-					mapNodes[mapGraph.getEdgeNode(edge)].parent = activeNode;
-					nodeQueue.add(mapNodes[mapGraph.getEdgeNode(edge)]);
+		AddressableRadixHeap<Node> nodeQueue = new AddressableRadixHeap<Node>((int) maxEdgeLength(mapGraph));
+		GenericArray<AddressableRadixHeap<Node>.Handle> handles = new GenericArray<AddressableRadixHeap<Node>.Handle>(mapGraph.numberOfNodes());
+		handles.set(fromIndex, nodeQueue.insert(new Node(fromIndex, null), 0));
+		
+		while (!nodeQueue.isEmpty() && !mapGraph.getNode(nodeQueue.min().getElement().index).equals(to)) {
+			AddressableRadixHeap<Node>.Handle activeHandle = nodeQueue.deleteMin();
+			for (int neighbour : mapGraph.NeighboursOf(activeHandle.getElement().index)) {
+				int distance = activeHandle.getKey() + (int) (mapGraph.getEdge(activeHandle.getElement().index, neighbour));
+				if (handles.get(neighbour) == null) {
+					handles.set(neighbour, nodeQueue.insert(new Node(neighbour, activeHandle.getElement()), distance));
+				} else if (handles.get(neighbour).getKey() > distance) {
+					handles.get(neighbour).getElement().parent = activeHandle.getElement();
+					nodeQueue.decreaseKey(handles.get(neighbour), distance);
 				}
 			}
 		}
 		
-		if (!nodeQueue.isEmpty() && nodeQueue.peek().point.equals(to)) {
-			Node activeNode = nodeQueue.poll();
-			while (activeNode != null) {
-				route.addFirst(activeNode.point);
-				activeNode = activeNode.parent;
+		LinkedList<Point> route = new LinkedList<Point>();
+		if (!nodeQueue.isEmpty() && mapGraph.getNode(nodeQueue.min().getElement().index).equals(to)) {
+			Node routeNode = nodeQueue.min().getElement();
+			while (routeNode != null) {
+				route.addFirst(mapGraph.getNode(routeNode.index));
+				routeNode = routeNode.parent;
 			}
 		}
 		
@@ -72,22 +78,25 @@ public class Dijkstra implements RouteCalculator {
 	}
 	
 	/*
-	 * Creates and returns an Array containing all nodes of the specified Graph. Additional each node
-	 * can save extra information needed for the Dijkstra-algorithm.
+	 * Returns the length of the longest edge within the specified graph.
 	 */
-	private Node[] extractNodes(Graph graph) {
-		Node[] nodes = new Node[graph.numberOfNodes()];
-		for (int i = 0; i < nodes.length; i++) {
-			nodes[i] = new Node(i, graph.getNode(i), null, Double.MAX_VALUE);
+	private double maxEdgeLength(Graph graph) {
+		double maxLength = -1;
+		for (int i = 0; i < graph.numberOfNodes(); i++) {
+			for (int neighbour : graph.NeighboursOf(i)) {
+				if (graph.getEdge(i, neighbour) > maxLength) {
+					maxLength = graph.getEdge(i, neighbour);
+				}
+			}
 		}
-		return nodes;
+		return maxLength;
 	}
 	
 	/* 
 	 * A private helper class to encapsulate additional information for one Node that are
 	 * needed for the Dijkstra-algorithm.
 	 */
-	private class Node implements Comparable<Node> {
+	private class Node {
 		
 		/*
 		 * Holds the node index
@@ -95,33 +104,16 @@ public class Dijkstra implements RouteCalculator {
 		int index;
 		
 		/*
-		 * Holds the point on the map that is associated with this node
-		 */
-		Point point;
-		
-		/*
 		 * Holds the previous node on an shortest route calculated by the Dijkstra-algorithm
 		 */
 		Node parent;
 		
 		/*
-		 * Holds the distance between this node and the start node
-		 */
-		double distance;
-		
-		/*
 		 * Creates a new Node and with specified additional information.
 		 */
-		private Node(int index, Point point, Node parent, double distance) {
+		private Node(int index, Node parent) {
 			this.index = index;
-			this.point = point;
 			this.parent = parent;
-			this.distance = distance;
-		}
-
-		@Override
-		public int compareTo(Node other) {
-			return (int) Math.signum(this.distance - other.distance);
 		}
 		
 	}

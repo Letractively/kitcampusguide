@@ -38,6 +38,9 @@ public class AStar implements RouteCalculator {
 		return singleton;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Route calculateRoute(Point from, Point to, Graph mapGraph) {
 		Point[] landmarks = RouteCalculatingUtility.MAP_LOADER.getLandmarks();
@@ -56,14 +59,10 @@ public class AStar implements RouteCalculator {
 
 		if (landmark != -1) {
 			double[][] distances = RouteCalculatingUtility.MAP_LOADER.getLandmarkDistances();
-			for (int node = 0; node < mapGraph.numberOfNodes(); node++) {
-				for (int edge : mapGraph.getEdges(node)) {
-					mapGraph.setEdge(edge, mapGraph.getEdgeLength(edge) + distances[mapGraph.getEdgeNode(edge)][landmark] - distances[node][landmark]);
-				}
-			}
+			mapGraph = new LandmarkedGraph(mapGraph, distances[landmark]);
 		}
 		
-		return Dijkstra.getSingleton().calculateRoute(from, to, mapGraph);
+		return Dijkstra.getSingleton().calculateRoute(from, to, mapGraph);		
 	}
 	
 	/*
@@ -79,6 +78,25 @@ public class AStar implements RouteCalculator {
 	 */
 	private double scalarProduct(Point pOne, Point pTwo) {
 		return (pOne.getX() * pTwo.getX()) + (pOne.getY() * pTwo.getY());
+	}
+	
+	private class LandmarkedGraph extends Graph {
+		
+		private double[] landmarkDistances;
+		
+		private LandmarkedGraph(Graph graph, double[] landmarkDistances) {
+			super(graph);
+			this.landmarkDistances = landmarkDistances;
+		}
+		
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public double getEdge(int indexFrom, int indexTo) {
+			return super.getEdge(indexFrom, indexTo) + landmarkDistances[indexTo] - landmarkDistances[indexFrom];
+		}
+		
 	}
 
 }

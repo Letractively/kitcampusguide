@@ -167,10 +167,10 @@ public class ConcreteMapLoader implements MapLoader {
 		    e.printStackTrace();
 	    }
 	    System.out.println(count);
-	    double[][] result = new double[streetnodelist.size()][count];
+	    double[][] result = new double[count][streetnodelist.size()];
 	    
 	    for (int i = 0; i < streetnodelist.size(); i++) {
-	        result[streetnodelist.get(i)][landmarklist.get(i)] = lengthlist.get(i);
+	        result[landmarklist.get(i)][streetnodelist.get(i)] = lengthlist.get(i);
 	    }
 
 	    return result;
