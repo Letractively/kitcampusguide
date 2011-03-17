@@ -134,9 +134,16 @@ public class DefaultPOIDBTest {
 	
 	/**
 	 * Cleans up the system afterwards.
+	 * @throws Exception 
 	 */
 	@AfterClass
-	public static void cleanUp() {
+	public static void cleanUp() throws Exception {
+		Statement statement = DriverManager.getConnection(dbURL).createStatement();
+		String query = "DROP TABLE IF EXISTS POIDB";
+		statement.execute(query);
+			
+		query = "DROP TABLE IF EXISTS CATEGORY";
+		statement.execute(query);
 		System.gc();
 	}
 
@@ -385,12 +392,12 @@ public class DefaultPOIDBTest {
 	 */
 	@Test
 	public void getPOIsByIDMatch() {
-		POI poi = db.getPOIByID("1");
+		POI poi = db.getPOIByID("-1");
 		assertNotNull(poi);
-		assertEquals("1", poi.getID());
-		poi = db.getPOIByID("2");
+		assertEquals("-1", poi.getID());
+		poi = db.getPOIByID("-2");
 		assertNotNull(poi);
-		assertEquals("2", poi.getID());
+		assertEquals("-2", poi.getID());
 	}
 
 	/**

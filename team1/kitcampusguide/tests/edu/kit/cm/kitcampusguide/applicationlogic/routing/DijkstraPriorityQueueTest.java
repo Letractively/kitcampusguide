@@ -5,11 +5,19 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests {@link DijkstraPriorityQueue}
+ * @author Fabian
+ *
+ */
 public class DijkstraPriorityQueueTest {
 
 	
 	private DijkstraPriorityQueue queue;
 
+	/**
+	 * Creates the same PriorityQuere before each test.
+	 */
 	@Before
 	public void setUpPriorityQueue() {
 		queue = new DijkstraPriorityQueue(8);
@@ -23,7 +31,9 @@ public class DijkstraPriorityQueueTest {
 		queue.insert(8, 1300.0000001);
 	}
 	
-	
+	/**
+	 * Tests {@link DijkstraPriorityQueue#insert(int, double)}
+	 */
 	@Test
 	public void testInsertBasic() {
 		queue.insert(9, -1);
@@ -31,6 +41,9 @@ public class DijkstraPriorityQueueTest {
 		assertEquals("deleteMin failed wrong order", 4, queue.deleteMin());
 	}
 	
+	/**
+	 * Tests {@link DijkstraPriorityQueue#insert(int, double)}
+	 */
 	@Test
 	public void testInsertAdvanced() {
 		assertEquals("deleteMin failed wrong order", 4, queue.deleteMin());
@@ -40,6 +53,9 @@ public class DijkstraPriorityQueueTest {
 		assertEquals(11, queue.deleteMin());
 	}
 
+	/**
+	 * Tests {@link DijkstraPriorityQueue#deleteMin()}
+	 */
 	@Test
 	public void testDeleteMinBasic() {
 		assertEquals(4, queue.deleteMin());
@@ -53,6 +69,9 @@ public class DijkstraPriorityQueueTest {
 		assertEquals(-1, queue.deleteMin());
 	}
 	
+	/**
+	 * Tests {@link DijkstraPriorityQueue#deleteMin()}
+	 */
 	@Test
 	public void testDeleteMinAdvanced() {
 		queue = new DijkstraPriorityQueue(8);
@@ -64,6 +83,9 @@ public class DijkstraPriorityQueueTest {
 		assertEquals(9, queue.deleteMin());
 	}
 
+	/**
+	* Tests {@link DijkstraPriorityQueue#isEmpty()}
+	*/
 	@Test
 	public void testIsEmpty() {
 		assertFalse(queue.isEmpty());
@@ -77,6 +99,9 @@ public class DijkstraPriorityQueueTest {
 		assertTrue(queue.isEmpty());
 	}
 
+	/**
+	 * Tests {@link DijkstraPriorityQueue#contains(int)}
+	 */
 	@Test
 	public void testContains() {
 		assertEquals(4, queue.deleteMin());
@@ -91,6 +116,9 @@ public class DijkstraPriorityQueueTest {
 		assertFalse(queue.contains(10));
 	}
 
+	/**
+	 * Tests {@link DijkstraPriorityQueue#decreaseKey(int, double)}
+	 */
 	@Test
 	public void testDecreaseKey() {
 		queue.decreaseKey(4, 1000);
