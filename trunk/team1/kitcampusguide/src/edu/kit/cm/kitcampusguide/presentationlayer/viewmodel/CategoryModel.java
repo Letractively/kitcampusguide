@@ -45,7 +45,7 @@ public class CategoryModel implements Serializable {
 		if (categories == null) {
 			throw new NullPointerException();
 		}
-		if (!this.categories.containsAll(categories)) {
+		if (!this.categories.containsAll(categories) && categories.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
 		this.currentCategories = categories;
