@@ -6,7 +6,7 @@
 CampusguideTest = TestCase("CampusguideTest");
 
 /**
- * adding map-form:all-poi, search:current-poi and route:current-route to DOM.
+ * Adding map-form:all-poi, search:current-poi and route:current-route to DOM.
  */
 CampusguideTest.prototype.setUp = function() {
 	setClientID("test");
