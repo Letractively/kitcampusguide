@@ -1,8 +1,13 @@
 /**
+ * This test case tests creating and setting up the OpenLayers map component.
+ * 
  * @author Kateryna Yurchenko
  */
 CampusguideTest = TestCase("CampusguideTest");
 
+/**
+ * adding map-form:all-poi, search:current-poi and route:current-route to DOM.
+ */
 CampusguideTest.prototype.setUp = function() {
 	setClientID("test");
 	/* Adding map-form:all-poi to DOM.
@@ -27,6 +32,9 @@ CampusguideTest.prototype.setUp = function() {
 	</div> */
 }
 
+/**
+ * Testing the result of adding map-form:all-poi, search:current-poi and route:current-route to DOM.
+ */
 CampusguideTest.prototype.testSetUp = function() {
 	assertNotNull(document.getElementById("test:map-form:all-poi"));
 	assertNotNull(document.getElementById("test:map-form:all-poi").innerHTML);
@@ -36,6 +44,9 @@ CampusguideTest.prototype.testSetUp = function() {
 	assertNotNull(document.getElementById("test:route:current-route").innerHTML);
 };
 
+/**
+ * Testing the result of creating and setting up the OpenLayers map component.
+ */
 CampusguideTest.prototype.testDrawMap = function() {
 	createMap();
 	assertNotNull(map);
