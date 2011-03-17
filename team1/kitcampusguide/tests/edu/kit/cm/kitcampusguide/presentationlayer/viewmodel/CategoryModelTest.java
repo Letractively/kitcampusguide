@@ -2,6 +2,7 @@ package edu.kit.cm.kitcampusguide.presentationlayer.viewmodel;
 
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 import static org.junit.Assert.*;
@@ -32,7 +33,6 @@ public class CategoryModelTest {
 		 * Contains some testing Categories
 		 */
 		private static Set<Category> testingCategories;
-		
 		/**
 		 * Creates a testing Category Model
 		 */
@@ -89,16 +89,16 @@ public class CategoryModelTest {
 			//Creates a random selection of categories
 			Set<Category> testCurrentCategories1 = new HashSet<Category>();
 			Random idGen = new Random();
-			for (int i = 0; i < 20; i++) {
-				Integer generatedId = idGen.nextInt(MAX_CAT);
-				if (Idgenerator.requestCategoryID(generatedId) == false) {
-					Category tempCategory = Category.getCategoryByID(generatedId);
-					if (tempCategory != null) {
-						testCurrentCategories1.add(tempCategory);
-					}
-					
-				}
+			Iterator<Category> newIterator = testingCategories.iterator();
+			Category[] selectCategory = new Category[MAX_CAT];
+			for (int i = 0; i < MAX_CAT; i++) {
+				selectCategory[i] = newIterator.next();
 			}
+			for (int i = 0; i < 20; i++) {
+					Integer generatedId = idGen.nextInt(MAX_CAT);
+					Category tempCategory = selectCategory[generatedId];
+					testCurrentCategories1.add(tempCategory);	
+				}
 			testModel.setCurrentCategories(testCurrentCategories1);
 			assertEquals("CurrentCategories is not set correctly with an random set of categories contained in categories attribute", testCurrentCategories1, testModel.getCurrentCategories());
 			//Reset currentCategories to all available categories
