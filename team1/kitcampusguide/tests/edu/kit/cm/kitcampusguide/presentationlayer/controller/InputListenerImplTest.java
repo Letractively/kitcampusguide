@@ -116,7 +116,6 @@ public class InputListenerImplTest {
 	 */
 	@Test
 	public void testSearchTriggeredCoordinatesRouteTo() {
-		//TODO DefaultModelValue-Error, therefore only compares latitude and longitude
 		MapPosition pos = new MapPosition(49.012743, 8.415631, Map.getMapByID(1));
 		listener.searchTriggered(toCoordinates(pos), InputField.ROUTE_TO);
 		assertEquals(pos, mapModel.getMarkerTo());
@@ -288,9 +287,11 @@ public class InputListenerImplTest {
 	 */
 	@Test
 	public void testChangeCategoryFilterTriggered() {
-		System.out.println("Test ChangeCategoryFilterTriggered");
 		Set<Category> enabledCategories = new HashSet<Category>();
-		enabledCategories.add(Category.getCategoryByID(1));
+		enabledCategories.add(Category.getCategoryByID(3));
+		for (Category c : enabledCategories) {
+			System.out.println(c.getName() + " " + c.getID());
+		}
 		listener.changeCategoryFilterTriggered(enabledCategories);
 		System.out.println(categoryModel.getCategories().size());
 		for (Category c : categoryModel.getCurrentCategories()) {
