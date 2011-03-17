@@ -92,7 +92,11 @@ public class CategoryModelTest {
 			for (int i = 0; i < 20; i++) {
 				Integer generatedId = idGen.nextInt(MAX_CAT);
 				if (Idgenerator.requestCategoryID(generatedId) == false) {
-					testCurrentCategories1.add(Category.getCategoryByID(generatedId));
+					Category tempCategory = Category.getCategoryByID(generatedId);
+					if (tempCategory != null) {
+						testCurrentCategories1.add(tempCategory);
+					}
+					
 				}
 			}
 			testModel.setCurrentCategories(testCurrentCategories1);
