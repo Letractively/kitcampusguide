@@ -53,7 +53,7 @@ public class Dijkstra implements RouteCalculator {
 		handles.set(fromIndex, nodeQueue.insert(new Node(fromIndex, null), 0));
 		
 		while (!nodeQueue.isEmpty() && !mapGraph.getNode(nodeQueue.min().getElement().index).equals(to)) {
-			AddressableRadixHeap<Node>.Handle activeHandle = nodeQueue.deleteMin();
+			AddressableRadixHeap<Node>.Handle activeHandle = nodeQueue.min();
 			for (int neighbour : mapGraph.NeighboursOf(activeHandle.getElement().index)) {
 				int distance = activeHandle.getKey() + (int) (mapGraph.getEdge(activeHandle.getElement().index, neighbour));
 				if (handles.get(neighbour) == null) {
@@ -63,6 +63,7 @@ public class Dijkstra implements RouteCalculator {
 					nodeQueue.decreaseKey(handles.get(neighbour), distance);
 				}
 			}
+			nodeQueue.deleteMin();
 		}
 		
 		LinkedList<Point> route = new LinkedList<Point>();
