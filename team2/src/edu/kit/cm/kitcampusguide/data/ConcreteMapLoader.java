@@ -258,7 +258,7 @@ public class ConcreteMapLoader implements MapLoader {
             statement.executeUpdate("INSERT INTO cg_streetnode (id, latitude, longitude) " + 
                 "VALUES (nextval('cg_streetnode_id_seq'), '" + latitude + "', '" + longitude + "')");
             
-            resultset = statement.executeQuery("SELECT id FROM cg_streenode WHERE id = currval('cg_streetnode_id_seq')");
+            resultset = statement.executeQuery("SELECT id FROM cg_streetnode WHERE id = currval('cg_streetnode_id_seq')");
             resultset.next();
             nodeId = resultset.getInt("id");
             
