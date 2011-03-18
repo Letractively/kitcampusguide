@@ -90,18 +90,20 @@ public class DijkstraTest {
 	public void emptyRouteTest() {
 		Graph mapGraph = new Graph();
 		RouteCalculator dijkstra = Dijkstra.getSingleton();
+		boolean exceptionThrown = false;
 
-		Route route = dijkstra.calculateRoute(null, null, mapGraph);
-		Assert.assertNotNull(route);
-		Assert.assertNotNull(route.getRoute());
-
-		Assert.assertEquals(0, route.getRoute().size());
-
+		try {
+			dijkstra.calculateRoute(null, null, mapGraph);
+		} catch (NullPointerException e) {
+			exceptionThrown = true;
+		}
+		Assert.assertTrue(exceptionThrown);
 	}
 
 	/**
-	 * This method checks if the method calculateRoute is able to calculate a route between the same point.
-	 * The method should return a route with one single point.
+	 * This method checks if the method calculateRoute is able to calculate a
+	 * route between the same point. The method should return a route with one
+	 * single point.
 	 */
 	@Test
 	public void onePointTest() {
@@ -118,8 +120,8 @@ public class DijkstraTest {
 	}
 
 	/**
-	 * This test checks if the class does throw an exception if it is getting as parameters a graph and two points 
-	 * which aren't contained in the graph.
+	 * This test checks if the class does throw an exception if it is getting as
+	 * parameters a graph and two points which aren't contained in the graph.
 	 */
 	@Test
 	public void onePointButNotAddedInGraphTest() {
@@ -135,18 +137,19 @@ public class DijkstraTest {
 
 		boolean wentInTry = false;
 
-//		try {
-			List<Point> route = dijkstra.calculateRoute(new Point(2, 2),
-					new Point(2, 3), mapGraph).getRoute();
-	//	} catch (ArrayIndexOutOfBoundsException e) {
-		//	wentInTry = true;
-		//}
-		//Assert.assertTrue(wentInTry);
+		try {
+			dijkstra.calculateRoute(new Point(2, 2), new Point(2, 3), mapGraph)
+					.getRoute();
+		} catch (IllegalArgumentException e) {
+			wentInTry = true;
+		}
+		Assert.assertTrue(wentInTry);
 	}
 
 	/**
-	 * This method checks if by trying to calculate a route between 2 points which do not have 
-	 * a possible route between them it returns an empty route.
+	 * This method checks if by trying to calculate a route between 2 points
+	 * which do not have a possible route between them it returns an empty
+	 * route.
 	 */
 	@Test
 	public void noRouteToNode() {
@@ -159,9 +162,8 @@ public class DijkstraTest {
 		mapGraph.addNode(nodes[1]);
 		mapGraph.addNode(nodes[2]);
 		mapGraph.addNode(nodes[3]);
-		Route route = dijkstra.calculateRoute(nodes[0], nodes[3],
-				mapGraph);
-		
+		Route route = dijkstra.calculateRoute(nodes[0], nodes[3], mapGraph);
+
 		Assert.assertNotNull(route);
 		Assert.assertNotNull(route.getRoute());
 		Assert.assertEquals(0, route.getRoute().size());
@@ -169,7 +171,8 @@ public class DijkstraTest {
 	}
 
 	/**
-	 * This class tests the method calculateRoute when setting null as parameter of graph
+	 * This class tests the method calculateRoute when setting null as parameter
+	 * of graph
 	 */
 	@Test
 	public void nullRouteTest() {
@@ -178,14 +181,11 @@ public class DijkstraTest {
 		Point[] nodes = { new Point(0, 0), new Point(1, 0) };
 		boolean exceptionThrown = false;
 		try {
-			
-		
-		Route route = dijkstra.calculateRoute(nodes[0], nodes[1],
-				null);
-		} catch(NullPointerException e){
-			exceptionThrown= true;
+			dijkstra.calculateRoute(nodes[0], nodes[1], null);
+		} catch (NullPointerException e) {
+			exceptionThrown = true;
 		}
-		
+
 		Assert.assertTrue(exceptionThrown);
 	}
 	/*
