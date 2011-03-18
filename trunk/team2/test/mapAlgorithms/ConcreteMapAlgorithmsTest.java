@@ -55,7 +55,16 @@ public class ConcreteMapAlgorithmsTest {
 	@Test
 	public void getSuggestionsWithEmptyStringTest() {
 		MapAlgorithms concreteMapAlgorithms = new ConcreteMapAlgorithms();
-		Assert.assertEquals(0, concreteMapAlgorithms.getSuggestions("").size());
+	
+		List<POI> suggestions = concreteMapAlgorithms.getSuggestions("");
+		
+		Assert.assertEquals(4, suggestions.size());
+
+		Assert.assertEquals(2, suggestions.get(0).getId());
+		Assert.assertEquals(1, suggestions.get(1).getId());
+		Assert.assertEquals(4, suggestions.get(2).getId());
+		Assert.assertEquals(3, suggestions.get(3).getId());
+
 	}
 
 	/**
