@@ -129,13 +129,22 @@ public class ConcreteQueryCalculatorTest {
 
 	}
 
-	// TODO wieder das mit null als parameter
+	/**
+	 * This test checks if by setting as parameter null in the method getSuggestions, it throws an 
+	 * exception.
+	 */
 	@Test
 	public void getSuggestionsWithNullAsString() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator
 				.getSingleton();
-		// List<POI> suggestions = queryCalculator.getSuggestions(null);
-
+		boolean nullPointerExceptionThrown = false;
+		try{
+			 queryCalculator.getSuggestions(null);
+		} catch(NullPointerException e) {
+			nullPointerExceptionThrown = true;
+		}
+		
+		Assert.assertTrue(nullPointerExceptionThrown);
 	}
 
 	/**
@@ -201,7 +210,6 @@ public class ConcreteQueryCalculatorTest {
 		Assert.assertEquals(0, suggestions.size());
 	}
 
-	// TODO wieder mit null
 	/**
 	 * This test checks the method getSuggestionsNames if it throws an exception
 	 * if by adding a null as parameter.
@@ -210,8 +218,17 @@ public class ConcreteQueryCalculatorTest {
 	public void getSuggestionsNamesWithNullTest() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator
 				.getSingleton();
-		// List<String> suggestions = queryCalculator.getSuggestionsNames(null);
-
+	
+		boolean nullPointerExceptionThrown = false;
+		
+		try{
+			queryCalculator.getSuggestionsNames(null);
+		} catch(NullPointerException e) {
+			nullPointerExceptionThrown = true;
+		}
+		Assert.assertTrue(nullPointerExceptionThrown);
+		
+		
 	}
 
 	/**
@@ -252,7 +269,6 @@ public class ConcreteQueryCalculatorTest {
 		Assert.assertNull(queryCalculator.searchPOI("XYZT"));
 	}
 
-	// TODO wieder das mit null
 	/**
 	 * This tests if null is set as parameter to the method searchPOI it throws
 	 * an exception
@@ -261,8 +277,15 @@ public class ConcreteQueryCalculatorTest {
 	public void searchPOIWithNullAsParameterTest() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator
 				.getSingleton();
-
-		// Assert.assertNull(queryCalculator.searchPOI(null));
+		boolean nullPointerExceptionThrown = false;
+		try{
+			queryCalculator.searchPOI(null);
+		} catch(NullPointerException e) {
+			nullPointerExceptionThrown = true;
+		}
+		
+		Assert.assertTrue(nullPointerExceptionThrown);
+			
 	}
 
 	/*
