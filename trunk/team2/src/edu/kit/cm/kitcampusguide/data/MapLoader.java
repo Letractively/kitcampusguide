@@ -6,7 +6,6 @@ import edu.kit.cm.kitcampusguide.model.*;
  * Interface of a MapLoader.
  * 
  * @author Michael Hauber
- * @author Tobias Zündorf
  *
  */
 public interface MapLoader {
@@ -59,12 +58,12 @@ public interface MapLoader {
 
 	/**
 	 * Adds the given point to the saved graph in the database.
-	 * Returns the ID of the new streetnode.
+	 * Returns the ID of the new streetnode, returns -1 if the update failed.
 	 * 
 	 * @param longitude the longitude of the new node
 	 * @param latitude the latitude of the new node
 	 * @return the index of the inserted node
 	 */
-	public int addStreetNodeToDatabase(double longitude, double latitude);
+	public int addStreetNodeToDatabase(double latitude, double longitude);
 
 }

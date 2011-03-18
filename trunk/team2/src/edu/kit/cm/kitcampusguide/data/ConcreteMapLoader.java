@@ -245,8 +245,33 @@ public class ConcreteMapLoader implements MapLoader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int addStreetNodeToDatabase(double longitude, double latitude) {
-		return 0;
+	public int addStreetNodeToDatabase(double latitude, double longitude) {	
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultset = null;
+		int nodeId = -1;
+
+		try { 
+	        connection = Config.getPgSQLJDBCConnection();
+
+	        statement = connection.createStatement();
+            statement.executeUpdate("INSERT INTO cg_streetnode (id, latitude, longitude) " + 
+                "VALUES (nextval('cg_streetnode_id_seq'), '" + latitude + "', '" + longitude + "')");
+            
+            resultset = statement.executeQuery("SELECT id FROM cg_streenode WHERE id = currval('cg_streetnode_id_seq')");
+            resultset.next();
+            nodeId = resultset.getInt("id");
+            
+        } catch (Exception e) { 
+            System.err.println("Got an exception! "); 
+            System.err.println(e.getMessage()); 
+            System.err.println(e.getStackTrace());
+        } finally {
+            try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
+            try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
+        }
+
+		return nodeId;
 	}
 
 }
