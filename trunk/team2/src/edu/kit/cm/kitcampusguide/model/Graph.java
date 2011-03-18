@@ -89,12 +89,12 @@ public class Graph {
 	
 	/**
 	 * Tries to setup a new Graph with specified nodes and edges. Throws a IllegalArgumentException if the specified 
-	 * lists of nodes and edges don not represent a consistent Graph.
+	 * lists of nodes and edges do not represent a consistent Graph.
 	 * 
-	 * @param points a list containing Points, representing the geographic of each node 
-	 * @param length a list containing the length of each edge represented by there index 
+	 * @param points a list containing Points, representing the geographic coordinates of each node 
+	 * @param length a list containing the length of each edge represented by their index 
 	 * @param nodes a list that defines a mapping from node indices to edge indices
-	 * @param edges a list containing the end node for eage edge, represented by there index
+	 * @param edges a list containing the end node for each edge, represented by their index
 	 */
 	public Graph(Point[] points, Double[] length, Integer[] nodes, Integer[] edges) {
 		 this.points = copy(points);
@@ -124,8 +124,8 @@ public class Graph {
 	 * Adds a new edge to the Graph. The edge connects the node with index from with
 	 * node with index to and has the weight length.
 	 * 
-	 * @param indexFrom the startnode of the edge
-	 * @param indexTo the endnode of the edge
+	 * @param indexFrom the start-node of the edge
+	 * @param indexTo the end-node of the edge
 	 * @param length the weight of the edge
 	 */
 	public void addEdge(int indexFrom, int indexTo, double length) {
