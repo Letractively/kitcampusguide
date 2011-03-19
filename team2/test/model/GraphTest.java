@@ -1,38 +1,53 @@
 package model;
 
-import org.junit.After;
-import org.junit.AfterClass;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.kit.cm.kitcampusguide.model.Graph;
 import edu.kit.cm.kitcampusguide.model.Point;
 
+/**
+ * 
+ * @author Monica
+ * @author Tobias
+ * 
+ *         This class tests the object Graph.
+ */
 public class GraphTest {
-	
+
 	/*
-	@BeforeClass
-	public void beforeClass() {
-		
-	}
-	
-	@Before
-	public void before() {
-		
-	}
-	*/
+	 * @BeforeClass public void beforeClass() {
+	 * 
+	 * }
+	 * 
+	 * @Before public void before() {
+	 * 
+	 * }
+	 */
+
+	/**
+	 * This class tests if the graph is created correctly by trying to add a new
+	 * graph without parameters, but by adding with help of the methods addNode
+	 * and addEdge
+	 */
 	@Test
-	public void GraphBuildingTest() {
+	public void graphBuildingTest() {
 		Graph testGraph = new Graph();
-		Point[] nodes = {new Point(0,0), new Point(1,0), new Point(0,1), new Point(1,1)};
+		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1),
+				new Point(1, 1) };
+
 		testGraph.addNode(nodes[0]);
 		testGraph.addNode(nodes[1]);
 		testGraph.addNode(nodes[2]);
 		testGraph.addNode(nodes[3]);
-		Assert.assertTrue(testGraph.numberOfNodes() == 4);
-		Assert.assertArrayEquals(testGraph.getNodes(),nodes);
+
+		Assert.assertNotNull(testGraph);
+		Assert.assertEquals(4, testGraph.numberOfNodes());
+		Assert.assertArrayEquals(testGraph.getNodes(), nodes);
+
 		testGraph.addEdge(0, 0, 1);
 		testGraph.addEdge(0, 1, 2);
 		testGraph.addEdge(1, 0, 3);
@@ -41,32 +56,294 @@ public class GraphTest {
 		testGraph.addEdge(1, 3, 6);
 		testGraph.addEdge(0, 2, 4);
 		testGraph.addEdge(3, 2, 7);
-		Assert.assertTrue(testGraph.numberOfNodes() == 4);
-		Assert.assertArrayEquals(testGraph.getNodes(),nodes);
-		Assert.assertTrue(testGraph.getNode(2) == nodes[2]);
+		Assert.assertEquals(4, testGraph.numberOfNodes());
+
+		Assert.assertArrayEquals(testGraph.getNodes(), nodes);
+
+		Assert.assertEquals(nodes[2], testGraph.getNode(2));
+
 		Assert.assertTrue(testGraph.getEdge(0, 3) == 5);
 		Assert.assertTrue(testGraph.getEdge(1, 3) == 6);
 		Assert.assertTrue(testGraph.getEdge(3, 2) == 7);
 	}
+
+	/**
+	 * This method tests if by adding negative weights to an edge, the addEdge
+	 * method throws an exception.
+	 */
+	@Test
+	public void addToGraphNegativeWeights() {
+		Graph testGraph = new Graph();
+		Point[] nodes = { new Point(0, 0), new Point(1, 0) };
+
+		testGraph.addNode(nodes[0]);
+		testGraph.addNode(nodes[1]);
+
+		boolean illegalArgumentExcThrown = false;
+		try {
+			testGraph.addEdge(0, 1, -1);
+		} catch (IllegalArgumentException e) {
+			illegalArgumentExcThrown = true;
+		}
+		Assert.assertTrue(illegalArgumentExcThrown);
+	}
+
+	/**
+	 * This tests if it is possible and works correctly if you add a point with
+	 * negative and double type coordinates.
+	 */
+	@Test
+	public void negativeAndNonIntegerCoordinatestest() {
+		Graph testGraph = new Graph();
+		Point[] nodes = { new Point(-1, 1), new Point(29.1, 0),
+				new Point(0, 1), new Point(1, 1) };
+		testGraph.addNode(nodes[0]);
+		testGraph.addNode(nodes[1]);
+		testGraph.addNode(nodes[2]);
+		testGraph.addNode(nodes[3]);
+
+		Assert.assertEquals(4, testGraph.numberOfNodes());
+		Assert.assertArrayEquals(testGraph.getNodes(), nodes);
+	}
+
+	/**
+	 * This method tests if the getEdge works correctly.
+	 */
+	@Test
+	public void getEdgeMethodTest() {
+		Graph testGraph = new Graph();
+		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1),
+				new Point(1, 1) };
+
+		testGraph.addNode(nodes[0]);
+		testGraph.addNode(nodes[1]);
+		testGraph.addNode(nodes[2]);
+		testGraph.addNode(nodes[3]);
+
+		testGraph.addEdge(0, 0, 1);
+		testGraph.addEdge(0, 1, 2);
+		testGraph.addEdge(1, 0, 3);
+		testGraph.addEdge(0, 3, 5);
+		testGraph.addEdge(2, 3, 8);
+		testGraph.addEdge(1, 3, 6);
+		testGraph.addEdge(0, 2, 4);
+		testGraph.addEdge(3, 2, 7);
+
+		Assert.assertTrue(1 == testGraph.getEdge(0, 0));
+		Assert.assertTrue(2 == testGraph.getEdge(0, 1));
+		Assert.assertTrue(3 == testGraph.getEdge(1, 0));
+		Assert.assertTrue(5 == testGraph.getEdge(0, 3));
+		Assert.assertTrue(8 == testGraph.getEdge(2, 3));
+		Assert.assertTrue(6 == testGraph.getEdge(1, 3));
+		Assert.assertTrue(4 == testGraph.getEdge(0, 2));
+		Assert.assertTrue(7 == testGraph.getEdge(3, 2));
+
+		Assert.assertTrue(Double.isNaN(testGraph.getEdge(3, 0)));
+
+		boolean exceptionWasThrownFromNode = false;
+
+		try {
+			testGraph.getEdge(-1, 2);
+		} catch (IndexOutOfBoundsException e) {
+			exceptionWasThrownFromNode = true;
+		}
+		Assert.assertTrue(exceptionWasThrownFromNode);
+
+		boolean exceptionWasThrownToNode = false;
+
+		try {
+			testGraph.getEdge(1, -1);
+		} catch (IndexOutOfBoundsException e) {
+			exceptionWasThrownToNode = true;
+		}
+		Assert.assertTrue(exceptionWasThrownToNode);
+
+		boolean exceptionWasThrownFromNode2 = false;
+
+		try {
+			testGraph.getEdge(5, 2);
+		} catch (IndexOutOfBoundsException e) {
+			exceptionWasThrownFromNode2 = true;
+		}
+		Assert.assertTrue(exceptionWasThrownFromNode2);
+
+		boolean exceptionWasThrownToNode2 = false;
+
+		try {
+			testGraph.getEdge(0, 5);
+		} catch (IndexOutOfBoundsException e) {
+			exceptionWasThrownToNode2 = true;
+		}
+		Assert.assertTrue(exceptionWasThrownToNode2);
+	}
+
+	/**
+	 * This method checks if the method getNode() correct works.
+	 */
+	@Test
+	public void getNodeMethodTest() {
+		Graph testGraph = new Graph();
+		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1),
+				new Point(1, 1) };
+
+		testGraph.addNode(nodes[0]);
+		testGraph.addNode(nodes[1]);
+		testGraph.addNode(nodes[2]);
+		testGraph.addNode(nodes[3]);
+
+		testGraph.addEdge(0, 0, 1);
+		testGraph.addEdge(1, 0, 3);
+
+		Assert.assertEquals(nodes[1], testGraph.getNode(1));
+
+		boolean exceptionWasThrown1 = false;
+
+		try {
+			testGraph.getNode(-1);
+		} catch (IndexOutOfBoundsException e) {
+			exceptionWasThrown1 = true;
+		}
+		Assert.assertTrue(exceptionWasThrown1);
+
+		boolean exceptionWasThrown2 = false;
+
+		try {
+			testGraph.getNode(4);
+		} catch (IndexOutOfBoundsException e) {
+			exceptionWasThrown2 = true;
+		}
+		Assert.assertTrue(exceptionWasThrown2);
+	}
+
+	/**
+	 * This tests the method getNodeDegree()
+	 */
+	@Test
+	public void getNodeDegreeTest() {
+		Graph testGraph = new Graph();
+		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1) };
+
+		testGraph.addNode(nodes[0]);
+		testGraph.addNode(nodes[1]);
+		testGraph.addNode(nodes[2]);
+
+		testGraph.addEdge(0, 0, 1);
+		testGraph.addEdge(0, 1, 2);
+		testGraph.addEdge(1, 0, 3);
+		testGraph.addEdge(0, 2, 4);
+
+		Assert.assertEquals(3, testGraph.getNodeDegree(0));
+		Assert.assertEquals(1, testGraph.getNodeDegree(1));
+		Assert.assertEquals(0, testGraph.getNodeDegree(2));
+
+		boolean excThrown1 = false;
+		try {
+			testGraph.getNodeDegree(-1);
+		} catch (IndexOutOfBoundsException e) {
+			excThrown1 = true;
+		}
+		Assert.assertTrue(excThrown1);
+
+		boolean excThrown2 = false;
+		try {
+			testGraph.getNodeDegree(3);
+		} catch (IndexOutOfBoundsException e) {
+			excThrown2 = true;
+		}
+		Assert.assertTrue(excThrown2);
+	}
+
+	/**
+	 * This tests the method neighboursOf.
+	 */
+	@Test
+	public void neighboursOfMethodTest() {
+		Graph testGraph = new Graph();
+		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1) };
+
+		testGraph.addNode(nodes[0]);
+		testGraph.addNode(nodes[1]);
+		testGraph.addNode(nodes[2]);
+
+		testGraph.addEdge(0, 0, 1);
+		testGraph.addEdge(0, 1, 2);
+		testGraph.addEdge(1, 0, 3);
+		testGraph.addEdge(0, 2, 4);
+		Integer[] neighboursOfZeroNode = { 2, 1, 0 };
+		int i = 0;
+		for (Integer currentNeighbour : testGraph.NeighboursOf(0)) {
+			Assert.assertEquals(neighboursOfZeroNode[i], currentNeighbour);
+			i++;
+		}
+
+		boolean exceptionThrown1 = false;
+		try {
+			testGraph.NeighboursOf(-1);
+		} catch (IllegalArgumentException e) {
+			exceptionThrown1 = true;
+		}
+		Assert.assertTrue(exceptionThrown1);
+		
+		boolean exceptionThrown2 = false;
+		
+		try{
+			testGraph.NeighboursOf(3);
+		} catch (IllegalArgumentException e) {
+			exceptionThrown2 = true;
+		}
+		Assert.assertTrue(exceptionThrown2);
+	}
 	
-	
-	//TODO negative weights... exception
-	
+	/**
+	 * 
+	 */
+	@Test 
+	public void test() {
+
+		Point[] points = {new Point(0,0), new Point(0,1), new Point(1,0), new Point(1,1)};
+		ArrayList<Point> pointList = new ArrayList<Point>();
+		pointList.add(points[0]);
+		pointList.add(points[1]);
+		pointList.add(points[2]);
+		pointList.add(points[3]);
+		
+		ArrayList<Double> lengthList = new ArrayList<Double>();
+		lengthList.add(2.0);
+		lengthList.add(6.0);
+		lengthList.add(4.0);
+		lengthList.add(8.0);
+		
+		ArrayList<Integer> edgeList = new ArrayList<Integer>();
+		edgeList.add(1);
+		edgeList.add(2);
+		edgeList.add(3);
+		edgeList.add(3);
+		
+		ArrayList<Integer> nodeList = new ArrayList<Integer>();
+		nodeList.add(0);
+		nodeList.add(1);
+		nodeList.add(3);
+		nodeList.add(4);
+		nodeList.add(4);
+		
+		Graph graph = new Graph(pointList,lengthList, nodeList, edgeList);
+		
+		
+		
+	}
 	
 	/*
-	@Test
-	public void edgeTest() {
-		
-	}
-	
-	@After
-	public void after() {
-		
-	}
-	
-	@AfterClass
-	public void afterClass() {
-		
-	}
-	*/
+	 * @Test public void edgeTest() {
+	 * 
+	 * }
+	 * 
+	 * @After public void after() {
+	 * 
+	 * }
+	 * 
+	 * @AfterClass public void afterClass() {
+	 * 
+	 * }
+	 */
+
 }
