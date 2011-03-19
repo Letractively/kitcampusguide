@@ -23,13 +23,13 @@ import java.util.List;
 public class Graph {
 
 	/* 
-	 * Holds all nodes, which a represented by Points, of this Graph. The index of any
-	 * Point in this array is it's unique index.
+	 * Holds all nodes, which are represented by Points, of this Graph. The index of any
+	 * Point in this array is its unique id.
 	 */
 	private List<Point> points;
 	/*
 	 * Holds the length of all edges within the Graph. The index of any edge in this 
-	 * array is it's unique index.
+	 * array is its unique id.
 	 */
 	private List<Double> length;
 	/*
@@ -38,7 +38,7 @@ public class Graph {
 	 */
 	private List<Integer> nodes;
 	/*
-	 * Holds for each edge-index the node-index of the endnode of the edge.
+	 * Holds for each edge-index the node-index of the end-node of the edge.
 	 */
 	private List<Integer> edges;
 	
@@ -73,7 +73,7 @@ public class Graph {
 	 * @param points a list containing Points, representing the geographic of each node 
 	 * @param length a list containing the length of each edge represented by there index 
 	 * @param nodes a list that defines a mapping from node indices to edge indices
-	 * @param edges a list containing the end node for eage edge, represented by there index
+	 * @param edges a list containing the end node for each edge, represented by there index
 	 */
 	@SuppressWarnings("unchecked")
 	public Graph(ArrayList<Point> points, ArrayList<Double> length, ArrayList<Integer> nodes, ArrayList<Integer> edges) {
@@ -182,10 +182,10 @@ public class Graph {
 	}
 	
 	/**
-	 * This method gives the Possibility to iterate over all neighbours of the specified node.
+	 * This method gives the Possibility to iterate over all neighbors of the specified node.
 	 * 
-	 * @param nodeIndex the node, who's neighbours shall be iterated
-	 * @return An iterable instance for the neighbours of the specified node
+	 * @param nodeIndex the node, who's neighbors shall be iterated
+	 * @return An iterable instance for the neighbors of the specified node
 	 */
 	public Iterable<Integer> NeighboursOf(final int nodeIndex) {
 		return new Iterable<Integer>() {
@@ -230,11 +230,11 @@ public class Graph {
 	}
 	
 	/**
-	 * Returns the length of the Edge identified by it's startnode and endnode.
+	 * Returns the length of the Edge identified by it's start-node and end-node.
 	 * 
-	 * @param indexFrom the startnode of the searcjed edge
-	 * @param indexTo the endnode of the searched edge
-	 * @return the length of the Edge identified by it's startnode and endnode
+	 * @param indexFrom the start-node of the searched edge
+	 * @param indexTo the end-node of the searched edge
+	 * @return the length of the Edge identified by it's start-node and end-node
 	 */
 	public double getEdge(int indexFrom, int indexTo) {
 		if (indexFrom < 0 || indexFrom >= this.points.size()) {
