@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -283,55 +282,245 @@ public class GraphTest {
 			exceptionThrown1 = true;
 		}
 		Assert.assertTrue(exceptionThrown1);
-		
+
 		boolean exceptionThrown2 = false;
-		
-		try{
+
+		try {
 			testGraph.NeighboursOf(3);
 		} catch (IllegalArgumentException e) {
 			exceptionThrown2 = true;
 		}
 		Assert.assertTrue(exceptionThrown2);
 	}
-	
-	/**
-	 * 
-	 */
-	@Test 
-	public void test() {
 
-		Point[] points = {new Point(0,0), new Point(0,1), new Point(1,0), new Point(1,1)};
+	/**
+	 * This tests if building a graph by using as parameters a list of points,
+	 * nodes, edges and length of edges.
+	 */
+	@Test
+	public void graphBuildingWithListsTest() {
+
+		Point[] points = { new Point(0, 0), new Point(0, 1), new Point(1, 0),
+				new Point(1, 1) };
 		ArrayList<Point> pointList = new ArrayList<Point>();
 		pointList.add(points[0]);
 		pointList.add(points[1]);
 		pointList.add(points[2]);
 		pointList.add(points[3]);
-		
+
 		ArrayList<Double> lengthList = new ArrayList<Double>();
 		lengthList.add(2.0);
 		lengthList.add(6.0);
 		lengthList.add(4.0);
 		lengthList.add(8.0);
-		
+
 		ArrayList<Integer> edgeList = new ArrayList<Integer>();
 		edgeList.add(1);
 		edgeList.add(2);
 		edgeList.add(3);
 		edgeList.add(3);
-		
+
 		ArrayList<Integer> nodeList = new ArrayList<Integer>();
 		nodeList.add(0);
 		nodeList.add(1);
 		nodeList.add(3);
 		nodeList.add(4);
 		nodeList.add(4);
+
+		Graph graph = new Graph(pointList, lengthList, nodeList, edgeList);
+
+		Assert.assertArrayEquals(points, graph.getNodes());
+		Assert.assertTrue(graph.getEdge(0, 1) == 2.0);
+		Assert.assertTrue(graph.getEdge(1, 2) == 6.0);
+		Assert.assertTrue(graph.getEdge(1, 3) == 4.0);
+		Assert.assertTrue(graph.getEdge(2, 3) == 8.0);
+	}
+
+	/**
+	 * This tests if the edge-list and length-list not the same length having, the 
+	 * constructor throws an exception.
+	 */
+	@Test
+	public void lengthAndEdgeListSizeTest() {
+
+		Point[] points = { new Point(0, 0), new Point(0, 1) };
+		ArrayList<Point> pointList = new ArrayList<Point>();
+		pointList.add(points[0]);
+		pointList.add(points[1]);
+
+		ArrayList<Integer> nodeList = new ArrayList<Integer>();
+		nodeList.add(0);
+		nodeList.add(1);
+		nodeList.add(1);
+
 		
-		Graph graph = new Graph(pointList,lengthList, nodeList, edgeList);
-		
-		
-		
+		ArrayList<Double> lengthList = new ArrayList<Double>();
+		lengthList.add(2.0);
+
+		ArrayList<Integer> edgeList = new ArrayList<Integer>();
+
+		boolean lengthAndEdgeListsExcThrown = false;
+		try {
+			new Graph(pointList, lengthList, nodeList, edgeList);
+		} catch (IllegalArgumentException e) {
+			lengthAndEdgeListsExcThrown = true;
+		}
+		Assert.assertTrue(lengthAndEdgeListsExcThrown);
 	}
 	
+	/**
+	 * This checks if the length of nodes and pointLists + 1 not equal is, it throws an exception.
+	 */
+	@Test
+	public void lengthOfNodeAndPointList() {
+
+		Point[] points = { new Point(0, 0), new Point(0, 1) };
+		ArrayList<Point> pointList = new ArrayList<Point>();
+		pointList.add(points[0]);
+		pointList.add(points[1]);
+
+		ArrayList<Integer> nodeList = new ArrayList<Integer>();
+		nodeList.add(1);
+		nodeList.add(1);
+
+		
+		ArrayList<Double> lengthList = new ArrayList<Double>();
+		lengthList.add(2.0);
+
+		ArrayList<Integer> edgeList = new ArrayList<Integer>();
+		edgeList.add(1);
+
+		boolean lengthAndEdgeListsExcThrown = false;
+		try {
+			new Graph(pointList, lengthList, nodeList, edgeList);
+		} catch (IllegalArgumentException e) {
+			lengthAndEdgeListsExcThrown = true;
+		}
+		Assert.assertTrue(lengthAndEdgeListsExcThrown);
+	}
+	
+	/**
+	 * This checks if the last value of the last node of the list incorrect is, a graph 
+	 * isn't built, but throws an exception.
+	 */
+	@Test
+	public void incorrectNodeListTest() {
+
+		Point[] points = { new Point(0, 0), new Point(0, 1) };
+		ArrayList<Point> pointList = new ArrayList<Point>();
+		pointList.add(points[0]);
+		pointList.add(points[1]);
+
+		ArrayList<Integer> nodeList = new ArrayList<Integer>();
+		nodeList.add(0);
+		nodeList.add(1);
+		nodeList.add(3);
+
+		
+		ArrayList<Double> lengthList = new ArrayList<Double>();
+		lengthList.add(2.0);
+
+		ArrayList<Integer> edgeList = new ArrayList<Integer>();
+		edgeList.add(1);
+
+		boolean lengthAndEdgeListsExcThrown = false;
+		try {
+			new Graph(pointList, lengthList, nodeList, edgeList);
+		} catch (IllegalArgumentException e) {
+			lengthAndEdgeListsExcThrown = true;
+		}
+		Assert.assertTrue(lengthAndEdgeListsExcThrown);
+	}
+	
+
+	/**
+	 * If the edge list contains invalid values an exception should be thrown.
+	 */
+	@Test
+	public void edgeListWithNonExistingNode() {
+
+		Point[] points = { new Point(0, 0), new Point(0, 1) };
+		ArrayList<Point> pointList = new ArrayList<Point>();
+		pointList.add(points[0]);
+		pointList.add(points[1]);
+
+		ArrayList<Integer> nodeList = new ArrayList<Integer>();
+		nodeList.add(0);
+		nodeList.add(1);
+		nodeList.add(1);
+
+		
+		ArrayList<Double> lengthList = new ArrayList<Double>();
+		lengthList.add(2.0);
+
+		ArrayList<Integer> edgeList = new ArrayList<Integer>();
+		edgeList.add(5);
+
+		ArrayList<Integer> edgeList2 = new ArrayList<Integer>();
+		edgeList.add(-1);
+
+		boolean lengthAndEdgeListsExcThrown = false;
+		try {
+			new Graph(pointList, lengthList, nodeList, edgeList);
+		} catch (IllegalArgumentException e) {
+			lengthAndEdgeListsExcThrown = true;
+		}
+		Assert.assertTrue(lengthAndEdgeListsExcThrown);
+	
+		boolean lengthAndEdgeListsExcThrown2 = false;
+		try {
+			new Graph(pointList, lengthList, nodeList, edgeList2);
+		} catch (IllegalArgumentException e) {
+			lengthAndEdgeListsExcThrown2 = true;
+		}
+		Assert.assertTrue(lengthAndEdgeListsExcThrown2);
+	
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	public void nodeListWithIncorrectValuesTest() {
+
+		Point[] points = { new Point(0, 0), new Point(0, 1) };
+		ArrayList<Point> pointList = new ArrayList<Point>();
+		pointList.add(points[0]);
+		pointList.add(points[1]);
+
+		ArrayList<Integer> nodeList = new ArrayList<Integer>();
+		nodeList.add(3);
+		nodeList.add(1);
+		nodeList.add(1);
+
+		ArrayList<Integer> nodeList2 = new ArrayList<Integer>();
+		nodeList2.add(-1);
+		nodeList2.add(1);
+		nodeList2.add(1);
+
+		
+		ArrayList<Double> lengthList = new ArrayList<Double>();
+		lengthList.add(2.0);
+
+		ArrayList<Integer> edgeList = new ArrayList<Integer>();
+		edgeList.add(1);
+
+		boolean lengthAndEdgeListsExcThrown = false;
+		try {
+			new Graph(pointList, lengthList, nodeList, edgeList);
+		} catch (IllegalArgumentException e) {
+			lengthAndEdgeListsExcThrown = true;
+		}
+		Assert.assertTrue(lengthAndEdgeListsExcThrown);
+	
+		boolean lengthAndEdgeListsExcThrown2 = false;
+		try {
+			new Graph(pointList, lengthList, nodeList2, edgeList);
+		} catch (IllegalArgumentException e) {
+			lengthAndEdgeListsExcThrown2 = true;
+		}
+		Assert.assertTrue(lengthAndEdgeListsExcThrown2);
+	}
 	/*
 	 * @Test public void edgeTest() {
 	 * 
