@@ -4,7 +4,7 @@
  * @returns the time, in milliseconds, needed to show the sidebar
  */
 function getSidebarDelay() {
-    var sidebarLeft = parseInt(document.getElementById("sidebar").style.left.replace(/px/g, "")) + 1;
+    var sidebarLeft = parseInt(document.getElementById("sidebar-pane").style.left.replace(/px/g, "")) + 1;
     return sidebarLeft * 2;
 }
 
@@ -13,9 +13,9 @@ function getSidebarDelay() {
  */
 function hideSidebar() {
     var map = document.getElementById("map");
-    var sidebar = document.getElementById("sidebar");
+    var sidebar = document.getElementById("sidebar-pane");
     var mapWidth = parseInt(map.style.width.replace(/px/g, ""));
-    var sidebarWidth = parseInt(sidebar.style.width.replace(/px/g, "")) + 1;
+    var sidebarWidth = parseInt(sidebar.style.width.replace(/px/g, "")) + 13;
     var sidebarLeft = parseInt(sidebar.style.left.replace(/px/g, ""));
     if (sidebarLeft == -1) {
         map.style.width = (mapWidth + sidebarWidth) + "px";
@@ -23,7 +23,7 @@ function hideSidebar() {
     if (sidebarLeft >= sidebarWidth) {
         document.getElementById("hide-sidebar").style.visibility = "hidden";
         document.getElementById("show-sidebar").style.visibility = "visible";
-        document.getElementById("sidebar-pane").style.zIndex = 0;
+        document.getElementById("sidebar").style.zIndex = 0;
     }
     if (sidebarLeft < sidebarWidth) {
         sidebar.style.left = (sidebarLeft + 10) + "px";
@@ -36,9 +36,9 @@ function hideSidebar() {
  */
 function showSidebar() {
     var map = document.getElementById("map");
-    var sidebar = document.getElementById("sidebar");
+    var sidebar = document.getElementById("sidebar-pane");
     var mapWidth = parseInt(map.style.width.replace(/px/g, ""));
-    var sidebarWidth = parseInt(sidebar.style.width.replace(/px/g, "")) + 1;
+    var sidebarWidth = parseInt(sidebar.style.width.replace(/px/g, "")) + 13;
     var sidebarLeft = parseInt(sidebar.style.left.replace(/px/g, ""));
     if (sidebarLeft <= -1 && document.getElementById("show-sidebar").style.visibility != "hidden") {
         map.style.width = (mapWidth - sidebarWidth) + "px";
@@ -46,7 +46,7 @@ function showSidebar() {
         document.getElementById("show-sidebar").style.visibility = "hidden";
     }
     if (sidebarLeft >= sidebarWidth) {
-        document.getElementById("sidebar-pane").style.zIndex = 9999;
+        document.getElementById("sidebar").style.zIndex = 9999;
     }
     if (sidebarLeft > -1) {
         sidebar.style.left = (sidebarLeft - 10) + "px";

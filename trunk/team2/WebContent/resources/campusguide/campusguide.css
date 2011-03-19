@@ -1,12 +1,25 @@
 @CHARSET "UTF-8";
+
+#campusguide {
+	position: relative;
+}
+
+#fullscreen {
+    position: absolute;
+    bottom: 0;    
+    left: 116px;
+    padding: 5px;
+}
 	
 .green-button {
 	color: #009682;
 	font-weight: bold;
 	height: 18px;
 	vertical-align: top;
-	margin: 0 0 0 5px;
+    margin: 0 5px 5px 0;
 	background-color: #e8e8e8;
+	padding-left: 2px;
+	padding-right: 2px;
 }   
 .green-menubutton {
     color: #009682;
@@ -23,34 +36,39 @@
     background-repeat: repeat-x;
     border: 1px solid #000000;
     font-weight: bold;
-	height: 25px;
     margin: 0;
-    padding-left: 5px;
-    padding-top: 3px;
-    width: 753px;
-    z-index: 9999;
+    padding: 0;
+}
+
+#headline-content {
+    margin: 5px;
+}
+
+#headline-content input {
+    margin: 0;
 }
 
 #headline-corner {
     background-image: url(../resources/campusguide/img/headline_corner.png);
     border: 0px;
 	height: 15px;
-	left: 739px;
     margin: 0;
-    position: relative;
-    top: -24px;
     width: 15px;
-    z-index: 10000;
+    z-index: 10000;    
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 #hide-sidebar {
     background-image: url(../resources/campusguide/img/hide.png);
     background-repeat: no-repeat;    
-    border: 0px;
-	height: 15px;
+    position: relative;
+    border: 0;
     margin: 0;
-    margin-top: 2px;
-    width: 11px;
+    height: 15px;
+    width: 11px;    
+    left: -5px;
     z-index: 9999;
 }
 
@@ -78,9 +96,6 @@
 #map {
 	border: 1px solid black;
     border-top-width: 0px;
-	height: 500px;
-	margin-bottom:10px;
-    width:558px;
 }
 
 #map-contextmenu {
@@ -93,14 +108,14 @@
 
 #map-corner {
     background-image: url(../resources/campusguide/img/map_corner.png);
-    border: 0px;
 	height: 15px;
-	left: 214px;
-    margin: 0;
-    position: absolute;
-    top: 707px;
     width: 11px;
     z-index: 10000;
+    position: absolute;
+    border: 0;
+    margin: 0;
+    left: 0;
+    bottom: 0;
 }
 
 .map-popup {
@@ -116,10 +131,13 @@
 }
 
 .poi-categories {
-	color: #000000;
-	font-weight: normal;
-	height: 16px;
-	vertical-align: top;
+    color: #000000;
+    font-weight: normal;
+}
+
+.poi-categories input {
+	position: relative;
+	top: 2px;
 }
 
 .poi-description {
@@ -129,12 +147,17 @@
 }
 
 .poi-filter {
+    background-image: url(../resources/campusguide/img/poi-filter-c.png);
 	color: #009682;
 	font-weight: bold;
 	vertical-align: top;
 	margin: 0 0 0 5px;
-	border-width: 0px;
-    border: none;
+    border: 0;
+    overflow: hidden;
+}
+
+.poi-filter div {
+    background: 0;
 }
 
 .poi-filter table{
@@ -144,14 +167,14 @@
     background-image: url(../resources/campusguide/img/poi-filter.png);
     background-repeat: no-repeat; 
     height: 17px;
-	width: 117px;     
+	width: 111px;     
     padding-left: 10px;
     padding-right: 10px
 }
 
 .poi-menu {
 	bottom: 0;
-    padding: 6px;
+    padding-right: 2px;
     position: absolute;
     text-align: right;
     right: 0;
@@ -169,16 +192,21 @@
 }
 
 #poi-pane {
-    padding: 5px;
-    bottom: 0px;
     position: absolute;
+    bottom: 0;    
+    left: 0;
+    padding: 5px;
 	z-index: 10000;
+}
+
+#poi-pane table {
+    margin: 0;
 }
 
 .route-field {
 	height: 16px;
-	margin: 0 0 5px 5px;
-    width: 187px;
+	width: 100%;
+	margin: 0 0 5px 0;
     z-index: 9999;
 }
 
@@ -188,49 +216,42 @@
 
 #show-sidebar {
     background-image: url(../resources/campusguide/img/show.png);
-    background-repeat: no-repeat;    
-    border: 0px;
-	height: 15px;
+    background-repeat: no-repeat;   
+    position: absolute; 
+    border: 0;
     margin: 0;
-    margin-top: 2px;
-    width: 11px;
-    z-index: 9999;    
-    right: 40px;
-    top: 221px;
-    position: absolute;
+    right: 0;
+    width: 11px;  
+    height: 15px;
+    z-index: 10000;
 }
 
 #sidebar {
-	background-color:#ffffff;
-	border: 1px solid black;
-    border-top-width: 0px;
-    left: -1px;
-	height: 500px; 
-}
-
-.sidebar {
-	height: 500px; 
-    margin: 0;
-	width: 199px; 
-	z-index: 9999;
+	border-color: #000000;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    overflow: hidden;
     position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 9999;
 }
 
 #sidebar-border {
-	background-color:#ffffff;
-	border: 1px solid black;
-    border-top-width: 0px;
-    width = 200px;
+    border-color: #000000;
+    border-style: solid;
 	z-index: 1;
     top: 221px;
     right: 41px;
+    display: none;
 }
 
 #sidebar-pane {
-	height: 501px; 
-    top: 221px;
-    right: 42px;
-    overflow: hidden;
+    background-color:#ffffff;
+    border: 1px solid black;
+    border-width: 0 0 0 1px;
+    padding: 5px;
+    position: absolute;
 }
 
 #sidebar-suggestions {
@@ -239,28 +260,5 @@
 span.hidden {
 	visibility: hidden;
 	display: none;
-}
-
-table.cgtable {
-    color:#000000;
-    margin-bottom:10px;
-    width:730px;
-}
-
-table.cgtable th {
-    background-color:#e5e5e5;
-    color:#000000;
-    padding:4px 5px 5px;
-    text-align:left;
-    vertical-align:bottom;
-    z-index: -10;
-}
-
-table.cgtable row1 {
-    width:558px;
-}
-
-table.cgtable row2 {
-    width:172px;
 }
 	

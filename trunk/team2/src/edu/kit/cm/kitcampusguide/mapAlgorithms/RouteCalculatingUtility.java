@@ -175,7 +175,7 @@ public class RouteCalculatingUtility {
 				{292, 297}, {293, 299}, {294, 295}, {295, 296}, {297, 298}, {300, 301}, {301, 302}, {301, 303}, 
 				{302, 308}, {303, 304}, {303, 328}, {304, 305}, {305, 306}, {305, 329}, {306, 307}, {306, 308}, 
 				{307, 330}, {308, 309}, {309, 310}, {310, 311}, {311, 312}, {312, 313}, {312, 314}, {314, 315}, 
-				{314, 318}, {315,0316}, {315, 330}, {316, 317}, {316, 325}, {317, 318}, {317, 319}, {319, 320}, 
+				{314, 318}, {315, 316}, {315, 330}, {316, 317}, {316, 325}, {317, 318}, {317, 319}, {319, 320}, 
 				{320, 321}, {320, 324}, {321, 322}, {321, 323}, {322, 331}, {322, 387}, {323, 324}, {324, 325},
 				{325, 326}, {325, 335}, {326, 327}, {326, 339}, {327, 328}, {328, 329}, {329, 330}, {331, 332}, 
 				{332, 333}, {332, 361}, {333, 334}, {333, 335}, {334, 337}, {334, 360}, {335, 336}, {336, 337}, 
@@ -191,13 +191,12 @@ public class RouteCalculatingUtility {
 				{391, 398}, {393, 394}, {394, 395}, {395, 396}, {396, 397},
 				{399, 121}, {399, 165}, {399, 400}, {400, 401}, {401, 402}, {402, 403}, {403, 123}, {404, 370}, 
 				{404, 216}, {404, 405}};
-		//streets = new int[][] {{138, 145}};
 		MapLoader ml = new ConcreteMapLoader();
 		Graph g = ml.getGraph();
-		for (int[] street : streets) {
-			ml.addStreetToDatabase(street[0], street[1], getDistance(g.getNode(street[0]), g.getNode(street[1])));
-			ml.addStreetToDatabase(street[1], street[0], getDistance(g.getNode(street[0]), g.getNode(street[1])));
+		for (int i = 0; i < streets.length; i++) {
+			ml.addStreetToDatabase(streets[i][0], streets[i][1], getDistance(g.getNode(streets[i][0]), g.getNode(streets[i][1])));
+			ml.addStreetToDatabase(streets[i][1], streets[i][0], getDistance(g.getNode(streets[i][0]), g.getNode(streets[i][1])));
+			System.out.println((i + 1) + " of " + streets.length + " done");
 		}
-		System.out.println("done");
 	}
 }

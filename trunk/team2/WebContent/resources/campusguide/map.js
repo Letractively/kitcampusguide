@@ -1,6 +1,3 @@
-/** Client ID */
-var clientID;
-
 /** OpenLayers map component */
 var map;
 
@@ -33,15 +30,6 @@ var WGS1984 = new OpenLayers.Projection("EPSG:4326");
 
 /** Coordinates in  Mercator cylindrical projection */
 var MercatorProjection = new OpenLayers.Projection("EPSG:900913");
-
-/**
- * Sets the current client ID.
- * 
- * @param id the new client ID
- */
-function setClientID(id) {
-    clientID = id;
-}
 
 /**
  * Creates and sets up the OpenLayers map component. 
@@ -219,26 +207,6 @@ function createLonLat(lon, lat) {
 }
 
 /**
- * Parses the specified text into an object.
- * 
- * @param text JSON string to parse
- * @returns the Object represented by the specified text
- */
-function createJSONObject(text) {
-    return (text == "") ? null : JSON.parse(text);    
-}
-
-/**
- * Returns the DOM element with specified id.
- * 
- * @param id the id to search for
- * @returns the DOM element with specified id
- */
-function getElement(id) {
-    return document.getElementById(clientID + ":" + id);
-}
-
-/**
  * Sets up width and height of the specified popup.
  */
 function setupPopup(popup) {
@@ -249,39 +217,10 @@ function setupPopup(popup) {
 	divs[2].style.height = (height - 35) + "px";
 	
 	divs[7].style.right = "6px";
-	divs[7].style.height = "36px";
-	divs[7].style.width = "19px";
-}
-
-/**
- * Sets up width and height for each popups
- */
-function setupPopups() {
-    var divs = document.getElementsByTagName("div");
-    for (var i = 0; i < divs.length; i++) {
-        if (divs[i].className == "olFramedCloudPopupContent") {
-            var height = parseInt(divs[i].style.height.replace(/px/g, ""));
-            //divs[i].style.overflow = "";
-            //divs[i].style.width = "100%";
-            //divs[i].style.height = (height + 17) + "px";
-        }
-    }
-    //repositionPopups();
-}
-
-/**
- * Sets up the position of the close box for each popup
- */
-function repositionPopups() {
-    var divs = document.getElementsByTagName("div");
-    for (var i = 0; i < divs.length; i++) {
-        if (divs[i].className == "olPopupCloseBox") {
-        	alert(i);
-            divs[i].style.right = "6px";
-            divs[i].style.height = "36px";
-            divs[i].style.width = "19px";
-        }
-    }
+	divs[7].style.height = "38px";
+	divs[7].style.width = "20px";
+	divs[7].style.top = (divs[7].style.top == "9px") ? "10px" : "42px";
+	
 }
 
 /**
@@ -389,6 +328,7 @@ function showContextMenu(evt, lonlat) {
     content.getElementsByTagName("input")[1].value = lon;
     content.getElementsByTagName("input")[2].value = lat;
     contextmenu = new OpenLayers.Popup("contextmenu", createLonLat(lon, lat), size, content.innerHTML, false);
+    contextmenu.panMapIfOutOfView = true;
     contextmenu.setBorder("1px solid #009682");
     contextmenu.minSize = size;
     contextmenu.maxSize = size;
@@ -439,21 +379,4 @@ function getDistance(pointFrom, pointTo){
     var widthFrom = getLengthByPolarCoordinates(pointFrom.lat);
     var widthTo = getLengthByPolarCoordinates(pointTo.lat);
     return  (Math.acos(Math.sin(widthFrom) * Math.sin(widthTo) + Math.cos(widthFrom) * Math.cos(widthTo) * Math.cos(heightTo - heightFrom))) * 6378137;
-}
-
-/**
- * Simulates the in eventType specified user event on the given element.
- * 
- * @param eventType the event to simulate
- * @param element the element to simulate the event on
- */
-function raiseEvent(eventType, element) { 
-    if (document.createEvent) { 
-        var evt = document.createEvent("Events"); 
-        evt.initEvent(eventType, true, true); 
-        element.dispatchEvent(evt); 
-    } else if (document.createEventObject) {
-        var evt = document.createEventObject(); 
-        element.fireEvent('on' + eventType, evt); 
-    } 
 }
