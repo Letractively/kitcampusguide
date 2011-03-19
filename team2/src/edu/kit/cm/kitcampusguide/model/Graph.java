@@ -182,9 +182,9 @@ public class Graph {
 	}
 	
 	/**
-	 * This method gives the Possibility to iterate over all neighbors of the specified node.
+	 * This method gives the possibility to iterate over all neighbors of the specified node.
 	 * 
-	 * @param nodeIndex the node, who's neighbors shall be iterated
+	 * @param nodeIndex the node, whose neighbors shall be iterated
 	 * @return An iterable instance for the neighbors of the specified node
 	 */
 	public Iterable<Integer> NeighboursOf(final int nodeIndex) {
