@@ -15,6 +15,12 @@ import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.model.Route;
 import edu.kit.cm.kitcampusguide.model.SidebarModel;
 
+/**
+ * Objects of this class are associated with a session of an user of the KITCampusGuide through the
+ * ManagedBean technology of JavaServer Faces storing the current state of the application. 
+ * 
+ * @author Haoqian Zheng
+ */
 @ManagedBean
 @SessionScoped
 public class CampusGuide {
@@ -23,18 +29,47 @@ public class CampusGuide {
 	 * Pattern for a double number
 	 */
 	public static final String NUMBER = "-?\\d+(\\.\\d+)?";
+	
 	/**
 	 * Pattern for String coordinates
 	 */
 	public static final String COORDINATES = ".*\\("+ NUMBER + "\\, " + NUMBER + "\\)";
 	
+	/**
+	 * The {@link HeadlineModel} of the current session.
+	 */
 	private HeadlineModel hlm;
+	
+	/**
+	 * The {@link SidebarModel} of the current session.
+	 */
 	private SidebarModel sbm;
+	
+	/**
+	 * The {@link MapAlgorithms} of the current session.
+	 */
 	private MapAlgorithms ma;
+	
+	/**
+	 * The Locale of the current session storing the current language.
+	 */
 	private Locale locale;
+	
+	/**
+	 * The last {@link POI} that the map was centered on during the current session.
+	 */
 	private POI currentPOI;
+	
+	/**
+	 * The last {@link Route} that has been calculated during the current session.
+	 */
 	private Route currentRoute;
 	
+	/**
+	 * Creates a new CampusGuide object. 
+	 * 
+	 * Initializes the attributes of the new object with the default values.
+	 */
 	public CampusGuide() {
 		this.hlm = new HeadlineModel();
 		this.sbm = new SidebarModel();
@@ -43,24 +78,91 @@ public class CampusGuide {
 		this.currentRoute = null;
 		this.ma = new ConcreteMapAlgorithms();
 	}
-
+	
+	/**
+	 * Returns the current {@link SidebarModel}.
+	 * @return the current SidebarModel.
+	 */
 	public SidebarModel getSbm() {
 		return sbm;
 	}
 
+	/**
+	 * Sets the current {@link SidebarModel}.
+	 * @param sbm the new SidebarModel.
+	 */
 	public void setSbm(SidebarModel sbm) {
 		this.sbm = sbm;
 	}
 
+	/**
+	 * Returns the current {@link SidebarModel}.
+	 * @return the current SidebarModel.
+	 */
 	public HeadlineModel getHlm() {
 		return hlm;
 	}
-
+	
+	/**
+	 * Sets the current {@link HeadlineModel}.
+	 * @param sbm the new HeadlinerModel.
+	 */
 	public void setHlm(HeadlineModel hlm) {
 		this.hlm = hlm;
 	}
 	
-	public String changeLocale() {
+	/**
+	 * Returns the current Locale.
+	 * @return the current Locale.
+	 */
+	public Locale getLocale() {
+		return locale;
+	}
+
+	/**
+	 * Sets the current Locale.
+	 * @param sbm the new Locale.
+	 */
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
+	
+	/**
+	 * Returns the current {@link POI}.
+	 * @return the current POI.
+	 */
+	public POI getCurrentPOI() {
+		return currentPOI;
+	}
+	
+	/**
+	 * Sets the current {@link POI}.
+	 * @param sbm the new POI.
+	 */
+	public void setCurrentPOI(POI currentPOI) {
+		this.currentPOI = currentPOI;
+	}
+	
+	/**
+	 * Returns the current {@see Route}.
+	 * @return the current Route.
+	 */
+	public Route getCurrentRoute() {
+		return currentRoute;
+	}
+	
+	/**
+	 * Sets the current {@link Route}.
+	 * @param sbm the new Route.
+	 */
+	public void setCurrentRoute(Route currentRoute) {
+		this.currentRoute = currentRoute;
+	}
+	
+	/**
+	 * Changes the current locale from German to English or vice versa.
+	 */
+	public void changeLocale() {
 		if (this.locale.getLanguage().equals(Locale.GERMAN.getLanguage())) {
 			this.locale = Locale.ENGLISH;
 			FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.ENGLISH);
@@ -68,32 +170,16 @@ public class CampusGuide {
 			this.locale = Locale.GERMAN;
 			FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.GERMAN);
 		}
-		return "campuskarte";
-	}
-
-	public Locale getLocale() {
-		return locale;
-	}
-
-	public void setLocale(Locale locale) {
-		this.locale = locale;
-	}
-
-	public void setCurrentPOI(POI currentPOI) {
-		this.currentPOI = currentPOI;
-	}
-
-	public POI getCurrentPOI() {
-		return currentPOI;
-	}
-	public void setCurrentRoute(Route currentRoute) {
-		this.currentRoute = currentRoute;
 	}
 	
-	public Route getCurrentRoute() {
-		return currentRoute;
-	}
-
+	/**
+	 * This method updates the model components if the user of KITCampusGuide changes the input
+	 * of the search field of the headline.
+	 * 
+	 * It stores the search string and searches for a proper {@link POI} storing it as current POI 
+	 * and updates the suggestions concerning the search string.
+	 * @param ev the ValueChangeEvent storing the new search string.
+	 */
 	public void searchChanged(ValueChangeEvent ev) {
 		String newSearch = (String) ev.getNewValue();
 		if (newSearch != null) {
@@ -101,7 +187,6 @@ public class CampusGuide {
 			this.currentPOI = this.ma.searchPOI(this.hlm.getSearch());
 			if (this.currentPOI == null) {
 				this.hlm.setSuggestions(this.ma.getSuggestions(this.hlm.getSearch()));
-				//System.out.println(this.hlm.getSuggestions().size());
 			} else {
 				this.hlm.setSuggestions(new ArrayList<POI>());
 			}
@@ -109,6 +194,14 @@ public class CampusGuide {
 		FacesContext.getCurrentInstance().renderResponse();
 	}
 	
+	/**
+	 * This method updates the model components if the user of KITCampusGuide changes the value
+	 * of the from-field of the sidebar.
+	 * 
+	 * It stores the value of the from-field and searches for a proper {@link POI} storing it in the 
+	 * SidebarModel and updates the current route due the new value.
+	 * @param ev the ValueChangeEvent storing the new value of the from-field.
+	 */
 	public void fromChanged(ValueChangeEvent ev) {
 		String newFrom = (String) ev.getNewValue();
 		POI newPOI = newFrom.matches(COORDINATES) ? generateMarker(newFrom) : this.ma.searchPOI(newFrom);
@@ -117,6 +210,14 @@ public class CampusGuide {
 		FacesContext.getCurrentInstance().renderResponse();
 	}
 	
+	/**
+	 * This method updates the model components if the user of KITCampusGuide changes the value
+	 * of the to-field of the sidebar.
+	 * 
+	 * It stores the value of the to-field and searches for a proper {@link POI} storing it in the 
+	 * SidebarModel and updates the current route due the new value.
+	 * @param ev the ValueChangeEvent storing the new value of the to-field.
+	 */
 	public void toChanged(ValueChangeEvent ev) {
 		String newTo = (String) ev.getNewValue();
 		POI newPOI = newTo.matches(COORDINATES) ? generateMarker(newTo) : this.ma.searchPOI(newTo);
@@ -139,6 +240,10 @@ public class CampusGuide {
 		return new POI(text, -1, null, "", new Double(coordinates[0]), new Double(coordinates[1]));
 	}
 	
+	/**
+	 * This method updates the current route due to the currently stored due to the current starting
+	 * and destination point.
+	 */
 	public void updateRoute() {
 		if (this.sbm.getFrom() != null && this.sbm.getTo() != null) {
 			this.currentRoute = this.ma.calculateRoute(this.sbm.getFrom(), this.sbm.getTo());
@@ -147,13 +252,10 @@ public class CampusGuide {
 		}
 	}
 	
+	/**
+	 * This method resets the current route. 
+	 */
 	public void removeRoute() {
 		this.currentRoute = null;
 	}
-
-	public static void main(String[] args) {
-		System.out.println(COORDINATES);
-		System.out.println("Positionsmarker (8.41313, 49.01113)".matches(COORDINATES));
-	}
-	
 }
