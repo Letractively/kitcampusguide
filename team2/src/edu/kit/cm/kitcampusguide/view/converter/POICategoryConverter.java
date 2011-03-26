@@ -8,14 +8,27 @@ import javax.faces.convert.ConverterException;
 import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.model.POICategory;
 
+/**
+ * This class represents a converter for a {@link POICategory} due to the Converter technology of
+ * the JavaServer Faces framework.
+ * @author Haoqian Zheng
+ *
+ */
 public class POICategoryConverter implements Converter {
-
+	
+	/**
+	 * {@inheritDoc}
+	 * @throws ConverterException at call for its functionality is not supported.
+	 */
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2)
 			throws ConverterException {
 		throw new ConverterException(new UnsupportedOperationException());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2)
 			throws ConverterException {
