@@ -33,7 +33,7 @@ public class CampusGuide {
 	/**
 	 * Pattern for String coordinates
 	 */
-	public static final String COORDINATES = ".*\\("+ NUMBER + "\\, " + NUMBER + "\\)";
+	public static final String COORDINATES = ".*\\(" + NUMBER + "\\, " + NUMBER + "\\)";
 	
 	/**
 	 * The {@link HeadlineModel} of the current session.
@@ -105,7 +105,7 @@ public class CampusGuide {
 	
 	/**
 	 * Sets the current {@link HeadlineModel}.
-	 * @param sbm the new HeadlinerModel.
+	 * @param hlm the new HeadlinerModel.
 	 */
 	public void setHlm(HeadlineModel hlm) {
 		this.hlm = hlm;
@@ -121,7 +121,7 @@ public class CampusGuide {
 
 	/**
 	 * Sets the current Locale.
-	 * @param sbm the new Locale.
+	 * @param locale the new Locale.
 	 */
 	public void setLocale(Locale locale) {
 		this.locale = locale;
@@ -137,7 +137,7 @@ public class CampusGuide {
 	
 	/**
 	 * Sets the current {@link POI}.
-	 * @param sbm the new POI.
+	 * @param currentPOI the new POI.
 	 */
 	public void setCurrentPOI(POI currentPOI) {
 		this.currentPOI = currentPOI;
@@ -153,7 +153,7 @@ public class CampusGuide {
 	
 	/**
 	 * Sets the current {@link Route}.
-	 * @param sbm the new Route.
+	 * @param currentRoute the new Route.
 	 */
 	public void setCurrentRoute(Route currentRoute) {
 		this.currentRoute = currentRoute;
