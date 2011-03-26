@@ -16,11 +16,21 @@ var fullscreen = false;
 /** Client ID */
 var clientID;
 
+/**
+ * Initializes the CampusGuide and its map.
+ */
 function setup() {
 	createCampusGuide(campusguideWidth, campusguideHeight, headlineHeight, sidebarWidth);
     createMap();
 }
 
+/**
+ * Initializes the CampusGuide with given values.
+ * @param width the width of the CampusGuide.
+ * @param height the height of the CampusGuide.
+ * @param headlineHeight the height of the headline of the CampusGuide.
+ * @param sidebarWidth the width of the sidebar of the CampusGuide.
+ */
 function createCampusGuide(width, height, headlineHeight, sidebarWidth) {
 	document.getElementById("campusguide").style.width = width +  "px";
 	document.getElementById("campusguide").style.height = height +  "px";
@@ -81,6 +91,9 @@ function raiseEvent(eventType, element) {
     } 
 }
 
+/**
+ * Toggles the view of the map to full screen and back.
+ */
 function toggleFullscreen() {
 	var campusguide = document.getElementById("campusguide");
 	if (fullscreen) {
