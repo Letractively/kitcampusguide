@@ -9,8 +9,19 @@ import edu.kit.cm.kitcampusguide.data.ConcretePOILoader;
 import edu.kit.cm.kitcampusguide.data.POILoader;
 import edu.kit.cm.kitcampusguide.model.POI;
 
+/**
+ * This class represents a converter for a {@link POI} due to the Converter technology of the 
+ * JavaServer Faces framework.
+ * 
+ * It converts a POI to its name and vice versa.
+ * @author Haoqian Zheng.
+ *
+ */
 public class POINameConverter implements Converter {
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2)
 			throws ConverterException {
@@ -28,7 +39,10 @@ public class POINameConverter implements Converter {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2)
 			throws ConverterException {
