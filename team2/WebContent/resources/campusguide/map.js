@@ -347,6 +347,12 @@ function hideContextMenu() {
 	}
 }
 
+/**
+ * Creates a new position marker.
+ * @param name the name of the new position marker.
+ * @param lon the longitude of the new position marker.
+ * @param lat the latitude of the new position marker.
+ */
 function createPositionMarker(name, lon, lat) {
 	var newPOI = {
 		name: name,
