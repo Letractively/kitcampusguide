@@ -17,9 +17,9 @@ import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.model.POICategory;
 
 /**
+ * This class tests the ConcretePOILoader.
  * 
  * @author Michael Hauber
- *
  */
 public class ConcretePOILoaderTest {
 
@@ -38,7 +38,7 @@ public class ConcretePOILoaderTest {
 	
 	
 	/**
-	 * getPOI(Integer id)
+	 * This tests the getters of the ConcreteMapLoader for exceptions.
 	 */
 	@Test
 	public void testExceptionsofGetter() {

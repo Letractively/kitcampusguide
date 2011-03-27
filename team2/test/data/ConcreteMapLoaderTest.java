@@ -16,9 +16,9 @@ import edu.kit.cm.kitcampusguide.data.POILoader;
 import edu.kit.cm.kitcampusguide.model.Point;
 
 /**
+ * This class tests the ConcreteMapLoader.
  * 
  * @author Michael Hauber
- *
  */
 public class ConcreteMapLoaderTest {
 	
@@ -36,7 +36,8 @@ public class ConcreteMapLoaderTest {
 	*/
 
 	/**
-	 * TODO JavaDoc
+	 * This tests the methods addStreetToDatabase(...) and addLandmarkToDatabase(...)
+	 * with illegal parameters and tests the exceptions.
 	 */
 	@Test
 	public void testExceptionsofaddStreet() {
