@@ -96,8 +96,8 @@ public class CampusGuide {
 	}
 
 	/**
-	 * Returns the current {@link SidebarModel}.
-	 * @return the current SidebarModel.
+	 * Returns the current {@link HeadlineModel}.
+	 * @return the current HeadlineModel.
 	 */
 	public HeadlineModel getHlm() {
 		return hlm;
