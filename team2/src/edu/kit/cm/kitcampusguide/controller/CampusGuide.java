@@ -105,7 +105,7 @@ public class CampusGuide {
 	
 	/**
 	 * Sets the current {@link HeadlineModel}.
-	 * @param hlm the new HeadlinerModel.
+	 * @param hlm the new HeadlineModel.
 	 */
 	public void setHlm(HeadlineModel hlm) {
 		this.hlm = hlm;
