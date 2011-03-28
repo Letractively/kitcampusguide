@@ -28,7 +28,7 @@ var contextmenu;
 /** Coordinates in World Geodetic System 1984 */
 var WGS1984 = new OpenLayers.Projection("EPSG:4326");
 
-/** Coordinates in  Mercator cylindrical projection */
+/** Coordinates in Mercator cylindrical projection */
 var MercatorProjection = new OpenLayers.Projection("EPSG:900913");
 
 /**
