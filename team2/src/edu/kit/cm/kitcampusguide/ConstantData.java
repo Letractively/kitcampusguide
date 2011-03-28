@@ -27,7 +27,7 @@ import edu.kit.cm.kitcampusguide.model.POICategory;
 public class ConstantData {
 	
 	/**
-	 * The list of the name of all POI from the database.
+	 * The list of the names of all POI from the database.
 	 */
 	private List<String> allPOIName;
 	
@@ -37,7 +37,7 @@ public class ConstantData {
 	private List<POI> allPOI;
 	
 	/**
-	 * The list of the name of all POI categories from the database.
+	 * The list of the names of all POI categories from the database.
 	 */
 	private List<String> categoriesName;
 	
