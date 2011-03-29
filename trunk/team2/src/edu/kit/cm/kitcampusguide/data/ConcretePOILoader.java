@@ -50,7 +50,6 @@ public class ConcretePOILoader implements POILoader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	// TODO fix...
 	public List<POI> getPOIsByName(String name) {
 		if (name == null || name.length() <= 0) {
 			throw new IllegalArgumentException();
@@ -59,7 +58,7 @@ public class ConcretePOILoader implements POILoader {
 		ArrayList<POI> result = new ArrayList<POI>();
 
 		Connection connection = Config.getPgSQLJDBCConnection();
-		String sqlquery = "SELECT * FROM cg_pois WHERE poi_name LIKE '" + name + "'";
+		String sqlquery = "SELECT * FROM cg_pois WHERE poi_name LIKE '%" + name + "%'";
 		
 		ResultSet resultset = null;
 		try {
@@ -131,7 +130,6 @@ public class ConcretePOILoader implements POILoader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	// TODO fix...
 	public List<POICategory> getPOICategoryByName(String name) {
 		if (name == null || name.length() <= 0) {
 			throw new IllegalArgumentException();
@@ -140,7 +138,7 @@ public class ConcretePOILoader implements POILoader {
 		ArrayList<POICategory> result = new ArrayList<POICategory>();
 		
 		Connection connection = Config.getPgSQLJDBCConnection();
-		String sqlquery = "SELECT * FROM cg_poicategory WHERE poicat_name LIKE '" + name + "'";
+		String sqlquery = "SELECT * FROM cg_poicategory WHERE poicat_name LIKE '%" + name + "%'";
 		
 		ResultSet resultset = null;
 		try {
