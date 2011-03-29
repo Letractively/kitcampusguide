@@ -42,8 +42,8 @@ public interface MapLoader {
 	 * Adds a given landmark with all his distances to the database.
 	 * the index of the double-array identifies an intersection node.
 	 * 
-	 * @param landmark a
-	 * @param distances a
+	 * @param landmark given point to add as landmark
+	 * @param distances distances to all other nodes as double-array.
 	 */
 	void addLandmarkToDatabase(Point landmark, double[] distances);
 
