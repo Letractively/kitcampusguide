@@ -111,7 +111,6 @@ public class AStarTest {
 		Assert.assertEquals(nodes[2], route.getRoute().get(2));
 	}
 
-	// TODO werfe exception
 	/**
 	 * If the method calculateRoute of AStar gets <code>null</code> as parameters it should throw an 
 	 * exception.
@@ -138,14 +137,19 @@ public class AStarTest {
 		mapGraph.addEdge(0, 2, 5);
 		mapGraph.addEdge(2, 0, 5);
 
-		// Route route=aStar.calculateRoute(null, null, mapGraph);
-	}
+		boolean exceptionThrown = false;
+		try{
+		 aStar.calculateRoute(null, null, mapGraph);
+		} catch(NullPointerException e) {
+			exceptionThrown = true;
+		}
+		Assert.assertTrue(exceptionThrown);
+		}
 
 	/**
 	 * This method tests if an exceptions is thrown when the AStar should search a 
 	 * path between two nodes which don't exist in the graph.
 	 */
-	// TODO für pointFrom nicht im Graphen enthalten
 	@Test
 	public void AStarPointFromNotInGraphTest() {
 		AStar aStar = AStar.getSingleton();
@@ -167,12 +171,18 @@ public class AStarTest {
 		mapGraph.addEdge(0, 2, 5);
 		mapGraph.addEdge(2, 0, 5);
 
-		// aStar.calculateRoute(new Point(3,3), nodes[1], mapGraph);
-	}
+		boolean exceptionThrown = false;
+		try{
+		aStar.calculateRoute(new Point(3,3), nodes[1], mapGraph);
+		} catch(IllegalArgumentException e) {
+			exceptionThrown = true;
+		}
+		Assert.assertTrue(exceptionThrown);
+		}
 
 	/**
 	 * This method tests if a graph contains a branch, one smaller and one greater, but the path with 
-	 * the greater branch is shorter, the algorithm is able to calculate the rightpath.
+	 * the greater branch is shorter, the algorithm is able to calculate the right path.
 	 */
 	@Test
 	public void AStarWithABranchTest() {
