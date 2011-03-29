@@ -11,7 +11,7 @@ import edu.kit.cm.kitcampusguide.model.Point;
 import edu.kit.cm.kitcampusguide.model.Route;
 
 /**
- * This utility class provides several methods to convert model objects to a JSON String using
+ * This utility class provides several methods to convert model objects to JSONObjects using
  * JSON simple. 
  *
  * @author Haoqian Zheng
