@@ -2,18 +2,10 @@ package data;
 
 import static org.junit.Assert.fail;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.kit.cm.kitcampusguide.data.ConcreteMapLoader;
-import edu.kit.cm.kitcampusguide.data.ConcretePOILoader;
 import edu.kit.cm.kitcampusguide.data.MapLoader;
-import edu.kit.cm.kitcampusguide.data.POILoader;
-import edu.kit.cm.kitcampusguide.model.Point;
 
 /**
  * This class tests the ConcreteMapLoader.
