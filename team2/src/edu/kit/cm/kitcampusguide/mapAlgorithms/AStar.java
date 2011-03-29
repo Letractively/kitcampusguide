@@ -43,7 +43,7 @@ public class AStar implements RouteCalculator {
 	 */
 	@Override
 	public Route calculateRoute(Point from, Point to, Graph mapGraph) {
-		Point[] landmarks = RouteCalculatingUtility.MAP_LOADER.getLandmarks();
+		Point[] landmarks = RouteCalculatingUtility.getMapLoader().getLandmarks();
 		
 		Point routeVector = new Point(to.getX() - from.getX(), to.getY() - from.getY());
 		Point landmarkVector;
@@ -58,7 +58,7 @@ public class AStar implements RouteCalculator {
 		}
 
 		if (landmark != -1) {
-			double[][] distances = RouteCalculatingUtility.MAP_LOADER.getLandmarkDistances();
+			double[][] distances = RouteCalculatingUtility.getMapLoader().getLandmarkDistances();
 			mapGraph = new LandmarkedGraph(mapGraph, distances[landmark]);
 		}
 		

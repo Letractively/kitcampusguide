@@ -6,9 +6,7 @@ import java.util.List;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
-import edu.kit.cm.kitcampusguide.data.ConcreteMapLoader;
 import edu.kit.cm.kitcampusguide.data.ConcretePOILoader;
-import edu.kit.cm.kitcampusguide.data.MapLoader;
 import edu.kit.cm.kitcampusguide.data.POILoader;
 import edu.kit.cm.kitcampusguide.model.Graph;
 import edu.kit.cm.kitcampusguide.model.POI;
@@ -75,13 +73,17 @@ public class ConstantData {
 	 * @return the street graph.
 	 */
 	public static Graph getGraph() {
-		if (graph == null) {
-			MapLoader maploader = new ConcreteMapLoader();
-			graph = maploader.getGraph();
-		}
 		return graph;
 	}
 	
+	/**
+	 * Sets the street graph.
+	 * @param graph the street graph.
+	 */
+	public static void setGraph(Graph graph) {
+		ConstantData.graph = graph;
+	}
+
 	/**
 	 * Returns a list of all POI.
 	 * @return a list of all POI.

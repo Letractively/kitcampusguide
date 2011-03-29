@@ -2,7 +2,6 @@ package edu.kit.cm.kitcampusguide.mapAlgorithms;
 
 import java.util.List;
 
-import edu.kit.cm.kitcampusguide.ConstantData;
 import edu.kit.cm.kitcampusguide.data.ConcreteMapLoader;
 import edu.kit.cm.kitcampusguide.data.MapLoader;
 import edu.kit.cm.kitcampusguide.model.Graph;
@@ -19,7 +18,7 @@ public class RouteCalculatingUtility {
 	/**
 	 * The MapLoader Implementation used by this Class
 	 */
-	public static MapLoader MAP_LOADER = new ConcreteMapLoader();
+	private static MapLoader mapLoader = new ConcreteMapLoader();
 
 	/*
 	 * Private constructor to prevent object instantiation
@@ -37,7 +36,7 @@ public class RouteCalculatingUtility {
 	 * @return a Graph containing the map and all Points specified in <code>nodes</code>
 	 */
 	public static Graph calculateStreetGraph(Point... nodes) {
-		Graph defaultGraph = ConstantData.getGraph();//MAP_LOADER.getGraph();
+		Graph defaultGraph = mapLoader.getGraph();
 		Point[] graphNodes = defaultGraph.getNodes();
 		
 		for (Point node : nodes) {
@@ -91,11 +90,29 @@ public class RouteCalculatingUtility {
 		for (int i = 0; i < distances.length; i++) {
 			System.out.println("    > " + i + ": " + distances[i]);
 		}
-		RouteCalculatingUtility.MAP_LOADER.addLandmarkToDatabase(point, distances);
+		RouteCalculatingUtility.mapLoader.addLandmarkToDatabase(point, distances);
 	}
-	
-	/*
+
+	/**
+	 * Returns the MapLoader used for all functionality offered by this class.
 	 * 
+	 * @return the MapLoader used for all functionality offered by this class
+	 */
+	public static MapLoader getMapLoader() {
+		return mapLoader;
+	}
+
+	/**
+	 * Sets the MapLoader used for all functionality offered by this class.
+	 * 
+	 * @param mapLoader the MapLoader this class shuld use
+	 */
+	public static void setMapLoader(MapLoader mapLoader) {
+		RouteCalculatingUtility.mapLoader = mapLoader;
+	}
+
+	/*
+	 * Transform the the given radius into kartesian coordinates
 	 */
 	private static double getLengthByPolarCoordinates(double radius) {
 		return radius / 180 * Math.PI;

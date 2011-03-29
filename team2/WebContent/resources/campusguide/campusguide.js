@@ -43,6 +43,9 @@ function createCampusGuide(width, height, headlineHeight, sidebarWidth) {
 	document.getElementById("sidebar-pane").style.width = (sidebarWidth - 13) +  "px";
 	document.getElementById("sidebar-pane").style.height = (height - headlineHeight - 11) +  "px";
 	document.getElementById("show-sidebar").style.top = (headlineHeight + 5) +  "px";
+	if (map) {
+		map.updateSize();
+	}
 }
 
 /**
@@ -96,16 +99,20 @@ function raiseEvent(eventType, element) {
  */
 function toggleFullscreen() {
 	var campusguide = document.getElementById("campusguide");
+	var center = map.getCenter();
 	if (fullscreen) {
 		campusguide.style.position = "relative";
 		campusguide.style.left = "";
 		campusguide.style.top = "";
-		createCampusGuide(campusguideWidth, campusguideHeight, headlineHeight, sidebarWidth);		
+		createCampusGuide(campusguideWidth, campusguideHeight, headlineHeight, sidebarWidth);
+		map.minZoomLevel = 15;
 	} else {
 		campusguide.style.position = "fixed";
 		campusguide.style.left = "0";
 		campusguide.style.top = "0";
 		createCampusGuide(window.innerWidth - 16, window.innerHeight, headlineHeight, (sidebarWidth * 1.25));
+		map.minZoomLevel = 16;
 	}
+	map.setCenter = center;
 	fullscreen = !fullscreen;
 }
