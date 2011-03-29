@@ -71,6 +71,43 @@ public class JSONConverterTest {
 		Assert.assertFalse(converted.isEmpty());
 		Assert.assertEquals(10, converted.size());
 		
+		for (Object convertedPOI : converted) {
+			int index = converted.indexOf(convertedPOI);
+			
+			Assert.assertTrue(convertedPOI instanceof JSONObject);
+			JSONObject poi = (JSONObject) convertedPOI;
+
+			Assert.assertFalse(poi.isEmpty());
+			Assert.assertEquals(7, poi.size());
+			
+			Assert.assertTrue(poi.containsKey("name"));
+			Assert.assertTrue(poi.containsKey("id"));
+			Assert.assertTrue(poi.containsKey("icon"));
+			Assert.assertTrue(poi.containsKey("description"));
+			Assert.assertTrue(poi.containsKey("lon"));
+			Assert.assertTrue(poi.containsKey("lat"));
+			Assert.assertTrue(poi.containsKey("nameSize"));
+			
+			Assert.assertTrue(poi.containsValue("name" + index));
+			Assert.assertTrue(poi.containsValue(index));
+			Assert.assertTrue(poi.containsValue("icon" + index));
+			Assert.assertTrue(poi.containsValue("description" + index));
+			Assert.assertTrue(poi.containsValue(10.0 + index));
+			Assert.assertTrue(poi.containsValue(20.0 + index));
+			Assert.assertTrue(poi.containsValue(5));			
+		}
+		
+		Assert.assertNull(JSONConverter.convertPOIs(null));
+		
+		pois.add(null);
+		
+		try {
+			converted = JSONConverter.convertPOIs(pois);
+			Assert.fail("NullPointerException expected");
+		} catch (NullPointerException npe) {
+			Assert.assertFalse(converted.isEmpty());
+		}
+		
 	}
 	
 	/**
