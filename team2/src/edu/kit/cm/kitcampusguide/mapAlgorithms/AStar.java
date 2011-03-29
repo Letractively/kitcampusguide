@@ -70,7 +70,9 @@ public class AStar implements RouteCalculator {
 	 * in the same direction from origin.
 	 */
 	private double correspondence(Point pOne, Point pTwo) {
-		return scalarProduct(pOne, pTwo) / Math.sqrt(scalarProduct(pOne, pOne) * scalarProduct(pTwo, pTwo));
+		double lengthOne = Math.sqrt(scalarProduct(pOne, pOne));
+		double lengthTwo = Math.sqrt(scalarProduct(pTwo, pTwo));
+		return (lengthOne < lengthOne) ? (scalarProduct(pOne, pTwo) / (lengthOne * lengthTwo)) : 0;
 	}
 	
 	/*
@@ -94,7 +96,7 @@ public class AStar implements RouteCalculator {
 		 */
 		@Override
 		public double getEdge(int indexFrom, int indexTo) {
-			return super.getEdge(indexFrom, indexTo) + landmarkDistances[indexTo] - landmarkDistances[indexFrom];
+			return Math.max(0, super.getEdge(indexFrom, indexTo) + landmarkDistances[indexTo] - landmarkDistances[indexFrom]);
 		}
 		
 	}

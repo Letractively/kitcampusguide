@@ -23,7 +23,7 @@ public class ConcreteMapAlgorithms implements MapAlgorithms {
 	/*
 	 * The RouteCalculator used by this implementation.
 	 */
-	private RouteCalculator routeCalculator = Dijkstra.getSingleton();
+	private RouteCalculator routeCalculator = AStar.getSingleton();
 
 	@Override
 	public List<POI> getSuggestions(String name) {
