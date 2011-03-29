@@ -113,7 +113,7 @@ function createPOICategoryLayer(POICategory) {
  * 
  * @param poi the POI to be represented by the marker
  * 
- * @returns
+ * @returns the marker related to the specified POI.
  */
 function createMarker(poi) {
     // define properties for the popup 
@@ -251,7 +251,7 @@ function showPOI() {
     hidePOI();
     currentPOI = createJSONObject(getElement("search:current-poi").innerHTML);
     if (currentPOI != null) {
-        POIFeatures[currentPOI.name].pupup.show();
+        POIFeatures[currentPOI.name].popup.show();
         setMyCenter(currentPOI.lon, currentPOI.lat, 16);
     }
 }
