@@ -13,7 +13,10 @@ import edu.kit.cm.kitcampusguide.model.Graph;
  * @author Kateryna Yurchenko
  */
 public class ConstantDataTest {
-
+	
+	/**
+	 * Tests the constructor of ConstantData.
+	 */
 	@Test
 	public void testConstantData() {
 		ConstantData c = new ConstantData();
@@ -28,6 +31,9 @@ public class ConstantDataTest {
 		Assert.assertFalse(c.getAllPOIName().size() == 0);
 	}
 
+	/**
+	 * Tests the getGraph() Method of ConstantData.
+	 */
 	@Test
 	public void testGetGraph() {
 		Graph g = ConstantData.getGraph();
