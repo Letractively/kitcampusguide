@@ -20,6 +20,9 @@ import edu.kit.cm.kitcampusguide.view.converter.RouteConverter;
  */
 public class ConverterTest {
 
+	/**
+	 * Test of the getAsObject() method in POICategoryConverter.
+	 */
 	@Test
 	public void testPOICategoryConverterGetAsObject() {
 		POICategoryConverter pc = new POICategoryConverter();
@@ -31,6 +34,9 @@ public class ConverterTest {
 		}
 	}
 	
+	/**
+	 * Test of the getAsString() method in POICategoryConverter.
+	 */
 	@Test
 	public void testPOICategoryConverterGetAsString() {
 		POICategoryConverter pc = new POICategoryConverter();
@@ -41,6 +47,9 @@ public class ConverterTest {
 		}
 	}
 	
+	/**
+	 * Test of the getAsObject() method in POICategoryListConverter.
+	 */
 	@Test
 	public void testPOICategoryListConverterGetAsObject() {
 		POICategoryListConverter pcl = new POICategoryListConverter();
@@ -52,6 +61,9 @@ public class ConverterTest {
 		}
 	}
 	
+	/**
+	 * Test of the getAsString() method in POICategoryListConverter.
+	 */
 	@Test
 	public void testPOICategoryListConverterGetAsString() {
 		POICategoryListConverter pcl = new POICategoryListConverter();
@@ -62,6 +74,9 @@ public class ConverterTest {
 		}
 	}
 	
+	/**
+	 * Test of the getAsObject() method in POIConverter.
+	 */
 	@Test
 	public void testPOIConverterGetAsObject() {
 		POIConverter pc = new POIConverter();
@@ -73,6 +88,9 @@ public class ConverterTest {
 		}
 	}
 	
+	/**
+	 * Test of the getAsString() method in POIConverter.
+	 */
 	@Test
 	public void testPOIConverterGetAsString() {
 		POIConverter pc = new POIConverter();
@@ -83,6 +101,9 @@ public class ConverterTest {
 		}
 	}
 	
+	/**
+	 * Test of the getAsObject() method in POIListConverter.
+	 */
 	@Test
 	public void testPOIListConverterGetAsObject() {
 		POIListConverter plc = new POIListConverter();
@@ -94,6 +115,9 @@ public class ConverterTest {
 		}
 	}
 	
+	/**
+	 * Test of the getAsString() method in POIListConverter.
+	 */
 	@Test
 	public void testPOIListConverterGetAsString() {
 		POIListConverter plc = new POIListConverter();
@@ -104,6 +128,9 @@ public class ConverterTest {
 		}
 	}
 	
+	/**
+	 * Test of the getAsObject() method in POINameConverter.
+	 */
 	@Test
 	public void testPOINameConverterGetAsObject() {
 		POINameConverter pnc = new POINameConverter();
@@ -114,6 +141,9 @@ public class ConverterTest {
 		}
 	}
 	
+	/**
+	 * Test of the getAsString() method in POINameConverter.
+	 */
 	@Test
 	public void testPOINameConverterGetAsString() {
 		POINameConverter pnc = new POINameConverter();
@@ -124,6 +154,9 @@ public class ConverterTest {
 		}
 	}
 	
+	/**
+	 * Test of the getAsObject() method in RouteConverter.
+	 */
 	@Test
 	public void testRouteConverterGetAsObject() {
 		RouteConverter rc = new RouteConverter();
@@ -135,6 +168,9 @@ public class ConverterTest {
 		}
 	}
 	
+	/**
+	 * Test of the getAsString() method in RouteConverter.
+	 */
 	@Test
 	public void testRouteConverterGetAsString() {
 		RouteConverter rc = new RouteConverter();
