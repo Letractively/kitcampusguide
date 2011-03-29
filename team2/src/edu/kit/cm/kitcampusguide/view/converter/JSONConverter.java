@@ -65,9 +65,6 @@ public final class JSONConverter {
 	 * @return the JSONObject the POICategory was converted to.
 	 */
 	public static JSONObject convertPOICategory(POICategory pc) {
-		if (pc == null) {
-			return null;
-		}
 		JSONObject result = new JSONObject();
 		result.put("id", pc.getId());
 		result.put("icon", pc.getIcon());
