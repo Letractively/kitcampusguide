@@ -3,7 +3,7 @@ package beans;
 import org.junit.Assert;
 import org.junit.Test;
 
-import edu.kit.cm.kitcampusguide.ConstantData;
+import edu.kit.cm.kitcampusguide.data.ConstantData;
 import edu.kit.cm.kitcampusguide.model.Graph;
 
 /**
