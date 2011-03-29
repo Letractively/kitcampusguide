@@ -123,7 +123,6 @@ CampusguideTest.prototype.setUp = function() {
                 </div>
                 <div id="show-sidebar" onclick="showSidebar()" style="visibility: hidden; top: 35px; "></div>
 	        </div> */
-	setup();
 };
 
 /**
@@ -171,7 +170,9 @@ CampusguideTest.prototype.testSetUp = function() {
 /**
  * Tests the setup() method.
  */
-CampusguideTest.prototype.testSetup = function() { 	
+CampusguideTest.prototype.testSetup = function() { 
+	setup();
+	
 	var campusguide = document.getElementById("campusguide");
 	var headline = document.getElementById("headline");
 	var map = document.getElementById("map");
