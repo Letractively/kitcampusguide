@@ -121,10 +121,22 @@ MapTest.prototype.setUp = function() {
                 </div>
                 <div id="show-sidebar" onclick="showSidebar()" style="visibility: hidden; top: 35px; "></div>
 	        </div> */
-	createMap();
 };
 
-
+/**
+ * Resets the map for next testcase.
+ */
+MapTest.prototype.tearDown = function() {
+	map = null;
+	mapLayer = null;
+	routeLayer = null;
+	positionMarkerLayer = null;
+	POICategorieLayers = new Object();
+	POICategories = new Object();
+	POIFeatures = new Object();
+	currentPOI = null;
+	contextmenu = null;
+};
 
 /**
  * Testing if divs were added correctly to DOM.
@@ -164,11 +176,12 @@ MapTest.prototype.testSetUp = function() {
  * Tests the createMap() method.
  */
 MapTest.prototype.testCreateMap = function() {
+	createMap(); 
+	
 	assertNotNull("map is null", map);
 	assertNotNull("mapLayer is null", mapLayer);
 	assertNotNull("routeLayer is null", routeLayer);
 	assertNotNull("positionMarkerLayer is null", positionMarkerLayer);
-	assertNotNull("contextmenu is null", contextmenu);
 	assertNotNull("WGS1984 is null", WGS1984);
 	assertNotNull("MercatorProjection is null", MercatorProjection);
 	
@@ -187,20 +200,7 @@ MapTest.prototype.testCreateMap = function() {
  * Tests the createPOICategoryLayer() method.
  */
 MapTest.prototype.testCreatePOICategoryLayer = function() {
-	assertNotNull(POICategories);
-	
-	var mensen = createPOICategoryLayer(POICategories[0]);
-	var hoersaele = createPOICategoryLayer(POICategories[1]);
-	
-	assertNotNull(mensen);
-	assertNotNull(hoersaele);
-	
-	assertEquals(1, mensen.markers.length);
-	assertEquals(3, hoersaele.markers.length);
-	
-	assertEquals("Mensen", mensen.name);
-	assertEquals("Hörsäle", hoersaele.name);
-	
+	this.initMap(); 
 	
 	assertNotNull(createPOICategoryLayer({}));
 	assertEquals(0, createPOICategoryLayer({}).markers.length);
@@ -226,6 +226,245 @@ MapTest.prototype.testCreatePOICategoryLayer = function() {
 	assertEquals(8, categoryTest.markers.length);
 	assertTrue(categoryTest.visibility);
 	assertEquals("Test Category", categoryTest.name);                                                                           
-}
+};
+
+/**
+ * Tests the createMarker() method.
+ */
+MapTest.prototype.testCreateMarker = function() {
+	this.initMap();
+	
+	var gerthsenPoi = {"id":1,"icon":"..\/images\/icons\/hoersaal.jpg","lon":8.41152,"description":"Gerthsen Hörsaal, 400 Sitzplätze, 3 Beamer, Physiker-Hörsaal, ...","name":"Gerthsen Hörsaal","nameSize":16,"lat":49.01258};
+	var mensaPoi = {"id":2,"icon":"..\/images\/icons\/mensa.jpg","lon":8.41684,"description":"Das ist die Mensa. Freßtempel für alle Studenten.","name":"Mensa am Adenauerring","nameSize":21,"lat":49.01198};
+	var audimaxPoi = {"id":3,"icon":"..\/hoersaal\/audimax.jpg","lon":8.41583,"description":"Der größte Hörsaal am KIT. Fasst etwa 750 Studenten. Die Sitzplätze sind in zwei Halbkreisen angeordnet. Der Hörsaal hat zwei Beamerflächen.","name":"Audimax","nameSize":7,"lat":49.01272};
+	var hsafPoi = {"id":4,"icon":"..\/icons\/hsaf.jpg","lon":8.42036,"description":"Der Hörsaal am Fasanengarten war früher eine Turnhalle.","name":"Hörsaal am Fasanengarten","nameSize":24,"lat":49.01481};
+	var testPoi = {"name":"TestPOI","lon":8.0,"lat":49.0,"nameSize":7,"description":"This is a test POI"};
+	
+	var gerthsen = createMarker(gerthsenPoi);
+	var mensa = createMarker(mensaPoi);
+	var audimax = createMarker(audimaxPoi);
+	var hsaf = createMarker(hsafPoi);
+	var test = createMarker(testPoi);
+	
+	/* two popups per POI */
+	assertEquals(10, map.popups.length);
+	for (var i = 0; i < map.popups.length; i++) {
+		var popup = map.popups[i];
+		assertFalse(popup.visible());
+	}
+	
+	assertNotNull(gerthsen);
+	assertEquals(createLonLat(gerthsenPoi.lon, gerthsenPoi.lat), gerthsen.lonlat);
+	assertNotNull(gerthsen.events.listeners["mousedown"]);
+	assertNotNull(gerthsen.events.listeners["mouseover"]);
+	assertNotNull(gerthsen.events.listeners["mouseout"]);
+	
+	assertNotNull(mensa);
+	assertEquals(createLonLat(mensaPoi.lon, mensaPoi.lat), mensa.lonlat);
+	assertNotNull(mensa.events.listeners["mousedown"]);
+	assertNotNull(mensa.events.listeners["mouseover"]);
+	assertNotNull(mensa.events.listeners["mouseout"]);
+	
+	assertNotNull(audimax);
+	assertEquals(createLonLat(audimaxPoi.lon, audimaxPoi.lat), audimax.lonlat);
+	assertNotNull(audimax.events.listeners["mousedown"]);
+	assertNotNull(audimax.events.listeners["mouseover"]);
+	assertNotNull(audimax.events.listeners["mouseout"]);
+	
+	assertNotNull(hsaf);
+	assertEquals(createLonLat(hsafPoi.lon, hsafPoi.lat), hsaf.lonlat);
+	assertNotNull(hsaf.events.listeners["mousedown"]);
+	assertNotNull(hsaf.events.listeners["mouseover"]);
+	assertNotNull(hsaf.events.listeners["mouseout"]);
+	
+	assertNotNull(test);
+	assertEquals(createLonLat(testPoi.lon, testPoi.lat), test.lonlat);
+	assertNotNull(test.events.listeners["mousedown"]);
+	assertNotNull(test.events.listeners["mouseover"]);
+	assertNotNull(test.events.listeners["mouseout"]);
+};
+
+/**
+ * Tests the createPopupContent() method.
+ */
+MapTest.prototype.testShowPOI = function() {
+	var gerthsenPoi = {"id":1,"icon":"..\/images\/icons\/hoersaal.jpg","lon":8.41152,"description":"Gerthsen Hörsaal, 400 Sitzplätze, 3 Beamer, Physiker-Hörsaal, ...","name":"Gerthsen Hörsaal","nameSize":16,"lat":49.01258};
+	var mensaPoi = {"id":2,"icon":"..\/images\/icons\/mensa.jpg","lon":8.41684,"description":"Das ist die Mensa. Freßtempel für alle Studenten.","name":"Mensa am Adenauerring","nameSize":21,"lat":49.01198};
+
+	createMap();
+	showPOI();
+	
+	/* "Gerthsen Hörsaal" is current POI in DOM, see setUp() */
+	var current = gerthsenPoi;
+	
+	assertEquals(current.name, currentPOI.name);
+	assertEquals(current.nameSize, currentPOI.nameSize);
+	assertEquals(current.id, currentPOI.id);
+	assertEquals(current.lon, currentPOI.lon);
+	assertEquals(current.lat, currentPOI.lat);
+	assertEquals(current.description, currentPOI.description);
+	assertEquals(current.icon, currentPOI.icon);
+	assertTrue(POIFeatures[current.name].popup.visible());
+	assertEquals(createLonLat(current.lon, current.lat), map.center);
+	
+	for (var poi in POIFeatures) {
+		if (poi != current.name) {
+			assertFalse(POIFeatures[poi].popup.visible());
+		}
+	}
+	
+	/* change currentPOI to "Mensa am Adenauerring" */
+	document.getElementById("test:search:current-poi").innerHTML = "{\"id\":2,\"icon\":\"..\/images\/icons\/mensa.jpg\",\"lon\":8.41684,\"description\":\"Das ist die Mensa. Freßtempel für alle Studenten.\",\"name\":\"Mensa am Adenauerring\",\"nameSize\":21,\"lat\":49.01198}";
+	showPOI();
+	var current = mensaPoi;
+	
+	assertEquals(current.name, currentPOI.name);
+	assertEquals(current.nameSize, currentPOI.nameSize);
+	assertEquals(current.id, currentPOI.id);
+	assertEquals(current.lon, currentPOI.lon);
+	assertEquals(current.lat, currentPOI.lat);
+	assertEquals(current.description, currentPOI.description);
+	assertEquals(current.icon, currentPOI.icon);
+	assertTrue(POIFeatures[current.name].popup.visible());
+	assertEquals(createLonLat(current.lon, current.lat), map.center);
+	
+	for (var poi in POIFeatures) {
+		if (poi != current.name) {
+			assertFalse(POIFeatures[poi].popup.visible());
+		}
+	}
+
+};
+
+/**
+ * Tests the hidePOI() method.
+ */
+MapTest.prototype.testHidePOI = function() {
+	createMap();
+	
+	var gerthsenPoi = {"id":1,"icon":"..\/images\/icons\/hoersaal.jpg","lon":8.41152,"description":"Gerthsen Hörsaal, 400 Sitzplätze, 3 Beamer, Physiker-Hörsaal, ...","name":"Gerthsen Hörsaal","nameSize":16,"lat":49.01258};
+
+	showPOI();
+	assertNotNull(currentPOI);
+	assertTrue(POIFeatures[gerthsenPoi.name].popup.visible());
+	
+	hidePOI();
+	assertNull(currentPOI);
+	assertFalse(POIFeatures[gerthsenPoi.name].popup.visible());
+
+	/* second call does not change something */
+	hidePOI();
+	assertNull(currentPOI);
+	assertFalse(POIFeatures[gerthsenPoi.name].popup.visible());
+	
+};
+
+/**
+ * Tests the showRoute() method.
+ */
+MapTest.prototype.testShowRoute = function() {
+	var audimaxPoi = {"id":3,"icon":"..\/hoersaal\/audimax.jpg","lon":8.41583,"description":"Der größte Hörsaal am KIT. Fasst etwa 750 Studenten. Die Sitzplätze sind in zwei Halbkreisen angeordnet. Der Hörsaal hat zwei Beamerflächen.","name":"Audimax","nameSize":7,"lat":49.01272};
+	var hsafPoi = {"id":4,"icon":"..\/icons\/hsaf.jpg","lon":8.42036,"description":"Der Hörsaal am Fasanengarten war früher eine Turnhalle.","name":"Hörsaal am Fasanengarten","nameSize":24,"lat":49.01481};
+	var gerthsenPoi = {"id":1,"icon":"..\/images\/icons\/hoersaal.jpg","lon":8.41152,"description":"Gerthsen Hörsaal, 400 Sitzplätze, 3 Beamer, Physiker-Hörsaal, ...","name":"Gerthsen Hörsaal","nameSize":16,"lat":49.01258};
+	var mensaPoi = {"id":2,"icon":"..\/images\/icons\/mensa.jpg","lon":8.41684,"description":"Das ist die Mensa. Freßtempel für alle Studenten.","name":"Mensa am Adenauerring","nameSize":21,"lat":49.01198};
+
+	this.initMap();
+	showRoute();
+	
+	assertEquals('visible', document.getElementById("test:route:hide-route").style.visibility);
+	assertEquals(1, routeLayer.features.length);
+	
+	var feature = routeLayer.features[0];
+	
+	/* Route from "Hörsaal am Fasanengarten" to "Audimax" has 17 points */
+	assertEquals(17, feature.geometry.components.length);
+	assertEquals(createLonLat(hsafPoi.lon, hsafPoi.lat).lon, feature.geometry.components[0].x);
+	assertEquals(createLonLat(hsafPoi.lon, hsafPoi.lat).lat, feature.geometry.components[0].y);
+	assertEquals(createLonLat(audimaxPoi.lon, audimaxPoi.lat).lon, feature.geometry.components[16].x);
+	assertEquals(createLonLat(audimaxPoi.lon, audimaxPoi.lat).lat, feature.geometry.components[16].y);
+
+	/* Route from "Gerthsen Hörsaal" to "Mensa am Adenauerring" */
+	document.getElementById("test:route:current-route").innerHTML = "[{\"lon\":8.41152,\"lat\":49.01258},{\"lon\":8.41151,\"lat\":49.0124},{\"lon\":8.41142,\"lat\":49.01174},{\"lon\":8.41186,\"lat\":49.01157},{\"lon\":8.41251,\"lat\":49.01133},{\"lon\":8.41276,\"lat\":49.01127},{\"lon\":8.41318,\"lat\":49.01112},{\"lon\":8.41368,\"lat\":49.01098},{\"lon\":8.41404,\"lat\":49.01096},{\"lon\":8.41406,\"lat\":49.01116},{\"lon\":8.41408,\"lat\":49.01129},{\"lon\":8.41483,\"lat\":49.01126},{\"lon\":8.4152,\"lat\":49.01127},{\"lon\":8.41552,\"lat\":49.01128},{\"lon\":8.41569,\"lat\":49.01136},{\"lon\":8.41578,\"lat\":49.01149},{\"lon\":8.41578,\"lat\":49.01161},{\"lon\":8.41609,\"lat\":49.01156},{\"lon\":8.41663,\"lat\":49.0115},{\"lon\":8.41681,\"lat\":49.0115},{\"lon\":8.41688,\"lat\":49.01184},{\"lon\":8.41684,\"lat\":49.01198}]";
+	
+	showRoute();
+	
+	assertEquals('visible', document.getElementById("test:route:hide-route").style.visibility);
+	assertEquals(1, routeLayer.features.length);
+	
+	feature = routeLayer.features[0];
+	
+	assertEquals(22, feature.geometry.components.length);
+	assertEquals(createLonLat(gerthsenPoi.lon, gerthsenPoi.lat).lon, feature.geometry.components[0].x);
+	assertEquals(createLonLat(gerthsenPoi.lon, gerthsenPoi.lat).lat, feature.geometry.components[0].y);
+	assertEquals(createLonLat(mensaPoi.lon, mensaPoi.lat).lon, feature.geometry.components[21].x);
+	assertEquals(createLonLat(mensaPoi.lon, mensaPoi.lat).lat, feature.geometry.components[21].y);
+};
+
+/**
+ * Tests the hideRoute() method.
+ */
+MapTest.prototype.testHideRoute = function() {
+	this.initMap();
+	showRoute();
+	
+	hideRoute();
+	
+	assertEquals(0, routeLayer.features.length);
+	assertEquals('hidden', document.getElementById("test:route:hide-route").style.visibility);
+};
+
+/**
+ * Tests the createPositionMarker() method.
+ */
+MapTest.prototype.testCreatePositionMarker = function() {
+	this.initMap();
+	
+	assertEquals(0, positionMarkerLayer.markers.length);
+	
+	createPositionMarker("testname", 10.0, 20.0);
+	assertEquals(1, positionMarkerLayer.markers.length);
+	assertEquals(createLonLat(10.0, 20.0), positionMarkerLayer.markers[0].lonlat);
+	
+	createPositionMarker("testname2", 15.0, 25.0);
+	assertEquals(1, positionMarkerLayer.markers.length);
+	assertEquals(createLonLat(15.0, 25.0), positionMarkerLayer.markers[0].lonlat);
+	
+};
+
+/**
+ * Initializes the map.
+ */
+MapTest.prototype.initMap = function() {
+	/* Initialise map */
+	var leftBottom = createLonLat(8.4025,49.008);
+    var rightTop = createLonLat(8.426,49.0173);
+    var extent = new OpenLayers.Bounds(leftBottom.lon, leftBottom.lat, rightTop.lon, rightTop.lat);
+    
+    var options = {
+        projection: MercatorProjection, 
+        displayProjection: WGS1984, 
+        maxExtent: extent, 
+        restrictedExtent: extent, 
+        numZoomLevel: 3, 
+        units: 'meters'
+    };
+	map = new OpenLayers.Map('map', options);
+	map.addControl(new OpenLayers.Control.ScaleLine());
+	map.minZoomLevel = 15;
+	map.maxZoomLevel = 18;
+	map.restrictedExtent = extent;
+	
+    mapLayer = new OpenLayers.Layer.OSM("New Layer", "resources/tiles/campus/${z}/${x}/${y}.png");
+    map.addLayer(mapLayer);
+    setMyCenter(8.41356, 49.01202, 15);
+	
+	positionMarkerLayer = createPOICategoryLayer({pois: {}});
+    map.addLayer(positionMarkerLayer);
+    
+    routeLayer = new OpenLayers.Layer.Vector("route", null);
+    map.addLayer(routeLayer);
+    
+    POIFeatures = new Object();
+};
 
 
