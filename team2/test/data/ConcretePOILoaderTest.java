@@ -19,20 +19,6 @@ import edu.kit.cm.kitcampusguide.model.POICategory;
  * @author Michael Hauber
  */
 public class ConcretePOILoaderTest {
-
-
-	/*
-	@BeforeClass
-	public void beforeClass() {
-		
-	}
-	
-	@Before
-	public void before() {
-		
-	}
-	*/
-	
 	
 	/**
 	 * This tests the getters of the ConcreteMapLoader for exceptions.
@@ -430,21 +416,5 @@ public class ConcretePOILoaderTest {
 		Assert.assertEquals(expectedPOICatList.get(1).getIcon(), testPOICatList.get(1).getIcon());
 		Assert.assertEquals(expectedPOICatList.get(1).getDescription(), testPOICatList.get(1).getDescription());		
 	}
-	
-	
-	
-	/*
-	
-	@After
-	public void after() {
-		
-	}
-	
-	@AfterClass
-	public void afterClass() {
-		
-	}
-	*/
-	
 	
 }
