@@ -1,17 +1,21 @@
 /**
- * This test case tests creating and setting up the OpenLayers map component.
+ * This test case tests the methods of campusguide.js of KITCampusGuide.
+ * 
+ * It assumes, the OpenLayers framework is working.
  * 
  * @author Kateryna Yurchenko
  */
 CampusguideTest = TestCase("CampusguideTest");
 
 /**
- * Adding map-form:all-poi, search:current-poi and route:current-route to DOM.
+ * Initializes the tests.
+ * 
+ * The current poi is "Mensa am Adenauerring" and current route goes from "Gerthsen Hšrsaal" to "Mensa am Adenauerring".
  */
 CampusguideTest.prototype.setUp = function() {
 	setClientID("test");
-	/* Adding div campusguide to DOM.
-	 * The current poi is "Mensa am Adenauerring" and current route goes from "Gerthsen Hšrsaal" to "Mensa am Adenauerring".
+	/* 
+	 * Adding div campusguide to DOM.
 	 */
 	/*:DOC += 
 	 * <div id="campusguide" style="width: 760px; height: 530px; ">
@@ -111,7 +115,7 @@ CampusguideTest.prototype.setUp = function() {
 	                <div id="sidebar-pane" style="left: -1px; width: 187px; height: 489px; ">
 	                    <form id="test:route" name="test:route" method="post" action="/kitcampusguide/campuskarte.jsf" enctype="application/x-www-form-urlencoded">
 	                    	<span id="test:route:current-route" class="hidden">[{"lon":8.41152,"lat":49.01258},{"lon":8.41151,"lat":49.0124},{"lon":8.41142,"lat":49.01174},{"lon":8.41186,"lat":49.01157},{"lon":8.41251,"lat":49.01133},{"lon":8.41276,"lat":49.01127},{"lon":8.41318,"lat":49.01112},{"lon":8.41368,"lat":49.01098},{"lon":8.41404,"lat":49.01096},{"lon":8.41406,"lat":49.01116},{"lon":8.41408,"lat":49.01129},{"lon":8.41483,"lat":49.01126},{"lon":8.4152,"lat":49.01127},{"lon":8.41552,"lat":49.01128},{"lon":8.41569,"lat":49.01136},{"lon":8.41578,"lat":49.01149},{"lon":8.41578,"lat":49.01161},{"lon":8.41609,"lat":49.01156},{"lon":8.41663,"lat":49.0115},{"lon":8.41681,"lat":49.0115},{"lon":8.41688,"lat":49.01184},{"lon":8.41684,"lat":49.01198}]</span>
-	                   		<input id="test:route:hide-route" name="j_id1659819444_62eed51d:route:hide-route" type="submit" value="X" onclick="jsf.util.chain(document.getElementById('j_id1659819444_62eed51d:route:hide-route'), event,'hideRoute();;', 'jsf.ajax.request(\'j_id1659819444_62eed51d:route:hide-route\',event,{execute:\'j_id1659819444_62eed51d:route:from-field j_id1659819444_62eed51d:route:to-field\',render:\'@none\',\'javax.faces.behavior.event\':\'action\'})'); return false;" style="visibility: visible; " class="green-button">
+	                   		<input id="test:route:hide-route" name="test:route:hide-route" type="submit" value="X" onclick="jsf.util.chain(document.getElementById('j_id1659819444_62eed51d:route:hide-route'), event,'hideRoute();;', 'jsf.ajax.request(\'j_id1659819444_62eed51d:route:hide-route\',event,{execute:\'j_id1659819444_62eed51d:route:from-field j_id1659819444_62eed51d:route:to-field\',render:\'@none\',\'javax.faces.behavior.event\':\'action\'})'); return false;" style="visibility: visible; " class="green-button">
 	                    </form>
 						<div id="test:sidebar-suggestions">
                         <br><span id="test:j_id1693328539_1c65ef66"></span></div>
@@ -119,10 +123,19 @@ CampusguideTest.prototype.setUp = function() {
                 </div>
                 <div id="show-sidebar" onclick="showSidebar()" style="visibility: hidden; top: 35px; "></div>
 	        </div> */
+	setup();
+};
+
+/**
+ * Resets the variables for next testcase.
+ */
+CampusguideTest.prototype.tearDown = function() {
+	fullscreen = false;
+	clientID = null;
 }
 
 /**
- * Testing if div campusguide was added correctly to DOM.
+ * Testing if divs were added correctly to DOM.
  */
 CampusguideTest.prototype.testSetUp = function() {
 	/* all relevant divs and JSONObjects */
@@ -156,13 +169,74 @@ CampusguideTest.prototype.testSetUp = function() {
 };
 
 /**
- * Testing the result of creating and setting up the OpenLayers map component.
+ * Tests the setup() method.
  */
-CampusguideTest.prototype.testDrawMap = function() {
-	setup();
-	assertNotNull(map);
-	assertNotNull(mapLayer);
-	assertNotNull(routeLayer);
-	assertNotNull(positionMarkerLayer);
-	assertNotNull(contextmenu);
-}
+CampusguideTest.prototype.testSetup = function() { 	
+	var campusguide = document.getElementById("campusguide");
+	var headline = document.getElementById("headline");
+	var map = document.getElementById("map");
+	var sidebar = document.getElementById("sidebar");
+	var sidebarPane = document.getElementById("sidebar-pane");
+	var showSidebar = document.getElementById("show-sidebar");
+	
+	assertEquals("760px", campusguide.style.width);
+	assertEquals("530px", campusguide.style.height);
+	
+	assertEquals("758px", headline.style.width);
+	assertEquals("28px", headline.style.height);
+	
+	assertEquals("558px", map.style.width);
+	assertEquals("499px", map.style.height);
+	
+	assertEquals("199px", sidebar.style.width);
+	assertEquals("499px", sidebar.style.height);
+	
+	assertEquals("187px", sidebarPane.style.width);
+	assertEquals("489px", sidebarPane.style.height);
+	
+	assertEquals("35px", showSidebar.style.top);
+};
+
+/**
+ * Tests the createJSONObject() method.
+ */
+CampusguideTest.prototype.testCreateJSONObject = function() {
+	assertNull(createJSONObject(""));
+	assertEquals(JSON.parse(document.getElementById("test:search:current-poi").innerHTML), createJSONObject(document.getElementById("test:search:current-poi").innerHTML));
+};
+
+/**
+ * Tests the getElement() method.
+ */
+CampusguideTest.prototype.testGetElement = function() {
+	assertNull(getElement("abc"));
+	assertNull(getElement(""));
+	assertNotNull(getElement("map-form:all-poi"));	
+	
+	setClientID("id");
+	assertNull(getElement("map-form:all-poi"));
+	setClientID("test");
+	assertNotNull(getElement("map-form:all-poi"));
+};
+
+/**
+ * Tests the toggleFullscreen method.
+ */
+CampusguideTest.prototype.testToggleFullscreen = function() {
+	var campusguide = document.getElementById("campusguide");
+	
+	assertFalse(fullscreen);
+	
+	toggleFullscreen();
+	assertTrue(fullscreen);
+	assertEquals("fixed", campusguide.style.position);
+	assertEquals("0px", campusguide.style.left);
+	assertEquals("0px", campusguide.style.top);
+	
+	toggleFullscreen();
+	assertFalse(fullscreen);
+	assertEquals("relative", campusguide.style.position);
+	assertEquals("", campusguide.style.left);
+	assertEquals("", campusguide.style.top);
+};
+

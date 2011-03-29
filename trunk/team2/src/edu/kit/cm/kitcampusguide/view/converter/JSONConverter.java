@@ -53,7 +53,7 @@ public final class JSONConverter {
 			return null;
 		}
 		JSONArray result = new JSONArray();
-		for (POI poi: p) {
+		for (POI poi : p) {
 			result.add(convertPOI(poi));
 		}
 		return result;
@@ -88,7 +88,7 @@ public final class JSONConverter {
 			return null;
 		}
 		JSONArray result = new JSONArray();
-		for (POICategory p: pc) {
+		for (POICategory p : pc) {
 			result.add(convertPOICategory(p));
 		}
 		return result;
