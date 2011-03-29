@@ -15,6 +15,7 @@ import java.sql.Statement;
  */
 public final class Config {
 	
+	/* Utility-class */
 	private Config() {
 		assert false;
 	}
@@ -50,6 +51,11 @@ public final class Config {
 	public static String dbPassword = "katja";
 	
 	
+	/**
+	 * Creates the Connection to the above specified database.
+	 * 
+	 * @return connection to the above specified database.
+	 */
 	public static Connection getPgSQLJDBCConnection() {
 		try {
 			Class.forName("org.postgresql.Driver");	
@@ -72,11 +78,12 @@ public final class Config {
 	}
 	
 	/**
-	 * aaa
-	 * @param connection a
-	 * @param sqlQuery a
-	 * @return a
-	 * @throws SQLException a
+	 * Creates a ResultSet to the database by a given SQL Query and Connection.
+	 * 
+	 * @param connection a specific connection to the database
+	 * @param sqlQuery sql statement to execute.
+	 * @return resultset of the executed sql query.
+	 * @throws SQLException throws SQlException if the executeQuery operation wasn't successful.
 	 */
 	public static ResultSet executeSQLStatement(Connection connection, String sqlQuery) throws SQLException {
 		if (connection == null) {
