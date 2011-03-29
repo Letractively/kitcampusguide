@@ -16,19 +16,6 @@ import edu.kit.cm.kitcampusguide.model.Point;
  * @author Michael Hauber
  */
 public class ConcreteMapLoaderTest {
-	
-	
-	/*
-	@BeforeClass
-	public void beforeClass() {
-		
-	}
-	
-	@Before
-	public void before() {
-		
-	}
-	*/
 
 	/**
 	 * This tests the methods addStreetToDatabase(...) and addLandmarkToDatabase(...)
@@ -205,22 +192,5 @@ public class ConcreteMapLoaderTest {
 			Assert.assertEquals(expectedNodes[i].getY(), testNodes[i].getY(), 0.0001);
 		}
 	}
-	
-	
-	/*
-	@Test
-	public void edgeTest() {
-		
-	}
-	
-	@After
-	public void after() {
-		
-	}
-	
-	@AfterClass
-	public void afterClass() {
-		
-	}
-	*/
+
 }
