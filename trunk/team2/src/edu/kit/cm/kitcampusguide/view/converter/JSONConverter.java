@@ -98,10 +98,8 @@ public final class JSONConverter {
 	 */
 	private static JSONObject convertPoint(Point p) {
 		JSONObject result = new JSONObject();
-		if (p != null) {
-			result.put("lon", p.getX());
-			result.put("lat", p.getY());
-		}
+		result.put("lon", p.getX());
+		result.put("lat", p.getY());
 		return result;
 	}
 	
