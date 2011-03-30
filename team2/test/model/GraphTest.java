@@ -513,14 +513,7 @@ public class GraphTest {
 		}
 		Assert.assertTrue(lengthAndEdgeListsExcThrown);
 	
-		boolean lengthAndEdgeListsExcThrown2 = false;
-		try {
-			new Graph(pointList, lengthList, nodeList2, edgeList);
-		} catch (IllegalArgumentException e) {
-			lengthAndEdgeListsExcThrown2 = true;
 		}
-		Assert.assertTrue(lengthAndEdgeListsExcThrown2);
-	}
 	/*
 	 * @Test public void edgeTest() {
 	 * 
