@@ -28,6 +28,9 @@ public class AddressableRadixHeap<T> {
 	 * @param maxKeyOffset the maximal key difference for all elements stored in the heap
 	 */
 	public AddressableRadixHeap(int maxKeyOffset) {
+		if (maxKeyOffset <= 0) {
+			throw new IllegalArgumentException("maxKeyOffset has to be a positiv number.");
+		}
 		this.maxKeyOffset = maxKeyOffset;
 		this.numberOfBuckets = mostSignificantDifference(maxKeyOffset, 0) + 2;
 		this.buckets = new GenericArray<Handle>(numberOfBuckets);
