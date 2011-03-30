@@ -96,7 +96,7 @@ public class Dijkstra implements RouteCalculator {
 				}
 			}
 		}
-		return maxLength;
+		return Math.max(1, maxLength);
 	}
 	
 	/* 
