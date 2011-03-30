@@ -1,7 +1,9 @@
 @CHARSET "UTF-8";
 
 #campusguide {
+	background-color: lightgrey;
 	position: relative;
+	z-index: 10;
 }
 
 #fullscreen {

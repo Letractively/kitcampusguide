@@ -99,7 +99,6 @@ function raiseEvent(eventType, element) {
  */
 function toggleFullscreen() {
 	var campusguide = document.getElementById("campusguide");
-	var center = map.getCenter();
 	if (fullscreen) {
 		campusguide.style.position = "relative";
 		campusguide.style.left = "";
@@ -110,9 +109,8 @@ function toggleFullscreen() {
 		campusguide.style.position = "fixed";
 		campusguide.style.left = "0";
 		campusguide.style.top = "0";
-		createCampusGuide(window.innerWidth - 16, window.innerHeight, headlineHeight, (sidebarWidth * 1.25));
+		createCampusGuide(window.innerWidth - 18, window.innerHeight, headlineHeight, (sidebarWidth * 1.25));
 		map.minZoomLevel = 16;
 	}
-	map.setCenter = center;
 	fullscreen = !fullscreen;
 }
