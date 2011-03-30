@@ -1,7 +1,5 @@
 package mapAlgorithms;
 
-import java.util.List;
-
 import junit.framework.Assert;
 
 import org.junit.Test;

@@ -12,8 +12,9 @@ import edu.kit.cm.kitcampusguide.model.Route;
  * 
  * @author Monica
  * 
- * This class test the component AStar. This algorithm should calculate a short distance between two nodes.
- * The result is saved in the object Route.
+ *         This class test the component AStar. This algorithm should calculate
+ *         a short distance between two nodes. The result is saved in the object
+ *         Route.
  * 
  */
 public class AStarTest {
@@ -26,7 +27,6 @@ public class AStarTest {
 	 * 
 	 * }
 	 */
-
 	/**
 	 * This class checks if the singleton-object AStar is really created.
 	 */
@@ -38,22 +38,24 @@ public class AStarTest {
 		Assert.assertNotNull(newAStar);
 		Assert.assertEquals(aStar, newAStar);
 	}
+
 	/**
-	 * This method tests if by a small graph the algorithm is able so calculate a short path. 
+	 * This method tests if by a small graph the algorithm is able so calculate
+	 * a short path.
 	 */
 	@Test
 	public void AStarCalculateRouteTest() {
 		AStar aStar = AStar.getSingleton();
 		Graph mapGraph = new Graph();
-		
+
 		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1),
 				new Point(1, 1) };
-		
+
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);
 		mapGraph.addNode(nodes[2]);
 		mapGraph.addNode(nodes[3]);
-	
+
 		mapGraph.addEdge(0, 1, 2);
 		mapGraph.addEdge(1, 0, 3);
 		mapGraph.addEdge(1, 2, 5);
@@ -74,17 +76,17 @@ public class AStarTest {
 	}
 
 	/**
-	 * This method checks if the class can calculate the distance between points which have 
-	 * negative coordinates.
+	 * This method checks if the class can calculate the distance between points
+	 * which have negative coordinates.
 	 */
 	@Test
 	public void AStarWithNegativeCoordinatesTest() {
 		AStar aStar = AStar.getSingleton();
 		Graph mapGraph = new Graph();
-		
+
 		Point[] nodes = { new Point(5, 5), new Point(1, 0), new Point(-1, -1),
 				new Point(1, 1) };
-		
+
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);
 		mapGraph.addNode(nodes[2]);
@@ -112,8 +114,8 @@ public class AStarTest {
 	}
 
 	/**
-	 * If the method calculateRoute of AStar gets <code>null</code> as parameters it should throw an 
-	 * exception.
+	 * If the method calculateRoute of AStar gets <code>null</code> as
+	 * parameters it should throw an exception.
 	 */
 	@Test
 	public void AStarNullAsParametersTest() {
@@ -122,12 +124,12 @@ public class AStarTest {
 
 		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1),
 				new Point(1, 1) };
-		
+
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);
 		mapGraph.addNode(nodes[2]);
 		mapGraph.addNode(nodes[3]);
-	
+
 		mapGraph.addEdge(0, 1, 2);
 		mapGraph.addEdge(1, 0, 3);
 		mapGraph.addEdge(1, 2, 5);
@@ -138,17 +140,17 @@ public class AStarTest {
 		mapGraph.addEdge(2, 0, 5);
 
 		boolean exceptionThrown = false;
-		try{
-		 aStar.calculateRoute(null, null, mapGraph);
-		} catch(NullPointerException e) {
+		try {
+			aStar.calculateRoute(null, null, mapGraph);
+		} catch (NullPointerException e) {
 			exceptionThrown = true;
 		}
 		Assert.assertTrue(exceptionThrown);
-		}
+	}
 
 	/**
-	 * This method tests if an exceptions is thrown when the AStar should search a 
-	 * path between two nodes which don't exist in the graph.
+	 * This method tests if an exceptions is thrown when the AStar should search
+	 * a path between two nodes which don't exist in the graph.
 	 */
 	@Test
 	public void AStarPointFromNotInGraphTest() {
@@ -161,7 +163,7 @@ public class AStarTest {
 		mapGraph.addNode(nodes[1]);
 		mapGraph.addNode(nodes[2]);
 		mapGraph.addNode(nodes[3]);
-		
+
 		mapGraph.addEdge(0, 1, 2);
 		mapGraph.addEdge(1, 0, 3);
 		mapGraph.addEdge(1, 2, 5);
@@ -172,17 +174,18 @@ public class AStarTest {
 		mapGraph.addEdge(2, 0, 5);
 
 		boolean exceptionThrown = false;
-		try{
-		aStar.calculateRoute(new Point(3,3), nodes[1], mapGraph);
-		} catch(IllegalArgumentException e) {
+		try {
+			aStar.calculateRoute(new Point(3, 3), nodes[1], mapGraph);
+		} catch (IllegalArgumentException e) {
 			exceptionThrown = true;
 		}
 		Assert.assertTrue(exceptionThrown);
-		}
+	}
 
 	/**
-	 * This method tests if a graph contains a branch, one smaller and one greater, but the path with 
-	 * the greater branch is shorter, the algorithm is able to calculate the right path.
+	 * This method tests if a graph contains a branch, one smaller and one
+	 * greater, but the path with the greater branch is shorter, the algorithm
+	 * is able to calculate the right path.
 	 */
 	@Test
 	public void AStarWithABranchTest() {
@@ -191,28 +194,28 @@ public class AStarTest {
 
 		Point[] nodes = { new Point(0, 2), new Point(2, 2), new Point(1, 1),
 				new Point(3, 4), new Point(0, 0) };
-		
+
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);
 		mapGraph.addNode(nodes[2]);
 		mapGraph.addNode(nodes[3]);
 		mapGraph.addNode(nodes[4]);
-		
+
 		mapGraph.addEdge(0, 1, 1);
 		mapGraph.addEdge(1, 0, 1);
-		
+
 		mapGraph.addEdge(2, 1, 2);
 		mapGraph.addEdge(1, 2, 2);
-		
+
 		mapGraph.addEdge(0, 2, 2);
 		mapGraph.addEdge(2, 0, 2);
-		
+
 		mapGraph.addEdge(3, 1, 2);
 		mapGraph.addEdge(1, 3, 2);
-		
+
 		mapGraph.addEdge(2, 4, 3);
 		mapGraph.addEdge(4, 2, 3);
-		
+
 		Route route = aStar.calculateRoute(nodes[3], nodes[4], mapGraph);
 		Assert.assertNotNull(route);
 		Assert.assertNotNull(route.getRoute());
@@ -222,10 +225,10 @@ public class AStarTest {
 		Assert.assertEquals(nodes[2], route.getRoute().get(2));
 		Assert.assertEquals(nodes[4], route.getRoute().get(3));
 	}
-	
-	
+
 	/**
-	 * This method tests if a graph contains cycles the algorithm is able to calculate path.
+	 * This method tests if a graph contains cycles the algorithm is able to
+	 * calculate path.
 	 */
 	@Test
 	public void AStarWithACycleTest() {
@@ -234,28 +237,28 @@ public class AStarTest {
 
 		Point[] nodes = { new Point(0, 2), new Point(2, 2), new Point(1, 1),
 				new Point(3, 4), new Point(0, 0) };
-		
+
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);
 		mapGraph.addNode(nodes[2]);
 		mapGraph.addNode(nodes[3]);
 		mapGraph.addNode(nodes[4]);
-		
+
 		mapGraph.addEdge(0, 1, 1);
 		mapGraph.addEdge(1, 0, 1);
-		
+
 		mapGraph.addEdge(2, 1, 3);
 		mapGraph.addEdge(1, 2, 3);
-		
+
 		mapGraph.addEdge(0, 2, 1);
 		mapGraph.addEdge(2, 0, 1);
-		
+
 		mapGraph.addEdge(3, 1, 2);
 		mapGraph.addEdge(1, 3, 2);
-		
+
 		mapGraph.addEdge(2, 4, 3);
 		mapGraph.addEdge(4, 2, 3);
-		
+
 		Route route = aStar.calculateRoute(nodes[3], nodes[4], mapGraph);
 		Assert.assertNotNull(route);
 		Assert.assertNotNull(route.getRoute());
@@ -265,9 +268,8 @@ public class AStarTest {
 		Assert.assertEquals(nodes[0], route.getRoute().get(2));
 		Assert.assertEquals(nodes[2], route.getRoute().get(3));
 		Assert.assertEquals(nodes[4], route.getRoute().get(4));
-		
+
 	}
-	
 	/*
 	 * @Test public void edgeTest() {
 	 * 
