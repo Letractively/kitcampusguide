@@ -272,10 +272,10 @@ public class Graph {
 		valid = valid && points.size() == nodes.size() - 1 && length.size() == edges.size();
 		valid = valid && nodes.get(points.size()) == length.size();
 		for (int i = 0; i < points.size(); i++) {
-			valid &= nodes.get(i) <= nodes.get(i + 1);
+			valid = valid && nodes.get(i) <= nodes.get(i + 1);
 		}
 		for (int i = 0; i < edges.size(); i++) {
-			valid &= edges.get(i) < points.size();
+			valid = valid && edges.get(i) < points.size();
 		}
 		return valid;
 	}
