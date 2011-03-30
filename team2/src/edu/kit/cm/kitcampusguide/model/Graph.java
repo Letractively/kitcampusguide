@@ -269,8 +269,8 @@ public class Graph {
 	 */
 	private static boolean valid(List<Point> points, List<Double> length, List<Integer> nodes, List<Integer> edges) {
 		boolean valid = (points != null && length != null && nodes != null && edges != null);
-		valid &= points.size() == nodes.size() - 1 && length.size() == edges.size();
-		valid &= nodes.get(points.size()) == length.size();
+		valid = valid && points.size() == nodes.size() - 1 && length.size() == edges.size();
+		valid = valid && nodes.get(points.size()) == length.size();
 		for (int i = 0; i < points.size(); i++) {
 			valid &= nodes.get(i) <= nodes.get(i + 1);
 		}
