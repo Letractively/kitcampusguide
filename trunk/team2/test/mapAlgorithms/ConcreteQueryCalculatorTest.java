@@ -54,8 +54,8 @@ public class ConcreteQueryCalculatorTest {
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
 		Assert.assertEquals(3, suggestions.get(0).getId());
-		Assert.assertEquals(1, suggestions.get(1).getId());
-		Assert.assertEquals(4, suggestions.get(2).getId());
+		Assert.assertEquals(4, suggestions.get(1).getId());
+		Assert.assertEquals(1, suggestions.get(2).getId());
 	}
 
 	/**
@@ -71,8 +71,8 @@ public class ConcreteQueryCalculatorTest {
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
 		Assert.assertEquals(3, suggestions.get(0).getId());
-		Assert.assertEquals(1, suggestions.get(1).getId());
-		Assert.assertEquals(4, suggestions.get(2).getId());
+		Assert.assertEquals(4, suggestions.get(1).getId());
+		Assert.assertEquals(1, suggestions.get(2).getId());
 	}
 
 	/**
@@ -103,8 +103,8 @@ public class ConcreteQueryCalculatorTest {
 		Assert.assertEquals(4, suggestions.size());
 
 		Assert.assertEquals(2, suggestions.get(0).getId());
-		Assert.assertEquals(1, suggestions.get(1).getId());
-		Assert.assertEquals(3, suggestions.get(2).getId());
+		Assert.assertEquals(3, suggestions.get(1).getId());
+		Assert.assertEquals(1, suggestions.get(2).getId());
 		Assert.assertEquals(4, suggestions.get(3).getId());
 	}
 
@@ -124,8 +124,8 @@ public class ConcreteQueryCalculatorTest {
 
 		Assert.assertEquals(2, suggestions.get(0).getId());
 		Assert.assertEquals(4, suggestions.get(1).getId());
-		Assert.assertEquals(3, suggestions.get(2).getId());
-		Assert.assertEquals(1, suggestions.get(3).getId());
+		Assert.assertEquals(1, suggestions.get(2).getId());
+		Assert.assertEquals(3, suggestions.get(3).getId());
 
 	}
 
@@ -160,8 +160,8 @@ public class ConcreteQueryCalculatorTest {
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
 		Assert.assertEquals("Audimax", suggestions.get(0));
-		Assert.assertEquals("Gerthsen Hörsaal", suggestions.get(1));
-		Assert.assertEquals("Hörsaal am Fasanengarten", suggestions.get(2));
+		Assert.assertEquals("Hörsaal am Fasanengarten", suggestions.get(1));
+		Assert.assertEquals("Gerthsen Hörsaal", suggestions.get(2));
 	}
 
 	/**
@@ -177,8 +177,8 @@ public class ConcreteQueryCalculatorTest {
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
 		Assert.assertEquals("Audimax", suggestions.get(0));
-		Assert.assertEquals("Gerthsen Hörsaal", suggestions.get(1));
-		Assert.assertEquals("Hörsaal am Fasanengarten", suggestions.get(2));
+		Assert.assertEquals("Hörsaal am Fasanengarten", suggestions.get(1));
+		Assert.assertEquals("Gerthsen Hörsaal", suggestions.get(2));
 	}
 
 	/**
