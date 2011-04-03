@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.data;
 
-import edu.kit.cm.kitcampusguide.model.*;
+import edu.kit.cm.kitcampusguide.model.Graph;
+import edu.kit.cm.kitcampusguide.model.Point;
 
 /**
  * Interface of a MapLoader.
@@ -65,6 +66,6 @@ public interface MapLoader {
 	 * @param latitude the latitude of the new node
 	 * @return the index of the inserted node
 	 */
-	public int addStreetNodeToDatabase(double latitude, double longitude);
+	int addStreetNodeToDatabase(double latitude, double longitude);
 
 }

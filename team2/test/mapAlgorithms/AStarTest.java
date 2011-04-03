@@ -31,7 +31,7 @@ public class AStarTest {
 	 * This class checks if the singleton-object AStar is really created.
 	 */
 	@Test
-	public void AStarObjectNotNullTest() {
+	public void aStarObjectNotNullTest() {
 		AStar aStar = AStar.getSingleton();
 		Assert.assertNotNull(aStar);
 		AStar newAStar = AStar.getSingleton();
@@ -44,7 +44,7 @@ public class AStarTest {
 	 * a short path.
 	 */
 	@Test
-	public void AStarCalculateRouteTest() {
+	public void aStarCalculateRouteTest() {
 		AStar aStar = AStar.getSingleton();
 		Graph mapGraph = new Graph();
 
@@ -80,7 +80,7 @@ public class AStarTest {
 	 * which have negative coordinates.
 	 */
 	@Test
-	public void AStarWithNegativeCoordinatesTest() {
+	public void aStarWithNegativeCoordinatesTest() {
 		AStar aStar = AStar.getSingleton();
 		Graph mapGraph = new Graph();
 
@@ -118,7 +118,7 @@ public class AStarTest {
 	 * parameters it should throw an exception.
 	 */
 	@Test
-	public void AStarNullAsParametersTest() {
+	public void aStarNullAsParametersTest() {
 		AStar aStar = AStar.getSingleton();
 		Graph mapGraph = new Graph();
 
@@ -153,7 +153,7 @@ public class AStarTest {
 	 * a path between two nodes which don't exist in the graph.
 	 */
 	@Test
-	public void AStarPointFromNotInGraphTest() {
+	public void aStarPointFromNotInGraphTest() {
 		AStar aStar = AStar.getSingleton();
 		Graph mapGraph = new Graph();
 
@@ -188,7 +188,7 @@ public class AStarTest {
 	 * is able to calculate the right path.
 	 */
 	@Test
-	public void AStarWithABranchTest() {
+	public void aStarWithABranchTest() {
 		AStar aStar = AStar.getSingleton();
 		Graph mapGraph = new Graph();
 
@@ -231,7 +231,7 @@ public class AStarTest {
 	 * calculate path.
 	 */
 	@Test
-	public void AStarWithACycleTest() {
+	public void aStarWithACycleTest() {
 		AStar aStar = AStar.getSingleton();
 		Graph mapGraph = new Graph();
 

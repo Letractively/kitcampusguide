@@ -97,7 +97,7 @@ public class SidebarModel {
 	 * This method sets the textual suggestions of POI which must be shown
 	 * during the input of the starting point.
 	 * 
-	 * @param suggestions the textual suggestions of POI which must be shown
+	 * @param suggestionsFrom the textual suggestions of POI which must be shown
 	 * during the input of the starting point.
 	 */
 	public void setSuggestionsFrom(ArrayList<POI> suggestionsFrom) {
@@ -108,7 +108,7 @@ public class SidebarModel {
 	 * This method sets the textual suggestions of POI which must be shown
 	 * during the input of the ending point.
 	 * 
-	 * @param suggestions the textual suggestions of POI which must be shown
+	 * @param suggestionsTo the textual suggestions of POI which must be shown
 	 * during the input of the ending point.
 	 */
 	public void setSuggestionsTo(List<POI> suggestionsTo) {

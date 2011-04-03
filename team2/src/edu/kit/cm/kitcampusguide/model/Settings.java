@@ -41,7 +41,11 @@ public class Settings {
 		setLanguage(language);
 		setCenter(center);
 	}
-
+	
+	/**
+	 * This method sets a new width for the map.
+	 * @param width the new width of the map. Cannot be negative or 0.
+	 */
 	public void setWidth(double width) {
 		if (width <= 0) {
 			throw new IllegalArgumentException(
@@ -50,6 +54,10 @@ public class Settings {
 		this.width = width;
 	}
 
+	/**
+	 * Returns the current height of the map.
+	 * @param height the current height of the map.
+	 */
 	public void setHeight(double height) {
 		if (height <= 0) {
 			throw new IllegalArgumentException(

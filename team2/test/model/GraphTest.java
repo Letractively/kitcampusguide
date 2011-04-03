@@ -270,14 +270,14 @@ public class GraphTest {
 		testGraph.addEdge(0, 2, 4);
 		Integer[] neighboursOfZeroNode = { 2, 1, 0 };
 		int i = 0;
-		for (Integer currentNeighbour : testGraph.NeighboursOf(0)) {
+		for (Integer currentNeighbour : testGraph.neighboursOf(0)) {
 			Assert.assertEquals(neighboursOfZeroNode[i], currentNeighbour);
 			i++;
 		}
 
 		boolean exceptionThrown1 = false;
 		try {
-			testGraph.NeighboursOf(-1);
+			testGraph.neighboursOf(-1);
 		} catch (IllegalArgumentException e) {
 			exceptionThrown1 = true;
 		}
@@ -286,7 +286,7 @@ public class GraphTest {
 		boolean exceptionThrown2 = false;
 
 		try {
-			testGraph.NeighboursOf(3);
+			testGraph.neighboursOf(3);
 		} catch (IllegalArgumentException e) {
 			exceptionThrown2 = true;
 		}

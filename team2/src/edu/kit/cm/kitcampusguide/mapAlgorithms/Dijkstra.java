@@ -60,7 +60,7 @@ public class Dijkstra implements RouteCalculator {
 		
 		while (!nodeQueue.isEmpty() && !mapGraph.getNode(nodeQueue.min().getElement().index).equals(to)) {
 			AddressableRadixHeap<Node>.Handle activeHandle = nodeQueue.min();
-			for (int neighbour : mapGraph.NeighboursOf(activeHandle.getElement().index)) {
+			for (int neighbour : mapGraph.neighboursOf(activeHandle.getElement().index)) {
 				int distance = activeHandle.getKey() + (int) (mapGraph.getEdge(activeHandle.getElement().index, neighbour));
 				if (handles.get(neighbour) == null) {
 					handles.set(neighbour, nodeQueue.insert(new Node(neighbour, activeHandle.getElement()), distance));
@@ -90,7 +90,7 @@ public class Dijkstra implements RouteCalculator {
 	private double maxEdgeLength(Graph graph) {
 		double maxLength = -1;
 		for (int i = 0; i < graph.numberOfNodes(); i++) {
-			for (int neighbour : graph.NeighboursOf(i)) {
+			for (int neighbour : graph.neighboursOf(i)) {
 				if (graph.getEdge(i, neighbour) > maxLength) {
 					maxLength = graph.getEdge(i, neighbour);
 				}
