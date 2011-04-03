@@ -468,11 +468,37 @@ public class ConcreteMapLoaderTest {
 		Graph testGraph = maploader.getGraph();
 		Point[] testNodes = testGraph.getNodes();
 		
-		Assert.assertEquals(expectedNodes.length, testNodes.length);
-		
 		for (int i = 0; i < expectedNodes.length; i++) {
 			Assert.assertEquals(expectedNodes[i].getX(), testNodes[i].getX(), 0.0001);
 			Assert.assertEquals(expectedNodes[i].getY(), testNodes[i].getY(), 0.0001);
+		}
+	}
+	
+
+	/**
+	 * This test tests the method getLandmarks() for correctness.
+	 * 
+	 * Attention: Works only with the status of the database created by
+	 * the SQL Dumps in Google Docs.
+	 */
+	@Test
+	public void testgetLandmarks() {
+		Point[] expectedLandmarks = { new Point(8.40484, 49.01428), 
+				new Point(8.40693, 49.01118), 
+				new Point(8.40943, 49.00884), 
+				new Point(8.41423, 49.00875), 
+				new Point(8.41954, 49.00849), 
+				new Point(8.42377, 49.01339), 
+				new Point(8.42218, 49.01581), 
+				new Point(8.4125, 49.0159) };
+
+		MapLoader maploader = new ConcreteMapLoader();
+
+		Point[] testLandmarks = maploader.getLandmarks();
+		
+		for (int i = 0; i < expectedLandmarks.length; i++) {
+			Assert.assertEquals(expectedLandmarks[i].getX(), testLandmarks[i].getX(), 0.0001);
+			Assert.assertEquals(expectedLandmarks[i].getY(), testLandmarks[i].getY(), 0.0001);
 		}
 	}
 
