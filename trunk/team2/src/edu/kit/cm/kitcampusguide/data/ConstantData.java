@@ -3,9 +3,6 @@ package edu.kit.cm.kitcampusguide.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
-
 import edu.kit.cm.kitcampusguide.model.Graph;
 import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.model.POICategory;
@@ -18,8 +15,6 @@ import edu.kit.cm.kitcampusguide.model.POICategory;
  * 
  * @author Haoqian Zheng
  */
-@ManagedBean
-@ApplicationScoped
 public class ConstantData {
 	
 	/**

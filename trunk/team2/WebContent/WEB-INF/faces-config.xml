@@ -18,6 +18,11 @@
 			<var>msgs</var>
 		</resource-bundle>
 	</application>
+	<managed-bean>
+		<managed-bean-name>constantData</managed-bean-name>
+		<managed-bean-class>edu.kit.cm.kitcampusguide.data.ConstantData</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
 	<converter>
 		<description>Converts a POI to a String</description>
 		<display-name>POIConverter</display-name>
