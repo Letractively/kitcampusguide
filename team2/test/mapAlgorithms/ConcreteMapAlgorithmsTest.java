@@ -45,8 +45,8 @@ public class ConcreteMapAlgorithmsTest {
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
 		Assert.assertEquals(4, suggestions.get(0).getId());
-		Assert.assertEquals(3, suggestions.get(1).getId());
-		Assert.assertEquals(1, suggestions.get(2).getId());
+		Assert.assertEquals(1, suggestions.get(1).getId());
+		Assert.assertEquals(3, suggestions.get(2).getId());
 	}
 
 	/**
@@ -61,9 +61,9 @@ public class ConcreteMapAlgorithmsTest {
 		Assert.assertEquals(4, suggestions.size());
 
 		Assert.assertEquals(2, suggestions.get(0).getId());
-		Assert.assertEquals(1, suggestions.get(1).getId());
-		Assert.assertEquals(4, suggestions.get(2).getId());
-		Assert.assertEquals(3, suggestions.get(3).getId());
+		Assert.assertEquals(4, suggestions.get(1).getId());
+		Assert.assertEquals(3, suggestions.get(2).getId());
+		Assert.assertEquals(1, suggestions.get(3).getId());
 
 	}
 
@@ -94,7 +94,7 @@ public class ConcreteMapAlgorithmsTest {
 	@Test
 	public void searchPOITest() {
 		MapAlgorithms concreteMapAlgorithms = new ConcreteMapAlgorithms();
-		POI searchedPOI=concreteMapAlgorithms.searchPOI("Ger");
+		POI searchedPOI = concreteMapAlgorithms.searchPOI("Ger");
 		Assert.assertNotNull(searchedPOI);
 		Assert.assertEquals(1, searchedPOI.getId());
 	}
