@@ -90,10 +90,10 @@ public class ConcretePOILoaderTest {
 	@Test
 	public void testgetPOI() {
 		POI expectedPOI1 = new POI(
-				"Gerthsen Hšrsaal",
+				"Gerthsen Hörsaal",
 				1,
 				"../images/icons/hoersaal.jpg",
-				"Gerthsen Hšrsaal, 400 SitzplŠtze, 3 Beamer, Physiker-Hšrsaal, ...",
+				"Gerthsen Hörsaal, 400 Sitzplätze, 3 Beamer, Physiker-Hörsaal, ...",
 				8.41152, 49.01258);
 		
 		POILoader poiloader = new ConcretePOILoader();	
@@ -111,7 +111,7 @@ public class ConcretePOILoaderTest {
 				"Mensa am Adenauerring",
 				2,
 				"../images/icons/mensa.jpg",
-				"Das ist die Mensa. Fre§tempel fŸr alle Studenten.",
+				"Das ist die Mensa. Freßtempel für alle Studenten.",
 				8.41684, 49.01198);
 		
 		POI testPOI2 = poiloader.getPOI(2);
@@ -127,8 +127,8 @@ public class ConcretePOILoaderTest {
 				"Audimax",
 				3,
 				"../hoersaal/audimax.jpg",
-				"Der grš§te Hšrsaal am KIT. Fasst etwa 750 Studenten. Die SitzplŠtze sind in zwei Halbkreisen angeordnet. "
-					+ "Der Hšrsaal hat zwei BeamerflŠchen.",
+				"Der größte Hörsaal am KIT. Fasst etwa 750 Studenten. Die Sitzplätze sind in zwei Halbkreisen angeordnet. "
+				+ "Der Hörsaal hat zwei Beamerflächen.",
 				8.41583, 49.01272);
 		
 		POI testPOI3 = poiloader.getPOI(3);
@@ -142,10 +142,10 @@ public class ConcretePOILoaderTest {
 		
 
 		POI expectedPOI4 = new POI(
-				"Hšrsaal am Fasanengarten",
+				"Hörsaal am Fasanengarten",
 				4,
 				"../icons/hsaf.jpg",
-				"Der Hšrsaal am Fasanengarten war frŸher eine Turnhalle.",
+				"Der Hörsaal am Fasanengarten war früher eine Turnhalle.",
 				8.42036, 49.01481);
 		
 		POI testPOI4 = poiloader.getPOI(4);
@@ -167,17 +167,17 @@ public class ConcretePOILoaderTest {
 	@Test
 	public void testgetPOIsByName() {
 		POI poi1 = new POI(
-				"Gerthsen Hšrsaal",
+				"Gerthsen Hörsaal",
 				1,
 				"../images/icons/hoersaal.jpg",
-				"Gerthsen Hšrsaal, 400 SitzplŠtze, 3 Beamer, Physiker-Hšrsaal, ...",
+				"Gerthsen Hörsaal, 400 Sitzplätze, 3 Beamer, Physiker-Hörsaal, ...",
 				8.41152, 49.01258);
 		
 		POI poi2 = new POI(
-				"Hšrsaal am Fasanengarten",
+				"Hörsaal am Fasanengarten",
 				4,
 				"../icons/hsaf.jpg",
-				"Der Hšrsaal am Fasanengarten war frŸher eine Turnhalle.",
+				"Der Hörsaal am Fasanengarten war früher eine Turnhalle.",
 				8.42036, 49.01481);
 		
 	    List<POI> expectedPOIList = new ArrayList<POI>();
@@ -188,7 +188,7 @@ public class ConcretePOILoaderTest {
 		
 		POILoader poiloader = new ConcretePOILoader();	
 		
-		List<POI> testPOIList = poiloader.getPOIsByName("Hšrsaal");
+		List<POI> testPOIList = poiloader.getPOIsByName("Hörsaal");
 		
 		Assert.assertEquals(expectedPOIList.size(), testPOIList.size());
 		
@@ -217,32 +217,32 @@ public class ConcretePOILoaderTest {
 		
 		
 		POI poi1 = new POI(
-				"Gerthsen Hšrsaal",
+				"Gerthsen Hörsaal",
 				1,
 				"../images/icons/hoersaal.jpg",
-				"Gerthsen Hšrsaal, 400 SitzplŠtze, 3 Beamer, Physiker-Hšrsaal, ...",
+				"Gerthsen Hörsaal, 400 Sitzplätze, 3 Beamer, Physiker-Hörsaal, ...",
 				8.41152, 49.01258);
 
 		POI poi2 = new POI(
 				"Mensa am Adenauerring",
 				2,
 				"../images/icons/mensa.jpg",
-				"Das ist die Mensa. Fre§tempel fŸr alle Studenten.",
+				"Das ist die Mensa. Freßtempel für alle Studenten.",
 				8.41684, 49.01198);
 
 		POI poi3 = new POI(
 				"Audimax",
 				3,
 				"../hoersaal/audimax.jpg",
-				"Der grš§te Hšrsaal am KIT. Fasst etwa 750 Studenten. Die SitzplŠtze sind in zwei Halbkreisen angeordnet. "
-					+ "Der Hšrsaal hat zwei BeamerflŠchen.",
+				"Der größte Hörsaal am KIT. Fasst etwa 750 Studenten. Die Sitzplätze sind in zwei Halbkreisen angeordnet. "
+				+ "Der Hörsaal hat zwei Beamerflächen.",
 				8.41583, 49.01272);
 		
 		POI poi4 = new POI(
-				"Hšrsaal am Fasanengarten",
+				"Hörsaal am Fasanengarten",
 				4,
 				"../icons/hsaf.jpg",
-				"Der Hšrsaal am Fasanengarten war frŸher eine Turnhalle.",
+				"Der Hörsaal am Fasanengarten war früher eine Turnhalle.",
 				8.42036, 49.01481);
 		
 	    List<POI> expectedPOIList = new ArrayList<POI>();
@@ -364,7 +364,7 @@ public class ConcretePOILoaderTest {
 	    
 	    expectedPOICatList2.add(poicat2);	
 	    
-		List<POICategory> testPOICatList2 = poiloader.getPOICategoryByName("Hšr");
+		List<POICategory> testPOICatList2 = poiloader.getPOICategoryByName("Hör");
 		
 		Assert.assertEquals(expectedPOICatList2.size(), testPOICatList2.size());
 		
