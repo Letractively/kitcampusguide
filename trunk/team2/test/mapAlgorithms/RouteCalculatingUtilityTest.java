@@ -40,7 +40,7 @@ public class RouteCalculatingUtilityTest {
 			@Override
 			public double[][] getLandmarkDistances() {
 				// doesn't need to be implemented
-				return null;
+				return new double[0][0];
 			}
 
 			@Override

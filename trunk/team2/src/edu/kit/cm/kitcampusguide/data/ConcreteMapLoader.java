@@ -168,7 +168,6 @@ public class ConcreteMapLoader implements MapLoader {
 	    } catch (SQLException e) {
 		    e.printStackTrace();
 	    }
-	    System.out.println(count);
 	    double[][] result = new double[count][streetnodelist.size()];
 	    
 	    for (int i = 0; i < streetnodelist.size(); i++) {

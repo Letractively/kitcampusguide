@@ -49,13 +49,13 @@ public class ConcreteQueryCalculatorTest {
 	public void getSuggestionsTest() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator
 				.getSingleton();
-		List<POI> suggestions = queryCalculator.getSuggestions("Hö");
+		List<POI> suggestions = queryCalculator.getSuggestions("Hš");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
 		Assert.assertEquals(3, suggestions.get(0).getId());
-		Assert.assertEquals(4, suggestions.get(1).getId());
-		Assert.assertEquals(1, suggestions.get(2).getId());
+		Assert.assertEquals(1, suggestions.get(1).getId());
+		Assert.assertEquals(4, suggestions.get(2).getId());
 	}
 
 	/**
@@ -66,13 +66,13 @@ public class ConcreteQueryCalculatorTest {
 	public void getSuggestionsWithSmallCapsTest() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator
 				.getSingleton();
-		List<POI> suggestions = queryCalculator.getSuggestions("hö");
+		List<POI> suggestions = queryCalculator.getSuggestions("hš");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
 		Assert.assertEquals(3, suggestions.get(0).getId());
-		Assert.assertEquals(4, suggestions.get(1).getId());
-		Assert.assertEquals(1, suggestions.get(2).getId());
+		Assert.assertEquals(1, suggestions.get(1).getId());
+		Assert.assertEquals(4, suggestions.get(2).getId());
 	}
 
 	/**
@@ -103,9 +103,9 @@ public class ConcreteQueryCalculatorTest {
 		Assert.assertEquals(4, suggestions.size());
 
 		Assert.assertEquals(2, suggestions.get(0).getId());
-		Assert.assertEquals(4, suggestions.get(1).getId());
+		Assert.assertEquals(1, suggestions.get(1).getId());
 		Assert.assertEquals(3, suggestions.get(2).getId());
-		Assert.assertEquals(1, suggestions.get(3).getId());
+		Assert.assertEquals(4, suggestions.get(3).getId());
 	}
 
 	/**
@@ -123,9 +123,9 @@ public class ConcreteQueryCalculatorTest {
 		Assert.assertEquals(4, suggestions.size());
 
 		Assert.assertEquals(2, suggestions.get(0).getId());
-		Assert.assertEquals(1, suggestions.get(1).getId());
-		Assert.assertEquals(4, suggestions.get(2).getId());
-		Assert.assertEquals(3, suggestions.get(3).getId());
+		Assert.assertEquals(4, suggestions.get(1).getId());
+		Assert.assertEquals(3, suggestions.get(2).getId());
+		Assert.assertEquals(1, suggestions.get(3).getId());
 
 	}
 
@@ -155,13 +155,13 @@ public class ConcreteQueryCalculatorTest {
 	public void getSuggestionsNamesTest() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator
 				.getSingleton();
-		List<String> suggestions = queryCalculator.getSuggestionsNames("Hö");
+		List<String> suggestions = queryCalculator.getSuggestionsNames("Hš");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
 		Assert.assertEquals("Audimax", suggestions.get(0));
-		Assert.assertEquals("Hörsaal am Fasanengarten", suggestions.get(1));
-		Assert.assertEquals("Gerthsen Hörsaal", suggestions.get(2));
+		Assert.assertEquals("Gerthsen Hšrsaal", suggestions.get(1));
+		Assert.assertEquals("Hšrsaal am Fasanengarten", suggestions.get(2));
 	}
 
 	/**
@@ -172,13 +172,13 @@ public class ConcreteQueryCalculatorTest {
 	public void getSuggestionsNamesWithLowerCaseTest() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator
 				.getSingleton();
-		List<String> suggestions = queryCalculator.getSuggestionsNames("hö");
+		List<String> suggestions = queryCalculator.getSuggestionsNames("hš");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
 		Assert.assertEquals("Audimax", suggestions.get(0));
-		Assert.assertEquals("Hörsaal am Fasanengarten", suggestions.get(1));
-		Assert.assertEquals("Gerthsen Hörsaal", suggestions.get(2));
+		Assert.assertEquals("Gerthsen Hšrsaal", suggestions.get(1));
+		Assert.assertEquals("Hšrsaal am Fasanengarten", suggestions.get(2));
 	}
 
 	/**

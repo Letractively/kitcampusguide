@@ -48,7 +48,7 @@ public class CampusGuide {
 	/**
 	 * The {@link MapAlgorithms} of the current session.
 	 */
-	private MapAlgorithms ma;
+	private final MapAlgorithms mapAlgorithms;
 	
 	/**
 	 * The Locale of the current session storing the current language.
@@ -74,9 +74,7 @@ public class CampusGuide {
 		this.hlm = new HeadlineModel();
 		this.sbm = new SidebarModel();
 		this.locale = FacesContext.getCurrentInstance().getApplication().getDefaultLocale();
-		this.setCurrentPOI(null);
-		this.currentRoute = null;
-		this.ma = new ConcreteMapAlgorithms();
+		this.mapAlgorithms = new ConcreteMapAlgorithms();
 	}
 	
 	/**
@@ -184,9 +182,9 @@ public class CampusGuide {
 		String newSearch = (String) ev.getNewValue();
 		if (newSearch != null) {
 			this.hlm.setSearch(newSearch);
-			this.currentPOI = this.ma.searchPOI(this.hlm.getSearch());
+			this.currentPOI = this.mapAlgorithms.searchPOI(this.hlm.getSearch());
 			if (this.currentPOI == null) {
-				this.hlm.setSuggestions(this.ma.getSuggestions(this.hlm.getSearch()));
+				this.hlm.setSuggestions(this.mapAlgorithms.getSuggestions(this.hlm.getSearch()));
 			} else {
 				this.hlm.setSuggestions(new ArrayList<POI>());
 			}
@@ -204,7 +202,7 @@ public class CampusGuide {
 	 */
 	public void fromChanged(ValueChangeEvent ev) {
 		String newFrom = (String) ev.getNewValue();
-		POI newPOI = newFrom.matches(COORDINATES) ? generateMarker(newFrom) : this.ma.searchPOI(newFrom);
+		POI newPOI = newFrom.matches(COORDINATES) ? generateMarker(newFrom) : this.mapAlgorithms.searchPOI(newFrom);
 		this.sbm.setFrom(newPOI);
 		this.updateRoute();
 		FacesContext.getCurrentInstance().renderResponse();
@@ -220,7 +218,7 @@ public class CampusGuide {
 	 */
 	public void toChanged(ValueChangeEvent ev) {
 		String newTo = (String) ev.getNewValue();
-		POI newPOI = newTo.matches(COORDINATES) ? generateMarker(newTo) : this.ma.searchPOI(newTo);
+		POI newPOI = newTo.matches(COORDINATES) ? generateMarker(newTo) : this.mapAlgorithms.searchPOI(newTo);
 		this.sbm.setTo(newPOI);
 		this.updateRoute();
 		FacesContext.getCurrentInstance().renderResponse();
@@ -246,7 +244,7 @@ public class CampusGuide {
 	 */
 	public void updateRoute() {
 		if (this.sbm.getFrom() != null && this.sbm.getTo() != null) {
-			this.currentRoute = this.ma.calculateRoute(this.sbm.getFrom(), this.sbm.getTo());
+			this.currentRoute = this.mapAlgorithms.calculateRoute(this.sbm.getFrom(), this.sbm.getTo());
 		} else {
 			this.currentRoute = null;
 		}
