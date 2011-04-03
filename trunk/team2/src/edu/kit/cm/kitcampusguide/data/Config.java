@@ -23,32 +23,32 @@ public final class Config {
 	/**
 	 * Saves the type of the current used database.
 	 */
-	public static String dbType = "postgresql";
+	public static final String DB_TYPE = "postgresql";
 	
 	/**
 	 * Saves the hostname of the current used database.
 	 */
-	public static String dbHost = "localhost";
+	public static final String DB_HOST = "localhost";
 	
 	/**
 	 * Saves the port of the current used database.
 	 */
-	public static String dbPort = "5432";
+	public static final String DB_PORT = "5432";
 	
 	/**
 	 * Saves the database name of the current used database.
 	 */
-	public static String dbDatabase = "campusguide";
+	public static final String DB_DATABASE = "campusguide";
 	
 	/**
 	 * Saves the username of the current used database.
 	 */
-	public static String dbUsername = "campusguide";
+	public static final String DB_USERNAME = "campusguide";
 	
 	/**
 	 * Saves the password of the current used database.
 	 */
-	public static String dbPassword = "katja";
+	public static final String DB_PASSWORD = "katja";
 	
 	
 	/**
@@ -65,11 +65,11 @@ public final class Config {
 			System.err.println(e.getMessage());
 		}
 		
-		String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
+		String dbURL = "jdbc:" + Config.DB_TYPE + "://" + Config.DB_HOST + ":" + Config.DB_PORT + "/" + Config.DB_DATABASE;
 		Connection connection = null;
 		
 		try {
-			connection = DriverManager.getConnection(dbURL, dbUsername, dbPassword);
+			connection = DriverManager.getConnection(dbURL, DB_USERNAME, DB_PASSWORD);
 		} catch (SQLException ex) {
 			System.err.println("SQLException: " + ex.getMessage());
 		}

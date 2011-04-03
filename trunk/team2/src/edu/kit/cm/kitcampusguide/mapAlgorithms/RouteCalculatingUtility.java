@@ -2,13 +2,10 @@ package edu.kit.cm.kitcampusguide.mapAlgorithms;
 
 import java.util.List;
 
-import com.sun.org.apache.bcel.internal.generic.LAND;
-
 import edu.kit.cm.kitcampusguide.data.ConcreteMapLoader;
 import edu.kit.cm.kitcampusguide.data.MapLoader;
 import edu.kit.cm.kitcampusguide.model.Graph;
 import edu.kit.cm.kitcampusguide.model.Point;
-import edu.kit.cm.kitcampusguide.model.Route;
 
 /**
  * This utility class provides several methods used for calculating Routes on a Graph.
@@ -16,7 +13,7 @@ import edu.kit.cm.kitcampusguide.model.Route;
  * @author Tobias Zündorf
  *
  */
-public class RouteCalculatingUtility {
+public final class RouteCalculatingUtility {
 	
 	/**
 	 * The MapLoader Implementation used by this Class
@@ -127,7 +124,7 @@ public class RouteCalculatingUtility {
 	 * @param pointTo is the point, to which we calculate the distance.
 	 * @return the distance between the two points in meters.
 	 */
-	private static double getDistance(Point pointFrom, Point pointTo){
+	private static double getDistance(Point pointFrom, Point pointTo) {
 		double heightFrom = getLengthByPolarCoordinates(pointFrom.getX());
 		double heightTo = getLengthByPolarCoordinates(pointTo.getX());
 		double widthFrom = getLengthByPolarCoordinates(pointFrom.getY());

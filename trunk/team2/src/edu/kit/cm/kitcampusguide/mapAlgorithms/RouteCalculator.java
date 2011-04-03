@@ -25,7 +25,6 @@ public interface RouteCalculator {
 	 * @param mapGraph the Graph to search in
 	 * @return the shortest route between the two specified points
 	 */
-	// TODO parameter mapGraph im Entwurf einfügen
-	public Route calculateRoute(Point from, Point to, Graph mapGraph);
+	Route calculateRoute(Point from, Point to, Graph mapGraph);
 	
 }

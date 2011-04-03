@@ -187,8 +187,8 @@ public class Graph {
 	 * @param nodeIndex the node, whose neighbors shall be iterated
 	 * @return An iterable instance for the neighbors of the specified node
 	 */
-	public Iterable<Integer> NeighboursOf(final int nodeIndex) {
-		if(nodeIndex < 0 || nodeIndex >= this.points.size()) {
+	public Iterable<Integer> neighboursOf(final int nodeIndex) {
+		if (nodeIndex < 0 || nodeIndex >= this.points.size()) {
 			throw new IllegalArgumentException();
 		}
 		

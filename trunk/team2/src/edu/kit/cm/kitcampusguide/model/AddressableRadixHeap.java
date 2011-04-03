@@ -70,7 +70,7 @@ public class AddressableRadixHeap<T> {
 	 * @return the handle with minimal key within the heap
 	 */
 	public Handle deleteMin() {
-		if (this.isEmpty()){
+		if (this.isEmpty()) {
 			throw new UnsupportedOperationException("Cannot delete from an Empty list");
 		}
 		

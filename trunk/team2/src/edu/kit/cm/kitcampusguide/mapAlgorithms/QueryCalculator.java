@@ -22,7 +22,7 @@ public interface QueryCalculator {
 	 * @param name the String to search for
 	 * @return a collection containing all POI corresponding to the specified String
 	 */
-	public List<POI> getSuggestions(String name);
+	List<POI> getSuggestions(String name);
 	
 	/**
 	 * Searches through the entire POI database and compares each POI-name and POI-description
@@ -33,7 +33,7 @@ public interface QueryCalculator {
 	 * @param name the String to search for
 	 * @return a collection containing all POI-name corresponding to the specified String
 	 */
-	public List<String> getSuggestionsNames(String name);
+	List<String> getSuggestionsNames(String name);
 	
 	/**
 	 * Searches through the entire POI database and compares each POI-name with the specified 
@@ -43,6 +43,6 @@ public interface QueryCalculator {
 	 * @param name the String to search for
 	 * @return the POI with the highest correspondence to the specified String
 	 */
-	public POI searchPOI(String name);
+	POI searchPOI(String name);
 	
 }

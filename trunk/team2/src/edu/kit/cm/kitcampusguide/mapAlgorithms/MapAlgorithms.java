@@ -14,9 +14,6 @@ import edu.kit.cm.kitcampusguide.controller.CampusGuide;
  * @author Tobias Zündorf
  *
  */
-/*
- * This package is primary used to handle route and search requests.
- */
 public interface MapAlgorithms {
 
 	/**
@@ -28,7 +25,7 @@ public interface MapAlgorithms {
 	 * @param name the String to search for
 	 * @return a collection containing all POI corresponding to the specified String
 	 */
-	public List<POI> getSuggestions(String name);
+	List<POI> getSuggestions(String name);
 	
 	/**
 	 * Searches through the entire POI database and compares each POI-name and POI-description
@@ -39,7 +36,7 @@ public interface MapAlgorithms {
 	 * @param name the String to search for
 	 * @return a collection containing all POI-name corresponding to the specified String
 	 */
-	public List<String> getSuggestionsNames(String name);
+	List<String> getSuggestionsNames(String name);
 	
 	/**
 	 * Searches through the entire POI database and compares each POI-name with the specified 
@@ -48,7 +45,7 @@ public interface MapAlgorithms {
 	 * @param name the String to search for
 	 * @return the POI with the highest correspondence to the specified String
 	 */
-	public POI searchPOI(String name);
+	POI searchPOI(String name);
 
 	/**
 	 * Calculates and Returns the shortest route between the two specified Points within
@@ -58,7 +55,7 @@ public interface MapAlgorithms {
 	 * @param to the end point of the route
 	 * @return the shortest route between the two specified Points
 	 */
-	public Route calculateRoute(Point from, Point to);
+	Route calculateRoute(Point from, Point to);
 	
 	/**
 	 * Generates a unique String, identifying the specified CampusGuide.
@@ -66,7 +63,7 @@ public interface MapAlgorithms {
 	 * @param website the CampusGuide to encode
 	 * @return  a unique String, identifying the specified CampusGuide
 	 */
-	public String calculateURL(CampusGuide website);
+	String calculateURL(CampusGuide website);
 	
 	/**
 	 * Builds a CampusGuide instance out of the specified String.
@@ -74,6 +71,6 @@ public interface MapAlgorithms {
 	 * @param url the String to Build the CampusGuide
 	 * @return a CampusGuide instance build out of the specified String
 	 */
-	public CampusGuide calculateWebsite(String url);
+	CampusGuide calculateWebsite(String url);
 	
 }

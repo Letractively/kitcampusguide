@@ -31,7 +31,7 @@ public class ConcreteMapLoader implements MapLoader {
 			ArrayList<Integer> streetTo = new ArrayList<Integer>();
 			ArrayList<Double> streetLength = new ArrayList<Double>();
 			
-			String dbURL = "jdbc:" + Config.dbType + "://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase;
+			String dbURL = "jdbc:" + Config.DB_TYPE + "://" + Config.DB_HOST + ":" + Config.DB_PORT + "/" + Config.DB_DATABASE;
 			
 			Connection connection = null;
 			Statement statement = null;
@@ -39,7 +39,7 @@ public class ConcreteMapLoader implements MapLoader {
 			
 			try {
 		        Class.forName("org.postgresql.Driver");
-		        connection = DriverManager.getConnection(dbURL, Config.dbUsername, Config.dbPassword);
+		        connection = DriverManager.getConnection(dbURL, Config.DB_USERNAME, Config.DB_PASSWORD);
 	
 		        statement = connection.createStatement();
 		        resultset = statement.executeQuery("SELECT * FROM cg_streetnode");     
@@ -62,11 +62,11 @@ public class ConcreteMapLoader implements MapLoader {
 	
 		        
 			} catch (Exception ex) {
-		        System.out.println( ex );
+				ex.printStackTrace();
 		    } finally {
-		        try { if( null != resultset ) resultset.close(); } catch( Exception ex ) {}
-		        try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
-		        try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
+		        try { if (null != resultset) resultset.close(); } catch (Exception ex) { ex.printStackTrace(); }
+		        try { if (null != statement) statement.close(); } catch (Exception ex) { ex.printStackTrace(); }
+		        try { if (null != connection) connection.close(); } catch (Exception ex) { ex.printStackTrace(); }
 		    }
 		      
 		    Point[] points = new Point[streetnodeId.size()];
@@ -191,17 +191,17 @@ public class ConcreteMapLoader implements MapLoader {
 	        connection = Config.getPgSQLJDBCConnection();
 
 	        statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO cg_landmark (latitude, longitude) " + 
-                "VALUES ('" + landmark.getX() + "', '" + landmark.getY() + "')");
+            statement.executeUpdate("INSERT INTO cg_landmark (latitude, longitude) " 
+            		+ "VALUES ('" + landmark.getX() + "', '" + landmark.getY() + "')");
 	        
-            resultset = statement.executeQuery("SELECT id FROM cg_landmark WHERE latitude = '" + landmark.getX() +
-            		"' AND longitude = '" + landmark.getY() + "'");
+            resultset = statement.executeQuery("SELECT id FROM cg_landmark WHERE latitude = '" + landmark.getX() 
+            		+ "' AND longitude = '" + landmark.getY() + "'");
             resultset.next();
             int landmarkid = resultset.getInt("id");
             
 	        for (int i = 0; i < distances.length; i++) {
-	        	statement.executeUpdate("INSERT INTO cg_distance (streetnode_id, landmark_id, length) " + 
-	                    "VALUES ('" + i + "', '" + landmarkid + "', '" + distances[i] + "')");
+	        	statement.executeUpdate("INSERT INTO cg_distance (streetnode_id, landmark_id, length) "
+	        		+ "VALUES ('" + i + "', '" + landmarkid + "', '" + distances[i] + "')");
 	        }
 
         } catch (Exception e) { 
@@ -209,8 +209,8 @@ public class ConcreteMapLoader implements MapLoader {
             System.err.println(e.getMessage()); 
             System.err.println(e.getStackTrace());
         } finally {
-            try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
-            try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
+            try { if (null != statement) statement.close(); } catch (Exception ex) { ex.printStackTrace(); }
+            try { if (null != connection) connection.close(); } catch (Exception ex) { ex.printStackTrace(); }
         }
     }
 	
@@ -230,16 +230,16 @@ public class ConcreteMapLoader implements MapLoader {
 	        connection = Config.getPgSQLJDBCConnection();
 
 	        statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO cg_street (from_id, to_id, length) " + 
-                "VALUES ('" + fromId + "', '" + toId + "', '" + length + "')");
+            statement.executeUpdate("INSERT INTO cg_street (from_id, to_id, length) "
+            		+ "VALUES ('" + fromId + "', '" + toId + "', '" + length + "')");
             
         } catch (Exception e) { 
             System.err.println("Got an exception! "); 
             System.err.println(e.getMessage()); 
             System.err.println(e.getStackTrace());
         } finally {
-            try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
-            try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
+            try { if (null != statement) statement.close(); } catch (Exception ex) { ex.printStackTrace(); }
+            try { if (null != connection) connection.close(); } catch (Exception ex) { ex.printStackTrace(); }
         }
 	}
 	
@@ -257,8 +257,8 @@ public class ConcreteMapLoader implements MapLoader {
 	        connection = Config.getPgSQLJDBCConnection();
 
 	        statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO cg_streetnode (id, latitude, longitude) " + 
-                "VALUES (nextval('cg_streetnode_id_seq'), '" + latitude + "', '" + longitude + "')");
+            statement.executeUpdate("INSERT INTO cg_streetnode (id, latitude, longitude) " 
+            		+ "VALUES (nextval('cg_streetnode_id_seq'), '" + latitude + "', '" + longitude + "')");
             
             resultset = statement.executeQuery("SELECT id FROM cg_streetnode WHERE id = currval('cg_streetnode_id_seq')");
             resultset.next();
@@ -269,8 +269,8 @@ public class ConcreteMapLoader implements MapLoader {
             System.err.println(e.getMessage()); 
             System.err.println(e.getStackTrace());
         } finally {
-            try { if( null != statement ) statement.close(); } catch( Exception ex ) {}
-            try { if( null != connection ) connection.close(); } catch( Exception ex ) {}
+            try { if (null != statement) statement.close(); } catch (Exception ex) { ex.printStackTrace(); }
+            try { if (null != connection) connection.close(); } catch (Exception ex) { ex.printStackTrace(); }
         }
 
 		return nodeId;
