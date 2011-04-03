@@ -138,9 +138,9 @@ public class ConcreteQueryCalculatorTest {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator
 				.getSingleton();
 		boolean nullPointerExceptionThrown = false;
-		try{
+		try {
 			 queryCalculator.getSuggestions(null);
-		} catch(NullPointerException e) {
+		} catch (NullPointerException e) {
 			nullPointerExceptionThrown = true;
 		}
 		
@@ -221,9 +221,9 @@ public class ConcreteQueryCalculatorTest {
 	
 		boolean nullPointerExceptionThrown = false;
 		
-		try{
+		try {
 			queryCalculator.getSuggestionsNames(null);
-		} catch(NullPointerException e) {
+		} catch (NullPointerException e) {
 			nullPointerExceptionThrown = true;
 		}
 		Assert.assertTrue(nullPointerExceptionThrown);
@@ -278,9 +278,9 @@ public class ConcreteQueryCalculatorTest {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator
 				.getSingleton();
 		boolean nullPointerExceptionThrown = false;
-		try{
+		try {
 			queryCalculator.searchPOI(null);
-		} catch(NullPointerException e) {
+		} catch (NullPointerException e) {
 			nullPointerExceptionThrown = true;
 		}
 		
