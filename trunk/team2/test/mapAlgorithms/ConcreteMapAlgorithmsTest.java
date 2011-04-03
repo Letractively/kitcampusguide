@@ -45,8 +45,8 @@ public class ConcreteMapAlgorithmsTest {
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
 		Assert.assertEquals(4, suggestions.get(0).getId());
-		Assert.assertEquals(1, suggestions.get(1).getId());
-		Assert.assertEquals(3, suggestions.get(2).getId());
+		Assert.assertEquals(3, suggestions.get(1).getId());
+		Assert.assertEquals(1, suggestions.get(2).getId());
 	}
 
 	/**
@@ -62,8 +62,8 @@ public class ConcreteMapAlgorithmsTest {
 
 		Assert.assertEquals(2, suggestions.get(0).getId());
 		Assert.assertEquals(4, suggestions.get(1).getId());
-		Assert.assertEquals(3, suggestions.get(2).getId());
-		Assert.assertEquals(1, suggestions.get(3).getId());
+		Assert.assertEquals(1, suggestions.get(2).getId());
+		Assert.assertEquals(3, suggestions.get(3).getId());
 
 	}
 
