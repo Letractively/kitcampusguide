@@ -49,7 +49,7 @@ public class ConcreteQueryCalculatorTest {
 	public void getSuggestionsTest() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator
 				.getSingleton();
-		List<POI> suggestions = queryCalculator.getSuggestions("Hö");
+		List<POI> suggestions = queryCalculator.getSuggestions("H√∂");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
@@ -66,7 +66,7 @@ public class ConcreteQueryCalculatorTest {
 	public void getSuggestionsWithSmallCapsTest() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator
 				.getSingleton();
-		List<POI> suggestions = queryCalculator.getSuggestions("hö");
+		List<POI> suggestions = queryCalculator.getSuggestions("h√∂");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
@@ -155,13 +155,13 @@ public class ConcreteQueryCalculatorTest {
 	public void getSuggestionsNamesTest() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator
 				.getSingleton();
-		List<String> suggestions = queryCalculator.getSuggestionsNames("Hö");
+		List<String> suggestions = queryCalculator.getSuggestionsNames("H√∂");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
 		Assert.assertEquals("Audimax", suggestions.get(0));
-		Assert.assertEquals("Gerthsen Hörsaal", suggestions.get(1));
-		Assert.assertEquals("Hörsaal am Fasanengarten", suggestions.get(2));
+		Assert.assertEquals("Gerthsen H√∂rsaal", suggestions.get(1));
+		Assert.assertEquals("H√∂rsaal am Fasanengarten", suggestions.get(2));
 	}
 
 	/**
@@ -172,13 +172,13 @@ public class ConcreteQueryCalculatorTest {
 	public void getSuggestionsNamesWithLowerCaseTest() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator
 				.getSingleton();
-		List<String> suggestions = queryCalculator.getSuggestionsNames("hö");
+		List<String> suggestions = queryCalculator.getSuggestionsNames("h√∂");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
 		Assert.assertEquals("Audimax", suggestions.get(0));
-		Assert.assertEquals("Gerthsen Hörsaal", suggestions.get(1));
-		Assert.assertEquals("Hörsaal am Fasanengarten", suggestions.get(2));
+		Assert.assertEquals("Gerthsen H√∂rsaal", suggestions.get(1));
+		Assert.assertEquals("H√∂rsaal am Fasanengarten", suggestions.get(2));
 	}
 
 	/**
