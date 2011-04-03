@@ -60,17 +60,6 @@ public class RouteCalculatingUtilityTest {
 			}
 
 			@Override
-			public void addStreetToDatabase(int fromId, int toId, double length) {
-				// doesn't need to be implemented
-			}
-
-			@Override
-			public int addStreetNodeToDatabase(double latitude, double longitude) {
-				// doesn't need to be implemented
-				return 0;
-			}
-
-			@Override
 			public void addLandmarkToDatabase(Point landmark, double[] distances) {
 				// doesn't need to be implemented
 			}

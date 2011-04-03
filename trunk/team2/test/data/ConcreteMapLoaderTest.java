@@ -18,37 +18,6 @@ import edu.kit.cm.kitcampusguide.model.Point;
 public class ConcreteMapLoaderTest {
 
 	/**
-	 * This tests the methods addStreetToDatabase(...) and addLandmarkToDatabase(...)
-	 * with illegal parameters and tests the exceptions.
-	 */
-	@Test
-	public void testExceptionsofaddStreet() {
-        MapLoader maploader = new ConcreteMapLoader();
-		
-	    try {
-	        final int negativeId = -2;
-	        maploader.addStreetToDatabase(negativeId, 1, 1);
-	        fail("Should have raised an IllegalArgumentException");
-	    } catch (IllegalArgumentException expected) {
-	    }
-	    
-	    try {
-	        final int negativeId = -2;
-	        maploader.addStreetToDatabase(1, negativeId, 1);
-	        fail("Should have raised an IllegalArgumentException");
-	    } catch (IllegalArgumentException expected) {
-	    }
-		
-	    try {
-	        final double negativeLength = -.04;
-	        maploader.addStreetToDatabase(1, 1, negativeLength);
-	        fail("Should have raised an IllegalArgumentException");
-	    } catch (IllegalArgumentException expected) {
-	    }
-
-	}
-	
-	/**
 	 * This test tests the method getGraph() for correctness.
 	 * 
 	 * Attention: Works only with the status of the database created by
