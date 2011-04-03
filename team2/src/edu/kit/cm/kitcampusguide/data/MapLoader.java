@@ -48,24 +48,4 @@ public interface MapLoader {
 	 */
 	void addLandmarkToDatabase(Point landmark, double[] distances);
 
-	/**
-	 * Adds a given street to the saved graph in the database.
-	 * It adds just the given street, not a street in two directions.
-	 * 
-	 * @param fromId streetnode id of the outgoing node.
-	 * @param toId streetnode id of the incoming node.
-	 * @param length length of the street.
-	 */
-	void addStreetToDatabase(int fromId, int toId, double length);
-
-	/**
-	 * Adds the given point to the saved graph in the database.
-	 * Returns the ID of the new streetnode, returns -1 if the update failed.
-	 * 
-	 * @param longitude the longitude of the new node
-	 * @param latitude the latitude of the new node
-	 * @return the index of the inserted node
-	 */
-	int addStreetNodeToDatabase(double latitude, double longitude);
-
 }
