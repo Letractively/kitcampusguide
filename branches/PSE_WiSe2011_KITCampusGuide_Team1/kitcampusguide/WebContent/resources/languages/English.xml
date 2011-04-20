@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language name ="English">
+	<entry key="routeFrom">Search/Route from: </entry>
+	<entry key="routeTo">Route to: </entry>
+	<entry key="search">Search</entry>
+	<entry key="calculateRoute">Route</entry>
+	<entry key="filter">Filter</entry>
+	<entry key="changeLanguage">Change language</entry>
+	<entry key="reset">reset</entry>
+	<entry key ="searchFailed">No adequate search results.</entry>
+	<entry key="routeCalculationFailed">Route could not be calculated.</entry>
+	<entry key="choose">Please choose.</entry>
+	<entry key="ok">OK</entry>
+	<entry key="cancel">Cancel</entry>
+	<entry key="showBuildingMap">Show building map</entry>
+	<entry key="showPOIsInBuilding">Show points in building</entry>
+	<entry key="setRouteFrom">Route from here</entry>
+	<entry key="setRouteTo">Route to here</entry>
+	<entry key="backToCampus">back to Campus</entry>
+	<entry key="FilterWindowHeader">Filter Menu</entry>
+	<entry key="ApplyFilter">Apply</entry>
+	<entry key="streets">Streets</entry>
+	<entry key="buildings">Buildings</entry>
+	<entry key="events">Events</entry>
+	<entry key="various">Various</entry>
+	<entry key="auditoriums">Lecture Halls</entry>
+	<entry key="faculty">Faculties</entry>
+</language>
