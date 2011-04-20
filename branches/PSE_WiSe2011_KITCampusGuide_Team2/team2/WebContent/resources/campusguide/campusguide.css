@@ -1,0 +1,266 @@
+@CHARSET "UTF-8";
+
+#campusguide {
+	background-color: lightgrey;
+	position: relative;
+	z-index: 10;
+}
+
+#fullscreen {
+    position: absolute;
+    bottom: 0;    
+    left: 116px;
+    padding: 5px;
+}
+	
+.green-button {
+	color: #009682;
+	font-weight: bold;
+	height: 18px;
+	vertical-align: top;
+    margin: 0 5px 5px 0;
+	background-color: #e8e8e8;
+	padding-left: 2px;
+	padding-right: 2px;
+}   
+.green-menubutton {
+    color: #009682;
+    font-weight: bold;
+    height: 18px;
+    width: 146px;
+    vertical-align: top;
+    margin: 0 0 5px 0;
+    background-color: #dddddd;
+}
+
+#headline {
+    background-image: url(../resources/campusguide/img/headline.png);
+    background-repeat: repeat-x;
+    border: 1px solid #000000;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+}
+
+#headline-content {
+    margin: 5px;
+}
+
+#headline-content input {
+    margin: 0;
+}
+
+#headline-corner {
+    background-image: url(../resources/campusguide/img/headline_corner.png);
+    border: 0px;
+	height: 15px;
+    margin: 0;
+    width: 15px;
+    z-index: 10000;    
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#hide-sidebar {
+    background-image: url(../resources/campusguide/img/hide.png);
+    background-repeat: no-repeat;    
+    position: relative;
+    border: 0;
+    margin: 0;
+    height: 15px;
+    width: 11px;    
+    left: -5px;
+    z-index: 9999;
+}
+
+.hidden {
+	visibility: hidden;
+	display: none;
+}
+
+.infobox-links {
+	right: 0px;
+	height:2.5455em;
+	line-height:2.5455em;
+	text-align:right;
+}
+
+.infobox-links a {
+    color:#009682;
+    text-decoration:none;
+}
+
+.infobox-links a:hover {
+	text-decoration:underline;
+}
+
+#map {
+	border: 1px solid black;
+    border-top-width: 0px;
+}
+
+#map-contextmenu {
+    display: none;
+}
+
+.map-contextmenu {
+    
+}
+
+#map-corner {
+    background-image: url(../resources/campusguide/img/map_corner.png);
+	height: 15px;
+    width: 11px;
+    z-index: 10000;
+    position: absolute;
+    border: 0;
+    margin: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.map-popup {
+	display: none;
+}
+
+.map-popup-pane {
+	height: 100%;
+	position: relative;
+	top: -8px;
+	left: -8px;
+	min-width: 300px;
+}
+
+.poi-categories {
+    color: #000000;
+    font-weight: normal;
+}
+
+.poi-categories input {
+	position: relative;
+	top: 2px;
+}
+
+.poi-description {
+    padding: 6px;
+    margin-right: 20px;
+    min-height: 20px;
+}
+
+.poi-filter {
+    background-image: url(../resources/campusguide/img/poi-filter-c.png);
+	color: #009682;
+	font-weight: bold;
+	vertical-align: top;
+	margin: 0 0 0 5px;
+    border: 0;
+    overflow: hidden;
+}
+
+.poi-filter div {
+    background: 0;
+}
+
+.poi-filter table{
+    background: none;  
+    background-color: none;
+    border: none;
+    background-image: url(../resources/campusguide/img/poi-filter.png);
+    background-repeat: no-repeat; 
+    height: 17px;
+	width: 111px;     
+    padding-left: 10px;
+    padding-right: 10px
+}
+
+.poi-menu {
+	bottom: 0;
+    padding-right: 2px;
+    position: absolute;
+    text-align: right;
+    right: 0;
+    min-width: 233px;
+}
+
+.poi-name {
+	color: #009682;
+    font-size: 15px;
+    font-weight: bold;
+    min-width: 233px;
+    padding: 6px;
+    height: 11px;
+    white-space: nowrap;
+}
+
+#poi-pane {
+    position: absolute;
+    bottom: 0;    
+    left: 0;
+    padding: 5px;
+	z-index: 10000;
+}
+
+#poi-pane table {
+    margin: 0;
+}
+
+.route-field {
+	height: 16px;
+	width: 100%;
+	margin: 0 0 5px 0;
+    z-index: 9999;
+}
+
+.search-field {
+	height: 16px;
+}
+
+#show-sidebar {
+    background-image: url(../resources/campusguide/img/show.png);
+    background-repeat: no-repeat;   
+    position: absolute; 
+    border: 0;
+    margin: 0;
+    right: 0;
+    width: 11px;  
+    height: 15px;
+    z-index: 10000;
+}
+
+#sidebar {
+	border-color: #000000;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 9999;
+}
+
+#sidebar-border {
+    border-color: #000000;
+    border-style: solid;
+	z-index: 1;
+    top: 221px;
+    right: 41px;
+    display: none;
+}
+
+#sidebar-pane {
+    background-color:#ffffff;
+    border: 1px solid black;
+    border-width: 0 0 0 1px;
+    padding: 5px;
+    position: absolute;
+}
+
+#sidebar-suggestions {
+}
+
+span.hidden {
+	visibility: hidden;
+	display: none;
+}
+	
