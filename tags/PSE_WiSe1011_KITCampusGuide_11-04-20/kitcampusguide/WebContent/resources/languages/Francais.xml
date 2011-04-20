@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- test version, actual translation needed-->
+<language name ="Français">
+	<entry key="routeFrom">Recherche/Route de:</entry>
+	<entry key="routeTo">Route à: </entry>
+	<entry key="search">Recherche</entry>
+	<entry key="calculateRoute">Route</entry>
+	<entry key="filter">Filter</entry>
+	<entry key="changeLanguage">Selection de language</entry>
+	<entry key="reset">Annuler</entry>
+	<entry key ="searchFailed">Pas de résultats appropriés.</entry>
+	<entry key="routeCalculationFailed">Erreur calculant la route.</entry>
+	<entry key="choose">Choisissez s'il vous plaît</entry>
+	<entry key="ok">Vas-y</entry>
+	<entry key="cancel">Abandon</entry>
+	<entry key="showBuildingMap">Plan de cet bâtiment</entry>
+	<entry key="showPOIsInBuilding">Points importants dans cet bâtiment</entry>
+	<entry key="setRouteFrom">Route de ici</entry>
+	<entry key="setRouteTo">Route à là-bas</entry>
+	<entry key="backToCampus">Plan du campus universitaire</entry>
+	<entry key="FilterWindowHeader">Menue filtre</entry>
+	<entry key="ApplyFilter">Applique</entry>
+	<entry key="streets">Rues</entry>
+	<entry key="buildings">Bâtiments</entry>
+	<entry key="events">Manifestations</entry>
+	<entry key="various">Divers</entry>
+	<entry key="auditoriums">Amphithéâtres</entry>
+	<entry key="faculty">Facultés</entry>
+</language>
