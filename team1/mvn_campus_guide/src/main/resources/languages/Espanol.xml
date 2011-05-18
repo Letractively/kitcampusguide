@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- test version, actual translation needed-->
+<language name ="Español">
+	<entry key="routeFrom">Búsqueda/Ruta de:</entry>
+	<entry key="routeTo">Ruta a: </entry>
+	<entry key="search">Busca</entry>
+	<entry key="calculateRoute">Ruta</entry>
+	<entry key="filter">Filter</entry>
+	<entry key="changeLanguage">Cambiar idioma</entry>
+	<entry key="reset">Anule</entry>
+	<entry key ="searchFailed">No resultados adecuados.</entry>
+	<entry key="routeCalculationFailed">Error calculando ruta.</entry>	
+	<entry key="choose">Elijan por favor</entry>
+	<entry key="ok">OK</entry>
+	<entry key="cancel">Cancelar</entry>
+	<entry key="showBuildingMap">Mapa de este edificio</entry>
+	<entry key="showPOIsInBuilding">Puntos importantes en este edificio</entry>
+	<entry key="setRouteFrom">Ruta de aquí</entry>
+	<entry key="setRouteTo">Ruta a ahí</entry>
+	<entry key="backToCampus">Mapa del campus </entry>
+	<entry key="FilterWindowHeader">Menú Filter</entry>
+	<entry key="ApplyFilter">Aplica</entry>
+	<entry key="streets">Calles</entry>
+	<entry key="buildings">Edificios</entry>
+	<entry key="events">Eventos</entry>
+	<entry key="various">Varios</entry>
+	<entry key="auditoriums">Auditorios</entry>
+	<entry key="faculty">Facultades</entry>
+</language>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<translationConfiguration
+		filename="/WEB-INF/classes/config/TranslationConfiguration.xml" />
+	<routeConfiguration filename="/WEB-INF/classes/config/RoutingConfiguration.xml" />
+	<standardtypesConfiguration
+		filename="/WEB-INF/classes/config/StandardtypesConfiguration.xml" />
+	<POIDBConfiguration filename="/WEB-INF/classes/config/POIDBConfiguration.xml" />
+	<defaultValueConfiguration filename="/WEB-INF/classes/config/DefaultValues.xml" />
+</configuration>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<defaultMap ID="1"></defaultMap>
+	<defaultCurrentCategories>
+		<category id="1"></category>
+		<category id="2"></category>
+		<category id="3"></category>
+		<category id="4"></category>
+		<category id="5"></category>
+		<category id="6"></category>
+	</defaultCurrentCategories>
+	<defaultCategories>
+		<category id="1"></category>
+		<category id="2"></category>
+		<category id="3"></category>
+		<category id="4"></category>
+		<category id="5"></category>
+		<category id="6"></category>
+	</defaultCategories>
+</configuration>
