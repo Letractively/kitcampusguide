@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Configures the buildings. Necessary format: 
+<building id = "[id]" groundfloorIndex = "[Index of the ground floor, 0 based, counting from
+above]" BuildingPOIID = "[ID of the building POI]">
+	<map id = "[id of the uppermost floor]"/>
+	...
+	<map id = "[id of the ground floor]"/>
+	...
+	<map id = "[id of the lowermost floor]"/>
+</building>
+
+-->
+
+<configuration>
+	<building id = "1" groundfloorIndex = "1" >
+		<map id = "4"/>
+		<map id="3"></map>
+	</building>
+	
+</configuration>

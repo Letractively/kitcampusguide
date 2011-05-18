@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:tr="http://myurl.de">
+	
+	<cc:interface>
+		<!-- Attributes -->
+		<cc:attribute name="mapModel"
+			type="edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.MapModel" required="true" />
+		<cc:attribute name="additionalRenderIDs" default="" />
+		<cc:attribute name="inputModel" 
+			type="edu.kit.cm.kitcampusguide.presentationlayer.viewmodel.InputModel" required="true" />
+		<cc:attribute name="enableMapSectionChangeEvents" required="false"
+			default="false" type="java.lang.Boolean" />
+		<!-- EditableValueHolders -->
+		<cc:editableValueHolder name="valueChangeListener" targets="form:outputField" />
+	</cc:interface>
+	<cc:implementation>
+		<h:outputScript target="head" library="javax.faces" name="jsf.js" />
+		<!-- This script is used for HTML encoding/decoding	-->
+		<h:outputScript target="head" library="mapcomponent" name="encoder.js" />
+		<h:outputScript target="head" library="mapcomponent" name="mapcomponent.js" />
+		<h:outputScript target="head" library="mapcomponent" name="kitcampushelper.js" />
+		<script type="text/javascript" src="/WEB-INF/classes/mapcomponent/openlayers/lib/OpenLayers.js" />
+		<h:outputStylesheet target="head" library="mapcomponent"
+			name="map.css" />
+		<link rel="stylesheet"
+			href="http://dojotoolkit.org/reference-guide/_static/js/dijit/themes/tundra/tundra.css" />
+
+		<!-- Provides the current translations for labels which are set via JavaScript -->
+		<div class="hidden">
+			<h:outputText class="hidden"
+				value="#{tr:translate('showBuildingMap')}"
+				id="showBuildingMapLabel" />
+			<h:outputText class="hidden"
+				value="#{tr:translate('showPOIsInBuilding')}"
+				id="showPOIsInBuildingLabel" />
+			<h:outputText class="hidden"
+				value="#{tr:translate('setRouteTo')}"
+				id="setRouteToLabel" />
+			<h:outputText class="hidden"
+				value="#{tr:translate('setRouteFrom')}"
+				id="setRouteFromLabel" />
+			<h:outputText class="hidden" 
+				value="#{tr:translate('search')}" 
+				id="searchLabel" />
+			<h:outputText class="hidden" 
+				value="#{tr:translate('calculateRoute')}" 
+				id="calculateRouteLabel" />
+		</div>
+		
+		<h:panelGrid columns="2" class="fullWidth" columnClasses="fullWidth" rowClasses="fullWidth" >
+			<h:panelGroup>
+				<div id="#{cc.clientId}:map" class="map" />
+				<script
+					src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js"
+					djConfig="parseOnLoad: true" type="text/javascript"></script>
+				<script type="text/javascript">
+					dojo.addOnLoad(function() {
+						new KITCampusMap('#{cc.clientId}', #{cc.attrs.enableMapSectionChangeEvents});
+						jsf.ajax.addOnEvent(function(evt) {
+							if (evt.status == "success") {
+								KITCampusHelper.setSearchButtonLabel('#{cc.clientId}');
+							}
+						});
+						dojo.require("dijit.Dialog");
+					});
+				</script>
+			</h:panelGroup>
+			
+			<h:panelGroup id="lateralBar" layout="block" >
+				<h:form id="lateralForm" class="#{mapModel.building != null? 'lateralForm' : 'hidden'}">
+					<table class="lateralArea">
+						<tr>
+							<td style="vertical-align: top;">
+							<h:dataTable
+								value="#{mapModel.building.floors}" var="floor" rendered="#{mapModel.building != null}">
+								<h:column>
+									<h:commandLink value="#{floor.name}"
+										disabled="#{floor.ID == mapModel.map.ID}"
+										style="color:#{(floor.ID == mapModel.map.ID) ? '#000000' : '#009d82'}"
+										actionListener="#{inputListenerAdapter.changeFloorTriggered}">
+										<h:outputText class="hidden" value="#{floor.ID}" />
+										<f:ajax execute="#{cc.clientId}:form"
+											render="#{cc.clientId}:form #{cc.clientId}:lateralBar" />
+									</h:commandLink>
+								</h:column>
+							</h:dataTable></td>
+						</tr>
+
+						<tr>
+							<td style="vertical-align: bottom;">
+							<h:panelGroup
+								class="backToCampusMap" layout="block">
+								<h:commandLink value="#{tr:translate('backToCampus')}"
+									
+									actionListener="#{inputListenerAdapter.changeToMapViewTriggered}">
+									<f:ajax execute="#{cc.clientId}:lateralBar #{cc.clientId}:form"
+										render="#{cc.clientId}:form #{cc.clientId}:lateralBar " />
+								</h:commandLink>
+							</h:panelGroup></td>
+						</tr>
+					</table>
+				</h:form>
+			</h:panelGroup>
+		</h:panelGrid>	
+		
+		<h:panelGroup id="bar" class="bar" layout="block" library="main" >
+			<h:form id="form">
+				<div class="hidden">
+					<!-- Contains the data necessary for displaying and updating the map -->
+					<h:outputText id="mapModel" value="#{cc.attrs.mapModel}" class="hidden">
+						<f:converter converterId="mapModelConverter" />
+					</h:outputText>
+					<h:outputText id="additionalRenderIDs"
+						value="#{cc.attrs.additionalRenderIDs}" class="hidden" />
+					<h:inputHidden
+						id="outputField" class="hidden">
+						<f:converter converterId="outputConverter" />
+					</h:inputHidden>
+				</div>
+				<h:panelGrid columns="4">			
+					<h:panelGroup class="kitlogo" layout="block">
+						<h:graphicImage name="logo_KITCampusGuide_grey.jpg" library="main" alt="KITLogo" />
+					</h:panelGroup>				
+				
+					<h:panelGroup id="inputFields" layout="block" style="padding:5px">
+						<h:panelGrid columns="1" >							
+							<h:panelGroup id="routeFromInput" layout="block">					
+								<h:outputLabel id="routeFromLabel" for="routeFromField" 
+									value="#{tr:translate('routeFrom')}"/>
+								<br />
+								<h:inputText id="routeFromField" value="#{inputModel.routeFromField}"
+									style="width:160px"
+									rendered="#{inputModel.routeFromProposalList == null}"
+									onkeyup="KITCampusHelper.setSearchButtonLabel('#{cc.clientId}')" >
+								</h:inputText>	
+								<h:selectOneMenu id="routeFromProposalList" 
+									value="#{inputListenerAdapter.routeFromSelection}"
+									style="width:160px"
+									rendered="#{inputModel.routeFromProposalList != null}" >
+									<f:selectItems value="#{inputListenerAdapter.routeFromProposalList}" />
+								</h:selectOneMenu>						
+								<br />											
+								<h:commandLink value="#{tr:translate('reset')}" 
+									actionListener="#{inputListenerAdapter.resetRouteFromProposalList}" 
+									rendered="#{inputModel.routeFromProposalList != null}" >
+									<f:ajax execute="routeFromInput" render="routeFromInput" />
+								</h:commandLink>						
+								<br />	
+								<h:panelGroup layout="block" >				
+									<h:outputText value="#{tr:translate('searchFailed')}" 
+										rendered="#{inputModel.routeFromSearchFailed}" />	
+									<h:outputText value="#{tr:translate('choose')}" 
+										rendered="#{inputModel.routeFromProposalList != null}" />	
+								</h:panelGroup>																					
+							</h:panelGroup>
+														
+							<h:panelGroup id="routeToInput" layout="block">
+								<h:outputLabel id="routeToLabel" for="routeToField" 
+									value="#{tr:translate('routeTo')}" />
+								<br />
+								<h:inputText id="routeToField" value="#{inputModel.routeToField}"
+									style="width:160px"
+									rendered="#{inputModel.routeToProposalList == null}" 
+									onkeyup="KITCampusHelper.setSearchButtonLabel('#{cc.clientId}')" >
+								</h:inputText>													
+								<h:selectOneMenu id="routeToProposalList" 
+									value="#{inputListenerAdapter.routeToSelection}"
+									style="width:160px"
+									rendered="#{inputModel.routeToProposalList != null}" >
+									<f:selectItems value="#{inputListenerAdapter.routeToProposalList}" />
+								</h:selectOneMenu>						
+								<br />
+								<h:commandLink value="#{tr:translate('reset')}"
+									actionListener="#{inputListenerAdapter.resetRouteToProposalList}"
+									rendered="#{inputModel.routeToProposalList != null}">
+									<f:ajax execute="routeToInput" render="routeToInput" />
+								</h:commandLink>
+								<br />			
+								<h:panelGroup layout="block" >			
+									<h:outputText value="#{tr:translate('searchFailed')}" 
+										rendered="#{inputModel.routeToSearchFailed}" />	
+									<h:outputText value="#{tr:translate('choose')}" 
+										rendered="#{inputModel.routeToProposalList != null}" />	
+								</h:panelGroup>				
+							</h:panelGroup>			
+							
+							<h:outputText value="#{tr:translate('routeCalculationFailed')}" 
+								rendered="#{inputModel.routeCalculationFailed}"/>
+											
+						</h:panelGrid>		
+					</h:panelGroup>
+					
+					<h:panelGroup id="button" layout="block" style="padding:10px">				
+						<h:commandButton id="searchButton" 
+							value="#{inputListenerAdapter.searchButtonLabel}" 
+							actionListener="#{inputListenerAdapter.searchButtonPressed}" >
+							<f:ajax execute="form:inputFields"
+								render="form #{cc.clientId}:lateralBar" />
+						</h:commandButton>
+					</h:panelGroup>					
+				
+					<h:panelGroup id="navigation" layout="block" style="padding:30px">
+						<h:panelGrid columns="1">
+							<h:commandLink id="filterLink" value="#{tr:translate('filter')}"
+								onclick="dijit.byId('#{cc.clientId}:filterDlg').show(); return false" />
+							<h:commandLink value="#{tr:translate('changeLanguage')}"
+								actionListener="#{inputListenerAdapter.languageChangeLinkPressed}">
+								<f:ajax execute="navigation" render="navigation" />
+							</h:commandLink>
+							<h:panelGroup layout="block">
+								<h:selectOneMenu id="languageProposalList" 
+									value="#{inputListenerAdapter.languageSelection}" 
+									rendered="#{inputListenerAdapter.languageProposalListIsVisible}" >
+									<f:selectItems value="#{inputListenerAdapter.languageProposalList}" />
+								</h:selectOneMenu>	
+								<h:commandLink id="languageChangeTriggered" 
+									rendered="#{inputListenerAdapter.languageProposalListIsVisible}"							
+									actionListener="#{inputListenerAdapter.languageChangeTriggered}" >								
+									<h:graphicImage name="yes_button.png" library="main" alt="ok" width="15" />
+								</h:commandLink>							
+								<h:commandLink id="languageChangeCancelled" 
+									rendered="#{inputListenerAdapter.languageProposalListIsVisible}"							
+									actionListener="#{inputListenerAdapter.languageChangeCancelled}" >
+									<h:graphicImage name="cancel_button.png" library="main" alt="cancel" width="15" />
+									<f:ajax execute="navigation" render="navigation" />	
+								</h:commandLink>
+							</h:panelGroup>							
+							<h:panelGroup layout="block">
+								<h:commandLink actionListener="#{inputListenerAdapter.changeLanguageToEnglish}" >
+									<h:graphicImage name="eng.jpg" library="main" alt="English" width="20" />
+								</h:commandLink>
+								<h:outputText value=" : " />
+								<h:commandLink actionListener="#{inputListenerAdapter.changeLanguageToGerman}" >
+									<h:graphicImage name="ger.jpg" library="main" alt="German" width="20" />
+								</h:commandLink>
+							</h:panelGroup>
+						</h:panelGrid>
+					</h:panelGroup>							
+				</h:panelGrid>
+			</h:form>
+		</h:panelGroup>
+		<div style="display:none" dojoType="dijit.Dialog"
+					id="#{cc.clientId}:filterDlg" title="#{tr:translate('FilterWindowHeader')}">
+			<h:form>
+				<h:dataTable id="table"
+					value="#{inputListenerAdapter.categoryEntries}" var="entry" >
+					<h:column >
+						<h:selectBooleanCheckbox value="#{entry.active}" />
+						<h:outputText class="filterBoxLabel" value="#{tr:translate(entry.category.name)}" />
+					</h:column>
+				</h:dataTable>
+				<h:commandButton value="#{tr:translate('ApplyFilter')}" actionListener="#{inputListenerAdapter.applyFilterTriggered}" 
+				onclick="dijit.byId('#{cc.clientId}:filterDlg').hide()">
+				<f:ajax execute="table" render="#{cc.clientId}:form"></f:ajax>
+				</h:commandButton>
+			</h:form>
+		</div>
+	</cc:implementation>
+</ui:component>
