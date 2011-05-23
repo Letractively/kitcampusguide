@@ -1,0 +1,20 @@
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>edu.kit.tm.cm</groupId>
+	<artifactId>campus-guide-parent</artifactId>
+	<packaging>pom</packaging>
+	<name>KIT Campus Guide</name>
+	<version>0.2-SNAPSHOT</version>
+	<issueManagement>
+		<system>Google Code</system>
+		<url>http://code.google.com/p/kitcampusguide/issues/list</url>
+	</issueManagement>
+	<scm>
+		<url>https://kitcampusguide.googlecode.com/svn/trunk/</url>
+	</scm>
+	<modules>
+		<module>campus-guide-core</module>
+		<module>campus-guide-data</module>
+		<module>campus-guide-war</module>
+	</modules>
+</project>
