@@ -1,4 +1,6 @@
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.kit.tm.cm</groupId>
 	<artifactId>campus-guide-parent</artifactId>
@@ -12,9 +14,40 @@
 	<scm>
 		<url>https://kitcampusguide.googlecode.com/svn/trunk/</url>
 	</scm>
+	<dependencies>
+	</dependencies>
 	<modules>
 		<module>campus-guide-core</module>
 		<module>campus-guide-data</module>
 		<module>campus-guide-war</module>
 	</modules>
+
+	<repositories>
+		<repository>
+			<id>java.net2</id>
+			<name>Repository hosting the jee6 artifacts</name>
+			<url>http://download.java.net/maven/2</url>
+		</repository>
+		<repository>
+			<id>maven 2 repository</id>
+			<name>Maven.org 2 Repository</name>
+			<url>http://repo1.maven.org/maven2/</url>
+		</repository>
+		<repository>
+			<releases>
+				<enabled>false</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+			<id>codehausSnapshots</id>
+			<name>Codehaus Snapshots</name>
+			<url>http://snapshots.maven.codehaus.org/maven2</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
 </project>
