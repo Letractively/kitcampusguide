@@ -6,14 +6,47 @@ Auf dieser Seite soll erklärt werden, wie man Maven benutzt und was es kann.
 
 = Allgemeines =
 
-== Project Object Model (pom.xml) ==
-
-== Repositories ==
+Maven ist ein Java Projektmanagement Werkzeug, mit dem u.a. der Build Prozess automatisiert werden soll. Zudem können einige [Maven#Plugins Plugins] das entwickeln erleichtern. Durch diese können z.B. Datenbankeinträge erzeugt oder das Projekt auf einem Server installiert werden.
 
 == Module ==
 
+Ein Projekt kann aus mehreren Modulen zusammengebaut sein, z.B. um das Prinzip "Seperation of Concern" umzusetzen. Im Fall des KITCampusGuide gibt es Module für die Daten, die Logik des Guides und die Webanwendung.
+
+== Project Object Model (pom.xml) ==
+
+Das Project Object Model (POM) wird in der pom.xml beschrieben. Mit dem POM werden grundlegende Projektinformationen beschrieben, darunter der Name, die Version, Module des Projekts und Abhängigkeiten zu anderen Projekten. Zudem werden in der pom.xml [Maven#Plugins Plugins] konfiguriert.
+
+== Repository ==
+
+Alle Plugins und externen Bibliotheken liegen in einem sogenannten Repository und werden bei Bedarf, z.B. beim  Kompilieren, von dem Repository heruntergeladen. Dabei hat man auch immer ein lokales Repository (bei Linux normalerweise unter .m2 oder .maven), in dem die Daten zwischengespeichert werden, sodass nicht immer alle Daten neu geladen werden müssen.
+
+== Goals ==
+
+Kernstück von Maven sind die Goals, durch die Plugins aufgerufen werden. Zum Beispiel mit "install" wird das aktuelle Projekt kompiliert und in das lokale [Maven#Repository Repository] installiert, der genaue Ablauf ist in [Maven#Build_Lebenszyklus] beschrieben. Wie diese Goals in Eclipse aufgerufen werden, steht in [Maven#Eclipse].
+
 = Build Lebenszyklus =
+
+Beim Ausführen eines Maven Goals wie "install" oder "compile" werden verschiedene Phasen durchlaufen und andere Goals aufgerufen.
+Folgend sind die wichtigsten Phasen aufgelistet. Jede Phase baut auf der vorherigen auf, das heißt, führt man "package" aus, so wird zuvor "validate", "compile" und "test" aufgerufen.
+|| validate || validate the project is correct and all necessary information is available ||
+|| compile || compile the source code of the project ||
+|| test || test the compiled source code using a suitable unit testing framework. These tests should not require the code be packaged or deployed ||
+|| package || take the compiled code and package it in its distributable format, such as a JAR. ||
+|| integration-test || process and deploy the package if necessary into an environment where integration tests can be run ||
+|| verify || run any checks to verify the package is valid and meets quality criteria ||
+|| install || install the package into the local repository, for use as a dependency in other projects locally ||
+|| deploy || done in an integration or release environment, copies the final package to the remote repository for sharing with other developers and projects. ||
+
+Welche Goals genau aufgerufen werden ist in der Dokumentation zu finden http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
+
+= Plugins =
+
+
 
 = Eclipse =
 
 = Probleme/Lösungen =
+
+== Versionskonflikt bei externer Bibliothek ==
+
+Zum Beispiel bei einem Versionsupdate von externen Abhängigkeiten, kann es vorkommen, dass Maven merkwürdige Fehlermeldungen anzeigt. Hier kann es helfen den Inhalt des lokalen [Maven#Repository Repositories] zu löschen, sodass Maven die Bibliotheken neu herunterlädt.
