@@ -41,12 +41,20 @@ Welche Goals genau aufgerufen werden ist in der Dokumentation zu finden http://m
 
 = Plugins =
 
-
+Standardmäßig benutzt man Plugins zum kompilieren und archivieren ("compile" und "package"). Zudem gibt es Erweiterungen, um die Daten direkt auf einem Server zu installieren ("tomcat:deploy") oder die Qualität des Quellcodes zu überprüfen ("pmd:pmd","checkstyle:checkstyle","findbugs:findbugs").\\
+Eine Liste von Plugins ist unter http://mojo.codehaus.org/plugins.html oder http://maven.apache.org/plugins/index.html zu finden.
 
 = Eclipse =
+
+In der neusten Eclipse Version (Indigo) ist Maven bereits in Eclipse integriert.\\
+Über "Run as" auf ein Projekt können Maven Goals ausgeführt werden.
 
 = Probleme/Lösungen =
 
 == Versionskonflikt bei externer Bibliothek ==
 
 Zum Beispiel bei einem Versionsupdate von externen Abhängigkeiten, kann es vorkommen, dass Maven merkwürdige Fehlermeldungen anzeigt. Hier kann es helfen den Inhalt des lokalen [Maven#Repository Repositories] zu löschen, sodass Maven die Bibliotheken neu herunterlädt.
+
+== Tests ignorieren ==
+
+Um die Tests zu ignorieren kann man maven mit der Option "-Dmaven.test.skip=true" aufrufen. Die Tests werden dann nicht ausgeführt.
