@@ -1,0 +1,40 @@
+#labels Phase-Implementation,Phase-Deploy,Subversion,BestPractice
+= Überblick =
+
+Auf dieser Seite soll der Aufbau eines Subversion (SVN) Repositories und das Arbeiten mit SVN erklärt werden.
+
+<wiki:toc max_depth="2" />
+
+= Allgemeines =
+
+= Repository Aufbau =
+
+== Grober Aufbau ==
+
+== trunk ==
+
+== branch ==
+
+== tag ==
+
+= Arbeiten mit SVN =
+
+== Neuerung einspielen / Commit ==
+
+=== Wann Commiten? ===
+
+=== Was Commiten?  ===
+
+=== Wie Commiten? ===
+
+== Verzeichnisse verschieben ==
+
+== History lesen ==
+
+== Ordner ignorieren ==
+
+= Probleme/Lösungen =
+
+== Konflikt nicht auflösbar ==
+
+== Bitte erweitern ==
