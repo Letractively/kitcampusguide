@@ -1,0 +1,19 @@
+#labels Phase-Implementation,Phase-Deploy,Maven
+= Überblick =
+
+Auf dieser Seite soll erklärt werden, wie man Maven benutzt und was es kann.
+<wiki:toc max_depth="2" />
+
+= Allgemeines =
+
+== Project Object Model (pom.xml) ==
+
+== Repositories ==
+
+== Module ==
+
+= Build Lebenszyklus =
+
+= Eclipse =
+
+= Probleme/Lösungen =
