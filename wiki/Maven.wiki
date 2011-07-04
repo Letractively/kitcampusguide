@@ -41,12 +41,12 @@ Welche Goals genau aufgerufen werden ist in der Dokumentation zu finden http://m
 
 = Plugins =
 
-Standardmäßig benutzt man Plugins zum kompilieren und archivieren ("compile" und "package"). Zudem gibt es Erweiterungen, um die Daten direkt auf einem Server zu installieren ("tomcat:deploy") oder die Qualität des Quellcodes zu überprüfen ("pmd:pmd","checkstyle:checkstyle","findbugs:findbugs").\\
+Standardmäßig benutzt man Plugins zum kompilieren und archivieren ("compile" und "package"). Zudem gibt es Erweiterungen, um die Daten direkt auf einem Server zu installieren ("tomcat:deploy") oder die Qualität des Quellcodes zu überprüfen ("pmd:pmd","checkstyle:checkstyle","findbugs:findbugs").<br />
 Eine Liste von Plugins ist unter http://mojo.codehaus.org/plugins.html oder http://maven.apache.org/plugins/index.html zu finden.
 
 = Eclipse =
 
-In der neusten Eclipse Version (Indigo) ist Maven bereits in Eclipse integriert, ansonsten kann es in frühreren Versionen über den Yoxos Marketplace nachinstalliert werden. Eine genaue Anleitung ist im TDok zu Maven zu finden.\\
+In der neusten Eclipse Version (Indigo) ist Maven bereits in Eclipse integriert, ansonsten kann es in frühreren Versionen über den Yoxos Marketplace nachinstalliert werden. Eine genaue Anleitung ist im TDok zu Maven zu finden.<br />
 
 == POM Editor ==
 
@@ -56,32 +56,32 @@ Hat man die Maven Integration installiert, so ist der grafische Editor standardm
 
 === Standardeinstellunge grafisch bearbeiten ===
 
-Eclipse bietet zum bearbeiten der pom.xml eine grafische Oberfläche an. Standardwerte wie Name, Version, etc. können mit diesem leicht angepasst werden. Ebenso ist es schnell möglich das benutzte Source Control Management oder Issue Tracking System anzugeben.\\
-<img src="Maven.wiki-Bilder/eclipse_pom_editor_overview_parent-11-06-20-steinegger.png" alt="Eclipse pom.xml Editor" />
+Eclipse bietet zum bearbeiten der pom.xml eine grafische Oberfläche an. Standardwerte wie Name, Version, etc. können mit diesem leicht angepasst werden. Ebenso ist es schnell möglich das benutzte Source Control Management oder Issue Tracking System anzugeben.<br />
+<img src="http://kitcampusguide.googlecode.com/svn/wiki/Maven.wiki-Bilder/eclipse_pom_editor_overview_parent-11-06-20-steinegger.png" alt="Eclipse pom.xml Editor" />
 
 === Dependencies grafisch anpassen ===
 
-Der Editor bietet auch die Darstellung der Projektabhängigkeiten als Hierarchiebaum an und man kann nach Bibliotheken suchen, um diese als neue Abhängigkeiten dem Projekt hinzuzufügen.\\
-<img src="Maven.wiki-Bilder/eclipse_pom_editor_dependency_hierarchy-11-06-20-steinegger.png" alt="Eclipse Dependency Hierarchy" />\\
-<img src="Maven.wiki-Bilder/eclipse_dependency_suche-11-06-20-steinegger.png" alt="Eclipse Dependency suchen" />\\
+Der Editor bietet auch die Darstellung der Projektabhängigkeiten als Hierarchiebaum an und man kann nach Bibliotheken suchen, um diese als neue Abhängigkeiten dem Projekt hinzuzufügen.<br />
+<img src="http://kitcampusguide.googlecode.com/svn/wiki/Maven.wiki-Bilder/eclipse_pom_editor_dependency_hierarchy-11-06-20-steinegger.png" alt="Eclipse Dependency Hierarchy" /><br />
+<img src="http://kitcampusguide.googlecode.com/svn/wiki/Maven.wiki-Bilder/eclipse_dependency_suche-11-06-20-steinegger.png" alt="Eclipse Dependency suchen" /><br />
 
 === Xml Darstellung ===
 
-Neben der grafischen Darstellung bietet Eclipse auch wie gewohnt die Xml Ansicht der pom.xml\\
-<img src="Maven.wiki-Bilder/eclipse_pom_editor_pom_xml-11-06-20-steinegger.png" alt="Eclipse POM Editor Xml Ansicht" />\\
+Neben der grafischen Darstellung bietet Eclipse auch wie gewohnt die Xml Ansicht der pom.xml<br />
+<img src="http://kitcampusguide.googlecode.com/svn/wiki/Maven.wiki-Bilder/eclipse_pom_editor_pom_xml-11-06-20-steinegger.png" alt="Eclipse POM Editor Xml Ansicht" /><br />
 
 == Quellcode kompilieren/ausführen ==
 
 Eclipse bietet die Möglichkeit Maven Befehle (Goals) über Eclipse auszuführen. Einige vorgefertigte Goals sind in Eclipse direkt integriert und über "Run as"->"Maven [Goal]" ausführbar.
-<img src="Maven.wiki-Bilder/eclipse_run_as_maven_menu-11-06-20-steinegger.png" alt="Maven Goal in Eclipse ausführen" />\\
+<img src="http://kitcampusguide.googlecode.com/svn/wiki/Maven.wiki-Bilder/eclipse_run_as_maven_menu-11-06-20-steinegger.png" alt="Maven Goal in Eclipse ausführen" /><br />
 Konkret kann man zum Beispiel den Quellcode mit "Run As"->"Maven package" kompilieren und packen (.jar/.war/...). Wie unter [Build Lebenszyklus] beschrieben, werden dabei auch die Tests ausgeführt. Dies kann man durch eine Anpassung der Konfiguration verhindern, siehe [Plugins/Custom Goals ausführen]. 
 
 == Plugins/Custom Goals ausführen ==
 
 Will man nicht die vorgefertigten Goals ausführen oder zusätzliche Konfiguration eingeben (zB die Tests beim kompilieren ausschalten), so geht dies auch wie oben beschrieben über "Run As". Allerdings wählt man diesmal "Run Configurations..". In dem erscheinenden Fenster erstellt man eine neue Maven Konfiguration, indem man "Maven Build" auswählt und auf "New Cofiguration" klickt.
-<img src="Maven.wiki-Bilder/eclipse_run-configurations-11-07-02-steinegger.png" alt="Run Configurations" />\\
+<img src="http://kitcampusguide.googlecode.com/svn/wiki/Maven.wiki-Bilder/eclipse_run-configurations-11-07-02-steinegger.png" alt="Run Configurations" /><br />
 Nun kann man dem neuen Build Befehl einen Namen geben und die Parameter wählen, wie zum Beispiel, dass die Tests übersprungen werden sollen, siehe Bild.
-<img src="Maven.wiki-Bilder/eclipse_run-configurations_maven-goal-11-07-02-steinegger.png" alt="Build Configuration" />\\
+<img src="http://kitcampusguide.googlecode.com/svn/wiki/Maven.wiki-Bilder/eclipse_run-configurations_maven-goal-11-07-02-steinegger.png" alt="Build Configuration" /><br />
 Der neue Befehl sollte in der "Run"->"Run History" im oberen Menu oder unter dem grünen Run Pfeil, siehe Bild oben, zu finden sein.   
 
 = Probleme/Lösungen =
@@ -92,10 +92,10 @@ Zum Beispiel bei einem Versionsupdate von externen Abhängigkeiten, kann es vork
 
 == Wie findet man das lokale Repository? Wie findet die lokalen Einstellungen? ==
 
-Über die Eclipse Einstellungen findet man unter "Maven"->"User Settings" die Settings xml und das lokale Repository.\\
-<img src="Maven.wiki-Bilder/eclipse_maven_settings_files-11-06-20-steinegger.png" alt="Maven User Settings" />\\
+Über die Eclipse Einstellungen findet man unter "Maven"->"User Settings" die Settings xml und das lokale Repository.<br />
+<img src="http://kitcampusguide.googlecode.com/svn/wiki/Maven.wiki-Bilder/eclipse_maven_settings_files-11-06-20-steinegger.png" alt="Maven User Settings" /><br />
 
 == Tests ignorieren ==
 
-Um die Tests zu ignorieren kann man maven mit der Option "-Dmaven.test.skip=true" aufrufen. Die Tests werden dann nicht ausgeführt. \\
+Um die Tests zu ignorieren kann man maven mit der Option "-Dmaven.test.skip=true" aufrufen. Die Tests werden dann nicht ausgeführt. <br />
 Grafisch kann man dies wie in [Plugins/Custom Goals ausführen] beschrieben erreichen
