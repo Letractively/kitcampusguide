@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-	<LanguageManagerConfiguration defaultLanguage = "English" >
-		<Language filepath="/WEB-INF/classes/languages/English.xml"></Language>
-		<Language filepath="/WEB-INF/classes/languages/Deutsch.xml"></Language>
-		<Language filepath="/WEB-INF/classes/languages/Espanol.xml"></Language>
-		<Language filepath="/WEB-INF/classes/languages/Francais.xml"></Language></LanguageManagerConfiguration>
-</configuration>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-	<MapConfiguration filename="/WEB-INF/classes/config/Maps.xml"/>
-	<CategoryConfiguration filename="/WEB-INF/classes/config/Categories.xml"/>
-	<BuildingConfiguration filename="/WEB-INF/classes/config/Buildings.xml"/>
-</configuration>
