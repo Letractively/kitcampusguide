@@ -3,10 +3,12 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.kit.tm.cm</groupId>
-	<artifactId>campus-guide-parent</artifactId>
-	<packaging>pom</packaging>
-	<name>KIT Campus Guide</name>
+	<artifactId>kit-campus-guide</artifactId>
 	<version>0.2-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>KITCampusGuide</name>
+
 	<issueManagement>
 		<system>Google Code</system>
 		<url>http://code.google.com/p/kitcampusguide/issues/list</url>
@@ -17,9 +19,10 @@
 	<dependencies>
 	</dependencies>
 	<modules>
-		<module>campus-guide-core</module>
-		<module>campus-guide-data</module>
-		<module>campus-guide-war</module>
+		<module>poi-manager</module>
+		<module>kitcg-function</module>
+		<module>kitcg-data</module>
+		<module>kitcg-webapp</module>
 	</modules>
 
 	<repositories>
@@ -50,4 +53,8 @@
 			<layout>default</layout>
 		</repository>
 	</repositories>
+
+	<properties>
+		<spring.version>3.0.4.RELEASE</spring.version>
+	</properties>
 </project>

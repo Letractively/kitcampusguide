@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+	version="1.0">
+
+	<mapped-superclass class="edu.kit.cm.kitcampusguide.model.AEntity"
+		access="FIELD">
+		<attributes>
+			<id name="uid">
+				<generated-value strategy="AUTO" />
+			</id>
+
+			<basic name="createdBy" optional="true" />
+			<basic name="dateCretead" optional="true" />
+			<basic name="lastUpdatedBy" optional="true" />
+			<basic name="dateLastUpdated" optional="true" />
+		</attributes>
+
+	</mapped-superclass>
+
+	<entity class="edu.kit.cm.kitcampusguide.model.POI" access="FIELD">
+		<attributes>
+			<basic name="name" />
+			<basic name="description" />
+			<basic name="icon" />
+		</attributes>
+	</entity>
+
+</entity-mappings>

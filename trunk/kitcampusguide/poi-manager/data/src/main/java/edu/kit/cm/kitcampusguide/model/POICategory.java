@@ -1,0 +1,130 @@
+package edu.kit.cm.kitcampusguide.model;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+/**
+ * This class contains the description of a Category of POI.
+ * 
+ * @author Kateryna Yurchenko
+ * @author Tobias Zündorf
+ * 
+ */
+
+public class POICategory extends AEntity {
+
+	private final String name;
+	private final String icon;
+	private final String description;
+	private boolean visible;
+	private final ArrayList<POI> categoryPOI;
+
+	/**
+	 * Creates a new category of POI with its characteristics which does not
+	 * contain any POI yet.
+	 * 
+	 * @param name
+	 *            the name of the category.
+	 * @param id
+	 *            an unique number set to each category.
+	 * @param icon
+	 *            the name of the icon on the map.
+	 * @param description
+	 *            a short description of the category.
+	 */
+	public POICategory(String name, int id, String icon, String description) {
+		this(name, id, icon, description, new ArrayList<POI>());
+	}
+
+	/**
+	 * Creates a new category of POI with its characteristics which contains a
+	 * list of POI.
+	 * 
+	 * @param name
+	 *            the name of the category.
+	 * @param id
+	 *            an unique number set to each category.
+	 * @param icon
+	 *            the name of the icon on the map.
+	 * @param description
+	 *            a short description of the category.
+	 * @param poi
+	 *            a collection of POI which belong to this category.
+	 */
+	public POICategory(String name, int id, String icon, String description, Collection<POI> poi) {
+		this.name = name;
+		this.icon = icon;
+		this.description = description;
+		this.categoryPOI = new ArrayList<POI>(poi);
+		this.visible = false;
+		setUid(id);
+	}
+
+	/**
+	 * Adds a new POI to this category if the category does not contain this POI
+	 * yet.
+	 * 
+	 * @param poi
+	 *            a POI which must be added to the category.
+	 */
+	public void addPOI(POI poi) {
+		if (!this.categoryPOI.contains(poi)) {
+			this.categoryPOI.add(poi);
+		}
+	}
+
+	/**
+	 * This method returns a set of POI which belong to this category.
+	 * 
+	 * @return POI of this category.
+	 */
+	public ArrayList<POI> getAllPOI() {
+		return this.categoryPOI;
+	}
+
+	/**
+	 * This method returns the name of the category.
+	 * 
+	 * @return the name of the category.
+	 */
+	public String getName() {
+		return this.name;
+	}
+
+	/**
+	 * This method returns the icon of the category.
+	 * 
+	 * @return the icon of the category.
+	 */
+	public String getIcon() {
+		return this.icon;
+	}
+
+	/**
+	 * This method returns the description of the category.
+	 * 
+	 * @return the description of the category.
+	 */
+	public String getDescription() {
+		return this.description;
+	}
+
+	/**
+	 * This method changes the visibility of this category on the map.
+	 * 
+	 * @param visible
+	 *            the new visibility of the category.
+	 */
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	/**
+	 * This method returns the visibility of the category.
+	 * 
+	 * @return true if the the category is visible, otherwise false.
+	 */
+	public boolean getVisible() {
+		return this.visible;
+	}
+}
