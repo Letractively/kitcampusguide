@@ -4,7 +4,7 @@ package edu.kit.cm.kitcampusguide.model;
  * This class specifies one single Point and it's geographic information.
  * 
  * @author Tobias Zündorf
- * 
+ * @author Roland Steinegger, Karlsruhe Institute of Technology
  */
 public class Point extends AEntity {
 
@@ -17,14 +17,14 @@ public class Point extends AEntity {
 	/**
 	 * Creates a new Point with the specified coordinates.
 	 * 
-	 * @param x
+	 * @param longitude
 	 *            the longitude for the new Point
-	 * @param y
+	 * @param latitude
 	 *            the latitude for the new point
 	 */
-	public Point(double x, double y) {
-		this.longitude = x;
-		this.latitude = y;
+	public Point(double longitude, double latitude) {
+		this.longitude = longitude;
+		this.latitude = latitude;
 	}
 
 	public double getLongitude() {

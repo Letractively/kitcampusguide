@@ -6,38 +6,28 @@ package edu.kit.cm.kitcampusguide.model;
  * geographical information, name, id, icon on the map and description.
  * 
  * @author Monica Haurilet
- * 
- * 
+ * @author Roland Steinegger, Karlsruhe Institute of Technology
  */
 public class POI extends Point {
 
 	private String name;
 	private String icon;
 	private String description;
+	private POICategory category;
 
-	/**
-	 * Creates a new POI with its geographical information and the other
-	 * specified characteristics.
-	 * 
-	 * @param name
-	 *            contains the name of the POI.
-	 * @param uid
-	 *            is an unique number set to each POI.
-	 * @param icon
-	 *            contains the name of the icon on the map.
-	 * @param description
-	 *            contains a short description of the POI.
-	 * @param x
-	 *            is the coordinate on the horizontal axe of the POI on the map.
-	 * @param y
-	 *            is the coordinate on the vertical axe of the POI on the map.
-	 */
-	public POI(String name, Integer uid, String icon, String description, Double x, Double y) {
-		super(x, y);
+	public POI(String name, Integer uid, String icon, String description, Double longitude, Double latitude) {
+		super(longitude, latitude);
 		this.description = description;
 		this.icon = icon;
 		this.name = name;
 		this.setUid(uid);
+	}
+
+	public POI(String name, Integer uid, String icon, String description, Double longitude, Double latitude,
+			POICategory category) {
+		this(name, uid, icon, description, longitude, latitude);
+
+		this.setCategory(category);
 	}
 
 	public POI() {
@@ -67,6 +57,17 @@ public class POI extends Point {
 
 	public void setDescription(final String description) {
 		this.description = description;
+	}
+
+	public POICategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(POICategory category) {
+		this.category = category;
+		if (category.getPois() != null || !category.getPois().contains(this)) {
+			category.addPOI(this);
+		}
 	}
 
 }

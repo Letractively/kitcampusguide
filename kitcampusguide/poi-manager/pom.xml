@@ -13,6 +13,8 @@
 	<name>POI Manager</name>
 	<modules>
 		<module>data</module>
-		<module>dao</module>
+		<module>persistence</module>
+		<module>webapp</module>
+		<module>ejb</module>
 	</modules>
 </project>
