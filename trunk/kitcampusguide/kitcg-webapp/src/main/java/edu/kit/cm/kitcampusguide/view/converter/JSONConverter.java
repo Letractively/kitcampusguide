@@ -76,8 +76,8 @@ public final class JSONConverter {
 		result.put("icon", pc.getIcon());
 		result.put("name", pc.getName());
 		result.put("description", pc.getDescription());
-		result.put("visible", pc.getVisible());
-		result.put("pois", convertPOIs(pc.getAllPOI()));
+		result.put("visible", pc.isVisible());
+		result.put("pois", convertPOIs(pc.getPois()));
 		return result;
 	}
 

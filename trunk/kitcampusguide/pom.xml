@@ -20,7 +20,7 @@
 	</dependencies>
 	<modules>
 		<module>poi-manager</module>
-		<module>kitcg-function</module>
+		<module>kitcg-logic</module>
 		<module>kitcg-data</module>
 		<module>kitcg-webapp</module>
 	</modules>
@@ -55,6 +55,7 @@
 	</repositories>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.0.4.RELEASE</spring.version>
 	</properties>
 </project>
