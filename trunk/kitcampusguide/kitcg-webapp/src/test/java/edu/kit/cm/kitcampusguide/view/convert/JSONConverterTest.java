@@ -150,7 +150,7 @@ public class JSONConverterTest {
 		Assert.assertTrue(convertedWithoutPoi.containsValue("description_1"));
 		Assert.assertTrue(convertedWithoutPoi.containsValue(false));
 
-		poiCategoryWithoutPoi.addPOI(null);
+		poiCategoryWithoutPoi.add(null);
 
 		try {
 			convertedWithoutPoi = JSONConverter.convertPOICategory(poiCategoryWithoutPoi);
@@ -179,7 +179,7 @@ public class JSONConverterTest {
 		Assert.assertTrue(convertedWithPoi.containsValue(false));
 		Assert.assertTrue(convertedWithPoi.containsValue(JSONConverter.convertPOIs(pois)));
 
-		poiCategoryWithPoi.addPOI(null);
+		poiCategoryWithPoi.add(null);
 
 		try {
 			convertedWithPoi = JSONConverter.convertPOICategory(poiCategoryWithPoi);

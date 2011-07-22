@@ -9,10 +9,10 @@ package edu.kit.cm.kitcampusguide.model;
 public class Point extends AEntity {
 
 	/* The longitude of this Point */
-	private double longitude;
+	private Double longitude;
 
 	/* The latitude of this Point */
-	private double latitude;
+	private Double latitude;
 
 	/**
 	 * Creates a new Point with the specified coordinates.
@@ -22,24 +22,24 @@ public class Point extends AEntity {
 	 * @param latitude
 	 *            the latitude for the new point
 	 */
-	public Point(double longitude, double latitude) {
+	public Point(Double longitude, Double latitude) {
 		this.longitude = longitude;
 		this.latitude = latitude;
 	}
 
-	public double getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(double x) {
+	public void setLongitude(Double x) {
 		this.longitude = x;
 	}
 
-	public double getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(double y) {
+	public void setLatitude(Double y) {
 		this.latitude = y;
 	}
 
@@ -53,7 +53,7 @@ public class Point extends AEntity {
 		}
 	}
 
-	private boolean equal(double x, double y) {
+	private boolean equal(Double x, Double y) {
 		return Math.abs(x - y) <= 0E-5;
 	}
 }

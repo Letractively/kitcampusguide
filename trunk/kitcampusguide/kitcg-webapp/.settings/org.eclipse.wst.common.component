@@ -4,6 +4,12 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
+        <dependent-module archiveName="campus-guide-data-0.2-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/campus-guide-data/campus-guide-data">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="campus-guide-logic-0.2-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/campus-guide-logic/campus-guide-logic">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="poi-manager-data-0.2-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/poi-manager-data/poi-manager-data">
             <dependency-type>uses</dependency-type>
         </dependent-module>

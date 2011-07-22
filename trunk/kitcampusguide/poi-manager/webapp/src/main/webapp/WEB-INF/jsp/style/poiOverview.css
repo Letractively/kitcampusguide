@@ -1,0 +1,28 @@
+
+body {
+	font-family: sans-serif;
+	font-size: medium;
+}
+.poi {
+	clear: both;
+}
+.field {
+	float: left;
+}
+.name {
+	width: 140px;
+	overflow: hidden;
+}
+.description {
+	width: 300px;
+	overflow: hidden;
+}
+.longitude {
+	width: 20px;
+}
+.latitude {
+	width: 20px;
+}
+.title {
+	font-weight: bold;
+}

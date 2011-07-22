@@ -1,6 +1,9 @@
 package edu.kit.cm.kitcampusguide.dao.jpa;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -9,6 +12,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -21,39 +27,43 @@ import edu.kit.cm.kitcampusguide.model.POI;
 @ContextConfiguration(locations = { "classpath:applicationContext/applicationContext-*.xml" })
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class PoiDaoImplTest {
 
-	private static final String NAME = "Nicest Place to be";
-
-	private static final Double LONGITUDE = 0.987654;
-
-	private static final Double LATITUDE = 0.123456;
-
-	private static final String ICON = "SomeIcon";
-
-	private static final String DESCRIPTION = "This is the description of the nicest place on earth";
+	@Autowired
+	private POI poi1;
+	private POI poi1Clone;
+	@Autowired
+	private POI poi2;
+	private POI poi2Clone;
+	@Autowired
+	private POI poi3;
 
 	@Autowired
 	private IPoiDao poiDao;
 
-	@Before
-	public void before() {
-		POI poi = new POI();
-		poi.setIcon(ICON);
-		poi.setDescription(DESCRIPTION);
-		poi.setName(NAME);
-		poi.setLatitude(LATITUDE);
-		poi.setLongitude(LONGITUDE);
+	@Test
+	public void findByNameLike() {
+		List<POI> pois = poiDao.findByNameLike(poi1Clone.getName());
 
-		poiDao.save(poi);
+		assertFalse(pois.isEmpty());
+		assertTrue("Poi was not found by name.", poiWithNameIsInList(poi1Clone.getName(), pois));
 	}
 
 	@Test
-	public void findByUserName() {
-		List<POI> pois = poiDao.findByNameLike(NAME);
+	@Rollback
+	public void uidAssignedAfterCreation() {
 
-		assertFalse(pois.isEmpty());
-		assertTrue("Poi was not found by name.", poiWithNameIsInList(NAME, pois));
+		assertNull(poi3.getUid());
+		poiDao.save(poi3);
+		assertNotNull(poi3.getUid());
+	}
+
+	@Test
+	public void findByUid() {
+
+		POI poi2FromDb = (POI) poiDao.findByUid(poi2.getUid());
+		assertEquals(poi2Clone, poi2FromDb);
 	}
 
 	private boolean poiWithNameIsInList(String name2, List<POI> pois) {
@@ -63,5 +73,15 @@ public class PoiDaoImplTest {
 			}
 		}
 		return false;
+	}
+
+	@Before
+	public void before() throws CloneNotSupportedException {
+
+		poi1Clone = poi1.clone();
+		poi2Clone = poi2.clone();
+
+		poiDao.save(poi1);
+		poiDao.save(poi2);
 	}
 }

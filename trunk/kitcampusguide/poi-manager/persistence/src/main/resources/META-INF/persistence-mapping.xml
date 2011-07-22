@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
-	version="1.0">
+<entity-mappings version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
 
-	<mapped-superclass class="edu.kit.cm.kitcampusguide.model.AEntity"
-		access="FIELD">
+	<package>edu.kit.cm.kitcampusguide.model</package>
+
+	<mapped-superclass class="AEntity" access="FIELD">
 		<attributes>
 			<id name="uid">
 				<generated-value strategy="AUTO" />
@@ -20,22 +20,30 @@
 
 	</mapped-superclass>
 
-	<entity class="edu.kit.cm.kitcampusguide.model.POI" access="FIELD">
+	<entity class="POI" access="FIELD" name="poi">
 		<attributes>
 			<basic name="name" />
 			<basic name="description" />
 			<basic name="icon" />
-			<many-to-one name="category" target-entity="edu.kit.cm.kitcampusguide.model.POICategory" fetch="EAGER" />
+
+			<many-to-one name="category"
+				target-entity="edu.kit.cm.kitcampusguide.model.POICategory" fetch="EAGER">
+				<join-table name="category_poi_mapping" />
+				<cascade>
+					<cascade-all />
+				</cascade>
+			</many-to-one>
 		</attributes>
 	</entity>
-	
-	<entity class="edu.kit.cm.kitcampusguide.model.POICategory" access="FIELD">
+
+	<entity class="POICategory" access="FIELD" name="category">
 		<attributes>
 			<basic name="name" />
 			<basic name="description" />
 			<basic name="icon" />
 			<basic name="visible" />
-			<one-to-many name="pois" fetch="EAGER" />
+
+			<one-to-many name="pois" mapped-by="category" />
 		</attributes>
 	</entity>
 

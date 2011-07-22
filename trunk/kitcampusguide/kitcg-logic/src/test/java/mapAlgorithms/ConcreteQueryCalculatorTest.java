@@ -36,8 +36,7 @@ public class ConcreteQueryCalculatorTest {
 	 */
 	@Test
 	public void createSingletonTest() {
-		QueryCalculator queryCalculator = ConcreteQueryCalculator
-				.getSingleton();
+		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
 		Assert.assertNotNull(queryCalculator);
 	}
 
@@ -47,15 +46,14 @@ public class ConcreteQueryCalculatorTest {
 	 */
 	@Test
 	public void getSuggestionsTest() {
-		QueryCalculator queryCalculator = ConcreteQueryCalculator
-				.getSingleton();
+		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
 		List<POI> suggestions = queryCalculator.getSuggestions("Hö");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
-		Assert.assertEquals(3, suggestions.get(0).getUid());
-		Assert.assertEquals(4, suggestions.get(1).getUid());
-		Assert.assertEquals(1, suggestions.get(2).getUid());
+		Assert.assertEquals(Integer.valueOf(3), suggestions.get(0).getUid());
+		Assert.assertEquals(Integer.valueOf(4), suggestions.get(1).getUid());
+		Assert.assertEquals(Integer.valueOf(1), suggestions.get(2).getUid());
 	}
 
 	/**
@@ -64,15 +62,14 @@ public class ConcreteQueryCalculatorTest {
 	 */
 	@Test
 	public void getSuggestionsWithSmallCapsTest() {
-		QueryCalculator queryCalculator = ConcreteQueryCalculator
-				.getSingleton();
+		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
 		List<POI> suggestions = queryCalculator.getSuggestions("hö");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
-		Assert.assertEquals(3, suggestions.get(0).getUid());
-		Assert.assertEquals(4, suggestions.get(1).getUid());
-		Assert.assertEquals(1, suggestions.get(2).getUid());
+		Assert.assertEquals(Integer.valueOf(3), suggestions.get(0).getUid());
+		Assert.assertEquals(Integer.valueOf(4), suggestions.get(1).getUid());
+		Assert.assertEquals(Integer.valueOf(1), suggestions.get(2).getUid());
 	}
 
 	/**
@@ -81,13 +78,12 @@ public class ConcreteQueryCalculatorTest {
 	 */
 	@Test
 	public void getSuggestionsWithNoResultTest() {
-		QueryCalculator queryCalculator = ConcreteQueryCalculator
-				.getSingleton();
+		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
 		List<POI> suggestions = queryCalculator.getSuggestions("Y");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(1, suggestions.size());
-		Assert.assertEquals(1, suggestions.get(0).getUid());
+		Assert.assertEquals(Integer.valueOf(1), suggestions.get(0).getUid());
 	}
 
 	/**
@@ -96,16 +92,15 @@ public class ConcreteQueryCalculatorTest {
 	 */
 	@Test
 	public void getSuggestionsWithOneLetter() {
-		QueryCalculator queryCalculator = ConcreteQueryCalculator
-				.getSingleton();
+		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
 		List<POI> suggestions = queryCalculator.getSuggestions("G");
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(4, suggestions.size());
 
-		Assert.assertEquals(2, suggestions.get(0).getUid());
-		Assert.assertEquals(3, suggestions.get(1).getUid());
-		Assert.assertEquals(1, suggestions.get(2).getUid());
-		Assert.assertEquals(4, suggestions.get(3).getUid());
+		Assert.assertEquals(Integer.valueOf(2), suggestions.get(0).getUid());
+		Assert.assertEquals(Integer.valueOf(3), suggestions.get(1).getUid());
+		Assert.assertEquals(Integer.valueOf(1), suggestions.get(2).getUid());
+		Assert.assertEquals(Integer.valueOf(4), suggestions.get(3).getUid());
 	}
 
 	/**
@@ -115,35 +110,33 @@ public class ConcreteQueryCalculatorTest {
 	 */
 	@Test
 	public void getSuggestionsWithEmptyString() {
-		QueryCalculator queryCalculator = ConcreteQueryCalculator
-				.getSingleton();
+		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
 		List<POI> suggestions = queryCalculator.getSuggestions("");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(4, suggestions.size());
 
-		Assert.assertEquals(2, suggestions.get(0).getUid());
-		Assert.assertEquals(4, suggestions.get(1).getUid());
-		Assert.assertEquals(1, suggestions.get(2).getUid());
-		Assert.assertEquals(3, suggestions.get(3).getUid());
+		Assert.assertEquals(Integer.valueOf(2), suggestions.get(0).getUid());
+		Assert.assertEquals(Integer.valueOf(4), suggestions.get(1).getUid());
+		Assert.assertEquals(Integer.valueOf(1), suggestions.get(2).getUid());
+		Assert.assertEquals(Integer.valueOf(3), suggestions.get(3).getUid());
 
 	}
 
 	/**
-	 * This test checks if by setting as parameter null in the method getSuggestions, it throws an 
-	 * exception.
+	 * This test checks if by setting as parameter null in the method
+	 * getSuggestions, it throws an exception.
 	 */
 	@Test
 	public void getSuggestionsWithNullAsString() {
-		QueryCalculator queryCalculator = ConcreteQueryCalculator
-				.getSingleton();
+		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
 		boolean nullPointerExceptionThrown = false;
 		try {
-			 queryCalculator.getSuggestions(null);
+			queryCalculator.getSuggestions(null);
 		} catch (NullPointerException e) {
 			nullPointerExceptionThrown = true;
 		}
-		
+
 		Assert.assertTrue(nullPointerExceptionThrown);
 	}
 
@@ -153,8 +146,7 @@ public class ConcreteQueryCalculatorTest {
 	 */
 	@Test
 	public void getSuggestionsNamesTest() {
-		QueryCalculator queryCalculator = ConcreteQueryCalculator
-				.getSingleton();
+		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
 		List<String> suggestions = queryCalculator.getSuggestionsNames("Hö");
 
 		Assert.assertNotNull(suggestions);
@@ -170,8 +162,7 @@ public class ConcreteQueryCalculatorTest {
 	 */
 	@Test
 	public void getSuggestionsNamesWithLowerCaseTest() {
-		QueryCalculator queryCalculator = ConcreteQueryCalculator
-				.getSingleton();
+		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
 		List<String> suggestions = queryCalculator.getSuggestionsNames("hö");
 
 		Assert.assertNotNull(suggestions);
@@ -187,8 +178,7 @@ public class ConcreteQueryCalculatorTest {
 	 */
 	@Test
 	public void getSuggestionsNamesWithEmptyStringTest() {
-		QueryCalculator queryCalculator = ConcreteQueryCalculator
-				.getSingleton();
+		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
 		List<String> suggestions = queryCalculator.getSuggestionsNames("");
 
 		Assert.assertNotNull(suggestions);
@@ -201,10 +191,8 @@ public class ConcreteQueryCalculatorTest {
 	 */
 	@Test
 	public void getSuggestionsNamesNonExistentStringTest() {
-		QueryCalculator queryCalculator = ConcreteQueryCalculator
-				.getSingleton();
-		List<String> suggestions = queryCalculator
-				.getSuggestionsNames("XYZTUV");
+		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
+		List<String> suggestions = queryCalculator.getSuggestionsNames("XYZTUV");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(0, suggestions.size());
@@ -216,19 +204,17 @@ public class ConcreteQueryCalculatorTest {
 	 */
 	@Test
 	public void getSuggestionsNamesWithNullTest() {
-		QueryCalculator queryCalculator = ConcreteQueryCalculator
-				.getSingleton();
-	
+		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
+
 		boolean nullPointerExceptionThrown = false;
-		
+
 		try {
 			queryCalculator.getSuggestionsNames(null);
 		} catch (NullPointerException e) {
 			nullPointerExceptionThrown = true;
 		}
 		Assert.assertTrue(nullPointerExceptionThrown);
-		
-		
+
 	}
 
 	/**
@@ -236,11 +222,10 @@ public class ConcreteQueryCalculatorTest {
 	 */
 	@Test
 	public void searchPOITest() {
-		QueryCalculator queryCalculator = ConcreteQueryCalculator
-				.getSingleton();
+		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
 		POI searchedPOI = queryCalculator.searchPOI("Audi");
 		Assert.assertNotNull(searchedPOI);
-		Assert.assertEquals(3, searchedPOI.getUid());
+		Assert.assertEquals(Integer.valueOf(3), searchedPOI.getUid());
 	}
 
 	/**
@@ -249,12 +234,11 @@ public class ConcreteQueryCalculatorTest {
 	 */
 	@Test
 	public void searchPOIWithEmptyStringTest() {
-		QueryCalculator queryCalculator = ConcreteQueryCalculator
-				.getSingleton();
+		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
 
 		POI poi = queryCalculator.searchPOI("");
 		Assert.assertNotNull(poi);
-		Assert.assertEquals(3, poi.getUid());
+		Assert.assertEquals(Integer.valueOf(3), poi.getUid());
 	}
 
 	/**
@@ -263,8 +247,7 @@ public class ConcreteQueryCalculatorTest {
 	 */
 	@Test
 	public void searchPOIWithNonExistentStringTest() {
-		QueryCalculator queryCalculator = ConcreteQueryCalculator
-				.getSingleton();
+		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
 
 		Assert.assertNull(queryCalculator.searchPOI("XYZT"));
 	}
@@ -275,17 +258,16 @@ public class ConcreteQueryCalculatorTest {
 	 */
 	@Test
 	public void searchPOIWithNullAsParameterTest() {
-		QueryCalculator queryCalculator = ConcreteQueryCalculator
-				.getSingleton();
+		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
 		boolean nullPointerExceptionThrown = false;
 		try {
 			queryCalculator.searchPOI(null);
 		} catch (NullPointerException e) {
 			nullPointerExceptionThrown = true;
 		}
-		
+
 		Assert.assertTrue(nullPointerExceptionThrown);
-			
+
 	}
 
 	/*

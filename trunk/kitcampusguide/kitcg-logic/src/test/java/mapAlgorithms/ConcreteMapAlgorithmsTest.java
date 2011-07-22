@@ -41,10 +41,10 @@ public class ConcreteMapAlgorithmsTest {
 	public void getSuggestionsTest() {
 		MapAlgorithms concreteMapAlgorithms = new ConcreteMapAlgorithms();
 		List<POI> suggestions = concreteMapAlgorithms.getSuggestions("H");
-		
+
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
-		
+
 		Assert.assertTrue("The Poi with id 4 was not loaded", isInList(suggestions, "4"));
 		Assert.assertTrue("The Poi with id 3 was not loaded", isInList(suggestions, "3"));
 		Assert.assertTrue("The Poi with id 1 was not loaded", isInList(suggestions, "1"));
@@ -52,13 +52,13 @@ public class ConcreteMapAlgorithmsTest {
 
 	private boolean isInList(List<POI> suggestions, String i) {
 		boolean found = false;
-		
+
 		for (POI poi : suggestions) {
 			if (i.equals(poi.getUid())) {
 				found = true;
 			}
 		}
-		
+
 		return found;
 	}
 
@@ -68,9 +68,9 @@ public class ConcreteMapAlgorithmsTest {
 	@Test
 	public void getSuggestionsWithEmptyStringTest() {
 		MapAlgorithms concreteMapAlgorithms = new ConcreteMapAlgorithms();
-	
+
 		List<POI> suggestions = concreteMapAlgorithms.getSuggestions("");
-		
+
 		Assert.assertEquals(4, suggestions.size());
 
 		Assert.assertTrue("The Poi with id 4 was not loaded", isInList(suggestions, "4"));
@@ -87,8 +87,7 @@ public class ConcreteMapAlgorithmsTest {
 	@Test
 	public void getSuggestionsWithInexistantStringTest() {
 		MapAlgorithms concreteMapAlgorithms = new ConcreteMapAlgorithms();
-		Assert.assertEquals(0, concreteMapAlgorithms.getSuggestions("ABC")
-				.size());
+		Assert.assertEquals(0, concreteMapAlgorithms.getSuggestions("ABC").size());
 	}
 
 	/**
@@ -102,19 +101,21 @@ public class ConcreteMapAlgorithmsTest {
 	}
 
 	/**
-	 * This method searches simple a POI with a specific string. It should find a single POI.
+	 * This method searches simple a POI with a specific string. It should find
+	 * a single POI.
 	 */
 	@Test
 	public void searchPOITest() {
 		MapAlgorithms concreteMapAlgorithms = new ConcreteMapAlgorithms();
 		POI searchedPOI = concreteMapAlgorithms.searchPOI("Ger");
 		Assert.assertNotNull(searchedPOI);
-		Assert.assertEquals(1, searchedPOI.getUid());
+		Assert.assertEquals(Integer.valueOf(1), searchedPOI.getUid());
 	}
 
 	/**
-	 * This method tests if by setting two points as parameters in the method calculateRoute() 
-	 * it returns a correct route between the 2 points. Both points are included in the database.
+	 * This method tests if by setting two points as parameters in the method
+	 * calculateRoute() it returns a correct route between the 2 points. Both
+	 * points are included in the database.
 	 */
 	@Test
 	public void calculateRouteForSavedPOISTest() {
@@ -129,21 +130,19 @@ public class ConcreteMapAlgorithmsTest {
 
 		Assert.assertEquals(5, route.getRoute().size());
 		Assert.assertEquals(pointFrom, route.getRoute().get(0));
-		Assert.assertEquals(mapLoader.getGraph().getNode(7), route.getRoute()
-				.get(1));
-		Assert.assertEquals(mapLoader.getGraph().getNode(8), route.getRoute()
-				.get(2));
-		Assert.assertEquals(mapLoader.getGraph().getNode(9), route.getRoute()
-				.get(3));
+		Assert.assertEquals(mapLoader.getGraph().getNode(7), route.getRoute().get(1));
+		Assert.assertEquals(mapLoader.getGraph().getNode(8), route.getRoute().get(2));
+		Assert.assertEquals(mapLoader.getGraph().getNode(9), route.getRoute().get(3));
 		Assert.assertEquals(pointTo, route.getRoute().get(4));
 
 	}
 
 	/**
-	 * This method tests if by setting two points as parameters in the method calculateRoute() 
-	 * it returns a correct route between the 2 points. Neither of the points are included in the database.
+	 * This method tests if by setting two points as parameters in the method
+	 * calculateRoute() it returns a correct route between the 2 points. Neither
+	 * of the points are included in the database.
 	 */
-	
+
 	@Test
 	public void calculateRouteForNotSavedPoisTest() {
 		MapAlgorithms concreteMapAlgorithms = new ConcreteMapAlgorithms();
@@ -158,14 +157,10 @@ public class ConcreteMapAlgorithmsTest {
 
 		Assert.assertEquals(6, route.getRoute().size());
 		Assert.assertEquals(pointFrom, route.getRoute().get(0));
-		Assert.assertEquals(mapLoader.getGraph().getNode(2), route.getRoute()
-				.get(1));
-		Assert.assertEquals(mapLoader.getGraph().getNode(4), route.getRoute()
-				.get(2));
-		Assert.assertEquals(mapLoader.getGraph().getNode(5), route.getRoute()
-				.get(3));
-		Assert.assertEquals(mapLoader.getGraph().getNode(7), route.getRoute()
-				.get(4));
+		Assert.assertEquals(mapLoader.getGraph().getNode(2), route.getRoute().get(1));
+		Assert.assertEquals(mapLoader.getGraph().getNode(4), route.getRoute().get(2));
+		Assert.assertEquals(mapLoader.getGraph().getNode(5), route.getRoute().get(3));
+		Assert.assertEquals(mapLoader.getGraph().getNode(7), route.getRoute().get(4));
 		Assert.assertEquals(pointTo, route.getRoute().get(5));
 
 	}
