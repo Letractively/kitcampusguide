@@ -8,7 +8,7 @@ package edu.kit.cm.kitcampusguide.model;
  * @author Monica Haurilet
  * @author Roland Steinegger, Karlsruhe Institute of Technology
  */
-public class POI extends Point {
+public class POI extends Point implements Cloneable {
 
 	private String name;
 	private String icon;
@@ -27,12 +27,12 @@ public class POI extends Point {
 			POICategory category) {
 		this(name, uid, icon, description, longitude, latitude);
 
-		this.setCategory(category);
+		this.category = category;
 	}
 
 	public POI() {
 
-		this("", 42, "", "", 0d, 0d);
+		this(null, null, null, null, null, null);
 	}
 
 	public String getName() {
@@ -64,10 +64,65 @@ public class POI extends Point {
 	}
 
 	public void setCategory(POICategory category) {
+		POICategory oldCategory = this.category;
 		this.category = category;
-		if (category.getPois() != null || !category.getPois().contains(this)) {
-			category.addPOI(this);
+		if (oldCategory != null) {
+			oldCategory.remove(this);
 		}
+		if ((category != null) && ((category.getPois() == null) || (!category.getPois().contains(this)))) {
+			category.add(this);
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((category == null) ? 0 : category.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((icon == null) ? 0 : icon.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (getClass() != obj.getClass())
+			return false;
+		POI other = (POI) obj;
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (icon == null) {
+			if (other.icon != null)
+				return false;
+		} else if (!icon.equals(other.icon))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+
+	@Override
+	public POI clone() {
+		final POI clone = new POI();
+		clone.category = this.category;
+		clone.description = this.description;
+		clone.icon = this.icon;
+		clone.name = this.name;
+		return clone;
 	}
 
 }

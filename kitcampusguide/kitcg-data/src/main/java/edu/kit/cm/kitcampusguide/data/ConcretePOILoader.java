@@ -254,7 +254,7 @@ public class ConcretePOILoader implements POILoader {
 			resultset = Config.executeSQLStatement(connection, sqlquery);
 	        while (resultset.next()) {
 				int poiid = resultset.getInt("poi_id");
-	        	poicat.addPOI(getPOI(poiid));  	
+	        	poicat.add(getPOI(poiid));  	
 	        }
 	    } catch (SQLException e) {
 		    e.printStackTrace();

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="edu.kit.cm.kitcampusguide.dao.jpa" />
+
+	<bean id="poi1" class="edu.kit.cm.kitcampusguide.model.POI">
+		<property name="name" value="Point of intertest ONE" />
+		<property name="description" value="This poi was created by a test." />
+		<property name="icon" value="" />
+		<property name="longitude" value="0.1" />
+		<property name="latitude" value="0.1" />
+	</bean>
+
+	<bean id="poi2" class="edu.kit.cm.kitcampusguide.model.POI">
+		<property name="name" value="Point of intertest TWO" />
+		<property name="description" value="This poi was created by a test, too." />
+		<property name="icon" value="" />
+		<property name="longitude" value="0.2" />
+		<property name="latitude" value="0.2" />
+	</bean>
+
+	<bean id="poi3" class="edu.kit.cm.kitcampusguide.model.POI">
+		<property name="name" value="Point of intertest THREE" />
+		<property name="description" value="This poi was also created by a test." />
+		<property name="icon" value="" />
+		<property name="longitude" value="0.3" />
+		<property name="latitude" value="0.3" />
+	</bean>
+
+	<bean id="category1" class="edu.kit.cm.kitcampusguide.model.POICategory">
+		<property name="name" value="Test Category" />
+		<property name="description" value="This category was created by a test." />
+		<property name="icon" value="" />
+		<property name="visible" value="true" />
+		<property name="pois">
+			<list></list>
+		</property>
+	</bean>
+
+	<bean id="category2" class="edu.kit.cm.kitcampusguide.model.POICategory">
+		<property name="name" value="2nd Test Category" />
+		<property name="description" value="This category was created by a test, too." />
+		<property name="icon" value="" />
+		<property name="visible" value="true" />
+		<property name="pois">
+			<list></list>
+		</property>
+	</bean>
+</beans>

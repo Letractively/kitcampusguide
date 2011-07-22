@@ -9,9 +9,9 @@ import org.springframework.orm.jpa.JpaTemplate;
 import edu.kit.cm.kitcampusguide.dao.IPersistentEntityDao;
 import edu.kit.cm.kitcampusguide.model.AEntity;
 
-public abstract class PersistentEntityDaoImpl implements IPersistentEntityDao {
+public abstract class PersistentEntityDaoImpl<E extends AEntity> implements IPersistentEntityDao {
 
-	private Class<AEntity> entityClass;
+	private Class<E> entityClass;
 
 	private final JpaTemplate jpaTemplate;
 
@@ -21,14 +21,15 @@ public abstract class PersistentEntityDaoImpl implements IPersistentEntityDao {
 
 		try {
 			ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
-			this.entityClass = (Class<AEntity>) genericSuperclass.getActualTypeArguments()[0];
+			this.entityClass = (Class<E>) genericSuperclass.getActualTypeArguments()[0];
 		} catch (ClassCastException ex) {
-			Logger.getLogger(getClass()).error("This exception should only happen during test phase.");
+			Logger.getLogger(getClass()).error(
+					"There must be an configuration error, because Dao Entity class could not be resolved.");
 			this.entityClass = null;
 		}
 	}
 
-	public final AEntity findByUid(int uid) {
+	public final AEntity findByUid(Integer uid) {
 		return jpaTemplate.find(entityClass, uid);
 	}
 
@@ -45,7 +46,11 @@ public abstract class PersistentEntityDaoImpl implements IPersistentEntityDao {
 	}
 
 	public final void save(AEntity persistentAEntity) {
-		jpaTemplate.persist(persistentAEntity);
+		if (jpaTemplate.contains(persistentAEntity)) {
+			jpaTemplate.merge(persistentAEntity);
+		} else {
+			jpaTemplate.persist(persistentAEntity);
+		}
 	}
 
 	@SuppressWarnings("rawtypes")

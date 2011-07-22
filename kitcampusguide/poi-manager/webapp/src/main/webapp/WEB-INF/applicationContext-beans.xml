@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="poiOverviewController"
+		class="edu.kit.cm.kitcampusguide.controller.PoiOverviewController">
+		<constructor-arg>
+			<ref bean="poiService" />
+		</constructor-arg>
+	</bean>
+
+	<bean id="poiService" class="edu.kit.cm.kitcampusguide.ws.poi.PoiService"
+		factory-bean="clientFactory" factory-method="create" />
+
+	<bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+		<property name="serviceClass" value="edu.kit.cm.kitcampusguide.ws.poi.PoiService" />
+		<property name="address" value="http://localhost:8080/poi/poiservice" />
+		<!-- <property name="wsdlURL" value="WEB-INF/PoiService.wsdl" /> -->
+	</bean>
+
+</beans>

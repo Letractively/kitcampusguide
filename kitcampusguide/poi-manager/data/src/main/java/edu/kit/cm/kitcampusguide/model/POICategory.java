@@ -2,7 +2,6 @@ package edu.kit.cm.kitcampusguide.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author Kateryna Yurchenko
@@ -15,10 +14,10 @@ public class POICategory extends AEntity {
 	private String icon;
 	private String description;
 	private boolean visible;
-	private List<POI> pois;
+	private Collection<POI> pois;
 
 	public POICategory() {
-		this("", null, "", "");
+		this(null, null, null, null);
 	}
 
 	public POICategory(String name, Integer id, String icon, String description) {
@@ -34,7 +33,7 @@ public class POICategory extends AEntity {
 		setUid(id);
 	}
 
-	public void addPOI(POI poi) {
+	public void add(POI poi) {
 		if (!this.pois.contains(poi)) {
 			this.pois.add(poi);
 		}
@@ -43,15 +42,29 @@ public class POICategory extends AEntity {
 		}
 	}
 
-	public List<POI> getPois() {
+	public void remove(POI poi) {
+
+		if (this.pois.contains(poi)) {
+			this.pois.remove(poi);
+		}
+		if (this.equals(poi.getCategory())) {
+			poi.setCategory(null);
+		}
+	}
+
+	public Collection<POI> getPois() {
 		return this.pois;
 	}
 
-	public void setPois(List<POI> pois) {
-		this.pois = pois;
-		for (POI poi : pois) {
-			if (!poi.getCategory().equals(this)) {
-				poi.setCategory(this);
+	public void setPois(Collection<POI> pois) {
+		if (this.pois != null) {
+			for (POI poi : new ArrayList<POI>(this.pois)) {
+				this.remove(poi);
+			}
+		}
+		if (pois != null) {
+			for (POI poi : new ArrayList<POI>(pois)) {
+				this.add(poi);
 			}
 		}
 	}
@@ -87,4 +100,56 @@ public class POICategory extends AEntity {
 	public boolean isVisible() {
 		return this.visible;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((icon == null) ? 0 : icon.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + (visible ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		POICategory other = (POICategory) obj;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (icon == null) {
+			if (other.icon != null)
+				return false;
+		} else if (!icon.equals(other.icon))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (visible != other.visible)
+			return false;
+		return true;
+	}
+
+	@Override
+	public POICategory clone() {
+		POICategory clone = new POICategory();
+		clone.description = this.description;
+		clone.icon = this.icon;
+		clone.name = this.name;
+		clone.visible = this.visible;
+		clone.pois = this.pois;
+		return clone;
+	}
+
 }

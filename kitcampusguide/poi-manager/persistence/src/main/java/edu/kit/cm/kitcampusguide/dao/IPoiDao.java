@@ -11,8 +11,6 @@ import edu.kit.cm.kitcampusguide.model.POI;
  */
 public interface IPoiDao extends IPersistentEntityDao {
 
-	List<POI> findByCategory(String categoryName);
-
 	List<POI> findByNameWithPrefix(String prefix);
 
 	List<POI> findByNameWithSuffix(String suffix);

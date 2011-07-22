@@ -9,7 +9,7 @@ import edu.kit.cm.kitcampusguide.model.AEntity;
  */
 public interface IPersistentEntityDao {
 
-	AEntity findByUid(int uid);
+	AEntity findByUid(Integer uid);
 
 	AEntity merge(AEntity persistentEntity);
 
