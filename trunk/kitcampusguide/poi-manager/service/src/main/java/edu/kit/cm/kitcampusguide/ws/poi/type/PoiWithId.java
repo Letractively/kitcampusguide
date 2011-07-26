@@ -23,7 +23,7 @@ import edu.kit.cm.kitcampusguide.model.POI;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;all>
- *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="uid" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="categoryName" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="description" type="{http://www.w3.org/2001/XMLSchema}string"/>
@@ -43,7 +43,7 @@ import edu.kit.cm.kitcampusguide.model.POI;
 })
 public class PoiWithId {
 
-	protected Integer id;
+	protected Integer uid;
 	@XmlElement(required = true)
 	protected String name;
 	@XmlElement(required = true)
@@ -58,7 +58,7 @@ public class PoiWithId {
 	}
 
 	public PoiWithId(POI poi, String categoryName) {
-		setId(poi.getUid());
+		setUid(poi.getUid());
 		setName(poi.getName());
 		setDescription(poi.getDescription());
 		setLatitude(poi.getLatitude());
@@ -67,19 +67,19 @@ public class PoiWithId {
 	}
 
 	/**
-	 * Gets the value of the id property.
+	 * Gets the value of the uid property.
 	 * 
 	 */
-	public Integer getId() {
-		return id;
+	public Integer getUid() {
+		return uid;
 	}
 
 	/**
-	 * Sets the value of the id property.
+	 * Sets the value of the uid property.
 	 * 
 	 */
-	public void setId(Integer value) {
-		this.id = value;
+	public void setUid(Integer value) {
+		this.uid = value;
 	}
 
 	/**
@@ -190,7 +190,7 @@ public class PoiWithId {
 	public POI convertToPojo() {
 		POI convertion = new POI();
 
-		convertion.setUid(id);
+		convertion.setUid(uid);
 		convertion.setName(name);
 		convertion.setDescription(description);
 		convertion.setLatitude(latitude);

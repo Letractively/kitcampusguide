@@ -22,7 +22,7 @@ import org.apache.cxf.jaxb.JAXBToStringStyle;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;all>
- *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="uid" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="faultMessage" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/all>
  *     &lt;/restriction>
@@ -49,11 +49,11 @@ public class ReadFault {
 
 	public ReadFault(ReadRequest request) {
 		this.id = request.getId();
-		this.faultMessage = "No poi with id " + request.getId() + " was found.";
+		this.faultMessage = "No poi with uid " + request.getId() + " was found.";
 	}
 
 	/**
-	 * Gets the value of the id property.
+	 * Gets the value of the uid property.
 	 * 
 	 */
 	public int getId() {
@@ -61,7 +61,7 @@ public class ReadFault {
 	}
 
 	/**
-	 * Sets the value of the id property.
+	 * Sets the value of the uid property.
 	 * 
 	 */
 	public void setId(int value) {
