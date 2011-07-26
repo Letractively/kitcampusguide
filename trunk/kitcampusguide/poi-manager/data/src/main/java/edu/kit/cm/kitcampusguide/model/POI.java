@@ -59,6 +59,17 @@ public class POI extends Point implements Cloneable {
 		this.description = description;
 	}
 
+	public String getCategoryName() {
+		String categoryName = "";
+
+		if (this.getCategory() != null) {
+
+			categoryName = this.getCategory().getName();
+		}
+
+		return categoryName;
+	}
+
 	public POICategory getCategory() {
 		return category;
 	}
