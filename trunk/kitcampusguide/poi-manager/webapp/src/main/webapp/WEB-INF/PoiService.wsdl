@@ -172,7 +172,7 @@
 			</xsd:complexType>
 			<xsd:complexType name="PoiWithId">
 				<xsd:all maxOccurs="1" minOccurs="1">
-					<xsd:element name="id" type="xsd:int"/>
+					<xsd:element name="uid" type="xsd:int"/>
 					<xsd:element name="name" type="xsd:string"/>
 					<xsd:element name="categoryName" type="xsd:string"/>
 					<xsd:element name="description" type="xsd:string"/>
