@@ -167,4 +167,15 @@ public class Poi {
 		return convertion;
 	}
 
+	public static Poi convertToPoi(PoiWithId poi) {
+		Poi convertion = new Poi();
+
+		convertion.setCategoryName(poi.getCategoryName());
+		convertion.setName(poi.getName());
+		convertion.setDescription(poi.getDescription());
+		convertion.setLatitude(poi.getLatitude());
+		convertion.setLongitude(poi.getLongitude());
+
+		return convertion;
+	}
 }

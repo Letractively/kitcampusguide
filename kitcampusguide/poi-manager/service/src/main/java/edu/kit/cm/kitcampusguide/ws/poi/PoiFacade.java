@@ -95,10 +95,11 @@ public class PoiFacade implements PoiService {
 
 		ReadResponse response = new ReadResponse();
 		if (foundPoi != null) {
-			response.setPoi(new PoiWithId(foundPoi, foundPoi.getCategory().getName()));
+
+			response.setPoi(new PoiWithId(foundPoi, foundPoi.getCategoryName()));
 			response.setSuccessMessage("Successfully retrieved the point of interest.");
 		} else {
-			throw new ReadFault_Exception("Could not find poi with id " + idToRead + ".", new ReadFault(readRequest));
+			throw new ReadFault_Exception("Could not find poi with uid " + idToRead + ".", new ReadFault(readRequest));
 		}
 
 		return response;

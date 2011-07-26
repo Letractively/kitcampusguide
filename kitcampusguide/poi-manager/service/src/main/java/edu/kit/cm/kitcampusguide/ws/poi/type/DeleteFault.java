@@ -21,7 +21,7 @@ import org.apache.cxf.jaxb.JAXBToStringStyle;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;all>
  *         &lt;element name="faultMessage" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="uid" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/all>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -66,7 +66,7 @@ public class DeleteFault {
     }
 
     /**
-     * Gets the value of the id property.
+     * Gets the value of the uid property.
      * 
      */
     public int getId() {
@@ -74,7 +74,7 @@ public class DeleteFault {
     }
 
     /**
-     * Sets the value of the id property.
+     * Sets the value of the uid property.
      * 
      */
     public void setId(int value) {
