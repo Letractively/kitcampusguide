@@ -48,8 +48,8 @@ public class Poi {
 	protected String categoryName;
 	@XmlElement(required = true)
 	protected String description;
-	protected double longitude;
-	protected double latitude;
+	protected Double longitude = -1d;
+	protected Double latitude = -1d;
 
 	/**
 	 * Gets the value of the name property.
@@ -118,7 +118,7 @@ public class Poi {
 	 * Gets the value of the longitude property.
 	 * 
 	 */
-	public double getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
@@ -126,7 +126,7 @@ public class Poi {
 	 * Sets the value of the longitude property.
 	 * 
 	 */
-	public void setLongitude(double value) {
+	public void setLongitude(Double value) {
 		this.longitude = value;
 	}
 
@@ -134,7 +134,7 @@ public class Poi {
 	 * Gets the value of the latitude property.
 	 * 
 	 */
-	public double getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
@@ -142,7 +142,7 @@ public class Poi {
 	 * Sets the value of the latitude property.
 	 * 
 	 */
-	public void setLatitude(double value) {
+	public void setLatitude(Double value) {
 		this.latitude = value;
 	}
 
