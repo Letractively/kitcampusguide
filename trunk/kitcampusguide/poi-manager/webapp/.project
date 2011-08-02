@@ -3,6 +3,9 @@
 	<name>poi-manager-webapp</name>
 	<comment></comment>
 	<projects>
+		<project>poi-manager-service</project>
+		<project>poi-manager-data</project>
+		<project>poi-manager-persistence</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
