@@ -50,8 +50,8 @@ public class PoiWithId {
 	protected String categoryName;
 	@XmlElement(required = true)
 	protected String description;
-	protected Double longitude;
-	protected Double latitude;
+	protected Double longitude = -1d;
+	protected Double latitude = -1d;
 
 	public PoiWithId() {
 		// empty constructor for serializer
