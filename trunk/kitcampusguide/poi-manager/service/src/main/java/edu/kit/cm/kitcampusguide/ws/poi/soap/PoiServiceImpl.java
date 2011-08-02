@@ -30,7 +30,7 @@ import edu.kit.cm.kitcampusguide.ws.poi.type.UpdateRequest;
  */
 
 @WebService(serviceName = "PoiService", portName = "PoiServiceSOAP", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/", wsdlLocation = "http://www.example.org/?wsdl", endpointInterface = "edu.kit.cm.kitcampusguide.ws.poi.PoiService")
-@Transactional(readOnly = true)
+@Transactional
 public class PoiServiceImpl extends SpringBeanAutowiringSupport implements PoiService {
 
 	@Autowired
@@ -50,7 +50,6 @@ public class PoiServiceImpl extends SpringBeanAutowiringSupport implements PoiSe
 	 * @see edu.kit.cm.kitcampusguide.ws.poi.PoiService#update(edu.kit.tm.cm.
 	 * kitcampusguide.ws.poi.UpdateRequest parameters )*
 	 */
-	@Transactional
 	public edu.kit.cm.kitcampusguide.ws.poi.type.UpdateResponse update(UpdateRequest parameters)
 			throws UpdateFault_Exception {
 
@@ -63,7 +62,6 @@ public class PoiServiceImpl extends SpringBeanAutowiringSupport implements PoiSe
 	 * @see edu.kit.cm.kitcampusguide.ws.poi.PoiService#delete(edu.kit.tm.cm.
 	 * kitcampusguide.ws.poi.DeleteRequest parameters )*
 	 */
-	@Transactional
 	public edu.kit.cm.kitcampusguide.ws.poi.type.DeleteResponse delete(DeleteRequest parameters)
 			throws DeleteFault_Exception {
 
@@ -88,7 +86,6 @@ public class PoiServiceImpl extends SpringBeanAutowiringSupport implements PoiSe
 	 * @see edu.kit.cm.kitcampusguide.ws.poi.PoiService#create(edu.kit.tm.cm.
 	 * kitcampusguide.ws.poi.CreateRequest parameters )*
 	 */
-	@Transactional
 	public edu.kit.cm.kitcampusguide.ws.poi.type.CreateResponse create(CreateRequest parameters)
 			throws CreateFault_Exception {
 

@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.dao.jpa;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -34,6 +35,7 @@ public abstract class PersistentEntityDaoImpl<E extends AEntity> implements IPer
 	}
 
 	public final AEntity merge(AEntity persistentAEntity) {
+		persistentAEntity.setDateLastUpdated(new Date());
 		return jpaTemplate.merge(persistentAEntity);
 	}
 
@@ -46,9 +48,11 @@ public abstract class PersistentEntityDaoImpl<E extends AEntity> implements IPer
 	}
 
 	public final void save(AEntity persistentAEntity) {
+		persistentAEntity.setDateLastUpdated(new Date());
 		if (jpaTemplate.contains(persistentAEntity)) {
 			jpaTemplate.merge(persistentAEntity);
 		} else {
+			persistentAEntity.setDateCreated(new Date());
 			jpaTemplate.persist(persistentAEntity);
 		}
 	}

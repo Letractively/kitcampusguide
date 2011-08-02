@@ -79,7 +79,7 @@ public class PoiFacade implements PoiService {
 	public UpdateResponse update(UpdateRequest updateRequest) throws UpdateFault_Exception {
 		POI poiFromRequest = updateRequest.getPoi().convertToPojo();
 
-		this.dao.save(poiFromRequest);
+		this.dao.merge(poiFromRequest);
 
 		UpdateResponse response = new UpdateResponse();
 		response.setSuccessMessage("The changes were successfully saved.");
