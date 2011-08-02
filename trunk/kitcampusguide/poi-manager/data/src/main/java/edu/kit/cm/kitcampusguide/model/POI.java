@@ -1,5 +1,8 @@
 package edu.kit.cm.kitcampusguide.model;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 /**
  * 
  * This class class specifies an single important point on the map with its
@@ -136,4 +139,8 @@ public class POI extends Point implements Cloneable {
 		return clone;
 	}
 
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+	}
 }

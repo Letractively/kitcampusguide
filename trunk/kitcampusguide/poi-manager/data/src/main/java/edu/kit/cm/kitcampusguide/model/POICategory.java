@@ -3,6 +3,9 @@ package edu.kit.cm.kitcampusguide.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 /**
  * @author Kateryna Yurchenko
  * @author Tobias Zündorf
@@ -152,4 +155,8 @@ public class POICategory extends AEntity {
 		return clone;
 	}
 
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+	}
 }
