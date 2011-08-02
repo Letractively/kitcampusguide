@@ -50,7 +50,6 @@ public class PoiServiceImpl extends SpringBeanAutowiringSupport implements PoiSe
 	 * @see edu.kit.cm.kitcampusguide.ws.poi.PoiService#update(edu.kit.tm.cm.
 	 * kitcampusguide.ws.poi.UpdateRequest parameters )*
 	 */
-	@Override
 	@Transactional
 	public edu.kit.cm.kitcampusguide.ws.poi.type.UpdateResponse update(UpdateRequest parameters)
 			throws UpdateFault_Exception {
@@ -64,7 +63,6 @@ public class PoiServiceImpl extends SpringBeanAutowiringSupport implements PoiSe
 	 * @see edu.kit.cm.kitcampusguide.ws.poi.PoiService#delete(edu.kit.tm.cm.
 	 * kitcampusguide.ws.poi.DeleteRequest parameters )*
 	 */
-	@Override
 	@Transactional
 	public edu.kit.cm.kitcampusguide.ws.poi.type.DeleteResponse delete(DeleteRequest parameters)
 			throws DeleteFault_Exception {
@@ -78,7 +76,6 @@ public class PoiServiceImpl extends SpringBeanAutowiringSupport implements PoiSe
 	 * @see edu.kit.cm.kitcampusguide.ws.poi.PoiService#select(edu.kit.tm.cm.
 	 * kitcampusguide.ws.poi.SelectRequest parameters )*
 	 */
-	@Override
 	public edu.kit.cm.kitcampusguide.ws.poi.type.SelectResponse select(SelectRequest parameters)
 			throws SelectFault_Exception {
 
@@ -91,7 +88,6 @@ public class PoiServiceImpl extends SpringBeanAutowiringSupport implements PoiSe
 	 * @see edu.kit.cm.kitcampusguide.ws.poi.PoiService#create(edu.kit.tm.cm.
 	 * kitcampusguide.ws.poi.CreateRequest parameters )*
 	 */
-	@Override
 	@Transactional
 	public edu.kit.cm.kitcampusguide.ws.poi.type.CreateResponse create(CreateRequest parameters)
 			throws CreateFault_Exception {
@@ -105,7 +101,6 @@ public class PoiServiceImpl extends SpringBeanAutowiringSupport implements PoiSe
 	 * @see edu.kit.cm.kitcampusguide.ws.poi.PoiService#read(edu.kit.tm.cm.
 	 * kitcampusguide.ws.poi.ReadRequest parameters )*
 	 */
-	@Override
 	public edu.kit.cm.kitcampusguide.ws.poi.type.ReadResponse read(ReadRequest parameters) throws ReadFault_Exception {
 
 		return this.facade.read(parameters);

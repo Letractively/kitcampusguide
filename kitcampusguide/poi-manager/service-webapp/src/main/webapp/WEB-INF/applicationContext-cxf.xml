@@ -9,7 +9,6 @@
 	<context:component-scan base-package="edu.kit.cm.kitcampusguide.ws.poi" />
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
 	<jaxws:endpoint xmlns:tns="http://cm.tm.kit.edu/kitcampusguide/poiservice/"
