@@ -1,4 +1,4 @@
-package edu.kit.cm.tm.ws.poi;
+package edu.kit.cm.kitcampusguide.ws.poi;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
