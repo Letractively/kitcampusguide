@@ -30,7 +30,6 @@
 	<bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
 		<property name="serviceClass" value="edu.kit.cm.kitcampusguide.ws.poi.PoiService" />
 		<property name="address" value="http://localhost:8080/poi/poiservice" />
-		<!-- <property name="wsdlURL" value="WEB-INF/PoiService.wsdl" /> -->
 	</bean>
 
 	<bean id="messageSource"

@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.kit.cm.kitcampusguide.dao.IPoiDao;
 import edu.kit.cm.kitcampusguide.model.POI;
@@ -35,12 +37,13 @@ import edu.kit.cm.kitcampusguide.ws.poi.type.UpdateResponse;
  * @author Roland Steinegger, Karlsruhe Institute of Technology
  */
 @Repository
+@Transactional
 public class PoiFacade implements PoiService {
+
+	private static final Logger log = Logger.getLogger(PoiFacade.class);
 
 	@Autowired
 	private IPoiDao dao;
-
-	public static POI poi = null;
 
 	public PoiFacade() {
 		// constructor for auto wiring
@@ -50,13 +53,12 @@ public class PoiFacade implements PoiService {
 		this.dao = dao;
 	}
 
-	@Override
 	public CreateResponse create(CreateRequest createRequest) throws CreateFault_Exception {
+
 		POI poiFromRequest = createRequest.getPoi().convertToPojo();
 		String categoryFromRequest = createRequest.getPoi().getCategoryName();
 
 		this.dao.save(poiFromRequest);
-		PoiFacade.poi = poiFromRequest;
 
 		CreateResponse response = new CreateResponse();
 		response.setPoi(new PoiWithId(poiFromRequest, categoryFromRequest));
@@ -65,7 +67,6 @@ public class PoiFacade implements PoiService {
 		return response;
 	}
 
-	@Override
 	public DeleteResponse delete(DeleteRequest deleteRequest) throws DeleteFault_Exception {
 		this.dao.remove(this.dao.findByUid(deleteRequest.getId()));
 
@@ -75,11 +76,10 @@ public class PoiFacade implements PoiService {
 		return response;
 	}
 
-	@Override
 	public UpdateResponse update(UpdateRequest updateRequest) throws UpdateFault_Exception {
 		POI poiFromRequest = updateRequest.getPoi().convertToPojo();
 
-		this.dao.refresh(poiFromRequest);
+		this.dao.save(poiFromRequest);
 
 		UpdateResponse response = new UpdateResponse();
 		response.setSuccessMessage("The changes were successfully saved.");
@@ -87,7 +87,6 @@ public class PoiFacade implements PoiService {
 		return response;
 	}
 
-	@Override
 	public ReadResponse read(ReadRequest readRequest) throws ReadFault_Exception {
 		int idToRead = readRequest.getId();
 
@@ -105,7 +104,6 @@ public class PoiFacade implements PoiService {
 		return response;
 	}
 
-	@Override
 	public SelectResponse select(SelectRequest selectRequest) throws SelectFault_Exception {
 		List<POI> foundPois = new ArrayList<POI>();
 
@@ -118,10 +116,6 @@ public class PoiFacade implements PoiService {
 		foundPois.addAll(findPoisByNamesLike(selectRequest.getFindByNamesLike()));
 
 		foundPois.addAll(findPoisByNameSuffixes(selectRequest.getFindByNameSuffixes()));
-
-		if (PoiFacade.poi != null) {
-			foundPois.add(PoiFacade.poi);
-		}
 
 		SelectResponse response = new SelectResponse();
 		response.convertPoisForResponse(foundPois);

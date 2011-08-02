@@ -40,4 +40,12 @@
 	<bean id="jpaTemplate" class="org.springframework.orm.jpa.JpaTemplate">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
+
+
+	<bean id="poiDaoImpl" class="edu.kit.cm.kitcampusguide.dao.jpa.PoiDaoImpl">
+		<constructor-arg>
+			<!-- jpaTemplate is defined in applicationContext-persistence -->
+			<ref bean="jpaTemplate" />
+		</constructor-arg>
+	</bean>
 </beans>

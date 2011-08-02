@@ -18,17 +18,14 @@ public class PoiDaoImpl extends PersistentEntityDaoImpl<POI> implements IPoiDao 
 		super(jpaTemplate);
 	}
 
-	@Override
 	public List<POI> findByNameWithPrefix(String prefix) {
 		return findByNameLike(prefix + "%");
 	}
 
-	@Override
 	public List<POI> findByNameWithSuffix(String suffix) {
 		return findByNameLike("%" + suffix);
 	}
 
-	@Override
 	public List<POI> findByNameLike(String pattern) {
 		return convertResultListToPois(findByNamedQueryAndParams("poi.findByNameLike", pattern));
 	}
