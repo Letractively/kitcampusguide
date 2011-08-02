@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -19,6 +18,21 @@
 		<property name="longitude" value="0.1234" />
 		<property name="latitude" value="0.9876" />
 		<property name="category" ref="category" />
+	</bean>
+
+	<bean id="poi2" class="edu.kit.cm.kitcampusguide.model.POI">
+		<property name="name" value="Point of intertest TWO" />
+		<property name="description" value="This poi was created by a test, too." />
+		<property name="icon" value="" />
+		<property name="longitude" value="0.2" />
+		<property name="latitude" value="0.2" />
+	</bean>
+
+	<bean id="requestPoi" class="edu.kit.cm.kitcampusguide.ws.poi.type.Poi">
+		<property name="name" value="Point of intertest 2" />
+		<property name="description" value="This poi was created by a test." />
+		<property name="longitude" value="0.2345" />
+		<property name="latitude" value="0.8765" />
 	</bean>
 
 	<bean id="category" class="edu.kit.cm.kitcampusguide.model.POICategory">
