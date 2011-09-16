@@ -11,7 +11,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @author Tobias Zündorf
  * @author Roland Steinegger, Karlsruhe Institute of Technology
  */
-public class POICategory extends AEntity {
+public class POICategory extends AEntity implements Entity {
 
 	private String name;
 	private String icon;

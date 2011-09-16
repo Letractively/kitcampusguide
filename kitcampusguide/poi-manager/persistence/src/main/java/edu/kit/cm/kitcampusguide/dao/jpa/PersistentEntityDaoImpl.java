@@ -9,8 +9,9 @@ import org.springframework.orm.jpa.JpaTemplate;
 
 import edu.kit.cm.kitcampusguide.dao.IPersistentEntityDao;
 import edu.kit.cm.kitcampusguide.model.AEntity;
+import edu.kit.cm.kitcampusguide.model.Entity;
 
-public abstract class PersistentEntityDaoImpl<E extends AEntity> implements IPersistentEntityDao {
+public abstract class PersistentEntityDaoImpl<E extends Entity> implements IPersistentEntityDao {
 
 	private Class<E> entityClass;
 
@@ -30,20 +31,20 @@ public abstract class PersistentEntityDaoImpl<E extends AEntity> implements IPer
 		}
 	}
 
-	public final AEntity findByUid(Integer uid) {
+	public final Entity findByUid(Integer uid) {
 		return jpaTemplate.find(entityClass, uid);
 	}
 
-	public final AEntity merge(AEntity persistentAEntity) {
+	public final Entity merge(AEntity persistentAEntity) {
 		persistentAEntity.setDateLastUpdated(new Date());
 		return jpaTemplate.merge(persistentAEntity);
 	}
 
-	public final void refresh(AEntity persistentAEntity) {
+	public final void refresh(Entity persistentAEntity) {
 		jpaTemplate.refresh(persistentAEntity);
 	}
 
-	public final void remove(AEntity persistentAEntity) {
+	public final void remove(Entity persistentAEntity) {
 		jpaTemplate.remove(persistentAEntity);
 	}
 
@@ -68,24 +69,24 @@ public abstract class PersistentEntityDaoImpl<E extends AEntity> implements IPer
 	}
 
 	@SuppressWarnings("rawtypes")
-	public final AEntity findUniqueByNamedQuery(String queryName) {
+	public final Entity findUniqueByNamedQuery(String queryName) {
 		List results = findByNamedQuery(queryName);
 
 		if (results.isEmpty()) {
 			return null;
 		} else {
-			return (AEntity) results.get(0);
+			return (Entity) results.get(0);
 		}
 	}
 
 	@SuppressWarnings("rawtypes")
-	public final AEntity findUniqueByNamedQueryAndParams(String queryName, Object... params) {
+	public final Entity findUniqueByNamedQueryAndParams(String queryName, Object... params) {
 		List results = findByNamedQueryAndParams(queryName, params);
 
 		if (results.isEmpty()) {
 			return null;
 		} else {
-			return (AEntity) results.get(0);
+			return (Entity) results.get(0);
 		}
 	}
 }

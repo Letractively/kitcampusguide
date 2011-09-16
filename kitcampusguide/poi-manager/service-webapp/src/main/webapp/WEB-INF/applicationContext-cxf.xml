@@ -6,6 +6,8 @@
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+	<import resource="applicationContext-beans.xml" />
+
 	<context:component-scan base-package="edu.kit.cm.kitcampusguide.ws.poi" />
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />

@@ -11,7 +11,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @author Monica Haurilet
  * @author Roland Steinegger, Karlsruhe Institute of Technology
  */
-public class POI extends Point implements Cloneable {
+public class POI extends Point implements Cloneable, Entity {
 
 	private String name;
 	private String icon;

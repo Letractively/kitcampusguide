@@ -6,7 +6,7 @@ package edu.kit.cm.kitcampusguide.model;
  * @author Tobias Zündorf
  * @author Roland Steinegger, Karlsruhe Institute of Technology
  */
-public class Point extends AEntity {
+public class Point extends AEntity implements Entity {
 
 	/* The longitude of this Point */
 	private Double longitude;

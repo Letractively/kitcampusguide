@@ -1,6 +1,7 @@
 package edu.kit.cm.kitcampusguide.dao;
 
 import edu.kit.cm.kitcampusguide.model.AEntity;
+import edu.kit.cm.kitcampusguide.model.Entity;
 
 /**
  * Default interface to access persistent entities through crud pattern.
@@ -9,13 +10,13 @@ import edu.kit.cm.kitcampusguide.model.AEntity;
  */
 public interface IPersistentEntityDao {
 
-	AEntity findByUid(Integer uid);
+	Entity findByUid(Integer uid);
 
-	AEntity merge(AEntity persistentEntity);
+	Entity merge(AEntity persistentEntity);
 
-	void refresh(AEntity persistentEntity);
+	void refresh(Entity persistentEntity);
 
-	void remove(AEntity persistentEntity);
+	void remove(Entity persistentEntity);
 
 	void save(AEntity persistentEntity);
 }
