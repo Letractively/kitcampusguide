@@ -5,7 +5,11 @@
 
 package edu.kit.cm.kitcampusguide.ws.poi.soap;
 
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebResult;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,18 +33,21 @@ import edu.kit.cm.kitcampusguide.ws.poi.type.UpdateRequest;
  * 
  */
 
-@WebService(serviceName = "PoiService", portName = "PoiServiceSOAP", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/", wsdlLocation = "http://www.example.org/?wsdl", endpointInterface = "edu.kit.cm.kitcampusguide.ws.poi.PoiService")
+@WebService(serviceName = "PoiService", portName = "PoiServiceSOAP", endpointInterface = "edu.kit.cm.kitcampusguide.ws.poi.PoiService")
 @Transactional
+@SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 public class PoiServiceImpl extends SpringBeanAutowiringSupport implements PoiService {
 
 	@Autowired
 	private PoiService facade;
 
 	public PoiServiceImpl() {
+		super();
 		// constructor for auto wiring
 	}
 
 	public PoiServiceImpl(PoiService facade) {
+		super();
 		this.facade = facade;
 	}
 
@@ -50,7 +57,10 @@ public class PoiServiceImpl extends SpringBeanAutowiringSupport implements PoiSe
 	 * @see edu.kit.cm.kitcampusguide.ws.poi.PoiService#update(edu.kit.tm.cm.
 	 * kitcampusguide.ws.poi.UpdateRequest parameters )*
 	 */
-	public edu.kit.cm.kitcampusguide.ws.poi.type.UpdateResponse update(UpdateRequest parameters)
+	@WebResult(name = "UpdateResponse", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/", partName = "parameters")
+	@WebMethod(operationName = "Update", action = "http://cm.tm.kit.edu/kitcampusguide/poiservice/Update")
+	public edu.kit.cm.kitcampusguide.ws.poi.type.UpdateResponse update(
+			@WebParam(partName = "parameters", name = "UpdateRequest", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/") UpdateRequest parameters)
 			throws UpdateFault_Exception {
 
 		return this.facade.update(parameters);
@@ -62,7 +72,10 @@ public class PoiServiceImpl extends SpringBeanAutowiringSupport implements PoiSe
 	 * @see edu.kit.cm.kitcampusguide.ws.poi.PoiService#delete(edu.kit.tm.cm.
 	 * kitcampusguide.ws.poi.DeleteRequest parameters )*
 	 */
-	public edu.kit.cm.kitcampusguide.ws.poi.type.DeleteResponse delete(DeleteRequest parameters)
+	@WebResult(name = "DeleteResponse", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/", partName = "parameters")
+	@WebMethod(operationName = "Delete", action = "http://cm.tm.kit.edu/kitcampusguide/poiservice/Delete")
+	public edu.kit.cm.kitcampusguide.ws.poi.type.DeleteResponse delete(
+			@WebParam(partName = "parameters", name = "DeleteRequest", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/") DeleteRequest parameters)
 			throws DeleteFault_Exception {
 
 		return this.facade.delete(parameters);
@@ -73,8 +86,10 @@ public class PoiServiceImpl extends SpringBeanAutowiringSupport implements PoiSe
 	 * 
 	 * @see edu.kit.cm.kitcampusguide.ws.poi.PoiService#select(edu.kit.tm.cm.
 	 * kitcampusguide.ws.poi.SelectRequest parameters )*
-	 */
-	public edu.kit.cm.kitcampusguide.ws.poi.type.SelectResponse select(SelectRequest parameters)
+	 */@WebResult(name = "SelectResponse", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/", partName = "parameters")
+	@WebMethod(operationName = "Select", action = "http://cm.tm.kit.edu/kitcampusguide/poiservice/Select")
+	public edu.kit.cm.kitcampusguide.ws.poi.type.SelectResponse select(
+			@WebParam(partName = "parameters", name = "SelectRequest", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/") SelectRequest parameters)
 			throws SelectFault_Exception {
 
 		return this.facade.select(parameters);
@@ -86,7 +101,10 @@ public class PoiServiceImpl extends SpringBeanAutowiringSupport implements PoiSe
 	 * @see edu.kit.cm.kitcampusguide.ws.poi.PoiService#create(edu.kit.tm.cm.
 	 * kitcampusguide.ws.poi.CreateRequest parameters )*
 	 */
-	public edu.kit.cm.kitcampusguide.ws.poi.type.CreateResponse create(CreateRequest parameters)
+	@WebResult(name = "CreateResponse", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/", partName = "parameters")
+	@WebMethod(operationName = "Create", action = "http://cm.tm.kit.edu/kitcampusguide/poiservice/Create")
+	public edu.kit.cm.kitcampusguide.ws.poi.type.CreateResponse create(
+			@WebParam(partName = "parameters", name = "CreateRequest", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/") CreateRequest parameters)
 			throws CreateFault_Exception {
 
 		return this.facade.create(parameters);
@@ -98,7 +116,11 @@ public class PoiServiceImpl extends SpringBeanAutowiringSupport implements PoiSe
 	 * @see edu.kit.cm.kitcampusguide.ws.poi.PoiService#read(edu.kit.tm.cm.
 	 * kitcampusguide.ws.poi.ReadRequest parameters )*
 	 */
-	public edu.kit.cm.kitcampusguide.ws.poi.type.ReadResponse read(ReadRequest parameters) throws ReadFault_Exception {
+	@WebResult(name = "ReadResponse", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/", partName = "parameters")
+	@WebMethod(operationName = "Read", action = "http://cm.tm.kit.edu/kitcampusguide/poiservice/Read")
+	public edu.kit.cm.kitcampusguide.ws.poi.type.ReadResponse read(
+			@WebParam(partName = "parameters", name = "ReadRequest", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/") ReadRequest parameters)
+			throws ReadFault_Exception {
 
 		return this.facade.read(parameters);
 	}

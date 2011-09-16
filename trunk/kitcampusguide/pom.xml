@@ -52,10 +52,16 @@
 			<url>http://snapshots.maven.codehaus.org/maven2</url>
 			<layout>default</layout>
 		</repository>
+		<repository>
+			<id>org.springframework.maven.milestone</id>
+			<name>Maven Central Compatible Spring Milestone Repository</name>
+			<url>http://maven.springframework.org/milestone</url>
+		</repository>
 	</repositories>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>3.0.4.RELEASE</spring.version>
+		<spring.version>3.0.6.RELEASE</spring.version>
+		<spring.security.version>3.1.0.M2</spring.security.version>
 	</properties>
 </project>

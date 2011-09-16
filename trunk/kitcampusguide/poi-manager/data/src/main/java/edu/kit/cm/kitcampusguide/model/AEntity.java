@@ -7,7 +7,7 @@ import java.util.Date;
  * 
  * @author Roland Steinegger, Karlsruhe Institute of Technology
  */
-public abstract class AEntity {
+public abstract class AEntity implements Entity {
 
 	private Integer uid;
 	private String createdBy;
@@ -15,42 +15,52 @@ public abstract class AEntity {
 	private String lastUpdatedBy;
 	private Date dateLastUpdated;
 
+	@Override
 	public Integer getUid() {
 		return uid;
 	}
 
+	@Override
 	public void setUid(final Integer uid) {
 		this.uid = uid;
 	}
 
+	@Override
 	public String getCreatedBy() {
 		return createdBy;
 	}
 
+	@Override
 	public void setCreatedBy(final String createdBy) {
 		this.createdBy = createdBy;
 	}
 
+	@Override
 	public Date getDateCreated() {
 		return dateCreated;
 	}
 
+	@Override
 	public void setDateCreated(final Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 
+	@Override
 	public String getLastUpdatedBy() {
 		return lastUpdatedBy;
 	}
 
+	@Override
 	public void setLastUpdatedBy(final String lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
 
+	@Override
 	public Date getDateLastUpdated() {
 		return dateLastUpdated;
 	}
 
+	@Override
 	public void setDateLastUpdated(final Date dateLastUpdated) {
 		this.dateLastUpdated = dateLastUpdated;
 	}

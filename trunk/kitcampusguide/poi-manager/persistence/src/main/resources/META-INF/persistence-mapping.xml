@@ -25,6 +25,8 @@
 			<basic name="name" />
 			<basic name="description" />
 			<basic name="icon" />
+			<basic name="longitude" />
+			<basic name="latitude" />
 
 			<many-to-one name="category"
 				target-entity="edu.kit.cm.kitcampusguide.model.POICategory" fetch="EAGER">

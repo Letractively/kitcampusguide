@@ -1,10 +1,8 @@
 package edu.kit.cm.kitcampusguide.ws.poi;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebResult;
 import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import edu.kit.cm.kitcampusguide.ws.poi.type.CreateFault_Exception;
 import edu.kit.cm.kitcampusguide.ws.poi.type.CreateRequest;
@@ -28,36 +26,20 @@ import edu.kit.cm.kitcampusguide.ws.poi.type.UpdateResponse;
  * 
  */
 @WebService(targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/", name = "PoiService")
-@SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 public interface PoiService {
 
-	@WebResult(name = "UpdateResponse", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/", partName = "parameters")
-	@WebMethod(operationName = "Update", action = "http://cm.tm.kit.edu/kitcampusguide/poiservice/Update")
-	public UpdateResponse update(
-			@WebParam(partName = "parameters", name = "UpdateRequest", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/") UpdateRequest parameters)
-			throws UpdateFault_Exception;
+	@PreAuthorize("hasRole('RIGHT_UPDATE_POI')")
+	public UpdateResponse update(UpdateRequest parameters) throws UpdateFault_Exception;
 
-	@WebResult(name = "DeleteResponse", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/", partName = "parameters")
-	@WebMethod(operationName = "Delete", action = "http://cm.tm.kit.edu/kitcampusguide/poiservice/Delete")
-	public DeleteResponse delete(
-			@WebParam(partName = "parameters", name = "DeleteRequest", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/") DeleteRequest parameters)
-			throws DeleteFault_Exception;
+	@PreAuthorize("hasRole('RIGHT_DELETE_POI')")
+	public DeleteResponse delete(DeleteRequest parameters) throws DeleteFault_Exception;
 
-	@WebResult(name = "SelectResponse", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/", partName = "parameters")
-	@WebMethod(operationName = "Select", action = "http://cm.tm.kit.edu/kitcampusguide/poiservice/Select")
-	public SelectResponse select(
-			@WebParam(partName = "parameters", name = "SelectRequest", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/") SelectRequest parameters)
-			throws SelectFault_Exception;
+	@PreAuthorize("hasRole('RIGHT_READ_POI')")
+	public SelectResponse select(SelectRequest parameters) throws SelectFault_Exception;
 
-	@WebResult(name = "CreateResponse", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/", partName = "parameters")
-	@WebMethod(operationName = "Create", action = "http://cm.tm.kit.edu/kitcampusguide/poiservice/Create")
-	public CreateResponse create(
-			@WebParam(partName = "parameters", name = "CreateRequest", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/") CreateRequest parameters)
-			throws CreateFault_Exception;
+	@PreAuthorize("hasRole('RIGHT_CREATE_POI')")
+	public CreateResponse create(CreateRequest parameters) throws CreateFault_Exception;
 
-	@WebResult(name = "ReadResponse", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/", partName = "parameters")
-	@WebMethod(operationName = "Read", action = "http://cm.tm.kit.edu/kitcampusguide/poiservice/Read")
-	public ReadResponse read(
-			@WebParam(partName = "parameters", name = "ReadRequest", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/") ReadRequest parameters)
-			throws ReadFault_Exception;
+	@PreAuthorize("hasRole('RIGHT_READ_POI')")
+	public ReadResponse read(ReadRequest parameters) throws ReadFault_Exception;
 }
