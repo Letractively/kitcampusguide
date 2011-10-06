@@ -1,8 +1,0 @@
-#summary Diese Seite bietet einen Einstiegspunkt in das Wiki des KITCampusGuide-Projektes.
-#labels Featured,Restrict-AddWikiComment-Commit
-
-= Willkommen =
-
-Der KITCampusGuide ist ein persönliches, Web-basiertes Assistenzsystem für Studierende, Mitarbeiter und Gäste des [http://www.kit.edu Karlsruher Institut für Technologie (KIT)]. Ausgangspunkt hierfür ist die Bereitstellung einer Web Mapping-Anwendung für das KIT, welche nach dem Vorbild von [http://maps.google.com Google Maps] eine kartenbasierte Orientierungshilfe für den KIT-Campus bietet.  
-
-Der KITCampusGuide ist ein Lehr- und Forschungsprojekt der [http://cm.tm.kit.edu Forschungsgruppe Cooperation & Management (C&M, Prof. Abeck)] am [http://www.kit.edu KIT]. Mittels des KITCampusGuide sollen zum einen Studierende in die Entwicklung von modernen Web-Anwendung eingeführt werden. Ebenso sollen Forschungsfragen, welche in der Forschungsgruppe behandelt werden, anhand des KITCampusGuides demonstriert und umgesetzt werden.
