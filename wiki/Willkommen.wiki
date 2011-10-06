@@ -1,5 +1,5 @@
 #summary Diese Seite bietet einen Einstiegspunkt in das Wiki des KITCampusGuide-Projektes.
-#labels Featured
+#labels Featured,Restrict-AddWikiComment-Commit
 
 = Willkommen =
 
