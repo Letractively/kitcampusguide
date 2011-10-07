@@ -6,6 +6,8 @@
 <%@taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,6 +18,12 @@
 	type="text/css" />
 </head>
 <body>
+	<div id="header">
+		<fmt:message key="theCurrentUserIs" />
+		<sec:authentication property="principal.name" />
+		<a href="<spring:url value="/logout" htmlEscape="true" />"><fmt:message
+				key="logout" /> </a>
+	</div>
 	<div class="message">
 		<c:if test="${not empty faultMessage}">
 			<div class="message fault">
@@ -65,6 +73,19 @@
 						key="latitude" /> </label>
 				<form:input path="latitude" cssClass="latitude field" />
 				<form:errors path="latitude" cssClass="latitude error" />
+			</div>
+			<div class="field publicly">
+				<label class="label" for="publicly"> <fmt:message
+						key="publicly" /> </label>
+				<form:checkbox path="publicly" cssClass="publicly field" />
+				<form:errors path="publicly" cssClass="publicly error" />
+			</div>
+			<div class="field groupIds">
+				<label class="label" for="groupIds"> <fmt:message
+						key="groupIds" /> </label>
+				<form:select multiple="true" path="groupIds.id" items="${groups}"
+					itemValue="id" itemLabel="name" cssClass="groupIds field" />
+				<form:errors path="groupIds.id" cssClass="groupIds error" />
 			</div>
 
 			<input type='submit' value='<fmt:message key="save" />'>
