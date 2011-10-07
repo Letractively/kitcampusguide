@@ -7,32 +7,36 @@ package edu.kit.cm.kitcampusguide.model;
  */
 public class MemberToGroupMapping {
 
-	private Member member = null;
-	private Group group = null;
-	private String role = null;
+    public static enum ROLES {
+        ADMIN, USER
+    }
 
-	public Member getMember() {
-		return this.member;
-	}
+    private Member member = null;
+    private Group group = null;
+    private String role = null;
 
-	public void setMember(Member member) {
-		this.member = member;
-	}
+    public Member getMember() {
+        return this.member;
+    }
 
-	public Group getGroup() {
-		return this.group;
-	}
+    public void setMember(Member member) {
+        this.member = member;
+    }
 
-	public void setGroup(Group group) {
-		this.group = group;
-	}
+    public Group getGroup() {
+        return this.group;
+    }
 
-	public String getRole() {
-		return this.role;
-	}
+    public void setGroup(Group group) {
+        this.group = group;
+    }
 
-	public void setRole(String role) {
-		this.role = role;
-	}
+    public String getRole() {
+        return this.role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
 }

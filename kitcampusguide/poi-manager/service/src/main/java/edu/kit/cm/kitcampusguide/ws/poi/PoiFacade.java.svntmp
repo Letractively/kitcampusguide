@@ -1,0 +1,34 @@
+package edu.kit.cm.kitcampusguide.ws.poi;
+
+import org.springframework.security.access.prepost.PreAuthorize;
+
+import edu.kit.cm.kitcampusguide.ws.poi.type.CreateRequestComplexType;
+import edu.kit.cm.kitcampusguide.ws.poi.type.CreateResponseComplexType;
+import edu.kit.cm.kitcampusguide.ws.poi.type.DeleteRequestComplexType;
+import edu.kit.cm.kitcampusguide.ws.poi.type.DeleteResponseComplexType;
+import edu.kit.cm.kitcampusguide.ws.poi.type.ExecuteFault;
+import edu.kit.cm.kitcampusguide.ws.poi.type.ReadRequestComplexType;
+import edu.kit.cm.kitcampusguide.ws.poi.type.ReadResponseComplexType;
+import edu.kit.cm.kitcampusguide.ws.poi.type.SelectRequestComplexType;
+import edu.kit.cm.kitcampusguide.ws.poi.type.SelectResponseComplexType;
+import edu.kit.cm.kitcampusguide.ws.poi.type.UpdateRequestComplexType;
+import edu.kit.cm.kitcampusguide.ws.poi.type.UpdateResponseComplexType;
+
+public interface PoiFacade {
+
+    @PreAuthorize("hasRole('RIGHT_CREATE_POI')")
+    CreateResponseComplexType create(CreateRequestComplexType createRequest) throws ExecuteFault;
+
+    @PreAuthorize("hasRole('RIGHT_DELETE_POI')")
+    DeleteResponseComplexType delete(DeleteRequestComplexType deleteRequest) throws ExecuteFault;
+
+    @PreAuthorize("hasRole('RIGHT_UPDATE_POI')")
+    UpdateResponseComplexType update(UpdateRequestComplexType updateRequest) throws ExecuteFault;
+
+    @PreAuthorize("hasRole('RIGHT_READ_POI')")
+    ReadResponseComplexType read(ReadRequestComplexType readRequest) throws ExecuteFault;
+
+    @PreAuthorize("hasRole('RIGHT_READ_POI')")
+    SelectResponseComplexType select(SelectRequestComplexType selectRequest) throws ExecuteFault;
+
+}

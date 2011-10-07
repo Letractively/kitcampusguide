@@ -17,6 +17,8 @@
 		<property name="icon" value="" />
 		<property name="longitude" value="0.1" />
 		<property name="latitude" value="0.1" />
+		<property name="publicly" value="false" />
+		<property name="separatedGroupIds" value="group1" />
 	</bean>
 
 	<bean id="poi2" class="edu.kit.cm.kitcampusguide.model.POI">
@@ -25,6 +27,8 @@
 		<property name="icon" value="" />
 		<property name="longitude" value="0.2" />
 		<property name="latitude" value="0.2" />
+		<property name="publicly" value="true" />
+		<property name="separatedGroupIds" value="group2" />
 	</bean>
 
 	<bean id="poi3" class="edu.kit.cm.kitcampusguide.model.POI">
@@ -33,6 +37,8 @@
 		<property name="icon" value="" />
 		<property name="longitude" value="0.3" />
 		<property name="latitude" value="0.3" />
+		<property name="publicly" value="true" />
+		<property name="separatedGroupIds" value="group3" />
 	</bean>
 
 	<bean id="category1" class="edu.kit.cm.kitcampusguide.model.POICategory">

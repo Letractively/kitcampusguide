@@ -17,6 +17,8 @@
 		<property name="icon" value="" />
 		<property name="longitude" value="0.1234" />
 		<property name="latitude" value="0.9876" />
+		<property name="publicly" value="true" />
+		<property name="separatedGroupIds" value="group1" />
 		<property name="category" ref="category" />
 	</bean>
 
@@ -26,6 +28,8 @@
 		<property name="icon" value="" />
 		<property name="longitude" value="0.2" />
 		<property name="latitude" value="0.2" />
+		<property name="publicly" value="false" />
+		<property name="separatedGroupIds" value="group2" />
 	</bean>
 
 	<bean id="requestPoi" class="edu.kit.cm.kitcampusguide.ws.poi.type.Poi">
@@ -33,6 +37,18 @@
 		<property name="description" value="This poi was created by a test." />
 		<property name="longitude" value="0.2345" />
 		<property name="latitude" value="0.8765" />
+		<property name="publicly" value="true" />
+		<property name="groupIds" ref="groupIds" />
+	</bean>
+
+	<bean id="groupIds" class="edu.kit.cm.kitcampusguide.ws.poi.type.Strings">
+		<property name="id">
+			<list>
+				<value>group1</value>
+				<value>group2</value>
+				<value>group3</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="category" class="edu.kit.cm.kitcampusguide.model.POICategory">

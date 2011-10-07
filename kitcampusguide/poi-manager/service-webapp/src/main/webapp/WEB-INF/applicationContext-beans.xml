@@ -4,15 +4,15 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
 	default-autowire="byName">
 
-	<import resource="applicationContext-dao.xml" />
+	<!-- <import resource="applicationContext-dao.xml" /> -->
 
 	<bean id="poiServiceImpl" class="edu.kit.cm.kitcampusguide.ws.poi.soap.PoiServiceImpl">
 		<constructor-arg>
-			<ref bean="poiFacade" />
+			<ref bean="poiFacadeImpl" />
 		</constructor-arg>
 	</bean>
 
-	<bean id="poiFacade" class="edu.kit.cm.kitcampusguide.ws.poi.PoiFacade">
+	<bean id="poiFacadeImpl" class="edu.kit.cm.kitcampusguide.ws.poi.PoiFacadeImpl">
 		<constructor-arg>
 			<ref bean="poiDaoImpl" />
 		</constructor-arg>

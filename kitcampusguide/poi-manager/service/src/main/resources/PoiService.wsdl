@@ -6,158 +6,43 @@
 	<wsdl:types>
 		<xsd:schema targetNamespace="http://cm.tm.kit.edu/kitcampusguide/poiservice/"
 			xmlns:kitcg="http://cm.tm.kit.edu/kitcampusguide/">
-			<xsd:element name="CreateRequest">
-				<xsd:complexType>
-					<xsd:all maxOccurs="1" minOccurs="1">
-						<xsd:element name="poi" type="tns:Poi" />
-					</xsd:all>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="CreateResponse">
-				<xsd:complexType>
-					<xsd:all maxOccurs="1" minOccurs="1">
-						<xsd:element name="poi" type="tns:PoiWithId"
-							maxOccurs="1" minOccurs="1">
-						</xsd:element>
-						<xsd:element name="successMessage" type="xsd:string">
-						</xsd:element>
-					</xsd:all>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="CreateFault">
-				<xsd:complexType>
-					<xsd:all minOccurs="1" maxOccurs="1">
-						<xsd:element name="faultMessage" type="xsd:string">
-						</xsd:element>
-						<xsd:element name="poi" type="tns:Poi">
-						</xsd:element>
-					</xsd:all>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="DeleteRequest">
-				<xsd:complexType>
-					<xsd:all maxOccurs="1" minOccurs="1">
-						<xsd:element name="id" type="xsd:int"></xsd:element>
-					</xsd:all>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="DeleteResponse">
-				<xsd:complexType>
-					<xsd:all maxOccurs="1" minOccurs="1">
-						<xsd:element name="successMessage" type="xsd:string"></xsd:element>
-					</xsd:all>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="DeleteFault">
-				<xsd:complexType>
-					<xsd:all minOccurs="1" maxOccurs="1">
-						<xsd:element name="faultMessage" type="xsd:string">
-						</xsd:element>
-						<xsd:element name="id" type="xsd:int">
-						</xsd:element>
-					</xsd:all>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="UpdateRequest">
-				<xsd:complexType>
-					<xsd:all maxOccurs="1" minOccurs="1">
-						<xsd:element name="poi" type="tns:PoiWithId"></xsd:element>
-					</xsd:all>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="UpdateResponse">
-				<xsd:complexType>
-					<xsd:all maxOccurs="1" minOccurs="1">
-						<xsd:element name="poi" type="tns:PoiWithId"></xsd:element>
-						<xsd:element name="successMessage" type="xsd:string">
-						</xsd:element>
-					</xsd:all>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="UpdateFault">
-				<xsd:complexType>
-					<xsd:all minOccurs="1" maxOccurs="1">
-                        <xsd:element name="faultMessage" type="xsd:string">
-							</xsd:element>
-						<xsd:element name="poi" type="tns:PoiWithId">
-						</xsd:element>
-					</xsd:all>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="ReadRequest">
-				<xsd:complexType>
-					<xsd:all maxOccurs="1" minOccurs="1">
-						<xsd:element name="id" type="xsd:int"></xsd:element>
-					</xsd:all>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="ReadResponse">
-				<xsd:complexType>
-					<xsd:all maxOccurs="1" minOccurs="1">
-						<xsd:element name="poi" type="tns:PoiWithId"></xsd:element>
-						<xsd:element name="successMessage" type="xsd:string">
-						</xsd:element>
-					</xsd:all>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="ReadFault">
-				<xsd:complexType>
-					<xsd:all minOccurs="1" maxOccurs="1">
-						<xsd:element name="id" type="xsd:int">
-						</xsd:element>
-						<xsd:element name="faultMessage" type="xsd:string">
-						</xsd:element>
-					</xsd:all>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="SelectRequest">
-				<xsd:complexType>
-					<xsd:choice maxOccurs="1" minOccurs="1">
-						<xsd:element name="findByNamesLike" type="tns:Names">
-						</xsd:element>
-						<xsd:element name="findByNames" type="tns:Names">
-						</xsd:element>
-						<xsd:element name="findByNameSuffixes" type="tns:Names">
-						</xsd:element>
-						<xsd:element name="findByNamePrefixes" type="tns:Names">
-						</xsd:element>
-						<xsd:element name="findByIds" type="tns:Ids">
-						</xsd:element>
-					</xsd:choice>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="SelectResponse">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="successMessage" maxOccurs="1"
-							minOccurs="1" type="xsd:string">
-						</xsd:element>
-						<xsd:element name="poi" type="tns:PoiWithId"
-							maxOccurs="unbounded" minOccurs="0"></xsd:element>
-					</xsd:sequence>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="SelectFault">
-				<xsd:complexType>
-					<xsd:sequence minOccurs="1" maxOccurs="1">
-						<xsd:element name="faultMessage" type="xsd:string">
-						</xsd:element>
-						<xsd:choice minOccurs="1" maxOccurs="1">
-							<xsd:element name="findByNamesLike" type="tns:Names">
-							</xsd:element>
-							<xsd:element name="findByNames" type="tns:Names">
-							</xsd:element>
-							<xsd:element name="findByNameSuffixes" type="tns:Names">
-							</xsd:element>
-							<xsd:element name="findByNamePrefixes" type="tns:Names">
-							</xsd:element>
-							<xsd:element name="findByIds" type="tns:Ids">
-							</xsd:element>
-						</xsd:choice>
-					</xsd:sequence>
-				</xsd:complexType>
-			</xsd:element>
+			<xsd:element name="ExecuteRequest" type="tns:ExecuteRequestComplexType" />
+			<xsd:element name="ExecuteResponse" type="tns:ExecuteResponseComplexType" />
+			<xsd:element name="ExecuteFault" type="tns:ExecuteFaultComplexType" />
 
+			<xsd:complexType name="ExecuteResponseComplexType">
+				<xsd:sequence maxOccurs="unbounded" minOccurs="0">
+					<xsd:choice>
+						<xsd:element name="createResponses" type="tns:CreateResponseComplexType" />
+						<xsd:element name="readResponses" type="tns:ReadResponseComplexType" />
+						<xsd:element name="updateResponses" type="tns:UpdateResponseComplexType" />
+						<xsd:element name="deleteResponses" type="tns:DeleteResponseComplexType" />
+						<xsd:element name="selectResponses" type="tns:SelectResponseComplexType" />
+					</xsd:choice>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="ExecuteFaultComplexType">
+				<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+					<xsd:choice>
+						<xsd:element name="createFaults" type="tns:CreateFaultComplexType" />
+						<xsd:element name="readFaults" type="tns:ReadFaultComplexType" />
+						<xsd:element name="updateFaults" type="tns:UpdateFaultComplexType" />
+						<xsd:element name="deleteFaults" type="tns:DeleteFaultComplexType" />
+						<xsd:element name="selectFaults" type="tns:SelectFaultComplexType" />
+					</xsd:choice>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="ExecuteRequestComplexType">
+				<xsd:sequence maxOccurs="unbounded" minOccurs="0">
+					<xsd:choice>
+						<xsd:element name="createRequests" type="tns:CreateRequestComplexType" />
+						<xsd:element name="readRequests" type="tns:ReadRequestComplexType" />
+						<xsd:element name="updateRequests" type="tns:UpdateRequestComplexType" />
+						<xsd:element name="deleteRequests" type="tns:DeleteRequestComplexType" />
+						<xsd:element name="selectRequests" type="tns:SelectRequestComplexType" />
+					</xsd:choice>
+				</xsd:sequence>
+			</xsd:complexType>
 			<xsd:complexType name="Names">
 				<xsd:sequence minOccurs="1" maxOccurs="unbounded">
 					<xsd:element name="name" type="xsd:string"></xsd:element>
@@ -168,156 +53,176 @@
 					<xsd:element name="id" type="xsd:int"></xsd:element>
 				</xsd:sequence>
 			</xsd:complexType>
+			<xsd:complexType name="Strings">
+				<xsd:sequence minOccurs="1" maxOccurs="unbounded">
+					<xsd:element name="id" type="xsd:string"></xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
 			<xsd:complexType name="Poi">
 				<xsd:all maxOccurs="1" minOccurs="1">
 					<xsd:element name="name" type="xsd:string"></xsd:element>
-					<xsd:element name="categoryName" type="xsd:string"></xsd:element>
+					<xsd:element name="categoryName" type="xsd:string">
+					</xsd:element>
 					<xsd:element name="description" type="xsd:string"></xsd:element>
 					<xsd:element name="longitude" type="xsd:double"></xsd:element>
 					<xsd:element name="latitude" type="xsd:double"></xsd:element>
+					<xsd:element name="groupIds" type="tns:Strings"></xsd:element>
+					<xsd:element name="publicly" type="xsd:boolean"></xsd:element>
 				</xsd:all>
 			</xsd:complexType>
 			<xsd:complexType name="PoiWithId">
 				<xsd:all maxOccurs="1" minOccurs="1">
 					<xsd:element name="uid" type="xsd:int"></xsd:element>
 					<xsd:element name="name" type="xsd:string"></xsd:element>
-					<xsd:element name="categoryName" type="xsd:string"></xsd:element>
+					<xsd:element name="categoryName" type="xsd:string">
+					</xsd:element>
 					<xsd:element name="description" type="xsd:string"></xsd:element>
 					<xsd:element name="longitude" type="xsd:double"></xsd:element>
 					<xsd:element name="latitude" type="xsd:double"></xsd:element>
+					<xsd:element name="groupIds" type="tns:Strings"></xsd:element>
+					<xsd:element name="publicly" type="xsd:boolean"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="CreateRequestComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="poi" type="tns:Poi"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="CreateResponseComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element minOccurs="1" maxOccurs="1" name="poi"
+						type="tns:PoiWithId">
+					</xsd:element>
+					<xsd:element name="successMessage" type="xsd:string">
+					</xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="CreateFaultComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="faultMessage" type="xsd:string">
+					</xsd:element>
+					<xsd:element name="poi" type="tns:Poi"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="DeleteFaultComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="faultMessage" type="xsd:string">
+					</xsd:element>
+					<xsd:element name="id" type="xsd:int"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="DeleteRequestComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="id" type="xsd:int"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="DeleteResponseComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="successMessage" type="xsd:string">
+					</xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="ReadFaultComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="id" type="xsd:int"></xsd:element>
+					<xsd:element name="faultMessage" type="xsd:string">
+					</xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="ReadRequestComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="id" type="xsd:int"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="ReadResponseComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="poi" type="tns:PoiWithId"></xsd:element>
+					<xsd:element name="successMessage" type="xsd:string">
+					</xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="SelectFaultComplexType">
+				<xsd:sequence minOccurs="1" maxOccurs="1">
+					<xsd:element name="faultMessage" type="xsd:string">
+					</xsd:element>
+					<xsd:choice minOccurs="1" maxOccurs="1">
+						<xsd:element name="findByNamesLike" type="tns:Names">
+						</xsd:element>
+						<xsd:element name="findByNames" type="tns:Names">
+						</xsd:element>
+						<xsd:element name="findByNameSuffixes" type="tns:Names">
+						</xsd:element>
+						<xsd:element name="findByNamePrefixes" type="tns:Names">
+						</xsd:element>
+						<xsd:element name="findByIds" type="tns:Ids"></xsd:element>
+					</xsd:choice>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="SelectRequestComplexType">
+				<xsd:choice minOccurs="1" maxOccurs="1">
+					<xsd:element name="findByNamesLike" type="tns:Names">
+					</xsd:element>
+					<xsd:element name="findByNames" type="tns:Names"></xsd:element>
+					<xsd:element name="findByNameSuffixes" type="tns:Names">
+					</xsd:element>
+					<xsd:element name="findByNamePrefixes" type="tns:Names">
+					</xsd:element>
+					<xsd:element name="findByIds" type="tns:Ids"></xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+			<xsd:complexType name="SelectResponseComplexType">
+				<xsd:sequence>
+					<xsd:element minOccurs="1" maxOccurs="1" name="successMessage"
+						type="xsd:string">
+					</xsd:element>
+					<xsd:element minOccurs="0" maxOccurs="unbounded" name="poi"
+						type="tns:PoiWithId">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="UpdateFaultComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="faultMessage" type="xsd:string">
+					</xsd:element>
+					<xsd:element name="poi" type="tns:PoiWithId"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="UpdateRequestComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="poi" type="tns:PoiWithId"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="UpdateResponseComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="poi" type="tns:PoiWithId"></xsd:element>
+					<xsd:element name="successMessage" type="xsd:string">
+					</xsd:element>
 				</xsd:all>
 			</xsd:complexType>
 		</xsd:schema>
 	</wsdl:types>
-	<wsdl:message name="CreateRequest">
-		<wsdl:part name="parameters" element="tns:CreateRequest" />
+	<wsdl:message name="ExecuteRequest">
+		<wsdl:part name="parameters" element="tns:ExecuteRequest"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="CreateResponse">
-		<wsdl:part name="parameters" element="tns:CreateResponse" />
+	<wsdl:message name="ExecuteResponse">
+		<wsdl:part name="parameters" element="tns:ExecuteResponse"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="CreateFault">
-		<wsdl:part name="parameters" element="tns:CreateFault"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message name="DeleteRequest">
-		<wsdl:part name="parameters" element="tns:DeleteRequest"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message name="DeleteResponse">
-		<wsdl:part name="parameters" element="tns:DeleteResponse"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message name="DeleteFault">
-		<wsdl:part name="parameters" element="tns:DeleteFault"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message name="UpdateRequest">
-		<wsdl:part name="parameters" element="tns:UpdateRequest"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message name="UpdateResponse">
-		<wsdl:part name="parameters" element="tns:UpdateResponse"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message name="UpdateFault">
-		<wsdl:part name="parameters" element="tns:UpdateFault"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message name="ReadRequest">
-		<wsdl:part name="parameters" element="tns:ReadRequest"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message name="ReadResponse">
-		<wsdl:part name="parameters" element="tns:ReadResponse"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message name="ReadFault">
-		<wsdl:part name="parameters" element="tns:ReadFault"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message name="SelectRequest">
-		<wsdl:part name="parameters" element="tns:SelectRequest"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message name="SelectResponse">
-		<wsdl:part name="parameters" element="tns:SelectResponse"></wsdl:part>
-	</wsdl:message>
-	<wsdl:message name="SelectFault">
-		<wsdl:part name="parameters" element="tns:SelectFault"></wsdl:part>
+	<wsdl:message name="ExecuteFault">
+		<wsdl:part name="parameters" element="tns:ExecuteFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:portType name="PoiService">
-		<wsdl:operation name="Create">
-			<wsdl:input message="tns:CreateRequest"></wsdl:input>
-			<wsdl:output message="tns:CreateResponse"></wsdl:output>
-			<wsdl:fault name="fault" message="tns:CreateFault"></wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="Delete">
-			<wsdl:input message="tns:DeleteRequest"></wsdl:input>
-			<wsdl:output message="tns:DeleteResponse"></wsdl:output>
-			<wsdl:fault name="fault" message="tns:DeleteFault"></wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="Update">
-			<wsdl:input message="tns:UpdateRequest"></wsdl:input>
-			<wsdl:output message="tns:UpdateResponse"></wsdl:output>
-			<wsdl:fault name="fault" message="tns:UpdateFault"></wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="Read">
-			<wsdl:input message="tns:ReadRequest"></wsdl:input>
-			<wsdl:output message="tns:ReadResponse"></wsdl:output>
-			<wsdl:fault name="fault" message="tns:ReadFault"></wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="Select">
-			<wsdl:input message="tns:SelectRequest"></wsdl:input>
-			<wsdl:output message="tns:SelectResponse"></wsdl:output>
-			<wsdl:fault name="fault" message="tns:SelectFault"></wsdl:fault>
+		<wsdl:operation name="Execute">
+			<wsdl:input message="tns:ExecuteRequest"></wsdl:input>
+			<wsdl:output message="tns:ExecuteResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:ExecuteFault"></wsdl:fault>
 		</wsdl:operation>
 	</wsdl:portType>
 	<wsdl:binding name="PoiServiceSOAP" type="tns:PoiService">
 		<soap:binding style="document"
 			transport="http://schemas.xmlsoap.org/soap/http" />
-		<wsdl:operation name="Create">
+		<wsdl:operation name="Execute">
 			<soap:operation
-				soapAction="http://cm.tm.kit.edu/kitcampusguide/poiservice/Create" />
-			<wsdl:input>
-				<soap:body use="literal" />
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal" />
-			</wsdl:output>
-			<wsdl:fault name="fault">
-				<soap:fault use="literal" name="fault" />
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="Delete">
-			<soap:operation
-				soapAction="http://cm.tm.kit.edu/kitcampusguide/poiservice/Delete" />
-			<wsdl:input>
-				<soap:body use="literal" />
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal" />
-			</wsdl:output>
-			<wsdl:fault name="fault">
-				<soap:fault use="literal" name="fault" />
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="Update">
-			<soap:operation
-				soapAction="http://cm.tm.kit.edu/kitcampusguide/poiservice/Update" />
-			<wsdl:input>
-				<soap:body use="literal" />
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal" />
-			</wsdl:output>
-			<wsdl:fault name="fault">
-				<soap:fault use="literal" name="fault" />
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="Read">
-			<soap:operation soapAction="http://cm.tm.kit.edu/kitcampusguide/poiservice/Read" />
-			<wsdl:input>
-				<soap:body use="literal" />
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal" />
-			</wsdl:output>
-			<wsdl:fault name="fault">
-				<soap:fault use="literal" name="fault" />
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="Select">
-			<soap:operation
-				soapAction="http://cm.tm.kit.edu/kitcampusguide/poiservice/Select" />
+				soapAction="http://cm.tm.kit.edu/kitcampusguide/poiservice/Execute" />
 			<wsdl:input>
 				<soap:body use="literal" />
 			</wsdl:input>

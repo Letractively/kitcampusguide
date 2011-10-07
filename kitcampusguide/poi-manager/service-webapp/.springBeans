@@ -13,6 +13,8 @@
 		<config>src/main/webapp/WEB-INF/applicationContext-model.xml</config>
 		<config>src/main/webapp/WEB-INF/applicationContext-persistence.xml</config>
 		<config>src/main/webapp/WEB-INF/applicationContext-beans.xml</config>
+		<config>src/main/webapp/WEB-INF/applicationContext-dummyBeans.xml</config>
+		<config>src/main/webapp/WEB-INF/applicationContext-security.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

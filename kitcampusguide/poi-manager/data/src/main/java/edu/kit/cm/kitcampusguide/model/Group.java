@@ -4,83 +4,93 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A group has several members hat have a specific role in the group.
+ * A group has several members that have a specific role in the group.
  * 
  * @author Roland Steinegger, Karlsruhe Institute of Technology
  */
 public class Group {
 
-	private final List<MemberToGroupMapping> memberMappings = new ArrayList<MemberToGroupMapping>();
+    private final List<MemberToGroupMapping> memberMappings = new ArrayList<MemberToGroupMapping>();
 
-	private String name = null;
+    private String name = null;
 
-	public List<MemberToGroupMapping> getMemberMappings() {
+    public List<MemberToGroupMapping> getMemberMappings() {
 
-		return new ArrayList<MemberToGroupMapping>(this.memberMappings);
-	}
+        return new ArrayList<MemberToGroupMapping>(this.memberMappings);
+    }
 
-	public void setMemberMappings(List<MemberToGroupMapping> members) {
-		for (MemberToGroupMapping memberMapping : new ArrayList<MemberToGroupMapping>(this.memberMappings)) {
-			removeMemberMapping(memberMapping);
-		}
-		this.memberMappings.clear();
-		for (MemberToGroupMapping memberMapping : this.memberMappings) {
-			addMemberMapping(memberMapping);
-		}
-	}
+    public void setMemberMappings(List<MemberToGroupMapping> members) {
+        for (MemberToGroupMapping memberMapping : new ArrayList<MemberToGroupMapping>(this.memberMappings)) {
+            removeMemberMapping(memberMapping);
+        }
+        this.memberMappings.clear();
+        for (MemberToGroupMapping memberMapping : this.memberMappings) {
+            addMemberMapping(memberMapping);
+        }
+    }
 
-	public String getName() {
+    public String getId() {
 
-		return this.name;
-	}
+        return this.name;
+    }
 
-	public void setName(String name) {
+    public void setId(String id) {
 
-		this.name = name;
-	}
+        this.name = id;
+    }
 
-	public void addMemberMapping(MemberToGroupMapping memberMapping) {
+    public String getName() {
 
-		if (!this.memberMappings.contains(memberMapping)) {
-			this.memberMappings.add(memberMapping);
-			if (memberMapping.getMember() != null) {
-				memberMapping.getMember().addGroupMapping(memberMapping);
-			}
-		}
-	}
+        return this.name;
+    }
 
-	public void removeMemberMapping(MemberToGroupMapping memberMapping) {
+    public void setName(String name) {
 
-		if (this.memberMappings.contains(memberMapping)) {
-			this.memberMappings.remove(memberMapping);
-			if (memberMapping.getMember() != null) {
-				memberMapping.getMember().removeGroupMappingFor(this);
-			}
-		}
-	}
+        this.name = name;
+    }
 
-	public void removeMemberMappingFor(Member member) {
+    public void addMemberMapping(MemberToGroupMapping memberMapping) {
 
-		for (MemberToGroupMapping mapping : new ArrayList<MemberToGroupMapping>(this.memberMappings)) {
-			if (mapping.getMember().equals(member)) {
-				this.memberMappings.remove(mapping);
-				break;
-			}
-		}
-	}
+        if (!this.memberMappings.contains(memberMapping)) {
+            this.memberMappings.add(memberMapping);
+            if (memberMapping.getMember() != null) {
+                memberMapping.getMember().addGroupMapping(memberMapping);
+            }
+        }
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		boolean equality;
-		if (obj == null) {
-			equality = false;
-		} else if (super.equals(obj)) {
-			equality = true;
-		} else if (obj instanceof Group && ((Group) obj).getName().equals(this.name)) {
-			equality = true;
-		} else {
-			equality = false;
-		}
-		return equality;
-	}
+    public void removeMemberMapping(MemberToGroupMapping memberMapping) {
+
+        if (this.memberMappings.contains(memberMapping)) {
+            this.memberMappings.remove(memberMapping);
+            if (memberMapping.getMember() != null) {
+                memberMapping.getMember().removeGroupMappingFor(this);
+            }
+        }
+    }
+
+    public void removeMemberMappingFor(Member member) {
+
+        for (MemberToGroupMapping mapping : new ArrayList<MemberToGroupMapping>(this.memberMappings)) {
+            if (mapping.getMember().equals(member)) {
+                this.memberMappings.remove(mapping);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean equality;
+        if (obj == null) {
+            equality = false;
+        } else if (super.equals(obj)) {
+            equality = true;
+        } else if (obj instanceof Group && ((Group) obj).getName().equals(this.name)) {
+            equality = true;
+        } else {
+            equality = false;
+        }
+        return equality;
+    }
 }

@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.stereotype.Repository;
 
-import edu.kit.cm.kitcampusguide.dao.IPoiCategoryDao;
+import edu.kit.cm.kitcampusguide.dao.PoiCategoryDao;
 import edu.kit.cm.kitcampusguide.model.POICategory;
 
 @Repository
-public class PoiCategoryDaoImpl extends PersistentEntityDaoImpl<POICategory> implements IPoiCategoryDao {
+public class PoiCategoryDaoImpl extends PersistentEntityDaoImpl<POICategory> implements PoiCategoryDao {
 
 	@Autowired
 	public PoiCategoryDaoImpl(JpaTemplate jpaTemplate) {

@@ -17,5 +17,6 @@
 		<module>webapp</module>
 		<module>service-webapp</module>
 		<module>service</module>
+		<module>security</module>
 	</modules>
 </project>

@@ -7,11 +7,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.orm.jpa.JpaTemplate;
 
-import edu.kit.cm.kitcampusguide.dao.IPersistentEntityDao;
+import edu.kit.cm.kitcampusguide.dao.PersistentEntityDao;
 import edu.kit.cm.kitcampusguide.model.AEntity;
 import edu.kit.cm.kitcampusguide.model.Entity;
 
-public abstract class PersistentEntityDaoImpl<E extends Entity> implements IPersistentEntityDao {
+public abstract class PersistentEntityDaoImpl<E extends Entity> implements PersistentEntityDao {
 
 	private Class<E> entityClass;
 
