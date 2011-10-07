@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!-- - Namespace-based OpenID configuration -->
-
 <b:beans xmlns="http://www.springframework.org/schema/security"
 	xmlns:context="http://www.springframework.org/schema/context" xmlns:b="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -13,7 +10,9 @@
 	<b:import resource="applicationContext-dummyBeans.xml" />
 
 	<debug />
-	<global-method-security pre-post-annotations="enabled" />
+	<global-method-security pre-post-annotations="enabled">
+		<expression-handler ref="expressionHandler" />
+	</global-method-security>
 
 	<http pattern="/images/*" security="none" />
 	<http pattern="/css/*" security="none" />
@@ -25,9 +24,7 @@
 			user -->
 		<intercept-url pattern="/spring_security_login" access="permitAll"
 			requires-channel="https" />
-		<intercept-url pattern="/loggedout.jsp" access="permitAll"
-			requires-channel="https" />
-		<intercept-url pattern="/logout.jsp" access="permitAll"
+		<intercept-url pattern="/logout" access="permitAll"
 			requires-channel="https" />
 		<intercept-url pattern="/pois.htm" requires-channel="http"
 			access="isAnonymous()" />
@@ -39,9 +36,8 @@
 			access="isAuthenticated()" />
 
 		<form-login />
-		<logout logout-url="/logout.jsp" logout-success-url="/loggedout.jsp"
+		<logout logout-url="/logout" logout-success-url="/pois.htm"
 			delete-cookies="JSESSIONID" />
-		<remember-me />
 	</http>
 
 	<authentication-manager alias="authenticationManager"
@@ -50,6 +46,14 @@
 	</authentication-manager>
 
 	<b:bean id="inMemoryUserDetailService"
-		class="edu.kit.cm.kitcampusguide.openid.MemberUserDetailsService"
+		class="edu.kit.cm.kitcampusguide.service.user.MemberUserDetailsService"
 		autowire="byType" />
+
+	<b:bean id="expressionHandler"
+		class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+		<b:property name="permissionEvaluator" ref="roleOfMemberInGroupEvaluator" />
+	</b:bean>
+
+	<b:bean id="roleOfMemberInGroupEvaluator"
+		class="edu.kit.cm.kitcampusguide.access.evaluate.RoleOfMemberInGroupEvaluator" />
 </b:beans>
