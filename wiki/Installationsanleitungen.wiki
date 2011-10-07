@@ -1,13 +1,18 @@
 #summary Startseite für die Einrichtung der Entwicklungsumgebung.
+#labels Phase-Implementation
 
 = Einführung =
 
-Add your content here.
+Zur Entwicklung des Projektes werden verschiedene Werkzeuge und Rahmenwerke genutzt. Auf dieser Seite sind Anleitungen verlinkt, welche bei der Einrichtung der Entwicklungsumgebung behilflich sind. Dies ist für diejenigen interessant, die das Projekt selbst kompilieren möchten. 
 
 
-= Details =
+= Übersicht über verwendete Werkzeuge =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Für Experten ist hier eine kurze Übersicht über die benötigten Werkzeuge und Rahmenwerke gegeben. Eine ausführliche Anleitung wird weiter unten gegeben.
+
+  * Der KITCampusGuide ist eine [http://www.oracle.com/technetwork/java/javase/downloads/index.html Java]-basierte Anwendung. Das Java Development Kit (JDK) in der Version 1.6 wird benötigt.
+  * Bei der Entwicklung des Projektes wird auf das Build-Werkzeug [http://maven.apache.org Apache Maven] gesetzt. 
+  * Als Entwicklungsumgebung wird hauptsächlich auf [http://eclipse.org Eclipse] eingesetzt. Eine geeignete Integration von Maven und Eclipse bietet Eclipse m2e
+  * Die Eclipse Web Tools Platform (WTP)  wird verwendet. Eine Maven-Integration von WTP ist bei Verwendung von Eclipse m2e durch m2e-wtp auf dem Eclipse Marketplace erhältlich. 
+  * Die Quellcode-Verwaltung wird durch Subversion (SVN) durchgeführt. Eine geeignetes Plug-in für Eclipse ist Subversive
+  * Das Spring-Framework wird für Dependency Injection verwendet. Die Erweiterung der Spring Tool Suite (STS) für Eclipse bietet zahlreiche Werkzeuge.  
