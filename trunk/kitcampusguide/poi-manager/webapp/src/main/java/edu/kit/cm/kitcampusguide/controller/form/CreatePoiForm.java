@@ -1,5 +1,7 @@
 package edu.kit.cm.kitcampusguide.controller.form;
 
+import java.util.Collection;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,78 +11,86 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import edu.kit.cm.kitcampusguide.model.Group;
+import edu.kit.cm.kitcampusguide.service.user.MemberService;
 import edu.kit.cm.kitcampusguide.validator.PoiValidator;
-import edu.kit.cm.kitcampusguide.ws.poi.PoiService;
-import edu.kit.cm.kitcampusguide.ws.poi.PoiServiceClient;
-import edu.kit.cm.kitcampusguide.ws.poi.type.CreateFault_Exception;
-import edu.kit.cm.kitcampusguide.ws.poi.type.CreateRequest;
+import edu.kit.cm.kitcampusguide.ws.poi.PoiFacade;
+import edu.kit.cm.kitcampusguide.ws.poi.type.CreateRequestComplexType;
+import edu.kit.cm.kitcampusguide.ws.poi.type.ExecuteFault;
+import edu.kit.cm.kitcampusguide.ws.poi.type.ExecuteRequestComplexType;
 import edu.kit.cm.kitcampusguide.ws.poi.type.Poi;
 
 @Controller
 @RequestMapping(value = "poi/create.htm")
 public class CreatePoiForm {
 
-	private static final Logger log = Logger.getLogger(CreatePoiForm.class);
+    private static final Logger log = Logger.getLogger(CreatePoiForm.class);
 
-	@Autowired
-	private PoiService poiService;
+    @Autowired
+    private PoiFacade poiFacade;
 
-	public CreatePoiForm() {
-		// autowiring constructor
-	}
+    @Autowired
+    private MemberService memberService;
 
-	public CreatePoiForm(PoiService poiService) {
-		this.poiService = poiService;
-	}
+    public CreatePoiForm() {
+        super();
+        // autowiring constructor
+    }
 
-	@RequestMapping(method = RequestMethod.GET)
-	protected String setUpForm(Model model) {
+    public CreatePoiForm(PoiFacade poiFacade, MemberService memberService) {
+        super();
+        this.poiFacade = poiFacade;
+        this.memberService = memberService;
+    }
 
-		Poi poi = new Poi();
-		model.addAttribute(poi);
+    @RequestMapping(method = RequestMethod.GET)
+    protected String setUpForm(Model model) {
+        log.debug("Setting up form for creating poi.");
 
-		return "poi/form";
-	}
+        Poi poi = new Poi();
+        model.addAttribute(poi);
 
-	@RequestMapping(method = RequestMethod.POST)
-	protected String onSubmit(@ModelAttribute Poi poi, BindingResult result, Model model) {
-		String viewName;
-		new PoiValidator().validate(poi, result);
-		if (result.hasErrors()) {
+        Collection<Group> groups = this.memberService.getGroups();
+        model.addAttribute("groups", groups);
 
-			viewName = "poi/form";
-		} else {
-			try {
+        return "poi/form";
+    }
 
-				tryToCreatePoi(poi, model);
-				viewName = "redirect:/pois.htm";
-			} catch (CreateFault_Exception e) {
+    @RequestMapping(method = RequestMethod.POST)
+    protected String onSubmit(@ModelAttribute Poi poi, BindingResult result, Model model) {
+        log.debug("Create request for poi. Data: " + poi);
+        String viewName;
+        new PoiValidator().validate(poi, result);
+        if (result.hasErrors()) {
 
-				handleCreateException(model, e);
-				viewName = "poi/form";
-			}
-		}
+            viewName = "poi/form";
+        } else {
+            try {
 
-		return viewName;
-	}
+                tryToCreatePoi(poi, model);
+                viewName = "redirect:/pois.htm";
+            } catch (ExecuteFault e) {
 
-	private void handleCreateException(Model model, CreateFault_Exception e) {
-		log.error("Error while creating POI.", e);
-		model.addAttribute("faultMessage", "error.creatingPoi");
-	}
+                handleCreateException(model, e);
+                viewName = "poi/form";
+            }
+        }
 
-	private void tryToCreatePoi(Poi poi, Model model) throws CreateFault_Exception {
-		CreateRequest createRequest = new CreateRequest();
-		createRequest.setPoi(poi);
-		getServiceClient().create(createRequest);
-		model.addAttribute("successMessage", "success.creatingPoi");
-	}
+        return viewName;
+    }
 
-	private PoiService getServiceClient() {
-		if (this.poiService != null) {
-			return this.poiService;
-		} else {
-			return new PoiServiceClient().getPoiServiceSOAP();
-		}
-	}
+    private void handleCreateException(Model model, ExecuteFault e) {
+        log.error("Error while creating POI.", e);
+        model.addAttribute("faultMessage", "error.creatingPoi");
+    }
+
+    private void tryToCreatePoi(Poi poi, Model model) throws ExecuteFault {
+        CreateRequestComplexType createRequest = new CreateRequestComplexType();
+        createRequest.setPoi(poi);
+        ExecuteRequestComplexType executeRequest = new ExecuteRequestComplexType();
+        executeRequest.addRequest(createRequest);
+        poiFacade.execute(executeRequest);
+        model.addAttribute("successMessage", "success.creatingPoi");
+    }
+
 }

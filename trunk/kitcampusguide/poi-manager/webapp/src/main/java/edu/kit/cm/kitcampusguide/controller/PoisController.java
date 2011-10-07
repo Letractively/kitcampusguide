@@ -1,7 +1,5 @@
 package edu.kit.cm.kitcampusguide.controller;
 
-import java.util.ArrayList;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,79 +9,78 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.kit.cm.kitcampusguide.controller.form.UpdatePoiForm;
-import edu.kit.cm.kitcampusguide.ws.poi.PoiService;
-import edu.kit.cm.kitcampusguide.ws.poi.PoiServiceClient;
-import edu.kit.cm.kitcampusguide.ws.poi.type.DeleteFault_Exception;
-import edu.kit.cm.kitcampusguide.ws.poi.type.DeleteRequest;
+import edu.kit.cm.kitcampusguide.ws.poi.PoiFacade;
+import edu.kit.cm.kitcampusguide.ws.poi.type.DeleteRequestComplexType;
+import edu.kit.cm.kitcampusguide.ws.poi.type.ExecuteFault;
+import edu.kit.cm.kitcampusguide.ws.poi.type.ExecuteRequestComplexType;
 import edu.kit.cm.kitcampusguide.ws.poi.type.Names;
-import edu.kit.cm.kitcampusguide.ws.poi.type.SelectRequest;
+import edu.kit.cm.kitcampusguide.ws.poi.type.SelectRequestComplexType;
+import edu.kit.cm.kitcampusguide.ws.poi.type.SelectResponseComplexType;
 
 @Controller
 public class PoisController {
 
-	private static final Logger log = Logger.getLogger(UpdatePoiForm.class);
+    private static final Logger log = Logger.getLogger(UpdatePoiForm.class);
 
-	@Autowired
-	private PoiService poiService;
+    @Autowired
+    private PoiFacade poiFacade;
 
-	public PoisController() {
-		// autowiring constructor
-	}
+    public PoisController() {
+        super();
+        // autowiring constructor
+    }
 
-	public PoisController(PoiService poiService) {
-		this.poiService = poiService;
-	}
+    public PoisController(PoiFacade poiFacade) {
+        super();
+        this.poiFacade = poiFacade;
+    }
 
-	@RequestMapping("pois.htm")
-	public String setUpPoiList(Model model) throws Exception {
-		PoiService serviceClient = getServiceClient();
+    @RequestMapping("pois.htm")
+    public String setUpPoiList(Model model) throws Exception {
+        log.debug("Request for pois.");
+        SelectRequestComplexType selectRequest = new SelectRequestComplexType();
+        Names names = new Names();
+        names.getName().add("%");
+        selectRequest.setFindByNamesLike(names);
+        final ExecuteRequestComplexType executeRequest = new ExecuteRequestComplexType();
+        executeRequest.addRequest(selectRequest);
+        model.addAttribute("pois", ((SelectResponseComplexType) poiFacade.execute(executeRequest)
+                .getCreateResponsesOrReadResponsesOrUpdateResponses().get(0)).getPoi());
 
-		SelectRequest selection = new SelectRequest();
-		Names names = new Names();
-		names.setName(new ArrayList<String>());
-		names.getName().add("%");
-		selection.setFindByNamesLike(names);
-		model.addAttribute("pois", serviceClient.select(selection).getPoi());
+        return "poi/list";
+    }
 
-		return "poi/list";
-	}
+    @RequestMapping(value = "poi/{uid}/delete.htm")
+    public ModelAndView deletePoi(@PathVariable Integer uid) {
+        log.debug("Delete request for poi with id " + uid);
+        ModelAndView mv = new ModelAndView("redirect:/pois.htm");
 
-	@RequestMapping(value = "poi/{uid}/delete.htm")
-	public ModelAndView deletePoi(@PathVariable Integer uid) {
-		ModelAndView mv = new ModelAndView("redirect:/pois.htm");
+        try {
 
-		try {
+            tryToDeletePoiWithId(uid, mv);
+        } catch (ExecuteFault ex) {
 
-			tryToDeletePoiWithId(uid, mv);
-		} catch (DeleteFault_Exception ex) {
+            handleErrorWhileDeletingPoi(mv, ex);
+        }
 
-			handleErrorWhileDeletingPoi(mv, ex);
-		}
+        return mv;
+    }
 
-		return mv;
-	}
+    private void handleErrorWhileDeletingPoi(ModelAndView mv, ExecuteFault ex) {
+        log.error("Poi could not be deleted", ex);
+        mv.addObject("faultMessage", "error.deletingPoi");
+    }
 
-	private void handleErrorWhileDeletingPoi(ModelAndView mv, DeleteFault_Exception ex) {
-		log.error("Poi could not be deleted", ex);
-		mv.addObject("faultMessage", "error.deletingPoi");
-	}
+    private void tryToDeletePoiWithId(Integer uid, ModelAndView mv) throws ExecuteFault {
+        DeleteRequestComplexType deleteRequest = new DeleteRequestComplexType();
+        deleteRequest.setId(uid);
+        ExecuteRequestComplexType executeRequest = new ExecuteRequestComplexType();
+        executeRequest.addRequest(deleteRequest);
+        poiFacade.execute(executeRequest);
+        mv.addObject("successMessage", "success.deletingPoi");
+    }
 
-	private void tryToDeletePoiWithId(Integer uid, ModelAndView mv) throws DeleteFault_Exception {
-		DeleteRequest deleteRequest = new DeleteRequest();
-		deleteRequest.setId(uid);
-		getServiceClient().delete(deleteRequest);
-		mv.addObject("successMessage", "success.deletingPoi");
-	}
-
-	private PoiService getServiceClient() {
-		if (this.poiService != null) {
-			return this.poiService;
-		} else {
-			return new PoiServiceClient().getPoiServiceSOAP();
-		}
-	}
-
-	public void setPoiService(PoiService poiService) {
-		this.poiService = poiService;
-	}
+    public void setPoiService(PoiFacade poiFacade) {
+        this.poiFacade = poiFacade;
+    }
 }
