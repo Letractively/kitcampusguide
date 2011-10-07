@@ -7,7 +7,7 @@ Auf diesen Wiki-Seiten befinden sich alle Informationen über die Entwicklung de
 
 = Informationen für neue Entwickler =
 
-Zur Entwicklung des Projektes werden verschiedene Werkzeuge und Rahmenwerke genutzt. Die Installationsanweisungen beinhalten Anleitungen zur Einrichtung der Entwicklungsumgebung. Dies ist für diejenigen interessant, die das Projekt selbst kompilieren möchten. Neue Entwickler sind dazu aufgefordert, ihre Entwicklungsumgebung entsprechend einzurichten.
+Zur Entwicklung des Projektes werden verschiedene Werkzeuge und Rahmenwerke genutzt. Die Installationsanleitungen beinhalten Anleitungen zur Einrichtung der Entwicklungsumgebung. Dies ist für diejenigen interessant, die das Projekt selbst kompilieren möchten. Neue Entwickler sind dazu aufgefordert, ihre Entwicklungsumgebung entsprechend einzurichten.
 
 Für neue Entwickler ebenfalls interessant sind die Arbeitsweisen und Konventionen, welche bei der Entwicklung an dem Projekt und im Umgang mit den eingesetzten Werkzeugen und Rahmenwerken einzuhalten sind. 
 
