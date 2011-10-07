@@ -5,6 +5,8 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,6 +17,12 @@
 	type="text/css" />
 </head>
 <body>
+	<div id="header">
+		<fmt:message key="theCurrentUserIs" />
+		<sec:authentication property="principal.name" />
+		<a href="<spring:url value="/logout" htmlEscape="true" />"><fmt:message
+				key="logout" /> </a>
+	</div>
 	<div class="message">
 		<c:if test="${not empty faultMessage}">
 			<div class="message fault">
@@ -27,11 +35,10 @@
 			</div>
 		</c:if>
 	</div>
-	<fieldset>
+	<fieldset id="content">
 		<legend>
 			<fmt:message key="poisTitle" />
 		</legend>
-
 		<table>
 			<tr class="poi header">
 				<th class="uid field title"><fmt:message key="uid" /></th>
@@ -42,6 +49,13 @@
 				</th>
 				<th class="latitude field title"><fmt:message key="latitude" />
 				</th>
+				<th class="publicly field title"><fmt:message key="publicly" />
+				</th>
+				<th class="groupIds field title"><fmt:message key="groupIds" />
+				</th>
+				<th class="poiFunctions field title"><fmt:message
+						key="poiFunctions" />
+				</th>
 			</tr>
 			<c:forEach var="poi" items="${pois}">
 				<tr class="poi">
@@ -50,6 +64,8 @@
 					<td class="description field">${poi.description}</td>
 					<td class="longitude field">${poi.longitude}</td>
 					<td class="latitude field">${poi.latitude}</td>
+					<td class="publicly field">${poi.publicly}</td>
+					<td class="groupIds field">${poi.groupIds.id}</td>
 					<td class="poiFunctions"><a href="poi/${poi.uid}/update.htm">update</a>
 						<a href="poi/${poi.uid}/delete.htm">delete</a>
 					</td>
