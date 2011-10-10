@@ -3,6 +3,6 @@
     * [Installation_JDK Installation von Java]
     * [Installation_Eclipse Installation von Eclipse]
     * [Installation_WTP Installation der Eclipse Web Tools Platform-Erweiterungen]
-    * [Installation_Eclipse_m2e Installation der Maven-Integration für Eclipse]
+    * [Installation_Eclipse_m2e Installation der Maven-Integration für Eclipse (Eclipse m2e)]
     * [Installation_m2e_wtp Installation der WTP-Unterstützung für Eclipse m2e]
     * [Installation_Subversive Installation des SVN-Klientes Eclipse Subversive]
