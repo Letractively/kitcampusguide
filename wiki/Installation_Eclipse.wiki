@@ -4,7 +4,7 @@
 = Installation von Eclipse =
 
 == Voraussetzungen für die Installation ==
-Eclipse benötigt eine Java Runtime Environment (JRE) in der Version 1.4.1 oder höher [DF+04:11]. Da das JRE im Java Development Kit (JDK) enthalten ist und [Installation_JDK automatisch bei der Installation des JDK konfiguriert wird], ist diese Bedingung durch das Installieren des JDK erfüllt. Diese Konfiguration kann durch das Eingeben von Parametern beim Starten von Eclipse geändert werden, wenn z.B. schon eine Version der JRE installiert ist. Es wird empfohlen, mit den neuesten Versionen des JRE und JDK zu arbeiten. 
+Eclipse benötigt eine Java Runtime Environment (JRE) in der Version 1.4.1 oder höher `[`DF+04:11`]`. Da das JRE im Java Development Kit (JDK) enthalten ist und [Installation_JDK automatisch bei der Installation des JDK konfiguriert wird], ist diese Bedingung durch das Installieren des JDK erfüllt. Diese Konfiguration kann durch das Eingeben von Parametern beim Starten von Eclipse geändert werden, wenn z.B. schon eine Version der JRE installiert ist. Es wird empfohlen, mit den neuesten Versionen des JRE und JDK zu arbeiten. 
 
 == Basisinstallation von Eclipse ==
   # Eclipse basiert auf Java und ist dadurch auch plattformunabhängig. Die richtige Version für das installierte Betriebssystem ist herunterzuladen. Es wird die Version auf der 32bit-Architektur empfohlen, da diese stabiler ist. Die Architektur (32bit/64bit) von Eclipse muss mit der Version des JDK übereinstimmen, um mögliche Probleme beim Ausführen zu verhindern.
