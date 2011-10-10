@@ -1,16 +1,17 @@
 #summary Installationsanleitung für die Eclipse m2e Erweiterung m2e-wtp.
+#labels Phase-Implementation,Installation,Eclipse,WTP,WebToolsPlatform,Maven,m2e,m2e-wtp
 
 = Installation von Eclipse m2e-wtp =
 
 Für die Maven-Integration von Eclipse WTP-Projekten muss zusätzlich noch die Erweiterung m2e-wtp installiert werden.
 
 == Voraussetzungen ==
-  *[Installation_Eclipse Eine funktionierende Grundinstallation von Eclipse]
-  *[Installation_WTP Die Erweiterungen der Eclipse Web Tools Platform (WTP) ] 
+  * [Installation_Eclipse Eine funktionierende Grundinstallation von Eclipse]
+  * [Installation_WTP Die Erweiterungen der Eclipse Web Tools Platform (WTP)] 
 
 == Details ==
   # Öffnen des Eclipse Marktplatz mittles des Menus "Hilfe->Eclipse Marketplace"
-  # Eingabe des Suchbegriffes "m2e-wtp" im Suchfeld
+  # Eingabe des Suchbegriffes "m2e-wtp" im Suchfeld und Betätigung des "Go"-Buttons
   # Installation der "Maven Integration for Eclipse WTP" durch die Betätigung des "Install"-Buttons
   # Bestätigung der zu installierenden Erweiterung
   # 
