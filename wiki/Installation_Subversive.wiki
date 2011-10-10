@@ -1,0 +1,34 @@
+#summary Installationsanleitung für die Eclipse Subversive.
+#labels Phase-Implementation,Eclipse,Subversion,Subversion,SVN
+
+= Installation des SVN-Klienten Eclipse Subversive =
+
+== Voraussetzungen ==
+
+Eine existierende [Installation_Eclipse Installation der Eclipse Version für Java Developer].
+
+== Installation ==
+
+  # Öffnen der Eclipse-Entwicklungsumgebung
+  # Öffnen des Plug-In Managers unter "Hilfe->Installation neuer Software..."
+  # Auswahl von "Alle verfügbaren Seiten" aus dem Auswahlfeld "Arbeiten mit"
+  # Öffnen des Punktes "Collaboration"
+  # Auswahl der Subversive-Pakete: 
+    *"Subversive SVN Team Provider" , 
+    *"Subversive Revision Graph"
+    *"Subversive Integration for Mylyn Project"
+  # Betätigung mit "Weiter"
+  # Bestätigung der Analyse von Paketabhängigkeiten mit "Weiter"
+  # Annahme der Lizenzbestimmungen
+  # Bestätigung der Installation
+  # Neustart von Eclipse
+  # Beim Neustart öffnet sich eine Fenster zur Installation von Subversive-Konnektoren
+  # Auswahl von "SVN Kit 1.3.5"
+  # Bestätigung mit "Finish"
+  # Überprüfung der zu installierenden Pakete und Bestätigung mit "Weiter"
+  # Akzeptieren der Lizenzbestimmungen mit "Weiter"
+  # Installation der Konnektoren und Neustart der Eclipse-Umgebung
+
+== Nächste Schritte ==
+  * [Konfiguration_SVN-Klient Einrichtung des Zuganges zum SVN des KITCampusGuides]
+  * [Installation_Eclipse_m2e Installation von Maven Integration für Eclipse].
