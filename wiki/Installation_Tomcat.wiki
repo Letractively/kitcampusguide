@@ -14,3 +14,6 @@ Eclipse bietet direkt die Möglichkeit Tomcat herunterzuladen und zu "installier
 Und durch einen Klick auf Weiter erhält man die Möglichkeit Tomcat herunterladen und installieren zu lassen.
 
 <img src="http://kitcampusguide.googlecode.com/svn/wiki/Tomcat.wiki-Bilder/eclipse_settings_target_runtime_download_install_tomcat6-11-06-20-steinegger.png" alt="Tomcat Installation durch Eclipse" width="60%"/>
+
+== Weitere Schritte ==
+  * [Konfiguration_Tomcat Konfiguration von Tomcat]
