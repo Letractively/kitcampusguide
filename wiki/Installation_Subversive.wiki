@@ -30,5 +30,5 @@ Eine existierende [Installation_Eclipse Installation der Eclipse Version für Ja
   # Installation der Konnektoren und Neustart der Eclipse-Umgebung
 
 == Nächste Schritte ==
-  * [Konfiguration_SVN-Klient Einrichtung des Zuganges zum SVN des KITCampusGuides]
+  * [Konfiguration_SVN_Klient Einrichtung des Zuganges zum SVN des KITCampusGuides]
   * [Installation_Eclipse_m2e Installation von Maven Integration für Eclipse].
