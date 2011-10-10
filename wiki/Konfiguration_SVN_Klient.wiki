@@ -1,0 +1,20 @@
+#summary Konfiguration des SVN-Zugangs.
+#labels Phase-Implementation,Konfiguration,SVN,Subversion
+
+= Konfiguration des SVN-Zuganges =
+
+== Voraussetzungen ==
+Eine vorhandener SVN-Client bspw. als [Installation_Subversive Plug-in in Eclipse]. 
+  
+== Konfiguration ==
+  # Öffnen der "SVN Repository Exploring" Perspektive über das Menu "Fenster->Öffne Perspektive->Weitere..."
+  # Hinzufügen des KITCampusGuide-SVNs durch die Schaltfläche "SVN-Ablage hinzufügen" im der "SVN Repositories"-Ansicht
+  # Die Angaben für die Konfiguration des SVN-Zugangs sind unter [http://code.google.com/p/kitcampusguide/source/checkout] einsehbar.
+  # Bestätigung der Eingaben mittels "Finish"
+ 
+== Nächste Schritte ==
+* Checkout des Quellcodes
+
+----
+*Abkürzungen*
+  * SVN - Subversion
