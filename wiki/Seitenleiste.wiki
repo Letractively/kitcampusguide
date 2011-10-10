@@ -1,0 +1,4 @@
+#summary Seitenleiste zur Navigation im Wiki
+ *[Installationsanleitungen]
+    *[Installation_JDK Installation von Java]
+    *[Installation_Eclipse Installation von Eclipse]
