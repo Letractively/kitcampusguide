@@ -10,7 +10,7 @@ Zur Entwicklung des Projektes werden verschiedene Werkzeuge und Rahmenwerke genu
 Für erfahrene Entwickler ist hier eine kurze Übersicht über die benötigten Werkzeuge und Rahmenwerke gegeben. Eine ausführliche Anleitung zur Installation der einzelnen Rahmenwerke erfolgt auf den verknüpften Wiki-Seiten.
 
   * Der KITCampusGuide ist eine [http://www.oracle.com/technetwork/java/javase/downloads/index.html Java]-basierte Anwendung. Das Java Development Kit (JDK) in der Version 1.6 oder höher wird benötigt ([Installation_JDK Installationsanleitung für Java]).
-  * Bei der Entwicklung des Projektes wird auf das Build-Werkzeug [http://maven.apache.org Apache Maven] gesetzt, welches [Installation_Maven eigenständig] oder durch eine Integration in die Entwicklungsumgebung installiert werden kann.
+  * Bei der Entwicklung des Projektes wird auf das Build-Werkzeug [http://maven.apache.org Apache Maven] gesetzt, welches [Installation_Maven eigenständig] oder durch eine [Installation_Eclipse_m2e Integration in die Entwicklungsumgebung] installiert werden kann.
   * Als Entwicklungsumgebung (IDE) wird hauptsächlich [http://eclipse.org Eclipse] eingesetzt. Es wird zunächst eine [Installation_Eclipse Grundinstallation] der Eclipse-IDE für Java-Entwickler empfohlen, welche anschließend durch Installation benötigter Plug-ins erweitert wird.
   * Eine Integration von Maven und Eclipse bietet das Eclipse-Plug-in [http://www.eclipse.org/m2e/ Eclipse m2e] ([Installation_Eclipse_m2e Installationsanleitung von Eclipse m2e]).
   * Die Eclipse-Erweiterung [http://www.eclipse.org/webtools/ Eclipse Web Tools Platform (WTP)] wird hauptsächlich für die Entwicklung der Web-Anwendung verwendet ([Installation_WTP Installationsanleitung für Eclipse WTP]). 
