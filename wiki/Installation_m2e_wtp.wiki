@@ -20,4 +20,4 @@ Für die Maven-Integration von Eclipse WTP-Projekten muss zusätzlich noch die E
 
 ----
 *Abkürzungen*
-  *WTP - Web Tools Platform 
+  * WTP - Web Tools Platform 
