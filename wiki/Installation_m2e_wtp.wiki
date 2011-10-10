@@ -8,6 +8,7 @@ Für die Maven-Integration von Eclipse WTP-Projekten muss zusätzlich noch die E
 == Voraussetzungen ==
   * [Installation_Eclipse Eine funktionierende Grundinstallation von Eclipse]
   * [Installation_WTP Die Erweiterungen der Eclipse Web Tools Platform (WTP)] 
+  * [Installation_Eclipse_m2e Eclipse-Erweiterung Maven-Integration für Eclipse (Eclipse m2e)]
 
 == Details ==
   # Öffnen des Eclipse Marktplatz mittles des Menus "Hilfe->Eclipse Marketplace"
