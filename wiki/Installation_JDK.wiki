@@ -13,6 +13,7 @@ Das Java Development Kit (JDK) ist ein Software Development Kit (SDK), mit dem [
   # Das JDK-Installationsprogramm sorgt dafür, dass die Dateien in die richtigen Ordner kopiert werden und konfiguriert zugleich auch Windows für die Benutzung des JDK und JRE (z.B. Setzen der Umgebungsvariable "PATH"; siehe in Windows 7 mittels "Start" -> "Systemsteuerung" -> "System und Sicherheit" -> "System" -> "Erweiterte Systemeinstellungen" -> "Umgebungsvariablen"). Es wird die Möglichkeit angeboten, den Zielordner zu ändern, wobei die Benutzung des Standardordners empfohlen wird.
   # In dem JDK ist auch das JRE (Java Runtime Environment) beinhaltet. Das JRE ist die Virtuelle Maschine, die das plattformunabhängige Ausführen von Programmen in Java ermöglicht. Um Java-Programme ausführen zu können, muss auf dem Zielsystem eine Version der JRE vorhanden sein, die die notwendigen Funktionalitäten bereitstellt. Zum Beispiel benötigt Eclipse die JRE 1.4.1 oder höher, um lauffähig zu sein. [DF+04:11].
 
+==Nächste Schritte==
 Nach der Installation von Java kann als [Installation_Eclipse nächstes die Entwicklungsumgebung Eclipse installiert werden]. 
 ----
 *Abkürzungen*
