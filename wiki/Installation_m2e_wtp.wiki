@@ -13,8 +13,9 @@ Für die Maven-Integration von Eclipse WTP-Projekten muss zusätzlich noch die E
   # Öffnen des Eclipse Marktplatz mittles des Menus "Hilfe->Eclipse Marketplace"
   # Eingabe des Suchbegriffes "m2e-wtp" im Suchfeld und Betätigung des "Go"-Buttons
   # Installation der "Maven Integration for Eclipse WTP" durch die Betätigung des "Install"-Buttons
-  # Bestätigung der zu installierenden Erweiterung
-  # 
+  # Bestätigung der zu installierenden Erweiterung mit "Weiter"
+  # Akzeptieren der Lizenzbedingungen
+  # Installation und Neustart der Eclipse-Umgebung
 
 == Nächste Schritte ==
 
