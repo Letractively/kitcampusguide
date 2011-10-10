@@ -14,11 +14,11 @@ Das Java Development Kit (JDK) ist ein Software Development Kit (SDK), mit dem [
   # In dem JDK ist auch das JRE (Java Runtime Environment) beinhaltet. Das JRE ist die Virtuelle Maschine, die das plattformunabhängige Ausführen von Programmen in Java ermöglicht. Um Java-Programme ausführen zu können, muss auf dem Zielsystem eine Version der JRE vorhanden sein, die die notwendigen Funktionalitäten bereitstellt. Zum Beispiel benötigt Eclipse die JRE 1.4.1 oder höher, um lauffähig zu sein. [DF+04:11].
 
 Nach der Installation von Java kann als [Installation_Eclipse nächstes die Entwicklungsumgebung Eclipse installiert werden]. 
-
+----
 *Abkürzungen*
-JDK - Java Development Kit
-JRE -  Java Runtime Environment
-SDK - Software Development Kit
+  *JDK - Java Development Kit
+  *JRE -  Java Runtime Environment
+  *SDK - Software Development Kit
 
 *Referenzen*
-[DF+04] Jim D'Anjou, Scott Fairbrother, Dan Kehn, John Kellerman, Pat McCarthy: [http://www.ubka.uni-karlsruhe.de/hylib-bin/suche.cgi?opacdb=UBKA_OPAC&nd=284303542&session=779876614 The Java Developer's Guide to Eclipse]. Addison-Wesley, 2004.
+  * `[`DF+04`]`- Jim D'Anjou, Scott Fairbrother, Dan Kehn, John Kellerman, Pat McCarthy: [http://www.ubka.uni-karlsruhe.de/hylib-bin/suche.cgi?opacdb=UBKA_OPAC&nd=284303542&session=779876614 The Java Developer's Guide to Eclipse]. Addison-Wesley, 2004.
