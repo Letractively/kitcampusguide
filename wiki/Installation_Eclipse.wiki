@@ -13,7 +13,7 @@ Eclipse benötigt eine Java Runtime Environment (JRE) in der Version 1.4.1 oder 
   # Eclipse kann durch das Ausführen von Eclipse.exe gestartet werden. Mit Hilfe der Eingabeaufforderung oder durch Erstellen eines Shortcuts mit Parametereingabe lässt sich Eclipse konfigurieren. Man kann Eclipse eine andere JRE benutzen lassen, indem man auf die gewünschte Virtuelle Maschine zeigt (z.B. durch das Aufrufen in der Eingabeaufforderung: "C:\eclipse\Eclipse.exe - vm c:\jdk142\bin\javaw.exe"). Eine [http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.user/tasks/running_eclipse.htm Übersicht über die Startparameter] befindet sich in der [http://help.eclipse.org/indigo/index.jsp Eclipse Hilfe].
   # Für Eclipse ist ein Workspace (Arbeitsbereich) eine logische Ansammlung von Projekten. Ein Workspace ist ein Verzeichnis auf der Festplatte oder einem USB-Stick, in dem Eclipse die Projekte speichert, die man erstellt. Man kann Eclipse auch einen anderen Workspace benutzen lassen, indem man auf den gewünschten Ordner zeigt (z.B. durch das Aufrufen von der Eingabeaufforderung: "C:\eclipse\Eclipse.exe -data c:\mein-Eclipse-workspace"). Auch aus der IDE heraus ist es möglich, den Workspace zu ändern ("File" -> "Set Workspace").
 
-= Nächste Installationsschritte =
+== Nächste Installationsschritte ==
 Nach der Basisinstallation muss Eclipse für die Entwicklung des KITCampusGuides durch [Installation_Eclipse_Plug-ins weitere Plug-ins erweitert werden]. Eine wichtiges Plug-in ist die [Installation_WTP Web Tools Platform (WTP)].
 
 ----
