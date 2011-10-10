@@ -1,0 +1,8 @@
+#summary Eine Übersicht nützlicher Eclipse-Plug-ins.
+
+= Übersicht nützlicher Eclipse-Plug-ins =
+
+  * [Installation_Subversive Subversive] SVN-Klient zum Zugang zur Quellcodeverwaltung
+  * [Installation_WTP Web Tools Platform (WTP)] zur Unterstützung bei der Entwicklung von Java EE-basierten Web-Anwendungen
+  * [Installation_Eclipse_m2e Maven Integration for Eclipse (Eclipse m2e)] zur Integration von Maven und Eclipse
+  * [Installation_m2e_wtp Eclipse m2e-Erweiterung m2e-wtp] zur Maven-Unterstützung von WTP-Projekten
