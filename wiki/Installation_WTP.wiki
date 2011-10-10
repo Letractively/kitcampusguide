@@ -1,0 +1,22 @@
+#summary Installationsanleitung für die Eclipse Web Tools Platform.
+#labels Phase-Implementation,Installation,WebToolsPlattform,WTP,Eclipse
+
+= Installation der Eclipse Web Tools Platform =
+
+== Voraussetzungen ==
+
+Eine existierende [Installation_Eclipse Installation der Eclipse Version für Java Developer].
+
+== Installation ==
+
+  # Öffnen der Eclipse-Entwicklungsumgebung
+  # Öffnen des Plug-In Managers unter "Hilfe->Installation neuer Software..."
+  # Auswahl von "Alle verfügbaren Seiten" aus dem Auswahlfeld "Arbeiten mit"
+  # Auswahl von "Web, XML, Java EE und OSGi Enterprise Development"
+  # Weiter mit der Betätigung von "Installieren"
+  # Annahme der Lizenzbestimmungen
+  # Bestätigung der Installation
+  # Neustart von Eclipse
+
+== Nächste Schritte ==
+[Installation_Subversive Installation von Subversion-Client Subversive].
