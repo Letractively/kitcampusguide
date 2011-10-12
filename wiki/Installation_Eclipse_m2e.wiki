@@ -18,6 +18,7 @@ Die Anleitung wird nur benötigt, falls mit einer vorherigen Version von Eclipse
   # Annahme der Lizenzbestimmungen
   # Bestätigung der Installation
   # Neustart von Eclipse
+  # Anschließend muss über den Eclipse Marketplace noch der m2e Connector für Subversive installiert werden.
 
 == Nächste Schritte ==
 [Installation_m2e_wtp Installation der Erweiterung m2e-wtp] zur Unterstützung von WTP-Projekten mit Eclipse m2e. 
