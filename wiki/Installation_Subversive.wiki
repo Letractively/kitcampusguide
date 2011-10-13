@@ -22,7 +22,7 @@ Eine existierende [Installation_Eclipse Installation der Eclipse Version für Ja
   # Annahme der Lizenzbestimmungen
   # Bestätigung der Installation
   # Neustart von Eclipse
-  # Beim Neustart öffnet sich eine Fenster zur Installation von Subversive-Konnektoren
+  # Beim Neustart öffnet sich eine Fenster zur Installation von Subversive-Konnektoren.
   # Auswahl von "SVN Kit 1.3.5"
   # Bestätigung mit "Finish"
   # Überprüfung der zu installierenden Pakete und Bestätigung mit "Weiter"
