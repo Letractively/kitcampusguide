@@ -1,0 +1,34 @@
+#summary Installation des Mylyn-Konnektors für Google Code.
+#labels Installation,Phase-Implementation,Eclipse,Mylyn,GoogleCode
+
+= Installation des Konnektors für Google Code für Eclipse Mylyn =
+
+== Voraussetzung ==
+  * [Installation_Eclipse Basisinstallation von Eclipse]
+  * [Installation_Eclipse_Mylyn Eclipse-Plug-in Mylyn Task-Manager]
+
+== Installation ==
+  # Öffnen der Eclipse-Entwicklungsumgebung
+  # Öffnen des Plug-In Managers unter "Hilfe->Installation neuer Software..."
+  # Eintrag von "http://download.eclipse.org/mylyn/incubator/3.6" (Wenn Mylyn 3.6 installiert ist)  in dem Auswahlfeld "Arbeiten mit" und Bestätigung mit Enter-Taste
+  #  Öffnen der Menupunktes "Mylyn Incubator" und Auswahl der Plug-ins "Mylyn Tasks Connector: Web Templates (Advanced)"
+  # Weiter mit der Betätigung von "Installieren"
+  # Annahme der Lizenzbestimmungen
+  # Bestätigung der Installation
+  # Neustart von Eclipse
+
+== Konfiguration ==
+  # In der geöffneten Eclipse-Umgebung die Perspektive "Task Repositories" öffnen ("Fenster"->"Ansicht"->"Andere")
+  # In der "Task Repositories"-Ansicht eines neue Repository hinzufügen (Rechtklick->"Repository Hinzufügen"
+  # "Web Template (Advanced)" auswählen und mit "Weiter" bestätigen
+  # Unter der "Server"-Auswahlbox die Option "Eclipse Outliner (Google Code)" auswählen.
+  # Anpassung der Server-URL durch "http://code.google.com/p/kitcampusguide/issues"
+  # Optional kann die Benennung des Repositories geändert werden, z.B. "KITCampusGuide (Google Code)"
+  # Nach der Bestätigung kann eine erste Suchanfrage an das Issues-Tracking-System von Google Code gestellt werden. Die Standardanfrage holt alle Aufgaben bzw. Issues aus dem Tracking-System.
+
+== Nächste Schritte ==
+  * [Konfiguration_Mylyn_Google_Code_Task_Filter Spezifische Filterung der Mylyn-Taskliste nach Aufgabe]
+  * [Installation_Eclipse_Plugins Installation eines weiteren Eclipse Plug-ins]
+----
+*Referenzen*
+  *Lars Vogel, [http://www.vogella.de/articles/Mylyn/article.html#d5517e132 Eclipse Mylyn - Tutorial], 14.06.2011
