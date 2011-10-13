@@ -1,0 +1,23 @@
+#summary Installationanleitung für den Eclipse m2e-subversive Konnektor.
+
+= Installationanleitung für den Eclipse m2e-subversive Konnektor =
+
+== Voraussetzung ==
+  * Bestehende Installation von Eclipse m2e
+  * Bestehende Installation von Eclipse Subversive SVN-Klient
+
+== Installation ==
+  # Öffnen der Eclipse-Entwicklungsumgebung
+  # Öffnen des Menus "Datei"->"Importieren..."
+  # Auswahl von "Maven"->"Check out Maven Project from SCM", Bestätigung mit "Weiter"
+  # Betätigung des Links "Mehr SCM-Konnektoren im m2e Marketplace" ("Find more SCM Connectors in the m2e Marketplace")
+  # Auswahl von "m2e-subversive" und Beginn der Installation mittels "Finish"
+  # Bestätigung der zu installierenden Pakete mit 2x "Weiter"
+  # Akzeptieren der Lizenz und Installation
+  # Neustart von Eclipse
+
+== Nächste Schritte ==
+  * [Installation_Eclipse_Plugins Installation eines weiteren Eclipse Plug-ins].
+----
+*Abkürzungen*
+SCM - Source Control Management
