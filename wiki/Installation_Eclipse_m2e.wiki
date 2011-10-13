@@ -9,7 +9,7 @@ In der neuste Version von Eclipse (Eclipse 3.7 Indigo) ist m2e standardmäßig i
 Die Anleitung wird nur benötigt, falls mit einer vorherigen Version von Eclipse gearbeitet wird oder m2e nicht vorhanden ist.
   * [Installation_Eclipse Eine Grundinstallation von Eclipse] 
   
-== Installation ==
+== Installation von Eclipse m2e ==
   # Öffnen der Eclipse-Entwicklungsumgebung
   # Öffnen des Plug-In Managers unter "Hilfe->Installation neuer Software..."
   # Auswahl von "Alle verfügbaren Seiten" aus dem Auswahlfeld "Arbeiten mit"
@@ -18,10 +18,11 @@ Die Anleitung wird nur benötigt, falls mit einer vorherigen Version von Eclipse
   # Annahme der Lizenzbestimmungen
   # Bestätigung der Installation
   # Neustart von Eclipse
-  # Anschließend muss über den Eclipse Marketplace noch der m2e Connector für Subversive installiert werden.
 
 == Nächste Schritte ==
-[Installation_m2e_wtp Installation der Erweiterung m2e-wtp] zur Unterstützung von WTP-Projekten mit Eclipse m2e. 
+  * [Installation_m2e_wtp Installation der Erweiterung m2e-wtp] zur Unterstützung von WTP-Projekten mit Eclipse m2e
+  * Zum [Konfiguration_Projekt_ Auschecken des Projektes] sollte der [Installation_Eclipse_m2e_subversive_connector Eclipse m2e Connector für Subversive installiert] werden
+
 ----
 *Abkürzungen*
   * WTP - Web Tools Plattform
