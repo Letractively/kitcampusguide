@@ -3,8 +3,8 @@
 = Installationanleitung für den Eclipse m2e-subversive Konnektor =
 
 == Voraussetzung ==
-  * Bestehende Installation von Eclipse m2e
-  * Bestehende Installation von Eclipse Subversive SVN-Klient
+  * [Installation_Eclipse_m2eBestehende Installation von Eclipse m2e]
+  * [Installation_Subversive Bestehende Installation von Eclipse Subversive SVN-Klient]
 
 == Installation ==
   # Öffnen der Eclipse-Entwicklungsumgebung
