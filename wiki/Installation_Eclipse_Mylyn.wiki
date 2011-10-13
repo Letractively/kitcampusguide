@@ -16,7 +16,7 @@ Mylyn ist seit Eclipse 3.7 (Indigo) fester Bestandteil in der Eclipse-Platform u
     * "Mylyn Task-Focused Interface"
     * "Mylyn Context Connector: Eclipse IDE"
     * "Mylyn Context Connector: Java Development"
-    * "Mylyn WikiText"
+    * "Mylyn `WikiText`"
   # Weiter mit der Betätigung von "Installieren"
   # Annahme der Lizenzbestimmungen
   # Bestätigung der Installation
