@@ -31,4 +31,4 @@
   * [Installation_Eclipse_Plugins Installation eines weiteren Eclipse Plug-ins]
 ----
 *Referenzen*
-  *Lars Vogel, [http://www.vogella.de/articles/Mylyn/article.html#d5517e132 Eclipse Mylyn - Tutorial], 14.06.2011
+  * Lars Vogel, [http://www.vogella.de/articles/Mylyn/article.html#d5517e132 Eclipse Mylyn - Tutorial], 14.06.2011
