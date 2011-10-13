@@ -19,5 +19,5 @@
 == Nächste Schritte ==
   * [Installation_Eclipse_Plugins Installation eines weiteren Eclipse Plug-ins].
 ----
-*Abkürzungen*
+*Abkürzungen* <br/>
 SCM - Source Control Management
