@@ -19,7 +19,7 @@ Für die Maven-Integration von Eclipse WTP-Projekten muss zusätzlich noch die E
   # Installation und Neustart der Eclipse-Umgebung
 
 == Nächste Schritte ==
-
+  * [Installation_Eclipse_Plugins Installation eines weiteren Eclipse Plug-ins]
 ----
 *Abkürzungen*
   * WTP - Web Tools Platform 
