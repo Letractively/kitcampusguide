@@ -1,0 +1,28 @@
+#summary Installationanleitung des Task-Managers Mylyn für Eclipse
+
+= Installation des Task-Managers Mylyn für Eclipse =
+
+== Voraussetzungen ==
+Mylyn ist seit Eclipse 3.7 (Indigo) fester Bestandteil in der Eclipse-Platform und sollte somit bereits in Eclipse installiert sein. Falls Mylyn nicht installiert ist, so kann die unten angegeben Anleitung zur Installation genutzt werden.
+
+  * Eine [Installation_Eclipse Eclipse-Basisinstallation]
+
+== Installation ==
+  # Öffnen der Eclipse-Entwicklungsumgebung
+  # Öffnen des Plug-In Managers unter "Hilfe->Installation neuer Software..."
+  # Auswahl von "Alle verfügbaren Seiten" aus dem Auswahlfeld "Arbeiten mit"
+  # Eingabe des Suchbegriffes "Mylyn" oder Öffnen der Menupunktes "Collaboration" und Auswahl der Plug-ins 
+    * "Mylyn Task List"
+    * "Mylyn Task-Focused Interface"
+    * "Mylyn Context Connector: Eclipse IDE"
+    * "Mylyn Context Connector: Java Development"
+    * "Mylyn WikiText"
+  # Weiter mit der Betätigung von "Installieren"
+  # Annahme der Lizenzbestimmungen
+  # Bestätigung der Installation
+  # Neustart von Eclipse
+
+== Nächste Schritte ==
+  * [Installation_Eclipse_Mylyn_Google_Code_Konnektor Verknüpfung von Mylyn mit Google Code]
+  * [Anleitung_Mylyn Einführung in die Arbeit mit Mylyn]
+  * [Anleitung_Konvention_Mylyn Konventionen im Umgang mit Mylyn]
