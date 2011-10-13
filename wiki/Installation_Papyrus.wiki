@@ -1,0 +1,24 @@
+#summary One-sentence summary of this page.
+#labels Phase-Implementation,Installation,Eclipse,UML,Papyrus
+
+= Installation des UML-Editors Papyrus für Eclipse =
+
+== Voraussetzungen ==
+
+Eine existierende [Installation_Eclipse Installation der Eclipse Version für Java Developer].
+
+== Installation ==
+  # Öffnen der Eclipse-Entwicklungsumgebung
+  # Öffnen des Plug-In Managers unter "Hilfe->Installation neuer Software..."
+  # Auswahl von "Alle verfügbaren Seiten" aus dem Auswahlfeld "Arbeiten mit"
+  # Öffnen des Punktes "Modeling"
+  # Auswahl des Plug-ins "MDT Papyrus"
+  # Betätigung mit "Weiter"
+  # Bestätigung der Analyse von Paketabhängigkeiten mit "Weiter"
+  # Annahme der Lizenzbestimmungen
+  # Bestätigung der Installation
+  # Neustart von Eclipse
+
+== Nächste Schritte ==
+  * [Modellierung_Einfuehrung_Papyrus Einführung in die UML-Modellierung mit Papyrus]
+  * [Installation_Eclipse_Plugins Installation eines weiteren Eclipse Plug-ins].
