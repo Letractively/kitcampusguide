@@ -9,4 +9,6 @@
       * [Installation_m2e_wtp Installation der WTP-Unterstützung für Eclipse m2e]
       * [Installation_Eclipse_m2e_subversive_connector Installation des SVN-Konnektors für Eclipse m2e]
       * [Installation_Subversive Installation des SVN-Klientes Eclipse Subversive]
+      * [Installation_Eclipse_Mylyn Installation des Task-Managers Mylyn für Eclipse]
+      * [Installation_Eclipse_Mylyn_Google_Connector Installation des Mylyn-Konnektor für Google Code] 
     * [Installation_Tomcat Installation des Servlet-Containers Apache Tomcat]
