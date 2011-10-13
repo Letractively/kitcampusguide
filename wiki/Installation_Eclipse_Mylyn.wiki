@@ -23,7 +23,7 @@ Mylyn ist seit Eclipse 3.7 (Indigo) fester Bestandteil in der Eclipse-Platform u
   # Neustart von Eclipse
 
 == Nächste Schritte ==
-  * [Installation_Eclipse_Mylyn_Google_Code_Konnektor Verknüpfung von Mylyn mit Google Code]
+  * [Installation_Eclipse_Mylyn_Google_Code_Connector Verknüpfung von Mylyn mit Google Code]
   * [Anleitung_Mylyn Einführung in die Arbeit mit Mylyn]
   * [Anleitung_Konvention_Mylyn Konventionen im Umgang mit Mylyn]
   * [Installation_Eclipse_Plugins Installation eines weiteren Eclipse Plug-ins]
