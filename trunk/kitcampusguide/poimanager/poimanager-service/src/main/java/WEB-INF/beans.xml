@@ -6,7 +6,7 @@
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 	<jaxws:endpoint xmlns:tns="http://cm.tm.kit.edu/kitcampusguide/poiservice/"
-		id="poiservice" implementor="edu.kit.tm.cm.kitcampusguide.poiservice.PoiServiceImpl"
+		id="poiservice" implementor="edu.kit.cm.kitcampusguide.ws.poi.soap.PoiServiceImpl"
 		wsdlLocation="wsdl/PoiService.wsdl" endpointName="tns:PoiServiceSOAP"
 		serviceName="tns:PoiService" address="/PoiServiceSOAP">
 		<jaxws:features>
