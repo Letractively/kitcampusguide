@@ -13,6 +13,10 @@
 
 	<name>POI Manager Webapp</name>
 
+	<build>
+		<finalName>poimanager</finalName>
+	</build>
+
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -149,7 +153,5 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<finalName>poimanager</finalName>
-	</build>
+
 </project>
