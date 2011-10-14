@@ -115,7 +115,7 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
     public CreateResponseComplexType create(CreateRequestComplexType createRequest) throws ExecuteFault {
         log.debug("Processing create request.");
         POI poiFromRequest = PoiConverter.convertToPojo(createRequest.getPoi());
-        String categoryFromRequest = createRequest.getPoi().getCategoryName();
+        //String categoryFromRequest = createRequest.getPoi().getCategoryName();
 
         try {
             this.dao.save(poiFromRequest);
