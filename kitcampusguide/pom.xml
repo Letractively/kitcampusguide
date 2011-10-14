@@ -19,10 +19,10 @@
 	<dependencies>
 	</dependencies>
 	<modules>
-		<module>poi-manager</module>
-		<module>kitcg-logic</module>
-		<module>kitcg-data</module>
-		<module>kitcg-webapp</module>
+		<module>poimanager</module>
+		<module>kitcampusguide-logic</module>
+		<module>kitcampusguide-data</module>
+		<module>kitcampusguide-webapp</module>
 	</modules>
 
 	<repositories>

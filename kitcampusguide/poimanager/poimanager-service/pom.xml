@@ -4,31 +4,31 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>poi-manager</artifactId>
+		<artifactId>poimanager</artifactId>
 		<groupId>edu.kit.tm.cm</groupId>
 		<version>0.2-SNAPSHOT</version>
 	</parent>
 	<packaging>jar</packaging>
-	<artifactId>poi-manager-service</artifactId>
+	<artifactId>poimanager-service</artifactId>
 
 	<name>POI Manager Service</name>
 
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>poi-manager-persistence</artifactId>
+			<artifactId>poimanager-persistence</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>poi-manager-data</artifactId>
+			<artifactId>poimanager-data</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>poi-manager-security</artifactId>
+			<artifactId>poimanager-security</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>

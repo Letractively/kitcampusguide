@@ -3,20 +3,20 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>kit-campus-guide</artifactId>
+		<artifactId>kitcampusguide</artifactId>
 		<groupId>edu.kit.tm.cm</groupId>
 		<version>0.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>poi-manager</artifactId>
+	<artifactId>poimanager</artifactId>
 	<packaging>pom</packaging>
 
 	<name>POI Manager</name>
 	<modules>
-		<module>data</module>
-		<module>persistence</module>
-		<module>webapp</module>
-		<module>service-webapp</module>
-		<module>service</module>
-		<module>security</module>
+		<module>poimanager-data</module>
+		<module>poimanager-persistence</module>
+		<module>poimanager-webapp</module>
+		<module>poimanager-service-webapp</module>
+		<module>poimanager-service</module>
+		<module>poimanager-security</module>
 	</modules>
 </project>

@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>poi-manager</artifactId>
+		<artifactId>poimanager</artifactId>
 		<groupId>edu.kit.tm.cm</groupId>
 		<version>0.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>poi-manager-service-webapp</artifactId>
+	<artifactId>poimanager-service-webapp</artifactId>
 	<packaging>war</packaging>
 
 	<name>POI Manager Service Webapp</name>
@@ -14,13 +14,13 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>poi-manager-security</artifactId>
+			<artifactId>poimanager-security</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>poi-manager-service</artifactId>
+			<artifactId>poimanager-service</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>

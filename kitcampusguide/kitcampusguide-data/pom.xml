@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>kit-campus-guide</artifactId>
+		<artifactId>kitcampusguide-guide</artifactId>
 		<groupId>edu.kit.tm.cm</groupId>
 		<version>0.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>campus-guide-data</artifactId>
+	<artifactId>kitcampusguide-data</artifactId>
 	<packaging>jar</packaging>
 	<name>KITCampusGuide Data</name>
 	
@@ -32,7 +32,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>poi-manager-data</artifactId>
+			<artifactId>poimanager-data</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
