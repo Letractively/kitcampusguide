@@ -3,7 +3,7 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.kit.tm.cm</groupId>
-	<artifactId>kit-campus-guide</artifactId>
+	<artifactId>kitcampusguide</artifactId>
 	<version>0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
@@ -65,4 +65,12 @@
 		<spring.security.version>3.1.0.M2</spring.security.version>
 		<spring.ws.version>2.0.2.RELEASE</spring.ws.version>
 	</properties>
+	<url>http://code.google.com/p/kitcampusguide/</url>
+	<description>Der KITCampusGuide ist ein persönliches, Web-basiertes Assistenzsystem für Studierende, Mitarbeiter und Gäste des Karlsruher Institut für Technologie (KIT). Ausgangspunkt hierfür ist die Bereitstellung einer Web Mapping-Anwendung für das KIT, welche nach dem Vorbild von Google Maps eine kartenbasierte Orientierungshilfe für den KIT-Campus bietet. Mit dem KITCampusGuide ist die Vision verbunden, Angehörigen des KIT ihre alltäglichen Arbeitsgänge zu erleichtern.
+
+Der KITCampusGuide ist ein Lehr- und Forschungsprojekt der Forschungsgruppe Cooperation &amp; Management (C&amp;M, Prof. Abeck) am KIT. Mittels des KITCampusGuide sollen zum einen Studierende in die Entwicklung von modernen Web-Anwendung eingeführt werden. Ebenso sollen Forschungsfragen, welche in der Forschungsgruppe behandelt werden, anhand des KITCampusGuides demonstriert und umgesetzt werden.</description>
+	<organization>
+		<name>Research Group Cooperation &amp; Management (C&amp;M, Prof. Abeck), Karlsruhe Institute of Technology (KIT) </name>
+		<url>http://cm.tm.kit.edu</url>
+	</organization>
 </project>
