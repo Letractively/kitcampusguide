@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>kit-campus-guide</artifactId>
+		<artifactId>kitcampusguide</artifactId>
 		<groupId>edu.kit.tm.cm</groupId>
 		<version>0.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>campus-guide-webapp</artifactId>
+	<artifactId>kitcampusguide-webapp</artifactId>
 	<packaging>war</packaging>
 	<name>KITCampusGuide Webapp</name>
 	
@@ -20,19 +20,19 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>campus-guide-data</artifactId>
+			<artifactId>kitcampusguide-data</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>campus-guide-logic</artifactId>
+			<artifactId>kitcampusguide-logic</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>poi-manager-data</artifactId>
+			<artifactId>poimanager-data</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
@@ -72,7 +72,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>campus-guide-war</finalName>
+		<finalName>kitcampusguide</finalName>
 	</build>
 
 	<properties>

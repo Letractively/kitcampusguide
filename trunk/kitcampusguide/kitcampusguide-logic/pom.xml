@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>kit-campus-guide</artifactId>
+		<artifactId>kitcampusguide</artifactId>
 		<groupId>edu.kit.tm.cm</groupId>
 		<version>0.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>campus-guide-logic</artifactId>
+	<artifactId>kitcampusguide-logic</artifactId>
 	<name>KITCampusGuide Business Logic</name>
 	<packaging>jar</packaging>
 
@@ -27,13 +27,14 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>campus-guide-data</artifactId>
+			<artifactId>kitcampusguide-data</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
 	</dependencies>
 
 	<build>
+		<finalName>kitcampusguide-core</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -53,7 +54,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>campus-guide-core</finalName>
+		
 	</build>
 
 	<properties>
