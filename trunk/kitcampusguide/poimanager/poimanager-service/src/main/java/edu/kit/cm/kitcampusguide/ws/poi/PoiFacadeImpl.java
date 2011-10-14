@@ -15,22 +15,25 @@ import edu.kit.cm.kitcampusguide.dao.PoiDao;
 import edu.kit.cm.kitcampusguide.dao.exception.PoiDaoException;
 import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.service.security.SecurityService;
-import edu.kit.cm.kitcampusguide.ws.poi.type.CreateRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.CreateResponseComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.DeleteRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.DeleteResponseComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.ExecuteFault;
-import edu.kit.cm.kitcampusguide.ws.poi.type.ExecuteRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.ExecuteResponseComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.Ids;
-import edu.kit.cm.kitcampusguide.ws.poi.type.Names;
-import edu.kit.cm.kitcampusguide.ws.poi.type.PoiWithId;
-import edu.kit.cm.kitcampusguide.ws.poi.type.ReadRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.ReadResponseComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.SelectRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.SelectResponseComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.UpdateRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.UpdateResponseComplexType;
+import edu.kit.cm.kitcampusguide.ws.poi.util.PoiConverter;
+import edu.kit.tm.cm.kitcampusguide.poiservice.CreateRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.CreateResponseComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.DeleteRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.DeleteResponseComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteFault;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteResponseComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.Ids;
+import edu.kit.tm.cm.kitcampusguide.poiservice.Names;
+import edu.kit.tm.cm.kitcampusguide.poiservice.PoiService;
+import edu.kit.tm.cm.kitcampusguide.poiservice.PoiWithId;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ReadRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ReadResponseComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.SelectRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.SelectResponseComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.Strings;
+import edu.kit.tm.cm.kitcampusguide.poiservice.UpdateRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.UpdateResponseComplexType;
 
 /**
  * Facade for cruds access to database through service request.
@@ -111,7 +114,7 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
     @PreAuthorize("hasRole('RIGHT_CREATE_POI')")
     public CreateResponseComplexType create(CreateRequestComplexType createRequest) throws ExecuteFault {
         log.debug("Processing create request.");
-        POI poiFromRequest = createRequest.getPoi().convertToPojo();
+        POI poiFromRequest = PoiConverter.convertToPojo(createRequest.getPoi());
         String categoryFromRequest = createRequest.getPoi().getCategoryName();
 
         try {
@@ -120,8 +123,8 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
             throw new ExecuteFault(e.getMessage(), e);
         }
 
-        CreateResponseComplexType response = new CreateResponseComplexType();
-        response.setPoi(new PoiWithId(poiFromRequest, categoryFromRequest));
+        CreateResponseComplexType response = new CreateResponseComplexType();        
+        response.setPoi(PoiConverter.createPoiWithId(poiFromRequest));
         response.setSuccessMessage("The point of interest was successfully added.");
 
         return response;
@@ -146,7 +149,7 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
     @PreAuthorize("hasRole('RIGHT_UPDATE_POI')")
     public UpdateResponseComplexType update(UpdateRequestComplexType updateRequest) throws ExecuteFault {
         log.debug("Processing update request.");
-        POI poiFromRequest = updateRequest.getPoi().convertToPojo();
+        POI poiFromRequest = PoiConverter.convertToPojo(updateRequest.getPoi());
 
         try {
             this.dao.merge(poiFromRequest);
@@ -175,7 +178,15 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
         ReadResponseComplexType response = new ReadResponseComplexType();
         if (foundPoi != null) {
 
-            response.setPoi(new PoiWithId(foundPoi, foundPoi.getCategoryName()));
+        	PoiWithId pwi = new PoiWithId();
+        	pwi.setUid(foundPoi.getUid());
+        	pwi.setName(foundPoi.getName());
+        	pwi.setLongitude(foundPoi.getLongitude());
+        	pwi.setLatitude(foundPoi.getLatitude());
+        	pwi.setDescription(foundPoi.getDescription());
+        	pwi.setCategoryName(foundPoi.getCategoryName());
+        	//pwi.setGroupIds(foundPoi.getGroupIds());
+            response.setPoi(pwi);
             response.setSuccessMessage("Successfully retrieved the point of interest.");
         } else {
             throw new ExecuteFault("Could not find poi with uid " + idToRead + ".");
@@ -200,7 +211,7 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
         foundPois.addAll(findPoisByNameSuffixes(selectRequest.getFindByNameSuffixes()));
 
         SelectResponseComplexType response = new SelectResponseComplexType();
-        response.convertPoisForResponse(foundPois);
+        response.getPoi().addAll(PoiConverter.convertPoisForResponse(foundPois));
         response.setSuccessMessage("Successfully retrieved points of interest.");
 
         return response;
