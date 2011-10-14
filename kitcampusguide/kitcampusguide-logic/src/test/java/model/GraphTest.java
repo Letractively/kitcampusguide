@@ -35,8 +35,8 @@ public class GraphTest {
 	@Test
 	public void graphBuildingTest() {
 		Graph testGraph = new Graph();
-		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1),
-				new Point(1, 1) };
+		Point[] nodes = { new Point(0.0, 0.0), new Point(1.0, 0.0), new Point(0.0, 1.0),
+				new Point(1.0, 1.0) };
 
 		testGraph.addNode(nodes[0]);
 		testGraph.addNode(nodes[1]);
@@ -73,7 +73,7 @@ public class GraphTest {
 	@Test
 	public void addToGraphNegativeWeights() {
 		Graph testGraph = new Graph();
-		Point[] nodes = { new Point(0, 0), new Point(1, 0) };
+		Point[] nodes = { new Point(0.0, 0.0), new Point(1.0, 0.0) };
 
 		testGraph.addNode(nodes[0]);
 		testGraph.addNode(nodes[1]);
@@ -94,8 +94,8 @@ public class GraphTest {
 	@Test
 	public void negativeAndNonIntegerCoordinatestest() {
 		Graph testGraph = new Graph();
-		Point[] nodes = { new Point(-1, 1), new Point(29.1, 0),
-				new Point(0, 1), new Point(1, 1) };
+		Point[] nodes = { new Point(-1.0, 1.0), new Point(29.1, 0.0),
+				new Point(0.0, 1.0), new Point(1.0, 1.0) };
 		testGraph.addNode(nodes[0]);
 		testGraph.addNode(nodes[1]);
 		testGraph.addNode(nodes[2]);
@@ -111,8 +111,8 @@ public class GraphTest {
 	@Test
 	public void getEdgeMethodTest() {
 		Graph testGraph = new Graph();
-		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1),
-				new Point(1, 1) };
+		Point[] nodes = { new Point(0.0, 0.0), new Point(1.0, 0.0), new Point(0.0, 1.0),
+				new Point(1.0, 1.0) };
 
 		testGraph.addNode(nodes[0]);
 		testGraph.addNode(nodes[1]);
@@ -182,8 +182,8 @@ public class GraphTest {
 	@Test
 	public void getNodeMethodTest() {
 		Graph testGraph = new Graph();
-		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1),
-				new Point(1, 1) };
+		Point[] nodes = { new Point(0.0, 0.0), new Point(1.0, 0.0), new Point(0.0, 1.0),
+				new Point(1.0, 1.0) };
 
 		testGraph.addNode(nodes[0]);
 		testGraph.addNode(nodes[1]);
@@ -220,7 +220,7 @@ public class GraphTest {
 	@Test
 	public void getNodeDegreeTest() {
 		Graph testGraph = new Graph();
-		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1) };
+		Point[] nodes = { new Point(0.0, 0.0), new Point(1.0, 0.0), new Point(0.0, 1.0) };
 
 		testGraph.addNode(nodes[0]);
 		testGraph.addNode(nodes[1]);
@@ -258,7 +258,7 @@ public class GraphTest {
 	@Test
 	public void neighboursOfMethodTest() {
 		Graph testGraph = new Graph();
-		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1) };
+		Point[] nodes = { new Point(0.0, 0.0), new Point(1.0, 0.0), new Point(0.0, 1.0) };
 
 		testGraph.addNode(nodes[0]);
 		testGraph.addNode(nodes[1]);
@@ -300,8 +300,8 @@ public class GraphTest {
 	@Test
 	public void graphBuildingWithListsTest() {
 
-		Point[] points = { new Point(0, 0), new Point(0, 1), new Point(1, 0),
-				new Point(1, 1) };
+		Point[] points = { new Point(0.0, 0.0), new Point(0.0, 1.0), new Point(1.0, 0.0),
+				new Point(1.0, 1.0) };
 		ArrayList<Point> pointList = new ArrayList<Point>();
 		pointList.add(points[0]);
 		pointList.add(points[1]);
@@ -343,7 +343,7 @@ public class GraphTest {
 	@Test
 	public void lengthAndEdgeListSizeTest() {
 
-		Point[] points = { new Point(0, 0), new Point(0, 1) };
+		Point[] points = { new Point(0.0, 0.0), new Point(0.0, 1.0) };
 		ArrayList<Point> pointList = new ArrayList<Point>();
 		pointList.add(points[0]);
 		pointList.add(points[1]);
@@ -374,7 +374,7 @@ public class GraphTest {
 	@Test
 	public void lengthOfNodeAndPointList() {
 
-		Point[] points = { new Point(0, 0), new Point(0, 1) };
+		Point[] points = { new Point(0.0, 0.0), new Point(0.0, 1.0) };
 		ArrayList<Point> pointList = new ArrayList<Point>();
 		pointList.add(points[0]);
 		pointList.add(points[1]);
@@ -406,7 +406,7 @@ public class GraphTest {
 	@Test
 	public void incorrectNodeListTest() {
 
-		Point[] points = { new Point(0, 0), new Point(0, 1) };
+		Point[] points = { new Point(0.0, 0.0), new Point(0.0, 1.0) };
 		ArrayList<Point> pointList = new ArrayList<Point>();
 		pointList.add(points[0]);
 		pointList.add(points[1]);
@@ -439,7 +439,7 @@ public class GraphTest {
 	@Test
 	public void edgeListWithNonExistingNode() {
 
-		Point[] points = { new Point(0, 0), new Point(0, 1) };
+		Point[] points = { new Point(0.0, 0.0), new Point(0.0, 1.0) };
 		ArrayList<Point> pointList = new ArrayList<Point>();
 		pointList.add(points[0]);
 		pointList.add(points[1]);
@@ -483,7 +483,7 @@ public class GraphTest {
 	@Test
 	public void nodeListWithIncorrectValuesTest() {
 
-		Point[] points = { new Point(0, 0), new Point(0, 1) };
+		Point[] points = { new Point(0.0, 0.0), new Point(0.0, 1.0) };
 		ArrayList<Point> pointList = new ArrayList<Point>();
 		pointList.add(points[0]);
 		pointList.add(points[1]);

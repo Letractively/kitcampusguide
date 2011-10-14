@@ -53,8 +53,8 @@ public class DijkstraTest {
 	public void routeCalculatingTest() {
 
 		Graph mapGraph = new Graph();
-		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1),
-				new Point(1, 1) };
+		Point[] nodes = { new Point(0.0, 0.0), new Point(1.0, 0.0), new Point(0.0, 1.0),
+				new Point(1.0, 1.0) };
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);
 		mapGraph.addNode(nodes[2]);
@@ -108,7 +108,7 @@ public class DijkstraTest {
 		Graph mapGraph = new Graph();
 		RouteCalculator dijkstra = Dijkstra.getSingleton();
 
-		Point point = new Point(0, 0);
+		Point point = new Point(0.0, 0.0);
 		mapGraph.addNode(point);
 		Route route = dijkstra.calculateRoute(point, point, mapGraph);
 		Assert.assertNotNull(route);
@@ -126,8 +126,8 @@ public class DijkstraTest {
 		Graph mapGraph = new Graph();
 		RouteCalculator dijkstra = Dijkstra.getSingleton();
 		Assert.assertNotNull(dijkstra);
-		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1),
-				new Point(1, 1) };
+		Point[] nodes = { new Point(0.0, 0.0), new Point (1.0, 0.0), new Point(0.0, 1.0),
+				new Point(1.0, 1.0) };
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);
 		mapGraph.addNode(nodes[2]);
@@ -136,7 +136,7 @@ public class DijkstraTest {
 		boolean wentInTry = false;
 
 		try {
-			dijkstra.calculateRoute(new Point(2, 2), new Point(2, 3), mapGraph)
+			dijkstra.calculateRoute(new Point(2.0, 2.0), new Point(2.0, 3.0), mapGraph)
 					.getRoute();
 		} catch (IllegalArgumentException e) {
 			wentInTry = true;
@@ -154,8 +154,8 @@ public class DijkstraTest {
 		Graph mapGraph = new Graph();
 		RouteCalculator dijkstra = Dijkstra.getSingleton();
 		Assert.assertNotNull(dijkstra);
-		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1),
-				new Point(1, 1) };
+		Point[] nodes = { new Point(0.0, 0.0), new Point(1.0, 0.0), new Point(0.0, 1.0),
+				new Point(1.0, 1.0) };
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);
 		mapGraph.addNode(nodes[2]);
@@ -176,7 +176,7 @@ public class DijkstraTest {
 	public void nullRouteTest() {
 		RouteCalculator dijkstra = Dijkstra.getSingleton();
 		Assert.assertNotNull(dijkstra);
-		Point[] nodes = { new Point(0, 0), new Point(1, 0) };
+		Point[] nodes = { new Point(0.0, 0.0), new Point(1.0, 0.0) };
 		boolean exceptionThrown = false;
 		try {
 			dijkstra.calculateRoute(nodes[0], nodes[1], null);
