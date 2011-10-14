@@ -32,3 +32,7 @@ Eine existierende [Installation_Eclipse Installation der Eclipse Version für Ja
 == Nächste Schritte ==
   * [Konfiguration_SVN_Klient Einrichtung des Zuganges zum SVN des KITCampusGuides]
   * [Installation_Eclipse_Plugins Installation eines weiteren Eclipse Plug-ins].
+
+----
+*Abkürzungen*
+  *SVN - Subversion
