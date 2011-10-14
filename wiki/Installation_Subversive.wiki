@@ -14,9 +14,9 @@ Eine existierende [Installation_Eclipse Installation der Eclipse Version für Ja
   # Auswahl von "Alle verfügbaren Seiten" aus dem Auswahlfeld "Arbeiten mit"
   # Öffnen des Punktes "Collaboration"
   # Auswahl der Subversive-Pakete: 
-    *"Subversive SVN Team Provider" , 
-    *"Subversive Revision Graph"
-    *"Subversive Integration for Mylyn Project"
+    * "Subversive SVN Team Provider" , 
+    * "Subversive Revision Graph"
+    * "Subversive Integration for Mylyn Project"
   # Betätigung mit "Weiter"
   # Bestätigung der Analyse von Paketabhängigkeiten mit "Weiter"
   # Annahme der Lizenzbestimmungen
