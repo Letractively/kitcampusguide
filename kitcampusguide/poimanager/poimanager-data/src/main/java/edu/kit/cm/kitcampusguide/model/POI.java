@@ -16,185 +16,207 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public class POI extends Point implements Cloneable, Entity {
 
-    private String name;
-    private String icon;
-    private String description;
-    private POICategory category;
-    private Boolean publicly;
-    /**
-     * This field is an workaround because jpa 1.0 is not supporting collections
-     * of primitives. Thus the group ids are saved in one field seperated by
-     */
-    private String separatedGroupIds;
-    private static final String SEPARATOR = "###";
+	private String name;
+	private String icon;
+	private String description;
+	private POICategory category;
+	private Boolean publicly;
+	/**
+	 * This field is an workaround because jpa 1.0 is not supporting collections
+	 * of primitives. Thus the group ids are saved in one field seperated by
+	 */
+	private String separatedGroupIds;
+	private static final String SEPARATOR = "###";
 
-    public POI(String name, Integer uid, String icon, String description, Double longitude, Double latitude,
-            Collection<String> groupIds, Boolean publicly) {
-        super(longitude, latitude);
-        this.description = description;
-        this.icon = icon;
-        this.name = name;
-        setGroupIds(groupIds);
-        this.setUid(uid);
-    }
+	public POI(String name, Integer uid, String icon, String description,
+			Double longitude, Double latitude, Collection<String> groupIds,
+			Boolean publicly) {
+		super(longitude, latitude);
+		this.description = description;
+		this.icon = icon;
+		this.name = name;
+		setGroupIds(groupIds);
+		this.setUid(uid);
+	}
 
-    public POI(String name, Integer uid, String icon, String description, Double longitude, Double latitude,
-            Collection<String> groupIds, Boolean publicly, POICategory category) {
-        this(name, uid, icon, description, longitude, latitude, groupIds, publicly);
+	public POI(String name, Integer uid, String icon, String description,
+			Double longitude, Double latitude, Collection<String> groupIds,
+			Boolean publicly, POICategory category) {
+		this(name, uid, icon, description, longitude, latitude, groupIds,
+				publicly);
 
-        this.category = category;
-    }
+		this.category = category;
+	}
 
-    public POI() {
+	public POI() {
 
-        this(null, null, null, null, null, null, null, null);
-    }
+		this(null, null, null, null, null, null, null, null);
+	}
 
-    public String getName() {
-        return this.name;
-    }
+	public POI(String name, int uid, String icon, String description, double longitude,
+			double latitude) {
+		super(longitude, latitude);
+		this.name = name;
+		this.description = description;
+		this.icon = icon;
+		this.setUid(uid);
+	}
 
-    public void setName(final String name) {
-        this.name = name;
-    }
 
-    public String getIcon() {
-        return this.icon;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public void setIcon(final String icon) {
-        this.icon = icon;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public String getDescription() {
-        return this.description;
-    }
+	public String getIcon() {
+		return this.icon;
+	}
 
-    public void setDescription(final String description) {
-        this.description = description;
-    }
+	public void setIcon(final String icon) {
+		this.icon = icon;
+	}
 
-    public void setPublicly(Boolean publicly) {
-        this.publicly = publicly;
-    }
+	public String getDescription() {
+		return this.description;
+	}
 
-    public Boolean isPublicly() {
-        return this.publicly;
-    }
+	public void setDescription(final String description) {
+		this.description = description;
+	}
 
-    public String getCategoryName() {
-        String categoryName = "";
+	public void setPublicly(Boolean publicly) {
+		this.publicly = publicly;
+	}
 
-        if (this.getCategory() != null) {
+	public Boolean isPublicly() {
+		return this.publicly;
+	}
 
-            categoryName = this.getCategory().getName();
-        }
+	public String getCategoryName() {
+		String categoryName = "";
 
-        return categoryName;
-    }
+		if (this.getCategory() != null) {
 
-    public void setGroupIds(Collection<String> groupIds) {
-        final StringBuilder separatedGroupIdsBuilder = new StringBuilder();
-        if (groupIds != null) {
-            for (String groupId : groupIds) {
-                separatedGroupIdsBuilder.append(getStrippedGroupIdWithSeparator(groupId));
-            }
-            removeLastSeparator(separatedGroupIdsBuilder);
-        }
-        this.separatedGroupIds = separatedGroupIdsBuilder.toString();
-    }
+			categoryName = this.getCategory().getName();
+		}
 
-    private void removeLastSeparator(final StringBuilder separatedGroupIdsBuilder) {
-        if (separatedGroupIdsBuilder.length() > POI.SEPARATOR.length()) {
-            separatedGroupIdsBuilder.delete(separatedGroupIdsBuilder.length() - POI.SEPARATOR.length(),
-                    separatedGroupIdsBuilder.length());
-        }
-    }
+		return categoryName;
+	}
 
-    private String getStrippedGroupIdWithSeparator(String groupId) {
-        return groupId.replaceAll(POI.SEPARATOR, "") + POI.SEPARATOR;
-    }
+	public void setGroupIds(Collection<String> groupIds) {
+		final StringBuilder separatedGroupIdsBuilder = new StringBuilder();
+		if (groupIds != null) {
+			for (String groupId : groupIds) {
+				separatedGroupIdsBuilder
+						.append(getStrippedGroupIdWithSeparator(groupId));
+			}
+			removeLastSeparator(separatedGroupIdsBuilder);
+		}
+		this.separatedGroupIds = separatedGroupIdsBuilder.toString();
+	}
 
-    public Collection<String> getGroupIds() {
-        return Arrays.asList(this.separatedGroupIds.split(POI.SEPARATOR));
-    }
+	private void removeLastSeparator(
+			final StringBuilder separatedGroupIdsBuilder) {
+		if (separatedGroupIdsBuilder.length() > POI.SEPARATOR.length()) {
+			separatedGroupIdsBuilder
+					.delete(separatedGroupIdsBuilder.length()
+							- POI.SEPARATOR.length(),
+							separatedGroupIdsBuilder.length());
+		}
+	}
 
-    public POICategory getCategory() {
-        return category;
-    }
+	private String getStrippedGroupIdWithSeparator(String groupId) {
+		return groupId.replaceAll(POI.SEPARATOR, "") + POI.SEPARATOR;
+	}
 
-    public void setSeparatedGroupIds(String separatedGroupIds) {
-        this.separatedGroupIds = separatedGroupIds;
-    }
+	public Collection<String> getGroupIds() {
+		return Arrays.asList(this.separatedGroupIds.split(POI.SEPARATOR));
+	}
 
-    public String getSeparatedGroupIds() {
-        return this.separatedGroupIds;
-    }
+	public POICategory getCategory() {
+		return category;
+	}
 
-    public void setCategory(POICategory category) {
-        POICategory oldCategory = this.category;
-        this.category = category;
-        if (oldCategory != null) {
-            oldCategory.remove(this);
-        }
-        if ((category != null) && ((category.getPois() == null) || (!category.getPois().contains(this)))) {
-            category.add(this);
-        }
-    }
+	public void setSeparatedGroupIds(String separatedGroupIds) {
+		this.separatedGroupIds = separatedGroupIds;
+	}
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((category == null) ? 0 : category.hashCode());
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((icon == null) ? 0 : icon.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
-    }
+	public String getSeparatedGroupIds() {
+		return this.separatedGroupIds;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (getClass() != obj.getClass())
-            return false;
-        POI other = (POI) obj;
-        if (category == null) {
-            if (other.category != null)
-                return false;
-        } else if (!category.equals(other.category))
-            return false;
-        if (description == null) {
-            if (other.description != null)
-                return false;
-        } else if (!description.equals(other.description))
-            return false;
-        if (icon == null) {
-            if (other.icon != null)
-                return false;
-        } else if (!icon.equals(other.icon))
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
-    }
+	public void setCategory(POICategory category) {
+		POICategory oldCategory = this.category;
+		this.category = category;
+		if (oldCategory != null) {
+			oldCategory.remove(this);
+		}
+		if ((category != null)
+				&& ((category.getPois() == null) || (!category.getPois()
+						.contains(this)))) {
+			category.add(this);
+		}
+	}
 
-    @Override
-    public POI clone() {
-        final POI clone = new POI();
-        clone.category = this.category;
-        clone.description = this.description;
-        clone.icon = this.icon;
-        clone.name = this.name;
-        return clone;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((category == null) ? 0 : category.hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((icon == null) ? 0 : icon.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (getClass() != obj.getClass())
+			return false;
+		POI other = (POI) obj;
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (icon == null) {
+			if (other.icon != null)
+				return false;
+		} else if (!icon.equals(other.icon))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+
+	@Override
+	public POI clone() {
+		final POI clone = new POI();
+		clone.category = this.category;
+		clone.description = this.description;
+		clone.icon = this.icon;
+		clone.name = this.name;
+		return clone;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this,
+				ToStringStyle.MULTI_LINE_STYLE);
+	}
 }
