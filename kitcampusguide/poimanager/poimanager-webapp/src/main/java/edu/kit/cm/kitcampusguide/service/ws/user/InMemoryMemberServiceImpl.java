@@ -1,4 +1,4 @@
-package edu.kit.cm.kitcampusguide.service.user;
+package edu.kit.cm.kitcampusguide.service.ws.user;
 
 import java.util.List;
 

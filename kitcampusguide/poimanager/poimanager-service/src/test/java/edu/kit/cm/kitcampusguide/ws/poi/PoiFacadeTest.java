@@ -24,20 +24,23 @@ import edu.kit.cm.kitcampusguide.dao.PoiDao;
 import edu.kit.cm.kitcampusguide.dao.exception.PoiDaoException;
 import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.model.POICategory;
-import edu.kit.cm.kitcampusguide.ws.poi.type.CreateRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.CreateResponseComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.DeleteRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.ExecuteFault;
-import edu.kit.cm.kitcampusguide.ws.poi.type.ExecuteRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.ExecuteResponseComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.Names;
-import edu.kit.cm.kitcampusguide.ws.poi.type.Poi;
-import edu.kit.cm.kitcampusguide.ws.poi.type.PoiWithId;
-import edu.kit.cm.kitcampusguide.ws.poi.type.ReadRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.ReadResponseComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.SelectRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.SelectResponseComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.UpdateRequestComplexType;
+import edu.kit.cm.kitcampusguide.ws.poi.util.PoiConverter;
+import edu.kit.tm.cm.kitcampusguide.poiservice.CreateRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.CreateResponseComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.DeleteRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteFault;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteResponseComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.Names;
+import edu.kit.tm.cm.kitcampusguide.poiservice.Poi;
+import edu.kit.tm.cm.kitcampusguide.poiservice.PoiService;
+import edu.kit.tm.cm.kitcampusguide.poiservice.PoiWithId;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ReadRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ReadResponseComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.SelectRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.SelectResponseComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.UpdateRequestComplexType;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:testContext/applicationContext-*.xml" })
@@ -85,7 +88,7 @@ public class PoiFacadeTest {
     @Test
     public void testCreatingPoi() throws ExecuteFault, PoiDaoException {
         final CreateRequestComplexType request = new CreateRequestComplexType();
-        final POI poiClone = this.requestPoi.convertToPojo();
+        final POI poiClone = PoiConverter.convertToPojo(this.requestPoi);
         request.setPoi(this.requestPoi);
         final ExecuteRequestComplexType execRequest = new ExecuteRequestComplexType();
         execRequest.getCreateRequestsOrReadRequestsOrUpdateRequests().add(request);
@@ -99,8 +102,8 @@ public class PoiFacadeTest {
     @Test
     public void testUpdatingPoi() throws ExecuteFault, PoiDaoException {
         this.poi2.setUid(this.poiCopyFromDb.getUid());
-        final PoiWithId poiWithId = new PoiWithId(this.poi2, this.poiCopyFromDb.getCategoryName());
-        final POI poiClone = poiWithId.convertToPojo();
+        final PoiWithId poiWithId = PoiConverter.createPoiWithId(this.poi2);
+        final POI poiClone = PoiConverter.convertToPojo(poiWithId);
         final UpdateRequestComplexType request = new UpdateRequestComplexType();
         request.setPoi(poiWithId);
         final ExecuteRequestComplexType execRequest = new ExecuteRequestComplexType();
@@ -120,7 +123,7 @@ public class PoiFacadeTest {
 
         final ExecuteResponseComplexType response = this.poiService.execute(execRequest);
 
-        assertPoisWithIdEqual(new PoiWithId(this.poiCopyFromDb, this.poiCopyFromDb.getCategoryName()),
+        assertPoisWithIdEqual(PoiConverter.createPoiWithId(this.poiCopyFromDb),
                 ((ReadResponseComplexType) response.getCreateResponsesOrReadResponsesOrUpdateResponses().get(0))
                         .getPoi());
     }

@@ -76,4 +76,16 @@ public class PoiConverter {
         }
         return pwis;
     }
+
+	public static Poi convertToPoi(PoiWithId obj) {
+		Poi poi = new Poi();
+		poi.setCategoryName(obj.getCategoryName());
+		poi.setDescription(obj.getDescription());
+		poi.setGroupIds(obj.getGroupIds());
+		poi.setLatitude(obj.getLatitude());
+		poi.setLongitude(poi.getLongitude());
+		poi.setName(obj.getName());
+		poi.setPublicly(obj.isPublicly());
+		return poi;
+	}
 }

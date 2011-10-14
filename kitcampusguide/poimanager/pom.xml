@@ -18,6 +18,7 @@
 		<module>poimanager-service-webapp</module>
 		<module>poimanager-service</module>
 		<module>poimanager-security</module>
+		<module>poimanager-ws-stub</module>
 	</modules>
 
 	<build>

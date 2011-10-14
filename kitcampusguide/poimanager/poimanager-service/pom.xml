@@ -13,70 +13,6 @@
 
 	<name>POI Manager Service</name>
 
-	<properties>
-		<cxf.version>2.4.2</cxf.version>
-		<wsdl.location>${basedir}/src/main/webapp/PoiService.wsdl</wsdl.location>
-		<cxf.codegen.dir>src/main/generated</cxf.codegen.dir>
-	</properties>
-
-
-
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.apache.cxf</groupId>
-										<artifactId>cxf-codegen-plugin</artifactId>
-										<versionRange>[${cxf.version},)</versionRange>
-										<goals>
-											<goal>wsdl2java</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute />
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-
-		<plugins>
-			<plugin>
-				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-codegen-plugin</artifactId>
-				<version>${cxf.version}</version>
-				<executions>
-					<execution>
-						<id>generate-sources</id>
-						<phase>generate-sources</phase>
-						<configuration>
-							<sourceRoot>${cxf.codegen.dir}</sourceRoot>
-							<wsdlOptions>
-								<wsdlOption>
-									<wsdl>${wsdl.location}</wsdl>
-								</wsdlOption>
-							</wsdlOptions>
-						</configuration>
-						<goals>
-							<goal>wsdl2java</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -87,6 +23,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>poimanager-data</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>poimanager-ws-stub</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>

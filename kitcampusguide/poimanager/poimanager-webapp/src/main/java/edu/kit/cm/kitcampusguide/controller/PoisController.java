@@ -10,12 +10,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.kit.cm.kitcampusguide.controller.form.UpdatePoiForm;
 import edu.kit.cm.kitcampusguide.ws.poi.PoiFacade;
-import edu.kit.cm.kitcampusguide.ws.poi.type.DeleteRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.ExecuteFault;
-import edu.kit.cm.kitcampusguide.ws.poi.type.ExecuteRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.Names;
-import edu.kit.cm.kitcampusguide.ws.poi.type.SelectRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.SelectResponseComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.DeleteRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteFault;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.Names;
+import edu.kit.tm.cm.kitcampusguide.poiservice.SelectRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.SelectResponseComplexType;
 
 @Controller
 public class PoisController {
@@ -43,7 +43,7 @@ public class PoisController {
         names.getName().add("%");
         selectRequest.setFindByNamesLike(names);
         final ExecuteRequestComplexType executeRequest = new ExecuteRequestComplexType();
-        executeRequest.addRequest(selectRequest);
+        executeRequest.getCreateRequestsOrReadRequestsOrUpdateRequests().add(selectRequest);
         model.addAttribute("pois", ((SelectResponseComplexType) poiFacade.execute(executeRequest)
                 .getCreateResponsesOrReadResponsesOrUpdateResponses().get(0)).getPoi());
 
@@ -75,7 +75,7 @@ public class PoisController {
         DeleteRequestComplexType deleteRequest = new DeleteRequestComplexType();
         deleteRequest.setId(uid);
         ExecuteRequestComplexType executeRequest = new ExecuteRequestComplexType();
-        executeRequest.addRequest(deleteRequest);
+        executeRequest.getCreateRequestsOrReadRequestsOrUpdateRequests().add(deleteRequest);
         poiFacade.execute(executeRequest);
         mv.addObject("successMessage", "success.deletingPoi");
     }
