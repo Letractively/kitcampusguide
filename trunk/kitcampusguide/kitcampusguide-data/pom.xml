@@ -9,7 +9,7 @@
 	<artifactId>kitcampusguide-data</artifactId>
 	<packaging>jar</packaging>
 	<name>KITCampusGuide Data</name>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -23,7 +23,7 @@
 			<version>2.4.8</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
