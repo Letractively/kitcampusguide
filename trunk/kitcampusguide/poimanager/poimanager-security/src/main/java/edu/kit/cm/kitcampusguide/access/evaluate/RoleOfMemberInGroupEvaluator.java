@@ -6,7 +6,7 @@ import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 
 import edu.kit.cm.kitcampusguide.service.user.MemberUserDetails;
-import edu.kit.cm.kitcampusguide.ws.poi.type.Poi;
+import edu.kit.tm.cm.kitcampusguide.poiservice.Poi;
 
 public class RoleOfMemberInGroupEvaluator implements PermissionEvaluator {
 

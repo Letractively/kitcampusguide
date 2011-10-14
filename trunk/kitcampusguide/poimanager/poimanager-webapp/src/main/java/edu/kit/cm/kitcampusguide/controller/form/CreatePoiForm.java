@@ -15,10 +15,10 @@ import edu.kit.cm.kitcampusguide.model.Group;
 import edu.kit.cm.kitcampusguide.service.user.MemberService;
 import edu.kit.cm.kitcampusguide.validator.PoiValidator;
 import edu.kit.cm.kitcampusguide.ws.poi.PoiFacade;
-import edu.kit.cm.kitcampusguide.ws.poi.type.CreateRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.ExecuteFault;
-import edu.kit.cm.kitcampusguide.ws.poi.type.ExecuteRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.Poi;
+import edu.kit.tm.cm.kitcampusguide.poiservice.CreateRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteFault;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.Poi;
 
 @Controller
 @RequestMapping(value = "poi/create.htm")
@@ -88,7 +88,7 @@ public class CreatePoiForm {
         CreateRequestComplexType createRequest = new CreateRequestComplexType();
         createRequest.setPoi(poi);
         ExecuteRequestComplexType executeRequest = new ExecuteRequestComplexType();
-        executeRequest.addRequest(createRequest);
+        executeRequest.getCreateRequestsOrReadRequestsOrUpdateRequests().add(createRequest);
         poiFacade.execute(executeRequest);
         model.addAttribute("successMessage", "success.creatingPoi");
     }

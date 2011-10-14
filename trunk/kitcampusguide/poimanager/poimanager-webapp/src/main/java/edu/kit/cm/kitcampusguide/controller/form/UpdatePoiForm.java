@@ -17,10 +17,10 @@ import edu.kit.cm.kitcampusguide.model.Group;
 import edu.kit.cm.kitcampusguide.service.user.MemberService;
 import edu.kit.cm.kitcampusguide.validator.PoiValidator;
 import edu.kit.cm.kitcampusguide.ws.poi.PoiFacade;
-import edu.kit.cm.kitcampusguide.ws.poi.type.ExecuteFault;
-import edu.kit.cm.kitcampusguide.ws.poi.type.PoiWithId;
-import edu.kit.cm.kitcampusguide.ws.poi.type.ReadRequestComplexType;
-import edu.kit.cm.kitcampusguide.ws.poi.type.UpdateRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteFault;
+import edu.kit.tm.cm.kitcampusguide.poiservice.PoiWithId;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ReadRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.UpdateRequestComplexType;
 
 /**
  * Controller for updating poi webpage.

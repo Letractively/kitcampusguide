@@ -24,6 +24,12 @@
 			<type>jar</type>
 		</dependency>
 		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>poimanager-ws-stub</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 			<version>${spring.security.version}</version>

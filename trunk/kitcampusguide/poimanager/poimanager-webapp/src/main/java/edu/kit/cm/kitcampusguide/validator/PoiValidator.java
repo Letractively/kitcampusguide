@@ -6,8 +6,9 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import edu.kit.cm.kitcampusguide.controller.form.CreatePoiForm;
-import edu.kit.cm.kitcampusguide.ws.poi.type.Poi;
-import edu.kit.cm.kitcampusguide.ws.poi.type.PoiWithId;
+import edu.kit.cm.kitcampusguide.ws.poi.util.PoiConverter;
+import edu.kit.tm.cm.kitcampusguide.poiservice.Poi;
+import edu.kit.tm.cm.kitcampusguide.poiservice.PoiWithId;
 
 public class PoiValidator implements Validator {
 
@@ -35,7 +36,7 @@ public class PoiValidator implements Validator {
             validate((Poi) obj, errors);
         } else if (obj instanceof PoiWithId) {
 
-            validate(Poi.convertToPoi((PoiWithId) obj), errors);
+            validate(PoiConverter.convertToPoi((PoiWithId) obj), errors);
         } else {
 
             errors.reject("error.classNotSupported");
