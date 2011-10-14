@@ -48,8 +48,8 @@ public class AStarTest {
 		AStar aStar = AStar.getSingleton();
 		Graph mapGraph = new Graph();
 
-		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1),
-				new Point(1, 1) };
+		Point[] nodes = { new Point(0.0, 0.0), new Point(1.0, 0.0), new Point(0.0, 1.0),
+				new Point(1.0, 1.0) };
 
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);
@@ -84,8 +84,8 @@ public class AStarTest {
 		AStar aStar = AStar.getSingleton();
 		Graph mapGraph = new Graph();
 
-		Point[] nodes = { new Point(5, 5), new Point(1, 0), new Point(-1, -1),
-				new Point(1, 1) };
+		Point[] nodes = { new Point(5.0, 5.0), new Point(1.0, 0.0), new Point(-1.0, -1.0),
+				new Point(1.0, 1.0) };
 
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);
@@ -122,8 +122,8 @@ public class AStarTest {
 		AStar aStar = AStar.getSingleton();
 		Graph mapGraph = new Graph();
 
-		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1),
-				new Point(1, 1) };
+		Point[] nodes = { new Point(0.0, 0.0), new Point(1.0, 0.0), new Point(0.0, 1.0),
+				new Point(1.0, 1.0) };
 
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);
@@ -157,8 +157,8 @@ public class AStarTest {
 		AStar aStar = AStar.getSingleton();
 		Graph mapGraph = new Graph();
 
-		Point[] nodes = { new Point(0, 0), new Point(1, 0), new Point(0, 1),
-				new Point(1, 1) };
+		Point[] nodes = { new Point(0.0, 0.0), new Point(1.0, 0.0), new Point(0.0, 1.0),
+				new Point(1.0, 1.0) };
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);
 		mapGraph.addNode(nodes[2]);
@@ -175,7 +175,7 @@ public class AStarTest {
 
 		boolean exceptionThrown = false;
 		try {
-			aStar.calculateRoute(new Point(3, 3), nodes[1], mapGraph);
+			aStar.calculateRoute(new Point(3.0, 3.0), nodes[1], mapGraph);
 		} catch (IllegalArgumentException e) {
 			exceptionThrown = true;
 		}
@@ -192,8 +192,8 @@ public class AStarTest {
 		AStar aStar = AStar.getSingleton();
 		Graph mapGraph = new Graph();
 
-		Point[] nodes = { new Point(0, 2), new Point(2, 2), new Point(1, 1),
-				new Point(3, 4), new Point(0, 0) };
+		Point[] nodes = { new Point(0.0, 2.0), new Point(2.0, 2.0), new Point(1.0, 1.0),
+				new Point(3.0, 4.0), new Point(0.0, 0.0) };
 
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);
@@ -235,8 +235,8 @@ public class AStarTest {
 		AStar aStar = AStar.getSingleton();
 		Graph mapGraph = new Graph();
 
-		Point[] nodes = { new Point(0, 2), new Point(2, 2), new Point(1, 1),
-				new Point(3, 4), new Point(0, 0) };
+		Point[] nodes = { new Point(0.0, 2.0), new Point(2.0, 2.0), new Point(1.0, 1.0),
+				new Point(3.0, 4.0), new Point(0.0, 0.0) };
 
 		mapGraph.addNode(nodes[0]);
 		mapGraph.addNode(nodes[1]);

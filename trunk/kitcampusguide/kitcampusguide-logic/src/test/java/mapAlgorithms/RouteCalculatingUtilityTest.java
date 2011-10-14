@@ -27,8 +27,8 @@ public class RouteCalculatingUtilityTest {
 	@BeforeClass
 	public static void beforeClass() {
 		mapLoader = new MapLoader() {
-			private Point[] points = { new Point(0, 0), new Point(1, 0),
-					new Point(0, 1), new Point(1, 1), new Point(2, 3) };
+			private Point[] points = { new Point(0.0, 0.0), new Point(1.0, 0.0),
+					new Point(0.0, 1.0), new Point(1.0, 1.0), new Point(2.0, 3.0) };
 
 			private Graph graph = null;
 
@@ -82,7 +82,7 @@ public class RouteCalculatingUtilityTest {
 		RouteCalculatingUtility.setMapLoader(mapLoader);
 		Graph graph = RouteCalculatingUtility.getMapLoader().getGraph();
 		Graph streetGraph = RouteCalculatingUtility
-				.calculateStreetGraph(new Point(5, 6));
+				.calculateStreetGraph(new Point(5.0, 6.0));
 
 		Assert.assertEquals(6, streetGraph.numberOfNodes());
 		Assert.assertTrue(111319.49079326246 - streetGraph.getEdge(0, 2) == 0);
@@ -113,7 +113,7 @@ public class RouteCalculatingUtilityTest {
 		RouteCalculatingUtility.setMapLoader(mapLoader);
 		Graph graph = RouteCalculatingUtility.getMapLoader().getGraph();
 		Graph streetGraph = RouteCalculatingUtility.calculateStreetGraph(
-				new Point(5, 6), new Point(10, 10));
+				new Point(5.0, 6.0), new Point(10.0, 10.0));
 
 		Assert.assertEquals(7, streetGraph.numberOfNodes());
 		Assert.assertTrue(111319.49079326246 - streetGraph.getEdge(0, 2) == 0);
@@ -149,7 +149,7 @@ public class RouteCalculatingUtilityTest {
 
 		RouteCalculatingUtility.setMapLoader(mapLoader);
 		Graph graph = RouteCalculatingUtility.getMapLoader().getGraph();
-		Graph streetGraph = RouteCalculatingUtility.calculateStreetGraph(new Point(0, 0));
+		Graph streetGraph = RouteCalculatingUtility.calculateStreetGraph(new Point(0.0, 0.0));
 
 		Assert.assertEquals(5, streetGraph.numberOfNodes());
 		Assert.assertTrue(111319.49079326246 - streetGraph.getEdge(0, 2) == 0);
