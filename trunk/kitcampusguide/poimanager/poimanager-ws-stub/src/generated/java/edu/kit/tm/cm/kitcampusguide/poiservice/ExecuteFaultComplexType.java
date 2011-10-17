@@ -42,11 +42,11 @@ import javax.xml.bind.annotation.XmlType;
 public class ExecuteFaultComplexType {
 
     @XmlElements({
+        @XmlElement(name = "deleteFaults", type = DeleteFaultComplexType.class),
         @XmlElement(name = "readFaults", type = ReadFaultComplexType.class),
-        @XmlElement(name = "updateFaults", type = UpdateFaultComplexType.class),
-        @XmlElement(name = "selectFaults", type = SelectFaultComplexType.class),
         @XmlElement(name = "createFaults", type = CreateFaultComplexType.class),
-        @XmlElement(name = "deleteFaults", type = DeleteFaultComplexType.class)
+        @XmlElement(name = "updateFaults", type = UpdateFaultComplexType.class),
+        @XmlElement(name = "selectFaults", type = SelectFaultComplexType.class)
     })
     protected List<Object> createFaultsOrReadFaultsOrUpdateFaults;
 
@@ -68,11 +68,11 @@ public class ExecuteFaultComplexType {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
+     * {@link DeleteFaultComplexType }
      * {@link ReadFaultComplexType }
+     * {@link CreateFaultComplexType }
      * {@link UpdateFaultComplexType }
      * {@link SelectFaultComplexType }
-     * {@link CreateFaultComplexType }
-     * {@link DeleteFaultComplexType }
      * 
      * 
      */

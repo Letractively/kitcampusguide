@@ -42,11 +42,11 @@ import javax.xml.bind.annotation.XmlType;
 public class ExecuteResponseComplexType {
 
     @XmlElements({
-        @XmlElement(name = "updateResponses", type = UpdateResponseComplexType.class),
-        @XmlElement(name = "selectResponses", type = SelectResponseComplexType.class),
+        @XmlElement(name = "readResponses", type = ReadResponseComplexType.class),
         @XmlElement(name = "deleteResponses", type = DeleteResponseComplexType.class),
+        @XmlElement(name = "selectResponses", type = SelectResponseComplexType.class),
         @XmlElement(name = "createResponses", type = CreateResponseComplexType.class),
-        @XmlElement(name = "readResponses", type = ReadResponseComplexType.class)
+        @XmlElement(name = "updateResponses", type = UpdateResponseComplexType.class)
     })
     protected List<Object> createResponsesOrReadResponsesOrUpdateResponses;
 
@@ -68,11 +68,11 @@ public class ExecuteResponseComplexType {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link UpdateResponseComplexType }
-     * {@link SelectResponseComplexType }
-     * {@link DeleteResponseComplexType }
-     * {@link CreateResponseComplexType }
      * {@link ReadResponseComplexType }
+     * {@link DeleteResponseComplexType }
+     * {@link SelectResponseComplexType }
+     * {@link CreateResponseComplexType }
+     * {@link UpdateResponseComplexType }
      * 
      * 
      */
