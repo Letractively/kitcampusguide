@@ -54,7 +54,7 @@ public class ConcreteMapAlgorithmsTest {
 		boolean found = false;
 
 		for (POI poi : suggestions) {
-			if (i.equals(poi.getUid())) {
+			if (i.equals(poi.getId())) {
 				found = true;
 			}
 		}
@@ -109,7 +109,7 @@ public class ConcreteMapAlgorithmsTest {
 		MapAlgorithms concreteMapAlgorithms = new ConcreteMapAlgorithms();
 		POI searchedPOI = concreteMapAlgorithms.searchPOI("Ger");
 		Assert.assertNotNull(searchedPOI);
-		Assert.assertEquals(Integer.valueOf(1), searchedPOI.getUid());
+		Assert.assertEquals(Integer.valueOf(1), searchedPOI.getId());
 	}
 
 	/**

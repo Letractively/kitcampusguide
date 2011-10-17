@@ -51,9 +51,9 @@ public class ConcreteQueryCalculatorTest {
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
-		Assert.assertEquals(Integer.valueOf(3), suggestions.get(0).getUid());
-		Assert.assertEquals(Integer.valueOf(4), suggestions.get(1).getUid());
-		Assert.assertEquals(Integer.valueOf(1), suggestions.get(2).getUid());
+		Assert.assertEquals(Integer.valueOf(3), suggestions.get(0).getId());
+		Assert.assertEquals(Integer.valueOf(4), suggestions.get(1).getId());
+		Assert.assertEquals(Integer.valueOf(1), suggestions.get(2).getId());
 	}
 
 	/**
@@ -67,9 +67,9 @@ public class ConcreteQueryCalculatorTest {
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
-		Assert.assertEquals(Integer.valueOf(3), suggestions.get(0).getUid());
-		Assert.assertEquals(Integer.valueOf(4), suggestions.get(1).getUid());
-		Assert.assertEquals(Integer.valueOf(1), suggestions.get(2).getUid());
+		Assert.assertEquals(Integer.valueOf(3), suggestions.get(0).getId());
+		Assert.assertEquals(Integer.valueOf(4), suggestions.get(1).getId());
+		Assert.assertEquals(Integer.valueOf(1), suggestions.get(2).getId());
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class ConcreteQueryCalculatorTest {
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(1, suggestions.size());
-		Assert.assertEquals(Integer.valueOf(1), suggestions.get(0).getUid());
+		Assert.assertEquals(Integer.valueOf(1), suggestions.get(0).getId());
 	}
 
 	/**
@@ -97,10 +97,10 @@ public class ConcreteQueryCalculatorTest {
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(4, suggestions.size());
 
-		Assert.assertEquals(Integer.valueOf(2), suggestions.get(0).getUid());
-		Assert.assertEquals(Integer.valueOf(3), suggestions.get(1).getUid());
-		Assert.assertEquals(Integer.valueOf(1), suggestions.get(2).getUid());
-		Assert.assertEquals(Integer.valueOf(4), suggestions.get(3).getUid());
+		Assert.assertEquals(Integer.valueOf(2), suggestions.get(0).getId());
+		Assert.assertEquals(Integer.valueOf(3), suggestions.get(1).getId());
+		Assert.assertEquals(Integer.valueOf(1), suggestions.get(2).getId());
+		Assert.assertEquals(Integer.valueOf(4), suggestions.get(3).getId());
 	}
 
 	/**
@@ -116,10 +116,10 @@ public class ConcreteQueryCalculatorTest {
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(4, suggestions.size());
 
-		Assert.assertEquals(Integer.valueOf(2), suggestions.get(0).getUid());
-		Assert.assertEquals(Integer.valueOf(4), suggestions.get(1).getUid());
-		Assert.assertEquals(Integer.valueOf(1), suggestions.get(2).getUid());
-		Assert.assertEquals(Integer.valueOf(3), suggestions.get(3).getUid());
+		Assert.assertEquals(Integer.valueOf(2), suggestions.get(0).getId());
+		Assert.assertEquals(Integer.valueOf(4), suggestions.get(1).getId());
+		Assert.assertEquals(Integer.valueOf(1), suggestions.get(2).getId());
+		Assert.assertEquals(Integer.valueOf(3), suggestions.get(3).getId());
 
 	}
 
@@ -225,7 +225,7 @@ public class ConcreteQueryCalculatorTest {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
 		POI searchedPOI = queryCalculator.searchPOI("Audi");
 		Assert.assertNotNull(searchedPOI);
-		Assert.assertEquals(Integer.valueOf(3), searchedPOI.getUid());
+		Assert.assertEquals(Integer.valueOf(3), searchedPOI.getId());
 	}
 
 	/**
@@ -238,7 +238,7 @@ public class ConcreteQueryCalculatorTest {
 
 		POI poi = queryCalculator.searchPOI("");
 		Assert.assertNotNull(poi);
-		Assert.assertEquals(Integer.valueOf(3), poi.getUid());
+		Assert.assertEquals(Integer.valueOf(3), poi.getId());
 	}
 
 	/**

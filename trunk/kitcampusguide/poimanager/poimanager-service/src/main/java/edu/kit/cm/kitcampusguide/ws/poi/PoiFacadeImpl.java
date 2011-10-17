@@ -179,7 +179,7 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
         if (foundPoi != null) {
 
         	PoiWithId pwi = new PoiWithId();
-        	pwi.setUid(foundPoi.getUid());
+        	pwi.setUid(foundPoi.getId());
         	pwi.setName(foundPoi.getName());
         	pwi.setLongitude(foundPoi.getLongitude());
         	pwi.setLatitude(foundPoi.getLatitude());

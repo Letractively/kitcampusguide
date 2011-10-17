@@ -28,7 +28,7 @@ public class POI extends Point implements Cloneable, Entity {
 	private String separatedGroupIds;
 	private static final String SEPARATOR = "###";
 
-	public POI(String name, Integer uid, String icon, String description,
+	public POI(String name, Integer id, String icon, String description,
 			Double longitude, Double latitude, Collection<String> groupIds,
 			Boolean publicly) {
 		super(longitude, latitude);
@@ -36,7 +36,7 @@ public class POI extends Point implements Cloneable, Entity {
 		this.icon = icon;
 		this.name = name;
 		setGroupIds(groupIds);
-		this.setUid(uid);
+		this.setId(id);
 	}
 
 	public POI(String name, Integer uid, String icon, String description,
@@ -53,13 +53,13 @@ public class POI extends Point implements Cloneable, Entity {
 		this(null, null, null, null, null, null, null, null);
 	}
 
-	public POI(String name, int uid, String icon, String description, double longitude,
+	public POI(String name, int id, String icon, String description, double longitude,
 			double latitude) {
 		super(longitude, latitude);
 		this.name = name;
 		this.description = description;
 		this.icon = icon;
-		this.setUid(uid);
+		this.setId(id);
 	}
 
 

@@ -31,7 +31,7 @@ public class PoiConverter {
 	public static POI convertToPojo(PoiWithId pwi) {
         POI convertion = new POI();
 
-        convertion.setUid(pwi.getUid());
+        convertion.setId(pwi.getUid());
         convertion.setName(pwi.getName());
         convertion.setDescription(pwi.getDescription());
         convertion.setLatitude(pwi.getLatitude());
@@ -48,7 +48,7 @@ public class PoiConverter {
 	
 	public static PoiWithId createPoiWithId (POI poi){
 		PoiWithId result = new PoiWithId();
-		result.setUid(poi.getUid());
+		result.setUid(poi.getId());
 		result.setName(poi.getName());
 		result.setDescription(poi.getDescription());
         if (poi.getLatitude() == null) {

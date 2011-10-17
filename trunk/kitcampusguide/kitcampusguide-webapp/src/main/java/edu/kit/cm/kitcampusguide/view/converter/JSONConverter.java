@@ -35,7 +35,7 @@ public final class JSONConverter {
 	 */
 	public static JSONObject convertPOI(POI p) {
 		JSONObject poi = new JSONObject();
-		poi.put("id", p.getUid());
+		poi.put("id", p.getId());
 		poi.put("lon", p.getLongitude());
 		poi.put("lat", p.getLatitude());
 		poi.put("name", p.getName());
@@ -72,7 +72,7 @@ public final class JSONConverter {
 	 */
 	public static JSONObject convertPOICategory(POICategory pc) {
 		JSONObject result = new JSONObject();
-		result.put("id", pc.getUid());
+		result.put("id", pc.getId());
 		result.put("icon", pc.getIcon());
 		result.put("name", pc.getName());
 		result.put("description", pc.getDescription());

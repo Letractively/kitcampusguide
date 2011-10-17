@@ -52,15 +52,15 @@ public class PoiCategoryDaoImplTest {
     @Rollback
     public void uidAssignedAfterCreation() throws PoiDaoException {
 
-        assertNull(category2.getUid());
+        assertNull(category2.getId());
         poiCategoryDao.save(category2);
-        assertNotNull(category2.getUid());
+        assertNotNull(category2.getId());
     }
 
     @Test
     public void findByUid() throws PoiDaoException {
 
-        POICategory category1FromDb = (POICategory) poiCategoryDao.findByUid(category1.getUid());
+        POICategory category1FromDb = (POICategory) poiCategoryDao.findByUid(category1.getId());
         assertEquals(category1Clone, category1FromDb);
     }
 

@@ -101,7 +101,7 @@ public class PoiFacadeTest {
 
     @Test
     public void testUpdatingPoi() throws ExecuteFault, PoiDaoException {
-        this.poi2.setUid(this.poiCopyFromDb.getUid());
+        this.poi2.setId(this.poiCopyFromDb.getId());
         final PoiWithId poiWithId = PoiConverter.createPoiWithId(this.poi2);
         final POI poiClone = PoiConverter.convertToPojo(poiWithId);
         final UpdateRequestComplexType request = new UpdateRequestComplexType();
@@ -111,13 +111,13 @@ public class PoiFacadeTest {
 
         this.poiService.execute(execRequest);
 
-        assertEquals(poiClone, this.poiDao.findByUid(this.poiCopyFromDb.getUid()));
+        assertEquals(poiClone, this.poiDao.findByUid(this.poiCopyFromDb.getId()));
     }
 
     @Test
     public void testReadingPoi() throws ExecuteFault {
         final ReadRequestComplexType request = new ReadRequestComplexType();
-        request.setId(this.poiCopyFromDb.getUid());
+        request.setId(this.poiCopyFromDb.getId());
         final ExecuteRequestComplexType execRequest = new ExecuteRequestComplexType();
         execRequest.getCreateRequestsOrReadRequestsOrUpdateRequests().add(request);
 
@@ -131,13 +131,13 @@ public class PoiFacadeTest {
     @Test
     public void testDeletingPoi() throws ExecuteFault, PoiDaoException {
         final DeleteRequestComplexType request = new DeleteRequestComplexType();
-        request.setId(this.poiCopyFromDb.getUid());
+        request.setId(this.poiCopyFromDb.getId());
         final ExecuteRequestComplexType execRequest = new ExecuteRequestComplexType();
         execRequest.getCreateRequestsOrReadRequestsOrUpdateRequests().add(request);
 
         this.poiService.execute(execRequest);
 
-        assertNull(this.poiDao.findByUid(this.poiCopyFromDb.getUid()));
+        assertNull(this.poiDao.findByUid(this.poiCopyFromDb.getId()));
     }
 
     private void assertPoisWithIdEqual(PoiWithId o, PoiWithId p) {

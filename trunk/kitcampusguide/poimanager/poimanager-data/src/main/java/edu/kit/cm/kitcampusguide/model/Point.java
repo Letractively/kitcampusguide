@@ -6,7 +6,7 @@ package edu.kit.cm.kitcampusguide.model;
  * @author Tobias Zündorf
  * @author Roland Steinegger, Karlsruhe Institute of Technology
  */
-public class Point extends AEntity implements Entity {
+public class Point extends AbstractEntity implements Entity {
 
 	/* The longitude of this Point */
 	private Double longitude;
@@ -49,7 +49,8 @@ public class Point extends AEntity implements Entity {
 			return false;
 		} else {
 			Point other = (Point) obj;
-			return equal(this.longitude, other.longitude) && equal(this.latitude, other.latitude);
+			return equal(this.longitude, other.longitude)
+					&& equal(this.latitude, other.latitude);
 		}
 	}
 

@@ -250,7 +250,7 @@ public class ConcretePOILoaderTest {
 
 		POICategory testPOI1 = poiloader.getPOICategory(1);
 
-		Assert.assertEquals(testPOI1.getUid(), poicat1.getUid());
+		Assert.assertEquals(testPOI1.getId(), poicat1.getId());
 		Assert.assertEquals(testPOI1.getName(), poicat1.getName());
 		Assert.assertEquals(testPOI1.getIcon(), poicat1.getIcon());
 		Assert.assertEquals(testPOI1.getDescription(), poicat1.getDescription());
@@ -259,7 +259,7 @@ public class ConcretePOILoaderTest {
 
 		POICategory testPOI2 = poiloader.getPOICategory(2);
 
-		Assert.assertEquals(testPOI2.getUid(), poicat2.getUid());
+		Assert.assertEquals(testPOI2.getId(), poicat2.getId());
 		Assert.assertEquals(testPOI2.getName(), poicat2.getName());
 		Assert.assertEquals(testPOI2.getIcon(), poicat2.getIcon());
 		Assert.assertEquals(testPOI2.getDescription(), poicat2.getDescription());
@@ -287,7 +287,7 @@ public class ConcretePOILoaderTest {
 
 		Assert.assertEquals(expectedPOICatList1.size(), testPOICatList1.size());
 
-		Assert.assertEquals(expectedPOICatList1.get(0).getUid(), testPOICatList1.get(0).getUid());
+		Assert.assertEquals(expectedPOICatList1.get(0).getId(), testPOICatList1.get(0).getId());
 		Assert.assertEquals(expectedPOICatList1.get(0).getName(), testPOICatList1.get(0).getName());
 		Assert.assertEquals(expectedPOICatList1.get(0).getIcon(), testPOICatList1.get(0).getIcon());
 		Assert.assertEquals(expectedPOICatList1.get(0).getDescription(), testPOICatList1.get(0).getDescription());
@@ -302,7 +302,7 @@ public class ConcretePOILoaderTest {
 
 		Assert.assertEquals(expectedPOICatList2.size(), testPOICatList2.size());
 
-		Assert.assertEquals(expectedPOICatList2.get(0).getUid(), testPOICatList2.get(0).getUid());
+		Assert.assertEquals(expectedPOICatList2.get(0).getId(), testPOICatList2.get(0).getId());
 		Assert.assertEquals(expectedPOICatList2.get(0).getName(), testPOICatList2.get(0).getName());
 		Assert.assertEquals(expectedPOICatList2.get(0).getIcon(), testPOICatList2.get(0).getIcon());
 		Assert.assertEquals(expectedPOICatList2.get(0).getDescription(), testPOICatList2.get(0).getDescription());
@@ -332,12 +332,12 @@ public class ConcretePOILoaderTest {
 
 		Assert.assertEquals(expectedPOICatList.size(), testPOICatList.size());
 
-		Assert.assertEquals(expectedPOICatList.get(0).getUid(), testPOICatList.get(0).getUid());
+		Assert.assertEquals(expectedPOICatList.get(0).getId(), testPOICatList.get(0).getId());
 		Assert.assertEquals(expectedPOICatList.get(0).getName(), testPOICatList.get(0).getName());
 		Assert.assertEquals(expectedPOICatList.get(0).getIcon(), testPOICatList.get(0).getIcon());
 		Assert.assertEquals(expectedPOICatList.get(0).getDescription(), testPOICatList.get(0).getDescription());
 
-		Assert.assertEquals(expectedPOICatList.get(1).getUid(), testPOICatList.get(1).getUid());
+		Assert.assertEquals(expectedPOICatList.get(1).getId(), testPOICatList.get(1).getId());
 		Assert.assertEquals(expectedPOICatList.get(1).getName(), testPOICatList.get(1).getName());
 		Assert.assertEquals(expectedPOICatList.get(1).getIcon(), testPOICatList.get(1).getIcon());
 		Assert.assertEquals(expectedPOICatList.get(1).getDescription(), testPOICatList.get(1).getDescription());

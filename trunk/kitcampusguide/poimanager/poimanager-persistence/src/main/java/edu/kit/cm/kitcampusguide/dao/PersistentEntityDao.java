@@ -1,7 +1,7 @@
 package edu.kit.cm.kitcampusguide.dao;
 
 import edu.kit.cm.kitcampusguide.dao.exception.PoiDaoException;
-import edu.kit.cm.kitcampusguide.model.AEntity;
+import edu.kit.cm.kitcampusguide.model.AbstractEntity;
 import edu.kit.cm.kitcampusguide.model.Entity;
 
 /**
@@ -13,11 +13,11 @@ public interface PersistentEntityDao {
 
     Entity findByUid(Integer uid) throws PoiDaoException;
 
-    Entity merge(AEntity persistentEntity) throws PoiDaoException;
+    Entity merge(AbstractEntity persistentEntity) throws PoiDaoException;
 
     void refresh(Entity persistentEntity) throws PoiDaoException;
 
     void remove(Entity persistentEntity) throws PoiDaoException;
 
-    void save(AEntity persistentEntity) throws PoiDaoException;
+    void save(AbstractEntity persistentEntity) throws PoiDaoException;
 }
