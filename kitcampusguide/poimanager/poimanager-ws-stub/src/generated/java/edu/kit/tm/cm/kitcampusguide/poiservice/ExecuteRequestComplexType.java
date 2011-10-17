@@ -43,8 +43,8 @@ public class ExecuteRequestComplexType {
 
     @XmlElements({
         @XmlElement(name = "updateRequests", type = UpdateRequestComplexType.class),
-        @XmlElement(name = "readRequests", type = ReadRequestComplexType.class),
         @XmlElement(name = "createRequests", type = CreateRequestComplexType.class),
+        @XmlElement(name = "readRequests", type = ReadRequestComplexType.class),
         @XmlElement(name = "deleteRequests", type = DeleteRequestComplexType.class),
         @XmlElement(name = "selectRequests", type = SelectRequestComplexType.class)
     })
@@ -69,8 +69,8 @@ public class ExecuteRequestComplexType {
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link UpdateRequestComplexType }
-     * {@link ReadRequestComplexType }
      * {@link CreateRequestComplexType }
+     * {@link ReadRequestComplexType }
      * {@link DeleteRequestComplexType }
      * {@link SelectRequestComplexType }
      * 
