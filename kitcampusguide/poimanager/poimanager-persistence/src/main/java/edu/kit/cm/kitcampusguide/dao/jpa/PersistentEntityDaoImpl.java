@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.orm.jpa.JpaTemplate;
 
 import edu.kit.cm.kitcampusguide.dao.PersistentEntityDao;
-import edu.kit.cm.kitcampusguide.model.AEntity;
+import edu.kit.cm.kitcampusguide.model.AbstractEntity;
 import edu.kit.cm.kitcampusguide.model.Entity;
 
 public abstract class PersistentEntityDaoImpl<E extends Entity> implements PersistentEntityDao {
@@ -35,7 +35,7 @@ public abstract class PersistentEntityDaoImpl<E extends Entity> implements Persi
 		return jpaTemplate.find(entityClass, uid);
 	}
 
-	public final Entity merge(AEntity persistentAEntity) {
+	public final Entity merge(AbstractEntity persistentAEntity) {
 		persistentAEntity.setDateLastUpdated(new Date());
 		return jpaTemplate.merge(persistentAEntity);
 	}
@@ -48,7 +48,7 @@ public abstract class PersistentEntityDaoImpl<E extends Entity> implements Persi
 		jpaTemplate.remove(persistentAEntity);
 	}
 
-	public final void save(AEntity persistentAEntity) {
+	public final void save(AbstractEntity persistentAEntity) {
 		persistentAEntity.setDateLastUpdated(new Date());
 		if (jpaTemplate.contains(persistentAEntity)) {
 			jpaTemplate.merge(persistentAEntity);

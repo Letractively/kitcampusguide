@@ -7,22 +7,22 @@ import java.util.Date;
  * 
  * @author Roland Steinegger, Karlsruhe Institute of Technology
  */
-public abstract class AEntity implements Entity {
+public abstract class AbstractEntity implements Entity {
 
-	private Integer uid;
+	private Integer id;
 	private String createdBy;
 	private Date dateCreated;
 	private String lastUpdatedBy;
 	private Date dateLastUpdated;
 
 	@Override
-	public Integer getUid() {
-		return uid;
+	public Integer getId() {
+		return id;
 	}
 
 	@Override
-	public void setUid(final Integer uid) {
-		this.uid = uid;
+	public void setId(final Integer id) {
+		this.id = id;
 	}
 
 	@Override

@@ -9,9 +9,9 @@ import java.util.Date;
  */
 public interface Entity {
 
-	Integer getUid();
+	Integer getId();
 
-	void setUid(final Integer uid);
+	void setId(final Integer id);
 
 	String getCreatedBy();
 

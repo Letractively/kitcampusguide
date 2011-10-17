@@ -53,7 +53,7 @@ public class PoiWithCategoryDaoImplTest {
         poiCategoryDao.save(category2);
         poiDao.save(poi1);
 
-        POI poi1FromDb = (POI) poiDao.findByUid(poi1.getUid());
+        POI poi1FromDb = (POI) poiDao.findByUid(poi1.getId());
         assertEquals(category2Clone, poi1FromDb.getCategory());
     }
 

@@ -11,7 +11,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @author Tobias Zündorf
  * @author Roland Steinegger, Karlsruhe Institute of Technology
  */
-public class POICategory extends AEntity implements Entity {
+public class POICategory extends AbstractEntity implements Entity {
 
 	private String name;
 	private String icon;
@@ -33,7 +33,7 @@ public class POICategory extends AEntity implements Entity {
 		this.description = description;
 		this.pois = new ArrayList<POI>(pois);
 		this.visible = false;
-		setUid(id);
+		setId(id);
 	}
 
 	public void add(POI poi) {

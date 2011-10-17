@@ -55,15 +55,15 @@ public class PoiDaoImplTest {
     @Rollback
     public void uidAssignedAfterCreation() throws PoiDaoException {
 
-        assertNull(poi3.getUid());
+        assertNull(poi3.getId());
         poiDao.save(poi3);
-        assertNotNull(poi3.getUid());
+        assertNotNull(poi3.getId());
     }
 
     @Test
     public void findByUid() throws PoiDaoException {
 
-        POI poi2FromDb = (POI) poiDao.findByUid(poi2.getUid());
+        POI poi2FromDb = (POI) poiDao.findByUid(poi2.getId());
         assertEquals(poi2Clone, poi2FromDb);
     }
 

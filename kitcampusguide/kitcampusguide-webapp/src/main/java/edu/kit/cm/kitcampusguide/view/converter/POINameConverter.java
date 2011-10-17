@@ -33,7 +33,7 @@ public class POINameConverter implements Converter {
         POILoader pl = new ConcretePOILoader();
         for (POI p : pl.getAllPOIs()) {
             if (p.getName().equals(arg2)) {
-                return new POI(p.getName(), p.getUid(), p.getIcon(), p.getDescription(), p.getLongitude(),
+                return new POI(p.getName(), p.getId(), p.getIcon(), p.getDescription(), p.getLongitude(),
                         p.getLatitude(), null, null);
             }
         }
