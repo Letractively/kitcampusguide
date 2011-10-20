@@ -6,9 +6,9 @@
 
 	<package>edu.kit.cm.kitcampusguide.model</package>
 
-	<mapped-superclass class="AEntity" access="FIELD">
+	<mapped-superclass class="AbstractEntity" access="FIELD">
 		<attributes>
-			<id name="uid">
+			<id name="id">
 				<generated-value strategy="AUTO" />
 			</id>
 
