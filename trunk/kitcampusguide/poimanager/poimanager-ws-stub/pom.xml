@@ -14,7 +14,9 @@
 	<properties>
 		<cxf.version>2.4.2</cxf.version>
 		<wsdl.location>${basedir}/src/main/webservice/PoiService.wsdl</wsdl.location>
-		<cxf.codegen.dir>src/generated/java</cxf.codegen.dir>
+		<!-- <cxf.codegen.dir>${project.build.directory}/generated/cxf</cxf.codegen.dir> -->
+		<cxf.codegen.dir>${basedir}/src/generated/java</cxf.codegen.dir>
+		<clean.version>2.4.1</clean.version>
 	</properties>
 
 	<build>
@@ -40,6 +42,19 @@
 										<execute />
 									</action>
 								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven</groupId>
+										<artifactId>maven-clean-plugin</artifactId>
+										<versionRange>[${clean.version},)</versionRange>
+										<goals>
+											<goal>clean</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
@@ -48,6 +63,29 @@
 		</pluginManagement>
 
 		<plugins>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>${clean.version}</version>
+				<executions>
+					<execution>
+						<id>auto-clean</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>src/generated/java</directory>
+							<includes>
+								<include>**/*.java</include>
+							</includes>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-codegen-plugin</artifactId>
@@ -61,6 +99,9 @@
 							<wsdlOptions>
 								<wsdlOption>
 									<wsdl>${wsdl.location}</wsdl>
+									<extraargs>
+										<extraarg>-verbose</extraarg>
+									</extraargs>
 								</wsdlOption>
 							</wsdlOptions>
 						</configuration>
@@ -80,6 +121,16 @@
 			<version>2.4.1</version>
 			<type>jar</type>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
