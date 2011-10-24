@@ -9,4 +9,4 @@
   * [Installation_m2e_wtp Eclipse m2e-Erweiterung m2e-wtp] zur Maven-Unterstützung von WTP-Projekten
   * Der [Installation_Eclipse_Mylyn Task-Managers Mylyn] für Eclipse erlaubt die fokussierte, task-basierte Entwicklung gemäß den Programmierkonventionen
   * Der [Installation_Eclipse_Mylyn_Google_Connector Mylyn-Konnektor für Google Code] ermöglicht die Nutzung des Google Code - Issue Tracking System in Mylyn 
-  *[Installation_SpringToolSuite Installation der SpringSource Tool Suite] zur Unterstützung bei der Verwendung des [http://www.springsource.com Spring-Frameworks]
+  *[Installation_SpringToolSuite Installation der SpringSource Tool Suite] zur Unterstützung bei der Verwendung des [http://www.springsource.com/developer/spring Spring-Frameworks]
