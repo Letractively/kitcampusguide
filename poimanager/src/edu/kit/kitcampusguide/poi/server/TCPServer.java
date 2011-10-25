@@ -1,40 +1,73 @@
 package edu.kit.kitcampusguide.poi.server;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 /**
- * An example Server implemented with Java Sockets. Listens for incoming strings
+ * An implementation for a Socket-based TCP Server. Listens for incoming strings
  * and modifies them to uppercase. A client for this server is TCPClient.
  * 
  * @author Andrei Miclaus
  * 
  */
-class TCPServer {
+class TCPServer extends AbstractServer {
 
-	public static void main(String argv[]) throws Exception {
-
-		String clientSentence;
-		String capitalizedSentence;
-		// create a socket to listen for and accept incoming client requests
-		ServerSocket welcomeSocket = new ServerSocket(8000);
-		while (true) {
-			// accept an incoming client request by opening a new socket
-			Socket connectionSocket = welcomeSocket.accept();
-			// Obtain the connecting input and output streams
-			// between client and server
-			BufferedReader inFromClient = new BufferedReader(
-					new InputStreamReader(connectionSocket.getInputStream()));
-			DataOutputStream outToClient = new DataOutputStream(
-					connectionSocket.getOutputStream());
-			// retrieve the data, send by the client
-			clientSentence = inFromClient.readLine();
-			// process data: modify incoming string to uppercase
-			capitalizedSentence = clientSentence.toUpperCase() + '\n';
-			// send process result back to client
-			outToClient.writeBytes(capitalizedSentence);
-			// close the connection to the client
-			connectionSocket.close();
-		}
+	private static final String EXCEPTION_MESSAGE = "Request was not understood. Server only accepts strings.";
+	private static final int SERVER_PORT = 8000;
+	private static final char CR = '\n';
+	
+	@Override
+	protected int getServerPort() {
+		return SERVER_PORT;
 	}
+
+	/**
+	 * Reads a line of text from the client request.
+	 */
+	@Override
+	protected Object getRequest() throws IOException {
+		return new BufferedReader(new InputStreamReader(getConnectionSocket()
+				.getInputStream())).readLine();
+	}
+
+	/**
+	 * Modify incoming string to uppercase.
+	 */
+	@Override
+	protected Object processRequest(Object request) {
+		String result = null;
+		if (request instanceof String) {
+			result = ((String) request).toUpperCase() + CR;
+		}
+		return result;
+	}
+
+	/**
+	 * Sends the modified data back to the client. 
+	 */
+	@Override
+	protected void respondToClient(Object response) throws IOException {
+		Writer w = new OutputStreamWriter(
+				getConnectionSocket().getOutputStream());
+		if (response != null && response instanceof String) {
+			w.write((String) response);
+		} else {
+			w.write(EXCEPTION_MESSAGE);
+		}
+		w.flush();
+		w.close();
+	}
+
+	/**
+	 * Start routine of the server
+	 * @param args
+	 */
+	public static void main(String args[]) {
+		Server server = new TCPServer();
+		server.start();
+	}
+
 }
