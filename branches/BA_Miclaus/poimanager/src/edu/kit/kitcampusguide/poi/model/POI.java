@@ -1,6 +1,16 @@
 package edu.kit.kitcampusguide.poi.model;
 
-public class POI {
+import java.io.Serializable;
+
+public class POI implements Serializable{
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6728790350992963092L;
+	
+	
 	private int id;
 	private String name;
 	private String category;

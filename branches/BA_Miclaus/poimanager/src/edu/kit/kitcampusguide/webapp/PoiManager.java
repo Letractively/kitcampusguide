@@ -1,10 +1,6 @@
 package edu.kit.kitcampusguide.webapp;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -27,7 +23,11 @@ import edu.kit.kitcampusguide.poi.model.POI;
  */
 @WebServlet(description = "Provides a list of POIs to a matching category", urlPatterns = { "/search" })
 public class PoiManager extends HttpServlet {
-	
+
+	private static final String CATEGORY_PARAM_NAME = "category";
+	private static final String RESULT_ATTR = "results";
+	private static final String RESULT_PAGE = "results.jsp";
+	private static final String ERROR_PAGE = "error.jsp";
 	private static final String RESOURCE_PATH = "/WEB-INF/data/POIList.xml";
 	private static final long serialVersionUID = 1L;
 
@@ -57,7 +57,8 @@ public class PoiManager extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		// get the category for which to show POIs
-		String reqPoiCategory = (String) request.getParameter("category");
+		String reqPoiCategory = (String) request
+				.getParameter(CATEGORY_PARAM_NAME);
 		// get the resource location
 		String poiListLocation = getServletContext().getRealPath(RESOURCE_PATH);
 		// retrieve the list of Pois from the XmlPoiManager
@@ -68,58 +69,14 @@ public class PoiManager extends HttpServlet {
 					poiListLocation);
 		}
 
-		PrintWriter wr = response.getWriter();
-		wr.print(generateHtmlResponse(matchingPois));
-	}
-
-
-	private String generateHtmlResponse(List<POI> matchingPois) {
-		return new StringWriter().append(generateHtmlHeader())
-				.append(generatePoiListHtml(matchingPois))
-				.append(generateHtmlFooter()).toString();
-	}
-
-	private String generatePoiListHtml(List<POI> pois) {
-		StringWriter w = new StringWriter();
-		if (pois == null || pois.isEmpty()) {
-			w.append("Zu der Kategorie wurden keine Points of Interest gefunden.");
+		if (matchingPois == null) {
+			request.getSession().setAttribute("errorMsg", "Undefined");
+			response.sendRedirect(ERROR_PAGE);
 		} else {
-			for (POI p : pois)
-				w.append(generatePoiInfoHtml(p));
+			// save the result list to the session object
+			request.getSession().setAttribute(RESULT_ATTR, matchingPois);
+			response.sendRedirect(RESULT_PAGE);
 		}
-		return w.toString();
-	}
-
-	private CharSequence generateHtmlFooter() {
-		return new StringWriter().append("<br />")
-		// insert a back button with a javascript command on the on mouse click
-		// event
-		// return to index.html works directly because in root folder?
-				.append("<button onClick=\"window.location='index.html'\">Back home!</button>")
-				// standard end of html document
-				.append("</body>").append("</html>").toString();
-
-	}
-
-	private String generatePoiInfoHtml(POI p) {
-		return new StringWriter().append("<br />").append("Name is: ")
-				.append(p.getName()).append("<br />").append("ID is: ")
-				.append(String.valueOf(p.getId())).append("<br />")
-				.append("<br />").toString();
-	}
-
-	private String generateHtmlHeader() {
-		// html 5 doctype
-		return new StringWriter()
-				.append("<!DOCTYPE html>")
-				// start of html document
-				.append("<html>")
-				.append("<head>")
-				.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\">")
-				// title tag of the html document
-				.append("<title>KCG POI Management</title>").append("</head>")
-				// start of the body tag where our data goes
-				.append("<body>").toString();
 	}
 
 }
