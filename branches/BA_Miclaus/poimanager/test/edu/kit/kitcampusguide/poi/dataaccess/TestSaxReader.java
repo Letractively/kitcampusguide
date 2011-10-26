@@ -14,7 +14,7 @@ public class TestSaxReader {
 	
 	private static final double DELTA = 0.0001;
 
-	private String file = "./Data/POIList.xml";
+	private String file = "./WebContent/data/POIList.xml";
 	
 	private SaxReader reader;
 
@@ -39,6 +39,7 @@ public class TestSaxReader {
 		assertNotNull(p);
 		assertEquals(2323,p.getId());
 		assertEquals("Mensa am Adenaurerring", p.getName());
+		assertEquals("mensa", p.getCategory());
 		assertEquals(49.011924, p.getLatitude(), DELTA);
 		assertEquals(8.41678, p.getLongitude(), DELTA);
 	}

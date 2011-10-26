@@ -22,6 +22,7 @@ import edu.kit.kitcampusguide.poi.model.POI;
 
 public class DomWriter {
 
+	private static final String CATEGORY_ELEMENT_NAME_NS = "kcg:category";
 	protected static final String KCG_NS_PREFIX = "kcg";
 	protected static final String KCG_NAMESPACE = "http://www.cm-tm.uni-karlsruhe.de/KCG";
 	
@@ -91,6 +92,10 @@ public class DomWriter {
 		Element name = document.createElement(NAME_ELEMENT_NAME_NS);
 		name.setTextContent(p.getName());
 		poi.appendChild(name);
+		// create a category element
+        Element category= document.createElement(CATEGORY_ELEMENT_NAME_NS);
+        category.setTextContent(p.getCategory());
+        poi.appendChild(category);
 		// create a latitude element
 		Element latitude = document.createElement(LAT_ELEMENT_NAME_NS);
 		latitude.setTextContent(String.valueOf(p.getLatitude()));
