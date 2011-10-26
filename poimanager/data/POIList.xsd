@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:kcg="http://www.cm-tm.uni-karlsruhe.de/KCG" targetNamespace="http://www.cm-tm.uni-karlsruhe.de/KCG"
+	elementFormDefault="qualified">
+
+	<xsd:element name="poiList">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="poi" type="kcg:PointOfInterest"
+					maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="PointOfInterest">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="category" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="latitude" type="xsd:float" />
+			<xsd:element name="longitude" type="xsd:float" />
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:integer" use="required"/>
+	</xsd:complexType>
+</xsd:schema>
