@@ -3,6 +3,7 @@ package edu.kit.kitcampusguide.poi.model;
 public class POI {
 	private int id;
 	private String name;
+	private String category;
 	private double latitude;
 	private double longitude;
 
@@ -34,6 +35,20 @@ public class POI {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * @return the category
+	 */
+	public String getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	/**

@@ -29,7 +29,7 @@ public class SaxReader {
 	private State state;
 
 	private enum State {
-		WAIT, NAME, LAT, LONG;
+		WAIT, NAME, CAT, LAT, LONG;
 	}
 
 	public List<POI> readAllPOIs(String url) {
@@ -70,6 +70,9 @@ public class SaxReader {
 			if (qName.equals(NAME_ELEMENT_NAME_NS)) {
 				state = State.NAME;
 			}
+			if (qName.equals("kcg:category")) {
+                state = State.CAT;
+            }
 			if (qName.equals(LAT_ELEMENT_NAME_NS)) {
 				state = State.LAT;
 			}
@@ -90,6 +93,10 @@ public class SaxReader {
 				myPoi.setName(new String(ch, start, length));
 				System.out.println("\t Processing name...");
 				break;
+			case CAT:
+                myPoi.setCategory(new String(ch, start, length));
+                System.out.println("\t Processing category...");
+                break;
 			case LAT:
 				myPoi.setLatitude(Float
 						.parseFloat(new String(ch, start, length)));
