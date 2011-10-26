@@ -1,4 +1,4 @@
-package edu.kit.kitcampusguide.poi.server;
+package edu.kit.kitcampusguide.server;
 
 public class WebServer extends TCPServer {
 

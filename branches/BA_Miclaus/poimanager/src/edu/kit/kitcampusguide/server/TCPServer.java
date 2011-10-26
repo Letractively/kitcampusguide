@@ -1,4 +1,4 @@
-package edu.kit.kitcampusguide.poi.server;
+package edu.kit.kitcampusguide.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;

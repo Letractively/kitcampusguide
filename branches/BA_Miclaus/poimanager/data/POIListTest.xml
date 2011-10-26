@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<kcg:poiList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.cm-tm.uni-karlsruhe.de/KCG POIList.xsd"
+	xmlns:kcg="http://www.cm-tm.uni-karlsruhe.de/KCG">
+	<kcg:poi id="2323">
+		<kcg:name>Mensa am Adenaurerring</kcg:name>
+		<kcg:latitude>49.011924</kcg:latitude>
+		<kcg:longitude>8.41678</kcg:longitude>
+	</kcg:poi>
+	<kcg:poi id="12314">
+		<kcg:name>Chemie Bibliothek</kcg:name>
+		<kcg:latitude>49.01128</kcg:latitude>
+		<kcg:longitude>8.413655</kcg:longitude>
+	</kcg:poi>
+	<kcg:poi id="1235">
+		<kcg:name>Informatik Bibliothek</kcg:name>
+		<kcg:latitude>49.013886</kcg:latitude>
+		<kcg:longitude>8.419786</kcg:longitude>
+	</kcg:poi>
+</kcg:poiList>
