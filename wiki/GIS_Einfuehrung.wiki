@@ -9,7 +9,7 @@ Mit dem Aufkommen von kommerziellen und Open-Source Web- und kartenbasierte geog
 In der Form von Tutorien, sollen anhand der Funktionalität des KITCampusGuides vereinfachte Beispiele zu grundlegenden Konzepte von GIS- und Web Mapping-Anwendungen aufgezeigt und die Funktionsweise von verschiedenen GIS-Frameworks demonstriert werden.
 
 == Grundlagen ==
-  * [GIS-Vektor Vektor-basierte Geo-Informationen]: Einführung in die Erstellung von Karten basierend auf Punkten, Linien und Polygon-Daten aus verschiedenen öffentlichen Quellen
+  * [GIS_Vektor Vektor-basierte Geo-Informationen]: Einführung in die Erstellung von Karten basierend auf Punkten, Linien und Polygon-Daten aus verschiedenen öffentlichen Quellen
   * Projektionen
   * Raster-basierte Informationen
   * räumliche Datenbanken
