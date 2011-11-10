@@ -13,8 +13,8 @@
       * [Installation_Eclipse_Mylyn_Google_Connector Installation des Mylyn-Konnektor für Google Code] 
       * [Installation_SpringToolSuite Installation der SpringSource Tool Suite für Eclipse]
     * [Installation_Tomcat Installation des Servlet-Containers Apache Tomcat]
-  * Anleitungen, How-Tos, Konventionen
-    * Subversion
+  * [Anleitungen Anleitungen, How-Tos, Konventionen]
+    * [Subversion]
       * [SVN_Grundlagen Grundlagen zu Subversion]
       * [Installation_Subversive Installation des SVN-Klientes Eclipse Subversive]
       * [SVN_Arbeiten_mit_SVN_in_Eclipse Arbeiten mit Subversion in Eclipse]
