@@ -1,0 +1,204 @@
+/**
+ * 
+ */
+package edu.kit.pse.ass.entity;
+
+import java.util.Collection;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
+
+/**
+ * @author Sebastian
+ * 
+ */
+@Entity(name = "t_facility")
+public abstract class Facility {
+
+	/**
+	 * unique ID of this facility
+	 */
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@Id
+	private String id;
+
+	/**
+	 * the name of this facility. e.g. SR -119 or HS37
+	 */
+	private String name;
+
+	/**
+	 * the parent facility of this facility. e.g. building is parent of room.
+	 */
+	private Facility parentFacility;
+
+	/**
+	 * the contained facilities of this facility. e.g. a room contains
+	 * workplaces.
+	 */
+	private Collection<Facility> containedFacilities;
+
+	/**
+	 * the properties of this facility. e.g. WLAN, Strom, PC
+	 */
+	private Collection<Property> properties;
+	
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) throws IllegalArgumentException {
+		if (name == null || name.isEmpty()) {
+			throw new IllegalArgumentException("name must not null or empty.");
+		} else {
+			this.name = name;
+		}
+	}
+
+	/**
+	 * @return the parentFacility
+	 */
+	public Facility getParentFacility() {
+		return parentFacility;
+	}
+
+	/**
+	 * @param parentFacility
+	 *            the parentFacility to set
+	 */
+	private void setParentFacility(Facility parentFacility) {
+		this.parentFacility = parentFacility;
+	}
+
+	/**
+	 * @return the containedFacilities
+	 */
+	public Collection<Facility> getContainedFacilities() {
+		return containedFacilities;
+	}
+
+	/**
+	 * Adds a facility to this facility as a contained one.
+	 * 
+	 * @param containedFacility
+	 *            the facility to add as contained facility
+	 * @throws IllegalArgumentException
+	 *             , when containedFacility is null.
+	 */
+	public void addContainedFacilitiy(Facility containedFacility)
+			throws IllegalArgumentException {
+
+		if (containedFacility == null) {
+			throw new IllegalArgumentException(
+					"containedFacility must not be null.");
+		}
+		if (containedFacility.getParentFacility() != null) {
+			throw new IllegalArgumentException(
+					"the facility to add already have a parent.");
+		}
+
+		containedFacilities.add(containedFacility);
+		containedFacility.setParentFacility(this);
+	}
+
+	/**
+	 * Removes a facility of the collection of the contained facility.
+	 * 
+	 * @param removedFacility
+	 *            the facility to remove
+	 * @throws IllegalArgumentException
+	 *             , when removedFacility is null or not contained in the
+	 *             collection.
+	 */
+	public void removeContainedFacility(Facility removedFacility)
+			throws IllegalArgumentException {
+		if (containedFacilities.contains(removedFacility)) {
+			containedFacilities.remove(removedFacility);
+		} else {
+			throw new IllegalArgumentException(
+					"the facility to remove is not contained in this facility");
+		}
+	}
+
+	/**
+	 * @return the properties
+	 */
+	public Collection<Property> getProperties() {
+		return properties;
+	}
+
+	/**
+	 * Check whether a facility have a property or not.
+	 * 
+	 * @param property
+	 *            the property to check
+	 * @return true , when the facility have the specified property
+	 */
+	public boolean hasProperty(Property property) {
+		if (properties.contains(property)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Adds a property to the collection of properties of the facility.
+	 * 
+	 * @param property
+	 *            the property to add.
+	 * @throws IllegalArgumentException
+	 *             , when property was already added or property is null.
+	 */
+	public void addProperty(Property property) throws IllegalArgumentException {
+		if (properties.contains(property)) {
+			throw new IllegalArgumentException(
+					"property was added a long time ago ;)");
+		}
+		if (property == null) {
+			throw new IllegalArgumentException("property must not null");
+		}
+
+		properties.add(property);
+	}
+
+	/**
+	 * Removes a property of the collection of properties of the facility.
+	 * 
+	 * @param property
+	 *            the property to remove
+	 * @throws IllegalArgumentException
+	 *             , when property is null or not contained in the collection.
+	 */
+	public void removeProperty(Property property)
+			throws IllegalArgumentException {
+		if (property == null) {
+			throw new IllegalArgumentException("property must not null.");
+		}
+		if (properties.contains(property)) {
+			properties.remove(property);
+		} else {
+			throw new IllegalArgumentException(
+					"the property to remove is no property of this facility");
+		}
+	}
+
+}
