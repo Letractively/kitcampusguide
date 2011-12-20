@@ -1,5 +1,5 @@
 /**
- * 
+ * this class represents a abstract facility
  */
 package edu.kit.pse.ass.entity;
 
@@ -84,7 +84,7 @@ public abstract class Facility {
 	 * @param parentFacility
 	 *            the parentFacility to set
 	 */
-	private void setParentFacility(Facility parentFacility) {
+	protected void setParentFacility(Facility parentFacility) {
 		this.parentFacility = parentFacility;
 	}
 

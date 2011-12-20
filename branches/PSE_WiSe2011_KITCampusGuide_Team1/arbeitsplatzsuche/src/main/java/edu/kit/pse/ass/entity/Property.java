@@ -20,14 +20,19 @@ public class Property {
 
 	/**
 	 * Creates a new property with the specified values.
-	 * @param name the name of the property
-	 * @throws IllegalArgumentException, when name is null.
+	 * 
+	 * @param name
+	 *            the name of the property
+	 * @throws IllegalArgumentException
+	 *             , when name is null.
 	 */
 	public Property(String name) throws IllegalArgumentException {
 		setName(name);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
