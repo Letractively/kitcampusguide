@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import edu.kit.pse.ass.entity.Reservation;
+import edu.kit.pse.ass.facility.management.FacilityQuery;
 
 // TODO: Auto-generated Javadoc
 /**
