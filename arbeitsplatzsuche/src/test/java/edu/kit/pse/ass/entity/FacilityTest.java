@@ -5,11 +5,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import edu.kit.pse.ass.entity.*;
 
 public class FacilityTest {
 	private Building building;
