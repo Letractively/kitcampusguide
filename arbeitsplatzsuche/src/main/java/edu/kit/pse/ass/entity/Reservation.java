@@ -5,6 +5,7 @@ package edu.kit.pse.ass.entity;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,6 +47,28 @@ public class Reservation {
 	 * the collection of facility ids of the facilities, which are booked
 	 */
 	private Collection<String> bookedFacilityIds;
+
+	/**
+	 * Creates a new reservation with the specified values.
+	 * 
+	 * @param startTime
+	 *            the time the reservation starts.
+	 * @param endTime
+	 *            the time the reservation ends.
+	 * @param bookingUserId
+	 *            the id of the user, which does the reservation
+	 * @throws IllegalArgumentException
+	 *             when startTime is after endTime or one of them is null or
+	 *             bookingUserId is null or empty.
+	 */
+	public Reservation(Date startTime, Date endTime, String bookingUserId)
+			throws IllegalArgumentException {
+		setStartTime(startTime);
+		setEndTime(endTime);
+		setBookingUserId(bookingUserId);
+
+		bookedFacilityIds = new LinkedList<String>();
+	}
 
 	/**
 	 * @return the id
@@ -131,7 +154,7 @@ public class Reservation {
 			throw new IllegalArgumentException(
 					"bookingUserId must not be null or empty");
 		}
-		
+
 		this.bookingUserId = bookingUserId;
 	}
 
@@ -160,7 +183,7 @@ public class Reservation {
 			throw new IllegalArgumentException(
 					"facilityID was added a long time ago ;-)");
 		}
-		
+
 		bookedFacilityIds.add(facilityID);
 	}
 
@@ -182,7 +205,7 @@ public class Reservation {
 			throw new IllegalArgumentException(
 					"the facility you want to remove is not booked in this reservation");
 		}
-		
+
 		bookedFacilityIds.remove(facilityID);
 	}
 

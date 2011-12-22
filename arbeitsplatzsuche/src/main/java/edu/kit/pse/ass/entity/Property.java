@@ -24,7 +24,7 @@ public class Property {
 	 * @param name
 	 *            the name of the property
 	 * @throws IllegalArgumentException
-	 *             , when name is null.
+	 *             when name is null or empty.
 	 */
 	public Property(String name) throws IllegalArgumentException {
 		setName(name);
@@ -67,10 +67,12 @@ public class Property {
 	/**
 	 * @param name
 	 *            the name to set
+	 * @throws IllegalArgumentException
+	 *             when name is null or empty
 	 */
 	public void setName(String name) throws IllegalArgumentException {
-		if (name == null) {
-			throw new IllegalArgumentException("name must not null");
+		if (name == null || name.isEmpty()) {
+			throw new IllegalArgumentException("name must not null or empty");
 		} else {
 			this.name = name;
 		}

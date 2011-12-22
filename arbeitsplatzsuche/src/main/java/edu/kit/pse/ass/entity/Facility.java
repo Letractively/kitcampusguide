@@ -4,6 +4,7 @@
 package edu.kit.pse.ass.entity;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,7 +47,17 @@ public abstract class Facility {
 	 * the properties of this facility. e.g. WLAN, Strom, PC
 	 */
 	private Collection<Property> properties;
-	
+
+	/**
+	 * Creates a new Facility
+	 * 
+	 * @param name
+	 *            the name of the facility e.g. Bibliothek or SR -118
+	 */
+	public Facility() {
+		containedFacilities = new LinkedList<Facility>();
+	}
+
 	/**
 	 * @return the id
 	 */
