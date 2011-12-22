@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -57,6 +58,17 @@ public class FacilityTest {
 			assertEquals(building, room.getParentFacility());
 		}
 
+	}
+
+	@Test
+	public void removeContainedFacility() {
+		Room r = new Room();
+		building.addContainedFacilitiy(r);
+		// We added a room so size should be 1
+		assertEquals(1, building.getContainedFacilities().size());
+		building.removeContainedFacility(r);
+		// We removed the room so size should be 0
+		assertEquals(0, building.getContainedFacilities().size());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
