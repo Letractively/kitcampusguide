@@ -59,4 +59,24 @@ public class FacilityTest {
 
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddNonRoomToBuilding() {
+		building.addContainedFacilitiy(workplace);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddNonWorkplaceToRoom() {
+		room.addContainedFacilitiy(building);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddSomethingToWorkplace() {
+		workplace.addContainedFacilitiy(room);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetNullName() {
+		room.setName(null);
+	}
+
 }
