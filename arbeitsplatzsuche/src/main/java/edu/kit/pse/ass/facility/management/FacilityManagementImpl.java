@@ -17,7 +17,8 @@ public class FacilityManagementImpl implements FacilityManagement {
 		return null;
 	}
 
-	public Collection<Facility> getAvailablePropertiesOf(Class facilityClass) {
+	public Collection<Facility> getAvailablePropertiesOf(
+			Class<? extends Facility> facilityClass) {
 		// TODO Auto-generated method stub
 		return null;
 	}
