@@ -68,6 +68,25 @@ public class FacilityTest {
 		assertEquals(0, building.getContainedFacilities().size());
 	}
 
+	@Test
+	public void testAddProperties() {
+		Collection<Property> props = new ArrayList<Property>();
+		props.add(new Property("WLAN"));
+		props.add(new Property("LAN"));
+		props.add(new Property("Steckdosen"));
+
+		assertEquals(0, room.getProperties().size());
+		for (Property prop : props) {
+			assertTrue(room.hasProperty(prop));
+		}
+	}
+
+	@Test
+	public void testHasProperty() {
+		room.addProperty(new Property("WLAN"));
+		assertTrue(room.hasProperty(new Property("WLAN")));
+	}
+
 	@Test(expected = IllegalArgumentException.class)
 	public void testAddNonRoomToBuilding() {
 		building.addContainedFacilitiy(workplace);
