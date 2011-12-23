@@ -17,7 +17,8 @@ public class FacilityDAOImpl implements FacilityDAO {
 		return null;
 	}
 
-	public Collection<Property> getAvailablePropertiesOf(Class facilityClass) {
+	public Collection<Property> getAvailablePropertiesOf(
+			Class<? extends Facility> facilityClass) {
 		// TODO Auto-generated method stub
 		return null;
 	}

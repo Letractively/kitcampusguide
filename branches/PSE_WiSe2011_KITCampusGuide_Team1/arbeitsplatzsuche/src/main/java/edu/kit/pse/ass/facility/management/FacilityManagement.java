@@ -42,5 +42,6 @@ public interface FacilityManagement {
 	 * @return collection of properties that an object of the given class can
 	 *         have
 	 */
-	public Collection<Facility> getAvailablePropertiesOf(Class facilityClass);
+	public Collection<Facility> getAvailablePropertiesOf(
+			Class<? extends Facility> facilityClass);
 }

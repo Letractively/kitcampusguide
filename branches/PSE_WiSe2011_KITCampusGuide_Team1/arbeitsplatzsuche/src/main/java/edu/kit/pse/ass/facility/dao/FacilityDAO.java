@@ -41,6 +41,7 @@ public interface FacilityDAO {
 	 * @return collection of properties that an object of the given class can
 	 *         have
 	 */
-	public Collection<Property> getAvailablePropertiesOf(Class facilityClass);
+	public Collection<Property> getAvailablePropertiesOf(
+			Class<? extends Facility> facilityClass);
 
 }
