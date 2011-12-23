@@ -29,9 +29,11 @@ public interface BookingManagement {
 	 * @param endDate
 	 *            the end date
 	 * @return the string
+	 * @throws FacilityNotFreeException
+	 *             the facility not free exception
 	 */
 	public String book(String userID, Collection<String> facilityIDs,
-			Date startDate, Date endDate);
+			Date startDate, Date endDate) throws FacilityNotFreeException;
 
 	/**
 	 * List reservations of user.

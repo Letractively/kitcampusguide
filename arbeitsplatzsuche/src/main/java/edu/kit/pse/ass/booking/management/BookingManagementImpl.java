@@ -9,7 +9,7 @@ import edu.kit.pse.ass.facility.management.FacilityQuery;
 public class BookingManagementImpl implements BookingManagement {
 
 	public String book(String userID, Collection<String> facilityIDs,
-			Date startDate, Date endDate) {
+			Date startDate, Date endDate) throws FacilityNotFreeException {
 		// TODO Auto-generated method stub
 		return null;
 	}
