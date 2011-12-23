@@ -16,7 +16,7 @@ public class ReservationTest {
 
 	@Before
 	public void setUp() throws Exception {
-		reservation = new Reservation();
+		reservation = new Reservation(new Date(), new Date(), USER_ID);
 	}
 
 	@Test

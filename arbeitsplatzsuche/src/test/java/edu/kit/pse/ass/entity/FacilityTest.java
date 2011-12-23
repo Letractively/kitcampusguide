@@ -52,7 +52,7 @@ public class FacilityTest {
 		for (Room r : roomsToAdd) {
 			assertTrue(building.getContainedFacilities().contains(r));
 			// check parent
-			assertEquals(building, room.getParentFacility());
+			assertEquals(building, r.getParentFacility());
 		}
 
 	}
