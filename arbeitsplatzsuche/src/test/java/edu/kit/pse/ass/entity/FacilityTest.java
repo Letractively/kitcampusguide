@@ -87,6 +87,13 @@ public class FacilityTest {
 		assertTrue(room.hasProperty(new Property("WLAN")));
 	}
 
+	@Test
+	public void removeProperty() {
+		room.addProperty(new Property("WLAN"));
+		room.removeProperty(new Property("WLAN"));
+		assertEquals(0, room.getProperties().size());
+	}
+
 	@Test(expected = IllegalArgumentException.class)
 	public void testAddNonRoomToBuilding() {
 		building.addContainedFacilitiy(workplace);
