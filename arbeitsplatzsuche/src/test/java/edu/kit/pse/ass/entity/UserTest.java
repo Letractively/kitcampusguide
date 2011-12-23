@@ -8,10 +8,10 @@ import org.junit.Test;
 public class UserTest {
 
 	User user;
-	public static String TEST_ID = "1";
-	public static String TEST_ROLE = "student";
-	public static String TEST_EMAIL = "abc@student.kit.edu";
-	public static String TEST_PW = "pwWithMin8Chars";
+	private static String TEST_ID = "1";
+	private static String TEST_ROLE = "student";
+	private static String TEST_EMAIL = "abc@student.kit.edu";
+	private static String TEST_PW = "pwWithMin8Chars";
 
 	@Before
 	public void setUp() throws Exception {
