@@ -1,5 +1,6 @@
 package edu.kit.pse.ass.gui.model;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -13,6 +14,14 @@ public class SearchFormModel {
 	private String duration;
 	private boolean wholeRoom;
 	private String searchText;
+
+	public SearchFormModel() {
+		workplaceCount = 1;
+		start = Calendar.getInstance().getTime();
+		duration = "1:00";
+		wholeRoom = false;
+		searchText = "";
+	}
 
 	public int getWorkplaceCount() {
 		return workplaceCount;
