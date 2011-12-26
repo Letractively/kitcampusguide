@@ -78,3 +78,26 @@ header div.right{
 	float: right;
 	padding: 3px 10px;
 }
+
+div.simple-search{
+	border: 2px solid black;
+	padding: 20px;
+	margin: 40px auto;
+	width: 450px;
+}
+
+div.simple-search input[name="start"]{
+	width: 100px;
+}
+
+div.simple-search input[name="duration"]{
+	width: 50px;
+}
+
+div.simple-search span.searchText{
+	float: right;
+}
+
+div.simple-search input[name="searchText"]{
+	width: 200px;
+}
