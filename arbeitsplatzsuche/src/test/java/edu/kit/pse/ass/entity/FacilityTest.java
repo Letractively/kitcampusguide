@@ -76,6 +76,12 @@ public class FacilityTest {
 		props.add(new Property("Steckdosen"));
 
 		assertEquals(0, room.getProperties().size());
+
+		for (Property prop : props) {
+			room.addProperty(prop);
+		}
+		assertEquals(props.size(), room.getProperties().size());
+
 		for (Property prop : props) {
 			assertTrue(room.hasProperty(prop));
 		}
