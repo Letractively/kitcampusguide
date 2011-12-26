@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import edu.kit.pse.ass.gui.model.SearchFormModel;
+
 @Controller
 public class SearchController extends MainController {
 
@@ -20,7 +22,7 @@ public class SearchController extends MainController {
 	}
 
 	private void prefillSearchForm(Model model) {
-		// TODO: Implement
+		model.addAttribute("searchFormModel", new SearchFormModel());
 	}
 
 	public String listSearchResults(Model model) {
