@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class SearchController extends MainController {
 
-	@RequestMapping(value = "search/simple")
+	@RequestMapping(value = "search/simple.html")
 	public String setUpSimpleSearch(Model model) {
 		prefillSearchForm(model);
 		return "search/simple";
 	}
 
-	@RequestMapping(value = "search/advanced")
+	@RequestMapping(value = "search/advanced.html")
 	public String setUpAdvancedSearch(Model model) {
 		prefillSearchForm(model);
 		return "search/advanced";
