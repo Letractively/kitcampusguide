@@ -8,13 +8,23 @@
 	
 	<context:component-scan base-package="edu.kit.pse.ass.gui.controller" />
 	
+
 	<!-- Configures the @Controller programming model -->
 	<mvc:annotation-driven />
 	
+	<!-- To use lyout view -->
+	<mvc:interceptors>
+	           <bean id="layoutInterceptor2" class="edu.kit.pse.ass.gui.layout.LayoutInterceptor">
+	               <property name="layoutView" value="layout"></property>
+	           </bean>
+	</mvc:interceptors>
+	
+
+	
 	<!-- Resolves view names to protected .jsp resources within the /WEB-INF/views 
 		directory -->
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		  <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
