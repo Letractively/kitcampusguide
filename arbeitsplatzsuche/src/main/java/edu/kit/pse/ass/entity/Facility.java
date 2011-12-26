@@ -3,6 +3,7 @@
  */
 package edu.kit.pse.ass.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -41,12 +42,12 @@ public abstract class Facility {
 	 * the contained facilities of this facility. e.g. a room contains
 	 * workplaces.
 	 */
-	private Collection<Facility> containedFacilities;
+	private final Collection<Facility> containedFacilities;
 
 	/**
 	 * the properties of this facility. e.g. WLAN, Strom, PC
 	 */
-	private Collection<Property> properties;
+	private final Collection<Property> properties;
 
 	/**
 	 * Creates a new Facility
@@ -55,7 +56,8 @@ public abstract class Facility {
 	 *            the name of the facility e.g. Bibliothek or SR -118
 	 */
 	public Facility() {
-		containedFacilities = new LinkedList<Facility>();
+		containedFacilities = new ArrayList<Facility>();
+		properties = new ArrayList<Property>();
 	}
 
 	/**
