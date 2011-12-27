@@ -3,13 +3,17 @@ package edu.kit.pse.ass.gui.model;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * 
  * @author Oliver Schneider
  * 
  */
 public class SearchFormModel {
+
 	private int workplaceCount;
+	@DateTimeFormat(pattern = "d-M-y H:m")
 	private Date start;
 	private String duration;
 	private boolean wholeRoom;
