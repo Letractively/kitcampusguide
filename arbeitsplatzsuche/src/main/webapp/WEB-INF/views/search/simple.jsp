@@ -8,17 +8,14 @@
               <form:option value="4"/>
               <form:option value="5"/>
               <form:option value="6"/>
-            </form:select>
-             Plätze ab 
-            <form:input path="start" type="date" />
-             für 
-            <form:input path="duration" />
-            Stunden  <br />
+            </form:select> Plätze ab 
+            <form:input path="start" type="date" /> für 
+            <form:input path="duration" /> Stunden<br />
             <form:checkbox path="wholeRoom" itemLabel="ganzer Raum"/>
             <label for="wholeRoom">ganzer Raum</label> 
             <span class="searchText">
-            <label for="searchText">Suchtext: </label>
-            <form:input path="searchText" />
+            	<label for="searchText">Suchtext: </label>
+            	<form:input path="searchText" />
             </span>
            <br />
            <input type='submit' value='Suche'>
