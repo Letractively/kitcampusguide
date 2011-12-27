@@ -86,19 +86,26 @@ div.simple-search{
 	width: 450px;
 }
 
-div.simple-search input[name="start"]{
+div.advanced-search{
+	border: 2px solid black;
+	padding: 20px;
+	margin: 10px;
+	width: 450px;
+}
+
+input[name="start"]{
 	width: 100px;
 }
 
-div.simple-search input[name="duration"]{
+input[name="duration"]{
 	width: 50px;
 }
 
-div.simple-search span.searchText{
+span.searchText{
 	float: right;
 }
 
-div.simple-search input[name="searchText"]{
+input[name="searchText"]{
 	width: 200px;
 }
 
