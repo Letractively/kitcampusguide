@@ -13,7 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class SearchFormModel {
 
 	private int workplaceCount;
-	@DateTimeFormat(pattern = "d-M-y H:m")
+	@DateTimeFormat(pattern = "d-M-y HH:mm")
 	private Date start;
 	private String duration;
 	private boolean wholeRoom;

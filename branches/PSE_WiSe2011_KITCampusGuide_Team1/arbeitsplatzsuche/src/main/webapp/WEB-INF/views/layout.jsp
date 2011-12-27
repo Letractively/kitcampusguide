@@ -27,8 +27,8 @@ $(function() {
         // set to 'date'
         $('input[type=date]').datetimepicker({
             // specify the same format as the spec
-            dateFormat: 'yy-mm-dd',
-            timeFormat: 'h:m',
+            dateFormat: 'dd-mm-yy',
+            timeFormat: 'hh:mm',
             stepMinute: 15
         });
     }
