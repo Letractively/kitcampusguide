@@ -4,9 +4,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import edu.kit.pse.ass.entity.Reservation;
+import edu.kit.pse.ass.entity.User;
 
 public class BookingDAOImplTest {
 
@@ -14,11 +16,25 @@ public class BookingDAOImplTest {
 	private static final String FACILITYID = "#SOME_FACILITY_ID#";
 	private static final String PERSISTED_RESERVATIONID = "#SOME_RESERVATION_ID#";
 
+	/**
+	 * Setup a BookingDAO with a dummy reservation
+	 * */
+	private final BookingDAO bm = new BookingDAOImpl();
+
+	@Before
+	public void setUp() throws Exception {
+		Date start = new GregorianCalendar(2012, 12, 30, 9, 0).getTime();
+		Date end = new GregorianCalendar(2012, 12, 30, 10, 0).getTime();
+		// TODO change User constructor to right one
+		User testUser = new User();
+		bm.insertReservation(new Reservation(start, end, testUser.getId()));
+	}
+
 	@Test
 	public void testGetReservationsOfUser() {
-		BookingDAO bm = new BookingDAOImpl();
+		// BookingDAO bm = new BookingDAOImpl();
 		Date from = new GregorianCalendar(2012, 12, 30).getTime();
-		Date to = new GregorianCalendar(2012, 12, 30).getTime();
+		Date to = new GregorianCalendar(2012, 12, 31).getTime();
 		/*
 		 * try { bm.getReservationsOfUser(null, from, to);
 		 * fail("accepted wrong parameters"); } catch (IllegalArgumentException
