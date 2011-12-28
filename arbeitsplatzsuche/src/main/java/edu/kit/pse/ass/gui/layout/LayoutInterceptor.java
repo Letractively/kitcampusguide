@@ -18,10 +18,12 @@ public class LayoutInterceptor extends HandlerInterceptorAdapter {
 			ModelAndView modelAndView) throws Exception {
 		super.postHandle(request, response, handler, modelAndView);
 
-		String originalView = modelAndView.getViewName();
+		if (modelAndView != null) {
+			String originalView = modelAndView.getViewName();
 
-		if (originalView != null && !originalView.startsWith("redirect:")) {
-			includeLayout(modelAndView, originalView);
+			if (originalView != null && !originalView.startsWith("redirect:")) {
+				includeLayout(modelAndView, originalView);
+			}
 		}
 	}
 
