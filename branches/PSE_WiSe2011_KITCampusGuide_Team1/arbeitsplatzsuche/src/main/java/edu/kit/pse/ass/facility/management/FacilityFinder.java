@@ -12,7 +12,5 @@ public abstract class FacilityFinder {
 	@Inject
 	protected FacilityDAO facilityDAO;
 
-	public Collection<? extends Facility> execute() {
-		return null;
-	}
+	public abstract Collection<? extends Facility> execute();
 }

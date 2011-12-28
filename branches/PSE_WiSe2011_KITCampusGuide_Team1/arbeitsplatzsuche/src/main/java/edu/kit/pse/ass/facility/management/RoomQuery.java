@@ -18,4 +18,9 @@ public class RoomQuery extends FacilityQuery {
 		return this.minimumWorkplaces;
 	}
 
+	@Override
+	protected FacilityFinder createFinder() {
+		return new RoomFinder(this);
+	}
+
 }
