@@ -5,11 +5,13 @@ package edu.kit.pse.ass.entity;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -18,12 +20,14 @@ import org.hibernate.annotations.GenericGenerator;
  * 
  */
 @Entity(name = "t_facility")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Facility {
 
 	/**
 	 * unique ID of this facility
 	 */
 	@GeneratedValue(generator = "system-uuid")
+	@Column(nullable = false)
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	@Id
 	private String id;
@@ -214,4 +218,42 @@ public abstract class Facility {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		if (this.id != null) {
+			hash = this.id.hashCode();
+		}
+		if (this.name != null) {
+			hash += this.name.hashCode();
+		}
+		return hash;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		} else if (obj instanceof Facility) {
+			Facility f = (Facility) obj;
+			boolean equal = true;
+			equal = (f.id == this.id) || (f.id != null && f.id.equals(this.id));
+			if (equal) {
+				equal = (f.name == this.name)
+						|| (f.name != null && f.name.equals(this.name));
+			}
+			return equal;
+		}
+		return false;
+	}
 }
