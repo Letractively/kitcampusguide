@@ -2,6 +2,7 @@ package edu.kit.pse.ass.booking.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.util.Calendar;
@@ -13,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.kit.pse.ass.entity.Reservation;
-import edu.kit.pse.ass.entity.User;
 
 /**
  * @author Lennart
@@ -28,34 +28,31 @@ public class BookingDAOImplTest {
 	/**
 	 * Setup a BookingDAO with a dummy reservation
 	 * */
-	private final BookingDAO bm = new BookingDAOImpl();
-
-	User testUser = new User();
-	Date start = new GregorianCalendar(2012, 12, 30, 9, 0).getTime();
-	Date end = new GregorianCalendar(2012, 12, 30, 10, 0).getTime();
-	Reservation testReservation = new Reservation(start, end, testUser.getId());
+	BookingDAO bm = new BookingDAOImpl();
+	Date start = new GregorianCalendar(2012, 11, 30, 9, 0).getTime();
+	Date end = new GregorianCalendar(2012, 11, 30, 10, 0).getTime();
+	Reservation testReservation = new Reservation(start, end, USERID);
 	Collection<Reservation> testReservationCol = null;
 
 	@Before
 	public void setUp() throws Exception {
-		// TODO might add more to user
-		testUser.setId(USERID);
+		// TODO might add more
 		testReservation.addBookedFacilityId(FACILITYID);
 		testReservation.setId(PERSISTED_RESERVATIONID);
 		testReservationCol.add(testReservation);
+		assertNotNull("No bookingDAO initialized", bm);
 		bm.insertReservation(testReservation);
 	}
 
 	@Test
 	public void testGetReservationsOfUser() {
-		Date from = new GregorianCalendar(2012, 12, 30).getTime();
-		Date to = new GregorianCalendar(2012, 12, 31).getTime();
-
-		assertNotNull(bm);
+		Date from = new GregorianCalendar(2012, 11, 30).getTime();
+		Date to = new GregorianCalendar(2012, 11, 31).getTime();
 		try {
-			bm.getReservationsOfUser(null, from, to);
-			fail("accepted wrong parameters");
-		} catch (IllegalArgumentException expected) {
+			assertNotNull("accepted wrong parameters. ",
+					bm.getReservationsOfUser(null, from, to));
+		} catch (Exception e) {
+
 		}
 		assertEquals(testReservationCol,
 				bm.getReservationsOfUser(USERID, from, to));
@@ -63,70 +60,70 @@ public class BookingDAOImplTest {
 
 	@Test
 	public void testGetReservationsOfFacility() {
-		Date from = new GregorianCalendar(2012, 12, 30).getTime();
-		Date to = new GregorianCalendar(2012, 12, 31).getTime();
-
-		assertNotNull(bm);
+		Date from = new GregorianCalendar(2012, 11, 30).getTime();
+		Date to = new GregorianCalendar(2012, 11, 31).getTime();
 		try {
-			bm.getReservationsOfFacility(null, from, to);
-			fail("accepted wrong parameters");
-		} catch (IllegalArgumentException expected) {
-		}
+			assertNotNull("accepted wrong parameters. ",
+					bm.getReservationsOfFacility(null, from, to));
+		} catch (Exception e) {
 
+		}
 		assertEquals(testReservationCol,
 				bm.getReservationsOfFacility(FACILITYID, from, to));
 	}
 
 	@Test
 	public void testGetReservation() {
-		assertNotNull(bm);
 		try {
-			bm.getReservation(null);
-			fail("accepted wrong parameters");
-		} catch (IllegalArgumentException expected) {
+			assertNotNull("accepted wrong parameters. ",
+					bm.getReservation(null));
+		} catch (Exception e) {
+
 		}
-		assertEquals(testReservation.getId(),
+		assertEquals(PERSISTED_RESERVATIONID,
 				bm.getReservation(PERSISTED_RESERVATIONID).getId());
 	}
 
 	@Test
 	public void testInsertReservation() {
-		assertNotNull(bm);
 		try {
-			bm.insertReservation(null);
-			fail("accepted wrong parameters");
-		} catch (IllegalArgumentException expected) {
+			assertNotNull("accepted wrong parameters. ",
+					bm.insertReservation(null));
+		} catch (Exception e) {
+
 		}
+		assertEquals(bm.insertReservation(testReservation),
+				PERSISTED_RESERVATIONID);
 	}
 
 	@Test
 	public void testUpdateReservation() {
 		Calendar end = new GregorianCalendar();
-		Date newEnd = new GregorianCalendar(2012, 12, 30, 11, 0).getTime();
+		Date newEnd = new GregorianCalendar(2012, 11, 30, 11, 0).getTime();
 		end.setTime(newEnd);
 		testReservation.setEndTime(end.getTime());
-		assertNotNull(bm);
 		try {
 			bm.updateReservation(null);
-			fail("accepted wrong parameters");
-		} catch (IllegalArgumentException expected) {
+		} catch (Exception e) {
+			fail("Error: " + e);
 		}
-
 		bm.updateReservation(testReservation);
 		assertEquals(newEnd, bm.getReservation(PERSISTED_RESERVATIONID)
 				.getEndTime());
 	}
 
 	@Test
-	// TODO wait for finish of method
 	public void testDeleteReservation() {
-		assertNotNull(bm);
 		try {
 			bm.deleteReservation(null);
-			fail("accepted wrong parameters");
-		} catch (IllegalArgumentException expected) {
+
+		} catch (Exception e) {
+			fail("Error: " + e);
 		}
 		bm.deleteReservation(PERSISTED_RESERVATIONID);
+		/*
+		 * TODO wait for return of method getReservation if id not used
+		 */
+		assertNull(bm.getReservation(PERSISTED_RESERVATIONID));
 	}
-
 }

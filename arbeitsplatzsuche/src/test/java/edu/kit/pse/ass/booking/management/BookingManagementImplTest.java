@@ -1,92 +1,141 @@
 package edu.kit.pse.ass.booking.management;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import edu.kit.pse.ass.entity.Property;
+import edu.kit.pse.ass.entity.Reservation;
 import edu.kit.pse.ass.facility.management.FacilityQuery;
 import edu.kit.pse.ass.facility.management.RoomQuery;
 
+/**
+ * @author Lennart
+ * 
+ */
 public class BookingManagementImplTest {
 
 	private static final String USERID = "uxyxy@student.kit.edu";
 	private static final List<String> FACILITIES = Arrays.asList("ID###1",
 			"ID###2");
-	private static final String RESERVATIONID = "MYRESERVATION###1";
+	private static String RESERVATIONID;
 	private static final String[] FIND_PROPERTY_NAMES = { "WLAN", "Steckdose" };
 	private static final String SEARCH_TEXT = "Informatik";
 	private static final int NEEDED_WORKPLACES = 3;
 
+	BookingManagement bm = new BookingManagementImpl();
+
+	@Before
+	public void setUp() throws Exception {
+		Date startDate = new GregorianCalendar(2012, 0, 2, 9, 0).getTime();
+		Date endDate = new GregorianCalendar(2012, 0, 2, 10, 0).getTime();
+		assertNotNull("No bookingManagement initialized", bm);
+		RESERVATIONID = bm.book(USERID, FACILITIES, startDate, endDate);
+	}
+
 	@Test
 	public void testBook() {
-		BookingManagement bm = new BookingManagementImpl();
-		Calendar startDate = new GregorianCalendar(2012, 0, 1, 12, 15);
-		Calendar endDate = (Calendar) startDate.clone();
-		endDate.add(Calendar.MINUTE, 5 * 15);
+		String resv = null;
+		Date startDate = new GregorianCalendar(2012, 0, 1, 9, 0).getTime();
+		Date endDate = new GregorianCalendar(2012, 0, 1, 10, 0).getTime();
 		try {
-			bm.book(USERID, FACILITIES, startDate.getTime(), endDate.getTime());
-		} catch (FacilityNotFreeException e) {
-			fail("Facilities could not be booked");
+			resv = bm.book(USERID, FACILITIES, startDate, endDate);
+		} catch (Exception e) {
+			fail("Error:" + e);
 		}
+		assertEquals(USERID, bm.getReservation(resv).getBookingUserId());
+		assertTrue(bm.getReservation(resv).getBookedFacilityIds()
+				.containsAll(FACILITIES));
+		assertEquals(startDate, bm.getReservation(resv).getStartTime());
+		assertEquals(endDate, bm.getReservation(resv).getEndTime());
 	}
 
 	@Test
 	public void testListReservationsOfUser() {
-		BookingManagement bm = new BookingManagementImpl();
-
-		bm.listReservationsOfUser(USERID, new GregorianCalendar(2011,
-				Calendar.DECEMBER, 1, 0, 0, 0).getTime(),
-				new GregorianCalendar(2011, Calendar.DECEMBER, 31, 23, 59, 59)
-						.getTime());
-
-		// assertNotNull("No collection of reservations", resv);
-		// assertTrue("No reservations in collection", resv.size() > 0);
+		Date startDate = new GregorianCalendar(2012, 0, 0, 0, 0).getTime();
+		Date endDate = new GregorianCalendar(2013, 0, 0, 0, 0).getTime();
+		Collection<Reservation> resvCol = null;
+		try {
+			resvCol = bm.listReservationsOfUser(USERID, startDate, endDate);
+		} catch (Exception e) {
+			fail("Error: " + e);
+		}
+		assertNotNull("No collection of reservations", resvCol);
+		assertTrue("No reservations in collection", resvCol.size() > 0);
+		assertEquals(USERID, ((List<Reservation>) resvCol).get(0)
+				.getBookingUserId());
+		assertTrue(((List<Reservation>) resvCol).get(0).getBookedFacilityIds()
+				.containsAll(FACILITIES));
+		assertEquals(startDate, ((List<Reservation>) resvCol).get(0)
+				.getStartTime());
+		assertEquals(endDate, ((List<Reservation>) resvCol).get(0).getEndTime());
 	}
 
 	@Test
 	public void testListReservationsOfFacility() {
-		BookingManagement bm = new BookingManagementImpl();
-
-		bm.listReservationsOfFacility(FACILITIES.get(0), new GregorianCalendar(
-				2011, Calendar.DECEMBER, 1, 0, 0, 0).getTime(),
-				new GregorianCalendar(2011, Calendar.DECEMBER, 31, 23, 59, 59)
-						.getTime());
-
-		// assertNotNull("No collection of reservations", resv);
-		// assertTrue("No reservations in collection", resv.size() > 0);
+		Date startDate = new GregorianCalendar(2012, 0, 0, 0, 0).getTime();
+		Date endDate = new GregorianCalendar(2013, 0, 0, 0, 0).getTime();
+		Collection<Reservation> resvCol = null;
+		try {
+			resvCol = bm.listReservationsOfFacility(FACILITIES.get(0),
+					startDate, endDate);
+		} catch (Exception e) {
+			fail("Error: " + e);
+		}
+		assertNotNull("No collection of reservations", resvCol);
+		assertTrue("No reservations in collection", resvCol.size() > 0);
+		assertEquals(USERID, ((List<Reservation>) resvCol).get(0)
+				.getBookingUserId());
+		assertTrue(((List<Reservation>) resvCol).get(0).getBookedFacilityIds()
+				.containsAll(FACILITIES));
+		assertEquals(startDate, ((List<Reservation>) resvCol).get(0)
+				.getStartTime());
+		assertEquals(endDate, ((List<Reservation>) resvCol).get(0).getEndTime());
 	}
 
 	@Test
 	public void testChangeReservationEnd() {
-		BookingManagement bm = new BookingManagementImpl();
-
-		bm.changeReservationEnd(RESERVATIONID, new GregorianCalendar(2012, 0,
-				1, 13, 0).getTime());
+		Date newEnd = new GregorianCalendar(2012, 0, 2, 11, 0).getTime();
+		try {
+			bm.changeReservationEnd(RESERVATIONID, newEnd);
+		} catch (Exception e) {
+			fail("Error: " + e);
+		}
+		assertEquals(newEnd, bm.getReservation(RESERVATIONID).getEndTime());
 	}
 
 	@Test
 	public void testRemoveFacilityFromReservation() {
-		BookingManagement bm = new BookingManagementImpl();
-
-		bm.removeFacilityFromReservation(RESERVATIONID, FACILITIES.get(0));
+		try {
+			bm.removeFacilityFromReservation(RESERVATIONID, FACILITIES.get(0));
+		} catch (Exception e) {
+			fail("Error: " + e);
+		}
+		assertTrue(FACILITIES.size() > bm.getReservation(RESERVATIONID)
+				.getBookedFacilityIds().size());
 	}
 
 	@Test
 	public void testDeleteReservation() {
-		BookingManagement bm = new BookingManagementImpl();
+		// TODO
 		bm.deleteReservation(RESERVATIONID);
 	}
 
 	@Test
 	public void testGetReservation() {
-		BookingManagement bm = new BookingManagementImpl();
+
 		bm.getReservation(RESERVATIONID);
 		// assertNotNull(resv);
 		// assertEquals(resv.getId(), RESERVATIONID);
@@ -94,7 +143,6 @@ public class BookingManagementImplTest {
 
 	@Test
 	public void testFindFreeFacilites() {
-		BookingManagement bm = new BookingManagementImpl();
 
 		ArrayList<Property> properties = new ArrayList<Property>();
 		for (String property : FIND_PROPERTY_NAMES) {
@@ -116,7 +164,7 @@ public class BookingManagementImplTest {
 
 	@Test
 	public void testIsFacilityFree() {
-		BookingManagement bm = new BookingManagementImpl();
+
 		Calendar start = new GregorianCalendar(2011, 11, 30, 14, 0);
 		Calendar end = new GregorianCalendar(2011, 11, 30, 15, 0);
 		bm.isFacilityFree(FACILITIES.get(0), start.getTime(), end.getTime());

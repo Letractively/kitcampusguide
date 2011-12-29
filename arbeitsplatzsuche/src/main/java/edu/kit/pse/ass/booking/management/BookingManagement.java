@@ -28,7 +28,7 @@ public interface BookingManagement {
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * @return the string
+	 * @return the reservationID
 	 * @throws FacilityNotFreeException
 	 *             the facility not free exception
 	 */
