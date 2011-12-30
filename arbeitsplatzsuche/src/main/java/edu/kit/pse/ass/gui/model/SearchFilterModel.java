@@ -1,5 +1,7 @@
 package edu.kit.pse.ass.gui.model;
 
+import edu.kit.pse.ass.entity.Property;
+
 /**
  * This class represents the SearchFilter model on the advanced search page
  * 
@@ -25,7 +27,7 @@ public class SearchFilterModel {
 	/**
 	 * the selected filters
 	 */
-	private String[] filters;
+	private Property[] filters;
 
 	public String getSearchNearLocation() {
 		return searchNearLocation;
@@ -43,11 +45,11 @@ public class SearchFilterModel {
 		this.searchNearDistance = searchNearDistance;
 	}
 
-	public String[] getFilters() {
+	public Property[] getFilters() {
 		return filters;
 	}
 
-	public void setFilters(String[] filters) {
+	public void setFilters(Property[] filters) {
 		this.filters = filters;
 	}
 

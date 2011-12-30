@@ -54,7 +54,7 @@ public class SearchController extends MainController {
 		prefillSearchForm(sfm, model);
 
 		model.addAttribute("searchFilterModel", new SearchFilterModel());
-		model.addAttribute("filterList", getFilterList());
+		model.addAttribute("filterList", tempAvailableProperties());
 
 		return "search/advanced";
 	}
@@ -216,29 +216,6 @@ public class SearchController extends MainController {
 		}
 
 		return result;
-	}
-
-	/**
-	 * returns all available search filter criteria as a String collection
-	 * 
-	 * @return the available filter criteria
-	 */
-	private Collection<String> getFilterList() {
-
-		Collection<Property> availableProperties;
-
-		// TEMP
-		// availableProperties =
-		// facilityManagement.getAvailablePropertiesOf(Room);
-		availableProperties = tempAvailableProperties();
-
-		List<String> filterList = new ArrayList<String>();
-
-		for (Property p : availableProperties) {
-			filterList.add(p.getName());
-		}
-
-		return filterList;
 	}
 
 	/*
