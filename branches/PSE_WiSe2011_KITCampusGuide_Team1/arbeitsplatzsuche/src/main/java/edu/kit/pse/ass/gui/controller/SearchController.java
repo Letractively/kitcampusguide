@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,16 +22,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import edu.kit.pse.ass.booking.management.BookingManagement;
 import edu.kit.pse.ass.booking.management.FreeFacilityResult;
 import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
+import edu.kit.pse.ass.facility.management.FacilityManagement;
 import edu.kit.pse.ass.gui.model.DataTableParamModel;
 import edu.kit.pse.ass.gui.model.SearchFilterModel;
 import edu.kit.pse.ass.gui.model.SearchFormModel;
 
 @Controller
 public class SearchController extends MainController {
+
+	@Inject
+	BookingManagement bookingManagement;
+
+	@Inject
+	FacilityManagement facilityManagement;
 
 	@RequestMapping(value = "search/simple.html")
 	public String setUpSimpleSearch(Model model) {
@@ -59,46 +68,96 @@ public class SearchController extends MainController {
 			@ModelAttribute SearchFilterModel searchFilterModel,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		// Get parameters for DataTable
-		DataTableParamModel parameters = DataTablesParamUtility
-				.getParameters(request);
-
-		String sEcho = parameters.sEcho;
-
+		// DataTable Parameters
+		DataTableParamModel parameters;
 		// total number of entries (unfiltered)
 		int iTotalRecords;
-
 		// numbers of entries displayed
 		int iTotalDisplayRecords;
-
-		// data in JSON format
+		// the search results
+		List<FreeFacilityResult> searchResults;
+		// the filtered search results
+		List<FreeFacilityResult> filteredResults;
+		// output data in JSON format
 		JSONArray data = new JSONArray();
 
-		// create dummy search results (temp!)
-		List<FreeFacilityResult> searchResults = tempSearchResults();
+		// Get parameters for DataTable
+		parameters = DataTablesParamUtility.getParameters(request);
 
+		// create dummy search results (temp!)
+		searchResults = tempSearchResults();
 		iTotalRecords = searchResults.size();
 
-		// Filter for room and building columns - delete?
-		List<FreeFacilityResult> result = new LinkedList<FreeFacilityResult>();
-		for (FreeFacilityResult c : searchResults) {
-			if (c.getFacility().getName().toLowerCase()
-					.contains(parameters.sSearch.toLowerCase())
-					|| c.getFacility().getParentFacility().getName()
-							.toLowerCase()
-							.contains(parameters.sSearch.toLowerCase())) {
-				result.add(c); // Add a company that matches search criterion
-			}
-		}
+		// Filter search results - delete? (implemented in search already)
+		filteredResults = filterResults(searchResults, parameters);
+		iTotalDisplayRecords = filteredResults.size();
 
-		iTotalDisplayRecords = result.size();
-
-		// Sort list
+		// Sort results
 		final int sortColumnIndex = parameters.iSortColumnIndex;
 		final int sortDirection = parameters.sSortDirection.equals("asc") ? -1
 				: 1;
+		sortResults(filteredResults, sortColumnIndex, sortDirection);
 
-		Collections.sort(result, new Comparator<FreeFacilityResult>() {
+		// show requested part of results
+		if (filteredResults.size() < parameters.iDisplayStart
+				+ parameters.iDisplayLength)
+			filteredResults = filteredResults.subList(parameters.iDisplayStart,
+					filteredResults.size());
+		else
+			filteredResults = filteredResults.subList(parameters.iDisplayStart,
+					parameters.iDisplayStart + parameters.iDisplayLength);
+
+		// create JSON response
+		try {
+			JSONObject jsonResponse = new JSONObject();
+
+			jsonResponse.put("sEcho", parameters.sEcho);
+			jsonResponse.put("iTotalRecords", iTotalRecords);
+			jsonResponse.put("iTotalDisplayRecords", iTotalDisplayRecords);
+
+			SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
+
+			for (FreeFacilityResult c : filteredResults) {
+				JSONArray row = new JSONArray();
+				String equipment = "";
+				for (Property p : c.getFacility().getProperties()) {
+					equipment += p.getName() + " ";
+				}
+				row.put(c.getFacility().getName() + " ")
+						.put(c.getFacility().getParentFacility().getName())
+						.put(equipment).put(formatTime.format(c.getStart()))
+						.put(c.getFacility().getId());
+				data.put(row);
+			}
+			jsonResponse.put("aaData", data);
+
+			response.setContentType("application/json");
+			response.getWriter().print(jsonResponse.toString());
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			response.setContentType("text/html");
+			// response.getWriter().print(e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * sorts the specified search results according to the given column index
+	 * and sortDirection
+	 * 
+	 * @param results
+	 *            the results to sort
+	 * @param sortColumnIndex
+	 *            the index of the column to sort
+	 * @param sortDirection
+	 *            the sort direction, must be 1 or -1
+	 */
+	private void sortResults(List<FreeFacilityResult> results,
+			final int sortColumnIndex, final int sortDirection) {
+		Collections.sort(results, new Comparator<FreeFacilityResult>() {
 			@Override
 			public int compare(FreeFacilityResult c1, FreeFacilityResult c2) {
 				switch (sortColumnIndex) {
@@ -127,49 +186,36 @@ public class SearchController extends MainController {
 			}
 		});
 
-		// show requested part of results
-		if (result.size() < parameters.iDisplayStart
-				+ parameters.iDisplayLength)
-			result = result.subList(parameters.iDisplayStart, result.size());
-		else
-			result = result.subList(parameters.iDisplayStart,
-					parameters.iDisplayStart + parameters.iDisplayLength);
+	}
 
-		// create JSON response
-		try {
-			JSONObject jsonResponse = new JSONObject();
+	/**
+	 * filters search results according to given DataTable parameters and
+	 * returns the filtered results
+	 * 
+	 * @param searchResults
+	 *            the search results
+	 * @param parameters
+	 *            the DataTable parameters
+	 * @return the filtered results
+	 */
+	private List<FreeFacilityResult> filterResults(
+			List<FreeFacilityResult> searchResults,
+			DataTableParamModel parameters) {
 
-			jsonResponse.put("sEcho", sEcho);
-			jsonResponse.put("iTotalRecords", iTotalRecords);
-			jsonResponse.put("iTotalDisplayRecords", iTotalDisplayRecords);
+		List<FreeFacilityResult> result = new LinkedList<FreeFacilityResult>();
 
-			SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
-
-			for (FreeFacilityResult c : result) {
-				JSONArray row = new JSONArray();
-				String equipment = "";
-				for (Property p : c.getFacility().getProperties()) {
-					equipment += p.getName() + " ";
-				}
-				row.put(c.getFacility().getName() + " ")
-						.put(c.getFacility().getParentFacility().getName())
-						.put(equipment).put(formatTime.format(c.getStart()))
-						.put(c.getFacility().getId());
-				data.put(row);
+		// Filter for room and building columns
+		for (FreeFacilityResult c : searchResults) {
+			if (c.getFacility().getName().toLowerCase()
+					.contains(parameters.sSearch.toLowerCase())
+					|| c.getFacility().getParentFacility().getName()
+							.toLowerCase()
+							.contains(parameters.sSearch.toLowerCase())) {
+				result.add(c); // Add a company that matches search criteria
 			}
-			jsonResponse.put("aaData", data);
-
-			response.setContentType("application/json");
-			response.getWriter().print(jsonResponse.toString());
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			response.setContentType("text/html");
-			// response.getWriter().print(e.getMessage());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+
+		return result;
 	}
 
 	/**
@@ -195,6 +241,9 @@ public class SearchController extends MainController {
 		return filterList;
 	}
 
+	/*
+	 * dummy!
+	 */
 	private Collection<Property> tempAvailableProperties() {
 		ArrayList<Property> list = new ArrayList<Property>();
 
@@ -206,6 +255,9 @@ public class SearchController extends MainController {
 		return list;
 	}
 
+	/*
+	 * dummy!
+	 */
 	private LinkedList<FreeFacilityResult> tempSearchResults() {
 
 		LinkedList<FreeFacilityResult> results = new LinkedList<FreeFacilityResult>();
