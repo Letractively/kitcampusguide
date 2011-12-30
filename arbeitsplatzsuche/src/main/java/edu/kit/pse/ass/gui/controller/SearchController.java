@@ -172,6 +172,11 @@ public class SearchController extends MainController {
 		}
 	}
 
+	/**
+	 * returns all available search filter criteria as a String collection
+	 * 
+	 * @return the available filter criteria
+	 */
 	private Collection<String> getFilterList() {
 
 		Collection<Property> availableProperties;
@@ -219,24 +224,24 @@ public class SearchController extends MainController {
 		r.addProperty(new Property("Strom"));
 		r.addProperty(new Property("Licht"));
 		r.setName("Foyer");
-		results.add(new FreeFacilityResult(r, new Date(111, 11, 28, 15, 20)));
+		results.add(new FreeFacilityResult(r, new Date(111, 11, 27, 15, 20)));
 
 		r = new Room();
 		r.addProperty(new Property("WLAN"));
 		r.addProperty(new Property("Strom"));
 		b3.addContainedFacilitiy(r);
 		r.setName("Saal");
-		results.add(new FreeFacilityResult(r, new Date(111, 11, 6, 15, 30)));
+		results.add(new FreeFacilityResult(r, new Date(111, 11, 27, 15, 30)));
 
-		for (int i = 0; i < 24; i++) {
+		for (int i = 0; i < 100; i++) {
 			r = new Room();
 			b1.addContainedFacilitiy(r);
 			r.setName("Seminarraum " + i);
 			r.setLevel(1);
 			r.addProperty(new Property("WLAN"));
 			r.addProperty(new Property("Barrierefrei"));
-			results.add(new FreeFacilityResult(r, new Date(111, 11, 27, i,
-					(int) (Math.random() * 59))));
+			results.add(new FreeFacilityResult(r, new Date(111, 11, 27,
+					(i * 23 / 99), (int) (Math.random() * 59))));
 		}
 		return results;
 	}

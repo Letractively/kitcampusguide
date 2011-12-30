@@ -22,12 +22,17 @@
 			              null,						// Available from
 			              { "bVisible": false }		// ID
 			          ],
-			"aaSorting": [ [3,'asc'] ], // sort on collumn "available from"
+			"aaSorting": [ [3,'desc'] ], // sort on collumn "available from"
 			"bServerSide" : true,
 			"sAjaxSource" : "/arbeitsplatzsuche/search/results.html",
 			"bProcessing" : true,
-			"sPaginationType" : "full_numbers",
 			"bJQueryUI" : true,
+			
+			"bPaginate": true,
+	        "bScrollInfinite": true,
+	        "iDisplayLength": 40,
+	        "bScrollCollapse": true,
+	        "sScrollY": "400px",
 			
 			//Is called each update, to add params:
 	        "fnServerParams": function ( aoData ) {
