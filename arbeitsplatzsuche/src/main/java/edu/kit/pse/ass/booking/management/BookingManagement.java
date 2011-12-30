@@ -115,7 +115,7 @@ public interface BookingManagement {
 	 * @return the collection
 	 */
 	public Collection<FreeFacilityResult> findFreeFacilites(
-			FacilityQuery query, Date start, Date end, boolean fullyAvailible);
+			FacilityQuery query, Date start, Date end, boolean fullyAvailable);
 
 	/**
 	 * Checks if is facility free.
