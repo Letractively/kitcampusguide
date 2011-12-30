@@ -78,4 +78,12 @@ public class Property {
 		}
 	}
 
+	/**
+	 * returns a string representation of this property
+	 */
+	@Override
+	public String toString() {
+		return getName();
+	}
+
 }
