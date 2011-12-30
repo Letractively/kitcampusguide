@@ -59,13 +59,6 @@ public class SearchController extends MainController {
 			@ModelAttribute SearchFilterModel searchFilterModel,
 			HttpServletRequest request, HttpServletResponse response) {
 
-		// Test
-		if (searchFilterModel != null && searchFilterModel.getFilters() != null) {
-			for (String s : searchFilterModel.getFilters()) {
-				System.out.println(s);
-			}
-			System.out.println("");
-		}
 		// Get parameters for DataTable
 		DataTableParamModel parameters = DataTablesParamUtility
 				.getParameters(request);
@@ -160,7 +153,8 @@ public class SearchController extends MainController {
 				}
 				row.put(c.getFacility().getName() + " ")
 						.put(c.getFacility().getParentFacility().getName())
-						.put(equipment).put(formatTime.format(c.getStart()));
+						.put(equipment).put(formatTime.format(c.getStart()))
+						.put(c.getFacility().getId());
 				data.put(row);
 			}
 			jsonResponse.put("aaData", data);
