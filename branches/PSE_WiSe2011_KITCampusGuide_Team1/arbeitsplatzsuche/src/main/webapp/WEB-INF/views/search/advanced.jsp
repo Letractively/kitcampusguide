@@ -1,11 +1,9 @@
 <div class="advanced-search">
 	<jsp:include page="/WEB-INF/views/search/searchForm.jsp"></jsp:include>
 </div>
-<div style="position: fixed; float: left; top: 150px; width: 100%; clear: both;">
-	<div class="filter" style="float: left; width: 225px; margin-right: -225px;height: 1%; padding: 20px;">
-		<jsp:include page="/WEB-INF/views/search/searchFormFilter.jsp"></jsp:include>
-	</div>
-	<div class="results" style=" margin-left: 265px;height: 1%; padding: 20px;">
-		<jsp:include page="/WEB-INF/views/search/searchResults.jsp"></jsp:include>
-	</div>
+<div class="filter" style="position: fixed; top: 170px; left: 10px; width: 200px;">
+	<jsp:include page="/WEB-INF/views/search/searchFormFilter.jsp"></jsp:include>
+</div>
+<div class="results" style="position: fixed; top: 170px; left: 230px; width: 700px;">
+	<jsp:include page="/WEB-INF/views/search/searchResults.jsp"></jsp:include>
 </div>

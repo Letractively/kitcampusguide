@@ -2,6 +2,8 @@ package edu.kit.pse.ass.gui.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -24,6 +26,7 @@ import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.gui.model.DataTableParamModel;
+import edu.kit.pse.ass.gui.model.SearchFilterModel;
 import edu.kit.pse.ass.gui.model.SearchFormModel;
 
 @Controller
@@ -38,7 +41,12 @@ public class SearchController extends MainController {
 	@RequestMapping(value = "search/advanced.html")
 	public String setUpAdvancedSearch(@ModelAttribute SearchFormModel sfm,
 			Model model) {
+
 		prefillSearchForm(sfm, model);
+
+		model.addAttribute("searchFilterModel", new SearchFilterModel());
+		model.addAttribute("filterList", getFilterList());
+
 		return "search/advanced";
 	}
 
@@ -48,8 +56,16 @@ public class SearchController extends MainController {
 
 	@RequestMapping(value = "search/results")
 	public void listSearchResults(@ModelAttribute SearchFormModel sfm,
+			@ModelAttribute SearchFilterModel searchFilterModel,
 			HttpServletRequest request, HttpServletResponse response) {
 
+		// Test
+		if (searchFilterModel != null && searchFilterModel.getFilters() != null) {
+			for (String s : searchFilterModel.getFilters()) {
+				System.out.println(s);
+			}
+			System.out.println("");
+		}
 		// Get parameters for DataTable
 		DataTableParamModel parameters = DataTablesParamUtility
 				.getParameters(request);
@@ -160,6 +176,35 @@ public class SearchController extends MainController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private Collection<String> getFilterList() {
+
+		Collection<Property> availableProperties;
+
+		// TEMP
+		// availableProperties =
+		// facilityManagement.getAvailablePropertiesOf(Room);
+		availableProperties = tempAvailableProperties();
+
+		List<String> filterList = new ArrayList<String>();
+
+		for (Property p : availableProperties) {
+			filterList.add(p.getName());
+		}
+
+		return filterList;
+	}
+
+	private Collection<Property> tempAvailableProperties() {
+		ArrayList<Property> list = new ArrayList<Property>();
+
+		list.add(new Property("WLAN"));
+		list.add(new Property("LAN"));
+		list.add(new Property("Strom"));
+		list.add(new Property("Licht"));
+
+		return list;
 	}
 
 	private LinkedList<FreeFacilityResult> tempSearchResults() {

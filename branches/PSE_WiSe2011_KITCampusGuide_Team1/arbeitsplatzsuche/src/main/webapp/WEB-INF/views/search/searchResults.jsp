@@ -27,6 +27,12 @@
 	        	$(searchFormData).each(function(i, o){
 	        		aoData.push( { "name": o.name, "value": o.value } );
 	        	});
+	        	
+	        	//Add the values of the filterform:
+	        	var filterFormData = $("#filterForm").serializeArray();
+	        	$(filterFormData).each(function(i, o){
+	        		aoData.push( { "name": o.name, "value": o.value } );
+	        	});
 	        }
 		});
 		
