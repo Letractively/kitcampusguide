@@ -1,5 +1,5 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<form:form method="get" commandName="searchFormModel" action="${pageContext.request.contextPath}/search/advanced.html">
+<form:form method="get" commandName="searchFormModel" action="${pageContext.request.contextPath}/search/advanced.html" id="searchForm">
      <form:select path="workplaceCount" >
        <form:option value="1"/>
        <form:option value="2"/>

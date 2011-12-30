@@ -11,14 +11,31 @@
 	rel="stylesheet" type="text/css" media="all" />
 <script src="/arbeitsplatzsuche/scripts/lib/jquery.dataTables.min.js" type="text/javascript"></script>
 <script type="text/javascript">
+
 	$(document).ready(function() {
+		
 		resultTable = $("#resultTable").dataTable({
 			"bServerSide" : true,
 			"sAjaxSource" : "/arbeitsplatzsuche/search/results.html",
 			"bProcessing" : true,
 			"sPaginationType" : "full_numbers",
-			"bJQueryUI" : true
+			"bJQueryUI" : true,
+			//Is called each update, to add params:
+	        "fnServerParams": function ( aoData ) {
+	        	//Add the values of the searchform:
+	        	var searchFormData = $("#searchForm").serializeArray();
+	        	$(searchFormData).each(function(i, o){
+	        		aoData.push( { "name": o.name, "value": o.value } );
+	        	});
+	        }
 		});
+		
+		
+		var search = function(){
+
+		}
+		
+		search();
 	});
 </script>
 <div id="container">
