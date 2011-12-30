@@ -15,11 +15,20 @@
 	$(document).ready(function() {
 		
 		resultTable = $("#resultTable").dataTable({
+	        "aoColumns": [
+			              null, 					// Room
+			              null,						// Building
+			              { "bSortable": false },	// Equipment
+			              null,						// Available from
+			              { "bVisible": false }		// ID
+			          ],
+			"aaSorting": [ [3,'asc'] ], // sort on collumn "available from"
 			"bServerSide" : true,
 			"sAjaxSource" : "/arbeitsplatzsuche/search/results.html",
 			"bProcessing" : true,
 			"sPaginationType" : "full_numbers",
 			"bJQueryUI" : true,
+			
 			//Is called each update, to add params:
 	        "fnServerParams": function ( aoData ) {
 	        	//Add the values of the searchform:
@@ -53,6 +62,7 @@
 					<th>Gebäude</th>
 					<th>Ausstattung</th>
 					<th>Frei ab</th>
+					<th>RoomID</th>
 				</tr>
 			</thead>
 			<tbody>
