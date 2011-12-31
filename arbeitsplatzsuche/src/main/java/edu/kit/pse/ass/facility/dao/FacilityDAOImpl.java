@@ -43,4 +43,10 @@ public class FacilityDAOImpl implements FacilityDAO {
 		return null;
 	}
 
+	@Override
+	public void facilityFillWithDummies() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

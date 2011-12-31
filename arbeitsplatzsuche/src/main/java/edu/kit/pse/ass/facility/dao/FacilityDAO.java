@@ -44,4 +44,9 @@ public interface FacilityDAO {
 	public Collection<Property> getAvailablePropertiesOf(
 			Class<? extends Facility> facilityClass);
 
+	/**
+	 * Fills the DAO with dummy values specified in its implementation
+	 */
+	public void facilityFillWithDummies();
+
 }
