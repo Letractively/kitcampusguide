@@ -21,7 +21,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity(name = "t_facility")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Facility {
+public abstract class Facility {
 
 	/**
 	 * unique ID of this facility
