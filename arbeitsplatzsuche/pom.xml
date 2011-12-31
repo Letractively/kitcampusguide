@@ -62,10 +62,10 @@
   		<scope>compile</scope>
   	</dependency>
   	<dependency>
-  		<groupId>org.springframework.data</groupId>
-  		<artifactId>spring-data-jpa</artifactId>
-  		<version>1.0.2.RELEASE</version>
-  		<type>zip</type>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-orm</artifactId>
+  		<version>3.0.7.RELEASE</version>
+  		<type>jar</type>
   		<scope>compile</scope>
   	</dependency>
   </dependencies>
