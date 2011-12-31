@@ -102,7 +102,7 @@ public interface BookingManagement {
 	public Reservation getReservation(String reservationID);
 
 	/**
-	 * Find free facilites.
+	 * Find free facilities.
 	 * 
 	 * @param query
 	 *            the query
@@ -111,14 +111,14 @@ public interface BookingManagement {
 	 * @param end
 	 *            the end
 	 * @param fullyAvailible
-	 *            the fully availible
+	 *            the fully available
 	 * @return the collection
 	 */
 	public Collection<FreeFacilityResult> findFreeFacilites(
 			FacilityQuery query, Date start, Date end, boolean fullyAvailable);
 
 	/**
-	 * Checks if is facility free.
+	 * Checks if facility is free.
 	 * 
 	 * @param facilityID
 	 *            the facility id

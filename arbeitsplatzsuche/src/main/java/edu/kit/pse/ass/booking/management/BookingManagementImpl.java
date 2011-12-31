@@ -57,7 +57,10 @@ public class BookingManagementImpl implements BookingManagement {
 	@Override
 	public Collection<FreeFacilityResult> findFreeFacilites(
 			FacilityQuery query, Date start, Date end, boolean fullyAvailable) {
-		// TODO Auto-generated method stub
+		/*
+		 * TODO either a database of facilities must be specified to use always
+		 * or it must be given to the method
+		 */
 		return null;
 	}
 
