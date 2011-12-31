@@ -19,6 +19,8 @@ import org.junit.Test;
 
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Reservation;
+import edu.kit.pse.ass.facility.dao.FacilityDAO;
+import edu.kit.pse.ass.facility.dao.FacilityDAOImpl;
 import edu.kit.pse.ass.facility.management.FacilityQuery;
 import edu.kit.pse.ass.facility.management.RoomQuery;
 
@@ -32,12 +34,14 @@ public class BookingManagementImplTest {
 	private static final List<String> FACILITIES = Arrays.asList("ID###1",
 			"ID###2");
 	private static final List<String> FACILITIES2 = Arrays.asList("ID###3");
+	private static final List<String> FACILITIES3 = Arrays.asList("ID###4");
 	private static String RESERVATIONID;
 	private static final String[] FIND_PROPERTY_NAMES = { "WLAN", "Steckdose" };
 	private static final String SEARCH_TEXT = "Informatik";
 	private static final int NEEDED_WORKPLACES = 3;
 
 	BookingManagement bm = new BookingManagementImpl();
+	FacilityDAO fm = new FacilityDAOImpl();
 	Date start = new GregorianCalendar(2012, 0, 2, 9, 0).getTime();
 	Date end = new GregorianCalendar(2012, 0, 2, 10, 0).getTime();
 
@@ -45,6 +49,7 @@ public class BookingManagementImplTest {
 	public void setUp() throws Exception {
 		assertNotNull("No bookingManagement initialized", bm);
 		RESERVATIONID = bm.book(USERID, FACILITIES, start, end);
+		bm.book("uxyzz@student.kit.edu", FACILITIES3, start, end);
 	}
 
 	@Test
@@ -205,8 +210,11 @@ public class BookingManagementImplTest {
 		assertNotNull("No result set", result);
 		assertTrue("No results in set", result.size() > 0);
 		for (FreeFacilityResult freeFacility : result) {
+			// TODO search text unused in the facility construction
 			assertFalse(FACILITIES.contains(freeFacility.getFacility().getId()));
 			assertTrue(FACILITIES2.contains(freeFacility.getFacility().getId()));
+			assertFalse(FACILITIES3
+					.contains(freeFacility.getFacility().getId()));
 		}
 	}
 
