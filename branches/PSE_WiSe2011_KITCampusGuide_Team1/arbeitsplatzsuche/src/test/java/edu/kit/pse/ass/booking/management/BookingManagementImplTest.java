@@ -38,13 +38,13 @@ public class BookingManagementImplTest {
 	private static final int NEEDED_WORKPLACES = 3;
 
 	BookingManagement bm = new BookingManagementImpl();
+	Date start = new GregorianCalendar(2012, 0, 2, 9, 0).getTime();
+	Date end = new GregorianCalendar(2012, 0, 2, 10, 0).getTime();
 
 	@Before
 	public void setUp() throws Exception {
-		Date startDate = new GregorianCalendar(2012, 0, 2, 9, 0).getTime();
-		Date endDate = new GregorianCalendar(2012, 0, 2, 10, 0).getTime();
 		assertNotNull("No bookingManagement initialized", bm);
-		RESERVATIONID = bm.book(USERID, FACILITIES, startDate, endDate);
+		RESERVATIONID = bm.book(USERID, FACILITIES, start, end);
 	}
 
 	@Test
@@ -53,6 +53,15 @@ public class BookingManagementImplTest {
 		Date startDate = new GregorianCalendar(2012, 0, 1, 9, 0).getTime();
 		Date endDate = new GregorianCalendar(2012, 0, 1, 10, 0).getTime();
 		try {
+			assertNull("Accepted wrong parameters.",
+					bm.book(null, FACILITIES, startDate, endDate));
+			assertNull("Accepted wrong parameters.",
+					bm.book(USERID, null, startDate, endDate));
+			assertNull("Accepted wrong parameters.",
+					bm.book(USERID, FACILITIES, null, endDate));
+			assertNull("Accepted wrong parameters.",
+					bm.book(USERID, FACILITIES, startDate, null));
+
 			resvID = bm.book(USERID, FACILITIES, startDate, endDate);
 		} catch (Exception e) {
 			System.out.println("Error:" + e);
@@ -70,19 +79,25 @@ public class BookingManagementImplTest {
 		Date endDate = new GregorianCalendar(2013, 0, 0, 0, 0).getTime();
 		Collection<Reservation> resvCol = null;
 		try {
+			assertNull("Accepted wrong parameters.",
+					bm.listReservationsOfUser(null, startDate, endDate));
+			assertNull("Accepted wrong parameters.",
+					bm.listReservationsOfUser(USERID, null, endDate));
+			assertNull("Accepted wrong parameters.",
+					bm.listReservationsOfUser(USERID, startDate, null));
+
 			resvCol = bm.listReservationsOfUser(USERID, startDate, endDate);
 		} catch (Exception e) {
 			System.out.println("Error: " + e);
 		}
 		assertNotNull("No collection of reservations", resvCol);
 		assertTrue("No reservations in collection", resvCol.size() > 0);
-		assertEquals(USERID, ((List<Reservation>) resvCol).get(0)
-				.getBookingUserId());
-		assertTrue(((List<Reservation>) resvCol).get(0).getBookedFacilityIds()
-				.containsAll(FACILITIES));
-		assertEquals(startDate, ((List<Reservation>) resvCol).get(0)
-				.getStartTime());
-		assertEquals(endDate, ((List<Reservation>) resvCol).get(0).getEndTime());
+		for (Reservation resv : resvCol) {
+			assertEquals(USERID, resv.getBookingUserId());
+			assertTrue(resv.getBookedFacilityIds().containsAll(FACILITIES));
+			assertEquals(startDate, resv.getStartTime());
+			assertEquals(endDate, resv.getEndTime());
+		}
 	}
 
 	@Test
@@ -91,6 +106,15 @@ public class BookingManagementImplTest {
 		Date endDate = new GregorianCalendar(2013, 0, 0, 0, 0).getTime();
 		Collection<Reservation> resvCol = null;
 		try {
+			assertNull("Accepted wrong parameters.",
+					bm.listReservationsOfFacility(null, startDate, endDate));
+			assertNull("Accepted wrong parameters.",
+					bm.listReservationsOfFacility(FACILITIES.get(0), null,
+							endDate));
+			assertNull("Accepted wrong parameters.",
+					bm.listReservationsOfFacility(FACILITIES.get(0), startDate,
+							null));
+
 			resvCol = bm.listReservationsOfFacility(FACILITIES.get(0),
 					startDate, endDate);
 		} catch (Exception e) {
@@ -98,19 +122,20 @@ public class BookingManagementImplTest {
 		}
 		assertNotNull("No collection of reservations", resvCol);
 		assertTrue("No reservations in collection", resvCol.size() > 0);
-		assertEquals(USERID, ((List<Reservation>) resvCol).get(0)
-				.getBookingUserId());
-		assertTrue(((List<Reservation>) resvCol).get(0).getBookedFacilityIds()
-				.containsAll(FACILITIES));
-		assertEquals(startDate, ((List<Reservation>) resvCol).get(0)
-				.getStartTime());
-		assertEquals(endDate, ((List<Reservation>) resvCol).get(0).getEndTime());
+		for (Reservation resv : resvCol) {
+			assertEquals(USERID, resv.getBookingUserId());
+			assertTrue(resv.getBookedFacilityIds().containsAll(FACILITIES));
+			assertEquals(startDate, resv.getStartTime());
+			assertEquals(endDate, resv.getEndTime());
+		}
 	}
 
 	@Test
 	public void testChangeReservationEnd() {
 		Date newEnd = new GregorianCalendar(2012, 0, 2, 11, 0).getTime();
 		try {
+			// TODO should throw exception, not jUnit testable
+			bm.changeReservationEnd(RESERVATIONID, null);
 			bm.changeReservationEnd(RESERVATIONID, newEnd);
 		} catch (Exception e) {
 			System.out.println("Error: " + e);
@@ -120,6 +145,8 @@ public class BookingManagementImplTest {
 
 	@Test
 	public void testRemoveFacilityFromReservation() {
+		assertTrue(FACILITIES.size() == bm.getReservation(RESERVATIONID)
+				.getBookedFacilityIds().size());
 		try {
 			bm.removeFacilityFromReservation(RESERVATIONID, FACILITIES.get(0));
 		} catch (Exception e) {
@@ -127,11 +154,13 @@ public class BookingManagementImplTest {
 		}
 		assertTrue(FACILITIES.size() > bm.getReservation(RESERVATIONID)
 				.getBookedFacilityIds().size());
+		assertFalse(bm.getReservation(RESERVATIONID).getBookedFacilityIds()
+				.contains(FACILITIES.get(0)));
 	}
 
 	@Test
 	public void testDeleteReservation() {
-
+		assertNotNull(bm.getReservation(RESERVATIONID));
 		try {
 			bm.deleteReservation(RESERVATIONID);
 		} catch (Exception e) {
@@ -139,15 +168,13 @@ public class BookingManagementImplTest {
 		}
 		// TODO getRes must return null if res not found
 		assertNull(bm.getReservation(RESERVATIONID));
-
 	}
 
 	@Test
 	public void testGetReservation() {
-		Date startDate = new GregorianCalendar(2012, 0, 2, 9, 0).getTime();
-		Date endDate = new GregorianCalendar(2012, 0, 2, 10, 0).getTime();
 		Reservation resv = null;
 		try {
+			assertNull(bm.getReservation(null));
 			resv = bm.getReservation(RESERVATIONID);
 		} catch (Exception e) {
 			System.out.println("Error: " + e);
@@ -156,26 +183,22 @@ public class BookingManagementImplTest {
 		assertEquals(RESERVATIONID, resv.getId());
 		assertEquals(USERID, resv.getBookingUserId());
 		assertTrue(resv.getBookedFacilityIds().containsAll(FACILITIES));
-		assertEquals(startDate, resv.getStartTime());
-		assertEquals(endDate, resv.getEndTime());
+		assertEquals(start, resv.getStartTime());
+		assertEquals(end, resv.getEndTime());
 	}
 
 	@Test
 	public void testFindFreeFacilites() {
-		// TODO
+		// TODO findFreeFacilites needs a facility database to work
 		ArrayList<Property> propertiesList = new ArrayList<Property>();
 		for (String property : FIND_PROPERTY_NAMES) {
 			propertiesList.add(new Property(property));
 		}
-
 		FacilityQuery query = new RoomQuery(propertiesList, SEARCH_TEXT,
 				NEEDED_WORKPLACES);
 		Collection<FreeFacilityResult> result = null;
-		Calendar start = new GregorianCalendar(2012, 0, 2, 9, 0);
-		Calendar end = new GregorianCalendar(2012, 0, 2, 10, 0);
 		try {
-			result = bm.findFreeFacilites(query, start.getTime(),
-					end.getTime(), false);
+			result = bm.findFreeFacilites(query, start, end, false);
 		} catch (Exception e) {
 			System.out.println("Error: " + e);
 		}
@@ -189,16 +212,25 @@ public class BookingManagementImplTest {
 
 	@Test
 	public void testIsFacilityFree() {
-		// TODO
-		Calendar start = new GregorianCalendar(2012, 0, 2, 9, 0);
-		Calendar end = new GregorianCalendar(2012, 0, 2, 10, 0);
-		boolean result = true;
+		Calendar startUnused = new GregorianCalendar(2012, 0, 3, 9, 0);
+		Calendar endUnused = new GregorianCalendar(2012, 0, 3, 10, 0);
+		Calendar startUsedHalf = new GregorianCalendar(2012, 0, 2, 9, 0);
+		Calendar endUsedHalf = new GregorianCalendar(2012, 0, 2, 11, 0);
 		try {
-			result = bm.isFacilityFree(FACILITIES.get(0), start.getTime(),
-					end.getTime());
+			assertFalse(bm.isFacilityFree(FACILITIES.get(0), start, end));
+			assertFalse(bm.isFacilityFree(FACILITIES.get(1),
+					startUnused.getTime(), endUnused.getTime()));
+			assertTrue(bm.isFacilityFree(FACILITIES2.get(0),
+					startUnused.getTime(), endUnused.getTime()));
+			assertTrue(bm.isFacilityFree(FACILITIES.get(0), start, end));
+			assertTrue(bm.isFacilityFree(FACILITIES.get(1), start, end));
+			assertTrue(bm.isFacilityFree(FACILITIES2.get(0), start, end));
+			assertFalse(bm.isFacilityFree(FACILITIES.get(0),
+					startUsedHalf.getTime(), endUsedHalf.getTime()));
+			assertFalse(bm.isFacilityFree(FACILITIES.get(1),
+					startUsedHalf.getTime(), endUsedHalf.getTime()));
 		} catch (Exception e) {
 			System.out.println("Error: " + e);
 		}
-		assertFalse(result);
 	}
 }
