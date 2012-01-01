@@ -50,6 +50,7 @@ public class BookingManagementImplTest {
 		assertNotNull("No bookingManagement initialized", bm);
 		RESERVATIONID = bm.book(USERID, FACILITIES, start, end);
 		bm.book("uxyzz@student.kit.edu", FACILITIES3, start, end);
+		fm.facilityFillWithDummies();
 	}
 
 	@Test
@@ -71,6 +72,7 @@ public class BookingManagementImplTest {
 		} catch (Exception e) {
 			System.out.println("Error:" + e);
 		}
+		assertNotNull(resvID);
 		assertEquals(USERID, bm.getReservation(resvID).getBookingUserId());
 		assertTrue(bm.getReservation(resvID).getBookedFacilityIds()
 				.containsAll(FACILITIES));
