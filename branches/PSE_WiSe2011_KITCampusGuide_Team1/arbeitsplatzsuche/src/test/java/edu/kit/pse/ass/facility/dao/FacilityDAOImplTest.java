@@ -23,9 +23,9 @@ import edu.kit.pse.ass.entity.Workplace;
 public class FacilityDAOImplTest {
 	private static final String FACILITYID = "ID###1";
 	FacilityDAO dao = new FacilityDAOImpl();
-	Collection<Property> props = null;
-	Collection<Facility> places = null;
-	Collection<Facility> facs = null;
+	Collection<Property> props = new ArrayList<Property>();
+	Collection<Facility> places = new ArrayList<Facility>();
+	Collection<Facility> facs = new ArrayList<Facility>();
 
 	@Before
 	public void setUp() {
