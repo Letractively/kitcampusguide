@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -32,7 +33,7 @@ public class BookingDAOImplTest {
 	Date start = new GregorianCalendar(2012, 0, 2, 9, 0).getTime();
 	Date end = new GregorianCalendar(2012, 0, 2, 10, 0).getTime();
 	Reservation testReservation = new Reservation(start, end, USERID);
-	Collection<Reservation> testReservationCol = null;
+	Collection<Reservation> testReservationCol = new ArrayList<Reservation>();
 
 	@Before
 	public void setUp() throws Exception {
