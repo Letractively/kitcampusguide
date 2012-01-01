@@ -55,9 +55,13 @@ public class FacilityDAOImpl implements FacilityDAO {
 		Facility facil3 = new Room();
 		Facility facil4 = new Room();
 		Facility place1 = new Workplace();
+		place1.setName("place1");
 		Facility place2 = new Workplace();
+		place2.setName("place2");
 		Facility place3 = new Workplace();
+		place3.setName("place3");
 		Facility place4 = new Workplace();
+		place4.setName("place4");
 		facil1.setName("ID###1");
 		facil1.addProperty(prop1);
 		facil1.addContainedFacilitiy(place1);
