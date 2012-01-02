@@ -42,6 +42,7 @@ public class BookingDAOImplTest {
 		testReservationCol.add(testReservation);
 		assertNotNull("No bookingDAO initialized", bm);
 		bm.insertReservation(testReservation);
+		bm.bookingFillWithDummies();
 	}
 
 	@Test
