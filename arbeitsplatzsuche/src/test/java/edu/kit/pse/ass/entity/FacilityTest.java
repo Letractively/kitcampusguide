@@ -1,6 +1,7 @@
 package edu.kit.pse.ass.entity;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,7 +43,7 @@ public class FacilityTest {
 			Room r = new Room();
 			r.setName(NAME + i);
 			roomsToAdd.add(r);
-			building.addContainedFacilitiy(r);
+			building.addContainedFacility(r);
 		}
 
 		// Building should have 5 rooms
@@ -60,7 +61,7 @@ public class FacilityTest {
 	@Test
 	public void removeContainedFacility() {
 		Room r = new Room();
-		building.addContainedFacilitiy(r);
+		building.addContainedFacility(r);
 		// We added a room so size should be 1
 		assertEquals(1, building.getContainedFacilities().size());
 		building.removeContainedFacility(r);
@@ -102,17 +103,17 @@ public class FacilityTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testAddNonRoomToBuilding() {
-		building.addContainedFacilitiy(workplace);
+		building.addContainedFacility(workplace);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testAddNonWorkplaceToRoom() {
-		room.addContainedFacilitiy(building);
+		room.addContainedFacility(building);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testAddSomethingToWorkplace() {
-		workplace.addContainedFacilitiy(room);
+		workplace.addContainedFacility(room);
 	}
 
 	@Test(expected = IllegalArgumentException.class)

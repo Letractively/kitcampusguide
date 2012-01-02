@@ -139,7 +139,7 @@ public abstract class Facility {
 	 * @throws IllegalArgumentException
 	 *             , when containedFacility is null.
 	 */
-	public void addContainedFacilitiy(Facility containedFacility)
+	public void addContainedFacility(Facility containedFacility)
 			throws IllegalArgumentException {
 
 		if (containedFacility == null) {

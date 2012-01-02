@@ -50,10 +50,10 @@ public class Room extends Facility {
 	 * .entity.Facility)
 	 */
 	@Override
-	public void addContainedFacilitiy(Facility containedFacility)
+	public void addContainedFacility(Facility containedFacility)
 			throws IllegalArgumentException {
 		if (containedFacility instanceof Workplace) {
-			super.addContainedFacilitiy(containedFacility);
+			super.addContainedFacility(containedFacility);
 		} else {
 			throw new IllegalArgumentException(
 					"a room can only contain workplaces");
