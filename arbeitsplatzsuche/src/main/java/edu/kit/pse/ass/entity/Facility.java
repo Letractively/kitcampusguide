@@ -19,6 +19,10 @@ import org.hibernate.annotations.GenericGenerator;
  * @author Sebastian
  * 
  */
+/**
+ * @author Lennart
+ * 
+ */
 @Entity(name = "t_facility")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Facility {
@@ -69,6 +73,21 @@ public abstract class Facility {
 	 */
 	public String getId() {
 		return id;
+	}
+
+	/**
+	 * WARNING! only used for testing! DO NOT under any circumstances use it in
+	 * the real application!
+	 * 
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(String id) {
+		if (id == null || id.isEmpty()) {
+			throw new IllegalArgumentException("id must not null or empty.");
+		} else {
+			this.id = id;
+		}
 	}
 
 	/**
