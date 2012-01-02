@@ -18,6 +18,9 @@
 <script src="<c:url value="/scripts/lib/jquery-ui-timepicker-addon.js" />"></script>
 <%-- doc: www.modernizr.com --%>
 <script src="<c:url value="/scripts/lib/modernizr-2.0.6.js" />"></script>
+<%-- doc: http://www.myjqueryplugins.com/jNotify --%>
+<script src="<c:url value="/scripts/lib/jNotify.jquery.js" />"></script>
+<link href="<c:url value="/css/jNotify.jquery.css" />" rel="stylesheet" type="text/css">
 <%-- Includes for advanced search --%>
 <c:if test="${view == 'search/advanced'}">
 <link href="<c:url value="/css/advancedSearch.css" />" rel="stylesheet" type="text/css">
