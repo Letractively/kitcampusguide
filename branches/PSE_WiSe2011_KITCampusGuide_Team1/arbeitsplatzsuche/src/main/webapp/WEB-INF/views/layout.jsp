@@ -33,18 +33,45 @@
 </c:if>
 <script>
 $(function() {
-    // Check if the browser supports the date input type
-    if (!Modernizr.inputtypes.date){
-        // Add the jQuery UI DatePicker to all
-        // input tags that have their type attributes
-        // set to 'date'
-        $('input[type=date]').datetimepicker({
-            // specify the same format as the spec
-            dateFormat: 'dd-mm-yy',
-            timeFormat: 'hh:mm',
-            stepMinute: 15
-        });
-    }
+	$.datepicker.regional['de'] = {
+			closeText: 'schließen',
+			prevText: '&#x3c;zurück',
+			nextText: 'Vor&#x3e;',
+			currentText: 'heute',
+			monthNames: ['Januar','Februar','März','April','Mai','Juni',
+			'Juli','August','September','Oktober','November','Dezember'],
+			monthNamesShort: ['Jan','Feb','Mär','Apr','Mai','Jun',
+			'Jul','Aug','Sep','Okt','Nov','Dez'],
+			dayNames: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+			dayNamesShort: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+			dayNamesMin: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+			weekHeader: 'Wo',
+			dateFormat: 'dd.mm.yy',
+			firstDay: 1,
+			isRTL: false,
+			showMonthAfterYear: false,
+			yearSuffix: ''
+			};
+	$.datepicker.setDefaults($.datepicker.regional['de']);
+	
+
+       $('input.date').datetimepicker({
+           	dateFormat: 'dd-mm-yy',
+           	timeFormat: 'hh:mm',
+           	stepMinute: 15,
+			timeText: 'Zeit',
+			hourText: 'Stunde',
+			minuteText: 'Minute'
+       });
+       $('input.time').timepicker({
+           	timeFormat: 'hh:mm',
+           	stepMinute: 15,
+          	timeOnlyTitle: "Dauer:",
+			timeText: 'Zeit',
+			hourText: 'Stunde',
+			minuteText: 'Minute'
+       });
+    
 });
 </script>
 
