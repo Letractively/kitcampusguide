@@ -27,6 +27,7 @@ public class FacilityDAOImplTest {
 	Collection<Facility> places = new ArrayList<Facility>();
 	Collection<Facility> facs = new ArrayList<Facility>();
 
+	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() {
 		Property prop1 = new Property("WLAN");
