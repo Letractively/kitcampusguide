@@ -82,7 +82,15 @@ public class BookingDAOImpl implements BookingDAO {
 
 		// create reservations and persist them
 		int i = 0;
-		int k = resvIDs.size();
+		int[] sizes = { facilityIDs.size(), resvIDs.size(), userIDs.size(),
+				start.size(), end.size() };
+		int k = facilityIDs.size();
+		// get size of shortest list
+		for (int j : sizes) {
+			if (j < k) {
+				k = j;
+			}
+		}
 		for (String resvID : resvIDs) {
 			// makes the lists size independent
 			i %= k;
