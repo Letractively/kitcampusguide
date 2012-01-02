@@ -18,6 +18,16 @@
 <script src="<c:url value="/scripts/lib/jquery-ui-timepicker-addon.js" />"></script>
 <%-- doc: www.modernizr.com --%>
 <script src="<c:url value="/scripts/lib/modernizr-2.0.6.js" />"></script>
+<%-- Includes for advanced search --%>
+<c:if test="${view == 'search/advanced'}">
+<link href="<c:url value="/css/advancedSearch.css" />" rel="stylesheet" type="text/css">
+<link href="<c:url value="/datatables/css/demo_page.css" />" rel="stylesheet" type="text/css" />
+<link href="<c:url value="/datatables/css/demo_table.css" />" rel="stylesheet" type="text/css" />
+<link href="<c:url value="/datatables/css/demo_table_jui.css" />" rel="stylesheet" type="text/css" />
+<link href="<c:url value="/datatables/themes/base/jquery-ui.css" />" rel="stylesheet" type="text/css" media="all" />
+<link href="<c:url value="/datatables/themdes/smoothness/jquery-ui-1.7.2.custom.css" />" rel="stylesheet" type="text/css" media="all" />
+<script src="<c:url value="/scripts/lib/jquery.dataTables.min.js" />" type="text/javascript"></script>
+</c:if>
 <script>
 $(function() {
     // Check if the browser supports the date input type
@@ -39,7 +49,7 @@ $(function() {
 <body>
 <header>
 	<div class="right">
-		KIT Arbeitsplats-Such-System
+		KIT Arbeitsplatz-Such-System
 	</div>
 	<nav>
 		<ul>
