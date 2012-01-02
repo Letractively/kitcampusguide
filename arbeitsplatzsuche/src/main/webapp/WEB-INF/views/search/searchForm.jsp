@@ -8,8 +8,8 @@
        <form:option value="5"/>
        <form:option value="6"/>
      </form:select> Plätze ab 
-     <form:input path="start" type="date" /> für 
-     <form:input path="duration" /> Stunden<br />
+     <form:input path="start" class="date" /> für 
+     <form:input path="duration" class="time"/> Stunden<br />
      <form:checkbox path="wholeRoom" itemLabel="ganzer Raum"/>
      <label for="wholeRoom">ganzer Raum</label> 
      <span class="searchText">
