@@ -3,7 +3,7 @@
 	
 	function calcTableHeight() {
 		// Height of the result table
-		return ($(window).height() - 190) + "px";
+		return ($(window).height() - 216) + "px";
 	}
 	
 	$(window).resize(function () {
@@ -26,7 +26,7 @@
 			"sAjaxSource" : "/arbeitsplatzsuche/search/results.html",
 			"bProcessing" : true,
 			"bJQueryUI" : true,
-	        "sDom": 'lrtp',
+	        "sDom": 'lfrtp',
 
 			"bPaginate" : true,
 			"bScrollInfinite" : true,
@@ -35,32 +35,29 @@
 			"sScrollY" : calcTableHeight(),
 
 			//Is called each update, to add params:
-			"fnServerParams" : function(aoData) {
-				//Add the values of the searchform:
-				var searchFormData = $("#searchForm").serializeArray();
-				$(searchFormData).each(function(i, o) {
-					aoData.push({
-						"name" : o.name,
-						"value" : o.value
-					});
-				});
+	        "fnServerParams": function ( aoData ) {
+	        	//Add the values of the searchform:
+	        	var searchFormData = $("#searchForm").serializeArray();
+	        	$(searchFormData).each(function(i, o){
+	        		aoData.push( o );
+	        	});
+	        	
+	        	//Add the values of the filterform:
+	        	var filterFormData = $("#filterForm").serializeArray();
+	        	$(filterFormData).each(function(i, o){
+	        		aoData.push( o );
+	        	});
+	        }
 
-				//Add the values of the filterform:
-				var filterFormData = $("#filterForm").serializeArray();
-				$(filterFormData).each(function(i, o) {
-					aoData.push({
-						"name" : o.name,
-						"value" : o.value
-					});
-				});
-			}
 		});
 
-		var search = function() {
+		$("#searchForm").submit(function(event){
+			resultTable.fnDraw();
+			event.preventDefault();
+			return false;
+		});
 
-		}
 
-		search();
 	});
 </script>
 <div id="container">
