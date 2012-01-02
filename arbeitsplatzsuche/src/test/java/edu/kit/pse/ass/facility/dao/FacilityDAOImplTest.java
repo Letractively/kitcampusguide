@@ -52,7 +52,6 @@ public class FacilityDAOImplTest {
 		places.add(place1);
 		places.add(place2);
 		places.add(place3);
-		places.add(place4);
 		facs.add(facil1);
 		facs.add(facil2);
 		facs.add(facil3);
@@ -63,12 +62,16 @@ public class FacilityDAOImplTest {
 	public void testGetFacility() {
 		Facility result = null;
 		try {
+			// throw error or return null if parameter is null
 			assertNull(dao.getFacility(null));
+
 			result = dao.getFacility(FACILITYID);
 		} catch (Exception e) {
 			System.out.println("Error: " + e);
 		}
+		// a facility should be returned
 		assertNotNull(result);
+		// ensure the right facility is returned
 		assertEquals(FACILITYID, result.getId());
 		assertTrue(result.getContainedFacilities().containsAll(places));
 		assertTrue(result.getProperties().containsAll(props));
@@ -78,17 +81,17 @@ public class FacilityDAOImplTest {
 	public void testGetFacilities() {
 		Collection<Facility> result = null;
 		try {
+			// throw error or return null if parameter is null
 			assertNull(dao.getFacilities(null));
+
 			result = dao.getFacilities(props);
 		} catch (Exception e) {
 			System.out.println("Error: " + e);
 		}
+		// facilities should be returned
 		assertNotNull(result);
+		// ensure the right facilities are returned
 		assertTrue(result.containsAll(facs));
-		for (Facility fac : result) {
-			assertTrue(fac.getProperties().containsAll(props));
-		}
-
 	}
 
 	@Test
@@ -98,13 +101,16 @@ public class FacilityDAOImplTest {
 		expected.add(new Property("WLAN"));
 		expected.add(new Property("Steckdose"));
 		try {
+			// throw error or return null if parameter is null
 			assertNull(dao.getAvailablePropertiesOf(null));
+
 			result = dao.getAvailablePropertiesOf(Room.class);
 		} catch (Exception e) {
 			System.out.println("Error: " + e);
 		}
+		// properties should be returned
 		assertNotNull(result);
+		// ensure all properties are returned
 		assertTrue(result.containsAll(expected));
-		assertEquals(result.size(), expected.size());
 	}
 }
