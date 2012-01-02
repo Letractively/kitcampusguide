@@ -76,12 +76,13 @@ public abstract class Facility {
 	}
 
 	/**
-	 * WARNING! only used for testing! DO NOT under any circumstances use it in
-	 * the real application!
+	 * @deprecated WARNING! only used for testing! DO NOT under any
+	 *             circumstances use it in the real application!
 	 * 
 	 * @param id
 	 *            the id to set
 	 */
+	@Deprecated
 	public void setId(String id) {
 		if (id == null || id.isEmpty()) {
 			throw new IllegalArgumentException("id must not null or empty.");
