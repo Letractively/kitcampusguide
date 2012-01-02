@@ -75,6 +75,7 @@ public class FacilityDAOImpl implements FacilityDAO {
 	 * 
 	 * @see edu.kit.pse.ass.facility.dao.FacilityDAO#facilityFillWithDummies()
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	public void facilityFillWithDummies() {
 		// TODO create dummy values
@@ -86,31 +87,32 @@ public class FacilityDAOImpl implements FacilityDAO {
 		Facility facil3 = new Room();
 		Facility facil4 = new Room();
 		Facility place1 = new Workplace();
-		place1.setName("place1");
+		place1.setId("place1");
 		Facility place2 = new Workplace();
-		place2.setName("place2");
+		place2.setId("place2");
 		Facility place3 = new Workplace();
-		place3.setName("place3");
+		place3.setId("place3");
 		Facility place4 = new Workplace();
-		place4.setName("place4");
-		facil1.setName("ID###1");
+		place4.setId("place4");
+
+		facil1.setId("ID###1");
 		facil1.addProperty(prop1);
 		facil1.addContainedFacility(place1);
 		facil1.addContainedFacility(place2);
 		facil1.addContainedFacility(place3);
 
-		facil2.setName("ID###2");
+		facil2.setId("ID###2");
 		facil2.addProperty(prop2);
 		facil2.addContainedFacility(place1);
 
-		facil3.setName("ID###3");
+		facil3.setId("ID###3");
 		facil3.addProperty(prop1);
 		facil3.addProperty(prop2);
 		facil3.addContainedFacility(place1);
 		facil3.addContainedFacility(place2);
 		facil3.addContainedFacility(place3);
 
-		facil4.setName("ID###4");
+		facil4.setId("ID###4");
 		facil4.addProperty(prop1);
 		facil4.addProperty(prop2);
 		facil4.addContainedFacility(place1);
@@ -121,6 +123,12 @@ public class FacilityDAOImpl implements FacilityDAO {
 		build1.addContainedFacility(facil2);
 		build1.addContainedFacility(facil3);
 		build1.addContainedFacility(facil4);
+
+		facil1.setParentFacility(build1);
+		facil2.setParentFacility(build1);
+		facil3.setParentFacility(build1);
+		facil4.setParentFacility(build1);
+
 		jpaTemplate.persist(facil1);
 		jpaTemplate.persist(facil2);
 		jpaTemplate.persist(facil3);
