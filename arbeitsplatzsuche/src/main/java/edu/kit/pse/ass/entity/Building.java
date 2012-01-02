@@ -22,7 +22,7 @@ public class Building extends Facility {
 	 * .Facility)
 	 */
 	@Override
-	protected void setParentFacility(Facility parentFacility)
+	public void setParentFacility(Facility parentFacility)
 			throws IllegalArgumentException {
 		if (parentFacility != null) {
 			throw new IllegalArgumentException(
