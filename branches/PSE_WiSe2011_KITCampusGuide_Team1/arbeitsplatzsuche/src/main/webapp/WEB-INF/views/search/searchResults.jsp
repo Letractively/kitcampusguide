@@ -47,6 +47,34 @@
 	        	$(filterFormData).each(function(i, o){
 	        		aoData.push( o );
 	        	});
+	        },
+	        "fnServerData": function ( sSource, aoData, fnCallback ) {
+	            $.ajax( {
+	                "dataType": 'json',
+	                "type": "POST",
+	                "url": sSource,
+	                "data": aoData,
+	                "success": function(data, textStatus, jqXHR){
+	                	if(data.asErrors){
+	                		$(data.asErrors).each(function(i, o){
+	                			jError(o, 
+	                				{
+	                				  autoHide : true, // added in v2.0
+	                				  clickOverlay : false, // added in v2.0
+	                				  MinWidth : 250,
+	                				  TimeShown : 3000,
+	                				  ShowTimeEffect : 600,
+	                				  HideTimeEffect : 800,
+	                				  LongTrip :20,
+	                				  HorizontalPosition : 'center',
+	                				  VerticalPosition : 'center',
+	                				  ShowOverlay : false
+	                				});
+	                		});
+	                	}
+	                	fnCallback(data, textStatus, jqXHR);
+	                }
+	            } );
 	        }
 
 		});

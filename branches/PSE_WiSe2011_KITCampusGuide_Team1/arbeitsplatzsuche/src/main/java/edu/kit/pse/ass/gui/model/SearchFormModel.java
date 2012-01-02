@@ -51,6 +51,30 @@ public class SearchFormModel {
 		this.duration = duration;
 	}
 
+	public boolean isDurationValid() {
+		return duration != null && duration.matches("[0-9]*:?[0-9]*");
+	}
+
+	public Date getEnd() throws IllegalStateException {
+		Calendar result = Calendar.getInstance();
+
+		if (duration.indexOf(':') > 0) {
+			String[] tmp = duration.split(":");
+			try {
+				int hour = Integer.parseInt(tmp[0]);
+				int minutes = Integer.parseInt(tmp[1]);
+				result.add(Calendar.HOUR, hour);
+				result.add(Calendar.MINUTE, minutes);
+
+			} catch (NumberFormatException ex) {
+				throw new IllegalStateException("Illegal Duration", ex);
+			}
+		}
+
+		return result.getTime();
+
+	}
+
 	public boolean isWholeRoom() {
 		return wholeRoom;
 	}

@@ -19,6 +19,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -31,6 +33,7 @@ import edu.kit.pse.ass.facility.management.FacilityManagement;
 import edu.kit.pse.ass.gui.model.DataTableParamModel;
 import edu.kit.pse.ass.gui.model.SearchFilterModel;
 import edu.kit.pse.ass.gui.model.SearchFormModel;
+import edu.kit.pse.ass.gui.model.SearchFormValidator;
 
 @Controller
 public class SearchController extends MainController {
@@ -65,8 +68,12 @@ public class SearchController extends MainController {
 
 	@RequestMapping(value = "search/results")
 	public void listSearchResults(@ModelAttribute SearchFormModel sfm,
+			BindingResult sfmResult,
 			@ModelAttribute SearchFilterModel searchFilterModel,
 			HttpServletRequest request, HttpServletResponse response) {
+
+		SearchFormValidator sfmValidator = new SearchFormValidator();
+		sfmValidator.validate(sfm, sfmResult);
 
 		// DataTable Parameters
 		DataTableParamModel parameters;
@@ -114,6 +121,14 @@ public class SearchController extends MainController {
 			jsonResponse.put("sEcho", parameters.sEcho);
 			jsonResponse.put("iTotalRecords", iTotalRecords);
 			jsonResponse.put("iTotalDisplayRecords", iTotalDisplayRecords);
+
+			if (sfmResult.hasErrors()) {
+				JSONArray asErrors = new JSONArray();
+				for (ObjectError error : sfmResult.getAllErrors()) {
+					asErrors.put(error.getDefaultMessage());
+				}
+				jsonResponse.put("asErrors", asErrors);
+			}
 
 			SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 
