@@ -17,7 +17,7 @@ public class Workplace extends Facility {
 	 * .Facility)
 	 */
 	@Override
-	protected void setParentFacility(Facility parentFacility)
+	public void setParentFacility(Facility parentFacility)
 			throws IllegalArgumentException {
 		if (parentFacility instanceof Room) {
 			super.setParentFacility(parentFacility);

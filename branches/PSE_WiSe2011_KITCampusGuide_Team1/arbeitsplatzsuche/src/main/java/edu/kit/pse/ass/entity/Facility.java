@@ -121,7 +121,7 @@ public abstract class Facility {
 	 * @param parentFacility
 	 *            the parentFacility to set
 	 */
-	protected void setParentFacility(Facility parentFacility) {
+	public void setParentFacility(Facility parentFacility) {
 		this.parentFacility = parentFacility;
 	}
 
