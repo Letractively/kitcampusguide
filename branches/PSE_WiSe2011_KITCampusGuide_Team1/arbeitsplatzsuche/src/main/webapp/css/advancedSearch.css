@@ -1,0 +1,58 @@
+@CHARSET "UTF-8";
+
+body {
+	margin: 0;
+	padding: 163px 0 0 200px;
+	overflow-y: hidden;
+}
+
+* html body {
+	overflow: hidden;
+}
+
+* html div#advanced-results {
+	height: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+div#advanced-header {
+	position: absolute;
+	top: 23px;
+	left: 0;
+	width: 500%;
+	height: 140px;
+}
+
+div#advanced-left {
+	position: absolute;
+	padding: 10px; 
+	top: 163px; // 140 + 23;
+	left: 0;
+	width: 200px;
+	height: 100%;
+}
+
+@media screen {
+	body>div#advanced-header {
+		position: fixed;
+	}
+	body>div#advanced-left {
+		position: fixed;
+	}
+}
+
+div.advanced-logo {
+	float: left; width: 230px;
+	text-align: center;
+	padding: 25px 0 0 0;
+	
+}
+
+div.advanced-search{
+	float: left;
+	border: 2px solid black;
+	padding: 20px;
+	margin: 10px;
+	width: 450px;
+}

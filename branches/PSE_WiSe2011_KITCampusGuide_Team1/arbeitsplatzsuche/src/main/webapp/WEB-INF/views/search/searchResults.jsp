@@ -1,60 +1,65 @@
 
-<link href="/arbeitsplatzsuche/datatables/css/demo_page.css" rel="stylesheet"
-	type="text/css" />
-<link href="/arbeitsplatzsuche/datatables/css/demo_table.css" rel="stylesheet"
-	type="text/css" />
-<link href="/arbeitsplatzsuche/datatables/css/demo_table_jui.css" rel="stylesheet"
-	type="text/css" />
-<link href="/arbeitsplatzsuche/datatables/themes/base/jquery-ui.css" rel="stylesheet"
-	type="text/css" media="all" />
-<link href="/arbeitsplatzsuche/datatables/themdes/smoothness/jquery-ui-1.7.2.custom.css"
-	rel="stylesheet" type="text/css" media="all" />
-<script src="/arbeitsplatzsuche/scripts/lib/jquery.dataTables.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-
+	
+	function calcTableHeight() {
+		// Height of the result table
+		return ($(window).height() - 216) + "px";
+	}
+	
+	$(window).resize(function () {
+		// change result table height on window resize
+		resultTable.fnSettings().oScroll.sY = calcTableHeight(); 
+		resultTable.fnDraw();
+	});
+	
 	$(document).ready(function() {
-		
+
 		resultTable = $("#resultTable").dataTable({
-	        "aoColumns": [
-			              null, 					// Room
-			              null,						// Building
-			              { "bSortable": false },	// Equipment
-			              null,						// Available from
-			              { "bVisible": false }		// ID
-			          ],
-			"aaSorting": [ [3,'desc'] ], // sort on collumn "available from"
+			"aoColumns" : [ null, 		// Room
+			null, 						// Building
+			{ "bSortable" : false }, 	// Equipment
+			null, 						// Available from
+			{ "bVisible" : false } 		// ID
+			],
+			"aaSorting" : [ [ 3, 'desc' ] ], // sort on collumn "available from"
 			"bServerSide" : true,
 			"sAjaxSource" : "/arbeitsplatzsuche/search/results.html",
 			"bProcessing" : true,
 			"bJQueryUI" : true,
-			
-			"bPaginate": true,
-	        "bScrollInfinite": true,
-	        "iDisplayLength": 40,
-	        "bScrollCollapse": true,
-	        "sScrollY": "400px",
-			
+	        "sDom": 'lfrtp',
+
+			"bPaginate" : true,
+			"bScrollInfinite" : true,
+			"iDisplayLength" : 40,
+			"bScrollCollapse" : true,
+			"sScrollY" : calcTableHeight(),
+
 			//Is called each update, to add params:
-	        "fnServerParams": function ( aoData ) {
-	        	//Add the values of the searchform:
-	        	var searchFormData = $("#searchForm").serializeArray();
-	        	$(searchFormData).each(function(i, o){
-	        		aoData.push( { "name": o.name, "value": o.value } );
-	        	});
-	        	
-	        	//Add the values of the filterform:
-	        	var filterFormData = $("#filterForm").serializeArray();
-	        	$(filterFormData).each(function(i, o){
-	        		aoData.push( { "name": o.name, "value": o.value } );
-	        	});
-	        }
+			"fnServerParams" : function(aoData) {
+				//Add the values of the searchform:
+				var searchFormData = $("#searchForm").serializeArray();
+				$(searchFormData).each(function(i, o) {
+					aoData.push({
+						"name" : o.name,
+						"value" : o.value
+					});
+				});
+
+				//Add the values of the filterform:
+				var filterFormData = $("#filterForm").serializeArray();
+				$(filterFormData).each(function(i, o) {
+					aoData.push({
+						"name" : o.name,
+						"value" : o.value
+					});
+				});
+			}
 		});
-		
-		
-		var search = function(){
+
+		var search = function() {
 
 		}
-		
+
 		search();
 	});
 </script>
@@ -75,4 +80,3 @@
 		</table>
 	</div>
 </div>
-<!-- <div><input value="update" type="button" onclick="resultTable.fnDraw();"></div>-->
