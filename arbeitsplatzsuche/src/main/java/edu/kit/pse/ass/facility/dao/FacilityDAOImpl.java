@@ -13,16 +13,33 @@ import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.entity.Workplace;
 
+/**
+ * The Class FacilityDAOImpl implements the FacilityDAO
+ */
 public class FacilityDAOImpl implements FacilityDAO {
 
+	/** The jpa template. */
 	@Inject
 	private JpaTemplate jpaTemplate;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.facility.dao.FacilityDAO#getFacility(java.lang.String)
+	 */
 	@Override
 	public Facility getFacility(String facilityID) {
 		return jpaTemplate.find(Facility.class, facilityID);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.facility.dao.FacilityDAO#getFacilities(java.util.Collection
+	 * )
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Facility> getFacilities(Collection<Property> properties) {
@@ -38,6 +55,13 @@ public class FacilityDAOImpl implements FacilityDAO {
 		return jpaTemplate.findByNamedParams(query, props);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.facility.dao.FacilityDAO#getAvailablePropertiesOf(java
+	 * .lang.Class)
+	 */
 	@Override
 	public Collection<Property> getAvailablePropertiesOf(
 			Class<? extends Facility> facilityClass) {
@@ -45,6 +69,11 @@ public class FacilityDAOImpl implements FacilityDAO {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.kit.pse.ass.facility.dao.FacilityDAO#facilityFillWithDummies()
+	 */
 	@Override
 	public void facilityFillWithDummies() {
 		// TODO create dummy values

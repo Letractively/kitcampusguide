@@ -6,6 +6,7 @@ package edu.kit.pse.ass.facility.management;
 import java.util.Collection;
 
 import edu.kit.pse.ass.entity.Facility;
+import edu.kit.pse.ass.entity.Property;
 
 /**
  * @author Andreas Bosch
@@ -30,7 +31,7 @@ public interface FacilityManagement {
 	 *            the facility query
 	 * @return a collection of matching facilities
 	 */
-	public Collection<Facility> findMatchingFacilities(
+	public Collection<? extends Facility> findMatchingFacilities(
 			FacilityQuery facilityQuery);
 
 	/**
@@ -42,6 +43,6 @@ public interface FacilityManagement {
 	 * @return collection of properties that an object of the given class can
 	 *         have
 	 */
-	public Collection<Facility> getAvailablePropertiesOf(
+	public Collection<Property> getAvailablePropertiesOf(
 			Class<? extends Facility> facilityClass);
 }
