@@ -264,7 +264,7 @@ public class SearchController extends MainController {
 
 		Room r = new Room();
 
-		b2.addContainedFacilitiy(r);
+		b2.addContainedFacility(r);
 		r.addProperty(new Property("WLAN"));
 		r.addProperty(new Property("Strom"));
 		r.addProperty(new Property("Licht"));
@@ -274,13 +274,13 @@ public class SearchController extends MainController {
 		r = new Room();
 		r.addProperty(new Property("WLAN"));
 		r.addProperty(new Property("Strom"));
-		b3.addContainedFacilitiy(r);
+		b3.addContainedFacility(r);
 		r.setName("Saal");
 		results.add(new FreeFacilityResult(r, new Date(111, 11, 27, 15, 30)));
 
 		for (int i = 0; i < 100; i++) {
 			r = new Room();
-			b1.addContainedFacilitiy(r);
+			b1.addContainedFacility(r);
 			r.setName("Seminarraum " + i);
 			r.setLevel(1);
 			r.addProperty(new Property("WLAN"));

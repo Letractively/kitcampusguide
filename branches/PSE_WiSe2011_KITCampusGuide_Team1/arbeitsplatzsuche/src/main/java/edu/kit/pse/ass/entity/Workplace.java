@@ -34,7 +34,7 @@ public class Workplace extends Facility {
 	 * .entity.Facility)
 	 */
 	@Override
-	public void addContainedFacilitiy(Facility containedFacility)
+	public void addContainedFacility(Facility containedFacility)
 			throws IllegalArgumentException {
 		throw new IllegalArgumentException(
 				"a workplace can not contain a other facility");

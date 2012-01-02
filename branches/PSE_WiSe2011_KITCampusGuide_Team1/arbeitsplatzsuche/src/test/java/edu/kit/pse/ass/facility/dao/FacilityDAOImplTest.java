@@ -31,21 +31,21 @@ public class FacilityDAOImplTest {
 	public void setUp() {
 		Property prop1 = new Property("WLAN");
 		Facility place1 = new Workplace();
-		place1.setName("place1");
+		place1.setId("place1");
 		Facility place2 = new Workplace();
-		place2.setName("place2");
+		place2.setId("place2");
 		Facility place3 = new Workplace();
-		place3.setName("place3");
+		place3.setId("place3");
 		Facility place4 = new Workplace();
-		place4.setName("place4");
+		place4.setId("place4");
 		Facility facil1 = new Room();
 		Facility facil2 = new Room();
 		Facility facil3 = new Room();
 		Facility facil4 = new Room();
-		facil1.setName("ID###1");
-		facil2.setName("ID###2");
-		facil3.setName("ID###3");
-		facil4.setName("ID###4");
+		facil1.setId("ID###1");
+		facil2.setId("ID###2");
+		facil3.setId("ID###3");
+		facil4.setId("ID###4");
 
 		dao.facilityFillWithDummies();
 		props.add(prop1);
