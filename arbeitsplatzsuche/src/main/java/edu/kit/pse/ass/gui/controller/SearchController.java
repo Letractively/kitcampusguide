@@ -122,7 +122,7 @@ public class SearchController extends MainController {
 			jsonResponse.put("iTotalRecords", iTotalRecords);
 			jsonResponse.put("iTotalDisplayRecords", iTotalDisplayRecords);
 
-			// add erros if any
+			// add errors if any
 			if (sfmResult.hasErrors()) {
 				JSONArray asErrors = new JSONArray();
 				for (ObjectError error : sfmResult.getAllErrors()) {
