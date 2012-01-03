@@ -1,5 +1,6 @@
 package edu.kit.pse.ass.facility.dao;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -7,6 +8,7 @@ import java.util.Iterator;
 import javax.inject.Inject;
 
 import org.springframework.orm.jpa.JpaTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Facility;
@@ -63,11 +65,74 @@ public class FacilityDAOImpl implements FacilityDAO {
 	 * edu.kit.pse.ass.facility.dao.FacilityDAO#getAvailablePropertiesOf(java
 	 * .lang.Class)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Property> getAvailablePropertiesOf(
 			Class<? extends Facility> facilityClass) {
-		// TODO Auto-generated method stub
-		return null;
+		Collection<Property> result = new ArrayList<Property>();
+		Collection<Facility> facilities = jpaTemplate.find("from t_facility");
+		Iterator<Facility> facilityIterator = facilities.iterator();
+
+		// go through all matching facilities
+		for (int i = 0; i < facilities.size(); i++) {
+			Facility tmp = facilityIterator.next();
+			if (tmp.getClass() == facilityClass) {
+				Collection<Property> propertiesOfFacility = tmp.getProperties();
+				Iterator<Property> propertyIterator = propertiesOfFacility
+						.iterator();
+
+				// add all new properties of a matching facility
+				for (int j = 0; j < propertiesOfFacility.size(); j++) {
+					Property tmpProperty = propertyIterator.next();
+					if (!result.contains(tmpProperty))
+						result.add(tmpProperty);
+				}
+
+			}
+		}
+
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.facility.dao.FacilityDAO#merge(edu.kit.pse.ass.entity
+	 * .Facility)
+	 */
+	@Override
+	@Transactional
+	public Facility merge(Facility facility) {
+		return jpaTemplate.merge(facility);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.facility.dao.FacilityDAO#remove(edu.kit.pse.ass.entity
+	 * .Facility)
+	 */
+	@Override
+	@Transactional
+	public void remove(String facilityID) {
+		Facility facility = getFacility(facilityID);
+		jpaTemplate.remove(facility);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.facility.dao.FacilityDAO#persist(edu.kit.pse.ass.entity
+	 * .Facility)
+	 */
+	@Override
+	@Transactional
+	public void persist(Facility facility) {
+		jpaTemplate.persist(facility);
+
 	}
 
 	/*
