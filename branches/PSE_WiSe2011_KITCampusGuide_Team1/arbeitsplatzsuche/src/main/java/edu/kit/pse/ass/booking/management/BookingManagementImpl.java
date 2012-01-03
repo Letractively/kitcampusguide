@@ -119,13 +119,27 @@ public class BookingManagementImpl implements BookingManagement {
 			return false;
 		}
 		Facility facility = facilityManagement.getFacility(facilityID);
-		Facility parent = facility.getParentFacility();
-		if (parent != null
-				&& !isFacilityFree(parent.getId(), startDate, endDate)) {
-			return false;
+		Facility parent = facility;
+		while ((parent = parent.getParentFacility()) != null) {
+			reservations = bookingDAO.getReservationsOfFacility(parent.getId(),
+					startDate, endDate);
+			if (reservations != null && reservations.size() > 0) {
+				return false;
+			}
 		}
+		return areChildFacilitiesFree(facility, startDate, endDate);
+	}
+
+	private boolean areChildFacilitiesFree(Facility facility, Date startDate,
+			Date endDate) {
+		Collection<Reservation> reservations;
 		for (Facility containedFacility : facility.getContainedFacilities()) {
-			if (!isFacilityFree(containedFacility.getId(), startDate, endDate)) {
+			reservations = bookingDAO.getReservationsOfFacility(
+					containedFacility.getId(), startDate, endDate);
+			if (reservations != null && reservations.size() > 0) {
+				return false;
+			}
+			if (!areChildFacilitiesFree(containedFacility, startDate, endDate)) {
 				return false;
 			}
 		}
