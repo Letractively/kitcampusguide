@@ -1,10 +1,12 @@
 package edu.kit.pse.ass.booking.dao;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,44 +21,99 @@ public class BookingDAOImpl implements BookingDAO {
 	@Inject
 	private JpaTemplate jpaTemplate;
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#getReservationsOfUser(java.lang.String, java.util.Date, java.util.Date)
+	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Reservation> getReservationsOfUser(String userID,
 			Date asFrom, Date upTo) {
-		// TODO Auto-generated method stub
-		return null;
+		Collection<Reservation> result = new ArrayList<Reservation>();
+		Collection<Reservation> reservations = new ArrayList<Reservation>();
+		reservations = jpaTemplate.find("from t_reservation");
+		Iterator<Reservation> reservationIterator = reservations.iterator();
+		// find matching reservations and add them to the result
+		
+		// TODO diese Filterung kann auch die Datenbank übernehmen. Dafür müsste
+		// man die SearchQuery für das jpaTemplate schreiben
+		
+		for (int i = 0; i < reservations.size(); i++) {
+			Reservation tmp = reservationIterator.next();
+			if (userID.equals(tmp.getBookingUserId())
+					&& tmp.getStartTime().after(asFrom)
+					&& tmp.getStartTime().before(upTo))
+				result.add(tmp);
+		}
+
+		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#getReservationsOfFacility(java.lang.String, java.util.Date, java.util.Date)
+	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Reservation> getReservationsOfFacility(String facilityID,
 			Date asFrom, Date upTo) {
-		// TODO Auto-generated method stub
-		return null;
+		Collection<Reservation> result = new ArrayList<Reservation>();
+		Collection<Reservation> reservations = new ArrayList<Reservation>();
+		reservations = jpaTemplate.find("from t_reservation");
+		Iterator<Reservation> reservationIterator = reservations.iterator();
+		// find matching reservations and add them to the result
+		
+		// TODO diese Filterung kann auch die Datenbank übernehmen. Dafür müsste
+		// man die SearchQuery für das jpaTemplate schreiben
+		
+		for (int i = 0; i < reservations.size(); i++) {
+			Reservation tmp = reservationIterator.next();
+			if (tmp.getBookedFacilityIds().contains(facilityID)
+					&& tmp.getStartTime().after(asFrom)
+					&& tmp.getStartTime().before(upTo))
+				result.add(tmp);
+		}
+
+		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#getReservation(java.lang.String)
+	 */
 	@Override
 	public Reservation getReservation(String reservationID) {
-		// TODO Auto-generated method stub
-		return null;
+		return jpaTemplate.find(Reservation.class, reservationID);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#insertReservation(edu.kit.pse.ass.entity.Reservation)
+	 */
 	@Override
 	public String insertReservation(Reservation reservation) {
-		// TODO Auto-generated method stub
-		return null;
+		//TODO generate ID
+		jpaTemplate.persist(reservation);
+		return reservation.getId();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#updateReservation(edu.kit.pse.ass.entity.Reservation)
+	 */
 	@Override
 	public void updateReservation(Reservation reservation) {
-		// TODO Auto-generated method stub
-
+		jpaTemplate.merge(reservation);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#deleteReservation(java.lang.String)
+	 */
 	@Override
 	public void deleteReservation(String reservationID) {
-		// TODO Auto-generated method stub
-
+		Reservation reservation = getReservation(reservationID);
+		if (reservation != null)
+			jpaTemplate.remove(reservation);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#bookingFillWithDummies()
+	 */
 	@Override
 	public void bookingFillWithDummies() {
 		// TODO
