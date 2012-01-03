@@ -11,30 +11,30 @@ import org.hibernate.annotations.GenericGenerator;
 
 /**
  * @author Sebastian
- *
+ * 
  */
 @Entity(name = "t_user")
 public class User {
-	
+
 	/**
-	 * the unique id of the user
-	 * TODO added an id, because its easier to make unique than email.
+	 * the unique id of the user TODO added an id, because its easier to make
+	 * unique than email.
 	 */
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	@Id
 	private String id;
-	
+
 	/**
 	 * the role of the user, e.g. student, tutor, ...
 	 */
 	private String role;
-	
+
 	/**
 	 * the email of the user
 	 */
 	private String email;
-	
+
 	/**
 	 * the password of the user
 	 */
@@ -48,7 +48,8 @@ public class User {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(String id) {
 		this.id = id;
@@ -62,7 +63,8 @@ public class User {
 	}
 
 	/**
-	 * @param role the role to set
+	 * @param role
+	 *            the role to set
 	 */
 	public void setRole(String role) {
 		this.role = role;
@@ -76,17 +78,19 @@ public class User {
 	}
 
 	/**
-	 * @param email the email to set
+	 * @param email
+	 *            the email to set
 	 */
 	public void setEmail(String email) {
 		if (email == null) {
 			throw new IllegalArgumentException("email must be not null");
 		}
-		//TODO what characters are allowed in a email adress???
-		if (email.matches("[a-zA-Z.]+[@]student.kit.edu")) {
+		// TODO what characters are allowed in a email address???
+		if (email.matches("u[a-z]{4}@student.kit.edu")) {
 			this.email = email;
 		} else {
-			throw new IllegalArgumentException("#"+email+"# is not a valid email adress");
+			throw new IllegalArgumentException("#" + email
+					+ "# is not a valid email adress");
 		}
 	}
 
@@ -94,21 +98,23 @@ public class User {
 	 * @return the password
 	 */
 	public String getPassword() {
-		//TODO remove this method -> if password hash is saved
+		// TODO remove this method -> if password hash is saved
 		return password;
 	}
 
 	/**
-	 * @param password the password to set
+	 * @param password
+	 *            the password to set
 	 */
 	public void setPassword(String password) throws IllegalArgumentException {
 		if (password == null) {
 			throw new IllegalArgumentException("password must not be null");
 		} else if (password.length() <= 8) {
-			throw new IllegalArgumentException("password is too short. min. 8 characters");
+			throw new IllegalArgumentException(
+					"password is too short. min. 8 characters");
 		} else {
-			//TODO generate password hash???
+			// TODO generate password hash???
 			this.password = password;
-		}	
+		}
 	}
 }
