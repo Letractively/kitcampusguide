@@ -123,6 +123,7 @@ public class FacilityDAOImpl implements FacilityDAO {
 		build1.addContainedFacility(facil2);
 		build1.addContainedFacility(facil3);
 		build1.addContainedFacility(facil4);
+		build1.addProperty(prop1);
 
 		facil1.setParentFacility(build1);
 		facil2.setParentFacility(build1);
