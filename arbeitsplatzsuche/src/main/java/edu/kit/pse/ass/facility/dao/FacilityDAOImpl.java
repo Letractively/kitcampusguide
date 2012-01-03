@@ -118,7 +118,8 @@ public class FacilityDAOImpl implements FacilityDAO {
 	@Transactional
 	public void remove(String facilityID) {
 		Facility facility = getFacility(facilityID);
-		jpaTemplate.remove(facility);
+		if (facility != null)
+			jpaTemplate.remove(facility);
 	}
 
 	/*

@@ -13,12 +13,24 @@ public class FacilityManagementImpl implements FacilityManagement {
 	@Inject
 	FacilityDAO facilityDAO;
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.facility.management.FacilityManagement#getFacility(java.lang.String)
+	 */
 	@Override
-	public Facility getFacility(String facilityID) {
-		// TODO Auto-generated method stub
-		return null;
+	public Facility getFacility(String facilityID)
+			throws IllegalArgumentException {
+		Facility facility = facilityDAO.getFacility(facilityID);
+
+		if (facility == null) {
+			throw new IllegalArgumentException("The ID does not exist.");
+		}
+
+		return facility;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.facility.management.FacilityManagement#findMatchingFacilities(edu.kit.pse.ass.facility.management.FacilityQuery)
+	 */
 	@Override
 	public Collection<? extends Facility> findMatchingFacilities(
 			FacilityQuery facilityQuery) {
@@ -29,11 +41,13 @@ public class FacilityManagementImpl implements FacilityManagement {
 		return finder.execute();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.facility.management.FacilityManagement#getAvailablePropertiesOf(java.lang.Class)
+	 */
 	@Override
 	public Collection<Property> getAvailablePropertiesOf(
 			Class<? extends Facility> facilityClass) {
-		// TODO Auto-generated method stub
-		return null;
+		return facilityDAO.getAvailablePropertiesOf(facilityClass);
 	}
 
 }
