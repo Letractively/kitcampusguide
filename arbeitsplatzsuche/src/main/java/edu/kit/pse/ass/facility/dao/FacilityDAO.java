@@ -43,6 +43,16 @@ public interface FacilityDAO {
 	 */
 	public Collection<Property> getAvailablePropertiesOf(
 			Class<? extends Facility> facilityClass);
+	
+	
+	/**
+	 * Standard jpaTemplate methods - merge, remove, persist
+	 */
+	public Facility merge(Facility facility);
+
+	public void remove(String facilityID);
+
+	public void persist(Facility facility);
 
 	/**
 	 * Fills the DAO with dummy values specified in its implementation
