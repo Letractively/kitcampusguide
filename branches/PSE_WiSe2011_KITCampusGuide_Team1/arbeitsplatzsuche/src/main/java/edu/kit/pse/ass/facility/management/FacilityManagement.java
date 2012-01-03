@@ -15,13 +15,14 @@ import edu.kit.pse.ass.entity.Property;
 public interface FacilityManagement {
 
 	/**
-	 * returns facility with given ID
-	 * 
 	 * @param facilityID
 	 *            the ID of the facility
-	 * @return facility with given ID
+	 * @return the facility object with the given ID
+	 * @throws IllegalArgumentException
+	 *             ID does not exist
 	 */
-	public Facility getFacility(String facilityID);
+	public Facility getFacility(String facilityID)
+			throws IllegalArgumentException;
 
 	/**
 	 * returns a collection of facilities matching the criteria of the given
