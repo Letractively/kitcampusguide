@@ -10,7 +10,7 @@
 	<context:component-scan base-package="edu.kit.pse.ass.booking.dao" />
 	<!-- Evaluate annotations for transactions -->
 	<tx:annotation-driven />
-	<bean class="edu.kit.pse.dao.ass.booking.BookingDAOImpl" autowire-candidate="true">
+	<bean class="edu.kit.pse.ass.booking.dao.BookingDAOImpl" autowire-candidate="true">
 		<property name="jpaTemplate" ref="jpaTemplate" /> 
 	</bean>
 		

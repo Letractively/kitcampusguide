@@ -80,6 +80,20 @@
   		<artifactId>spring-test</artifactId>
   		<version>3.1.0.RELEASE</version>
   		<type>jar</type>
+  		<scope>test</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>javax.inject</groupId>
+  		<artifactId>javax.inject</artifactId>
+  		<version>1</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.derby</groupId>
+  		<artifactId>derby</artifactId>
+  		<version>10.8.2.2</version>
+  		<type>jar</type>
   		<scope>compile</scope>
   	</dependency>
   </dependencies>
