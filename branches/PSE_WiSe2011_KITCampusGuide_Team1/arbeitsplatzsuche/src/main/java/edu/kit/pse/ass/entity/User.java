@@ -3,18 +3,30 @@
  */
 package edu.kit.pse.ass.entity;
 
+import java.util.Collection;
+import java.util.Set;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * @author Sebastian
  * 
  */
 @Entity(name = "t_user")
-public class User {
+public class User implements UserDetails {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 79025855365861427L;
 
 	/**
 	 * the unique id of the user TODO added an id, because its easier to make
@@ -28,11 +40,12 @@ public class User {
 	/**
 	 * the role of the user, e.g. student, tutor, ...
 	 */
-	private String role;
+	private Set<String> roles;
 
 	/**
 	 * the email of the user
 	 */
+	@Column(unique = true, nullable = false)
 	private String email;
 
 	/**
@@ -56,18 +69,18 @@ public class User {
 	}
 
 	/**
-	 * @return the role
+	 * @return the roles
 	 */
-	public String getRole() {
-		return role;
+	public Set<String> getRoles() {
+		return roles;
 	}
 
 	/**
 	 * @param role
-	 *            the role to set
+	 *            the roles to set
 	 */
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoles(Set<String> roles) {
+		this.roles = roles;
 	}
 
 	/**
@@ -85,6 +98,7 @@ public class User {
 		if (email == null) {
 			throw new IllegalArgumentException("email must be not null");
 		}
+		// The model must not restrict the use of specific mail addresses.
 		// TODO what characters are allowed in a email address???
 		if (email.matches("u[a-z]{4}@student.kit.edu")) {
 			this.email = email;
@@ -95,10 +109,12 @@ public class User {
 	}
 
 	/**
-	 * @return the password
+	 * @return the password or the stored hash
 	 */
+	@Override
 	public String getPassword() {
-		// TODO remove this method -> if password hash is saved
+		// required even if password hash is stored
+		// (to check credentials in Spring Security)
 		return password;
 	}
 
@@ -116,5 +132,77 @@ public class User {
 			// TODO generate password hash???
 			this.password = password;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.springframework.security.core.userdetails.UserDetails#getAuthorities
+	 * ()
+	 */
+	@Override
+	public Collection<GrantedAuthority> getAuthorities() {
+		if (roles == null) {
+			return null;
+		}
+		return AuthorityUtils.createAuthorityList((String[]) roles.toArray());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.springframework.security.core.userdetails.UserDetails#getUsername()
+	 */
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.springframework.security.core.userdetails.UserDetails#isAccountNonExpired
+	 * ()
+	 */
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.springframework.security.core.userdetails.UserDetails#isAccountNonLocked
+	 * ()
+	 */
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.springframework.security.core.userdetails.UserDetails#
+	 * isCredentialsNonExpired()
+	 */
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.springframework.security.core.userdetails.UserDetails#isEnabled()
+	 */
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 }

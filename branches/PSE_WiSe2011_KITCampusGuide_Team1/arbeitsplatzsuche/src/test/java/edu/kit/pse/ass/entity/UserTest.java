@@ -1,6 +1,8 @@
 package edu.kit.pse.ass.entity;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.util.HashSet;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,8 +28,10 @@ public class UserTest {
 
 	@Test
 	public void testSetRole() {
-		user.setRole(TEST_ROLE);
-		assertEquals(TEST_ROLE, user.getRole());
+		HashSet<String> roles = new HashSet<String>();
+		roles.add(TEST_ROLE);
+		user.setRoles(roles);
+		assertEquals(roles, user.getRoles());
 	}
 
 	@Test
