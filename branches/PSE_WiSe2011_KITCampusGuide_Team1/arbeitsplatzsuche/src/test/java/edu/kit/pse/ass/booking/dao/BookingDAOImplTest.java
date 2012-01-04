@@ -13,6 +13,14 @@ import java.util.GregorianCalendar;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.kit.pse.ass.entity.Reservation;
 
@@ -20,6 +28,11 @@ import edu.kit.pse.ass.entity.Reservation;
  * @author Lennart
  * 
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:applicationContext/applicationContext-test.xml" })
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
+@Transactional
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class BookingDAOImplTest {
 
 	private static final String USERID = "uzzzz@student.kit.edu";
@@ -29,7 +42,10 @@ public class BookingDAOImplTest {
 	/**
 	 * Setup a BookingDAO with a dummy reservation
 	 * */
-	BookingDAO bm = new BookingDAOImpl();
+	@Autowired
+	private BookingDAO bm;
+
+	// BookingDAO bm = new BookingDAOImpl();
 	Date start = new GregorianCalendar(2012, 0, 2, 9, 0).getTime();
 	Date end = new GregorianCalendar(2012, 0, 2, 10, 0).getTime();
 	Reservation testReservation = new Reservation(start, end, USERID);
@@ -40,7 +56,7 @@ public class BookingDAOImplTest {
 		testReservation.addBookedFacilityId(FACILITYID);
 		testReservation.setId(PERSISTED_RESERVATIONID);
 		testReservationCol.add(testReservation);
-		assertNotNull("No bookingDAO initialized", bm);
+		// assertNotNull("No bookingDAO initialized", bm);
 		bm.insertReservation(testReservation);
 		bm.bookingFillWithDummies();
 	}
