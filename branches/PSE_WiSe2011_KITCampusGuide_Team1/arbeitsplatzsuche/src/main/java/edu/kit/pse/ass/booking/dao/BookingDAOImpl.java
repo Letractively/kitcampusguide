@@ -22,6 +22,25 @@ public class BookingDAOImpl implements BookingDAO {
 	@Inject
 	private JpaTemplate jpaTemplate;
 
+	/**
+	 * Getter for the jpaTemplate
+	 * 
+	 * @return the jpaTemplate
+	 */
+	public JpaTemplate getJpaTemplate() {
+		return jpaTemplate;
+	}
+
+	/**
+	 * Setter for the jpaTemplate
+	 * 
+	 * @param jpaTemplate
+	 *            the jpaTemplate to set
+	 */
+	public void setJpaTemplate(JpaTemplate jpaTemplate) {
+		this.jpaTemplate = jpaTemplate;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
