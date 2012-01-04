@@ -29,7 +29,7 @@ import edu.kit.pse.ass.entity.Reservation;
  * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:applicationContext/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "classpath:applicationContext/applicationContext-*.xml" })
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
