@@ -10,7 +10,7 @@ public class UserTest {
 	User user;
 	private static String TEST_ID = "1";
 	private static String TEST_ROLE = "student";
-	private static String TEST_EMAIL = "abc@student.kit.edu";
+	private static String TEST_EMAIL = "uaaaa@student.kit.edu";
 	private static String TEST_PW = "pwWithMin8Chars";
 
 	@Before
