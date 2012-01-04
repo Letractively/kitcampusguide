@@ -44,7 +44,7 @@ public class FacilityManagementImplTest {
 
 			result = fm.getFacility(FACILITYID);
 		} catch (Exception e) {
-			System.out.println("Error: " + e);
+			System.out.println("Error: " + e.getMessage());
 		}
 		// a facility should be returned
 		assertNotNull(result);
@@ -69,7 +69,7 @@ public class FacilityManagementImplTest {
 			result = fm.findMatchingFacilities(FACILITY_QUERY);
 
 		} catch (Exception e) {
-			System.out.println("Error: " + e);
+			System.out.println("Error: " + e.getMessage());
 		}
 		// something should be returned
 		assertNotNull(result);
@@ -96,7 +96,7 @@ public class FacilityManagementImplTest {
 			assertFalse(fm.getAvailablePropertiesOf(Building.class).contains(
 					((List<Property>) FIND_PROPERTIES).get(1)));
 		} catch (Exception e) {
-			System.out.println("Error: " + e);
+			System.out.println("Error: " + e.getMessage());
 		}
 		// something should be returned
 		assertNotNull(result);

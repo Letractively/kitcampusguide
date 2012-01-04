@@ -32,7 +32,11 @@ public class FacilityDAOImpl implements FacilityDAO {
 	 * edu.kit.pse.ass.facility.dao.FacilityDAO#getFacility(java.lang.String)
 	 */
 	@Override
-	public Facility getFacility(String facilityID) {
+	public Facility getFacility(String facilityID)
+			throws IllegalArgumentException {
+		if (facilityID == null)
+			throw new IllegalArgumentException("facilityID must not be null");
+
 		return jpaTemplate.find(Facility.class, facilityID);
 	}
 
