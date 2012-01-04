@@ -20,7 +20,7 @@ public class RoomDetailController extends MainController {
 	@RequestMapping(value = "room/{roomId}/details.html")
 	public String setUpRoomDetails(@PathVariable("roomId") String roomId,
 			Model model) {
-		Facility f = facilityManagement.getFacility(roomId);
+		Facility f = tmpGetFacility(roomId);// facilityManagement.getFacility(roomId);
 
 		if (!(f instanceof Room)) {
 			// TODO error!
@@ -29,6 +29,16 @@ public class RoomDetailController extends MainController {
 		Room room = (Room) f;
 		model.addAttribute("room", room);
 		return "room/details";
+	}
+
+	private Facility tmpGetFacility(String facilityId) {
+		Room r = new Room();
+		r.setName("Leetraum");
+		r.setNumber("13.37");
+		r.setLevel(3);
+		r.setDescription("Ein Testraum, welcher nur zum testen da ist und sonst auch keinen anderen Sinn erfüllt. Nein diesen Raum gibt es nicht wirklich.");
+		r.setId(facilityId);
+		return r;
 	}
 
 	private void prefillBookingForm(Model model) {
