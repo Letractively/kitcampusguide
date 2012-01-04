@@ -12,6 +12,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.orm.jpa.JpaTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.kit.pse.ass.entity.Reservation;
 
@@ -21,8 +22,12 @@ public class BookingDAOImpl implements BookingDAO {
 	@Inject
 	private JpaTemplate jpaTemplate;
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#getReservationsOfUser(java.lang.String, java.util.Date, java.util.Date)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.booking.dao.BookingDAO#getReservationsOfUser(java.lang
+	 * .String, java.util.Date, java.util.Date)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -33,10 +38,10 @@ public class BookingDAOImpl implements BookingDAO {
 		reservations = jpaTemplate.find("from t_reservation");
 		Iterator<Reservation> reservationIterator = reservations.iterator();
 		// find matching reservations and add them to the result
-		
+
 		// TODO diese Filterung kann auch die Datenbank übernehmen. Dafür müsste
 		// man die SearchQuery für das jpaTemplate schreiben
-		
+
 		for (int i = 0; i < reservations.size(); i++) {
 			Reservation tmp = reservationIterator.next();
 			if (userID.equals(tmp.getBookingUserId())
@@ -48,8 +53,12 @@ public class BookingDAOImpl implements BookingDAO {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#getReservationsOfFacility(java.lang.String, java.util.Date, java.util.Date)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.booking.dao.BookingDAO#getReservationsOfFacility(java
+	 * .lang.String, java.util.Date, java.util.Date)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -60,10 +69,10 @@ public class BookingDAOImpl implements BookingDAO {
 		reservations = jpaTemplate.find("from t_reservation");
 		Iterator<Reservation> reservationIterator = reservations.iterator();
 		// find matching reservations and add them to the result
-		
+
 		// TODO diese Filterung kann auch die Datenbank übernehmen. Dafür müsste
 		// man die SearchQuery für das jpaTemplate schreiben
-		
+
 		for (int i = 0; i < reservations.size(); i++) {
 			Reservation tmp = reservationIterator.next();
 			if (tmp.getBookedFacilityIds().contains(facilityID)
@@ -75,34 +84,50 @@ public class BookingDAOImpl implements BookingDAO {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#getReservation(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.booking.dao.BookingDAO#getReservation(java.lang.String)
 	 */
 	@Override
 	public Reservation getReservation(String reservationID) {
 		return jpaTemplate.find(Reservation.class, reservationID);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#insertReservation(edu.kit.pse.ass.entity.Reservation)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.booking.dao.BookingDAO#insertReservation(edu.kit.pse.
+	 * ass.entity.Reservation)
 	 */
 	@Override
+	@Transactional
 	public String insertReservation(Reservation reservation) {
-		//TODO generate ID
+		// TODO generate ID
 		jpaTemplate.persist(reservation);
 		return reservation.getId();
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#updateReservation(edu.kit.pse.ass.entity.Reservation)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.booking.dao.BookingDAO#updateReservation(edu.kit.pse.
+	 * ass.entity.Reservation)
 	 */
 	@Override
 	public void updateReservation(Reservation reservation) {
 		jpaTemplate.merge(reservation);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#deleteReservation(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.booking.dao.BookingDAO#deleteReservation(java.lang.String
+	 * )
 	 */
 	@Override
 	public void deleteReservation(String reservationID) {
@@ -111,7 +136,9 @@ public class BookingDAOImpl implements BookingDAO {
 			jpaTemplate.remove(reservation);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#bookingFillWithDummies()
 	 */
 	@Override
