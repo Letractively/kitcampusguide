@@ -6,26 +6,15 @@
 
 	<persistence-unit name="reservationPersistenceUnit"
 		transaction-type="RESOURCE_LOCAL">
-
 		<class>edu.kit.pse.ass.entity.Reservation</class>
-
 		<properties>
- 
 			<property name="cache.provider_class" value="org.hibernate.cache.NoCacheProvider" />
-
 			<property name="hibernate.max_fetch_depth" value="3" />
-
 			<property name="hibernate.query.factory_class"
 				value="org.hibernate.hql.classic.ClassicQueryTranslatorFactory" />
-				
-				<property name="hibernate.query.substitutions" value="true 1, false 0" />
-
-				<property name="hibernate.show_sql" value="true" />
-
-				<property name="hibernate.hbm2ddl.auto" value="create" />
-
+			<property name="hibernate.query.substitutions" value="true 1, false 0" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 		</properties>
-
 	</persistence-unit>
-
 </persistence>

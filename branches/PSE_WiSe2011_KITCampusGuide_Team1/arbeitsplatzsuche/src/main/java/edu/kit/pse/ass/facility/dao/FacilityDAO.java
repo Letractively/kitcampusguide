@@ -20,8 +20,11 @@ public interface FacilityDAO {
 	 * @param facilityID
 	 *            the ID of the facility
 	 * @return facility with given ID
+	 * @throws IllegalArgumentException
+	 *             facilityID is null
 	 */
-	public Facility getFacility(String facilityID);
+	public Facility getFacility(String facilityID)
+			throws IllegalArgumentException;
 
 	/**
 	 * returns a collection of facilities that have the given properties
@@ -43,8 +46,7 @@ public interface FacilityDAO {
 	 */
 	public Collection<Property> getAvailablePropertiesOf(
 			Class<? extends Facility> facilityClass);
-	
-	
+
 	/**
 	 * Standard jpaTemplate methods - merge, remove, persist
 	 */
