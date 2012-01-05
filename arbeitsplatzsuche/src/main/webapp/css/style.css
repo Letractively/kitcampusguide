@@ -108,6 +108,30 @@ input[name="searchText"]{
 	width: 200px;
 }
 
+div.header2{
+	margin-top: 23px;
+	height: 180px;
+}
+
+div.header2 div#logo{
+	width: 180px;
+	float: left;
+}
+
+div.header2 div.right{
+	float: left;
+	padding: 3px 10px;
+}
+
+div.header2 div.right h1{
+	padding: 10px 10px;
+	font-size: 18px;
+}
+
+strong{
+	font-weight: bold;
+}
+
 /* css for timepicker */
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
 .ui-timepicker-div dl { text-align: left; }
