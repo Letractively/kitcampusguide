@@ -1,5 +1,8 @@
 package edu.kit.pse.ass.gui.controller;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,7 @@ import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
+import edu.kit.pse.ass.entity.Workplace;
 import edu.kit.pse.ass.facility.management.FacilityManagement;
 
 @Controller
@@ -30,6 +34,9 @@ public class RoomDetailController extends MainController {
 
 		Room room = (Room) f;
 		model.addAttribute("room", room);
+
+		Collection<Facility> workplaces = tmpGetContainingFacilities();
+		model.addAttribute("workplaces", workplaces);
 		return "room/details";
 	}
 
@@ -46,9 +53,24 @@ public class RoomDetailController extends MainController {
 		b.setNumber("08.15");
 		r.setParentFacility(b);
 
-		b.addProperty(new Property("WLAN"));
-		b.addProperty(new Property("Steckdosen"));
+		r.addProperty(new Property("WLAN"));
+		r.addProperty(new Property("Steckdosen"));
 		return r;
+	}
+
+	private Collection<Facility> tmpGetContainingFacilities() {
+		ArrayList<Facility> result = new ArrayList<Facility>();
+		Workplace wp1 = new Workplace();
+		wp1.setName("1");
+		wp1.setId("someid1");
+		wp1.addProperty(new Property("Lampe"));
+		wp1.addProperty(new Property("Flachbildschirm"));
+		Workplace wp2 = new Workplace();
+		wp2.setName("2");
+		wp2.setId("someid2");
+		result.add(wp1);
+		result.add(wp2);
+		return result;
 	}
 
 	private void prefillBookingForm(Model model) {
