@@ -7,11 +7,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -44,17 +47,20 @@ public abstract class Facility {
 	/**
 	 * the parent facility of this facility. e.g. building is parent of room.
 	 */
+	@OneToOne(targetEntity = Facility.class)
 	private Facility parentFacility;
 
 	/**
 	 * the contained facilities of this facility. e.g. a room contains
 	 * workplaces.
 	 */
+	@ElementCollection(targetClass = Facility.class)
 	private final Collection<Facility> containedFacilities;
 
 	/**
 	 * the properties of this facility. e.g. WLAN, Strom, PC
 	 */
+	@ElementCollection(targetClass = Property.class)
 	private final Collection<Property> properties;
 
 	/**

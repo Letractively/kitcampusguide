@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -47,6 +49,7 @@ public class Reservation {
 	/**
 	 * the collection of facility ids of the facilities, which are booked
 	 */
+	@ElementCollection(targetClass = String.class)
 	private final Collection<String> bookedFacilityIds;
 
 	/**
@@ -162,7 +165,6 @@ public class Reservation {
 	/**
 	 * @return the ids of the booked facilities
 	 */
-	@OneToMany(mappedBy = "t_facility", targetEntity = "java.lang.String")
 	public Collection<String> getBookedFacilityIds() {
 		return bookedFacilityIds;
 	}
