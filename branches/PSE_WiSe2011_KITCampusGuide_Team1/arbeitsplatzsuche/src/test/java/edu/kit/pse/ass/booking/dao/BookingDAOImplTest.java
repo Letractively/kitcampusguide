@@ -56,15 +56,16 @@ public class BookingDAOImplTest {
 		testReservation.addBookedFacilityId(FACILITYID);
 		testReservation.setId(PERSISTED_RESERVATIONID);
 		testReservationCol.add(testReservation);
-		// assertNotNull("No bookingDAO initialized", bm);
+
 		bm.insertReservation(testReservation);
-		bm.bookingFillWithDummies();
+		// bm.bookingFillWithDummies();
 	}
 
 	@Test
 	public void testGetReservationsOfUser() {
 		Date from = new GregorianCalendar(2012, 0, 2).getTime();
 		Date to = new GregorianCalendar(2012, 0, 3).getTime();
+		Collection<Reservation> result = null;
 		try {
 			// throw error or return null if parameter is null
 			assertNull("Accepted wrong parameters.",
@@ -74,11 +75,12 @@ public class BookingDAOImplTest {
 			assertNull("Accepted wrong parameters.",
 					bm.getReservationsOfFacility(USERID, from, null));
 			// test if returned reservations belong all to the user
-			for (Reservation resv : bm
-					.getReservationsOfUser(USERID, start, end)) {
+			result = bm.getReservationsOfUser(USERID, start, end);
+			for (Reservation resv : result) {
 				assertEquals(USERID, resv.getBookingUserId());
 			}
-			for (Reservation resv : bm.getReservationsOfUser(USERID, from, to)) {
+			result = bm.getReservationsOfUser(USERID, from, to);
+			for (Reservation resv : result) {
 				assertEquals(USERID, resv.getBookingUserId());
 			}
 			// test if returned reservations are the right
@@ -162,6 +164,7 @@ public class BookingDAOImplTest {
 		}
 		// ensure reservation was inserted correct
 		Reservation resv = bm.getReservation(PERSISTED_RESERVATIONID);
+		assertNotNull(resv);
 		assertEquals(PERSISTED_RESERVATIONID, resv.getId());
 		assertTrue(resv.getBookedFacilityIds().contains(FACILITYID));
 		assertEquals(start, resv.getStartTime());
