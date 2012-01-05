@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -40,6 +41,7 @@ public class User implements UserDetails {
 	/**
 	 * the role of the user, e.g. student, tutor, ...
 	 */
+	@ElementCollection(targetClass = String.class)
 	private Set<String> roles;
 
 	/**

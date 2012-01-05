@@ -3,15 +3,23 @@
  */
 package edu.kit.pse.ass.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
+
 /**
  * @author Sebastian
  * 
  */
+@Entity(name = "t_propertiy")
 public class Property {
 
 	/**
 	 * the name of the property
 	 */
+	@Id
 	private String name;
 
 	/**
