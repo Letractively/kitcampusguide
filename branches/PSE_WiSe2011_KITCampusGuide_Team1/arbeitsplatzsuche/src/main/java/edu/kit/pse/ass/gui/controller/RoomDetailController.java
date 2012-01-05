@@ -7,7 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Facility;
+import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.facility.management.FacilityManagement;
 
@@ -38,6 +40,14 @@ public class RoomDetailController extends MainController {
 		r.setLevel(3);
 		r.setDescription("Ein Testraum, welcher nur zum testen da ist und sonst auch keinen anderen Sinn erfüllt. Nein diesen Raum gibt es nicht wirklich.");
 		r.setId(facilityId);
+
+		Building b = new Building();
+		b.setName("Informatikgebäude");
+		b.setNumber("08.15");
+		r.setParentFacility(b);
+
+		b.addProperty(new Property("WLAN"));
+		b.addProperty(new Property("Steckdosen"));
 		return r;
 	}
 
