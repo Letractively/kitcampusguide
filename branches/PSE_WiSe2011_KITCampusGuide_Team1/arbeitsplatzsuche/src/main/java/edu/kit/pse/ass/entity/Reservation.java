@@ -162,7 +162,7 @@ public class Reservation {
 	/**
 	 * @return the ids of the booked facilities
 	 */
-	// @OneToMany(mappedBy = "t_facility", targetEntity = "java.lang.String")
+	@OneToMany(mappedBy = "t_facility", targetEntity = "java.lang.String")
 	public Collection<String> getBookedFacilityIds() {
 		return bookedFacilityIds;
 	}
