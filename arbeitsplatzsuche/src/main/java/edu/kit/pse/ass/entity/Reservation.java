@@ -7,12 +7,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
