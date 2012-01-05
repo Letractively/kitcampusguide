@@ -4,16 +4,13 @@
 package edu.kit.pse.ass.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.GenericGenerator;
 
 /**
  * @author Sebastian
  * 
  */
-@Entity(name = "t_propertiy")
+@Entity(name = "t_property")
 public class Property {
 
 	/**
