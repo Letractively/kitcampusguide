@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -46,7 +47,7 @@ public class Reservation {
 	/**
 	 * the collection of facility ids of the facilities, which are booked
 	 */
-	private Collection<String> bookedFacilityIds;
+	private final Collection<String> bookedFacilityIds;
 
 	/**
 	 * Creates a new reservation with the specified values.
@@ -161,6 +162,7 @@ public class Reservation {
 	/**
 	 * @return the ids of the booked facilities
 	 */
+	// @OneToMany(mappedBy = "t_facility", targetEntity = "java.lang.String")
 	public Collection<String> getBookedFacilityIds() {
 		return bookedFacilityIds;
 	}
