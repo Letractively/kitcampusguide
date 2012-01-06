@@ -1,17 +1,72 @@
 package edu.kit.pse.ass.gui.controller;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import edu.kit.pse.ass.booking.management.BookingManagement;
 import edu.kit.pse.ass.booking.management.FacilityNotFreeException;
+import edu.kit.pse.ass.entity.Reservation;
 
 @Controller
 public class ReservationController extends MainController {
 
+	@Inject
+	BookingManagement bookingManagement;
+
 	@RequestMapping(value = "reservation/list")
 	public String listReservations(Model model) {
+
+		String userID = "";
+
+		// Show reservations starting from 6 months in the past...
+		Calendar asFrom = Calendar.getInstance();
+		asFrom.add(Calendar.MONTH, -6);
+
+		// ... up until 1 year from now
+		Calendar upTo = Calendar.getInstance();
+		upTo.add(Calendar.YEAR, 1);
+
+		// get current and past reservations
+		Collection<Reservation> reservations = bookingManagement
+				.listReservationsOfUser(userID, new Date(), upTo.getTime());
+		Collection<Reservation> pastReservations = bookingManagement
+				.listReservationsOfUser(userID, asFrom.getTime(), new Date());
+
+		// TEMP: dummy reservations
+		reservations = tempReservationList();
+		pastReservations = tempReservationList();
+
+		model.addAttribute("reservations", reservations);
+		model.addAttribute("pastReservations", pastReservations);
+
 		return "reservation/list";
+	}
+
+	private Collection<Reservation> tempReservationList() {
+
+		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+
+		Reservation res1 = new Reservation(new Date(111, 11, 27, 15, 30),
+				new Date(111, 11, 27, 16, 00), "id1");
+		Reservation res2 = new Reservation(new Date(111, 11, 29, 11, 00),
+				new Date(111, 11, 29, 13, 15), "id2");
+
+		res1.addBookedFacilityId("id1");
+		res1.addBookedFacilityId("id2");
+		res2.addBookedFacilityId("id3");
+
+		reservations.add(res1);
+		reservations.add(res2);
+
+		return reservations;
 	}
 
 	// better: room/book?
