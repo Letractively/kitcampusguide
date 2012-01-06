@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +22,7 @@ import edu.kit.pse.ass.entity.Workplace;
 public class FacilityDAOImpl implements FacilityDAO {
 
 	/** The jpa template. */
-	@Inject
+	@Autowired
 	private JpaTemplate jpaTemplate;
 
 	/*
@@ -38,6 +38,18 @@ public class FacilityDAOImpl implements FacilityDAO {
 			throw new IllegalArgumentException("facilityID must not be null");
 
 		return jpaTemplate.find(Facility.class, facilityID);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.facility.dao.FacilityDAO#getFacility(java.lang.Class,
+	 * java.lang.String)
+	 */
+	@Override
+	public <T extends Facility> T getFacility(Class<T> type, String facilityID) {
+		return jpaTemplate.find(type, facilityID);
 	}
 
 	/*
@@ -72,6 +84,20 @@ public class FacilityDAOImpl implements FacilityDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Property> getAvailablePropertiesOf(
+			Class<? extends Facility> facilityClass) {
+
+		try {
+			Collection<Property> properties = jpaTemplate
+					.find("from t_property as prop "
+							+ " where exists ( from t_facility as fac where fac.class = ? and prop in elements(fac.properties) )",
+							facilityClass);
+			return properties;
+		} catch (DataRetrievalFailureException e) {
+			return new ArrayList<Property>();
+		}
+	}
+
+	public Collection<Property> getAvailablePropertiesOfXYZ(
 			Class<? extends Facility> facilityClass) {
 		Collection<Property> result = new ArrayList<Property>();
 		Collection<Facility> facilities = jpaTemplate.find("from t_facility");

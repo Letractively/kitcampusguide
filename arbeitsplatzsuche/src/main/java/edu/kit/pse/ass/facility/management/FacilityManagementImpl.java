@@ -2,7 +2,7 @@ package edu.kit.pse.ass.facility.management;
 
 import java.util.Collection;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
@@ -10,11 +10,15 @@ import edu.kit.pse.ass.facility.dao.FacilityDAO;
 
 public class FacilityManagementImpl implements FacilityManagement {
 
-	@Inject
-	FacilityDAO facilityDAO;
+	@Autowired
+	private FacilityDAO facilityDAO;
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.facility.management.FacilityManagement#getFacility(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.facility.management.FacilityManagement#getFacility(java
+	 * .lang.String)
 	 */
 	@Override
 	public Facility getFacility(String facilityID)
@@ -28,9 +32,24 @@ public class FacilityManagementImpl implements FacilityManagement {
 		return facility;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.facility.management.FacilityManagement#findMatchingFacilities(edu.kit.pse.ass.facility.management.FacilityQuery)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.facility.management.FacilityManagement#findMatchingFacilities
+	 * (edu.kit.pse.ass.facility.management.FacilityQuery)
 	 */
+	@Override
+	public <T extends Facility> T getFacility(Class<T> type, String facilityID) {
+		T facility = facilityDAO.getFacility(type, facilityID);
+
+		if (facility == null) {
+			throw new IllegalArgumentException("The ID does not exist with this type.");
+		}
+
+		return facility;
+	}
+
 	@Override
 	public Collection<? extends Facility> findMatchingFacilities(
 			FacilityQuery facilityQuery) {
@@ -41,8 +60,11 @@ public class FacilityManagementImpl implements FacilityManagement {
 		return finder.execute();
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.facility.management.FacilityManagement#getAvailablePropertiesOf(java.lang.Class)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.kit.pse.ass.facility.management.FacilityManagement#
+	 * getAvailablePropertiesOf(java.lang.Class)
 	 */
 	@Override
 	public Collection<Property> getAvailablePropertiesOf(
