@@ -3,7 +3,7 @@
 	
 	function calcTableHeight() {
 		// Height of the result table
-		return ($(window).height() - 216) + "px";
+		return ($(window).height() - 190) + "px";
 	}
 	
 	$(document).ready(function() {
@@ -22,7 +22,7 @@
 			"sAjaxSource" : "/arbeitsplatzsuche/search/results.html",
 			"bProcessing" : true,
 			"bJQueryUI" : true,
-	        "sDom": 'lfrtp',
+	        "sDom": 'lrtp',  			// Hide search
 
 			"bPaginate" : true,
 			"bScrollInfinite" : true,
