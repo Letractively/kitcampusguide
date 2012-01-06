@@ -1,5 +1,6 @@
 package edu.kit.pse.ass.gui.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -30,9 +31,13 @@ public class ReservationController extends MainController {
 	BookingManagement bookingManagement;
 
 	@RequestMapping(value = "reservation/list")
-	public String listReservations(Model model) {
+	public String listReservations(Model model, Principal principal) {
 
+		// get name of logged in user
 		String userID = "";
+		if (principal != null) {
+			userID = principal.getName();
+		}
 
 		// Show reservations starting from 6 months in the past...
 		Calendar asFrom = Calendar.getInstance();

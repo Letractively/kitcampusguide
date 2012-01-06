@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -31,7 +32,7 @@ public class User implements UserDetails {
 	/**
 	 * the role of the user, e.g. student, tutor, ...
 	 */
-	@ElementCollection(targetClass = String.class)
+	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
 	private Set<String> roles = new HashSet<String>();
 
 	/**

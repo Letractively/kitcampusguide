@@ -98,7 +98,7 @@ div.simple-logo{
 	padding: 50px 0 0 0;
 }
 
-div.simple-search{
+div.login-form, div.simple-search{
 	background-color: #E2E4FF;
 	border-radius: 10px;
 	padding: 20px;
