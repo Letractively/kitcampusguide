@@ -5,8 +5,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.kit.pse.ass.booking.dao.BookingDAO;
@@ -17,16 +18,17 @@ import edu.kit.pse.ass.facility.management.FacilityQuery;
 
 public class BookingManagementImpl implements BookingManagement {
 
-	@Inject
-	BookingDAO bookingDAO;
+	@Autowired
+	private BookingDAO bookingDAO;
 
-	@Inject
-	FacilityManagement facilityManagement;
+	@Autowired
+	private FacilityManagement facilityManagement;
 
 	/* (non-Javadoc)
 	 * @see edu.kit.pse.ass.booking.management.BookingManagement#book(java.lang.String, java.util.Collection, java.util.Date, java.util.Date)
 	 */
 	@Override
+	@Secured({ "ROLE_STUDENT", "ROLE_TUTOR" })
 	public String book(String userID, Collection<String> facilityIDs,
 			Date startDate, Date endDate) throws FacilityNotFreeException {
 		// check given dates
@@ -106,6 +108,7 @@ public class BookingManagementImpl implements BookingManagement {
 	 * @see edu.kit.pse.ass.booking.management.BookingManagement#listReservationsOfUser(java.lang.String, java.util.Date, java.util.Date)
 	 */
 	@Override
+	@PreAuthorize("authentication.name == #userID")
 	public Collection<Reservation> listReservationsOfUser(String userID,
 			Date asFrom, Date upTo) {
 		// TODO Auto-generated method stub
@@ -125,6 +128,7 @@ public class BookingManagementImpl implements BookingManagement {
 	 * @see edu.kit.pse.ass.booking.management.BookingManagement#changeReservationEnd(java.lang.String, java.util.Date)
 	 */
 	@Override
+	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'edit')")
 	public void changeReservationEnd(String reservationID, Date newEndDate) {
 		bookingDAO.getReservation(reservationID).setEndTime(newEndDate);
 
@@ -134,6 +138,7 @@ public class BookingManagementImpl implements BookingManagement {
 	 * @see edu.kit.pse.ass.booking.management.BookingManagement#removeFacilityFromReservation(java.lang.String, java.lang.String)
 	 */
 	@Override
+	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'edit')")
 	public void removeFacilityFromReservation(String reservationID,
 			String facilityID) {
 		// TODO Auto-generated method stub
@@ -144,6 +149,7 @@ public class BookingManagementImpl implements BookingManagement {
 	 * @see edu.kit.pse.ass.booking.management.BookingManagement#deleteReservation(java.lang.String)
 	 */
 	@Override
+	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'delete')")
 	public void deleteReservation(String reservationID) {
 		// TODO Auto-generated method stub
 
@@ -209,6 +215,7 @@ public class BookingManagementImpl implements BookingManagement {
 		}
 		Facility facility = facilityManagement.getFacility(facilityID);
 		Facility parent = facility;
+		// check parent facilities
 		while ((parent = parent.getParentFacility()) != null) {
 			reservations = bookingDAO.getReservationsOfFacility(parent.getId(),
 					startDate, endDate);
@@ -216,9 +223,11 @@ public class BookingManagementImpl implements BookingManagement {
 				return false;
 			}
 		}
+		// check child facilities
 		return areChildFacilitiesFree(facility, startDate, endDate);
 	}
 
+	@Transactional
 	private boolean areChildFacilitiesFree(Facility facility, Date startDate,
 			Date endDate) {
 		Collection<Reservation> reservations;

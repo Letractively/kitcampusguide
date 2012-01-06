@@ -8,8 +8,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +17,7 @@ import edu.kit.pse.ass.entity.Reservation;
 public class BookingDAOImpl implements BookingDAO {
 
 	/** The jpa template. */
-	@Inject
+	@Autowired
 	private JpaTemplate jpaTemplate;
 
 	/**
@@ -143,6 +142,7 @@ public class BookingDAOImpl implements BookingDAO {
 	 * )
 	 */
 	@Override
+	@Transactional
 	public void deleteReservation(String reservationID) {
 		Reservation reservation = getReservation(reservationID);
 		if (reservation != null)
