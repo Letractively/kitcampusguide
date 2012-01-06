@@ -195,15 +195,10 @@ public class FacilityDAOImpl implements FacilityDAO {
 		build1.addContainedFacility(facil4);
 		build1.addProperty(prop1);
 
-		facil1.setParentFacility(build1);
-		facil2.setParentFacility(build1);
-		facil3.setParentFacility(build1);
-		facil4.setParentFacility(build1);
-
-		jpaTemplate.persist(facil1);
-		jpaTemplate.persist(facil2);
-		jpaTemplate.persist(facil3);
-		jpaTemplate.persist(facil4);
-		jpaTemplate.persist(build1);
+		jpaTemplate.merge(facil1);
+		jpaTemplate.merge(facil2);
+		jpaTemplate.merge(facil3);
+		jpaTemplate.merge(facil4);
+		jpaTemplate.merge(build1);
 	}
 }

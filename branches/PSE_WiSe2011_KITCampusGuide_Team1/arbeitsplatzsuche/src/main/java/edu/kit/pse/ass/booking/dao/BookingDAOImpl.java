@@ -195,7 +195,7 @@ public class BookingDAOImpl implements BookingDAO {
 					.get(i).getTime(), userIDs.get(i));
 			resvTmp.addBookedFacilityId(facilityIDs.get(i));
 			resvTmp.setId(resvID);
-			insertReservation(resvTmp);
+			jpaTemplate.merge(resvTmp);
 			// adds a day to each star and end, thus preventing double
 			// reservations
 			start.get(i).add(Calendar.DATE, 1);
