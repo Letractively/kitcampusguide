@@ -4,15 +4,14 @@
 package edu.kit.pse.ass.entity;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,48 +26,25 @@ public class User implements UserDetails {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 79025855365861427L;
-
-	/**
-	 * the unique id of the user TODO added an id, because its easier to make
-	 * unique than email.
-	 */
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	@Id
-	private String id;
+	private static final long serialVersionUID = 79025855355861427L;
 
 	/**
 	 * the role of the user, e.g. student, tutor, ...
 	 */
 	@ElementCollection(targetClass = String.class)
-	private Set<String> roles;
+	private Set<String> roles = new HashSet<String>();
 
 	/**
 	 * the email of the user
 	 */
-	@Column(unique = true, nullable = false)
+	@Column(nullable = false)
+	@Id
 	private String email;
 
 	/**
 	 * the password of the user
 	 */
 	private String password;
-
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	/**
 	 * @return the roles
@@ -127,7 +103,7 @@ public class User implements UserDetails {
 	public void setPassword(String password) throws IllegalArgumentException {
 		if (password == null) {
 			throw new IllegalArgumentException("password must not be null");
-		} else if (password.length() <= 8) {
+		} else if (password.length() < 8) {
 			throw new IllegalArgumentException(
 					"password is too short. min. 8 characters");
 		} else {
@@ -145,10 +121,15 @@ public class User implements UserDetails {
 	 */
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
+		Set<String> roles = getRoles();
 		if (roles == null) {
 			return null;
 		}
-		return AuthorityUtils.createAuthorityList((String[]) roles.toArray());
+		Object[] ar = roles.toArray();
+		if (ar == null || ar.length == 0 || !(ar instanceof String[])) {
+			return null;
+		}
+		return AuthorityUtils.createAuthorityList((String[]) ar);
 	}
 
 	/*

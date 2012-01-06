@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,21 +18,19 @@ import edu.kit.pse.ass.entity.User;
 public class UserDAOImpl implements UserDAO, UserDetailsService {
 
 	/** The jpa template. */
-	@Inject
+	@Autowired
 	private JpaTemplate jpaTemplate;
 
 	@Override
 	public User insertUser(String userID, String passwordHash) {
 		User u = new User();
 		u.setEmail(userID);
-		u.setId(userID);
 		u.setPassword(passwordHash);
 		jpaTemplate.persist(u);
 		return u;
 	}
 
 	@Override
-	@Transactional
 	public void deleteUser(String userID) {
 		User u = jpaTemplate.find(User.class, userID);
 		if (u != null) {
@@ -46,12 +44,32 @@ public class UserDAOImpl implements UserDAO, UserDetailsService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {
-		return jpaTemplate.find(User.class, username);
+		// TODO Create testdata at the correct place
+		// TODO This user is ubbbb@student.kit.edu with Password bbbbbbbb
+		User u1 = new User();
+		u1.setEmail("ubbbb@student.kit.edu");
+		u1.setPassword("fb398cc690e15ddba43ee811b6c0d3ec190901ad3df377fec9a1f9004b919a06");
+		HashSet<String> s = new HashSet<String>();
+		s.add("ROLE_STUDENT");
+		u1.setRoles(s);
+		jpaTemplate.persist(u1);
+
+		try {
+			User u = jpaTemplate.find(User.class, username);
+			if (u == null) {
+				throw new UsernameNotFoundException("Username not found.");
+			}
+			return u;
+		} catch (DataRetrievalFailureException e) {
+			throw new UsernameNotFoundException("Username not found.");
+		}
 	}
 
 	@Override
+	@Transactional
 	public void userFillWithDummies() {
 		// TODO Auto-generated method stub
 		// 4 letter email part, used as id
@@ -62,7 +80,6 @@ public class UserDAOImpl implements UserDAO, UserDetailsService {
 			HashSet<String> s = new HashSet<String>();
 			s.add("student");
 			u.setRoles(s);
-			u.setId("u" + email.get(i) + "@student.kit.edu");
 			u.setEmail("u" + email.get(i) + "@student.kit.edu");
 			u.setPassword(email.get(i) + email.get(i));
 			jpaTemplate.persist(u);
