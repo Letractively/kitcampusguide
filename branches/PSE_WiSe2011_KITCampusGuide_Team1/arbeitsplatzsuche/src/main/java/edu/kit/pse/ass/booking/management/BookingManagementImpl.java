@@ -23,6 +23,9 @@ public class BookingManagementImpl implements BookingManagement {
 	@Inject
 	FacilityManagement facilityManagement;
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.booking.management.BookingManagement#book(java.lang.String, java.util.Collection, java.util.Date, java.util.Date)
+	 */
 	@Override
 	public String book(String userID, Collection<String> facilityIDs,
 			Date startDate, Date endDate) throws FacilityNotFreeException {
@@ -99,6 +102,9 @@ public class BookingManagementImpl implements BookingManagement {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.booking.management.BookingManagement#listReservationsOfUser(java.lang.String, java.util.Date, java.util.Date)
+	 */
 	@Override
 	public Collection<Reservation> listReservationsOfUser(String userID,
 			Date asFrom, Date upTo) {
@@ -106,19 +112,27 @@ public class BookingManagementImpl implements BookingManagement {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.booking.management.BookingManagement#listReservationsOfFacility(java.lang.String, java.util.Date, java.util.Date)
+	 */
 	@Override
 	public Collection<Reservation> listReservationsOfFacility(
 			String facilityID, Date asFrom, Date upTo) {
-		// TODO Auto-generated method stub
-		return null;
+		return bookingDAO.getReservationsOfFacility(facilityID, asFrom, upTo);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.booking.management.BookingManagement#changeReservationEnd(java.lang.String, java.util.Date)
+	 */
 	@Override
 	public void changeReservationEnd(String reservationID, Date newEndDate) {
-		// TODO Auto-generated method stub
+		bookingDAO.getReservation(reservationID).setEndTime(newEndDate);
 
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.booking.management.BookingManagement#removeFacilityFromReservation(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void removeFacilityFromReservation(String reservationID,
 			String facilityID) {
@@ -126,12 +140,18 @@ public class BookingManagementImpl implements BookingManagement {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.booking.management.BookingManagement#deleteReservation(java.lang.String)
+	 */
 	@Override
 	public void deleteReservation(String reservationID) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.booking.management.BookingManagement#getReservation(java.lang.String)
+	 */
 	@Override
 	public Reservation getReservation(String reservationID) {
 		// TODO Auto-generated method stub
