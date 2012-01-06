@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <div class="header2">
 	<jsp:include page="/WEB-INF/views/logo.jsp"></jsp:include>
 	<div class="right">
@@ -9,6 +10,15 @@
 	</div>
 </div>
 <div class="page">
+	<div class="bookingForm">
+		<form:form method="get" commandName="searchFormModel" action="${pageContext.request.contextPath}/search/advanced.html" id="searchForm">
+    		<form:input path="start" class="date" /> für 
+     		<form:input path="duration" class="time"/> Stunden<br />
+     		<form:radiobutton path="wholeRoom" value="true"/> ganzen Raum <br />
+			<form:radiobutton path="wholeRoom" value="false"/> gewählte Arbeitsplätze <br />
+    		<input type='submit' value='Reservieren'>
+		</form:form>
+	</div>
 	<h2>Gebäude:</h2>
 	<c:out value="${room.parentFacility.number}" />
 	<c:out value="${room.parentFacility.name}" />
