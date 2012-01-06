@@ -51,6 +51,13 @@ public class Reservation {
 	private final Collection<String> bookedFacilityIds;
 
 	/**
+	 * Creates a new reservation without values
+	 */
+	public Reservation() {
+		bookedFacilityIds = new LinkedList<String>();
+	}
+
+	/**
 	 * Creates a new reservation with the specified values.
 	 * 
 	 * @param startTime
