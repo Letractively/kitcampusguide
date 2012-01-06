@@ -85,6 +85,11 @@ header div.right{
 	padding: 3px 10px;
 }
 
+div.simple-logo{
+	text-align: center;
+	padding: 50px 0 0 0;
+}
+
 div.simple-search{
 	border: 2px solid black;
 	padding: 20px;

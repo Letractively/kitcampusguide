@@ -17,7 +17,7 @@
 			null, 						// Available from
 			{ "bVisible" : false } 		// ID
 			],
-			"aaSorting" : [ [ 3, 'desc' ] ], // sort on collumn "available from"
+			"aaSorting" : [ [ 3, 'asc' ] ], // sort on collumn "available from"
 			"bServerSide" : true,
 			"sAjaxSource" : "/arbeitsplatzsuche/search/results.html",
 			"bProcessing" : true,
