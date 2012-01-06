@@ -137,6 +137,14 @@ h2{
 	font-weight: bold;
 }
 
+#resultTable tbody tr{
+	cursor: pointer;
+}
+
+#resultTable tbody tr:hover{
+	background-color: lightgray;
+}
+
 /* css for timepicker */
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
 .ui-timepicker-div dl { text-align: left; }
