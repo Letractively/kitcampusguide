@@ -1,7 +1,6 @@
 package edu.kit.pse.ass.user.management;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 
 import edu.kit.pse.ass.entity.User;
@@ -9,11 +8,11 @@ import edu.kit.pse.ass.user.dao.UserDAO;
 
 public class UserManagementImpl implements UserManagement {
 
-	@Inject
-	UserDAO userDAO;
+	@Autowired
+	private UserDAO userDAO;
 
-	@Inject
-	PasswordEncoder passwordEncoder;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public String register(String userID, String password) {
@@ -24,7 +23,7 @@ public class UserManagementImpl implements UserManagement {
 		User u = userDAO.insertUser(userID, password);
 		if (u == null)
 			return null;
-		return u.getId();
+		return u.getEmail();
 	}
 
 	@Override

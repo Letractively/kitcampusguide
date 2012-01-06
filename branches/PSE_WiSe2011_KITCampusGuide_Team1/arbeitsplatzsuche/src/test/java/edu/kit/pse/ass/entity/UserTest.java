@@ -21,12 +21,6 @@ public class UserTest {
 	}
 
 	@Test
-	public void testSetId() {
-		user.setId(TEST_ID);
-		assertEquals(TEST_ID, user.getId());
-	}
-
-	@Test
 	public void testSetRole() {
 		HashSet<String> roles = new HashSet<String>();
 		roles.add(TEST_ROLE);
