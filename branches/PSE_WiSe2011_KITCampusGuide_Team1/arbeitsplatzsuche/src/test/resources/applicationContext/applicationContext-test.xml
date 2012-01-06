@@ -11,10 +11,10 @@
 	<context:component-scan base-package="edu.kit.pse.ass.booking.dao" />
 	<!-- Evaluate annotations for transactions -->
 	<tx:annotation-driven />
-	<bean class="edu.kit.pse.ass.booking.dao.BookingDAOImpl" autowire-candidate="true">
+ 	<bean class="edu.kit.pse.ass.booking.dao.BookingDAOImpl" autowire-candidate="true">
 		<property name="jpaTemplate" ref="jpaTemplate" /> 
 	</bean>
-		
+
 	
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -49,5 +49,7 @@
 	</bean>
 	
 	
-	<bean id="userDAO" class="edu.kit.pse.ass.user.dao.UserDAOImpl" />
+ 	<bean id="userDAO" class="edu.kit.pse.ass.user.dao.UserDAOImpl" /> 
+ 	
+ 	<bean id="facilityDAO" class="edu.kit.pse.ass.facility.dao.FacilityDAOImpl" /> 
 </beans>

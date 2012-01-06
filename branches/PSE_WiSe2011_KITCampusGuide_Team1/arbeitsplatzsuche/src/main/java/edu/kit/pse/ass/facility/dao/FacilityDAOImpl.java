@@ -189,6 +189,7 @@ public class FacilityDAOImpl implements FacilityDAO {
 		facil4.addContainedFacility(place2);
 		facil4.addContainedFacility(place3);
 		facil4.addContainedFacility(place4);
+
 		build1.addContainedFacility(facil1);
 		build1.addContainedFacility(facil2);
 		build1.addContainedFacility(facil3);
