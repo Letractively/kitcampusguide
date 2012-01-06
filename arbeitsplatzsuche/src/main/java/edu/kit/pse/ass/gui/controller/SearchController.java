@@ -83,35 +83,44 @@ public class SearchController extends MainController {
 		int iTotalDisplayRecords;
 		// the search results
 		List<FreeFacilityResult> searchResults;
-		// the filtered search results
-		List<FreeFacilityResult> filteredResults;
 		// output data in JSON format
 		JSONArray data = new JSONArray();
 
 		// Get parameters for DataTable
 		parameters = DataTablesParamUtility.getParameters(request);
 
+		// find free rooms
+		/*
+		 * RoomQuery roomQuery = new RoomQuery(searchFilterModel.getFilters(),
+		 * sfm.getSearchText(), sfm.getWorkplaceCount());
+		 * Collection<FreeFacilityResult> searchResultsCollection =
+		 * bookingManagement .findFreeFacilites(roomQuery, sfm.getStart(),
+		 * sfm.getEnd(), sfm.isWholeRoom());
+		 * 
+		 * if (searchResultsCollection instanceof List) { searchResults = (List)
+		 * searchResultsCollection; } else { searchResults = new
+		 * ArrayList(searchResultsCollection); }
+		 */
+
 		// create dummy search results (temp!)
 		searchResults = tempSearchResults();
-		iTotalRecords = searchResults.size();
 
-		// Filter search results - delete? (implemented in search already)
-		filteredResults = filterResults(searchResults, parameters);
-		iTotalDisplayRecords = filteredResults.size();
+		iTotalRecords = searchResults.size();
+		iTotalDisplayRecords = iTotalRecords;
 
 		// Sort results
 		final int sortColumnIndex = parameters.iSortColumnIndex;
-		final int sortDirection = parameters.sSortDirection.equals("asc") ? -1
-				: 1;
-		sortResults(filteredResults, sortColumnIndex, sortDirection);
+		final int sortDirection = parameters.sSortDirection.equals("asc") ? 1
+				: -1;
+		sortResults(searchResults, sortColumnIndex, sortDirection);
 
 		// show requested part of results
-		if (filteredResults.size() < parameters.iDisplayStart
+		if (searchResults.size() < parameters.iDisplayStart
 				+ parameters.iDisplayLength)
-			filteredResults = filteredResults.subList(parameters.iDisplayStart,
-					filteredResults.size());
+			searchResults = searchResults.subList(parameters.iDisplayStart,
+					searchResults.size());
 		else
-			filteredResults = filteredResults.subList(parameters.iDisplayStart,
+			searchResults = searchResults.subList(parameters.iDisplayStart,
 					parameters.iDisplayStart + parameters.iDisplayLength);
 
 		// create JSON response
@@ -133,7 +142,7 @@ public class SearchController extends MainController {
 
 			SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 
-			for (FreeFacilityResult c : filteredResults) {
+			for (FreeFacilityResult c : searchResults) {
 				JSONArray row = new JSONArray();
 				String equipment = "";
 				for (Property p : c.getFacility().getProperties()) {
@@ -190,7 +199,8 @@ public class SearchController extends MainController {
 									c2.getFacility().getParentFacility()
 											.getName())
 							* sortDirection;
-				case 2: // Equipment
+				case 2: // Equipment (DataTables does not allow sorting, this
+						// implementation would sort the number of Properties
 					return (c1.getFacility().getProperties().size() - c2
 							.getFacility().getProperties().size())
 							* sortDirection;
@@ -202,36 +212,6 @@ public class SearchController extends MainController {
 			}
 		});
 
-	}
-
-	/**
-	 * filters search results according to given DataTable parameters and
-	 * returns the filtered results
-	 * 
-	 * @param searchResults
-	 *            the search results
-	 * @param parameters
-	 *            the DataTable parameters
-	 * @return the filtered results
-	 */
-	private List<FreeFacilityResult> filterResults(
-			List<FreeFacilityResult> searchResults,
-			DataTableParamModel parameters) {
-
-		List<FreeFacilityResult> result = new LinkedList<FreeFacilityResult>();
-
-		// Filter for room and building columns
-		for (FreeFacilityResult c : searchResults) {
-			if (c.getFacility().getName().toLowerCase()
-					.contains(parameters.sSearch.toLowerCase())
-					|| c.getFacility().getParentFacility().getName()
-							.toLowerCase()
-							.contains(parameters.sSearch.toLowerCase())) {
-				result.add(c); // Add a company that matches search criteria
-			}
-		}
-
-		return result;
 	}
 
 	/*
