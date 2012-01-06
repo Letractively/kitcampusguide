@@ -1,6 +1,8 @@
 
 <script type="text/javascript">
 	
+	var resultTable;
+	
 	function calcTableHeight() {
 		// Height of the result table
 		return ($(window).height() - 190) + "px";
@@ -9,8 +11,8 @@
 	$(document).ready(function() {
 		
 		var lastQueryData;
-
-		var resultTable = $("#resultTable").dataTable({
+		
+		resultTable = $("#resultTable").dataTable({
 			"aoColumns" : [ null, 		// Room
 			null, 						// Building
 			{ "bSortable" : false }, 	// Equipment
