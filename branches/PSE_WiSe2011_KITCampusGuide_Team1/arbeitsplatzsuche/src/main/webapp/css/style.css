@@ -90,13 +90,31 @@ div.simple-logo{
 	padding: 50px 0 0 0;
 }
 
+/*
+ * SimpeSearch Page
+ */
+
 div.simple-search{
-	border: 2px solid black;
-	border-radius: 5px;
+	background-color: #E2E4FF;
+	border-radius: 10px;
 	padding: 20px;
 	margin: 40px auto;
 	width: 450px;
+	overflow: visible;
+	position: relative;
 }
+
+/* Move Search Button to middle bottom*/
+div.simple-search input[type="submit"]{
+	width: 100px;
+	position: absolute;
+	left: 200px;
+	top: 95px;
+}
+
+/*
+ *	SearchForm common
+ */
 
 input[name="start"]{
 	width: 100px;
@@ -113,6 +131,9 @@ span.searchText{
 input[name="searchText"]{
 	width: 200px;
 }
+
+
+
 
 div.header2{
 	margin-top: 23px;
