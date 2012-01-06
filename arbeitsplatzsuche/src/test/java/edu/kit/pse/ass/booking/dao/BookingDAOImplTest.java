@@ -75,9 +75,9 @@ public class BookingDAOImplTest {
 			assertNull("Accepted wrong parameters.",
 					bm.getReservationsOfUser(null, from, to));
 			assertNull("Accepted wrong parameters.",
-					bm.getReservationsOfFacility(USERID, null, to));
+					bm.getReservationsOfUser(USERID, null, to));
 			assertNull("Accepted wrong parameters.",
-					bm.getReservationsOfFacility(USERID, from, null));
+					bm.getReservationsOfUser(USERID, from, null));
 
 			// test if returned reservations belong all to the user
 			result = bm.getReservationsOfUser(USERID, start, end);
@@ -153,8 +153,9 @@ public class BookingDAOImplTest {
 	@Test
 	public void testGetReservation() {
 		Reservation resv = null;
+		// throw error or return null if parameter is null
+
 		try {
-			// throw error or return null if parameter is null
 			assertNull("Accepted wrong parameters.", bm.getReservation(null));
 			resv = bm.getReservation(PERSISTED_RESERVATIONID);
 		} catch (Exception e) {
@@ -174,10 +175,11 @@ public class BookingDAOImplTest {
 		Reservation newResv = new Reservation(start, end, USERID);
 		newResv.addBookedFacilityId(FACILITYID);
 		String newResvId = null;
+		// throw error or return null if parameter is null
+
 		try {
-			// throw error or return null if parameter is null
 			assertNull("Accepted wrong parameters.", bm.insertReservation(null));
-			// returned id must equal PERSISTED_RESERVATIONID
+			// TODO id is not returned correctly
 			newResvId = bm.insertReservation(newResv);
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
