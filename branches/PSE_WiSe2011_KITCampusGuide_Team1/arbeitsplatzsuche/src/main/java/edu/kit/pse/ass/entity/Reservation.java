@@ -48,7 +48,7 @@ public class Reservation {
 	 * the collection of facility ids of the facilities, which are booked
 	 */
 	@ElementCollection(targetClass = String.class)
-	private final Collection<String> bookedFacilityIds;
+	private Collection<String> bookedFacilityIds;
 
 	/**
 	 * Creates a new reservation without values
@@ -172,6 +172,12 @@ public class Reservation {
 	 */
 	public Collection<String> getBookedFacilityIds() {
 		return bookedFacilityIds;
+	}
+	
+	public void setBookedFacilityIDs(Collection<String> facilityIDs) throws IllegalArgumentException {
+		if (facilityIDs == null)
+			throw new IllegalArgumentException("facilityIDs must be not null");
+		this.bookedFacilityIds = facilityIDs;
 	}
 
 	/**

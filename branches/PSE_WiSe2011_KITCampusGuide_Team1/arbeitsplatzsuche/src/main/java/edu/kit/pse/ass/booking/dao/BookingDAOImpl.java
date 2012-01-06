@@ -61,7 +61,7 @@ public class BookingDAOImpl implements BookingDAO {
 		for (Reservation tmp : reservations) {
 			if (userID.equals(tmp.getBookingUserId())
 					&& tmp.getStartTime().after(asFrom)
-					&& tmp.getStartTime().before(upTo))
+					&& tmp.getEndTime().before(upTo))
 				result.add(tmp);
 		}
 		return result;
