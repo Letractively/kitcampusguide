@@ -12,6 +12,17 @@
 			"bJQueryUI": true,
 			"sDom": 'lrtp'
 		});
+		
+		$("#calendar").weekCalendar({
+			data: function(start, end, callback) {
+				  $.getJSON("${pageContext.request.contextPath}/room/${room.id}/calendar.html", {
+				     start: start.getTime(),
+				     end: end.getTime()
+				   },  function(result) {
+				     callback(result);
+				   });
+				}
+		});
 	});
 </script>
 <div class="header2">
@@ -51,7 +62,7 @@
 	<table id="workplaces">
 		<thead>
 			<tr>
-				<th>&nbsp;</th>
+				<th style="width: 75px;">Gewählt</th>
 				<th style="width: 100px;">Platznr.</th>
 				<th style="width: 500px;">zusätzliche Ausstattung</th>
 			</tr>
@@ -70,4 +81,6 @@
 		</c:forEach>
 		</tbody>
 	</table>
+	<h2>Belegung:</h2>
+	<div id="calendar"></div>
 </div>
