@@ -25,6 +25,17 @@ public interface FacilityManagement {
 			throws IllegalArgumentException;
 
 	/**
+	 * returns facility with given ID as a specific subclass type.
+	 * 
+	 * @param type
+	 *            the specific subclass of Facility to load
+	 * @param facilityID
+	 *            the ID of the facility
+	 * @return facility with given ID
+	 */
+	public <T extends Facility> T getFacility(Class<T> type, String facilityID);
+
+	/**
 	 * returns a collection of facilities matching the criteria of the given
 	 * facilityQuery
 	 * 
