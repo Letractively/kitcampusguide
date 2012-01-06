@@ -42,20 +42,18 @@ public class Property {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
 		if (obj == null) {
 			return false;
 		}
 		if (!(obj instanceof Property)) {
 			return false;
 		}
+		if (this == obj) {
+			return true;
+		}
 		Property other = (Property) obj;
-		if (name == null) {
-			if (other.name != null) {
-				return false;
-			}
+		if ((name == null) && (other.name != null)) {
+			return false;
 		} else if (!name.equals(other.name)) {
 			return false;
 		}
