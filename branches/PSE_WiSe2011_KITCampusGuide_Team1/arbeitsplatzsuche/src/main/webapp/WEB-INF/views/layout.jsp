@@ -83,7 +83,7 @@ $(function() {
 	</div>
 	<nav>
 		<ul>
-			<li><a href="#">Suche</a></li>
+			<li><a href="<c:url value="/search/simple.html" />">Suche</a></li>
 			<li><a href="#">Meine Reservierungen</a></li>
 			<li><a href="#">Abmelden</a></li>
 		</ul>
