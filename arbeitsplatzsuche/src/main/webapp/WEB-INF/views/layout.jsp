@@ -22,6 +22,9 @@
 <%-- doc: http://www.myjqueryplugins.com/jNotify --%>
 <script src="<c:url value="/scripts/lib/jNotify.jquery.js" />"></script>
 <link href="<c:url value="/css/jNotify.jquery.css" />" rel="stylesheet" type="text/css">
+<%-- doc: https://github.com/robmonie/jquery-week-calendar/wiki/ --%>
+<script src="<c:url value="/scripts/lib/jquery.weekcalendar.js" />"></script>
+<link href="<c:url value="/css/jquery.weekcalendar.css" />" rel="stylesheet" type="text/css">
 <%-- Includes for advanced search --%>
 <c:if test="${view == 'search/advanced'}">
 <link href="<c:url value="/css/advancedSearch.css" />" rel="stylesheet" type="text/css">

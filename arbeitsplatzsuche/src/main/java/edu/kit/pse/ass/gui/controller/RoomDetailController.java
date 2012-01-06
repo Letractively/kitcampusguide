@@ -1,16 +1,25 @@
 package edu.kit.pse.ass.gui.controller;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import edu.kit.pse.ass.booking.management.FreeFacilityResult;
 import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
@@ -39,8 +48,7 @@ public class RoomDetailController extends MainController {
 		Room room = (Room) f;
 		model.addAttribute("room", room);
 
-		Collection<Facility> workplaces = tmpGetContainingFacilities();
-		model.addAttribute("workplaces", workplaces);
+		listWorkplaces(model, room);
 		return "room/details";
 	}
 
@@ -81,11 +89,33 @@ public class RoomDetailController extends MainController {
 
 	}
 
-	private void listWorkplaces() {
-
+	private void listWorkplaces(Model model, Room room) {
+		Collection<Facility> workplaces = tmpGetContainingFacilities();
+		model.addAttribute("workplaces", workplaces);
 	}
 
-	private void showBookableOccupancy(Model model) {
+	@RequestMapping(value = "room/{roomId}/calendar.html")
+	public void showBookableOccupancy(HttpServletRequest request,
+			HttpServletResponse response) {
 
+		JSONArray events = new JSONArray();
+
+		// create JSON response
+		try {
+			JSONObject jsonResponse = new JSONObject();
+
+			jsonResponse.put("events", events);
+
+			response.setContentType("application/json");
+			response.getWriter().print(jsonResponse.toString());
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			response.setContentType("text/html");
+			// response.getWriter().print(e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
