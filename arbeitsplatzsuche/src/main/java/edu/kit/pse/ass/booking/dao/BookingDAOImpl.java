@@ -50,7 +50,11 @@ public class BookingDAOImpl implements BookingDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Reservation> getReservationsOfUser(String userID,
-			Date asFrom, Date upTo) {
+			Date asFrom, Date upTo) throws IllegalArgumentException {
+		if (userID.equals("") || userID == null || asFrom == null
+				|| upTo == null) {
+			throw new IllegalArgumentException("One parameter is null or empty");
+		}
 		Collection<Reservation> result = new ArrayList<Reservation>();
 		Collection<Reservation> reservations = jpaTemplate
 				.find("from t_reservation");
@@ -76,7 +80,11 @@ public class BookingDAOImpl implements BookingDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Reservation> getReservationsOfFacility(String facilityID,
-			Date asFrom, Date upTo) {
+			Date asFrom, Date upTo) throws IllegalArgumentException {
+		if (facilityID.equals("") || facilityID == null || asFrom == null
+				|| upTo == null) {
+			throw new IllegalArgumentException("One parameter is null or empty");
+		}
 		Collection<Reservation> result = new ArrayList<Reservation>();
 		Collection<Reservation> reservations = jpaTemplate
 				.find("from t_reservation");
@@ -103,7 +111,11 @@ public class BookingDAOImpl implements BookingDAO {
 	 * edu.kit.pse.ass.booking.dao.BookingDAO#getReservation(java.lang.String)
 	 */
 	@Override
-	public Reservation getReservation(String reservationID) {
+	public Reservation getReservation(String reservationID)
+			throws IllegalArgumentException {
+		if (reservationID == null || reservationID.equals("")) {
+			throw new IllegalArgumentException("Parameter is null or empty");
+		}
 		return jpaTemplate.find(Reservation.class, reservationID);
 	}
 
@@ -117,6 +129,9 @@ public class BookingDAOImpl implements BookingDAO {
 	@Override
 	@Transactional
 	public String insertReservation(Reservation reservation) {
+		if (reservation == null) {
+			throw new IllegalArgumentException("Reservation is null");
+		}
 		// TODO generate ID if id not already set(due to testing)
 		jpaTemplate.persist(reservation);
 		return reservation.getId();
@@ -130,7 +145,11 @@ public class BookingDAOImpl implements BookingDAO {
 	 * ass.entity.Reservation)
 	 */
 	@Override
-	public void updateReservation(Reservation reservation) {
+	public void updateReservation(Reservation reservation)
+			throws IllegalArgumentException {
+		if (reservation == null) {
+			throw new IllegalArgumentException("Reservation is null");
+		}
 		jpaTemplate.merge(reservation);
 	}
 
@@ -144,6 +163,9 @@ public class BookingDAOImpl implements BookingDAO {
 	@Override
 	@Transactional
 	public void deleteReservation(String reservationID) {
+		if (reservationID == null || reservationID.equals("")) {
+			throw new IllegalArgumentException("Parameter is null or empty");
+		}
 		Reservation reservation = getReservation(reservationID);
 		if (reservation != null)
 			jpaTemplate.remove(reservation);
