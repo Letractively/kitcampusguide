@@ -33,8 +33,4 @@ public interface UserDAO {
 	 */
 	public User getUser(String userID);
 
-	/**
-	 * Fills the DAO with dummy values specified in its implementation
-	 */
-	public void userFillWithDummies();
 }
