@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -48,27 +47,23 @@ public class BookingDAOImpl implements BookingDAO {
 	 * edu.kit.pse.ass.booking.dao.BookingDAO#getReservationsOfUser(java.lang
 	 * .String, java.util.Date, java.util.Date)
 	 */
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Reservation> getReservationsOfUser(String userID,
 			Date asFrom, Date upTo) {
 		Collection<Reservation> result = new ArrayList<Reservation>();
-		Collection<Reservation> reservations = new ArrayList<Reservation>();
-		reservations = jpaTemplate.find("from t_reservation");
-		Iterator<Reservation> reservationIterator = reservations.iterator();
+		Collection<Reservation> reservations = jpaTemplate
+				.find("from t_reservation");
 		// find matching reservations and add them to the result
-
 		// TODO diese Filterung kann auch die Datenbank übernehmen. Dafür müsste
 		// man die SearchQuery für das jpaTemplate schreiben
-
-		for (int i = 0; i < reservations.size(); i++) {
-			Reservation tmp = reservationIterator.next();
+		for (Reservation tmp : reservations) {
 			if (userID.equals(tmp.getBookingUserId())
 					&& tmp.getStartTime().after(asFrom)
 					&& tmp.getStartTime().before(upTo))
 				result.add(tmp);
 		}
-
 		return result;
 	}
 
@@ -84,16 +79,15 @@ public class BookingDAOImpl implements BookingDAO {
 	public Collection<Reservation> getReservationsOfFacility(String facilityID,
 			Date asFrom, Date upTo) {
 		Collection<Reservation> result = new ArrayList<Reservation>();
-		Collection<Reservation> reservations = new ArrayList<Reservation>();
-		reservations = jpaTemplate.find("from t_reservation");
-		Iterator<Reservation> reservationIterator = reservations.iterator();
+		Collection<Reservation> reservations = jpaTemplate
+				.find("from t_reservation");
+
 		// find matching reservations and add them to the result
 
 		// TODO diese Filterung kann auch die Datenbank übernehmen. Dafür müsste
 		// man die SearchQuery für das jpaTemplate schreiben
 
-		for (int i = 0; i < reservations.size(); i++) {
-			Reservation tmp = reservationIterator.next();
+		for (Reservation tmp : reservations) {
 			if (tmp.getBookedFacilityIds().contains(facilityID)
 					&& tmp.getStartTime().after(asFrom)
 					&& tmp.getStartTime().before(upTo))
@@ -124,7 +118,7 @@ public class BookingDAOImpl implements BookingDAO {
 	@Override
 	@Transactional
 	public String insertReservation(Reservation reservation) {
-		// TODO generate ID
+		// TODO generate ID if id not already set(due to testing)
 		jpaTemplate.persist(reservation);
 		return reservation.getId();
 	}
@@ -201,7 +195,7 @@ public class BookingDAOImpl implements BookingDAO {
 					.get(i).getTime(), userIDs.get(i));
 			resvTmp.addBookedFacilityId(facilityIDs.get(i));
 			resvTmp.setId(resvID);
-			jpaTemplate.persist(resvTmp);
+			insertReservation(resvTmp);
 			// adds a day to each star and end, thus preventing double
 			// reservations
 			start.get(i).add(Calendar.DATE, 1);
