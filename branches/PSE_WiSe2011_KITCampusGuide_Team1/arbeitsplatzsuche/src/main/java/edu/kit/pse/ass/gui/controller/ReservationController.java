@@ -78,16 +78,24 @@ public class ReservationController extends MainController {
 		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 
 		Reservation res1 = new Reservation(new Date(111, 11, 27, 15, 30),
-				new Date(111, 11, 27, 16, 00), "id1");
+				new Date(111, 11, 27, 16, 00), "userid1");
 		Reservation res2 = new Reservation(new Date(111, 11, 29, 11, 00),
-				new Date(111, 11, 29, 13, 15), "id2");
+				new Date(111, 11, 29, 13, 15), "userid2");
+		Reservation res3 = new Reservation(new Date(112, 12, 29, 11, 00),
+				new Date(112, 12, 29, 13, 15), "userid2");
 
-		res1.addBookedFacilityId("id1");
-		res1.addBookedFacilityId("id2");
-		res2.addBookedFacilityId("id3");
+		res1.addBookedFacilityId("wpid1");
+		res1.addBookedFacilityId("wpid2");
+		res2.addBookedFacilityId("roomid3");
+		res3.addBookedFacilityId("wpid1");
+
+		res1.setId("resid1");
+		res2.setId("resid2");
+		res3.setId("resid3");
 
 		reservations.add(res1);
 		reservations.add(res2);
+		reservations.add(res3);
 
 		return reservations;
 	}
@@ -102,8 +110,25 @@ public class ReservationController extends MainController {
 	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.GET)
 	public String showReservationDetails(Model model,
 			@PathVariable("reservationId") String reservationID) {
+		Reservation reservation = bookingManagement
+				.getReservation(reservationID);
+		reservation = tempGetReservation(reservationID);
+		model.addAttribute("reservation", new ReservationModel(reservation));
+
 		return "reservation/details";
 
+	}
+
+	private Reservation tempGetReservation(String reservationID) {
+		Object[] reservations = tempReservationList().toArray();
+		if (reservationID.equals("resid1")) {
+			return (Reservation) reservations[0];
+		} else if (reservationID.equals("resid2")) {
+			return (Reservation) reservations[1];
+		} else if (reservationID.equals("resid3")) {
+			return (Reservation) reservations[2];
+		}
+		return (Reservation) reservations[0];
 	}
 
 	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.POST)
