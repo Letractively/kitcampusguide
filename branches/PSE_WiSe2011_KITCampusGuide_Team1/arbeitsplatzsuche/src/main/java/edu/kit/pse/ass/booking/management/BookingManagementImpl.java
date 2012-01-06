@@ -24,18 +24,23 @@ public class BookingManagementImpl implements BookingManagement {
 	@Autowired
 	private FacilityManagement facilityManagement;
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.booking.management.BookingManagement#book(java.lang.String, java.util.Collection, java.util.Date, java.util.Date)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.booking.management.BookingManagement#book(java.lang.String
+	 * , java.util.Collection, java.util.Date, java.util.Date)
 	 */
 	@Override
 	@Secured({ "ROLE_STUDENT", "ROLE_TUTOR" })
 	public String book(String userID, Collection<String> facilityIDs,
-			Date startDate, Date endDate) throws FacilityNotFreeException {
+			Date startDate, Date endDate) throws FacilityNotFreeException,
+			IllegalArgumentException {
 		// check given dates
 		if ((startDate == null) || (endDate == null)
 				|| (startDate.after(endDate)))
 			throw new IllegalArgumentException(
-					"The start date have to be before the end time and both must not be null.");
+					"The start date has to be before the end date and both must not be null.");
 
 		// check user
 		if (userID == null || userID.equals(""))
@@ -46,11 +51,9 @@ public class BookingManagementImpl implements BookingManagement {
 		if (userReservations.size() > 0)
 			throw new IllegalArgumentException(
 					"The user has a reservation at the same time");
-		
+
 		// check each facility
-		Iterator<String> idIterator = facilityIDs.iterator();
-		for (int i = 0; i < facilityIDs.size(); i++) {
-			String tmpID = idIterator.next();
+		for (String tmpID : facilityIDs) {
 			if (isTheFacilityAvailable(tmpID, startDate, endDate) == false) {
 				throw new FacilityNotFreeException(
 						"The facility is not available at the given time.");
@@ -78,6 +81,10 @@ public class BookingManagementImpl implements BookingManagement {
 	 */
 	private boolean isTheFacilityAvailable(String facilityID, Date asFrom,
 			Date upTo) throws IllegalArgumentException {
+		if (facilityID.equals("") || facilityID == null || asFrom == null
+				|| upTo == null) {
+			throw new IllegalArgumentException("One parameter is null or empty");
+		}
 		// get the facility
 		Facility facility;
 		try {
@@ -104,69 +111,122 @@ public class BookingManagementImpl implements BookingManagement {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.booking.management.BookingManagement#listReservationsOfUser(java.lang.String, java.util.Date, java.util.Date)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.booking.management.BookingManagement#listReservationsOfUser
+	 * (java.lang.String, java.util.Date, java.util.Date)
 	 */
 	@Override
 	@PreAuthorize("authentication.name == #userID")
 	public Collection<Reservation> listReservationsOfUser(String userID,
-			Date asFrom, Date upTo) {
+			Date asFrom, Date upTo) throws IllegalArgumentException {
+		if (userID.equals("") || userID == null || asFrom == null
+				|| upTo == null) {
+			throw new IllegalArgumentException("One parameter is null or empty");
+		}
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.booking.management.BookingManagement#listReservationsOfFacility(java.lang.String, java.util.Date, java.util.Date)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.kit.pse.ass.booking.management.BookingManagement#
+	 * listReservationsOfFacility(java.lang.String, java.util.Date,
+	 * java.util.Date)
 	 */
 	@Override
 	public Collection<Reservation> listReservationsOfFacility(
-			String facilityID, Date asFrom, Date upTo) {
+			String facilityID, Date asFrom, Date upTo)
+			throws IllegalArgumentException {
+		if (facilityID.equals("") || facilityID == null || asFrom == null
+				|| upTo == null) {
+			throw new IllegalArgumentException("One parameter is null or empty");
+		}
 		return bookingDAO.getReservationsOfFacility(facilityID, asFrom, upTo);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.booking.management.BookingManagement#changeReservationEnd(java.lang.String, java.util.Date)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.booking.management.BookingManagement#changeReservationEnd
+	 * (java.lang.String, java.util.Date)
 	 */
 	@Override
 	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'edit')")
-	public void changeReservationEnd(String reservationID, Date newEndDate) {
+	public void changeReservationEnd(String reservationID, Date newEndDate)
+			throws IllegalArgumentException {
+		if (reservationID.equals("") || reservationID == null
+				|| newEndDate == null) {
+			throw new IllegalArgumentException("One parameter is null or empty");
+		}
 		bookingDAO.getReservation(reservationID).setEndTime(newEndDate);
 
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.booking.management.BookingManagement#removeFacilityFromReservation(java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.kit.pse.ass.booking.management.BookingManagement#
+	 * removeFacilityFromReservation(java.lang.String, java.lang.String)
 	 */
 	@Override
 	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'edit')")
 	public void removeFacilityFromReservation(String reservationID,
-			String facilityID) {
+			String facilityID) throws IllegalArgumentException {
+		if (reservationID.equals("") || reservationID == null) {
+			throw new IllegalArgumentException("One parameter is null or empty");
+		}
 		// TODO Auto-generated method stub
 
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.booking.management.BookingManagement#deleteReservation(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.booking.management.BookingManagement#deleteReservation
+	 * (java.lang.String)
 	 */
 	@Override
 	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'delete')")
-	public void deleteReservation(String reservationID) {
+	public void deleteReservation(String reservationID)
+			throws IllegalArgumentException {
+		if (reservationID.equals("") || reservationID == null) {
+			throw new IllegalArgumentException("One parameter is null or empty");
+		}
 		// TODO Auto-generated method stub
 
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.booking.management.BookingManagement#getReservation(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.booking.management.BookingManagement#getReservation(java
+	 * .lang.String)
 	 */
 	@Override
-	public Reservation getReservation(String reservationID) {
+	public Reservation getReservation(String reservationID)
+			throws IllegalArgumentException {
+		if (reservationID.equals("") || reservationID == null) {
+			throw new IllegalArgumentException("One parameter is null or empty");
+		}
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Collection<FreeFacilityResult> findFreeFacilites(
-			FacilityQuery query, Date start, Date end, boolean fullyAvailable) {
+			FacilityQuery query, Date start, Date end, boolean fullyAvailable)
+			throws IllegalArgumentException {
+		if (query.toString().equals("") || query == null || start == null
+				|| end == null) {
+			throw new IllegalArgumentException("One parameter is null or empty");
+		}
 		// the concrete instance of FacilityManagement is specified via
 		// Dependency Injection
 		// fetch matching facilites
@@ -207,7 +267,12 @@ public class BookingManagementImpl implements BookingManagement {
 	@Override
 	@Transactional
 	public boolean isFacilityFree(String facilityID, Date startDate,
-			Date endDate) {
+			Date endDate) throws IllegalArgumentException {
+		if (facilityID.equals("") || facilityID == null || startDate == null
+				|| endDate == null) {
+			throw new IllegalArgumentException("One parameter is null or empty");
+		}
+
 		Collection<Reservation> reservations = bookingDAO
 				.getReservationsOfFacility(facilityID, startDate, endDate);
 		if (reservations != null && reservations.size() > 0) {
