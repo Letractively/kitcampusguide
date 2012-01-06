@@ -138,6 +138,40 @@ public class Reservation {
 	}
 
 	/**
+	 * returns the number of hours of the duration, not counting additional
+	 * time, e.g. a duration of 130 minutes will return 2
+	 * 
+	 * @return the number of hours of the duration
+	 */
+	public int getDurationHours() {
+
+		// Duration in ms
+		long duration = endTime.getTime() - startTime.getTime();
+
+		// Calculate hours
+		int hours = (int) (duration / (1000 * 60 * 60));
+
+		return hours;
+	}
+
+	/**
+	 * returns the number of minutes of the duration, not counting additional
+	 * time, e.g. a duration of 130 minutes will return 10
+	 * 
+	 * @return the number of minutes of the duration
+	 */
+	public int getDurationMinutes() {
+
+		// Duration in ms
+		long duration = endTime.getTime() - startTime.getTime();
+
+		// Calculate minutes
+		int minutes = (int) (duration / (1000 * 60) % 60);
+
+		return minutes;
+	}
+
+	/**
 	 * @return the id of the booking user
 	 */
 	public String getBookingUserId() {

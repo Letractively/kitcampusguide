@@ -115,7 +115,7 @@ input[name="searchText"]{
 
 div.header2{
 	margin-top: 23px;
-	height: 180px;
+	height: 100px;
 }
 
 div.header2 div#logo{
@@ -148,6 +148,27 @@ h2{
 
 #resultTable tbody tr:hover{
 	background-color: lightgray;
+}
+
+div.reservationDetails {
+	margin: 5px 0 10px 0;
+	padding: 10px;
+	border: 1px solid grey;
+}
+div.reservationDetails div {
+	padding-bottom: 5px;
+}
+div.reservationDetails div.room {
+	font-size: 19px;
+	color: #0E4669;
+	padding-bottom: 8px;
+}
+div.reservationDetails div.time {
+	padding-bottom: 8px;
+}
+
+div.page {
+	padding: 0 10px 0 15px;
 }
 
 /* css for timepicker */
