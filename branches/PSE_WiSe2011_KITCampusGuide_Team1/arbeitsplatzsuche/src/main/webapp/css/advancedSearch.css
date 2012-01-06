@@ -2,7 +2,7 @@
 
 body {
 	margin: 0;
-	padding: 163px 0 0 200px;
+	padding: 144px 0 0 200px; /* 120 + 23 + 1 */
 	overflow-y: hidden;
 }
 
@@ -30,7 +30,7 @@ div#advanced-header {
 div#advanced-left {
 	position: absolute;
 	padding: 10px; 
-	top: 143px; // 120 + 23;
+	top: 143px; /* 120 + 23*/
 	left: 0;
 	width: 200px;
 	height: 100%;

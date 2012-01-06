@@ -5,7 +5,7 @@
 	
 	function calcTableHeight() {
 		// Height of the result table
-		return ($(window).height() - 190) + "px";
+		return ($(window).height() - 170) + "px";
 	}
 	
 	$(document).ready(function() {
