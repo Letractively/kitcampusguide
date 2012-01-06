@@ -45,7 +45,6 @@ public class BookingDAOImplTest {
 	@Autowired
 	private BookingDAO bm;
 
-	// BookingDAO bm = new BookingDAOImpl();
 	Date start = new GregorianCalendar(2012, 0, 2, 9, 0).getTime();
 	Date end = new GregorianCalendar(2012, 0, 2, 10, 0).getTime();
 	Reservation testReservation = new Reservation(start, end, USERID);
@@ -57,8 +56,12 @@ public class BookingDAOImplTest {
 		testReservation.setId(PERSISTED_RESERVATIONID);
 		testReservationCol.add(testReservation);
 
-		bm.insertReservation(testReservation);
-		// bm.bookingFillWithDummies();
+		bm.updateReservation(testReservation);
+		/*
+		 * try { bm.updateReservation(testReservation);
+		 * bm.bookingFillWithDummies(); } catch (Exception e) {
+		 * System.out.println("Error: " + e.getMessage()); }
+		 */
 	}
 
 	@Test
@@ -68,24 +71,34 @@ public class BookingDAOImplTest {
 		Collection<Reservation> result = null;
 		try {
 			// throw error or return null if parameter is null
+
 			assertNull("Accepted wrong parameters.",
 					bm.getReservationsOfUser(null, from, to));
 			assertNull("Accepted wrong parameters.",
 					bm.getReservationsOfFacility(USERID, null, to));
 			assertNull("Accepted wrong parameters.",
 					bm.getReservationsOfFacility(USERID, from, null));
+
 			// test if returned reservations belong all to the user
 			result = bm.getReservationsOfUser(USERID, start, end);
+			assertNotNull("Didn't return result", result);
+			assertFalse("Empty list returned", result.size() == 0);
+			assertTrue("Wrong amount of reservations returned",
+					result.size() == testReservationCol.size());
 			for (Reservation resv : result) {
 				assertEquals(USERID, resv.getBookingUserId());
 			}
+			result = null;
 			result = bm.getReservationsOfUser(USERID, from, to);
+			assertNotNull("Didn't return result", result);
 			for (Reservation resv : result) {
 				assertEquals(USERID, resv.getBookingUserId());
 			}
 			// test if returned reservations are the right
-			assertTrue(bm.getReservationsOfUser(USERID, start, end)
-					.containsAll(testReservationCol));
+			assertTrue(
+					"Contains not all reservations",
+					bm.getReservationsOfUser(USERID, start, end).containsAll(
+							testReservationCol));
 			assertTrue(bm.getReservationsOfUser(USERID, from, to).containsAll(
 					testReservationCol));
 			assertTrue(bm.getReservationsOfUser(USERID, start, to).containsAll(
@@ -93,7 +106,7 @@ public class BookingDAOImplTest {
 			assertFalse(bm.getReservationsOfUser(USERID, end, to).containsAll(
 					testReservationCol));
 		} catch (Exception e) {
-			System.out.println("Error: " + e);
+			System.out.println("Error: " + e.getMessage());
 		}
 	}
 
@@ -101,6 +114,7 @@ public class BookingDAOImplTest {
 	public void testGetReservationsOfFacility() {
 		Date from = new GregorianCalendar(2012, 0, 2).getTime();
 		Date to = new GregorianCalendar(2012, 0, 3).getTime();
+		Collection<Reservation> result = null;
 		try {
 			// throw error or return null if parameter is null
 			assertNull("Accepted wrong parameters.",
@@ -110,12 +124,16 @@ public class BookingDAOImplTest {
 			assertNull("Accepted wrong parameters.",
 					bm.getReservationsOfFacility(FACILITYID, from, null));
 			// test if returned reservations belong all to the facility
-			for (Reservation resv : bm.getReservationsOfFacility(FACILITYID,
-					from, to)) {
+			result = bm.getReservationsOfFacility(FACILITYID, from, to);
+			assertNotNull("Didn't return result", result);
+			assertFalse("Empty list returned", result.size() == 0);
+			assertTrue("Wrong amount of reservations returned",
+					result.size() == testReservationCol.size());
+			for (Reservation resv : result) {
 				assertTrue(resv.getBookedFacilityIds().contains(FACILITYID));
 			}
-			for (Reservation resv : bm.getReservationsOfFacility(FACILITYID,
-					start, end)) {
+			result = bm.getReservationsOfFacility(FACILITYID, start, end);
+			for (Reservation resv : result) {
 				assertTrue(resv.getBookedFacilityIds().contains(FACILITYID));
 			}
 			// test if returned reservations are the right
@@ -140,7 +158,7 @@ public class BookingDAOImplTest {
 			assertNull("Accepted wrong parameters.", bm.getReservation(null));
 			resv = bm.getReservation(PERSISTED_RESERVATIONID);
 		} catch (Exception e) {
-			System.out.println("Error: " + e);
+			System.out.println("Error: " + e.getMessage());
 		}
 		assertNotNull("Didn't return reservation", resv);
 		// ensure the returned reservation is correct
@@ -153,19 +171,21 @@ public class BookingDAOImplTest {
 
 	@Test
 	public void testInsertReservation() {
+		Reservation newResv = new Reservation(start, end, USERID);
+		newResv.addBookedFacilityId(FACILITYID);
+		String newResvId = null;
 		try {
 			// throw error or return null if parameter is null
 			assertNull("Accepted wrong parameters.", bm.insertReservation(null));
 			// returned id must equal PERSISTED_RESERVATIONID
-			assertEquals(bm.insertReservation(testReservation),
-					PERSISTED_RESERVATIONID);
+			newResvId = bm.insertReservation(newResv);
 		} catch (Exception e) {
-			System.out.println("Error: " + e);
+			System.out.println("Error: " + e.getMessage());
 		}
 		// ensure reservation was inserted correct
-		Reservation resv = bm.getReservation(PERSISTED_RESERVATIONID);
-		assertNotNull(resv);
-		assertEquals(PERSISTED_RESERVATIONID, resv.getId());
+		Reservation resv = bm.getReservation(newResvId);
+		assertNotNull("Didn't return reservation", resv);
+		assertEquals(newResvId, resv.getId());
 		assertTrue(resv.getBookedFacilityIds().contains(FACILITYID));
 		assertEquals(start, resv.getStartTime());
 		assertEquals(end, resv.getEndTime());
@@ -181,10 +201,11 @@ public class BookingDAOImplTest {
 			bm.updateReservation(null);
 			bm.updateReservation(testReservation);
 		} catch (Exception e) {
-			System.out.println("Error: " + e);
+			System.out.println("Error: " + e.getMessage());
 		}
 		// ensure reservation was updated correct
 		Reservation resv = bm.getReservation(PERSISTED_RESERVATIONID);
+		assertNotNull("Didn't return reservation", resv);
 		assertEquals(PERSISTED_RESERVATIONID, resv.getId());
 		assertEquals(newEnd, resv.getEndTime());
 		assertEquals(start, resv.getStartTime());
@@ -199,7 +220,7 @@ public class BookingDAOImplTest {
 			bm.deleteReservation(null);
 			bm.deleteReservation(PERSISTED_RESERVATIONID);
 		} catch (Exception e) {
-			System.out.println("Error: " + e);
+			System.out.println("Error: " + e.getMessage());
 		}
 		/*
 		 * TODO wait for return of getReservation if id not used
