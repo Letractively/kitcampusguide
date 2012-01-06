@@ -21,13 +21,16 @@ div#advanced-header {
 	top: 23px;
 	left: 0;
 	width: 500%;
-	height: 140px;
+	height: 120px;
+	background-color: #E2E4FF;
+	border-bottom: 1px solid gray;
+	line-height: 200%;
 }
 
 div#advanced-left {
 	position: absolute;
 	padding: 10px; 
-	top: 163px; // 140 + 23;
+	top: 143px; // 120 + 23;
 	left: 0;
 	width: 200px;
 	height: 100%;
@@ -51,8 +54,16 @@ div.advanced-logo {
 
 div.advanced-search{
 	float: left;
-	border: 2px solid black;
 	padding: 20px;
 	margin: 10px;
 	width: 450px;
+	position: relative;
+}
+
+/* Move Search Button to right */
+div.advanced-search input[type="submit"]{
+	width: 100px;
+	position: absolute;
+	left: 500px;
+	top: 40px;
 }
