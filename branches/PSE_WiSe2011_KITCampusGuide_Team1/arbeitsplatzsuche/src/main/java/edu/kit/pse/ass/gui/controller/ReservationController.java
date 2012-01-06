@@ -9,12 +9,20 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.kit.pse.ass.booking.management.BookingManagement;
 import edu.kit.pse.ass.booking.management.FacilityNotFreeException;
 import edu.kit.pse.ass.entity.Reservation;
+import edu.kit.pse.ass.gui.model.ReservationModel;
 
+/**
+ * 
+ * @author Jannis Koch
+ * 
+ */
 @Controller
 public class ReservationController extends MainController {
 
@@ -34,18 +42,28 @@ public class ReservationController extends MainController {
 		Calendar upTo = Calendar.getInstance();
 		upTo.add(Calendar.YEAR, 1);
 
-		// get current and past reservations
+		// get current reservations and create models
 		Collection<Reservation> reservations = bookingManagement
 				.listReservationsOfUser(userID, new Date(), upTo.getTime());
+
+		reservations = tempReservationList(); // TEMP
+
+		Collection<ReservationModel> reservationModels = new ArrayList<ReservationModel>();
+		for (Reservation r : reservations) {
+			reservationModels.add(new ReservationModel(r));
+		}
+
+		// get past reservations and create models
 		Collection<Reservation> pastReservations = bookingManagement
 				.listReservationsOfUser(userID, asFrom.getTime(), new Date());
+		pastReservations = tempReservationList(); // TEMP
+		Collection<ReservationModel> pastReservationModels = new ArrayList<ReservationModel>();
+		for (Reservation r : pastReservations) {
+			pastReservationModels.add(new ReservationModel(r));
+		}
 
-		// TEMP: dummy reservations
-		reservations = tempReservationList();
-		pastReservations = tempReservationList();
-
-		model.addAttribute("reservations", reservations);
-		model.addAttribute("pastReservations", pastReservations);
+		model.addAttribute("reservations", reservationModels);
+		model.addAttribute("pastReservations", pastReservationModels);
 
 		return "reservation/list";
 	}
@@ -76,20 +94,23 @@ public class ReservationController extends MainController {
 
 	}
 
-	@RequestMapping(value = "reservation/details")
-	public String showReservationDetails(Model model) {
+	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.GET)
+	public String showReservationDetails(Model model,
+			@PathVariable("reservationId") String reservationID) {
 		return "reservation/details";
 
 	}
 
-	@RequestMapping(value = "reservation/update")
-	public String updateReservations(Model model) {
+	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.POST)
+	public String updateReservations(Model model,
+			@PathVariable("reservationId") String reservationID) {
 		// show reservation details after update
 		return "reservation/details";
 	}
 
-	@RequestMapping(value = "reservation/delete")
-	public String deleteReservations(Model model) {
+	@RequestMapping(value = "reservation/{reservationId}/delete.html")
+	public String deleteReservations(Model model,
+			@PathVariable("reservationId") String reservationID) {
 		// show reservation list after delete
 		return "reservation/list";
 
