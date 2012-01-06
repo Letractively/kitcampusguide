@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -127,7 +126,7 @@ public abstract class Facility {
 	 * @param parentFacility
 	 *            the parentFacility to set
 	 */
-	public void setParentFacility(Facility parentFacility) {
+	protected void setParentFacility(Facility parentFacility) {
 		this.parentFacility = parentFacility;
 	}
 
