@@ -16,6 +16,5 @@
      	<label for="searchText">Suchtext: </label>
      	<form:input path="searchText" />
      </span>
-    <br />
-    <input type='submit' value='Suche'>
+    <input type='submit' value='Suche' class="searchButton">
 </form:form>

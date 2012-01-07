@@ -1,48 +1,15 @@
 @CHARSET "UTF-8";
 
-body {
-	margin: 0;
-	padding: 144px 0 0 200px; /* 120 + 23 + 1 */
-	overflow-y: hidden;
-}
-
 * html body {
 	overflow: hidden;
 }
 
-* html div#advanced-results {
-	height: 100%;
-	overflow-x: auto;
-	overflow-y: hidden;
-}
-
 div#advanced-header {
-	position: absolute;
-	top: 23px;
-	left: 0;
-	width: 500%;
+	margin-top: 23px;
 	height: 120px;
 	background-color: #E2E4FF;
 	border-bottom: 1px solid gray;
 	line-height: 200%;
-}
-
-div#advanced-left {
-	position: absolute;
-	padding: 10px; 
-	top: 143px; /* 120 + 23*/
-	left: 0;
-	width: 200px;
-	height: 100%;
-}
-
-@media screen {
-	body>div#advanced-header {
-		position: fixed;
-	}
-	body>div#advanced-left {
-		position: fixed;
-	}
 }
 
 div.advanced-logo {
@@ -54,16 +21,38 @@ div.advanced-logo {
 
 div.advanced-search{
 	float: left;
-	padding: 20px;
-	margin: 10px;
-	width: 450px;
-	position: relative;
+	padding-top: 30px;
+	height: 80px;
+}
+
+div#advanced-left {
+	/*position: absolute;*/
+	float: left;
+	clear: both;
+	padding: 10px; 
+	top: 143px; /* 120 + 23*/
+	left: 0;
+	width: 200px;
+	height: 100%;
+}
+
+div#advanced-results {
+	width: auto;
+	margin-left: 220px;
+}
+
+div #container {
+	float: left;
+	width: 100%;
+}
+
+div#dataTables_scrollBody {
+	min-height: 270px;
 }
 
 /* Move Search Button to right */
-div.advanced-search input[type="submit"]{
+div.advanced-search input.searchButton {
 	width: 100px;
-	position: absolute;
-	left: 500px;
-	top: 40px;
+	position: relative;
+	top: -15px;
 }
