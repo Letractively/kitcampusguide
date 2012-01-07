@@ -10,23 +10,57 @@ import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.entity.Workplace;
+import edu.kit.pse.ass.testdata.TestData;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Lennart
+ * The Class FacilityDAOImplTest.
  * 
+ * @author Lennart
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:applicationContext/applicationContext-*.xml" })
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
+@Transactional
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class FacilityDAOImplTest {
+
+	/** The Constant FACILITYID. */
 	private static final String FACILITYID = "ID###1";
-	FacilityDAO dao = new FacilityDAOImpl();
+
+	/** The dao. */
+	@Autowired
+	FacilityDAO dao;
+
+	/** The props. */
 	Collection<Property> props = new ArrayList<Property>();
+
+	/** The places. */
 	Collection<Facility> places = new ArrayList<Facility>();
+
+	/** The facs. */
 	Collection<Facility> facs = new ArrayList<Facility>();
 
+	/** The test data. */
+	@Autowired
+	private TestData testData;
+
+	/**
+	 * Sets the up.
+	 */
 	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() {
@@ -48,7 +82,7 @@ public class FacilityDAOImplTest {
 		facil3.setId("ID###3");
 		facil4.setId("ID###4");
 
-		dao.facilityFillWithDummies();
+		testData.facilityFillWithDummies();
 		props.add(prop1);
 		places.add(place1);
 		places.add(place2);
@@ -59,25 +93,31 @@ public class FacilityDAOImplTest {
 		facs.add(facil4);
 	}
 
+	/**
+	 * Test get facility.
+	 */
 	@Test
 	public void testGetFacility() {
 		Facility result = null;
 		try {
 			// throw error or return null if parameter is null
 			assertNull(dao.getFacility(null));
-
-			result = dao.getFacility(FACILITYID);
 		} catch (Exception e) {
-			System.out.println("Error: " + e);
 		}
+
+		result = dao.getFacility(FACILITYID);
 		// a facility should be returned
 		assertNotNull(result);
+		assertTrue(result instanceof Room);
 		// ensure the right facility is returned
 		assertEquals(FACILITYID, result.getId());
 		assertTrue(result.getContainedFacilities().containsAll(places));
 		assertTrue(result.getProperties().containsAll(props));
 	}
 
+	/**
+	 * Test get facilities.
+	 */
 	@Test
 	public void testGetFacilities() {
 		Collection<Facility> result = null;
@@ -95,6 +135,9 @@ public class FacilityDAOImplTest {
 		assertTrue(result.containsAll(facs));
 	}
 
+	/**
+	 * Test get available properties of.
+	 */
 	@Test
 	public void testGetAvailablePropertiesOf() {
 		Collection<Property> result = null;

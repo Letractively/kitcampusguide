@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Reservation;
@@ -22,37 +23,77 @@ import edu.kit.pse.ass.facility.dao.FacilityDAO;
 import edu.kit.pse.ass.facility.dao.FacilityDAOImpl;
 import edu.kit.pse.ass.facility.management.FacilityQuery;
 import edu.kit.pse.ass.facility.management.RoomQuery;
+import edu.kit.pse.ass.testdata.TestData;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Lennart
+ * The Class BookingManagementImplTest.
  * 
+ * @author Lennart
  */
 public class BookingManagementImplTest {
 
+	/** The Constant USERID. */
 	private static final String USERID = "uxyxy@student.kit.edu";
+
+	/** The Constant FACILITIES. */
 	private static final List<String> FACILITIES = Arrays.asList("ID###1",
 			"ID###2");
+
+	/** The Constant FACILITIES2. */
 	private static final List<String> FACILITIES2 = Arrays.asList("ID###3");
+
+	/** The Constant FACILITIES3. */
 	private static final List<String> FACILITIES3 = Arrays.asList("ID###4");
+
+	/** The RESERVATIONID. */
 	private static String RESERVATIONID;
+
+	/** The RESERVATIONI d2. */
 	private static String RESERVATIONID2;
+
+	/** The Constant FIND_PROPERTY_NAMES. */
 	private static final String[] FIND_PROPERTY_NAMES = { "WLAN", "Steckdose" };
+
+	/** The Constant SEARCH_TEXT. */
 	private static final String SEARCH_TEXT = "Informatik";
+
+	/** The Constant NEEDED_WORKPLACES. */
 	private static final int NEEDED_WORKPLACES = 3;
 
+	/** The bm. */
 	BookingManagement bm = new BookingManagementImpl();
+
+	/** The fm. */
 	FacilityDAO fm = new FacilityDAOImpl();
+
+	/** The start. */
 	Date start = new GregorianCalendar(2012, 0, 2, 9, 0).getTime();
+
+	/** The end. */
 	Date end = new GregorianCalendar(2012, 0, 2, 10, 0).getTime();
 
+	/** The test data. */
+	@Autowired
+	TestData testData;
+
+	/**
+	 * Sets the up.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		assertNotNull("No bookingManagement initialized", bm);
 		RESERVATIONID = bm.book(USERID, FACILITIES, start, end);
 		RESERVATIONID2 = bm.book(USERID, FACILITIES3, start, end);
-		fm.facilityFillWithDummies();
+		testData.facilityFillWithDummies();
 	}
 
+	/**
+	 * Test book.
+	 */
 	@Test
 	public void testBook() {
 		String resvID = null;
@@ -85,6 +126,9 @@ public class BookingManagementImplTest {
 		assertEquals(endDate, bm.getReservation(resvID).getEndTime());
 	}
 
+	/**
+	 * Test list reservations of user.
+	 */
 	@Test
 	public void testListReservationsOfUser() {
 		Date startDate = new GregorianCalendar(2012, 0, 0, 0, 0).getTime();
@@ -114,6 +158,9 @@ public class BookingManagementImplTest {
 		}
 	}
 
+	/**
+	 * Test list reservations of facility.
+	 */
 	@Test
 	public void testListReservationsOfFacility() {
 		Date startDate = new GregorianCalendar(2012, 0, 0, 0, 0).getTime();
@@ -156,6 +203,9 @@ public class BookingManagementImplTest {
 		}
 	}
 
+	/**
+	 * Test change reservation end.
+	 */
 	@Test
 	public void testChangeReservationEnd() {
 		Date newEnd = new GregorianCalendar(2012, 0, 2, 11, 0).getTime();
@@ -175,6 +225,9 @@ public class BookingManagementImplTest {
 				.getBookingUserId());
 	}
 
+	/**
+	 * Test remove facility from reservation.
+	 */
 	@Test
 	public void testRemoveFacilityFromReservation() {
 		assertTrue(FACILITIES.size() == bm.getReservation(RESERVATIONID)
@@ -195,6 +248,9 @@ public class BookingManagementImplTest {
 				.contains(FACILITIES.get(0)));
 	}
 
+	/**
+	 * Test delete reservation.
+	 */
 	@Test
 	public void testDeleteReservation() {
 		assertNotNull(bm.getReservation(RESERVATIONID));
@@ -212,6 +268,9 @@ public class BookingManagementImplTest {
 		assertNotNull(bm.getReservation(RESERVATIONID2));
 	}
 
+	/**
+	 * Test get reservation.
+	 */
 	@Test
 	public void testGetReservation() {
 		Reservation resv = null;
@@ -233,6 +292,9 @@ public class BookingManagementImplTest {
 		assertEquals(end, resv.getEndTime());
 	}
 
+	/**
+	 * Test find free facilites.
+	 */
 	@Test
 	public void testFindFreeFacilites() {
 		// TODO findFreeFacilites needs a facility database to work
@@ -267,6 +329,9 @@ public class BookingManagementImplTest {
 		}
 	}
 
+	/**
+	 * Test is facility free.
+	 */
 	@Test
 	public void testIsFacilityFree() {
 		Date startUnused = new GregorianCalendar(2012, 0, 3, 9, 0).getTime();
