@@ -110,7 +110,7 @@ public interface BookingManagement {
 	 *            the start
 	 * @param end
 	 *            the end
-	 * @param fullyAvailible
+	 * @param fullyAvailable
 	 *            the fully available
 	 * @return the collection
 	 */

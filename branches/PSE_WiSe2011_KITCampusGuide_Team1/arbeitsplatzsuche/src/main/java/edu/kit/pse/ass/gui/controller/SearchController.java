@@ -35,21 +35,43 @@ import edu.kit.pse.ass.gui.model.SearchFilterModel;
 import edu.kit.pse.ass.gui.model.SearchFormModel;
 import edu.kit.pse.ass.gui.model.SearchFormValidator;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SearchController.
+ */
 @Controller
 public class SearchController extends MainController {
 
+	/** The booking management. */
 	@Inject
 	BookingManagement bookingManagement;
 
+	/** The facility management. */
 	@Inject
 	FacilityManagement facilityManagement;
 
+	/**
+	 * Sets the up simple search.
+	 * 
+	 * @param model
+	 *            the model
+	 * @return the string
+	 */
 	@RequestMapping(value = "search/simple.html")
 	public String setUpSimpleSearch(Model model) {
 		prefillSearchForm(new SearchFormModel(), model);
 		return "search/simple";
 	}
 
+	/**
+	 * Sets the up advanced search.
+	 * 
+	 * @param sfm
+	 *            the sfm
+	 * @param model
+	 *            the model
+	 * @return the string
+	 */
 	@RequestMapping(value = "search/advanced.html")
 	public String setUpAdvancedSearch(@ModelAttribute SearchFormModel sfm,
 			Model model) {
@@ -62,10 +84,32 @@ public class SearchController extends MainController {
 		return "search/advanced";
 	}
 
+	/**
+	 * Prefill search form.
+	 * 
+	 * @param sfm
+	 *            the sfm
+	 * @param model
+	 *            the model
+	 */
 	private void prefillSearchForm(SearchFormModel sfm, Model model) {
 		model.addAttribute("searchFormModel", sfm);
 	}
 
+	/**
+	 * List search results.
+	 * 
+	 * @param sfm
+	 *            the sfm
+	 * @param sfmResult
+	 *            the sfm result
+	 * @param searchFilterModel
+	 *            the search filter model
+	 * @param request
+	 *            the request
+	 * @param response
+	 *            the response
+	 */
 	@RequestMapping(value = "search/results")
 	public void listSearchResults(@ModelAttribute SearchFormModel sfm,
 			BindingResult sfmResult,
@@ -171,7 +215,7 @@ public class SearchController extends MainController {
 
 	/**
 	 * sorts the specified search results according to the given column index
-	 * and sortDirection
+	 * and sortDirection.
 	 * 
 	 * @param results
 	 *            the results to sort
@@ -217,6 +261,11 @@ public class SearchController extends MainController {
 	/*
 	 * dummy!
 	 */
+	/**
+	 * Temp available properties.
+	 * 
+	 * @return the collection
+	 */
 	private Collection<Property> tempAvailableProperties() {
 		ArrayList<Property> list = new ArrayList<Property>();
 
@@ -230,6 +279,11 @@ public class SearchController extends MainController {
 
 	/*
 	 * dummy!
+	 */
+	/**
+	 * Temp search results.
+	 * 
+	 * @return the linked list
 	 */
 	private LinkedList<FreeFacilityResult> tempSearchResults() {
 

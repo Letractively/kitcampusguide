@@ -16,9 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.kit.pse.ass.entity.User;
 
+// TODO: Auto-generated Javadoc
 /**
- * Test for UserDAOImpl
- * 
+ * Test for UserDAOImpl.
+ *
  * @author Oliver Schneider
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,12 +29,19 @@ import edu.kit.pse.ass.entity.User;
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class UserDAOImplTest {
 
+	/** The users. */
 	@Autowired
 	private UserDAO users;
 
+	/** The Constant TEST_EMAIL1. */
 	private static final String TEST_EMAIL1 = "uaaaa@student.kit.edu";
+	
+	/** The Constant TEST_PW1. */
 	private static final String TEST_PW1 = "pw11111111";
 
+	/**
+	 * Test insert user.
+	 */
 	@Test
 	public void testInsertUser() {
 		User user = users.insertUser(TEST_EMAIL1, TEST_PW1);
@@ -46,6 +54,9 @@ public class UserDAOImplTest {
 		assertEquals(user, gettedUser);
 	}
 
+	/**
+	 * Test get user.
+	 */
 	@Test
 	public void testGetUser() {
 		User user = users.insertUser(TEST_EMAIL1, TEST_PW1);
@@ -54,6 +65,9 @@ public class UserDAOImplTest {
 		assertEquals(user, gettedUser);
 	}
 
+	/**
+	 * Test delete user.
+	 */
 	@Test
 	public void testDeleteUser() {
 		User user = users.insertUser(TEST_EMAIL1, TEST_PW1);

@@ -23,22 +23,21 @@ import edu.kit.pse.ass.facility.management.FacilityManagement;
  */
 public class ReservationModel {
 
+	/** The facility management. */
 	@Inject
 	FacilityManagement facilityManagement;
 
-	/**
-	 * the reservation to wrap
-	 */
+	/** the reservation to wrap. */
 	private final Reservation reservation;
 
 	/**
 	 * the room of the reservation (the room where the booked facilities are
-	 * located in - the room must not necessarily be part of the reservation!)
+	 * located in - the room must not necessarily be part of the reservation!).
 	 */
 	private Room room;
 
 	/**
-	 * constructs a new ReservationModel wrapping the specified reservation
+	 * constructs a new ReservationModel wrapping the specified reservation.
 	 * 
 	 * @param reservation
 	 *            the reservation to wrap
@@ -83,6 +82,11 @@ public class ReservationModel {
 		return minutes;
 	}
 
+	/**
+	 * Gets the room.
+	 * 
+	 * @return the room
+	 */
 	private Room getRoom() {
 		if (room == null) {
 
@@ -109,7 +113,7 @@ public class ReservationModel {
 	}
 
 	/**
-	 * returns the name of the room where the booked facilities are located in
+	 * returns the name of the room where the booked facilities are located in.
 	 * 
 	 * @return the name of the room where the booked facilities are located in
 	 */
@@ -119,7 +123,7 @@ public class ReservationModel {
 
 	/**
 	 * returns the name of the building where the booked facilities are located
-	 * in
+	 * in.
 	 * 
 	 * @return the name of the building where the booked facilities are located
 	 *         in
@@ -129,7 +133,7 @@ public class ReservationModel {
 	}
 
 	/**
-	 * the number of workplaces booked
+	 * the number of workplaces booked.
 	 * 
 	 * @return the number of workplaces booked
 	 */
@@ -164,14 +168,31 @@ public class ReservationModel {
 		return workplaceCount;
 	}
 
+	/**
+	 * Gets the start time.
+	 * 
+	 * @return the start time
+	 */
 	public Date getStartTime() {
 		return reservation.getStartTime();
 	}
 
+	/**
+	 * Gets the id.
+	 * 
+	 * @return the id
+	 */
 	public String getId() {
 		return reservation.getId();
 	}
 
+	/**
+	 * Temp get facility.
+	 * 
+	 * @param facilityID
+	 *            the facility id
+	 * @return the facility
+	 */
 	private Facility tempGetFacility(String facilityID) {
 		Building b = new Building();
 		b.setName("Informatik Hauptgebäude");
@@ -202,7 +223,7 @@ public class ReservationModel {
 	}
 
 	/**
-	 * returns true if the bookedFacility of the reservation is a room
+	 * returns true if the bookedFacility of the reservation is a room.
 	 * 
 	 * @return true if the bookedFacility of the reservation is a room
 	 */

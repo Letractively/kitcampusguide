@@ -10,12 +10,21 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import edu.kit.pse.ass.entity.User;
 
+/**
+ * The Class UserDAOImpl.
+ */
 public class UserDAOImpl implements UserDAO, UserDetailsService {
 
 	/** The jpa template. */
 	@Autowired
 	private JpaTemplate jpaTemplate;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.kit.pse.ass.user.dao.UserDAO#insertUser(java.lang.String,
+	 * java.lang.String)
+	 */
 	@Override
 	public User insertUser(String userID, String passwordHash) {
 		User u = new User();
@@ -25,6 +34,11 @@ public class UserDAOImpl implements UserDAO, UserDetailsService {
 		return u;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.kit.pse.ass.user.dao.UserDAO#deleteUser(java.lang.String)
+	 */
 	@Override
 	public void deleteUser(String userID) {
 		User u = jpaTemplate.find(User.class, userID);
@@ -33,11 +47,22 @@ public class UserDAOImpl implements UserDAO, UserDetailsService {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.kit.pse.ass.user.dao.UserDAO#getUser(java.lang.String)
+	 */
 	@Override
 	public User getUser(String userID) {
 		return jpaTemplate.find(User.class, userID);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.springframework.security.core.userdetails.UserDetailsService#
+	 * loadUserByUsername(java.lang.String)
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {

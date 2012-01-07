@@ -9,14 +9,27 @@ import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.entity.Workplace;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RoomFinder.
+ */
 public class RoomFinder extends FacilityFinder {
 
+	/** The room query. */
 	protected RoomQuery roomQuery;
 
+	/**
+	 * Instantiates a new room finder.
+	 *
+	 * @param roomQuery the room query
+	 */
 	public RoomFinder(RoomQuery roomQuery) {
 		this.roomQuery = roomQuery;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.facility.management.FacilityFinder#execute()
+	 */
 	@Override
 	public Collection<Room> execute() {
 		// fetch facilities with matching properties

@@ -8,23 +8,43 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ReservationTest.
+ */
 public class ReservationTest {
 
+	/** The reservation. */
 	private Reservation reservation;
+	
+	/** The Constant FACILITY_IDs. */
 	private static final String[] FACILITY_IDs = { "f1", "f2", "f3" };
+	
+	/** The Constant USER_ID. */
 	private static final String USER_ID = "u1";
 
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		reservation = new Reservation(new Date(), new Date(), USER_ID);
 	}
 
+	/**
+	 * Test set booking user id.
+	 */
 	@Test
 	public void testSetBookingUserId() {
 		reservation.setBookingUserId(USER_ID);
 		assertEquals(USER_ID, reservation.getBookingUserId());
 	}
 
+	/**
+	 * Test add booked facility id.
+	 */
 	@Test
 	public void testAddBookedFacilityId() {
 		for (String facilityID : FACILITY_IDs) {
@@ -34,6 +54,9 @@ public class ReservationTest {
 				.size());
 	}
 
+	/**
+	 * Test set end and start time.
+	 */
 	@Test
 	public void testSetEndAndStartTime() {
 		Calendar cal = Calendar.getInstance();

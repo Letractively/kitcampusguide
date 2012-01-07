@@ -20,17 +20,28 @@ import edu.kit.pse.ass.booking.management.FacilityNotFreeException;
 import edu.kit.pse.ass.entity.Reservation;
 import edu.kit.pse.ass.gui.model.ReservationModel;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ReservationController.
  * 
  * @author Jannis Koch
- * 
  */
 @Controller
 public class ReservationController extends MainController {
 
+	/** The booking management. */
 	@Inject
 	BookingManagement bookingManagement;
 
+	/**
+	 * List reservations.
+	 * 
+	 * @param model
+	 *            the model
+	 * @param principal
+	 *            the principal
+	 * @return the string
+	 */
 	@RequestMapping(value = "reservation/list")
 	public String listReservations(Model model, Principal principal,
 			HttpServletRequest request) {
@@ -78,6 +89,11 @@ public class ReservationController extends MainController {
 		return "reservation/list";
 	}
 
+	/**
+	 * Temp reservation list.
+	 * 
+	 * @return the collection
+	 */
 	private Collection<Reservation> tempReservationList() {
 
 		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
@@ -106,12 +122,28 @@ public class ReservationController extends MainController {
 	}
 
 	// better: room/book?
+	/**
+	 * Book.
+	 * 
+	 * @param model
+	 *            the model
+	 * @return the string
+	 */
 	@RequestMapping(value = "reservation/book")
 	public String book(Model model) {
 		return "";
 
 	}
 
+	/**
+	 * Show reservation details.
+	 * 
+	 * @param model
+	 *            the model
+	 * @param reservationID
+	 *            the reservation id
+	 * @return the string
+	 */
 	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.GET)
 	public String showReservationDetails(Model model,
 			@PathVariable("reservationId") String reservationID) {
@@ -126,6 +158,13 @@ public class ReservationController extends MainController {
 
 	}
 
+	/**
+	 * Temp get reservation.
+	 * 
+	 * @param reservationID
+	 *            the reservation id
+	 * @return the reservation
+	 */
 	private Reservation tempGetReservation(String reservationID) {
 		Object[] reservations = tempReservationList().toArray();
 		if (reservationID.equals("resid1")) {
@@ -138,6 +177,15 @@ public class ReservationController extends MainController {
 		return (Reservation) reservations[0];
 	}
 
+	/**
+	 * Update reservations.
+	 * 
+	 * @param model
+	 *            the model
+	 * @param reservationID
+	 *            the reservation id
+	 * @return the string
+	 */
 	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.POST)
 	public String updateReservations(Model model,
 			@PathVariable("reservationId") String reservationID) {
@@ -145,6 +193,15 @@ public class ReservationController extends MainController {
 		return "reservation/details";
 	}
 
+	/**
+	 * Delete reservations.
+	 * 
+	 * @param model
+	 *            the model
+	 * @param reservationID
+	 *            the reservation id
+	 * @return the string
+	 */
 	@RequestMapping(value = "reservation/{reservationId}/delete.html")
 	public String deleteReservations(Model model, Principal principal,
 			@PathVariable("reservationId") String reservationID) {
@@ -159,6 +216,12 @@ public class ReservationController extends MainController {
 
 	}
 
+	/**
+	 * Handle facility not free exception.
+	 * 
+	 * @param e
+	 *            the e
+	 */
 	private void handleFacilityNotFreeException(FacilityNotFreeException e) {
 
 	}

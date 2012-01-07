@@ -9,49 +9,42 @@ import java.util.LinkedList;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Sebastian
+ * The Class Reservation.
  * 
+ * @author Sebastian
  */
 @Entity(name = "t_reservation")
 public class Reservation {
 
-	/**
-	 * the unique id of the reservation
-	 */
+	/** the unique id of the reservation. */
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	@Id
 	private String id;
 
-	/**
-	 * the beginning time of the reservation
-	 */
+	/** the beginning time of the reservation. */
 	private Date startTime;
 
-	/**
-	 * the end time of the reservation
-	 */
+	/** the end time of the reservation. */
 	private Date endTime;
 
-	/**
-	 * the id of the user, who does the reservation
-	 */
+	/** the id of the user, who does the reservation. */
 	private String bookingUserId;
 
-	/**
-	 * the collection of facility ids of the facilities, which are booked
-	 */
-	@ElementCollection(targetClass = String.class)
+	/** the collection of facility ids of the facilities, which are booked. */
+	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
 	private Collection<String> bookedFacilityIds;
 
 	/**
-	 * Creates a new reservation without values
+	 * Creates a new reservation without values.
 	 */
 	public Reservation() {
 		bookedFacilityIds = new LinkedList<String>();
@@ -80,6 +73,8 @@ public class Reservation {
 	}
 
 	/**
+	 * Gets the id.
+	 * 
 	 * @return the id
 	 */
 	public String getId() {
@@ -87,6 +82,8 @@ public class Reservation {
 	}
 
 	/**
+	 * Sets the id.
+	 * 
 	 * @param id
 	 *            the id to set
 	 */
@@ -95,6 +92,8 @@ public class Reservation {
 	}
 
 	/**
+	 * Gets the start time.
+	 * 
 	 * @return the startTime of the reservation
 	 */
 	public Date getStartTime() {
@@ -102,6 +101,8 @@ public class Reservation {
 	}
 
 	/**
+	 * Sets the start time.
+	 * 
 	 * @param startTime
 	 *            the startTime to set
 	 * @throws IllegalArgumentException
@@ -120,6 +121,8 @@ public class Reservation {
 	}
 
 	/**
+	 * Gets the end time.
+	 * 
 	 * @return the endTime of the reservation
 	 */
 	public Date getEndTime() {
@@ -127,6 +130,8 @@ public class Reservation {
 	}
 
 	/**
+	 * Sets the end time.
+	 * 
 	 * @param endTime
 	 *            the end time of the reservation to set
 	 * @throws IllegalArgumentException
@@ -145,6 +150,8 @@ public class Reservation {
 	}
 
 	/**
+	 * Gets the booking user id.
+	 * 
 	 * @return the id of the booking user
 	 */
 	public String getBookingUserId() {
@@ -152,6 +159,8 @@ public class Reservation {
 	}
 
 	/**
+	 * Sets the booking user id.
+	 * 
 	 * @param bookingUserId
 	 *            the id of the user, which does this reservation, to set
 	 * @throws IllegalArgumentException
@@ -168,20 +177,31 @@ public class Reservation {
 	}
 
 	/**
+	 * Gets the booked facility ids.
+	 * 
 	 * @return the ids of the booked facilities
 	 */
 	public Collection<String> getBookedFacilityIds() {
 		return bookedFacilityIds;
 	}
-	
-	public void setBookedFacilityIDs(Collection<String> facilityIDs) throws IllegalArgumentException {
+
+	/**
+	 * Sets the booked facility i ds.
+	 * 
+	 * @param facilityIDs
+	 *            the new booked facility i ds
+	 * @throws IllegalArgumentException
+	 *             the illegal argument exception
+	 */
+	public void setBookedFacilityIDs(Collection<String> facilityIDs)
+			throws IllegalArgumentException {
 		if (facilityIDs == null)
 			throw new IllegalArgumentException("facilityIDs must be not null");
 		this.bookedFacilityIds = facilityIDs;
 	}
 
 	/**
-	 * Adds a facility to this reservation
+	 * Adds a facility to this reservation.
 	 * 
 	 * @param facilityID
 	 *            the id of the facility to add
@@ -203,7 +223,7 @@ public class Reservation {
 	}
 
 	/**
-	 * Removes a facility of this reservation
+	 * Removes a facility of this reservation.
 	 * 
 	 * @param facilityID
 	 *            the id of the facility to remove

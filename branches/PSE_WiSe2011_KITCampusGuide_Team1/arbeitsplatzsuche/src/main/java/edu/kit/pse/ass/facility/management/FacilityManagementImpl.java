@@ -8,8 +8,13 @@ import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.facility.dao.FacilityDAO;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FacilityManagementImpl.
+ */
 public class FacilityManagementImpl implements FacilityManagement {
 
+	/** The facility dao. */
 	@Autowired
 	private FacilityDAO facilityDAO;
 
@@ -50,6 +55,9 @@ public class FacilityManagementImpl implements FacilityManagement {
 		return facility;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.facility.management.FacilityManagement#findMatchingFacilities(edu.kit.pse.ass.facility.management.FacilityQuery)
+	 */
 	@Override
 	public Collection<? extends Facility> findMatchingFacilities(
 			FacilityQuery facilityQuery) {

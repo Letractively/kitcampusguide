@@ -3,10 +3,15 @@
  */
 package edu.kit.pse.ass.entity;
 
+import javax.persistence.Entity;
+
+// TODO: Auto-generated Javadoc
 /**
- * @author Sebastian
+ * The Class Building.
  * 
+ * @author Sebastian
  */
+@Entity(name = "t_building")
 public class Building extends Facility {
 
 	/**
@@ -51,6 +56,8 @@ public class Building extends Facility {
 	}
 
 	/**
+	 * Gets the number.
+	 * 
 	 * @return the number
 	 */
 	public String getNumber() {
@@ -58,6 +65,8 @@ public class Building extends Facility {
 	}
 
 	/**
+	 * Sets the number.
+	 * 
 	 * @param number
 	 *            the number to set
 	 * @throws IllegalArgumentException

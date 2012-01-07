@@ -8,9 +8,11 @@ import java.util.Date;
 
 import edu.kit.pse.ass.entity.Reservation;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Andreas Bosch
+ * The Interface BookingDAO.
  * 
+ * @author Andreas Bosch
  */
 public interface BookingDAO {
 
@@ -66,21 +68,23 @@ public interface BookingDAO {
 	public String insertReservation(Reservation reservation);
 
 	/**
-	 * updates the specified reservation
+	 * updates the specified reservation.
 	 * 
 	 * @param reservation
+	 *            the reservation
 	 */
 	public void updateReservation(Reservation reservation);
 
 	/**
-	 * deletes the reservation with the given ID
+	 * deletes the reservation with the given ID.
 	 * 
 	 * @param reservationID
+	 *            the reservation id
 	 */
 	public void deleteReservation(String reservationID);
 
 	/**
-	 * Fills the DAO with dummy values specified in its implementation
+	 * Fills the DAO with dummy values specified in its implementation.
 	 */
 	public void bookingFillWithDummies();
 }
