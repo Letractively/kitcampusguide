@@ -2,11 +2,14 @@ package edu.kit.pse.ass.user.management;
 
 import edu.kit.pse.ass.entity.User;
 
+/**
+ * The Interface UserManagement.
+ */
 public interface UserManagement {
 
 	/**
 	 * registers a user with the given userID and password and returns the
-	 * userID on success
+	 * userID on success.
 	 * 
 	 * @param userID
 	 *            the user's id
@@ -17,7 +20,7 @@ public interface UserManagement {
 	public String register(String userID, String password);
 
 	/**
-	 * returns the user with the given ID
+	 * returns the user with the given ID.
 	 * 
 	 * @param userID
 	 *            the user's id

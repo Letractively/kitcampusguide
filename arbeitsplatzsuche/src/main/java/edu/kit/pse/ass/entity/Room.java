@@ -3,15 +3,18 @@
  */
 package edu.kit.pse.ass.entity;
 
+import javax.persistence.Entity;
+
+// TODO: Auto-generated Javadoc
 /**
- * @author Sebastian
+ * The Class Room.
  * 
+ * @author Sebastian
  */
+@Entity(name = "t_room")
 public class Room extends Facility {
 
-	/**
-	 * the description of the room
-	 */
+	/** the description of the room. */
 	private String description;
 
 	/**
@@ -19,9 +22,7 @@ public class Room extends Facility {
 	 */
 	private int level;
 
-	/**
-	 * the number of the room
-	 */
+	/** the number of the room. */
 	private String number;
 
 	/*
@@ -61,6 +62,8 @@ public class Room extends Facility {
 	}
 
 	/**
+	 * Gets the description.
+	 * 
 	 * @return the description
 	 */
 	public String getDescription() {
@@ -68,8 +71,12 @@ public class Room extends Facility {
 	}
 
 	/**
+	 * Sets the description.
+	 * 
 	 * @param description
 	 *            the description to set
+	 * @throws IllegalArgumentException
+	 *             the illegal argument exception
 	 */
 	public void setDescription(String description)
 			throws IllegalArgumentException {
@@ -81,6 +88,8 @@ public class Room extends Facility {
 	}
 
 	/**
+	 * Gets the level.
+	 * 
 	 * @return the level
 	 */
 	public int getLevel() {
@@ -88,6 +97,8 @@ public class Room extends Facility {
 	}
 
 	/**
+	 * Sets the level.
+	 * 
 	 * @param level
 	 *            the level to set
 	 */
@@ -96,6 +107,8 @@ public class Room extends Facility {
 	}
 
 	/**
+	 * Gets the number.
+	 * 
 	 * @return the number
 	 */
 	public String getNumber() {
@@ -103,8 +116,12 @@ public class Room extends Facility {
 	}
 
 	/**
+	 * Sets the number.
+	 * 
 	 * @param number
 	 *            the number to set
+	 * @throws IllegalArgumentException
+	 *             the illegal argument exception
 	 */
 	public void setNumber(String number) throws IllegalArgumentException {
 		if (number == null) {

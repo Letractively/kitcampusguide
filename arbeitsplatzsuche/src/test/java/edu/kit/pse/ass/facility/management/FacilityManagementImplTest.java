@@ -17,22 +17,37 @@ import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class FacilityManagementImplTest.
+ *
  * @author Lennart
- * 
  */
 public class FacilityManagementImplTest {
 
+	/** The Constant FACILITYID. */
 	private static final String FACILITYID = "ID###1";
+	
+	/** The Constant SEARCH_TEXT. */
 	private static final String SEARCH_TEXT = "Informatik";
+	
+	/** The Constant NEEDED_WORKPLACES. */
 	private static final int NEEDED_WORKPLACES = 3;
+	
+	/** The Constant FIND_PROPERTIES. */
 	private static final Collection<Property> FIND_PROPERTIES = Arrays.asList(
 			new Property("WLAN"), new Property("Steckdose"));
 
+	/** The fm. */
 	FacilityManagement fm = new FacilityManagementImpl();
+	
+	/** The FACILIT y_ query. */
 	FacilityQuery FACILITY_QUERY = new RoomQuery(FIND_PROPERTIES, SEARCH_TEXT,
 			NEEDED_WORKPLACES);
 
+	/**
+	 * Test get facility.
+	 */
 	@Test
 	public void testGetFacility() {
 		Facility result = null;
@@ -54,6 +69,9 @@ public class FacilityManagementImplTest {
 		assertTrue(result.getContainedFacilities().size() == 3);
 	}
 
+	/**
+	 * Test find matching facilities.
+	 */
 	@Test
 	public void testFindMatchingFacilities() {
 		Collection<? extends Facility> result = null;
@@ -82,6 +100,9 @@ public class FacilityManagementImplTest {
 		}
 	}
 
+	/**
+	 * Test get available propertis of.
+	 */
 	@Test
 	public void testGetAvailablePropertisOf() {
 		Collection<Property> result = null;

@@ -17,37 +17,35 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Sebastian
+ * The Class User.
  * 
+ * @author Sebastian
  */
 @Entity(name = "t_user")
 public class User implements UserDetails {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 79025855355861427L;
 
 	/**
 	 * the role of the user, e.g. student, tutor, ...
 	 */
-	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> roles = new HashSet<String>();
 
-	/**
-	 * the email of the user
-	 */
+	/** the email of the user. */
 	@Column(nullable = false)
 	@Id
 	private String email;
 
-	/**
-	 * the password of the user
-	 */
+	/** the password of the user. */
 	private String password;
 
 	/**
+	 * Gets the roles.
+	 * 
 	 * @return the roles
 	 */
 	public Set<String> getRoles() {
@@ -55,14 +53,18 @@ public class User implements UserDetails {
 	}
 
 	/**
-	 * @param role
-	 *            the roles to set
+	 * Sets the roles.
+	 * 
+	 * @param roles
+	 *            the new roles
 	 */
 	public void setRoles(Set<String> roles) {
 		this.roles = roles;
 	}
 
 	/**
+	 * Gets the email.
+	 * 
 	 * @return the email
 	 */
 	public String getEmail() {
@@ -70,6 +72,8 @@ public class User implements UserDetails {
 	}
 
 	/**
+	 * Sets the email.
+	 * 
 	 * @param email
 	 *            the email to set
 	 */
@@ -88,6 +92,8 @@ public class User implements UserDetails {
 	}
 
 	/**
+	 * Gets the password.
+	 * 
 	 * @return the password or the stored hash
 	 */
 	@Override
@@ -98,8 +104,12 @@ public class User implements UserDetails {
 	}
 
 	/**
+	 * Sets the password.
+	 * 
 	 * @param password
 	 *            the password to set
+	 * @throws IllegalArgumentException
+	 *             the illegal argument exception
 	 */
 	public void setPassword(String password) throws IllegalArgumentException {
 		if (password == null) {

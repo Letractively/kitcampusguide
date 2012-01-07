@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class LoginController extends MainController {
 
+	/**
+	 * Login.
+	 *
+	 * @param model the model
+	 * @return the string
+	 */
 	@RequestMapping(value = "login")
 	public String login(Model model) {
 		return "login";

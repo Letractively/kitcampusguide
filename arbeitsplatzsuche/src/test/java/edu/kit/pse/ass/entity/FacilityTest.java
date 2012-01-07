@@ -9,13 +9,29 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FacilityTest.
+ */
 public class FacilityTest {
+	
+	/** The building. */
 	private Building building;
+	
+	/** The room. */
 	private Room room;
+	
+	/** The workplace. */
 	private Workplace workplace;
 
+	/** The Constant NAME. */
 	private static final String NAME = "Testname";
 
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		building = new Building();
@@ -23,6 +39,9 @@ public class FacilityTest {
 		workplace = new Workplace();
 	}
 
+	/**
+	 * Test set name.
+	 */
 	@Test
 	public void testSetName() {
 		building.setName(NAME);
@@ -33,6 +52,9 @@ public class FacilityTest {
 		assertEquals(NAME, workplace.getName());
 	}
 
+	/**
+	 * Test add contained facilities.
+	 */
 	@Test
 	public void testAddContainedFacilities() {
 		// Collection of rooms to add to a bulding:
@@ -58,6 +80,9 @@ public class FacilityTest {
 
 	}
 
+	/**
+	 * Removes the contained facility.
+	 */
 	@Test
 	public void removeContainedFacility() {
 		Room r = new Room();
@@ -69,6 +94,9 @@ public class FacilityTest {
 		assertEquals(0, building.getContainedFacilities().size());
 	}
 
+	/**
+	 * Test add properties.
+	 */
 	@Test
 	public void testAddProperties() {
 		Collection<Property> props = new ArrayList<Property>();
@@ -88,12 +116,18 @@ public class FacilityTest {
 		}
 	}
 
+	/**
+	 * Test has property.
+	 */
 	@Test
 	public void testHasProperty() {
 		room.addProperty(new Property("WLAN"));
 		assertTrue(room.hasProperty(new Property("WLAN")));
 	}
 
+	/**
+	 * Removes the property.
+	 */
 	@Test
 	public void removeProperty() {
 		room.addProperty(new Property("WLAN"));
@@ -101,21 +135,33 @@ public class FacilityTest {
 		assertEquals(0, room.getProperties().size());
 	}
 
+	/**
+	 * Test add non room to building.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testAddNonRoomToBuilding() {
 		building.addContainedFacility(workplace);
 	}
 
+	/**
+	 * Test add non workplace to room.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testAddNonWorkplaceToRoom() {
 		room.addContainedFacility(building);
 	}
 
+	/**
+	 * Test add something to workplace.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testAddSomethingToWorkplace() {
 		workplace.addContainedFacility(room);
 	}
 
+	/**
+	 * Test set null name.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testSetNullName() {
 		room.setName(null);

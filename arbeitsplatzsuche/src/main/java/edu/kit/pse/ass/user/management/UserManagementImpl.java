@@ -6,14 +6,23 @@ import org.springframework.security.authentication.encoding.PasswordEncoder;
 import edu.kit.pse.ass.entity.User;
 import edu.kit.pse.ass.user.dao.UserDAO;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UserManagementImpl.
+ */
 public class UserManagementImpl implements UserManagement {
 
+	/** The user dao. */
 	@Autowired
 	private UserDAO userDAO;
 
+	/** The password encoder. */
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.user.management.UserManagement#register(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public String register(String userID, String password) {
 		// TODO Auto-generated method stub
@@ -26,6 +35,9 @@ public class UserManagementImpl implements UserManagement {
 		return u.getEmail();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.kit.pse.ass.user.management.UserManagement#getUser(java.lang.String)
+	 */
 	@Override
 	public User getUser(String userID) {
 		return userDAO.getUser(userID);

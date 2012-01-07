@@ -3,10 +3,15 @@
  */
 package edu.kit.pse.ass.entity;
 
+import javax.persistence.Entity;
+
+// TODO: Auto-generated Javadoc
 /**
- * @author Sebastian
+ * The Class Workplace.
  * 
+ * @author Sebastian
  */
+@Entity(name = "t_workplace")
 public class Workplace extends Facility {
 
 	/*

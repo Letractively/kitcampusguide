@@ -33,12 +33,26 @@ import edu.kit.pse.ass.gui.model.CalendarParamModel;
 import edu.kit.pse.ass.gui.model.SearchFilterModel;
 import edu.kit.pse.ass.gui.model.SearchFormModel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RoomDetailController.
+ */
 @Controller
 public class RoomDetailController extends MainController {
 
+	/** The facility management. */
 	@Inject
 	FacilityManagement facilityManagement;
 
+	/**
+	 * Sets the up room details.
+	 *
+	 * @param roomId the room id
+	 * @param model the model
+	 * @param sfm the sfm
+	 * @param searchFilterModel the search filter model
+	 * @return the string
+	 */
 	@RequestMapping(value = "room/{roomId}/details.html")
 	public String setUpRoomDetails(@PathVariable("roomId") String roomId,
 			Model model, @ModelAttribute SearchFormModel sfm,
@@ -56,6 +70,12 @@ public class RoomDetailController extends MainController {
 		return "room/details";
 	}
 
+	/**
+	 * Tmp get facility.
+	 *
+	 * @param facilityId the facility id
+	 * @return the facility
+	 */
 	private Facility tmpGetFacility(String facilityId) {
 		Room r = new Room();
 		r.setName("Leetraum");
@@ -74,6 +94,11 @@ public class RoomDetailController extends MainController {
 		return r;
 	}
 
+	/**
+	 * Tmp get containing facilities.
+	 *
+	 * @return the collection
+	 */
 	private Collection<Facility> tmpGetContainingFacilities() {
 		ArrayList<Facility> result = new ArrayList<Facility>();
 		Workplace wp1 = new Workplace();
@@ -102,11 +127,23 @@ public class RoomDetailController extends MainController {
 		return list;
 	}
 
+	/**
+	 * List workplaces.
+	 *
+	 * @param model the model
+	 * @param room the room
+	 */
 	private void listWorkplaces(Model model, Room room) {
 		Collection<Facility> workplaces = tmpGetContainingFacilities();
 		model.addAttribute("workplaces", workplaces);
 	}
 
+	/**
+	 * Show bookable occupancy.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 */
 	@RequestMapping(value = "room/{roomId}/calendar.html")
 	public void showBookableOccupancy(@PathVariable("roomId") String roomId,
 			HttpServletRequest request, HttpServletResponse response,

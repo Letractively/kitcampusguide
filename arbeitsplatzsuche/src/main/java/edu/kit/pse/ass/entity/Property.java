@@ -3,25 +3,40 @@
  */
 package edu.kit.pse.ass.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Sebastian
+ * The Class Property.
  * 
+ * @author Sebastian
  */
 @Entity(name = "t_property")
+@Embeddable
 public class Property {
 
-	/**
-	 * the name of the property
-	 */
+	/** the name of the property. */
+	@Column(nullable = false)
 	@Id
 	private String name;
 
-	/**
-	 * no 'value:boolean' needed
+	/*
+	 * no 'value:boolean' needed.
 	 */
+
+	/**
+	 * Creates a new property with the specified values.
+	 * 
+	 * @param name
+	 *            the name of the property
+	 * @throws IllegalArgumentException
+	 *             when name is null or empty.
+	 */
+	public Property() {
+	}
 
 	/**
 	 * Creates a new property with the specified values.
@@ -61,6 +76,8 @@ public class Property {
 	}
 
 	/**
+	 * Gets the name.
+	 * 
 	 * @return the name
 	 */
 	public String getName() {
@@ -68,6 +85,8 @@ public class Property {
 	}
 
 	/**
+	 * Sets the name.
+	 * 
 	 * @param name
 	 *            the name to set
 	 * @throws IllegalArgumentException
@@ -82,7 +101,9 @@ public class Property {
 	}
 
 	/**
-	 * returns a string representation of this property
+	 * returns a string representation of this property.
+	 * 
+	 * @return the string
 	 */
 	@Override
 	public String toString() {

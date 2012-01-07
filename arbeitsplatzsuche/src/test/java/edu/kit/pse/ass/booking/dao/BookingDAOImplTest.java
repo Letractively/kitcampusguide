@@ -24,9 +24,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.kit.pse.ass.entity.Reservation;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class BookingDAOImplTest.
+ *
  * @author Lennart
- * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext/applicationContext-*.xml" })
@@ -35,21 +37,36 @@ import edu.kit.pse.ass.entity.Reservation;
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class BookingDAOImplTest {
 
+	/** The Constant USERID. */
 	private static final String USERID = "uzzzz@student.kit.edu";
+	
+	/** The Constant FACILITYID. */
 	private static final String FACILITYID = "#SOME_FACILITY_ID#";
+	
+	/** The Constant PERSISTED_RESERVATIONID. */
 	private static final String PERSISTED_RESERVATIONID = "#SOME_RESERVATION_ID#";
 
-	/**
-	 * Setup a BookingDAO with a dummy reservation
-	 * */
+	/** Setup a BookingDAO with a dummy reservation. */
 	@Autowired
 	private BookingDAO bm;
 
+	/** The start. */
 	Date start = new GregorianCalendar(2012, 0, 2, 9, 0).getTime();
+	
+	/** The end. */
 	Date end = new GregorianCalendar(2012, 0, 2, 10, 0).getTime();
+	
+	/** The test reservation. */
 	Reservation testReservation = new Reservation(start, end, USERID);
+	
+	/** The test reservation col. */
 	Collection<Reservation> testReservationCol = new ArrayList<Reservation>();
 
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		testReservation.addBookedFacilityId(FACILITYID);
@@ -64,6 +81,9 @@ public class BookingDAOImplTest {
 		 */
 	}
 
+	/**
+	 * Test get reservations of user.
+	 */
 	@Test
 	public void testGetReservationsOfUser() {
 		Date from = new GregorianCalendar(2012, 0, 2).getTime();
@@ -110,6 +130,9 @@ public class BookingDAOImplTest {
 		}
 	}
 
+	/**
+	 * Test get reservations of facility.
+	 */
 	@Test
 	public void testGetReservationsOfFacility() {
 		Date from = new GregorianCalendar(2012, 0, 2).getTime();
@@ -150,6 +173,9 @@ public class BookingDAOImplTest {
 		}
 	}
 
+	/**
+	 * Test get reservation.
+	 */
 	@Test
 	public void testGetReservation() {
 		Reservation resv = null;
@@ -170,6 +196,9 @@ public class BookingDAOImplTest {
 		assertEquals(USERID, resv.getBookingUserId());
 	}
 
+	/**
+	 * Test insert reservation.
+	 */
 	@Test
 	public void testInsertReservation() {
 		Reservation newResv = new Reservation(start, end, USERID);
@@ -194,6 +223,9 @@ public class BookingDAOImplTest {
 		assertEquals(USERID, resv.getBookingUserId());
 	}
 
+	/**
+	 * Test update reservation.
+	 */
 	@Test
 	public void testUpdateReservation() {
 		Date newEnd = new GregorianCalendar(2012, 0, 2, 11, 0).getTime();
@@ -215,6 +247,9 @@ public class BookingDAOImplTest {
 		assertEquals(USERID, resv.getBookingUserId());
 	}
 
+	/**
+	 * Test delete reservation.
+	 */
 	@Test
 	public void testDeleteReservation() {
 		try {

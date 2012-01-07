@@ -14,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.kit.pse.ass.entity.Reservation;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BookingDAOImpl.
+ */
 public class BookingDAOImpl implements BookingDAO {
 
 	/** The jpa template. */
@@ -21,8 +25,8 @@ public class BookingDAOImpl implements BookingDAO {
 	private JpaTemplate jpaTemplate;
 
 	/**
-	 * Getter for the jpaTemplate
-	 * 
+	 * Getter for the jpaTemplate.
+	 *
 	 * @return the jpaTemplate
 	 */
 	public JpaTemplate getJpaTemplate() {
@@ -30,10 +34,9 @@ public class BookingDAOImpl implements BookingDAO {
 	}
 
 	/**
-	 * Setter for the jpaTemplate
-	 * 
-	 * @param jpaTemplate
-	 *            the jpaTemplate to set
+	 * Setter for the jpaTemplate.
+	 *
+	 * @param jpaTemplate the jpaTemplate to set
 	 */
 	public void setJpaTemplate(JpaTemplate jpaTemplate) {
 		this.jpaTemplate = jpaTemplate;

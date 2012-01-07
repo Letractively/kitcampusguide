@@ -6,20 +6,26 @@ package edu.kit.pse.ass.entity;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class Facility.
+ *
  * @author Sebastian
- * 
  */
 /**
  * @author Lennart
@@ -27,11 +33,9 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity(name = "t_facility")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Facility {
+public class Facility {
 
-	/**
-	 * unique ID of this facility
-	 */
+	/** unique ID of this facility. */
 	@GeneratedValue(generator = "system-uuid")
 	@Column(nullable = false)
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
@@ -46,27 +50,27 @@ public abstract class Facility {
 	/**
 	 * the parent facility of this facility. e.g. building is parent of room.
 	 */
-	@OneToOne(targetEntity = Facility.class)
+	@ManyToOne(targetEntity = Facility.class)
 	private Facility parentFacility;
 
 	/**
 	 * the contained facilities of this facility. e.g. a room contains
 	 * workplaces.
 	 */
-	@ElementCollection(targetClass = Facility.class)
-	private final Collection<Facility> containedFacilities;
+	@OneToMany(targetEntity = Facility.class, mappedBy = "parentFacility", cascade = {
+			CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
+	private Collection<Facility> containedFacilities;
 
 	/**
 	 * the properties of this facility. e.g. WLAN, Strom, PC
 	 */
-	@ElementCollection(targetClass = Property.class)
-	private final Collection<Property> properties;
+	@ManyToMany(targetEntity = Property.class, cascade = { CascadeType.ALL })
+	@JoinTable(name = "T_FACILITY_T_PROPERTY", joinColumns = { @JoinColumn(name = "PROPERTY_NAME") }, inverseJoinColumns = { @JoinColumn(name = "FACILITY_ID") })
+	private Collection<Property> properties;
 
 	/**
-	 * Creates a new Facility
+	 * Creates a new Facility.
 	 * 
-	 * @param name
-	 *            the name of the facility e.g. Bibliothek or SR -118
 	 */
 	public Facility() {
 		containedFacilities = new ArrayList<Facility>();
@@ -74,6 +78,8 @@ public abstract class Facility {
 	}
 
 	/**
+	 * Gets the id.
+	 * 
 	 * @return the id
 	 */
 	public String getId() {
@@ -81,11 +87,12 @@ public abstract class Facility {
 	}
 
 	/**
-	 * @deprecated WARNING! only used for testing! DO NOT under any
-	 *             circumstances use it in the real application!
+	 * Sets the id.
 	 * 
 	 * @param id
 	 *            the id to set
+	 * @deprecated WARNING! only used for testing! DO NOT under any
+	 *             circumstances use it in the real application!
 	 */
 	@Deprecated
 	public void setId(String id) {
@@ -97,6 +104,8 @@ public abstract class Facility {
 	}
 
 	/**
+	 * Gets the name.
+	 * 
 	 * @return the name
 	 */
 	public String getName() {
@@ -104,8 +113,12 @@ public abstract class Facility {
 	}
 
 	/**
+	 * Sets the name.
+	 * 
 	 * @param name
 	 *            the name to set
+	 * @throws IllegalArgumentException
+	 *             the illegal argument exception
 	 */
 	public void setName(String name) throws IllegalArgumentException {
 		if (name == null || name.isEmpty()) {
@@ -116,6 +129,8 @@ public abstract class Facility {
 	}
 
 	/**
+	 * Gets the parent facility.
+	 * 
 	 * @return the parentFacility
 	 */
 	public Facility getParentFacility() {
@@ -123,6 +138,8 @@ public abstract class Facility {
 	}
 
 	/**
+	 * Sets the parent facility.
+	 * 
 	 * @param parentFacility
 	 *            the parentFacility to set
 	 */
@@ -131,10 +148,22 @@ public abstract class Facility {
 	}
 
 	/**
+	 * Gets the contained facilities.
+	 * 
 	 * @return the containedFacilities
 	 */
 	public Collection<Facility> getContainedFacilities() {
 		return containedFacilities;
+	}
+
+	public void setContainedFacilities(Collection<Facility> facilities) {
+		if (facilities == null) {
+			throw new IllegalArgumentException("facilities is null");
+		}
+		for (Facility facility : containedFacilities) {
+			facility.setParentFacility(null);
+		}
+		containedFacilities = facilities;
 	}
 
 	/**
@@ -172,8 +201,8 @@ public abstract class Facility {
 	 */
 	public void removeContainedFacility(Facility removedFacility)
 			throws IllegalArgumentException {
-		if (containedFacilities.contains(removedFacility)) {
-			containedFacilities.remove(removedFacility);
+		if (containedFacilities.remove(removedFacility)) {
+			removedFacility.setParentFacility(null);
 		} else {
 			throw new IllegalArgumentException(
 					"the facility to remove is not contained in this facility");
@@ -181,10 +210,19 @@ public abstract class Facility {
 	}
 
 	/**
+	 * Gets the properties.
+	 * 
 	 * @return the properties
 	 */
 	public Collection<Property> getProperties() {
 		return properties;
+	}
+
+	public void setProperties(Collection<Property> properties) {
+		if (properties == null) {
+			throw new IllegalArgumentException("properties is null");
+		}
+		this.properties = properties;
 	}
 
 	/**

@@ -4,8 +4,9 @@
 package edu.kit.pse.ass.booking.management;
 
 /**
+ * The Class FacilityNotFreeException.
+ *
  * @author Andreas Bosch
- * 
  */
 public class FacilityNotFreeException extends Exception {
 

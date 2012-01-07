@@ -1,53 +1,34 @@
 package edu.kit.pse.ass.gui.model;
 
 /**
- * This class represents the parameters of the jQuery DataTable
- * 
+ * This class represents the parameters of the jQuery DataTable.
  */
 public class DataTableParamModel {
 
-	/**
-	 * the request sequence number sent by DataTable
-	 */
+	/** the request sequence number sent by DataTable. */
 	public String sEcho;
 
-	/**
-	 * the searchText
-	 */
+	/** the searchText. */
 	public String sSearch;
 
-	/**
-	 * the number of entries shown in the table
-	 */
+	/** the number of entries shown in the table. */
 	public int iDisplayLength;
 
-	/**
-	 * the first entry to be shown (used for paging)
-	 */
+	/** the first entry to be shown (used for paging). */
 	public int iDisplayStart;
 
-	/**
-	 * the number of columns
-	 */
+	/** the number of columns. */
 	public int iColumns;
 
-	/**
-	 * the number of columns used in sorting
-	 */
+	/** the number of columns used in sorting. */
 	public int iSortingCols;
 
-	/**
-	 * the index of the column currently sorted
-	 */
+	/** the index of the column currently sorted. */
 	public int iSortColumnIndex;
 
-	/**
-	 * the sorting direction ("asc" or desc")
-	 */
+	/** the sorting direction ("asc" or desc"). */
 	public String sSortDirection;
 
-	/**
-	 * list of column names (seperated with a comma)
-	 */
+	/** list of column names (seperated with a comma). */
 	public String sColumns;
 }

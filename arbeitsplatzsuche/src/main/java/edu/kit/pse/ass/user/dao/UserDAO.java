@@ -2,11 +2,14 @@ package edu.kit.pse.ass.user.dao;
 
 import edu.kit.pse.ass.entity.User;
 
+/**
+ * The Interface UserDAO.
+ */
 public interface UserDAO {
 
 	/**
 	 * inserts a user with the given ID and password hash and returns the
-	 * inserted User object
+	 * inserted User object.
 	 * 
 	 * @param userID
 	 *            the user's ID
@@ -17,7 +20,7 @@ public interface UserDAO {
 	public User insertUser(String userID, String passwordHash);
 
 	/**
-	 * deletes the user with the given ID
+	 * deletes the user with the given ID.
 	 * 
 	 * @param userID
 	 *            the id of the user to be deleted
@@ -25,7 +28,7 @@ public interface UserDAO {
 	public void deleteUser(String userID);
 
 	/**
-	 * returns the User with the given ID
+	 * returns the User with the given ID.
 	 * 
 	 * @param userID
 	 *            the user's id
