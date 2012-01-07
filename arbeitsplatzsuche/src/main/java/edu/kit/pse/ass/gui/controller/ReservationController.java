@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +32,8 @@ public class ReservationController extends MainController {
 	BookingManagement bookingManagement;
 
 	@RequestMapping(value = "reservation/list")
-	public String listReservations(Model model, Principal principal) {
+	public String listReservations(Model model, Principal principal,
+			HttpServletRequest request) {
 
 		// get name of logged in user
 		String userID = "";
@@ -70,6 +72,9 @@ public class ReservationController extends MainController {
 		model.addAttribute("reservations", reservationModels);
 		model.addAttribute("pastReservations", pastReservationModels);
 
+		model.addAttribute("deleteNotification",
+				request.getParameter("deleteNotification"));
+
 		return "reservation/list";
 	}
 
@@ -78,11 +83,11 @@ public class ReservationController extends MainController {
 		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 
 		Reservation res1 = new Reservation(new Date(111, 11, 27, 15, 30),
-				new Date(111, 11, 27, 16, 00), "userid1");
+				new Date(111, 11, 27, 16, 00), "ubbbb@student.kit.edu");
 		Reservation res2 = new Reservation(new Date(111, 11, 29, 11, 00),
-				new Date(111, 11, 29, 13, 15), "userid2");
+				new Date(111, 11, 29, 13, 15), "ubbbb@student.kit.edu");
 		Reservation res3 = new Reservation(new Date(112, 12, 29, 11, 00),
-				new Date(112, 12, 29, 13, 15), "userid2");
+				new Date(112, 12, 29, 13, 15), "ubbbb@student.kit.edu");
 
 		res1.addBookedFacilityId("wpid1");
 		res1.addBookedFacilityId("wpid2");
@@ -110,9 +115,11 @@ public class ReservationController extends MainController {
 	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.GET)
 	public String showReservationDetails(Model model,
 			@PathVariable("reservationId") String reservationID) {
+
 		Reservation reservation = bookingManagement
 				.getReservation(reservationID);
 		reservation = tempGetReservation(reservationID);
+
 		model.addAttribute("reservation", new ReservationModel(reservation));
 
 		return "reservation/details";
@@ -139,10 +146,16 @@ public class ReservationController extends MainController {
 	}
 
 	@RequestMapping(value = "reservation/{reservationId}/delete.html")
-	public String deleteReservations(Model model,
+	public String deleteReservations(Model model, Principal principal,
 			@PathVariable("reservationId") String reservationID) {
+
+		// TODO bookingManagement.deleteReservation(reservationID);
+
+		// show delete notification
+		model.addAttribute("deleteNotification", true);
+
 		// show reservation list after delete
-		return "reservation/list";
+		return "redirect:/reservation/list.html";
 
 	}
 
