@@ -16,11 +16,17 @@ import edu.kit.pse.ass.entity.Reservation;
 import edu.kit.pse.ass.facility.management.FacilityManagement;
 import edu.kit.pse.ass.facility.management.FacilityQuery;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BookingManagementImpl.
+ */
 public class BookingManagementImpl implements BookingManagement {
 
+	/** The booking dao. */
 	@Autowired
 	private BookingDAO bookingDAO;
 
+	/** The facility management. */
 	@Autowired
 	private FacilityManagement facilityManagement;
 
@@ -69,10 +75,14 @@ public class BookingManagementImpl implements BookingManagement {
 	}
 
 	/**
-	 * Checks the reservations of the facility and all contained facilities
+	 * Checks the reservations of the facility and all contained facilities.
 	 * 
 	 * @param facilityID
 	 *            the id of the facility
+	 * @param asFrom
+	 *            the as from
+	 * @param upTo
+	 *            the up to
 	 * @return true, when the facility and all junior facilities have no
 	 *         reservations to the given time.
 	 * @throws IllegalArgumentException
@@ -122,7 +132,7 @@ public class BookingManagementImpl implements BookingManagement {
 	@PreAuthorize("authentication.name == #userID")
 	public Collection<Reservation> listReservationsOfUser(String userID,
 			Date asFrom, Date upTo) throws IllegalArgumentException {
-		if (userID.equals("") || userID == null || asFrom == null
+		if (userID == null || userID.equals("") || asFrom == null
 				|| upTo == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
@@ -141,7 +151,7 @@ public class BookingManagementImpl implements BookingManagement {
 	public Collection<Reservation> listReservationsOfFacility(
 			String facilityID, Date asFrom, Date upTo)
 			throws IllegalArgumentException {
-		if (facilityID.equals("") || facilityID == null || asFrom == null
+		if (facilityID == null || facilityID.equals("") || asFrom == null
 				|| upTo == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
@@ -159,7 +169,7 @@ public class BookingManagementImpl implements BookingManagement {
 	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'edit')")
 	public void changeReservationEnd(String reservationID, Date newEndDate)
 			throws IllegalArgumentException {
-		if (reservationID.equals("") || reservationID == null
+		if (reservationID == null || reservationID.equals("")
 				|| newEndDate == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
@@ -177,7 +187,7 @@ public class BookingManagementImpl implements BookingManagement {
 	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'edit')")
 	public void removeFacilityFromReservation(String reservationID,
 			String facilityID) throws IllegalArgumentException {
-		if (reservationID.equals("") || reservationID == null) {
+		if (reservationID == null || reservationID.equals("")) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
 		// TODO Auto-generated method stub
@@ -195,7 +205,7 @@ public class BookingManagementImpl implements BookingManagement {
 	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'delete')")
 	public void deleteReservation(String reservationID)
 			throws IllegalArgumentException {
-		if (reservationID.equals("") || reservationID == null) {
+		if (reservationID == null || reservationID.equals("")) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
 		// TODO Auto-generated method stub
@@ -212,19 +222,29 @@ public class BookingManagementImpl implements BookingManagement {
 	@Override
 	public Reservation getReservation(String reservationID)
 			throws IllegalArgumentException {
-		if (reservationID.equals("") || reservationID == null) {
+		if (reservationID == null || reservationID.equals("")) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
-		// TODO Auto-generated method stub
+		Reservation reserv = bookingDAO.getReservation(reservationID);
+		if (reserv == null) {
+			throw new IllegalArgumentException("The reservationID is invalid.");
+		}
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.booking.management.BookingManagement#findFreeFacilites
+	 * (edu.kit.pse.ass.facility.management.FacilityQuery, java.util.Date,
+	 * java.util.Date, boolean)
+	 */
 	@Override
 	public Collection<FreeFacilityResult> findFreeFacilites(
 			FacilityQuery query, Date start, Date end, boolean fullyAvailable)
 			throws IllegalArgumentException {
-		if (query.toString().equals("") || query == null || start == null
-				|| end == null) {
+		if (query == null || start == null || end == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
 		// the concrete instance of FacilityManagement is specified via
@@ -264,11 +284,18 @@ public class BookingManagementImpl implements BookingManagement {
 		return facilityResult;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.booking.management.BookingManagement#isFacilityFree(java
+	 * .lang.String, java.util.Date, java.util.Date)
+	 */
 	@Override
 	@Transactional
 	public boolean isFacilityFree(String facilityID, Date startDate,
 			Date endDate) throws IllegalArgumentException {
-		if (facilityID.equals("") || facilityID == null || startDate == null
+		if (facilityID == null || facilityID.equals("") || startDate == null
 				|| endDate == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
@@ -292,6 +319,17 @@ public class BookingManagementImpl implements BookingManagement {
 		return areChildFacilitiesFree(facility, startDate, endDate);
 	}
 
+	/**
+	 * Are child facilities free.
+	 * 
+	 * @param facility
+	 *            the facility
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 * @return true, if successful
+	 */
 	@Transactional
 	private boolean areChildFacilitiesFree(Facility facility, Date startDate,
 			Date endDate) {
