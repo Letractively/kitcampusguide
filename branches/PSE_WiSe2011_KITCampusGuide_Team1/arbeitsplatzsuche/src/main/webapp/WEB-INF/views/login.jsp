@@ -10,7 +10,7 @@ ubbbd@student.kit.edu / bbbdbbbd<br />
 ... (see ...ass.testdata.TestData.java)
 </p>
 	<form name="f" action="<c:url value='j_spring_security_check'/>" method="POST">
-        <label for="j_username">E-Mail:</label><input type='text' id='j_username' name='j_username' value='<c:if test="${not empty param.login_error}"><c:out value="${SPRING_SECURITY_LAST_USERNAME}"/></c:if>' /><br />
+        <label for="j_username">E-Mail:</label><input type='text' id='j_username' name='j_username' value='<c:if test="${not empty param.login_error}"><c:out value="${SPRING_SECURITY_LAST_USERNAME}" escapeXml="false" /></c:if>' /><br />
         <label for="j_password">Passwort:</label><input type='password' id='j_password' name='j_password' /><br />
         <input type="checkbox" name="_spring_security_remember_me" id="_spring_security_remember_me"><label for="_spring_security_remember_me">Anmeldung speichern (2 Wochen)</label>
 
