@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +25,11 @@ import edu.kit.pse.ass.booking.management.FreeFacilityResult;
 import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
+import edu.kit.pse.ass.entity.Reservation;
 import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.entity.Workplace;
 import edu.kit.pse.ass.facility.management.FacilityManagement;
+import edu.kit.pse.ass.gui.model.CalendarParamModel;
 import edu.kit.pse.ass.gui.model.SearchFilterModel;
 import edu.kit.pse.ass.gui.model.SearchFormModel;
 
@@ -85,8 +89,17 @@ public class RoomDetailController extends MainController {
 		return result;
 	}
 
-	private void prefillBookingForm(Model model) {
+	private Collection<Reservation> tmpListReservationsOfFacility(
+			Facility facility, Date start, Date end) {
 
+		ArrayList<Reservation> list = new ArrayList<Reservation>();
+		Reservation r1 = new Reservation();
+		r1.setId("aa");
+		r1.setStartTime(start);
+		r1.setEndTime(end);
+		list.add(r1);
+
+		return list;
 	}
 
 	private void listWorkplaces(Model model, Room room) {
@@ -95,13 +108,28 @@ public class RoomDetailController extends MainController {
 	}
 
 	@RequestMapping(value = "room/{roomId}/calendar.html")
-	public void showBookableOccupancy(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void showBookableOccupancy(@PathVariable("roomId") String roomId,
+			HttpServletRequest request, HttpServletResponse response,
+			@ModelAttribute CalendarParamModel cpm) {
 
-		JSONArray events = new JSONArray();
+		Facility f = tmpGetFacility(roomId);
+
+		Collection<Reservation> reservations = tmpListReservationsOfFacility(f,
+				cpm.getStart(), cpm.getEnd());
 
 		// create JSON response
 		try {
+			JSONArray events = new JSONArray();
+
+			for (Reservation r : reservations) {
+				JSONObject o = new JSONObject();
+				o.put("id", r.getId());
+				o.put("start", r.getStartTime().getTime());
+				o.put("end", r.getEndTime().getTime());
+				o.put("title", "besetzt");
+				events.put(o);
+			}
+
 			JSONObject jsonResponse = new JSONObject();
 
 			jsonResponse.put("events", events);
