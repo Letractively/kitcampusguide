@@ -215,6 +215,9 @@ div.page {
 div#workplaces_wrapper{
 	min-height: 0;
 }
+table#workplaces {
+	border: 1px solid #aaa;
+}
 
 div.bookingForm{
 	float: right;
