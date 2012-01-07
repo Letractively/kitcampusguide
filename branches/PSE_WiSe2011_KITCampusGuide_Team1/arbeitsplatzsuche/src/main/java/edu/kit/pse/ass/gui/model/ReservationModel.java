@@ -96,13 +96,12 @@ public class ReservationModel {
 
 			if (bookedFacility instanceof Room) {
 				// we assume that the reservation consists of one room only
-				// (system
-				// does not make reservations with more than one room)
+				// (system does not make reservations with more than one room)
 				room = (Room) bookedFacility;
 			} else if (bookedFacility instanceof Workplace) {
 				// we assume that the reservation consists of workplaces only
 				// (system does not make reservation with different Facility
-				// types)
+				// types), all of which are in the same room
 				room = (Room) bookedFacility.getParentFacility();
 			}
 		}
@@ -174,7 +173,6 @@ public class ReservationModel {
 	}
 
 	private Facility tempGetFacility(String facilityID) {
-
 		Building b = new Building();
 		b.setName("Informatik Hauptgebäude");
 
@@ -186,6 +184,20 @@ public class ReservationModel {
 		w.setName("Arbeitsplatz 1");
 		r.addContainedFacility(w);
 
+		if (facilityID.equals("wpid1")) {
+			return w;
+		} else if (facilityID.equals("wpid2")) {
+			w.setName("Arbeitsplatz 2");
+			return w;
+		} else if (facilityID.equals("roomid3")) {
+			Workplace w1 = new Workplace();
+			w1.setName("Arbeitsplatz 2");
+			r.addContainedFacility(w1);
+			Workplace w2 = new Workplace();
+			w2.setName("Arbeitsplatz 3");
+			r.addContainedFacility(w2);
+			return r;
+		}
 		return w;
 	}
 

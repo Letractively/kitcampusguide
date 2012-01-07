@@ -24,4 +24,10 @@
 			</c:if>
 		</div>
 	</div>
+	<div>
+		<a href="<c:url value="/reservation/${reservation.id}/delete.html" />">Diese Reservierung l&ouml;schen</a>
+	</div>
+	<div>
+		<div>Diese Reservierung &auml;ndern</div>
+	</div>
 </div>
