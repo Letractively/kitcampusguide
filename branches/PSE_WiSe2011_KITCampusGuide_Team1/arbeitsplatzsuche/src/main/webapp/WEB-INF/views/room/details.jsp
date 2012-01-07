@@ -16,12 +16,18 @@
 		$("#calendar").weekCalendar({
 			data: function(start, end, callback) {
 				  $.getJSON("${pageContext.request.contextPath}/room/${room.id}/calendar.html", {
-				     start: start.getTime(),
-				     end: end.getTime()
+				     start: start.toString(),
+				     end: end.toString()
 				   },  function(result) {
 				     callback(result);
 				   });
-				}
+				},
+			timeslotsPerHour: 4,
+			height: function($calendar){
+				return 600;
+			},
+			use24Hour: true,
+			businessHours: {start: 8, end: 22, limitDisplay: true}
 		});
 	});
 </script>
