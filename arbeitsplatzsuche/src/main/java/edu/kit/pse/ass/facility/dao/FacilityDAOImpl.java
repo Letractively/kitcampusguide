@@ -10,14 +10,12 @@ import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
-import edu.kit.pse.ass.entity.Room;
-import edu.kit.pse.ass.entity.Workplace;
 
+// TODO: Auto-generated Javadoc
 /**
- * The Class FacilityDAOImpl implements the FacilityDAO
+ * The Class FacilityDAOImpl implements the FacilityDAO.
  */
 public class FacilityDAOImpl implements FacilityDAO {
 
@@ -34,7 +32,7 @@ public class FacilityDAOImpl implements FacilityDAO {
 	@Override
 	public Facility getFacility(String facilityID)
 			throws IllegalArgumentException {
-		if (facilityID == null)
+		if (facilityID == null || facilityID.isEmpty())
 			throw new IllegalArgumentException("facilityID must not be null");
 
 		return jpaTemplate.find(Facility.class, facilityID);
@@ -97,6 +95,13 @@ public class FacilityDAOImpl implements FacilityDAO {
 		}
 	}
 
+	/**
+	 * Gets the available properties of xyz.
+	 * 
+	 * @param facilityClass
+	 *            the facility class
+	 * @return the available properties of xyz
+	 */
 	public Collection<Property> getAvailablePropertiesOfXYZ(
 			Class<? extends Facility> facilityClass) {
 		Collection<Property> result = new ArrayList<Property>();
@@ -166,66 +171,4 @@ public class FacilityDAOImpl implements FacilityDAO {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see edu.kit.pse.ass.facility.dao.FacilityDAO#facilityFillWithDummies()
-	 */
-	@SuppressWarnings("deprecation")
-	@Override
-	public void facilityFillWithDummies() {
-		// TODO create dummy values
-		Property prop1 = new Property("WLAN");
-		Property prop2 = new Property("Steckdose");
-		Facility build1 = new Building();
-		Facility facil1 = new Room();
-		Facility facil2 = new Room();
-		Facility facil3 = new Room();
-		Facility facil4 = new Room();
-		Facility place1 = new Workplace();
-		place1.setId("place1");
-		Facility place2 = new Workplace();
-		place2.setId("place2");
-		Facility place3 = new Workplace();
-		place3.setId("place3");
-		Facility place4 = new Workplace();
-		place4.setId("place4");
-
-		facil1.setId("ID###1");
-		facil1.addProperty(prop1);
-		facil1.addContainedFacility(place1);
-		facil1.addContainedFacility(place2);
-		facil1.addContainedFacility(place3);
-
-		facil2.setId("ID###2");
-		facil2.addProperty(prop2);
-		facil2.addContainedFacility(place1);
-
-		facil3.setId("ID###3");
-		facil3.addProperty(prop1);
-		facil3.addProperty(prop2);
-		facil3.addContainedFacility(place1);
-		facil3.addContainedFacility(place2);
-		facil3.addContainedFacility(place3);
-
-		facil4.setId("ID###4");
-		facil4.addProperty(prop1);
-		facil4.addProperty(prop2);
-		facil4.addContainedFacility(place1);
-		facil4.addContainedFacility(place2);
-		facil4.addContainedFacility(place3);
-		facil4.addContainedFacility(place4);
-
-		build1.addContainedFacility(facil1);
-		build1.addContainedFacility(facil2);
-		build1.addContainedFacility(facil3);
-		build1.addContainedFacility(facil4);
-		build1.addProperty(prop1);
-
-		jpaTemplate.merge(facil1);
-		jpaTemplate.merge(facil2);
-		jpaTemplate.merge(facil3);
-		jpaTemplate.merge(facil4);
-		jpaTemplate.merge(build1);
-	}
 }

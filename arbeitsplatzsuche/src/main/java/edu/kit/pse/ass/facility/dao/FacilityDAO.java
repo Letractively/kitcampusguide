@@ -8,14 +8,16 @@ import java.util.Collection;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Andreas Bosch
+ * The Interface FacilityDAO.
  * 
+ * @author Andreas Bosch
  */
 public interface FacilityDAO {
 
 	/**
-	 * returns facility with given ID
+	 * returns facility with given ID.
 	 * 
 	 * @param facilityID
 	 *            the ID of the facility
@@ -29,6 +31,8 @@ public interface FacilityDAO {
 	/**
 	 * returns facility with given ID as a specific subclass type.
 	 * 
+	 * @param <T>
+	 *            the generic type
 	 * @param type
 	 *            the specific subclass of Facility to load
 	 * @param facilityID
@@ -38,7 +42,7 @@ public interface FacilityDAO {
 	public <T extends Facility> T getFacility(Class<T> type, String facilityID);
 
 	/**
-	 * returns a collection of facilities that have the given properties
+	 * returns a collection of facilities that have the given properties.
 	 * 
 	 * @param properties
 	 *            the properties that the facilities must have
@@ -48,7 +52,7 @@ public interface FacilityDAO {
 
 	/**
 	 * returns a collection of properties that an object of the given class can
-	 * have
+	 * have.
 	 * 
 	 * @param facilityClass
 	 *            the class
@@ -59,17 +63,28 @@ public interface FacilityDAO {
 			Class<? extends Facility> facilityClass);
 
 	/**
-	 * Standard jpaTemplate methods - merge, remove, persist
+	 * Standard jpaTemplate methods - merge, remove, persist.
+	 * 
+	 * @param facility
+	 *            the facility
+	 * @return the facility
 	 */
 	public Facility merge(Facility facility);
 
+	/**
+	 * Removes the.
+	 * 
+	 * @param facilityID
+	 *            the facility id
+	 */
 	public void remove(String facilityID);
 
-	public void persist(Facility facility);
-
 	/**
-	 * Fills the DAO with dummy values specified in its implementation
+	 * Persist.
+	 * 
+	 * @param facility
+	 *            the facility
 	 */
-	public void facilityFillWithDummies();
+	public void persist(Facility facility);
 
 }
