@@ -197,6 +197,15 @@ div.page {
 	padding: 0 10px 0 15px;
 }
 
+/*
+ * Room Detail Page
+ * 
+ */
+ 
+div#workplaces_wrapper{
+	min-height: 0;
+}
+
 div.bookingForm{
 	float: right;
 	width: 400px;
