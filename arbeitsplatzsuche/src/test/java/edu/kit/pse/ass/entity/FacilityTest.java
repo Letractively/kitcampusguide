@@ -14,13 +14,13 @@ import org.junit.Test;
  * The Class FacilityTest.
  */
 public class FacilityTest {
-	
+
 	/** The building. */
 	private Building building;
-	
+
 	/** The room. */
 	private Room room;
-	
+
 	/** The workplace. */
 	private Workplace workplace;
 
@@ -29,8 +29,9 @@ public class FacilityTest {
 
 	/**
 	 * Sets the up.
-	 *
-	 * @throws Exception the exception
+	 * 
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Before
 	public void setUp() throws Exception {
@@ -88,10 +89,12 @@ public class FacilityTest {
 		Room r = new Room();
 		building.addContainedFacility(r);
 		// We added a room so size should be 1
-		assertEquals(1, building.getContainedFacilities().size());
+		assertEquals("Facility is not added", 1, building
+				.getContainedFacilities().size());
 		building.removeContainedFacility(r);
 		// We removed the room so size should be 0
-		assertEquals(0, building.getContainedFacilities().size());
+		assertEquals("Facility is not removed", 0, building
+				.getContainedFacilities().size());
 	}
 
 	/**
