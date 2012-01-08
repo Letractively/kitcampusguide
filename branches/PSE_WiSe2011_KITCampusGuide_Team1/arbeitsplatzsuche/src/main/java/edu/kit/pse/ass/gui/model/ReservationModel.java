@@ -5,6 +5,8 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Reservation;
@@ -37,13 +39,86 @@ public class ReservationModel {
 	private Room room;
 
 	/**
-	 * constructs a new ReservationModel wrapping the specified reservation.
+	 * the workplace count of reservation
+	 */
+	private int workplaceCount;
+
+	/**
+	 * constructs a new ReservationModel wrapping an newly created reservation
+	 * 
+	 */
+	public ReservationModel() {
+		this.reservation = new Reservation();
+	}
+
+	/**
+	 * constructs a new ReservationModel wrapping the specified reservation
+	 * ======= constructs a new ReservationModel wrapping the specified
+	 * reservation. >>>>>>> .r1143
 	 * 
 	 * @param reservation
 	 *            the reservation to wrap
 	 */
 	public ReservationModel(Reservation reservation) {
 		this.reservation = reservation;
+		setWorkplaceCount(calculateWorkplaceCountFromReservation());
+	}
+
+	/**
+	 * returns the workplace count
+	 * 
+	 * @return the workplace count
+	 */
+	public int getWorkplaceCount() {
+		return workplaceCount;
+	}
+
+	/**
+	 * sets the workplace count
+	 * 
+	 * @param workplaceCount
+	 *            the workplace count
+	 */
+	public void setWorkplaceCount(int workplaceCount) {
+		this.workplaceCount = workplaceCount;
+	}
+
+	/**
+	 * returns the start time of this reservation
+	 * 
+	 * @return the start time of this reservation
+	 */
+	public Date getStartTime() {
+		return reservation.getStartTime();
+	}
+
+	/**
+	 * returns the end time of this reservation
+	 * 
+	 * @return the end time of this reservation
+	 */
+	@DateTimeFormat(pattern = "d-M-y HH:mm")
+	public Date getEndTime() {
+		return reservation.getEndTime();
+	}
+
+	/**
+	 * sets the end time of this reservation
+	 * 
+	 * @param endTime
+	 *            the end time of this reservation
+	 */
+	public void setEndTime(Date endTime) {
+		this.reservation.setEndTime(endTime);
+	}
+
+	/**
+	 * returns the id of this reservation
+	 * 
+	 * @return
+	 */
+	public String getId() {
+		return reservation.getId();
 	}
 
 	/**
@@ -83,30 +158,34 @@ public class ReservationModel {
 	}
 
 	/**
-	 * Gets the room.
+	 * returns the room of this reservation
 	 * 
-	 * @return the room
+	 * @return the room of this reservation
 	 */
-	private Room getRoom() {
+	public Room getRoom() {
 		if (room == null) {
 
 			// Get first facility of booked facilities
 			Iterator<String> i = reservation.getBookedFacilityIds().iterator();
-			String facilityID = i.next();
-			Facility bookedFacility = tempGetFacility(facilityID); // Facility
-																	// bookedFacility
-																	// =
-			// facilityManagement.getFacility(facilityID);
+			if (i.hasNext()) {
+				String facilityID = i.next();
+				Facility bookedFacility = tempGetFacility(facilityID); // Facility
+																		// bookedFacility
+																		// =
+				// facilityManagement.getFacility(facilityID);
 
-			if (bookedFacility instanceof Room) {
-				// we assume that the reservation consists of one room only
-				// (system does not make reservations with more than one room)
-				room = (Room) bookedFacility;
-			} else if (bookedFacility instanceof Workplace) {
-				// we assume that the reservation consists of workplaces only
-				// (system does not make reservation with different Facility
-				// types), all of which are in the same room
-				room = (Room) bookedFacility.getParentFacility();
+				if (bookedFacility instanceof Room) {
+					// we assume that the reservation consists of one room only
+					// (system does not make reservations with more than one
+					// room)
+					room = (Room) bookedFacility;
+				} else if (bookedFacility instanceof Workplace) {
+					// we assume that the reservation consists of workplaces
+					// only
+					// (system does not make reservation with different Facility
+					// types), all of which are in the same room
+					room = (Room) bookedFacility.getParentFacility();
+				}
 			}
 		}
 		return room;
@@ -133,11 +212,11 @@ public class ReservationModel {
 	}
 
 	/**
-	 * the number of workplaces booked.
+	 * calculates the number of workplaces booked
 	 * 
 	 * @return the number of workplaces booked
 	 */
-	public int getWorkplaceCount() {
+	private int calculateWorkplaceCountFromReservation() {
 
 		int workplaceCount = 0;
 
@@ -151,39 +230,24 @@ public class ReservationModel {
 
 			// Get the one booked facility
 			Iterator<String> i = reservation.getBookedFacilityIds().iterator();
-			String facilityID = i.next();
-			// Facility bookedFacility =
-			// facilityManagement.getFacility(facilityID);
-			Facility bookedFacility = tempGetFacility(facilityID);
+			if (i.hasNext()) {
+				String facilityID = i.next();
+				// Facility bookedFacility =
+				// facilityManagement.getFacility(facilityID);
+				Facility bookedFacility = tempGetFacility(facilityID);
 
-			if (bookedFacility instanceof Workplace) {
-				// reservation consists of one workplace only
-				workplaceCount = 1;
-			} else if (bookedFacility instanceof Room) {
-				// return number of workplaces of the room
-				workplaceCount = bookedFacility.getContainedFacilities().size();
+				if (bookedFacility instanceof Workplace) {
+					// reservation consists of one workplace only
+					workplaceCount = 1;
+				} else if (bookedFacility instanceof Room) {
+					// return number of workplaces of the room
+					workplaceCount = bookedFacility.getContainedFacilities()
+							.size();
+				}
 			}
 		}
 
 		return workplaceCount;
-	}
-
-	/**
-	 * Gets the start time.
-	 * 
-	 * @return the start time
-	 */
-	public Date getStartTime() {
-		return reservation.getStartTime();
-	}
-
-	/**
-	 * Gets the id.
-	 * 
-	 * @return the id
-	 */
-	public String getId() {
-		return reservation.getId();
 	}
 
 	/**
@@ -198,6 +262,7 @@ public class ReservationModel {
 		b.setName("Informatik Hauptgebäude");
 
 		Room r = new Room();
+		r.setId("roomid3");
 		r.setName("Seminarraum 1");
 		b.addContainedFacility(r);
 
@@ -230,16 +295,19 @@ public class ReservationModel {
 	public boolean bookedFacilityIsRoom() {
 		// Get first facility of booked facilities
 		Iterator<String> i = reservation.getBookedFacilityIds().iterator();
-		String facilityID = i.next();
-		Facility bookedFacility = tempGetFacility(facilityID); // Facility
-																// bookedFacility
-																// =
-		// facilityManagement.getFacility(facilityID);
+		if (i.hasNext()) {
+			String facilityID = i.next();
+			Facility bookedFacility = tempGetFacility(facilityID); // Facility
+																	// bookedFacility
+																	// =
+			// facilityManagement.getFacility(facilityID);
 
-		if (bookedFacility instanceof Room) {
-			return true;
-		} else {
-			return false;
+			if (bookedFacility instanceof Room) {
+				return true;
+			} else {
+				return false;
+			}
 		}
+		return false;
 	}
 }

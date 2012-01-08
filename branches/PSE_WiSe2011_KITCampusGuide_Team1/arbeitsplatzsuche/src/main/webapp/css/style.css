@@ -185,6 +185,10 @@ h2{
 	background-color: lightgray;
 }
 
+/*
+ * Reservation list / detail page
+ *
+ */
 div.reservationDetails {
 	margin: 5px 0 10px 0;
 	padding: 10px;
@@ -205,6 +209,10 @@ div.reservationDetails div.time {
 
 div.page {
 	padding: 0 10px 0 15px;
+}
+div.reservationDetails #updateForm label {
+    min-width: 13em;
+    display: inline-block;
 }
 
 /*

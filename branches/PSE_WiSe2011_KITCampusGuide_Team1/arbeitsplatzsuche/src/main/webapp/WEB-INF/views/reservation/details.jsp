@@ -10,7 +10,7 @@
 </div>
 <div class="page">
 	<div class="reservationDetails">
-		<div class="room"><c:out value="${reservation.roomName}" /> (<c:out value="${reservation.buildingName}" />)</div>
+		<div class="room"><a href="<c:url value="/room/${reservation.room.id}/details.html" />"><c:out value="${reservation.roomName}" /></a> (<c:out value="${reservation.buildingName}" />)</div>
 		<div class="time">
 			<fmt:formatDate value="${reservation.startTime}" pattern="dd.MM.yyyy"/> 
 			um <fmt:formatDate value="${reservation.startTime}" pattern="HH:mm"/> Uhr 
@@ -24,10 +24,19 @@
 			</c:if>
 		</div>
 	</div>
-	<div>
-		<a href="<c:url value="/reservation/${reservation.id}/delete.html" />">Diese Reservierung l&ouml;schen</a>
+	<div class="reservationDetails">
+		<div>Reservierung l&ouml;schen</div>
+		<div><a href="<c:url value="/reservation/${reservation.id}/delete.html" />">Diese Reservierung l&ouml;schen</a></div>
 	</div>
-	<div>
+	<div class="reservationDetails">
 		<div>Diese Reservierung &auml;ndern</div>
+		<c:if test="${updateSuccess}">
+			<div class="notification">Die Reservierung wurde erfolgreich ge&auml;ndert!</div>
+		</c:if>
+		<c:if test="${updateErrorFacilityOccupied}">
+			<div class="error">Die Reservierung konnte nicht ge&auml;ndert werden: Die gew&uuml;nschten Arbeitspl&auml;tze sind nicht frei.</div>
+		</c:if>
+		<div style="text-decoration: italic;">Hinweis: Die Reservierung kann nur dann ge&auml;ndert werden, wenn die Arbeitspl&auml;tze nicht von einem anderen Nutzer reserviert sind.</div>
+		<div><jsp:include page="/WEB-INF/views/reservation/updateForm.jsp"></jsp:include></div>
 	</div>
 </div>

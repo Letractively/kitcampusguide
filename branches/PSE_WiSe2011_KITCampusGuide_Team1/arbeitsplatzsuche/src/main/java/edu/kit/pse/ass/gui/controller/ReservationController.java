@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +21,7 @@ import edu.kit.pse.ass.booking.management.BookingManagement;
 import edu.kit.pse.ass.booking.management.FacilityNotFreeException;
 import edu.kit.pse.ass.entity.Reservation;
 import edu.kit.pse.ass.gui.model.ReservationModel;
+import edu.kit.pse.ass.gui.model.ReservationValidator;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -148,14 +151,80 @@ public class ReservationController extends MainController {
 	public String showReservationDetails(Model model,
 			@PathVariable("reservationId") String reservationID) {
 
-		Reservation reservation = bookingManagement
-				.getReservation(reservationID);
-		reservation = tempGetReservation(reservationID);
+		// Reservation reservation =
+		// bookingManagement.getReservation(reservationID);
+		Reservation reservation = tempGetReservation(reservationID);
 
-		model.addAttribute("reservation", new ReservationModel(reservation));
+		ReservationModel resModel = new ReservationModel(reservation);
+		model.addAttribute("reservation", resModel);
+		model.addAttribute("updatedReservation", resModel);
 
 		return "reservation/details";
 
+	}
+
+	/**
+	 * Update reservations.
+	 * 
+	 * @param model
+	 *            the model
+	 * @param reservationID
+	 *            the reservation id
+	 * @param updatedReservation
+	 *            the updated reservation
+	 * @param updatedReservationBindingResult
+	 *            the result of the updated reservation
+	 * @return the string
+	 */
+	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.POST)
+	public String updateReservation(
+			Model model,
+			@PathVariable("reservationId") String reservationID,
+			@ModelAttribute("updatedReservation") ReservationModel updatedReservation,
+			BindingResult updatedReservationResult) {
+
+		// TEMP
+		// ReservationModel reservation =
+		// new
+		// ReservationModel(bookingManagement.getReservation(reservationID));
+		ReservationModel resModel = new ReservationModel(
+				tempGetReservation(reservationID));
+		if (resModel.bookedFacilityIsRoom()) {
+			// Set workplace count value for Room reservations
+			updatedReservation.setWorkplaceCount(resModel.getWorkplaceCount());
+		}
+
+		// Validate update form
+		ReservationValidator resValidator = new ReservationValidator();
+		resValidator.validate(updatedReservation, updatedReservationResult);
+
+		if (!updatedReservationResult.hasErrors()) {
+			// update form is OK
+
+			if (!updatedReservation.getEndTime().equals(resModel.getEndTime())) {
+				// bookingManagement.changeReservationEnd(reservationID,
+				// updatedReservation.getEndTime());
+				// TODO catch exceptions in changeReservationEnd
+			}
+
+			// TODO add changing number of workplaces
+
+			boolean updateSuccessful;
+			// random updateSuccess for testing purposes
+			updateSuccessful = ((int) (Math.random() * 2)) == 0;
+			if (!updateSuccessful) {
+				model.addAttribute("updateErrorFacilityOccupied", true);
+			} else {
+				model.addAttribute("updateSuccess", true);
+			}
+
+		}
+
+		model.addAttribute("reservation", resModel);
+		model.addAttribute("updatedReservation", updatedReservation);
+
+		// show reservation details after update
+		return "reservation/details";
 	}
 
 	/**
@@ -175,22 +244,6 @@ public class ReservationController extends MainController {
 			return (Reservation) reservations[2];
 		}
 		return (Reservation) reservations[0];
-	}
-
-	/**
-	 * Update reservations.
-	 * 
-	 * @param model
-	 *            the model
-	 * @param reservationID
-	 *            the reservation id
-	 * @return the string
-	 */
-	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.POST)
-	public String updateReservations(Model model,
-			@PathVariable("reservationId") String reservationID) {
-		// show reservation details after update
-		return "reservation/details";
 	}
 
 	/**
