@@ -227,6 +227,11 @@ div.bookingForm{
 	border-radius: 5px;
 }
 
+div#calendar{
+	font-size: 10px;
+	width: 800px;
+}
+
 /* css for timepicker */
 #ui-datepicker-div {display: none;}
 /*
