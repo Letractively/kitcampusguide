@@ -35,7 +35,7 @@ public class Room extends Facility {
 	@Override
 	public void setParentFacility(Facility parentFacility)
 			throws IllegalArgumentException {
-		if (parentFacility instanceof Building) {
+		if (parentFacility == null || parentFacility instanceof Building) {
 			super.setParentFacility(parentFacility);
 		} else {
 			throw new IllegalArgumentException(

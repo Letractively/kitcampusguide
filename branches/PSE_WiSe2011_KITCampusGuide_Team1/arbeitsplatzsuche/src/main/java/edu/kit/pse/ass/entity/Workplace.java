@@ -24,7 +24,7 @@ public class Workplace extends Facility {
 	@Override
 	public void setParentFacility(Facility parentFacility)
 			throws IllegalArgumentException {
-		if (parentFacility instanceof Room) {
+		if (parentFacility == null || parentFacility instanceof Room) {
 			super.setParentFacility(parentFacility);
 		} else {
 			throw new IllegalArgumentException("parentFacilty must be a room");
