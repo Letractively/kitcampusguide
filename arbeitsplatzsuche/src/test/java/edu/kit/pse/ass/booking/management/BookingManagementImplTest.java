@@ -96,9 +96,9 @@ public class BookingManagementImplTest {
 	 */
 	@Test
 	public void testBook() {
-		String resvID = null;
 		Date startDate = new GregorianCalendar(2012, 0, 1, 9, 0).getTime();
 		Date endDate = new GregorianCalendar(2012, 0, 1, 10, 0).getTime();
+		String resvID = null;
 		try {
 			// throw error or return null if parameter is null
 			assertNull("Accepted wrong parameters.",
@@ -116,7 +116,8 @@ public class BookingManagementImplTest {
 			System.out.println("Error:" + e);
 		}
 		// a reservation must be returned
-		assertNotNull(resvID);
+		assertNotNull("Reservation id is null", resvID);
+		assertFalse("Reservation id is emtpy", resvID.equals(""));
 		// check if returned reservation is correct
 		assertEquals("uxyzz@student.kit.edu", bm.getReservation(resvID)
 				.getBookingUserId());
@@ -148,7 +149,7 @@ public class BookingManagementImplTest {
 			System.out.println("Error: " + e);
 		}
 		// a reservation must be returned
-		assertNotNull("No collection of reservations", resvCol);
+		assertNotNull("Collection of reservations is null", resvCol);
 		assertTrue("No reservations in collection", resvCol.size() > 0);
 		// check if returned reservations are correct
 		for (Reservation resv : resvCol) {
@@ -186,9 +187,9 @@ public class BookingManagementImplTest {
 			System.out.println("Error: " + e);
 		}
 		// a reservation must be returned
-		assertNotNull("No collection of reservations", resvCol);
+		assertNotNull("Collection of reservations is null", resvCol);
 		assertTrue("No reservations in collection", resvCol.size() > 0);
-		assertNotNull("No collection of reservations", resvCol2);
+		assertNotNull("Collection of reservations is null", resvCol2);
 		assertTrue("No reservations in collection", resvCol2.size() > 0);
 		// check if returned reservations are correct
 		for (Reservation resv : resvCol) {
@@ -242,10 +243,12 @@ public class BookingManagementImplTest {
 			System.out.println("Error: " + e);
 		}
 		// check if the right facility was removed
-		assertTrue(FACILITIES.size() > bm.getReservation(RESERVATIONID)
-				.getBookedFacilityIds().size());
-		assertFalse(bm.getReservation(RESERVATIONID).getBookedFacilityIds()
-				.contains(FACILITIES.get(0)));
+		assertTrue("No facility removed", FACILITIES.size() > bm
+				.getReservation(RESERVATIONID).getBookedFacilityIds().size());
+		assertFalse(
+				"Facility still in bookedFacilityIds, but a facility was removed",
+				bm.getReservation(RESERVATIONID).getBookedFacilityIds()
+						.contains(FACILITIES.get(0)));
 	}
 
 	/**
@@ -316,8 +319,8 @@ public class BookingManagementImplTest {
 			System.out.println("Error: " + e);
 		}
 		// free facilities should be returned
-		assertNotNull("No result set", result);
-		assertTrue("No results in set", result.size() > 0);
+		assertNotNull("Result is null", result);
+		assertTrue("Resultlist is empty", result.size() > 0);
 		// check if right facilities are returned
 		for (FreeFacilityResult freeFacility : result) {
 			// TODO search text unused in the facility construction, what needed
