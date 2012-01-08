@@ -198,7 +198,10 @@ public class ReservationController extends MainController {
 		ReservationValidator resValidator = new ReservationValidator();
 		resValidator.validate(updatedReservation, updatedReservationResult);
 
-		if (!updatedReservationResult.hasErrors()) {
+		if (updatedReservationResult.hasErrors()) {
+			// form errors
+			model.addAttribute("formErrors", true);
+		} else {
 			// update form is OK
 
 			if (!updatedReservation.getEndTime().equals(resModel.getEndTime())) {

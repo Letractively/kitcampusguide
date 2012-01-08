@@ -34,6 +34,9 @@
 	<c:if test="${updateErrorFacilityOccupied}">
 		<div class="msg-error">Die Reservierung konnte nicht ge&auml;ndert werden: Die gew&uuml;nschten Arbeitspl&auml;tze sind nicht frei.</div>
 	</c:if>
+	<c:if test="${formErrors}">
+		<div class="msg-error">Fehler im Formular</div>
+	</c:if>
 	<div class="reservationDetails">
 		<div>Diese Reservierung &auml;ndern</div>
 		<div style="text-decoration: italic;">Hinweis: Die Reservierung kann nur dann ge&auml;ndert werden, wenn die Arbeitspl&auml;tze nicht von einem anderen Nutzer reserviert sind.</div>

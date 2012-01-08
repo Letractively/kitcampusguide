@@ -13,13 +13,13 @@
 				<form:option value="5"/>
 				<form:option value="6"/>
 			</form:select>
-			<form:errors path="workplaceCount" cssClass="errorText"/>
+			<form:errors path="workplaceCount" cssClass="form-error"/>
 		</div>
 	</c:if>
 	<div>
 		<label for="endTime">Endzeit der Reservierung: </label>
 		<form:input path="endTime" class="date" />
-		<form:errors path="endTime" cssClass="errorText"/>
+		<form:errors path="endTime" cssClass="form-error"/>
 	</div>
 	<div>
 		<label for="submit">&nbsp;</label>
