@@ -273,7 +273,7 @@ public class BookingManagementImpl implements BookingManagement {
 					facilityResult.add(new FreeFacilityResult(facility,
 							(Date) startDate.clone()));
 					// remove from queue
-					facilityCollection.remove(facility);
+					facilityIterator.remove();
 				}
 			}
 			// shift reservation time 15 minutes in the future.
