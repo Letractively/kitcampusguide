@@ -174,14 +174,20 @@ public class BookingDAOImplTest {
 			assertTrue(resv.getBookedFacilityIds().contains(FACILITYID));
 		}
 		// test if returned reservations are the right
-		assertTrue(bm.getReservationsOfFacility(FACILITYID, from, to)
-				.containsAll(testReservationCol));
-		assertTrue(bm.getReservationsOfFacility(FACILITYID, start, end)
-				.containsAll(testReservationCol));
-		assertTrue(bm.getReservationsOfFacility(FACILITYID, start, to)
-				.containsAll(testReservationCol));
-		assertFalse(bm.getReservationsOfFacility(FACILITYID, end, to)
-				.containsAll(testReservationCol));
+		assertTrue(
+				"Doesn't contain all reservations",
+				bm.getReservationsOfFacility(FACILITYID, from, to).containsAll(
+						testReservationCol));
+		assertTrue("Doesn't contain all reservations",
+				bm.getReservationsOfFacility(FACILITYID, start, end)
+						.containsAll(testReservationCol));
+		assertTrue("Doesn't contain all reservations",
+				bm.getReservationsOfFacility(FACILITYID, start, to)
+						.containsAll(testReservationCol));
+		assertFalse(
+				"Did return reservations it shouldn't have!",
+				bm.getReservationsOfFacility(FACILITYID, end, to).containsAll(
+						testReservationCol));
 	}
 
 	/**
@@ -199,11 +205,14 @@ public class BookingDAOImplTest {
 		resv = bm.getReservation(PERSISTED_RESERVATIONID);
 		assertNotNull("Didn't return reservation", resv);
 		// ensure the returned reservation is correct
-		assertEquals(PERSISTED_RESERVATIONID, resv.getId());
-		assertTrue(resv.getBookedFacilityIds().contains(FACILITYID));
-		assertEquals(start, resv.getStartTime());
-		assertEquals(end, resv.getEndTime());
-		assertEquals(USERID, resv.getBookingUserId());
+		assertEquals("Ids are not equal", PERSISTED_RESERVATIONID, resv.getId());
+		assertTrue("Returned reservation doesn't contain the right facilities",
+				resv.getBookedFacilityIds().contains(FACILITYID));
+		assertEquals("The start dates are not equal", start,
+				resv.getStartTime());
+		assertEquals("The end dates are not equal", end, resv.getEndTime());
+		assertEquals("The booking user ids are not equal", USERID,
+				resv.getBookingUserId());
 	}
 
 	/**
