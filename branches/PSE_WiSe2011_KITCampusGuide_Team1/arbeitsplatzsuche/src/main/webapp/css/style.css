@@ -217,6 +217,9 @@ div.reservationDetails #updateForm label {
     min-width: 13em;
     display: inline-block;
 }
+div.reservationDetails .form-error {
+	color: red;
+}
 
 /*
  * Room Detail Page
