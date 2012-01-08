@@ -53,6 +53,16 @@ public class Property {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return 1 + ((this.getName() == null) ? 0 : this.name.hashCode());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -67,9 +77,9 @@ public class Property {
 			return true;
 		}
 		Property other = (Property) obj;
-		if ((name == null) && (other.name != null)) {
+		if ((getName() == null) && (other.name != null)) {
 			return false;
-		} else if (!name.equals(other.name)) {
+		} else if (!name.equals(other.getName())) {
 			return false;
 		}
 		return true;
