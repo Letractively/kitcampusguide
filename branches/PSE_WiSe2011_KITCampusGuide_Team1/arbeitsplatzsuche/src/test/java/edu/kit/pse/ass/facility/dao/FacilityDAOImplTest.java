@@ -1,7 +1,6 @@
 package edu.kit.pse.ass.facility.dao;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -125,6 +124,7 @@ public class FacilityDAOImplTest {
 		places4.add(place4_4);
 
 		facs.add(facil1);
+		facs.add(facil2);
 		facs.add(facil3);
 		facs.add(facil4);
 	}
@@ -138,18 +138,21 @@ public class FacilityDAOImplTest {
 		try {
 			// throw error or return null if parameter is null
 			assertNull(dao.getFacility(null));
-			result = dao.getFacility(FACILITYID);
-		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
+		} catch (IllegalArgumentException e) {
 		}
+
+		result = dao.getFacility(FACILITYID);
 		// a facility should be returned
-		assertNotNull(result);
-		assertTrue(result instanceof Room);
+		assertNotNull("no facility found", result);
 		// ensure the right facility is returned
-		assertEquals(FACILITYID, result.getId());
-		assertTrue(result.getContainedFacilities().containsAll(places1));
-		assertFalse(result.getContainedFacilities().contains(places4));
-		assertTrue(result.getProperties().containsAll(props));
+		assertTrue("facility is not a Room", result instanceof Room);
+		assertEquals("ID of facility is wrong", FACILITYID, result.getId());
+
+		assertTrue("containedFacilities are different",
+				places1.size() == result.getContainedFacilities().size()
+						&& result.getContainedFacilities().containsAll(places1));
+		assertTrue("properties are different", result.getProperties()
+				.containsAll(props));
 	}
 
 	/**
@@ -161,15 +164,14 @@ public class FacilityDAOImplTest {
 		try {
 			// throw error or return null if parameter is null
 			assertNull(dao.getFacilities(null));
-
-			result = dao.getFacilities(props);
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
+		result = dao.getFacilities(props);
 		// facilities should be returned
-		assertNotNull(result);
+		assertNotNull("no facilities found", result);
 		// ensure the right facilities are returned
-		assertTrue(result.containsAll(facs));
+		assertTrue("not all facilities found", result.containsAll(facs));
 	}
 
 	/**
@@ -185,13 +187,13 @@ public class FacilityDAOImplTest {
 			// throw error or return null if parameter is null
 			assertNull(dao.getAvailablePropertiesOf(null));
 
-			result = dao.getAvailablePropertiesOf(Room.class);
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
+		result = dao.getAvailablePropertiesOf(Room.class);
 		// properties should be returned
-		assertNotNull(result);
+		assertNotNull("no properties", result);
 		// ensure all properties are returned
-		assertTrue(result.containsAll(expected));
+		assertTrue("not all properties", result.containsAll(expected));
 	}
 }
