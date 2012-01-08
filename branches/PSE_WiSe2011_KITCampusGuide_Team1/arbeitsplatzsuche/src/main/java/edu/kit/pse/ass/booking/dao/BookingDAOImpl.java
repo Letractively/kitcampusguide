@@ -135,7 +135,7 @@ public class BookingDAOImpl implements BookingDAO {
 		if (reservation == null) {
 			throw new IllegalArgumentException("Reservation is null");
 		}
-		// TODO generate ID if id not already set(due to testing)
+		// TODO generated ID return
 		jpaTemplate.persist(reservation);
 		return reservation.getId();
 	}

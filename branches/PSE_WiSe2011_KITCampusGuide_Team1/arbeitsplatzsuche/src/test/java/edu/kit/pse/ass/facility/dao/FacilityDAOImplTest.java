@@ -1,6 +1,7 @@
 package edu.kit.pse.ass.facility.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -48,9 +49,15 @@ public class FacilityDAOImplTest {
 	/** The props. */
 	Collection<Property> props = new ArrayList<Property>();
 
-	/** The places. */
-	Collection<Facility> places = new ArrayList<Facility>();
+	/** The workplaces of facility 1. */
+	Collection<Facility> places1 = new ArrayList<Facility>();
 
+	/** The workplaces of facility 2. */
+	Collection<Facility> places2 = new ArrayList<Facility>();
+	/** The workplaces of facility 3. */
+	Collection<Facility> places3 = new ArrayList<Facility>();
+	/** The workplaces of facility 4. */
+	Collection<Facility> places4 = new ArrayList<Facility>();
 	/** The facs. */
 	Collection<Facility> facs = new ArrayList<Facility>();
 
@@ -65,14 +72,6 @@ public class FacilityDAOImplTest {
 	@Before
 	public void setUp() {
 		Property prop1 = new Property("WLAN");
-		Facility place1 = new Workplace();
-		place1.setId("place1");
-		Facility place2 = new Workplace();
-		place2.setId("place2");
-		Facility place3 = new Workplace();
-		place3.setId("place3");
-		Facility place4 = new Workplace();
-		place4.setId("place4");
 		Facility facil1 = new Room();
 		Facility facil2 = new Room();
 		Facility facil3 = new Room();
@@ -82,13 +81,50 @@ public class FacilityDAOImplTest {
 		facil3.setId("ID###3");
 		facil4.setId("ID###4");
 
+		Facility place1 = new Workplace();
+		Facility place2 = new Workplace();
+		Facility place3 = new Workplace();
+		Facility place4 = new Workplace();
+		place1.setId("place1");
+		place2.setId("place2");
+		place3.setId("place3");
+		place4.setId("place4");
+
+		Facility place2_1 = new Workplace();
+		Facility place3_1 = new Workplace();
+		Facility place3_2 = new Workplace();
+		Facility place3_3 = new Workplace();
+		Facility place4_1 = new Workplace();
+		Facility place4_2 = new Workplace();
+		Facility place4_3 = new Workplace();
+		Facility place4_4 = new Workplace();
+		place2_1.setId("place2_1");
+		place3_1.setId("place3_1");
+		place3_2.setId("place3_2");
+		place3_3.setId("place3_3");
+		place4_1.setId("place4_1");
+		place4_2.setId("place4_2");
+		place4_3.setId("place4_3");
+		place4_4.setId("place4_4");
+
 		testData.facilityFillWithDummies();
 		props.add(prop1);
-		places.add(place1);
-		places.add(place2);
-		places.add(place3);
+		places1.add(place1);
+		places1.add(place2);
+		places1.add(place3);
+
+		places2.add(place2_1);
+
+		places3.add(place3_1);
+		places3.add(place3_2);
+		places3.add(place3_3);
+
+		places4.add(place4_1);
+		places4.add(place4_2);
+		places4.add(place4_3);
+		places4.add(place4_4);
+
 		facs.add(facil1);
-		facs.add(facil2);
 		facs.add(facil3);
 		facs.add(facil4);
 	}
@@ -102,16 +138,17 @@ public class FacilityDAOImplTest {
 		try {
 			// throw error or return null if parameter is null
 			assertNull(dao.getFacility(null));
+			result = dao.getFacility(FACILITYID);
 		} catch (Exception e) {
+			System.out.println("Error: " + e.getMessage());
 		}
-
-		result = dao.getFacility(FACILITYID);
 		// a facility should be returned
 		assertNotNull(result);
 		assertTrue(result instanceof Room);
 		// ensure the right facility is returned
 		assertEquals(FACILITYID, result.getId());
-		assertTrue(result.getContainedFacilities().containsAll(places));
+		assertTrue(result.getContainedFacilities().containsAll(places1));
+		assertFalse(result.getContainedFacilities().contains(places4));
 		assertTrue(result.getProperties().containsAll(props));
 	}
 
@@ -127,7 +164,7 @@ public class FacilityDAOImplTest {
 
 			result = dao.getFacilities(props);
 		} catch (Exception e) {
-			System.out.println("Error: " + e);
+			System.out.println("Error: " + e.getMessage());
 		}
 		// facilities should be returned
 		assertNotNull(result);
@@ -150,7 +187,7 @@ public class FacilityDAOImplTest {
 
 			result = dao.getAvailablePropertiesOf(Room.class);
 		} catch (Exception e) {
-			System.out.println("Error: " + e);
+			System.out.println("Error: " + e.getMessage());
 		}
 		// properties should be returned
 		assertNotNull(result);

@@ -179,9 +179,8 @@ public class BookingDAOImplTest {
 	@Test
 	public void testGetReservation() {
 		Reservation resv = null;
-		// throw error or return null if parameter is null
-
 		try {
+			// throw error or return null if parameter is null
 			assertNull("Accepted wrong parameters.", bm.getReservation(null));
 			resv = bm.getReservation(PERSISTED_RESERVATIONID);
 		} catch (Exception e) {
