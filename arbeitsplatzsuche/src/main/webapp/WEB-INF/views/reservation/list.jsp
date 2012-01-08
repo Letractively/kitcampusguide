@@ -10,7 +10,7 @@
 </div>
 <div class="page">
 	<c:if test="${deleteNotification}">
-		<div class="notification">Die Reservierung wurde gel&ouml;scht!</div>
+		<div class="msg-success">Die Reservierung wurde gel&ouml;scht!</div>
 	</c:if>
 	<c:forEach var="reservation" items="${reservations}">
 		<div class="reservationDetails">

@@ -28,14 +28,14 @@
 		<div>Reservierung l&ouml;schen</div>
 		<div><a href="<c:url value="/reservation/${reservation.id}/delete.html" />">Diese Reservierung l&ouml;schen</a></div>
 	</div>
+	<c:if test="${updateSuccess}">
+		<div class="msg-success">Die Reservierung wurde erfolgreich ge&auml;ndert!</div>
+	</c:if>
+	<c:if test="${updateErrorFacilityOccupied}">
+		<div class="msg-error">Die Reservierung konnte nicht ge&auml;ndert werden: Die gew&uuml;nschten Arbeitspl&auml;tze sind nicht frei.</div>
+	</c:if>
 	<div class="reservationDetails">
 		<div>Diese Reservierung &auml;ndern</div>
-		<c:if test="${updateSuccess}">
-			<div class="notification">Die Reservierung wurde erfolgreich ge&auml;ndert!</div>
-		</c:if>
-		<c:if test="${updateErrorFacilityOccupied}">
-			<div class="error">Die Reservierung konnte nicht ge&auml;ndert werden: Die gew&uuml;nschten Arbeitspl&auml;tze sind nicht frei.</div>
-		</c:if>
 		<div style="text-decoration: italic;">Hinweis: Die Reservierung kann nur dann ge&auml;ndert werden, wenn die Arbeitspl&auml;tze nicht von einem anderen Nutzer reserviert sind.</div>
 		<div><jsp:include page="/WEB-INF/views/reservation/updateForm.jsp"></jsp:include></div>
 	</div>
