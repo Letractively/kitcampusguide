@@ -1,8 +1,8 @@
 package edu.kit.pse.ass.facility.dao;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,13 @@ public class FacilityDAOImpl implements FacilityDAO {
 	 * java.lang.String)
 	 */
 	@Override
-	public <T extends Facility> T getFacility(Class<T> type, String facilityID) {
+	public <T extends Facility> T getFacility(Class<T> type, String facilityID)
+			throws IllegalArgumentException {
+		if (facilityID == null || facilityID.isEmpty()) {
+			throw new IllegalArgumentException("facilityID is null");
+		} else if (type == null) {
+			throw new IllegalArgumentException("type is null");
+		}
 		return jpaTemplate.find(type, facilityID);
 	}
 
@@ -60,6 +66,9 @@ public class FacilityDAOImpl implements FacilityDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Facility> getFacilities(Collection<Property> properties) {
+		if (properties == null) {
+			throw new IllegalArgumentException("properties is null.");
+		}
 		String query = "from t_facility f where 1=1 ";
 
 		HashMap<String, Property> props = new HashMap<String, Property>();
@@ -70,6 +79,7 @@ public class FacilityDAOImpl implements FacilityDAO {
 		}
 
 		return jpaTemplate.findByNamedParams(query, props);
+
 	}
 
 	/*
@@ -83,50 +93,29 @@ public class FacilityDAOImpl implements FacilityDAO {
 	@Override
 	public Collection<Property> getAvailablePropertiesOf(
 			Class<? extends Facility> facilityClass) {
-
+		Collection<Facility> facilities;
+		HashSet<Property> properties = new HashSet<Property>();
 		try {
-			Collection<Property> properties = jpaTemplate
-					.find("from t_property as prop "
-							+ " where exists ( from t_facility as fac where fac.class = ? and prop in elements(fac.properties) )",
-							facilityClass);
-			return properties;
+			facilities = jpaTemplate
+					.find("from t_facility fac where fac.class = "
+							+ facilityClass.getName());
 		} catch (DataRetrievalFailureException e) {
-			return new ArrayList<Property>();
+			return null;
 		}
-	}
-
-	/**
-	 * Gets the available properties of xyz.
-	 * 
-	 * @param facilityClass
-	 *            the facility class
-	 * @return the available properties of xyz
-	 */
-	public Collection<Property> getAvailablePropertiesOfXYZ(
-			Class<? extends Facility> facilityClass) {
-		Collection<Property> result = new ArrayList<Property>();
-		Collection<Facility> facilities = jpaTemplate.find("from t_facility");
-		Iterator<Facility> facilityIterator = facilities.iterator();
-
-		// go through all matching facilities
-		for (int i = 0; i < facilities.size(); i++) {
-			Facility tmp = facilityIterator.next();
-			if (tmp.getClass() == facilityClass) {
-				Collection<Property> propertiesOfFacility = tmp.getProperties();
-				Iterator<Property> propertyIterator = propertiesOfFacility
-						.iterator();
-
-				// add all new properties of a matching facility
-				for (int j = 0; j < propertiesOfFacility.size(); j++) {
-					Property tmpProperty = propertyIterator.next();
-					if (!result.contains(tmpProperty))
-						result.add(tmpProperty);
+		if (facilities != null) {
+			for (Facility facility : facilities) {
+				Collection<Property> facProperties = facility.getProperties();
+				if (facProperties != null) {
+					for (Property prop : facProperties) {
+						properties.add(prop);
+					}
 				}
-
 			}
 		}
-
-		return result;
+		if (properties.size() == 0) {
+			return null;
+		}
+		return properties;
 	}
 
 	/*

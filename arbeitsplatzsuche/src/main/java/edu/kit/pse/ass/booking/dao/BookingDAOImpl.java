@@ -26,7 +26,7 @@ public class BookingDAOImpl implements BookingDAO {
 
 	/**
 	 * Getter for the jpaTemplate.
-	 *
+	 * 
 	 * @return the jpaTemplate
 	 */
 	public JpaTemplate getJpaTemplate() {
@@ -35,8 +35,9 @@ public class BookingDAOImpl implements BookingDAO {
 
 	/**
 	 * Setter for the jpaTemplate.
-	 *
-	 * @param jpaTemplate the jpaTemplate to set
+	 * 
+	 * @param jpaTemplate
+	 *            the jpaTemplate to set
 	 */
 	public void setJpaTemplate(JpaTemplate jpaTemplate) {
 		this.jpaTemplate = jpaTemplate;
@@ -54,7 +55,7 @@ public class BookingDAOImpl implements BookingDAO {
 	@Override
 	public Collection<Reservation> getReservationsOfUser(String userID,
 			Date asFrom, Date upTo) throws IllegalArgumentException {
-		if (userID.equals("") || userID == null || asFrom == null
+		if (userID == null || userID.equals("") || asFrom == null
 				|| upTo == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
@@ -84,7 +85,7 @@ public class BookingDAOImpl implements BookingDAO {
 	@Override
 	public Collection<Reservation> getReservationsOfFacility(String facilityID,
 			Date asFrom, Date upTo) throws IllegalArgumentException {
-		if (facilityID.equals("") || facilityID == null || asFrom == null
+		if (facilityID == null || facilityID.equals("") || asFrom == null
 				|| upTo == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
