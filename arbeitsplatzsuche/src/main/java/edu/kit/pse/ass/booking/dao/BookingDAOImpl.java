@@ -147,12 +147,13 @@ public class BookingDAOImpl implements BookingDAO {
 	 * ass.entity.Reservation)
 	 */
 	@Override
-	public void updateReservation(Reservation reservation)
+	public String updateReservation(Reservation reservation)
 			throws IllegalArgumentException {
 		if (reservation == null) {
 			throw new IllegalArgumentException("Reservation is null");
 		}
-		jpaTemplate.merge(reservation);
+		Reservation id = jpaTemplate.merge(reservation);
+		return id.getId();
 	}
 
 	/*
