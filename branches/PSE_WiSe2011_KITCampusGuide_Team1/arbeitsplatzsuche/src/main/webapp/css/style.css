@@ -99,7 +99,7 @@ div.simple-logo{
 	padding: 50px 0 0 0;
 }
 
-div.login-form, div.simple-search{
+div.login-form, div.register-form, div.simple-search{
 	background-color: #E2E4FF;
 	border-radius: 10px;
 	padding: 20px;
@@ -118,7 +118,7 @@ div.simple-search input[type="submit"]{
 	top: 110px;
 }
 
-.login-form label {
+.login-form label, .register-form label {
     min-width: 10em;
     display: inline-block;
 }

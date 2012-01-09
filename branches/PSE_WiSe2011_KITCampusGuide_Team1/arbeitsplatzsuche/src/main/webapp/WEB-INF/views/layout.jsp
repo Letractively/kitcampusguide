@@ -88,7 +88,10 @@ $(function() {
 	</div>
 	<nav>
 		<ul>
-		<security:authorize access="isAnonymous()"><li><a href="#">Anmelden</a></li></security:authorize>
+		<security:authorize access="isAnonymous()">
+			<li><a href="<c:url value="/login.html" />">Anmelden</a></li>
+			<li><a href="<c:url value="/register.html" />">Registrieren</a></li>
+		</security:authorize>
 		<security:authorize access="isAuthenticated()">
 			<li><a href="<c:url value="/search/simple.html" />">Suche</a></li>
 			<li><a href="<c:url value="/reservation/list.html" />">Meine Reservierungen</a></li>
