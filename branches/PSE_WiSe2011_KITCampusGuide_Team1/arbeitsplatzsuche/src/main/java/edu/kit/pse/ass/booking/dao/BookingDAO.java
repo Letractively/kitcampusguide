@@ -72,8 +72,9 @@ public interface BookingDAO {
 	 * 
 	 * @param reservation
 	 *            the reservation
+	 * @return
 	 */
-	public void updateReservation(Reservation reservation);
+	public String updateReservation(Reservation reservation);
 
 	/**
 	 * deletes the reservation with the given ID.

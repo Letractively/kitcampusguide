@@ -45,7 +45,7 @@ public class BookingDAOImplTest {
 	private static final String FACILITYID = "#SOME_FACILITY_ID#";
 
 	/** The Constant PERSISTED_RESERVATIONID. */
-	private static final String PERSISTED_RESERVATIONID = "#SOME_RESERVATION_ID#";
+	private static String PERSISTED_RESERVATIONID;
 
 	/** Setup a BookingDAO with a dummy reservation. */
 	@Autowired
@@ -72,10 +72,11 @@ public class BookingDAOImplTest {
 	@Before
 	public void setUp() throws Exception {
 		testReservation.addBookedFacilityId(FACILITYID);
-		testReservation.setId(PERSISTED_RESERVATIONID);
 		testReservationCol.add(testReservation);
 
-		bm.updateReservation(testReservation);
+		bm.insertReservation(testReservation);
+		assertNotNull(testReservation.getId());
+		PERSISTED_RESERVATIONID = testReservation.getId();
 		/*
 		 * try { bm.updateReservation(testReservation);
 		 * bm.bookingFillWithDummies(); } catch (Exception e) {
