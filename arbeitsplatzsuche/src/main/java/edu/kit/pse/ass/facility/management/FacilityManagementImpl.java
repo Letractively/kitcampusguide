@@ -49,14 +49,19 @@ public class FacilityManagementImpl implements FacilityManagement {
 		T facility = facilityDAO.getFacility(type, facilityID);
 
 		if (facility == null) {
-			throw new IllegalArgumentException("The ID does not exist with this type.");
+			throw new IllegalArgumentException(
+					"The ID does not exist with this type.");
 		}
 
 		return facility;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.kit.pse.ass.facility.management.FacilityManagement#findMatchingFacilities(edu.kit.pse.ass.facility.management.FacilityQuery)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.kit.pse.ass.facility.management.FacilityManagement#findMatchingFacilities
+	 * (edu.kit.pse.ass.facility.management.FacilityQuery)
 	 */
 	@Override
 	public Collection<? extends Facility> findMatchingFacilities(

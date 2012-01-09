@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class FacilityDAOImpl implements the FacilityDAO.
  */
