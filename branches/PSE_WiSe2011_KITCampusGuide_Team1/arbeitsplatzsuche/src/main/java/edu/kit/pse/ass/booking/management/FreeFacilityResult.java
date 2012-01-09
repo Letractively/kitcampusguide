@@ -4,7 +4,6 @@ import java.util.Date;
 
 import edu.kit.pse.ass.entity.Facility;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FreeFacilityResult.
  */
@@ -43,8 +42,12 @@ public class FreeFacilityResult {
 	 * 
 	 * @param facility
 	 *            the new facility
+	 * @throws IllegalArgumentException
+	 *             facility is null.
 	 */
-	public void setFacility(Facility facility) {
+	public void setFacility(Facility facility) throws IllegalArgumentException {
+		if (facility == null)
+			throw new IllegalArgumentException("Parameter is null");
 		this.facility = facility;
 	}
 
@@ -62,8 +65,12 @@ public class FreeFacilityResult {
 	 * 
 	 * @param start
 	 *            the new start
+	 * @throws IllegalArgumentException
+	 *             start is null
 	 */
-	public void setStart(Date start) {
+	public void setStart(Date start) throws IllegalArgumentException {
+		if (start == null)
+			throw new IllegalArgumentException("Parameter is null");
 		this.start = start;
 	}
 }

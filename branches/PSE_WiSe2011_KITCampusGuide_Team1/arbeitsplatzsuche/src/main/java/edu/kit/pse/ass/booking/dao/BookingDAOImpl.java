@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.kit.pse.ass.entity.Reservation;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BookingDAOImpl.
  */
@@ -50,7 +49,6 @@ public class BookingDAOImpl implements BookingDAO {
 	 * edu.kit.pse.ass.booking.dao.BookingDAO#getReservationsOfUser(java.lang
 	 * .String, java.util.Date, java.util.Date)
 	 */
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Reservation> getReservationsOfUser(String userID,
