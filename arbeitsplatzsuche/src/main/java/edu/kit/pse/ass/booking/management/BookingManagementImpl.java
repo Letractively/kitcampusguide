@@ -69,8 +69,8 @@ public class BookingManagementImpl implements BookingManagement {
 		// create a reservation
 		Reservation reservation = new Reservation(startDate, endDate, userID);
 		reservation.setBookedFacilityIDs(facilityIDs);
-		
-		//return the id of the reservation
+
+		// return the id of the reservation
 		return bookingDAO.insertReservation(reservation);
 	}
 
