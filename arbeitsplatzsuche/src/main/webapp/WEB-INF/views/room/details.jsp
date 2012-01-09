@@ -40,10 +40,11 @@
 		</h1>
 	</div>
 </div>
-<div class="page">
+<div class="page roomDetails">
 	<div class="bookingForm">
+		<h2>Reservieren</h2>
 		<form:form method="get" commandName="searchFormModel" action="${pageContext.request.contextPath}/search/advanced.html" id="searchForm">
-    		<form:input path="start" class="date" /> für 
+    		Am <form:input path="start" class="date" /> für 
      		<form:input path="duration" class="time"/> Stunden<br />
      		<form:radiobutton path="wholeRoom" value="true"/> ganzen Raum <br />
 			<form:radiobutton path="wholeRoom" value="false"/> gewählte Arbeitsplätze <br />

@@ -46,11 +46,15 @@ public class RoomDetailController extends MainController {
 
 	/**
 	 * Sets the up room details.
-	 *
-	 * @param roomId the room id
-	 * @param model the model
-	 * @param sfm the sfm
-	 * @param searchFilterModel the search filter model
+	 * 
+	 * @param roomId
+	 *            the room id
+	 * @param model
+	 *            the model
+	 * @param sfm
+	 *            the sfm
+	 * @param searchFilterModel
+	 *            the search filter model
 	 * @return the string
 	 */
 	@RequestMapping(value = "room/{roomId}/details.html")
@@ -72,8 +76,9 @@ public class RoomDetailController extends MainController {
 
 	/**
 	 * Tmp get facility.
-	 *
-	 * @param facilityId the facility id
+	 * 
+	 * @param facilityId
+	 *            the facility id
 	 * @return the facility
 	 */
 	private Facility tmpGetFacility(String facilityId) {
@@ -96,7 +101,7 @@ public class RoomDetailController extends MainController {
 
 	/**
 	 * Tmp get containing facilities.
-	 *
+	 * 
 	 * @return the collection
 	 */
 	private Collection<Facility> tmpGetContainingFacilities() {
@@ -129,9 +134,11 @@ public class RoomDetailController extends MainController {
 
 	/**
 	 * List workplaces.
-	 *
-	 * @param model the model
-	 * @param room the room
+	 * 
+	 * @param model
+	 *            the model
+	 * @param room
+	 *            the room
 	 */
 	private void listWorkplaces(Model model, Room room) {
 		Collection<Facility> workplaces = tmpGetContainingFacilities();
@@ -140,9 +147,11 @@ public class RoomDetailController extends MainController {
 
 	/**
 	 * Show bookable occupancy.
-	 *
-	 * @param request the request
-	 * @param response the response
+	 * 
+	 * @param request
+	 *            the request
+	 * @param response
+	 *            the response
 	 */
 	@RequestMapping(value = "room/{roomId}/calendar.html")
 	public void showBookableOccupancy(@PathVariable("roomId") String roomId,
