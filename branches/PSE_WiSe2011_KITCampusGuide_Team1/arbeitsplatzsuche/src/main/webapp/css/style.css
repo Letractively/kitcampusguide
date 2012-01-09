@@ -61,6 +61,7 @@ header{
 	left: 0px;
 	width: 100%;
 	height: 23px;
+	z-index: 100000;
 }
 
 header nav{
@@ -147,7 +148,6 @@ span.searchText {
 	padding-left: 20px;
 }
 
-
 div.header2{
 	margin: 23px 0 10px 0;
 	height: 107px;
@@ -159,6 +159,7 @@ div.header2 div#logo{
 	float: left; width: 230px;
 	text-align: center;
 	padding: 15px 0 0 0;
+	padding: 25px;
 }
 
 div.header2 div.right{
@@ -236,15 +237,25 @@ table#workplaces {
 div.bookingForm{
 	float: right;
 	width: 400px;
-	border: 2px solid black;
 	padding: 10px;
-	border-radius: 5px;
+	background-color: #E2E4FF;
+	border-radius: 10px;
+}
+
+div.bookingForm h2{
+	margin-top: 0px;
+}
+
+div.roomDetails{
+	line-height: 110%;
 }
 
 div#calendar{
 	font-size: 10px;
 	width: 800px;
 }
+
+
 
 /* css for timepicker */
 #ui-datepicker-div {display: none;}
