@@ -24,7 +24,7 @@
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
 		</property>
-		<property name="persistenceUnitName" value="reservationPersistenceUnit" />
+		<property name="persistenceUnitName" value="entityPersistenceUnit" />
 		<property name="persistenceUnitManager">
 			<bean
 				class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager" />
