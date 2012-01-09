@@ -2,8 +2,6 @@ package edu.kit.pse.ass.gui.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -79,7 +77,9 @@ public class SearchController extends MainController {
 		prefillSearchForm(sfm, model);
 
 		model.addAttribute("searchFilterModel", new SearchFilterModel());
-		model.addAttribute("filterList", tempAvailableProperties());
+		model.addAttribute("filterList",
+				facilityManagement.getAvailablePropertiesOf(Room.class));
+		// TODO workplace properties
 
 		return "search/advanced";
 	}
@@ -256,25 +256,6 @@ public class SearchController extends MainController {
 			}
 		});
 
-	}
-
-	/*
-	 * dummy!
-	 */
-	/**
-	 * Temp available properties.
-	 * 
-	 * @return the collection
-	 */
-	private Collection<Property> tempAvailableProperties() {
-		ArrayList<Property> list = new ArrayList<Property>();
-
-		list.add(new Property("WLAN"));
-		list.add(new Property("LAN"));
-		list.add(new Property("Strom"));
-		list.add(new Property("Licht"));
-
-		return list;
 	}
 
 	/*

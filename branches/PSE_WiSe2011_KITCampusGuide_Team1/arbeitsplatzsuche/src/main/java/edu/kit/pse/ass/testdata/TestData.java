@@ -75,13 +75,22 @@ public class TestData {
 
 		Property prop1 = new Property("WLAN");
 		Property prop2 = new Property("Steckdose");
+		Property prop3 = new Property("LAN");
+		Property prop4 = new Property("Barrierefrei");
+		Property prop5 = new Property("Licht");
+		Property prop6 = new Property("PC");
 		prop1 = jpaTemplate.merge(prop1);
 		prop2 = jpaTemplate.merge(prop2);
+		prop3 = jpaTemplate.merge(prop3);
+		prop4 = jpaTemplate.merge(prop4);
+		prop5 = jpaTemplate.merge(prop5);
+		prop6 = jpaTemplate.merge(prop6);
 
 		Facility facil1 = createPersisted(Room.class, "ID###1");
 		Facility facil2 = createPersisted(Room.class, "ID###2");
 		Facility facil3 = createPersisted(Room.class, "ID###3");
 		Facility facil4 = createPersisted(Room.class, "ID###4");
+		Facility facil5 = createPersisted(Room.class, "ID###5");
 		Facility place1 = createPersisted(Workplace.class, "place1");
 		Facility place2 = createPersisted(Workplace.class, "place2");
 		Facility place3 = createPersisted(Workplace.class, "place3");
@@ -116,6 +125,11 @@ public class TestData {
 		facil4.addContainedFacility(place4_2);
 		facil4.addContainedFacility(place4_3);
 		facil4.addContainedFacility(place4_4);
+
+		facil5.addProperty(prop3);
+		facil5.addProperty(prop4);
+		facil5.addProperty(prop5);
+		facil5.addProperty(prop6);
 
 		build1.addContainedFacility(facil1);
 		build1.addContainedFacility(facil2);

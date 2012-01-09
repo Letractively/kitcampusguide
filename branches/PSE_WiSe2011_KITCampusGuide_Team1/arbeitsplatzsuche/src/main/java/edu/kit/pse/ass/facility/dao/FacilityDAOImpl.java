@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 
-
 /**
  * The Class FacilityDAOImpl implements the FacilityDAO.
  */
@@ -90,6 +89,7 @@ public class FacilityDAOImpl implements FacilityDAO {
 	 * .lang.Class)
 	 */
 	@SuppressWarnings("unchecked")
+	@Transactional
 	@Override
 	public Collection<Property> getAvailablePropertiesOf(
 			Class<? extends Facility> facilityClass) {
@@ -111,9 +111,6 @@ public class FacilityDAOImpl implements FacilityDAO {
 					}
 				}
 			}
-		}
-		if (properties.size() == 0) {
-			return null;
 		}
 		return properties;
 	}
