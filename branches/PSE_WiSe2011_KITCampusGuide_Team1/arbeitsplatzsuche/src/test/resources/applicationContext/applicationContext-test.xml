@@ -53,9 +53,18 @@
  	</bean>
 	
 	
- 	<bean id="userDAO" class="edu.kit.pse.ass.user.dao.UserDAOImpl" /> 
+ 	<bean id="userDAO" class="edu.kit.pse.ass.user.dao.UserDAOImpl" autowire-candidate="true"/> 
  	
- 	<bean id="facilityDAO" class="edu.kit.pse.ass.facility.dao.FacilityDAOImpl" />
+ 	<bean id="facilityDAO" class="edu.kit.pse.ass.facility.dao.FacilityDAOImpl" autowire-candidate="true"/>
  	
- 	<bean id="testData" class="edu.kit.pse.ass.testdata.TestData" /> 
+ 	<bean id="testData" class="edu.kit.pse.ass.testdata.TestData" autowire-candidate="true"/> 
+ 	
+ 	<bean id="bookingManagement" 
+			class="edu.kit.pse.ass.booking.management.BookingManagementImpl"
+	        autowire-candidate="true">
+	</bean>
+	 		<bean id="facilityManagement" 
+			class="edu.kit.pse.ass.facility.management.FacilityManagementImpl"
+	        autowire-candidate="true">
+	</bean>
 </beans>
