@@ -65,8 +65,9 @@ public class BookingDAOImpl implements BookingDAO {
 		// man die SearchQuery für das jpaTemplate schreiben
 		for (Reservation tmp : reservations) {
 			if (userID.equals(tmp.getBookingUserId())
-					&& tmp.getStartTime().after(asFrom)
-					&& tmp.getEndTime().before(upTo))
+					&& (tmp.getStartTime().after(asFrom) || tmp.getStartTime()
+							.equals(asFrom)) && (tmp.getEndTime().before(upTo))
+					|| tmp.getEndTime().equals(upTo))
 				result.add(tmp);
 		}
 		return result;
