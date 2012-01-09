@@ -159,7 +159,6 @@ div.header2 div#logo{
 	float: left; width: 230px;
 	text-align: center;
 	padding: 15px 0 0 0;
-	padding: 25px;
 }
 
 div.header2 div.right{
@@ -253,6 +252,14 @@ div.roomDetails{
 div#calendar{
 	font-size: 10px;
 	width: 800px;
+}
+
+ul{
+	list-style-type: square;
+	padding-left: 18px;
+}
+li{
+	padding-left: 5px;
 }
 
 
