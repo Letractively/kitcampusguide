@@ -141,7 +141,7 @@ public class RoomDetailController extends MainController {
 	 *            the room
 	 */
 	private void listWorkplaces(Model model, Room room) {
-		Collection<Facility> workplaces = tmpGetContainingFacilities();
+		Collection<Facility> workplaces = room.getContainedFacilities();
 		model.addAttribute("workplaces", workplaces);
 	}
 
@@ -158,7 +158,7 @@ public class RoomDetailController extends MainController {
 			HttpServletRequest request, HttpServletResponse response,
 			@ModelAttribute CalendarParamModel cpm) {
 
-		Facility f = tmpGetFacility(roomId);
+		Facility f = facilityManagement.getFacility(roomId);
 
 		Collection<Reservation> reservations = tmpListReservationsOfFacility(f,
 				cpm.getStart(), cpm.getEnd());
