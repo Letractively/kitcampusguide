@@ -2,6 +2,8 @@ package edu.kit.pse.ass.gui.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -16,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -28,6 +31,7 @@ import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.facility.management.FacilityManagement;
+import edu.kit.pse.ass.facility.management.RoomQuery;
 import edu.kit.pse.ass.gui.model.DataTableParamModel;
 import edu.kit.pse.ass.gui.model.SearchFilterModel;
 import edu.kit.pse.ass.gui.model.SearchFormModel;
@@ -111,6 +115,7 @@ public class SearchController extends MainController {
 	 *            the response
 	 */
 	@RequestMapping(value = "search/results")
+	@Transactional
 	public void listSearchResults(@ModelAttribute SearchFormModel sfm,
 			BindingResult sfmResult,
 			@ModelAttribute SearchFilterModel searchFilterModel,
@@ -134,20 +139,25 @@ public class SearchController extends MainController {
 		parameters = DataTablesParamUtility.getParameters(request);
 
 		// find free rooms
-		/*
-		 * RoomQuery roomQuery = new RoomQuery(searchFilterModel.getFilters(),
-		 * sfm.getSearchText(), sfm.getWorkplaceCount());
-		 * Collection<FreeFacilityResult> searchResultsCollection =
-		 * bookingManagement .findFreeFacilites(roomQuery, sfm.getStart(),
-		 * sfm.getEnd(), sfm.isWholeRoom());
-		 * 
-		 * if (searchResultsCollection instanceof List) { searchResults = (List)
-		 * searchResultsCollection; } else { searchResults = new
-		 * ArrayList(searchResultsCollection); }
-		 */
+
+		if (searchFilterModel.getFilters() == null) {
+			searchFilterModel.setFilters(new ArrayList<Property>());
+		}
+
+		RoomQuery roomQuery = new RoomQuery(searchFilterModel.getFilters(),
+				sfm.getSearchText(), sfm.getWorkplaceCount());
+		Collection<FreeFacilityResult> searchResultsCollection = bookingManagement
+				.findFreeFacilites(roomQuery, sfm.getStart(), sfm.getEnd(),
+						sfm.isWholeRoom());
+
+		if (searchResultsCollection instanceof List) {
+			searchResults = (List) searchResultsCollection;
+		} else {
+			searchResults = new ArrayList(searchResultsCollection);
+		}
 
 		// create dummy search results (temp!)
-		searchResults = tempSearchResults();
+		// searchResults = tempSearchResults();
 
 		iTotalRecords = searchResults.size();
 		iTotalDisplayRecords = iTotalRecords;

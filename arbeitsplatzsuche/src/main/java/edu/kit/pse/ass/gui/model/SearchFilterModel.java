@@ -1,5 +1,6 @@
 package edu.kit.pse.ass.gui.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import edu.kit.pse.ass.entity.Property;
@@ -31,7 +32,7 @@ public class SearchFilterModel {
 
 	/**
 	 * Gets the search near location.
-	 *
+	 * 
 	 * @return the search near location
 	 */
 	public String getSearchNearLocation() {
@@ -40,8 +41,9 @@ public class SearchFilterModel {
 
 	/**
 	 * Sets the search near location.
-	 *
-	 * @param searchNearLocation the new search near location
+	 * 
+	 * @param searchNearLocation
+	 *            the new search near location
 	 */
 	public void setSearchNearLocation(String searchNearLocation) {
 		this.searchNearLocation = searchNearLocation;
@@ -49,7 +51,7 @@ public class SearchFilterModel {
 
 	/**
 	 * Gets the search near distance.
-	 *
+	 * 
 	 * @return the search near distance
 	 */
 	public int getSearchNearDistance() {
@@ -58,8 +60,9 @@ public class SearchFilterModel {
 
 	/**
 	 * Sets the search near distance.
-	 *
-	 * @param searchNearDistance the new search near distance
+	 * 
+	 * @param searchNearDistance
+	 *            the new search near distance
 	 */
 	public void setSearchNearDistance(int searchNearDistance) {
 		this.searchNearDistance = searchNearDistance;
@@ -67,7 +70,7 @@ public class SearchFilterModel {
 
 	/**
 	 * Gets the filters.
-	 *
+	 * 
 	 * @return the filters
 	 */
 	public Collection<Property> getFilters() {
@@ -76,8 +79,9 @@ public class SearchFilterModel {
 
 	/**
 	 * Sets the filters.
-	 *
-	 * @param filters the new filters
+	 * 
+	 * @param filters
+	 *            the new filters
 	 */
 	public void setFilters(Collection<Property> filters) {
 		this.filters = filters;
