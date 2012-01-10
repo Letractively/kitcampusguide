@@ -1,9 +1,9 @@
 package edu.kit.pse.ass.gui.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import edu.kit.pse.ass.booking.management.BookingManagement;
+import edu.kit.pse.ass.booking.management.FacilityNotFreeException;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Reservation;
 import edu.kit.pse.ass.entity.Room;
@@ -71,19 +72,6 @@ public class RoomDetailController extends MainController {
 
 		listWorkplaces(model, room);
 		return "room/details";
-	}
-
-	private Collection<Reservation> tmpListReservationsOfFacility(
-			Facility facility, Date start, Date end) {
-
-		ArrayList<Reservation> list = new ArrayList<Reservation>();
-		Reservation r1 = new Reservation();
-		r1.setId("aa");
-		r1.setStartTime(start);
-		r1.setEndTime(end);
-		list.add(r1);
-
-		return list;
 	}
 
 	/**
@@ -144,5 +132,46 @@ public class RoomDetailController extends MainController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	// better: room/book?
+	/**
+	 * Book.
+	 * 
+	 * @param model
+	 *            the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "room/{roomId}/book.html")
+	public String book(@PathVariable("roomId") String roomId, Model model,
+			@ModelAttribute BookingFormModel bfm, Principal principal) {
+
+		String userID = principal.getName();
+
+		ArrayList<String> facilityIDs = new ArrayList<String>();
+
+		if (bfm.isWholeRoom()) {
+			facilityIDs.add(roomId);
+		} else {
+			for (String id : bfm.getWorkplaces()) {
+				if (id != null) {
+					facilityIDs.add(id);
+				}
+			}
+		}
+
+		try {
+			bookingManagement.book(userID, facilityIDs, bfm.getStart(),
+					bfm.getEnd());
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FacilityNotFreeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return "room/details";
+
 	}
 }

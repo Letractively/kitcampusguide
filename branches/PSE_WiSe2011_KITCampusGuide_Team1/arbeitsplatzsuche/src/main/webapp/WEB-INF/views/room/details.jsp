@@ -41,7 +41,7 @@
 	</div>
 </div>
 <div class="page roomDetails">
-<form:form method="get" commandName="bookingFormModel" action="${pageContext.request.contextPath}/search/advanced.html" id="searchForm">
+<form:form method="get" commandName="bookingFormModel" action="${pageContext.request.contextPath}/room/${room.id}/book.html" id="searchForm">
 	<div class="bookingForm">
 		<h2>Reservieren</h2>
     		Am <form:input path="start" class="date" /> für 
@@ -75,9 +75,9 @@
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach var="workplace" items="${workplaces}">
+		<c:forEach var="workplace" items="${workplaces}" varStatus="i">
 			<tr>
-				<td><input type="checkbox" name="workplaces[]" value="${workplace.id}"></input></td>
+				<td><input type="checkbox" name="workplaces[${i.count}]" value="${workplace.id}"></input></td>
 				<td><c:out value="${workplace.name}" /></td>
 				<td>
 					<c:forEach var="property" items="${workplace.properties}">

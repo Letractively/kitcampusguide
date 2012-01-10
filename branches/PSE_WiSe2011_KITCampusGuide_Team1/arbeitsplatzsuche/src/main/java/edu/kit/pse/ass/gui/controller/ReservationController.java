@@ -124,20 +124,6 @@ public class ReservationController extends MainController {
 		return reservations;
 	}
 
-	// better: room/book?
-	/**
-	 * Book.
-	 * 
-	 * @param model
-	 *            the model
-	 * @return the string
-	 */
-	@RequestMapping(value = "reservation/book")
-	public String book(Model model) {
-		return "";
-
-	}
-
 	/**
 	 * Show reservation details.
 	 * 
