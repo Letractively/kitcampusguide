@@ -21,17 +21,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.IndexColumn;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Facility.
  *
- * @author Sebastian
- */
-/**
- * @author Lennart
- * 
+ * @author Sebastian, Lennart
  */
 @Entity(name = "t_facility")
 @Inheritance(strategy = InheritanceType.JOINED)
