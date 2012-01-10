@@ -4,6 +4,8 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.facility.dao.FacilityDAO;
 
@@ -13,14 +15,11 @@ import edu.kit.pse.ass.facility.dao.FacilityDAO;
  */
 public abstract class FacilityFinder {
 
-	/** The facility dao. */
-	@Inject
-	protected FacilityDAO facilityDAO;
-
 	/**
 	 * Execute.
-	 *
+	 * 
 	 * @return the collection<? extends facility>
 	 */
-	public abstract Collection<? extends Facility> execute();
+	public abstract Collection<? extends Facility> execute(
+			FacilityDAO FacilityDAO);
 }

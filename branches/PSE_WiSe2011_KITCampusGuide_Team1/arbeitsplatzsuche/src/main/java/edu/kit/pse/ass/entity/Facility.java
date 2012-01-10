@@ -9,6 +9,7 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -20,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.IndexColumn;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -58,13 +60,13 @@ public class Facility {
 	 * workplaces.
 	 */
 	@OneToMany(targetEntity = Facility.class, mappedBy = "parentFacility", cascade = {
-			CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
+			CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	private Collection<Facility> containedFacilities;
 
 	/**
 	 * the properties of this facility. e.g. WLAN, Strom, PC
 	 */
-	@ManyToMany(targetEntity = Property.class, cascade = { CascadeType.ALL })
+	@ManyToMany(targetEntity = Property.class, cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@JoinTable(name = "T_FACILITY_T_PROPERTY", joinColumns = { @JoinColumn(name = "PROPERTY_NAME") }, inverseJoinColumns = { @JoinColumn(name = "FACILITY_ID") })
 	private Collection<Property> properties;
 

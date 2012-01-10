@@ -64,6 +64,7 @@ public class FacilityDAOImpl implements FacilityDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
+	@Transactional
 	public Collection<Facility> getFacilities(Collection<Property> properties) {
 		if (properties == null) {
 			throw new IllegalArgumentException("properties is null.");
@@ -77,8 +78,24 @@ public class FacilityDAOImpl implements FacilityDAO {
 			props.put("prop" + i, propiter.next());
 		}
 
-		return jpaTemplate.findByNamedParams(query, props);
+		Collection<Facility> result = jpaTemplate.findByNamedParams(query,
+				props);
+		// touch children so they get fetched:
+		touchFacilities(result);
+		return result;
 
+	}
+
+	/**
+	 * Workaround for fetching all children.
+	 * 
+	 * @param facilities
+	 */
+	private void touchFacilities(Collection<Facility> facilities) {
+		for (Facility f : facilities) {
+			f.getProperties().size();
+			touchFacilities(f.getContainedFacilities());
+		}
 	}
 
 	/*

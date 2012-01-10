@@ -4,10 +4,16 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.entity.Workplace;
+import edu.kit.pse.ass.facility.dao.FacilityDAO;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -20,18 +26,22 @@ public class RoomFinder extends FacilityFinder {
 
 	/**
 	 * Instantiates a new room finder.
-	 *
-	 * @param roomQuery the room query
+	 * 
+	 * @param roomQuery
+	 *            the room query
 	 */
 	public RoomFinder(RoomQuery roomQuery) {
 		this.roomQuery = roomQuery;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see edu.kit.pse.ass.facility.management.FacilityFinder#execute()
 	 */
 	@Override
-	public Collection<Room> execute() {
+	@Transactional
+	public Collection<Room> execute(FacilityDAO facilityDAO) {
 		// fetch facilities with matching properties
 		Collection<Facility> facilities = facilityDAO.getFacilities(roomQuery
 				.getProperties());

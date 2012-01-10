@@ -70,7 +70,7 @@ public class FacilityManagementImpl implements FacilityManagement {
 		if (finder == null) {
 			return null;
 		}
-		return finder.execute();
+		return finder.execute(facilityDAO);
 	}
 
 	/*
