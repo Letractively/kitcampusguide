@@ -73,6 +73,9 @@ public class TestData {
 
 		Facility build1 = createPersisted(Building.class, "BUILDING#1");
 
+		build1.setName("Informatikgebäude");
+		((Building) build1).setNumber("08.15");
+
 		Property prop1 = new Property("WLAN");
 		Property prop2 = new Property("Steckdose");
 		Property prop3 = new Property("LAN");
@@ -91,6 +94,13 @@ public class TestData {
 		Facility facil3 = createPersisted(Room.class, "ID###3");
 		Facility facil4 = createPersisted(Room.class, "ID###4");
 		Facility facil5 = createPersisted(Room.class, "ID###5");
+
+		facil1.setName("Raum 1");
+		facil2.setName("Raum 2");
+		facil3.setName("Raum 3");
+		facil4.setName("Raum 4");
+		facil5.setName("Raum 5");
+
 		Facility place1 = createPersisted(Workplace.class, "place1");
 		Facility place2 = createPersisted(Workplace.class, "place2");
 		Facility place3 = createPersisted(Workplace.class, "place3");
@@ -137,10 +147,11 @@ public class TestData {
 		build1.addContainedFacility(facil4);
 		build1.addProperty(prop1);
 
-		// jpaTemplate.persist(facil1);
-		// jpaTemplate.persist(facil2);
-		// jpaTemplate.persist(facil3);
-		// jpaTemplate.persist(facil4);
+		jpaTemplate.merge(facil1);
+		jpaTemplate.merge(facil2);
+		jpaTemplate.merge(facil3);
+		jpaTemplate.merge(facil4);
+		jpaTemplate.merge(facil5);
 	}
 
 	@SuppressWarnings("deprecation")
