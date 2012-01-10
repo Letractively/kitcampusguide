@@ -61,7 +61,7 @@ public class RoomDetailController extends MainController {
 	public String setUpRoomDetails(@PathVariable("roomId") String roomId,
 			Model model, @ModelAttribute SearchFormModel sfm,
 			@ModelAttribute SearchFilterModel searchFilterModel) {
-		Facility f = tmpGetFacility(roomId);// facilityManagement.getFacility(roomId);
+		Facility f = facilityManagement.getFacility(roomId);
 
 		if (!(f instanceof Room)) {
 			// TODO error!
