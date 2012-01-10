@@ -41,15 +41,15 @@
 	</div>
 </div>
 <div class="page roomDetails">
+<form:form method="get" commandName="bookingFormModel" action="${pageContext.request.contextPath}/search/advanced.html" id="searchForm">
 	<div class="bookingForm">
 		<h2>Reservieren</h2>
-		<form:form method="get" commandName="searchFormModel" action="${pageContext.request.contextPath}/search/advanced.html" id="searchForm">
     		Am <form:input path="start" class="date" /> für 
      		<form:input path="duration" class="time"/> Stunden<br />
      		<form:radiobutton path="wholeRoom" value="true"/> ganzen Raum <br />
 			<form:radiobutton path="wholeRoom" value="false"/> gewählte Arbeitsplätze <br />
     		<input type='submit' value='Reservieren'>
-		</form:form>
+		
 	</div>
 	<h2>Gebäude:</h2>
 	<c:out value="${room.parentFacility.number}" />
@@ -77,7 +77,7 @@
 		<tbody>
 		<c:forEach var="workplace" items="${workplaces}">
 			<tr>
-				<td><input type="checkbox" name="workplace[]" value="${workplace.id}"></input></td>
+				<td><input type="checkbox" name="workplaces[]" value="${workplace.id}"></input></td>
 				<td><c:out value="${workplace.name}" /></td>
 				<td>
 					<c:forEach var="property" items="${workplace.properties}">
@@ -88,6 +88,7 @@
 		</c:forEach>
 		</tbody>
 	</table>
+	</form:form>
 	<h2>Belegung:</h2>
 	<div id="calendar"></div>
 </div>
