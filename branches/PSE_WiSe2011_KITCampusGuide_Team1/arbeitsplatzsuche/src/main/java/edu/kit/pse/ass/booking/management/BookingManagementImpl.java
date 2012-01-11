@@ -38,7 +38,8 @@ public class BookingManagementImpl implements BookingManagement {
 	 * , java.util.Collection, java.util.Date, java.util.Date)
 	 */
 	@Override
-	@Secured({ "ROLE_STUDENT", "ROLE_TUTOR" })
+	// TODO: Does not work!
+	// @Secured({ "ROLE_STUDENT", "ROLE_TUTOR" })
 	public String book(String userID, Collection<String> facilityIDs,
 			Date startDate, Date endDate) throws FacilityNotFreeException,
 			IllegalArgumentException {

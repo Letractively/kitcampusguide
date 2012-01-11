@@ -12,11 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.kit.pse.ass.booking.management.BookingManagement;
 import edu.kit.pse.ass.booking.management.FacilityNotFreeException;
@@ -56,7 +59,7 @@ public class RoomDetailController extends MainController {
 	 *            the search filter model
 	 * @return the string
 	 */
-	@RequestMapping(value = "room/{roomId}/details.html")
+	@RequestMapping(value = "room/{roomId}/details.html", method = { RequestMethod.GET })
 	public String setUpRoomDetails(@PathVariable("roomId") String roomId,
 			Model model, @ModelAttribute SearchFormModel sfm,
 			@ModelAttribute SearchFilterModel searchFilterModel,
@@ -72,6 +75,49 @@ public class RoomDetailController extends MainController {
 
 		listWorkplaces(model, room);
 		return "room/details";
+	}
+
+	// better: room/book?
+	/**
+	 * Book.
+	 * 
+	 * @param model
+	 *            the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "room/{roomId}/details.html", method = { RequestMethod.POST })
+	public String book(@PathVariable("roomId") String roomId, Model model,
+			@ModelAttribute BookingFormModel bfm) {
+
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		String userID = auth.getName();
+
+		ArrayList<String> facilityIDs = new ArrayList<String>();
+
+		if (bfm.isWholeRoom()) {
+			facilityIDs.add(roomId);
+		} else {
+			for (String id : bfm.getWorkplaces()) {
+				if (id != null) {
+					facilityIDs.add(id);
+				}
+			}
+		}
+
+		try {
+			bookingManagement.book(userID, facilityIDs, bfm.getStart(),
+					bfm.getEnd());
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FacilityNotFreeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return "room/details";
+
 	}
 
 	/**
@@ -134,44 +180,4 @@ public class RoomDetailController extends MainController {
 		}
 	}
 
-	// better: room/book?
-	/**
-	 * Book.
-	 * 
-	 * @param model
-	 *            the model
-	 * @return the string
-	 */
-	@RequestMapping(value = "room/{roomId}/book.html")
-	public String book(@PathVariable("roomId") String roomId, Model model,
-			@ModelAttribute BookingFormModel bfm, Principal principal) {
-
-		String userID = principal.getName();
-
-		ArrayList<String> facilityIDs = new ArrayList<String>();
-
-		if (bfm.isWholeRoom()) {
-			facilityIDs.add(roomId);
-		} else {
-			for (String id : bfm.getWorkplaces()) {
-				if (id != null) {
-					facilityIDs.add(id);
-				}
-			}
-		}
-
-		try {
-			bookingManagement.book(userID, facilityIDs, bfm.getStart(),
-					bfm.getEnd());
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FacilityNotFreeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return "room/details";
-
-	}
 }

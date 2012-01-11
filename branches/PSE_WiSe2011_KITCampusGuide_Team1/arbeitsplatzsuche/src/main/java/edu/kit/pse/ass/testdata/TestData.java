@@ -63,7 +63,6 @@ public class TestData {
 		}
 	}
 
-
 	@Transactional
 	public void facilityFillWithDummies() {
 		if (null != jpaTemplate.find(Facility.class, "place1")) {
