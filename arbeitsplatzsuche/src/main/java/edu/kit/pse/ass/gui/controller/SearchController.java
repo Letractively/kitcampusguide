@@ -136,7 +136,7 @@ public class SearchController extends MainController {
 		JSONArray data = new JSONArray();
 
 		// Get parameters for DataTable
-		parameters = DataTablesParamUtility.getParameters(request);
+		parameters = new DataTableParamModel(request);
 
 		// find free rooms
 
@@ -153,7 +153,8 @@ public class SearchController extends MainController {
 		if (searchResultsCollection instanceof List) {
 			searchResults = (List<FreeFacilityResult>) searchResultsCollection;
 		} else {
-			searchResults = new ArrayList<FreeFacilityResult>(searchResultsCollection);
+			searchResults = new ArrayList<FreeFacilityResult>(
+					searchResultsCollection);
 		}
 
 		// create dummy search results (temp!)
@@ -163,25 +164,27 @@ public class SearchController extends MainController {
 		iTotalDisplayRecords = iTotalRecords;
 
 		// Sort results
-		final int sortColumnIndex = parameters.iSortColumnIndex;
-		final int sortDirection = parameters.sSortDirection.equals("asc") ? 1
+		final int sortColumnIndex = parameters.getiSortColumnIndex();
+		final int sortDirection = parameters.getsSortDirection().equals("asc") ? 1
 				: -1;
 		sortResults(searchResults, sortColumnIndex, sortDirection);
 
 		// show requested part of results
-		if (searchResults.size() < parameters.iDisplayStart
-				+ parameters.iDisplayLength)
-			searchResults = searchResults.subList(parameters.iDisplayStart,
-					searchResults.size());
+		if (searchResults.size() < parameters.getiDisplayStart()
+				+ parameters.getiDisplayLength())
+			searchResults = searchResults.subList(
+					parameters.getiDisplayStart(), searchResults.size());
 		else
-			searchResults = searchResults.subList(parameters.iDisplayStart,
-					parameters.iDisplayStart + parameters.iDisplayLength);
+			searchResults = searchResults.subList(
+					parameters.getiDisplayStart(),
+					parameters.getiDisplayStart()
+							+ parameters.getiDisplayLength());
 
 		// create JSON response
 		try {
 			JSONObject jsonResponse = new JSONObject();
 
-			jsonResponse.put("sEcho", parameters.sEcho);
+			jsonResponse.put("sEcho", parameters.getsEcho());
 			jsonResponse.put("iTotalRecords", iTotalRecords);
 			jsonResponse.put("iTotalDisplayRecords", iTotalDisplayRecords);
 
