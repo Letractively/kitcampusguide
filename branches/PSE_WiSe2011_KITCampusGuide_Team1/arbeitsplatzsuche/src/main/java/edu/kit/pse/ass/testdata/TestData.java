@@ -65,7 +65,6 @@ public class TestData {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Transactional
 	public Collection<Collection<Facility>> facilityFillWithDummies() {
 		if (null != jpaTemplate.find(Facility.class, "place1")) {

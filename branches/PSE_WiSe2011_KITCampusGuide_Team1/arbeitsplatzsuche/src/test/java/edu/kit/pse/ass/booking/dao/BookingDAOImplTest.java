@@ -49,7 +49,7 @@ public class BookingDAOImplTest {
 
 	/** Setup a BookingDAO with a dummy reservation. */
 	@Autowired
-	private BookingDAO bm;
+	private BookingDAO bookingDAO;
 
 	/** The start. */
 	Date start = new GregorianCalendar(2012, 0, 2, 9, 0).getTime();
@@ -74,7 +74,7 @@ public class BookingDAOImplTest {
 		testReservation.addBookedFacilityId(FACILITYID);
 		testReservationCol.add(testReservation);
 
-		bm.insertReservation(testReservation);
+		bookingDAO.insertReservation(testReservation);
 		assertNotNull(testReservation.getId());
 		PERSISTED_RESERVATIONID = testReservation.getId();
 		/*
@@ -94,23 +94,23 @@ public class BookingDAOImplTest {
 		Collection<Reservation> result = null;
 		try {
 			// throw error or return null if parameter is null
-			bm.getReservationsOfUser(null, from, to);
+			bookingDAO.getReservationsOfUser(null, from, to);
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 		}
 		try {
-			bm.getReservationsOfUser(USERID, null, to);
+			bookingDAO.getReservationsOfUser(USERID, null, to);
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 		}
 		try {
-			bm.getReservationsOfUser(USERID, from, null);
+			bookingDAO.getReservationsOfUser(USERID, from, null);
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 		}
 
 		// test if returned reservations belong all to the user
-		result = bm.getReservationsOfUser(USERID, start, end);
+		result = bookingDAO.getReservationsOfUser(USERID, start, end);
 		assertNotNull("Didn't return result", result);
 		assertFalse("Empty list returned", result.size() == 0);
 		assertTrue("Wrong amount of reservations returned",
@@ -119,22 +119,21 @@ public class BookingDAOImplTest {
 			assertEquals(USERID, resv.getBookingUserId());
 		}
 		result = null;
-		result = bm.getReservationsOfUser(USERID, from, to);
+		result = bookingDAO.getReservationsOfUser(USERID, from, to);
 		assertNotNull("Didn't return result", result);
 		for (Reservation resv : result) {
 			assertEquals(USERID, resv.getBookingUserId());
 		}
 		// test if returned reservations are the right
-		assertTrue(
-				"Contains not all reservations",
-				bm.getReservationsOfUser(USERID, start, end).containsAll(
-						testReservationCol));
-		assertTrue(bm.getReservationsOfUser(USERID, from, to).containsAll(
-				testReservationCol));
-		assertTrue(bm.getReservationsOfUser(USERID, start, to).containsAll(
-				testReservationCol));
-		assertFalse(bm.getReservationsOfUser(USERID, end, to).containsAll(
-				testReservationCol));
+		assertTrue("Contains not all reservations",
+				bookingDAO.getReservationsOfUser(USERID, start, end)
+						.containsAll(testReservationCol));
+		assertTrue(bookingDAO.getReservationsOfUser(USERID, from, to)
+				.containsAll(testReservationCol));
+		assertTrue(bookingDAO.getReservationsOfUser(USERID, start, to)
+				.containsAll(testReservationCol));
+		assertFalse(bookingDAO.getReservationsOfUser(USERID, end, to)
+				.containsAll(testReservationCol));
 	}
 
 	/**
@@ -147,22 +146,22 @@ public class BookingDAOImplTest {
 		Collection<Reservation> result = null;
 		try {
 			// throw error or return null if parameter is null
-			bm.getReservationsOfFacility(null, from, to);
+			bookingDAO.getReservationsOfFacility(null, from, to);
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 		}
 		try {
-			bm.getReservationsOfFacility(FACILITYID, null, to);
+			bookingDAO.getReservationsOfFacility(FACILITYID, null, to);
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 		}
 		try {
-			bm.getReservationsOfFacility(FACILITYID, from, null);
+			bookingDAO.getReservationsOfFacility(FACILITYID, from, null);
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 		}
 		// test if returned reservations belong all to the facility
-		result = bm.getReservationsOfFacility(FACILITYID, from, to);
+		result = bookingDAO.getReservationsOfFacility(FACILITYID, from, to);
 		assertNotNull("Didn't return result", result);
 		assertFalse("Empty list returned", result.size() == 0);
 		assertTrue("Wrong amount of reservations returned",
@@ -170,25 +169,23 @@ public class BookingDAOImplTest {
 		for (Reservation resv : result) {
 			assertTrue(resv.getBookedFacilityIds().contains(FACILITYID));
 		}
-		result = bm.getReservationsOfFacility(FACILITYID, start, end);
+		result = bookingDAO.getReservationsOfFacility(FACILITYID, start, end);
 		for (Reservation resv : result) {
 			assertTrue(resv.getBookedFacilityIds().contains(FACILITYID));
 		}
 		// test if returned reservations are the right
-		assertTrue(
-				"Doesn't contain all reservations",
-				bm.getReservationsOfFacility(FACILITYID, from, to).containsAll(
-						testReservationCol));
 		assertTrue("Doesn't contain all reservations",
-				bm.getReservationsOfFacility(FACILITYID, start, end)
+				bookingDAO.getReservationsOfFacility(FACILITYID, from, to)
 						.containsAll(testReservationCol));
 		assertTrue("Doesn't contain all reservations",
-				bm.getReservationsOfFacility(FACILITYID, start, to)
+				bookingDAO.getReservationsOfFacility(FACILITYID, start, end)
 						.containsAll(testReservationCol));
-		assertFalse(
-				"Did return reservations it shouldn't have!",
-				bm.getReservationsOfFacility(FACILITYID, end, to).containsAll(
-						testReservationCol));
+		assertTrue("Doesn't contain all reservations",
+				bookingDAO.getReservationsOfFacility(FACILITYID, start, to)
+						.containsAll(testReservationCol));
+		assertFalse("Did return reservations it shouldn't have!",
+				bookingDAO.getReservationsOfFacility(FACILITYID, end, to)
+						.containsAll(testReservationCol));
 	}
 
 	/**
@@ -199,11 +196,11 @@ public class BookingDAOImplTest {
 		Reservation resv = null;
 		try {
 			// throw error or return null if parameter is null
-			bm.getReservation(null);
+			bookingDAO.getReservation(null);
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 		}
-		resv = bm.getReservation(PERSISTED_RESERVATIONID);
+		resv = bookingDAO.getReservation(PERSISTED_RESERVATIONID);
 		assertNotNull("Didn't return reservation", resv);
 		// ensure the returned reservation is correct
 		assertEquals("Ids are not equal", PERSISTED_RESERVATIONID, resv.getId());
@@ -227,14 +224,14 @@ public class BookingDAOImplTest {
 		// throw error or return null if parameter is null
 
 		try {
-			bm.insertReservation(null);
+			bookingDAO.insertReservation(null);
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 		}
 		// TODO id is not returned correctly
-		newResvId = bm.insertReservation(newResv);
+		newResvId = bookingDAO.insertReservation(newResv);
 		// ensure reservation was inserted correct
-		Reservation resv = bm.getReservation(newResvId);
+		Reservation resv = bookingDAO.getReservation(newResvId);
 		assertNotNull("Didn't return reservation", resv);
 		assertEquals(newResvId, resv.getId());
 		assertTrue(resv.getBookedFacilityIds().contains(FACILITYID));
@@ -251,13 +248,13 @@ public class BookingDAOImplTest {
 		Date newEnd = new GregorianCalendar(2012, 0, 2, 11, 0).getTime();
 		testReservation.setEndTime(newEnd);
 		try {
-			bm.updateReservation(null);
+			bookingDAO.updateReservation(null);
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 		}
-		bm.updateReservation(testReservation);
+		bookingDAO.updateReservation(testReservation);
 		// ensure reservation was updated correct
-		Reservation resv = bm.getReservation(PERSISTED_RESERVATIONID);
+		Reservation resv = bookingDAO.getReservation(PERSISTED_RESERVATIONID);
 		assertNotNull("Didn't return reservation", resv);
 		assertEquals(PERSISTED_RESERVATIONID, resv.getId());
 		assertEquals(newEnd, resv.getEndTime());
@@ -272,14 +269,14 @@ public class BookingDAOImplTest {
 	@Test
 	public void testDeleteReservation() {
 		try {
-			bm.deleteReservation(null);
+			bookingDAO.deleteReservation(null);
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 		}
-		bm.deleteReservation(PERSISTED_RESERVATIONID);
+		bookingDAO.deleteReservation(PERSISTED_RESERVATIONID);
 		/*
 		 * TODO wait for return of getReservation if id not used
 		 */
-		assertNull(bm.getReservation(PERSISTED_RESERVATIONID));
+		assertNull(bookingDAO.getReservation(PERSISTED_RESERVATIONID));
 	}
 }

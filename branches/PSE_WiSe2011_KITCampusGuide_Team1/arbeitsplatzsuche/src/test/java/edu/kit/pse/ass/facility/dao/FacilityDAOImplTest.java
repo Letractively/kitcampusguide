@@ -43,7 +43,7 @@ public class FacilityDAOImplTest {
 
 	/** The dao. */
 	@Autowired
-	FacilityDAO dao;
+	FacilityDAO facilityDAO;
 
 	/** The props. */
 	Collection<Property> props = new ArrayList<Property>();
@@ -137,11 +137,11 @@ public class FacilityDAOImplTest {
 		Facility result = null;
 		try {
 			// throw error or return null if parameter is null
-			assertNull(dao.getFacility(null));
+			assertNull(facilityDAO.getFacility(null));
 		} catch (IllegalArgumentException e) {
 		}
 
-		result = dao.getFacility(FACILITYID);
+		result = facilityDAO.getFacility(FACILITYID);
 		// a facility should be returned
 		assertNotNull("no facility found", result);
 		// ensure the right facility is returned
@@ -163,11 +163,11 @@ public class FacilityDAOImplTest {
 		Collection<Facility> result = null;
 		try {
 			// throw error or return null if parameter is null
-			assertNull(dao.getFacilities(null));
+			assertNull(facilityDAO.getFacilities(null));
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
-		result = dao.getFacilities(props);
+		result = facilityDAO.getFacilities(props);
 		// facilities should be returned
 		assertNotNull("no facilities found", result);
 		// ensure the right facilities are returned
@@ -185,12 +185,12 @@ public class FacilityDAOImplTest {
 		expected.add(new Property("Steckdose"));
 		try {
 			// throw error or return null if parameter is null
-			assertNull(dao.getAvailablePropertiesOf(null));
+			assertNull(facilityDAO.getAvailablePropertiesOf(null));
 
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
-		result = dao.getAvailablePropertiesOf(Room.class);
+		result = facilityDAO.getAvailablePropertiesOf(Room.class);
 		// properties should be returned
 		assertNotNull("no properties", result);
 		// ensure all properties are returned
