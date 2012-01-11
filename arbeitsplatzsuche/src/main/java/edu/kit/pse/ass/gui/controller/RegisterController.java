@@ -1,11 +1,17 @@
 package edu.kit.pse.ass.gui.controller;
 
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.kit.pse.ass.entity.User;
+import edu.kit.pse.ass.gui.model.UserValidator;
+import edu.kit.pse.ass.user.management.UserManagement;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -13,6 +19,9 @@ import edu.kit.pse.ass.entity.User;
  */
 @Controller
 public class RegisterController extends MainController {
+
+	@Inject
+	UserManagement userManagement;
 
 	/**
 	 * Sets the up register form.
@@ -34,7 +43,39 @@ public class RegisterController extends MainController {
 	 *            the model
 	 * @return the string
 	 */
-	public String registerUser(Model model) {
-		return "";
+	@RequestMapping(value = "register.html", method = RequestMethod.POST)
+	public String registerUser(Model model,
+			@ModelAttribute("registerUser") User user, BindingResult userResult) {
+
+		String nextView = "register/register";
+		// Validate form
+		UserValidator userValidator = new UserValidator();
+		userValidator.validate(user, userResult);
+
+		if (userResult.hasErrors()) {
+			/*
+			 * // temp: print error codes for (FieldError e :
+			 * userResult.getFieldErrors()) {
+			 * System.out.println("FieldError Code " + e.getCode() + ", Field "
+			 * + e.getField() + "," + e.getClass() + ", Object " +
+			 * e.getObjectName()); if (e.getCodes() != null) for (String code :
+			 * e.getCodes()) System.out.println(" + Code " + code); if
+			 * (e.getArguments() != null) for (Object arg : e.getArguments())
+			 * System.out.println(" + Argu " + arg);
+			 * 
+			 * }
+			 */
+		} else {
+			String userID = userManagement.register(user.getEmail(),
+					user.getPassword());
+			if (userID.isEmpty()) {
+				// TODO error
+			} else {
+				// Show success message in login form
+				model.addAttribute("registerSuccess", true);
+				nextView = "login";
+			}
+		}
+		return nextView;
 	}
 }

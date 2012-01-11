@@ -110,6 +110,7 @@ div.login-form, div.register-form, div.simple-search{
 	line-height: 200%;
 }
 
+
 /* Move Search Button to middle bottom*/
 div.simple-search input[type="submit"]{
 	width: 100px;
@@ -217,7 +218,7 @@ div.reservationDetails #updateForm label {
     min-width: 13em;
     display: inline-block;
 }
-div.reservationDetails .form-error {
+div.reservationDetails .form-error, div.register-form .form-error {
 	color: red;
 }
 
