@@ -2,10 +2,6 @@ package edu.kit.pse.ass.facility.management;
 
 import java.util.Collection;
 
-import javax.inject.Inject;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.facility.dao.FacilityDAO;
 

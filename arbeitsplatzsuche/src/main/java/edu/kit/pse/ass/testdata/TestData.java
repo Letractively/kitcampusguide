@@ -63,7 +63,7 @@ public class TestData {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
+
 	@Transactional
 	public void facilityFillWithDummies() {
 		if (null != jpaTemplate.find(Facility.class, "place1")) {
@@ -104,7 +104,6 @@ public class TestData {
 		Facility place1 = createPersisted(Workplace.class, "place1");
 		Facility place2 = createPersisted(Workplace.class, "place2");
 		Facility place3 = createPersisted(Workplace.class, "place3");
-		Facility place4 = createPersisted(Workplace.class, "place4");
 
 		Facility place2_1 = createPersisted(Workplace.class, "place2_1");
 		Facility place3_1 = createPersisted(Workplace.class, "place3_1");

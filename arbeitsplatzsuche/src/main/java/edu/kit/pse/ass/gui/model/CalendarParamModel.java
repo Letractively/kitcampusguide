@@ -2,9 +2,6 @@ package edu.kit.pse.ass.gui.model;
 
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-
 /**
  * Used by jquery weekcal
  * 

@@ -4,10 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Facility;

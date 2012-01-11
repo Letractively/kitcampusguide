@@ -1,6 +1,5 @@
 package edu.kit.pse.ass.gui.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import edu.kit.pse.ass.entity.Property;

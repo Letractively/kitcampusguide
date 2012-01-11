@@ -151,9 +151,9 @@ public class SearchController extends MainController {
 						sfm.isWholeRoom());
 
 		if (searchResultsCollection instanceof List) {
-			searchResults = (List) searchResultsCollection;
+			searchResults = (List<FreeFacilityResult>) searchResultsCollection;
 		} else {
-			searchResults = new ArrayList(searchResultsCollection);
+			searchResults = new ArrayList<FreeFacilityResult>(searchResultsCollection);
 		}
 
 		// create dummy search results (temp!)
