@@ -1,6 +1,8 @@
 package edu.kit.pse.ass.testdata;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
@@ -63,17 +65,18 @@ public class TestData {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Transactional
-	public void facilityFillWithDummies() {
+	public Collection<Collection<Facility>> facilityFillWithDummies() {
 		if (null != jpaTemplate.find(Facility.class, "place1")) {
-			return;
+			return null;
 		}
 		// TODO create dummy values
 
 		Facility build1 = createPersisted(Building.class, "BUILDING#1");
-
-		build1.setName("Informatikgebäude");
-		((Building) build1).setNumber("08.15");
+		Facility build2 = createPersisted(Building.class, "BUILDING#2");
+		build2.setName("Informatikgebäude");
+		((Building) build2).setNumber("08.15");
 
 		Property prop1 = new Property("WLAN");
 		Property prop2 = new Property("Steckdose");
@@ -150,6 +153,40 @@ public class TestData {
 		jpaTemplate.merge(facil3);
 		jpaTemplate.merge(facil4);
 		jpaTemplate.merge(facil5);
+
+		Collection<Collection<Facility>> addedFacilities = new ArrayList<Collection<Facility>>();
+
+		// building
+		Collection<Facility> buildings = new ArrayList<Facility>();
+		buildings.add(build1);
+		buildings.add(build2);
+
+		// Rooms
+		Collection<Facility> rooms = new ArrayList<Facility>();
+		rooms.add(facil1);
+		rooms.add(facil2);
+		rooms.add(facil3);
+		rooms.add(facil4);
+		rooms.add(facil5);
+
+		// workplaces
+		Collection<Facility> places = new ArrayList<Facility>();
+		places.add(place1);
+		places.add(place2);
+		places.add(place3);
+		places.add(place2_1);
+		places.add(place3_1);
+		places.add(place3_2);
+		places.add(place3_3);
+		places.add(place4_1);
+		places.add(place4_2);
+		places.add(place4_3);
+		places.add(place4_4);
+
+		addedFacilities.add(buildings);
+		addedFacilities.add(rooms);
+		addedFacilities.add(places);
+		return addedFacilities;
 	}
 
 	@SuppressWarnings("deprecation")

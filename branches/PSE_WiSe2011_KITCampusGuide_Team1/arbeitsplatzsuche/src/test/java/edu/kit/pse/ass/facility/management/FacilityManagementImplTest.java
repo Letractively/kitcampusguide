@@ -55,7 +55,7 @@ public class FacilityManagementImplTest {
 
 	/** The fm. */
 	@Autowired
-	FacilityManagement fm;
+	FacilityManagement facilityManagement;
 
 	/** The FACILIT y_ query. */
 	FacilityQuery FACILITY_QUERY = new RoomQuery(FIND_PROPERTIES, SEARCH_TEXT,
@@ -83,11 +83,12 @@ public class FacilityManagementImplTest {
 		Facility result = null;
 		try {
 			// throw error or return null if parameter is null
-			assertNull("Accepted wrong parameters.", fm.getFacility(null));
+			assertNull("Accepted wrong parameters.",
+					facilityManagement.getFacility(null));
 			// TODO what's returned if nothing found?
-			assertNull(fm.getFacility("ID9"));
+			assertNull(facilityManagement.getFacility("ID9"));
 
-			result = fm.getFacility(FACILITYID);
+			result = facilityManagement.getFacility(FACILITYID);
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
@@ -110,12 +111,12 @@ public class FacilityManagementImplTest {
 		try {
 			// throw error or return null if parameter is null
 			assertNull("Accepted wrong parameters.",
-					fm.findMatchingFacilities(null));
+					facilityManagement.findMatchingFacilities(null));
 			// TODO what's returned if nothing found? Therefore no property
 			// "Strom" in testdata
-			assertNull(fm.findMatchingFacilities(testQuery));
+			assertNull(facilityManagement.findMatchingFacilities(testQuery));
 
-			result = fm.findMatchingFacilities(FACILITY_QUERY);
+			result = facilityManagement.findMatchingFacilities(FACILITY_QUERY);
 
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
@@ -139,12 +140,14 @@ public class FacilityManagementImplTest {
 		try {
 			// throw error or return null if parameter is null
 			assertNull("Accepted wrong parameters.",
-					fm.getAvailablePropertiesOf(null));
+					facilityManagement.getAvailablePropertiesOf(null));
 
-			result = fm.getAvailablePropertiesOf(Room.class);
-			assertTrue(fm.getAvailablePropertiesOf(Building.class).contains(
+			result = facilityManagement.getAvailablePropertiesOf(Room.class);
+			assertTrue(facilityManagement.getAvailablePropertiesOf(
+					Building.class).contains(
 					((List<Property>) FIND_PROPERTIES).get(0)));
-			assertFalse(fm.getAvailablePropertiesOf(Building.class).contains(
+			assertFalse(facilityManagement.getAvailablePropertiesOf(
+					Building.class).contains(
 					((List<Property>) FIND_PROPERTIES).get(1)));
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
