@@ -10,12 +10,22 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
+import edu.kit.pse.ass.testdata.TestData;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -23,10 +33,15 @@ import edu.kit.pse.ass.entity.Room;
  * 
  * @author Lennart
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:applicationContext/applicationContext-*.xml" })
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
+@Transactional
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class FacilityManagementImplTest {
 
 	/** The Constant FACILITYID. */
-	private static final String FACILITYID = "ID###1";
+	private static String FACILITYID = null;
 
 	/** The Constant SEARCH_TEXT. */
 	private static final String SEARCH_TEXT = "Informatik";
@@ -39,11 +54,26 @@ public class FacilityManagementImplTest {
 			new Property("WLAN"), new Property("Steckdose"));
 
 	/** The fm. */
-	FacilityManagement fm = new FacilityManagementImpl();
+	@Autowired
+	FacilityManagement fm;
 
 	/** The FACILIT y_ query. */
 	FacilityQuery FACILITY_QUERY = new RoomQuery(FIND_PROPERTIES, SEARCH_TEXT,
 			NEEDED_WORKPLACES);
+
+	/** Collection of the Collections of the test-dummy facilities */
+	Collection<Collection<Facility>> dummyFacilities = null;
+
+	/** The test data. */
+	@Autowired
+	TestData testData;
+
+	@Before
+	void setUp() {
+		dummyFacilities = testData.facilityFillWithDummies();
+		FACILITYID = ((List<Facility>) ((List<Collection<Facility>>) dummyFacilities)
+				.get(1)).get(0).getId();
+	}
 
 	/**
 	 * Test get facility.
@@ -90,8 +120,7 @@ public class FacilityManagementImplTest {
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
-		// something should be returned
-		assertNotNull(result);
+		assertNotNull("something should be returned", result);
 		// assert all results are of the wanted type, have enough places and the
 		// properties
 		for (Facility fac : result) {

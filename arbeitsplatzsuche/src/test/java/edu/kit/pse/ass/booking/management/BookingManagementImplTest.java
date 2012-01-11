@@ -24,10 +24,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Reservation;
-import edu.kit.pse.ass.facility.dao.FacilityDAO;
-import edu.kit.pse.ass.facility.dao.FacilityDAOImpl;
 import edu.kit.pse.ass.facility.management.FacilityQuery;
 import edu.kit.pse.ass.facility.management.RoomQuery;
 import edu.kit.pse.ass.testdata.TestData;
@@ -49,14 +48,13 @@ public class BookingManagementImplTest {
 	private static final String USERID = "uxyxy@student.kit.edu";
 
 	/** The Constant FACILITIES. */
-	private static final List<String> FACILITIES = Arrays.asList("ID###1",
-			"ID###2");
+	private static List<String> FACILITIES = null;
 
 	/** The Constant FACILITIES2. */
-	private static final List<String> FACILITIES2 = Arrays.asList("ID###3");
+	private static List<String> FACILITIES2 = null;
 
 	/** The Constant FACILITIES3. */
-	private static final List<String> FACILITIES3 = Arrays.asList("ID###4");
+	private static List<String> FACILITIES3 = null;
 
 	/** The RESERVATIONID. */
 	private static String RESERVATIONID;
@@ -77,9 +75,6 @@ public class BookingManagementImplTest {
 	@Autowired
 	BookingManagement bookingManagement;
 
-	/** The fm. */
-	FacilityDAO fm = new FacilityDAOImpl();
-
 	/** The start. */
 	Date start = new GregorianCalendar(2012, 0, 2, 9, 0).getTime();
 
@@ -90,6 +85,9 @@ public class BookingManagementImplTest {
 	@Autowired
 	TestData testData;
 
+	/** Collection of the Collections of the test-dummy facilities */
+	Collection<Collection<Facility>> dummyFacilities = null;
+
 	/**
 	 * Sets the up.
 	 * 
@@ -98,11 +96,27 @@ public class BookingManagementImplTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		dummyFacilities = testData.facilityFillWithDummies();
+		// get real-DB IDs of the test-dummy rooms
+		FACILITIES = Arrays
+				.asList(((List<Facility>) ((List<Collection<Facility>>) dummyFacilities)
+						.get(1)).get(0).getId(),
+						((List<Facility>) ((List<Collection<Facility>>) dummyFacilities)
+								.get(1)).get(1).getId());
+		FACILITIES2 = new ArrayList<String>();
+		FACILITIES2
+				.add(((List<Facility>) ((List<Collection<Facility>>) dummyFacilities)
+						.get(1)).get(2).getId());
+		FACILITIES3 = new ArrayList<String>();
+		FACILITIES3
+				.add(((List<Facility>) ((List<Collection<Facility>>) dummyFacilities)
+						.get(1)).get(3).getId());
+
 		assertNotNull("No bookingManagement initialized", bookingManagement);
 		RESERVATIONID = bookingManagement.book(USERID, FACILITIES, start, end);
 		RESERVATIONID2 = bookingManagement
 				.book(USERID, FACILITIES3, start, end);
-		testData.facilityFillWithDummies();
+
 	}
 
 	/**

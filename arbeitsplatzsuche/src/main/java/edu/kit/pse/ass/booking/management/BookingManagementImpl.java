@@ -53,8 +53,8 @@ public class BookingManagementImpl implements BookingManagement {
 		if (userID == null || userID.equals(""))
 			throw new IllegalArgumentException(
 					"userID must be not null and not empty.");
-		Collection<Reservation> userReservations = bookingDAO
-				.getReservationsOfUser(userID, startDate, endDate);
+		Collection<Reservation> userReservations = 
+				bookingDAO.getReservationsOfUser(userID, startDate, endDate);
 		if (userReservations.size() > 0)
 			throw new IllegalArgumentException(
 					"The user has a reservation at the same time");

@@ -57,19 +57,42 @@ public class BookingDAOImpl implements BookingDAO {
 				|| upTo == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
+		if (asFrom.after(upTo)) {
+			throw new IllegalArgumentException("start-date is after end-date");
+		}
 		Collection<Reservation> result = new ArrayList<Reservation>();
 		Collection<Reservation> reservations = jpaTemplate
 				.find("from t_reservation");
-		// find matching reservations and add them to the result
+
 		// TODO diese Filterung kann auch die Datenbank übernehmen. Dafür müsste
 		// man die SearchQuery für das jpaTemplate schreiben
+
+		// find matching reservations and add them to the result
 		for (Reservation tmp : reservations) {
-			if (userID.equals(tmp.getBookingUserId())
-					&& (tmp.getStartTime().after(asFrom) || tmp.getStartTime()
-							.equals(asFrom)) && (tmp.getEndTime().before(upTo))
-					|| tmp.getEndTime().equals(upTo))
-				result.add(tmp);
+			if (tmp.getBookingUserId().equals(userID)) {
+				Date end = tmp.getEndTime();
+				Date start = tmp.getStartTime();
+
+				// reservation contains the time quantum
+				if (start.before(asFrom) && end.after(upTo)) {
+					result.add(tmp);
+				}
+
+				// the start or end point of the reservation is in the time
+				// quantum
+				else if (((start.after(asFrom)) && (start.before(upTo)))
+						|| ((end.after(asFrom)) && (end.before(upTo)))) {
+					result.add(tmp);
+				}
+
+				// start or end point of reservation is equal to start or end
+				// point of time quantum
+				else if (start.equals(asFrom) || end.equals(upTo)) {
+					result.add(tmp);
+				}
+			}
 		}
+
 		return result;
 	}
 
@@ -88,21 +111,40 @@ public class BookingDAOImpl implements BookingDAO {
 				|| upTo == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
+		if (asFrom.after(upTo)) {
+			throw new IllegalArgumentException("start-date is after end-date");
+		}
 		Collection<Reservation> result = new ArrayList<Reservation>();
 		Collection<Reservation> reservations = jpaTemplate
 				.find("from t_reservation");
 
-		// find matching reservations and add them to the result
-
 		// TODO diese Filterung kann auch die Datenbank übernehmen. Dafür müsste
 		// man die SearchQuery für das jpaTemplate schreiben
 
+		// find matching reservations and add them to the result
 		for (Reservation tmp : reservations) {
-			if (tmp.getBookedFacilityIds().contains(facilityID)
-					&& (tmp.getStartTime().after(asFrom) || tmp.getStartTime()
-							.equals(asFrom)) && (tmp.getEndTime().before(upTo))
-					|| tmp.getEndTime().equals(upTo))
-				result.add(tmp);
+			if (tmp.getBookedFacilityIds().contains(facilityID)) {
+				Date end = tmp.getEndTime();
+				Date start = tmp.getStartTime();
+
+				// reservation contains the time quantum
+				if (start.before(asFrom) && end.after(upTo)) {
+					result.add(tmp);
+				}
+
+				// the start or end point of the reservation is in the time
+				// quantum
+				else if (((start.after(asFrom)) && (start.before(upTo)))
+						|| ((end.after(asFrom)) && (end.before(upTo)))) {
+					result.add(tmp);
+				}
+
+				// start or end point of reservation is equal to start or end
+				// point of time quantum
+				else if (start.equals(asFrom) || end.equals(upTo)) {
+					result.add(tmp);
+				}
+			}
 		}
 
 		return result;
