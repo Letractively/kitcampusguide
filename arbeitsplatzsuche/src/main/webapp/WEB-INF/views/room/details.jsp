@@ -41,7 +41,7 @@
 	</div>
 </div>
 <div class="page roomDetails">
-<form:form method="get" commandName="bookingFormModel" action="${pageContext.request.contextPath}/room/${room.id}/book.html" id="searchForm">
+<form:form method="post" commandName="bookingFormModel" action="${pageContext.request.contextPath}/room/${room.id}/details.html" id="searchForm">
 	<div class="bookingForm">
 		<h2>Reservieren</h2>
     		Am <form:input path="start" class="date" /> für 
