@@ -59,7 +59,7 @@ public class BookingManagementImplTest {
 	/** The RESERVATIONID. */
 	private static String RESERVATIONID;
 
-	/** The RESERVATIONI d2. */
+	/** The RESERVATIONID2. */
 	private static String RESERVATIONID2;
 
 	/** The Constant FIND_PROPERTY_NAMES. */
@@ -103,13 +103,11 @@ public class BookingManagementImplTest {
 						.get(1)).get(0).getId(),
 						((List<Facility>) ((List<Collection<Facility>>) dummyFacilities)
 								.get(1)).get(1).getId());
-		FACILITIES2 = new ArrayList<String>();
-		FACILITIES2
-				.add(((List<Facility>) ((List<Collection<Facility>>) dummyFacilities)
+		FACILITIES2 = Arrays
+				.asList(((List<Facility>) ((List<Collection<Facility>>) dummyFacilities)
 						.get(1)).get(2).getId());
-		FACILITIES3 = new ArrayList<String>();
-		FACILITIES3
-				.add(((List<Facility>) ((List<Collection<Facility>>) dummyFacilities)
+		FACILITIES3 = Arrays
+				.asList(((List<Facility>) ((List<Collection<Facility>>) dummyFacilities)
 						.get(1)).get(3).getId());
 
 		assertNotNull("No bookingManagement initialized", bookingManagement);

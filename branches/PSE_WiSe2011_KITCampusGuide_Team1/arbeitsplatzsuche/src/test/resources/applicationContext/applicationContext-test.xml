@@ -61,10 +61,9 @@
  	
  	<bean id="bookingManagement" 
 			class="edu.kit.pse.ass.booking.management.BookingManagementImpl"
-	        autowire-candidate="true">
-	</bean>
-	 		<bean id="facilityManagement" 
+	        autowire-candidate="true"/>
+	
+	<bean id="facilityManagement" 
 			class="edu.kit.pse.ass.facility.management.FacilityManagementImpl"
-	        autowire-candidate="true">
-	</bean>
+	        autowire-candidate="true"/>
 </beans>
