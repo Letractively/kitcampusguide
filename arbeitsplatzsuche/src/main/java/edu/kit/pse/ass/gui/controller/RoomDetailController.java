@@ -64,6 +64,12 @@ public class RoomDetailController extends MainController {
 			Model model, @ModelAttribute SearchFormModel sfm,
 			@ModelAttribute SearchFilterModel searchFilterModel,
 			@ModelAttribute BookingFormModel bfm) {
+		setUpRoomDetailModel(model, roomId, sfm);
+		return "room/details";
+	}
+
+	private void setUpRoomDetailModel(Model model, String roomId,
+			SearchFormModel sfm) {
 		Facility f = facilityManagement.getFacility(roomId);
 
 		if (!(f instanceof Room)) {
@@ -73,11 +79,9 @@ public class RoomDetailController extends MainController {
 		Room room = (Room) f;
 		model.addAttribute("room", room);
 
-		listWorkplaces(model, room);
-		return "room/details";
+		listWorkplaces(model, room, sfm);
 	}
 
-	// better: room/book?
 	/**
 	 * Book.
 	 * 
@@ -88,6 +92,10 @@ public class RoomDetailController extends MainController {
 	@RequestMapping(value = "room/{roomId}/details.html", method = { RequestMethod.POST })
 	public String book(@PathVariable("roomId") String roomId, Model model,
 			@ModelAttribute BookingFormModel bfm) {
+
+		String returnedView = "room/details";
+
+		setUpRoomDetailModel(model, roomId, new SearchFormModel());
 
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
@@ -105,18 +113,23 @@ public class RoomDetailController extends MainController {
 			}
 		}
 
-		try {
-			bookingManagement.book(userID, facilityIDs, bfm.getStart(),
-					bfm.getEnd());
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FacilityNotFreeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (facilityIDs.size() != 0) {
+			try {
+				bookingManagement.book(userID, facilityIDs, bfm.getStart(),
+						bfm.getEnd());
+
+				returnedView = "redirect:/reservation/list.html";
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (FacilityNotFreeException e) {
+				model.addAttribute("notFree", true);
+			}
+		} else {
+			model.addAttribute("noFacilities", true);
 		}
 
-		return "room/details";
+		return returnedView;
 
 	}
 
@@ -128,8 +141,30 @@ public class RoomDetailController extends MainController {
 	 * @param room
 	 *            the room
 	 */
-	private void listWorkplaces(Model model, Room room) {
+	private void listWorkplaces(Model model, Room room, SearchFormModel sfm) {
 		Collection<Facility> workplaces = room.getContainedFacilities();
+
+		boolean[] checked = new boolean[workplaces.size()];
+
+		if (sfm.isWholeRoom()) {
+			for (int i = 0; i < checked.length; i++) {
+				checked[i] = false;
+			}
+		} else {
+			int workplacesToSelect = sfm.getWorkplaceCount();
+			for (int i = 0; i < checked.length; i++) {
+				if (workplacesToSelect > 0) {
+					// TODO: isFree, hasProps
+					checked[i] = true;
+					workplacesToSelect--;
+				} else {
+					checked[i] = false;
+				}
+
+			}
+		}
+
+		model.addAttribute("checked", checked);
 		model.addAttribute("workplaces", workplaces);
 	}
 
