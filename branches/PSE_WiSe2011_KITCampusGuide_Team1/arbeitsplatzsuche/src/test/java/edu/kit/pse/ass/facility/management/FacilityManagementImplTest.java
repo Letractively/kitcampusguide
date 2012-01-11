@@ -66,13 +66,12 @@ public class FacilityManagementImplTest {
 			NEEDED_WORKPLACES);
 
 	/** Collection of the Collections of the test-dummy facilities */
-	Collection<Collection<Facility>> dummyFacilities = null;
+	TestData.DummyFacilities dummyFacilities = null;
 
 	@Before
 	public void setUp() {
 		dummyFacilities = testData.facilityFillWithDummies();
-		FACILITYID = ((List<Facility>) ((List<Collection<Facility>>) dummyFacilities)
-				.get(1)).get(0).getId();
+		FACILITYID = dummyFacilities.rooms.iterator().next().getId();
 	}
 
 	/**

@@ -86,7 +86,7 @@ public class BookingManagementImplTest {
 	TestData testData;
 
 	/** Collection of the Collections of the test-dummy facilities */
-	Collection<Collection<Facility>> dummyFacilities = null;
+	TestData.DummyFacilities dummyFacilities = null;
 
 	/**
 	 * Sets the up.
@@ -98,17 +98,11 @@ public class BookingManagementImplTest {
 	public void setUp() throws Exception {
 		dummyFacilities = testData.facilityFillWithDummies();
 		// get real-DB IDs of the test-dummy rooms
-		FACILITIES = Arrays
-				.asList(((List<Facility>) ((List<Collection<Facility>>) dummyFacilities)
-						.get(1)).get(0).getId(),
-						((List<Facility>) ((List<Collection<Facility>>) dummyFacilities)
-								.get(1)).get(1).getId());
-		FACILITIES2 = Arrays
-				.asList(((List<Facility>) ((List<Collection<Facility>>) dummyFacilities)
-						.get(1)).get(2).getId());
-		FACILITIES3 = Arrays
-				.asList(((List<Facility>) ((List<Collection<Facility>>) dummyFacilities)
-						.get(1)).get(3).getId());
+		Facility[] temp;
+		temp = (Facility[]) dummyFacilities.rooms.toArray();
+		FACILITIES = Arrays.asList(temp[0].getId(), temp[1].getId());
+		FACILITIES2 = Arrays.asList(temp[2].getId());
+		FACILITIES3 = Arrays.asList(temp[3].getId());
 
 		assertNotNull("No bookingManagement initialized", bookingManagement);
 		RESERVATIONID = bookingManagement.book(USERID, FACILITIES, start, end);

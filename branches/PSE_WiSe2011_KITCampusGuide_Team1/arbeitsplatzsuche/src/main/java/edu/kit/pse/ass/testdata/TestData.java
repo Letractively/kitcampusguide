@@ -2,7 +2,6 @@ package edu.kit.pse.ass.testdata;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
@@ -66,16 +65,16 @@ public class TestData {
 	}
 
 	@Transactional
-	public Collection<Collection<Facility>> facilityFillWithDummies() {
+	public DummyFacilities facilityFillWithDummies() {
 		if (null != jpaTemplate.find(Facility.class, "place1")) {
 			return null;
 		}
 		// TODO create dummy values
 
-		Facility build1 = createPersisted(Building.class, "BUILDING#1");
-		Facility build2 = createPersisted(Building.class, "BUILDING#2");
+		Building build1 = createPersisted(Building.class, "BUILDING#1");
+		Building build2 = createPersisted(Building.class, "BUILDING#2");
 		build2.setName("Informatikgebäude");
-		((Building) build2).setNumber("08.15");
+		build2.setNumber("08.15");
 
 		Property prop1 = new Property("WLAN");
 		Property prop2 = new Property("Steckdose");
@@ -90,11 +89,11 @@ public class TestData {
 		prop5 = jpaTemplate.merge(prop5);
 		prop6 = jpaTemplate.merge(prop6);
 
-		Facility facil1 = createPersisted(Room.class, "ID###1");
-		Facility facil2 = createPersisted(Room.class, "ID###2");
-		Facility facil3 = createPersisted(Room.class, "ID###3");
-		Facility facil4 = createPersisted(Room.class, "ID###4");
-		Facility facil5 = createPersisted(Room.class, "ID###5");
+		Room facil1 = createPersisted(Room.class, "ID###1");
+		Room facil2 = createPersisted(Room.class, "ID###2");
+		Room facil3 = createPersisted(Room.class, "ID###3");
+		Room facil4 = createPersisted(Room.class, "ID###4");
+		Room facil5 = createPersisted(Room.class, "ID###5");
 
 		facil1.setName("Raum 1");
 		facil2.setName("Raum 2");
@@ -102,18 +101,18 @@ public class TestData {
 		facil4.setName("Raum 4");
 		facil5.setName("Raum 5");
 
-		Facility place1 = createPersisted(Workplace.class, "place1");
-		Facility place2 = createPersisted(Workplace.class, "place2");
-		Facility place3 = createPersisted(Workplace.class, "place3");
+		Workplace place1 = createPersisted(Workplace.class, "place1");
+		Workplace place2 = createPersisted(Workplace.class, "place2");
+		Workplace place3 = createPersisted(Workplace.class, "place3");
 
-		Facility place2_1 = createPersisted(Workplace.class, "place2_1");
-		Facility place3_1 = createPersisted(Workplace.class, "place3_1");
-		Facility place3_2 = createPersisted(Workplace.class, "place3_2");
-		Facility place3_3 = createPersisted(Workplace.class, "place3_3");
-		Facility place4_1 = createPersisted(Workplace.class, "place4_1");
-		Facility place4_2 = createPersisted(Workplace.class, "place4_2");
-		Facility place4_3 = createPersisted(Workplace.class, "place4_3");
-		Facility place4_4 = createPersisted(Workplace.class, "place4_4");
+		Workplace place2_1 = createPersisted(Workplace.class, "place2_1");
+		Workplace place3_1 = createPersisted(Workplace.class, "place3_1");
+		Workplace place3_2 = createPersisted(Workplace.class, "place3_2");
+		Workplace place3_3 = createPersisted(Workplace.class, "place3_3");
+		Workplace place4_1 = createPersisted(Workplace.class, "place4_1");
+		Workplace place4_2 = createPersisted(Workplace.class, "place4_2");
+		Workplace place4_3 = createPersisted(Workplace.class, "place4_3");
+		Workplace place4_4 = createPersisted(Workplace.class, "place4_4");
 
 		facil1.addProperty(prop1);
 		facil1.addContainedFacility(place1);
@@ -147,45 +146,47 @@ public class TestData {
 		build1.addContainedFacility(facil4);
 		build1.addProperty(prop1);
 
-		jpaTemplate.merge(facil1);
-		jpaTemplate.merge(facil2);
-		jpaTemplate.merge(facil3);
-		jpaTemplate.merge(facil4);
-		jpaTemplate.merge(facil5);
+		// jpaTemplate.merge(facil1);
+		// jpaTemplate.merge(facil2);
+		// jpaTemplate.merge(facil3);
+		// jpaTemplate.merge(facil4);
+		// jpaTemplate.merge(facil5);
 
-		Collection<Collection<Facility>> addedFacilities = new ArrayList<Collection<Facility>>();
+		DummyFacilities addedFacilities = new DummyFacilities();
 
 		// building
-		Collection<Facility> buildings = new ArrayList<Facility>();
-		buildings.add(build1);
-		buildings.add(build2);
+		addedFacilities.buildings = new ArrayList<Building>();
+		addedFacilities.buildings.add(build1);
+		addedFacilities.buildings.add(build2);
 
 		// Rooms
-		Collection<Facility> rooms = new ArrayList<Facility>();
-		rooms.add(facil1);
-		rooms.add(facil2);
-		rooms.add(facil3);
-		rooms.add(facil4);
-		rooms.add(facil5);
+		addedFacilities.rooms = new ArrayList<Room>();
+		addedFacilities.rooms.add(facil1);
+		addedFacilities.rooms.add(facil2);
+		addedFacilities.rooms.add(facil3);
+		addedFacilities.rooms.add(facil4);
+		addedFacilities.rooms.add(facil5);
 
 		// workplaces
-		Collection<Facility> places = new ArrayList<Facility>();
-		places.add(place1);
-		places.add(place2);
-		places.add(place3);
-		places.add(place2_1);
-		places.add(place3_1);
-		places.add(place3_2);
-		places.add(place3_3);
-		places.add(place4_1);
-		places.add(place4_2);
-		places.add(place4_3);
-		places.add(place4_4);
-
-		addedFacilities.add(buildings);
-		addedFacilities.add(rooms);
-		addedFacilities.add(places);
+		addedFacilities.places = new ArrayList<Workplace>();
+		addedFacilities.places.add(place1);
+		addedFacilities.places.add(place2);
+		addedFacilities.places.add(place3);
+		addedFacilities.places.add(place2_1);
+		addedFacilities.places.add(place3_1);
+		addedFacilities.places.add(place3_2);
+		addedFacilities.places.add(place3_3);
+		addedFacilities.places.add(place4_1);
+		addedFacilities.places.add(place4_2);
+		addedFacilities.places.add(place4_3);
+		addedFacilities.places.add(place4_4);
 		return addedFacilities;
+	}
+
+	public class DummyFacilities {
+		public ArrayList<Building> buildings;
+		public ArrayList<Room> rooms;
+		public ArrayList<Workplace> places;
 	}
 
 	@SuppressWarnings("deprecation")
