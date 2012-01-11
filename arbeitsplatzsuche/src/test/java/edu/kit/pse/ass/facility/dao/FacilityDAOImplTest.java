@@ -1,11 +1,13 @@
 package edu.kit.pse.ass.facility.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.junit.Before;
@@ -22,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
-import edu.kit.pse.ass.entity.Workplace;
 import edu.kit.pse.ass.testdata.TestData;
 
 // TODO: Auto-generated Javadoc
@@ -38,31 +39,24 @@ import edu.kit.pse.ass.testdata.TestData;
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class FacilityDAOImplTest {
 
-	/** The Constant FACILITYID. */
-	private static final String FACILITYID = "ID###1";
+	/** The persisted facility. */
+	private Facility persistedFacility;
 
 	/** The dao. */
 	@Autowired
 	FacilityDAO facilityDAO;
 
-	/** The props. */
-	Collection<Property> props = new ArrayList<Property>();
+	/** The property wlan. */
+	Property propWlan;
 
-	/** The workplaces of facility 1. */
-	Collection<Facility> places1 = new ArrayList<Facility>();
-
-	/** The workplaces of facility 2. */
-	Collection<Facility> places2 = new ArrayList<Facility>();
-	/** The workplaces of facility 3. */
-	Collection<Facility> places3 = new ArrayList<Facility>();
-	/** The workplaces of facility 4. */
-	Collection<Facility> places4 = new ArrayList<Facility>();
-	/** The facs. */
-	Collection<Facility> facs = new ArrayList<Facility>();
+	/** The facscilites with Wlan */
+	Collection<Facility> facsWithWlan = new ArrayList<Facility>();
 
 	/** The test data. */
 	@Autowired
 	private TestData testData;
+
+	private TestData.DummyFacilities dummyFacilities;
 
 	/**
 	 * Sets the up.
@@ -70,63 +64,14 @@ public class FacilityDAOImplTest {
 	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() {
-		Property prop1 = new Property("WLAN");
-		Facility facil1 = new Room();
-		Facility facil2 = new Room();
-		Facility facil3 = new Room();
-		Facility facil4 = new Room();
-		facil1.setId("ID###1");
-		facil2.setId("ID###2");
-		facil3.setId("ID###3");
-		facil4.setId("ID###4");
+		dummyFacilities = testData.facilityFillWithDummies();
+		propWlan = new Property("WLAN");
 
-		Facility place1 = new Workplace();
-		Facility place2 = new Workplace();
-		Facility place3 = new Workplace();
-		Facility place4 = new Workplace();
-		place1.setId("place1");
-		place2.setId("place2");
-		place3.setId("place3");
-		place4.setId("place4");
-
-		Facility place2_1 = new Workplace();
-		Facility place3_1 = new Workplace();
-		Facility place3_2 = new Workplace();
-		Facility place3_3 = new Workplace();
-		Facility place4_1 = new Workplace();
-		Facility place4_2 = new Workplace();
-		Facility place4_3 = new Workplace();
-		Facility place4_4 = new Workplace();
-		place2_1.setId("place2_1");
-		place3_1.setId("place3_1");
-		place3_2.setId("place3_2");
-		place3_3.setId("place3_3");
-		place4_1.setId("place4_1");
-		place4_2.setId("place4_2");
-		place4_3.setId("place4_3");
-		place4_4.setId("place4_4");
-
-		testData.facilityFillWithDummies();
-		props.add(prop1);
-		places1.add(place1);
-		places1.add(place2);
-		places1.add(place3);
-
-		places2.add(place2_1);
-
-		places3.add(place3_1);
-		places3.add(place3_2);
-		places3.add(place3_3);
-
-		places4.add(place4_1);
-		places4.add(place4_2);
-		places4.add(place4_3);
-		places4.add(place4_4);
-
-		facs.add(facil1);
-		facs.add(facil2);
-		facs.add(facil3);
-		facs.add(facil4);
+		for (Facility f : dummyFacilities.rooms) {
+			if (f.hasProperty(propWlan))
+				facsWithWlan.add(f);
+		}
+		persistedFacility = dummyFacilities.rooms.get(0);
 	}
 
 	/**
@@ -141,18 +86,23 @@ public class FacilityDAOImplTest {
 		} catch (IllegalArgumentException e) {
 		}
 
-		result = facilityDAO.getFacility(FACILITYID);
+		result = facilityDAO.getFacility(persistedFacility.getId());
 		// a facility should be returned
 		assertNotNull("no facility found", result);
 		// ensure the right facility is returned
 		assertTrue("facility is not a Room", result instanceof Room);
-		assertEquals("ID of facility is wrong", FACILITYID, result.getId());
+		assertEquals("ID of facility is wrong", persistedFacility.getId(),
+				result.getId());
 
-		assertTrue("containedFacilities are different",
-				places1.size() == result.getContainedFacilities().size()
-						&& result.getContainedFacilities().containsAll(places1));
+		assertEquals("containedFacilities are different", persistedFacility
+				.getContainedFacilities().size(), result
+				.getContainedFacilities().size());
+		assertTrue(
+				"containedFacilities are different",
+				result.getContainedFacilities().containsAll(
+						persistedFacility.getContainedFacilities()));
 		assertTrue("properties are different", result.getProperties()
-				.containsAll(props));
+				.containsAll(persistedFacility.getProperties()));
 	}
 
 	/**
@@ -167,11 +117,13 @@ public class FacilityDAOImplTest {
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
-		result = facilityDAO.getFacilities(props);
+		result = facilityDAO.getFacilities(Arrays.asList(propWlan));
 		// facilities should be returned
-		assertNotNull("no facilities found", result);
+		assertNotNull("no facilities found (NULL)", result);
+		// facilities should be returned
+		assertFalse("no facilities found (EMPTY)", result.isEmpty());
 		// ensure the right facilities are returned
-		assertTrue("not all facilities found", result.containsAll(facs));
+		assertTrue("not all facilities found", result.containsAll(facsWithWlan));
 	}
 
 	/**
