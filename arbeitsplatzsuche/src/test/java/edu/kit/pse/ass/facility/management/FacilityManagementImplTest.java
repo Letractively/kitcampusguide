@@ -55,7 +55,11 @@ public class FacilityManagementImplTest {
 
 	/** The fm. */
 	@Autowired
-	FacilityManagement facilityManagement;
+	private FacilityManagement facilityManagement;
+
+	/** The test data. */
+	@Autowired
+	TestData testData;
 
 	/** The FACILIT y_ query. */
 	FacilityQuery FACILITY_QUERY = new RoomQuery(FIND_PROPERTIES, SEARCH_TEXT,
@@ -64,12 +68,8 @@ public class FacilityManagementImplTest {
 	/** Collection of the Collections of the test-dummy facilities */
 	Collection<Collection<Facility>> dummyFacilities = null;
 
-	/** The test data. */
-	@Autowired
-	TestData testData;
-
 	@Before
-	void setUp() {
+	public void setUp() {
 		dummyFacilities = testData.facilityFillWithDummies();
 		FACILITYID = ((List<Facility>) ((List<Collection<Facility>>) dummyFacilities)
 				.get(1)).get(0).getId();
