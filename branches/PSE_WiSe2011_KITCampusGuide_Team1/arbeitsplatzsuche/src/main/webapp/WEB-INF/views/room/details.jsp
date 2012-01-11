@@ -41,6 +41,24 @@
 	</div>
 </div>
 <div class="page roomDetails">
+	<c:if test="${formErrors}">
+		<div class="msg-error">Fehler beim Buchen</div>
+	</c:if>
+	<c:if test="${notFree}">
+		<div class="msg-error">
+			<c:if test="${bookingFormModel.wholeRoom}">
+				Der Raum ist zur angegebenen Zeit nicht frei.
+			</c:if>
+			<c:if test="${!bookingFormModel.wholeRoom}">
+				Nicht alle angegebenen Arbeitsplätze sind zur angegebenen Zeit frei.
+			</c:if>
+		</div>
+	</c:if>
+	<c:if test="${noFacilities}">
+		<div class="msg-error">
+				Sie haben keine Arbeitsplätze ausgewählt.
+		</div>
+	</c:if>
 <form:form method="post" commandName="bookingFormModel" action="${pageContext.request.contextPath}/room/${room.id}/details.html" id="searchForm">
 	<div class="bookingForm">
 		<h2>Reservieren</h2>
@@ -75,9 +93,9 @@
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach var="workplace" items="${workplaces}" varStatus="i">
+		<c:forEach var="workplace" items="${workplaces}" varStatus="status">
 			<tr>
-				<td><input type="checkbox" name="workplaces[${i.count}]" value="${workplace.id}"></input></td>
+				<td><input type="checkbox" name="workplaces[${status.index}]" value="${workplace.id}" checked="${checked[status.index]}"></input></td>
 				<td><c:out value="${workplace.name}" /></td>
 				<td>
 					<c:forEach var="property" items="${workplace.properties}">
