@@ -66,10 +66,11 @@ public class FacilityManagementImpl implements FacilityManagement {
 	@Override
 	public Collection<? extends Facility> findMatchingFacilities(
 			FacilityQuery facilityQuery) {
-		FacilityFinder finder = facilityQuery.createFinder();
-		if (finder == null) {
-			return null;
+		if (facilityQuery == null) {
+			throw new IllegalArgumentException("query was null");
 		}
+		FacilityFinder finder = facilityQuery.createFinder();
+
 		return finder.execute(facilityDAO);
 	}
 
