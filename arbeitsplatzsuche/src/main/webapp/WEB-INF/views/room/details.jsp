@@ -95,7 +95,9 @@
 		<tbody>
 		<c:forEach var="workplace" items="${workplaces}" varStatus="status">
 			<tr>
-				<td><input type="checkbox" name="workplaces[${status.index}]" value="${workplace.id}" checked="${checked[status.index]}"></input></td>
+				<td>
+					<input type="checkbox" name="workplaces[${status.index}]" value="${workplace.id}" <c:if test="${checked[status.index]}">  checked="checked"  </c:if> ></input>
+				</td>
 				<td><c:out value="${workplace.name}" /></td>
 				<td>
 					<c:forEach var="property" items="${workplace.properties}">
