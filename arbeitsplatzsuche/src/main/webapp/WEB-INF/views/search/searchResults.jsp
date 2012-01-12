@@ -25,7 +25,11 @@
 			"bProcessing" : true,
 			"bJQueryUI" : true,
 	        "sDom": 'lrtp',  			// Hide search
-
+	        
+	        "oLanguage": {
+				"sZeroRecords": "Es wurden keine Arbeitspl&auml;tze mit diesen Suchkriterien gefunden.",
+	        },
+	        
 			"bPaginate" : true,
 			"bScrollInfinite" : true,
 			"iDisplayLength" : 40,
