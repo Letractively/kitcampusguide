@@ -81,7 +81,7 @@ public class FacilityManagementImplTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testGetFacilityWithNullargument() {
+	public void testGetFacilityWithNullArgument() {
 		facilityManagement.getFacility(null);
 	}
 
@@ -102,30 +102,32 @@ public class FacilityManagementImplTest {
 		assertTrue(result.getContainedFacilities().size() == 3);
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testFindMatchingFacilitiesWithNullArgument() {
+		facilityManagement.findMatchingFacilities(null);
+	}
+
+	public void testFindMatchingFacilitiesWithEmptyResult() {
+		// the room query
+		FacilityQuery testQuery = new RoomQuery(Arrays.asList(new Property(
+				"Strom")), SEARCH_TEXT, NEEDED_WORKPLACES);
+
+		Collection<? extends Facility> result = facilityManagement
+				.findMatchingFacilities(testQuery);
+		assertNotNull(result);
+		assertTrue(result.isEmpty());
+	}
+
 	/**
 	 * Test find matching facilities.
 	 */
 	@Test
 	public void testFindMatchingFacilities() {
-		Collection<? extends Facility> result = null;
-		FacilityQuery testQuery = new RoomQuery(Arrays.asList(new Property(
-				"Strom")), SEARCH_TEXT, NEEDED_WORKPLACES);
-		try {
-			// throw error or return null if parameter is null
-			assertNull("Accepted wrong parameters.",
-					facilityManagement.findMatchingFacilities(null));
-			// TODO what's returned if nothing found? Therefore no property
-			// "Strom" in testdata
-			assertNull(facilityManagement.findMatchingFacilities(testQuery));
 
-			result = facilityManagement.findMatchingFacilities(FACILITY_QUERY);
-
-		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
-		}
-		assertNotNull("something should be returned", result);
-		// assert all results are of the wanted type, have enough places and the
-		// properties
+		Collection<? extends Facility> result = facilityManagement
+				.findMatchingFacilities(FACILITY_QUERY);
+		assertNotNull(result);
+		assertFalse(result.isEmpty());
 		for (Facility fac : result) {
 			assertEquals(fac.getClass(), Room.class);
 			assertTrue(fac.getContainedFacilities().size() >= NEEDED_WORKPLACES);
