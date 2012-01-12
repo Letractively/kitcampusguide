@@ -15,13 +15,13 @@ public class ReservationValidator implements Validator {
 
 		if (target instanceof ReservationModel) {
 			ReservationModel resModel = (ReservationModel) target;
-			if (resModel.getEndTime() == null) {
-				errors.rejectValue("endTime", "errors.invalid",
-						"Keine gültige Endzeit angegeben.");
+
+			if (!errors.hasFieldErrors("endTime")
+					&& resModel.getEndTime() == null) {
+				errors.rejectValue("endTime", "endTime.null");
 			}
 			if (resModel.getWorkplaceCount() < 1) {
-				errors.rejectValue("workplaceCount", "errors.invalid",
-						"Ungültige Anzahl.");
+				errors.rejectValue("workplaceCount", "workplaceCount.invalid");
 			}
 
 		}

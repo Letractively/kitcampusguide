@@ -28,7 +28,7 @@ public class RegisterController extends MainController {
 	 * 
 	 * @param model
 	 *            the model
-	 * @return the string
+	 * @return the view
 	 */
 	@RequestMapping(value = "register.html", method = RequestMethod.GET)
 	public String setUpRegisterForm(Model model) {
@@ -41,18 +41,20 @@ public class RegisterController extends MainController {
 	 * 
 	 * @param model
 	 *            the model
-	 * @return the string
+	 * @return the view
 	 */
 	@RequestMapping(value = "register.html", method = RequestMethod.POST)
 	public String registerUser(Model model,
 			@ModelAttribute("registerUser") User user, BindingResult userResult) {
 
-		String nextView = "register/register";
+		String nextView;
+
 		// Validate form
 		UserValidator userValidator = new UserValidator();
 		userValidator.validate(user, userResult);
 
 		if (userResult.hasErrors()) {
+			nextView = "register/register";
 			/*
 			 * // temp: print error codes for (FieldError e :
 			 * userResult.getFieldErrors()) {
@@ -70,6 +72,7 @@ public class RegisterController extends MainController {
 					user.getPassword());
 			if (userID.isEmpty()) {
 				// TODO error
+				nextView = "register/register";
 			} else {
 				// Show success message in login form
 				model.addAttribute("registerSuccess", true);
