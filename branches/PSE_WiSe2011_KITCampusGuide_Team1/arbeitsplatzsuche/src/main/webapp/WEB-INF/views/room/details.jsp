@@ -1,5 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#workplaces").dataTable({
@@ -29,6 +30,17 @@
 			use24Hour: true,
 			businessHours: {start: 8, end: 22, limitDisplay: true}
 		});
+		
+		var updateWorkplaceCount = function(){
+			var count = $('input.workplace-checkbox:checked').size();
+			var text = (count == 1 ? count + ' Platz' : count + " Plätze");
+			$('span.workplaceCount').text(text);
+		}
+		
+		$('input.workplace-checkbox').change(updateWorkplaceCount);
+		
+		
+		updateWorkplaceCount();
 	});
 </script>
 <div class="header2">
@@ -64,8 +76,8 @@
 		<h2>Reservieren</h2>
     		Am <form:input path="start" class="date" /> für 
      		<form:input path="duration" class="time"/> Stunden<br />
-     		<form:radiobutton path="wholeRoom" value="true"/> ganzen Raum <br />
-			<form:radiobutton path="wholeRoom" value="false"/> gewählte Arbeitsplätze <br />
+     		<form:radiobutton path="wholeRoom" value="true"/> ganzen Raum (${fn:length(workplaces)} Plätze)<br />
+			<form:radiobutton path="wholeRoom" value="false"/> gewählte Arbeitsplätze (<span class="workplaceCount"></span>)<br />
     		<input type='submit' value='Reservieren'>
 		
 	</div>
@@ -96,7 +108,7 @@
 		<c:forEach var="workplace" items="${workplaces}" varStatus="status">
 			<tr>
 				<td>
-					<input type="checkbox" name="workplaces[${status.index}]" value="${workplace.id}" <c:if test="${checked[status.index]}">  checked="checked"  </c:if> ></input>
+					<input class="workplace-checkbox" type="checkbox" name="workplaces[${status.index}]" value="${workplace.id}" <c:if test="${checked[status.index]}">  checked="checked"  </c:if> ></input>
 				</td>
 				<td><c:out value="${workplace.name}" /></td>
 				<td>
