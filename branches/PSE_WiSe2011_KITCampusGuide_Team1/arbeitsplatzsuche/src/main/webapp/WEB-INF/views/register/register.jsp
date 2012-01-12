@@ -13,19 +13,19 @@
 				<form:errors path="email" cssClass="form-error"/>
 			</div>
 			<div>
-				<label for="email">E-Mail-Adresse</label>
+				<label for="email"><spring:message code="register.email" /></label>
 				<form:input path="email" />
 			</div>	
 			<div>
 				<form:errors path="password" cssClass="form-error"/>
 			</div>
 			<div>
-				<label for="password">Passwort</label>
+				<label for="password"><spring:message code="register.password" /></label>
 				<form:password path="password"/>
 			</div>		
 			<div>
 				<label for="submit">&nbsp;</label>
-				<input name="submit" type='submit' value='Registrieren'>
+				<input name="submit" type='submit' value='<spring:message code="register.submitButton" />'>
 			</div>
 		</form:form>
 	</div>
