@@ -60,7 +60,7 @@ public class BookingManagementImpl implements BookingManagement {
 
 		// check each facility
 		for (String tmpID : facilityIDs) {
-			if (isTheFacilityAvailable(tmpID, startDate, endDate) == false) {
+			if (isFacilityFree(tmpID, startDate, endDate) == false) {
 				throw new FacilityNotFreeException(
 						"The facility is not available at the given time.");
 			}
@@ -72,53 +72,6 @@ public class BookingManagementImpl implements BookingManagement {
 
 		// return the id of the reservation
 		return bookingDAO.insertReservation(reservation);
-	}
-
-	/**
-	 * Checks the reservations of the facility and all contained facilities.
-	 * 
-	 * @param facilityID
-	 *            the id of the facility
-	 * @param asFrom
-	 *            the as from
-	 * @param upTo
-	 *            the up to
-	 * @return true, when the facility and all junior facilities have no
-	 *         reservations to the given time.
-	 * @throws IllegalArgumentException
-	 *             the facilityID is not valid or a ID of a contained facility
-	 *             is not valid.
-	 */
-	private boolean isTheFacilityAvailable(String facilityID, Date asFrom,
-			Date upTo) throws IllegalArgumentException {
-		if (facilityID.equals("") || facilityID == null || asFrom == null
-				|| upTo == null) {
-			throw new IllegalArgumentException("One parameter is null or empty");
-		}
-		// get the facility
-		Facility facility;
-		try {
-			facility = facilityManagement.getFacility(facilityID);
-		} catch (IllegalArgumentException e) {
-			throw new IllegalArgumentException("The facility does not exist.");
-		}
-		// check the reservations of the facility
-		if (bookingDAO
-				.getReservationsOfFacility(facility.getId(), asFrom, upTo)
-				.size() > 0)
-			return false;
-		// check the reservations of contained facilities
-		if (facility.getContainedFacilities() != null) {
-			Iterator<Facility> containedIterator = facility
-					.getContainedFacilities().iterator();
-			for (int i = 0; i < facility.getContainedFacilities().size(); i++) {
-				if (isTheFacilityAvailable(containedIterator.next().getId(),
-						asFrom, upTo))
-					return false;
-			}
-		}
-
-		return true;
 	}
 
 	/*

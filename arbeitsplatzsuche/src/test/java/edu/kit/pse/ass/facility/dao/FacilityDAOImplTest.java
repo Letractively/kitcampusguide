@@ -61,7 +61,6 @@ public class FacilityDAOImplTest {
 	/**
 	 * Sets the up.
 	 */
-	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() {
 		dummyFacilities = testData.facilityFillWithDummies();
