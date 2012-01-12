@@ -74,23 +74,26 @@ public class FacilityManagementImplTest {
 		FACILITYID = dummyFacilities.rooms.iterator().next().getId();
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetNotExistingFacility() {
+		// The id should not exist.
+		facilityManagement.getFacility("ID9");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetFacilityWithNullargument() {
+		facilityManagement.getFacility(null);
+	}
+
 	/**
 	 * Test get facility.
 	 */
 	@Test
 	public void testGetFacility() {
-		Facility result = null;
-		try {
-			// throw error or return null if parameter is null
-			assertNull("Accepted wrong parameters.",
-					facilityManagement.getFacility(null));
-			// TODO what's returned if nothing found?
-			assertNull(facilityManagement.getFacility("ID9"));
-
-			result = facilityManagement.getFacility(FACILITYID);
-		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
-		}
+		// check for right input
+		assertNotNull(FACILITYID);
+		// try to get facility
+		Facility result = facilityManagement.getFacility(FACILITYID);
 		// a facility should be returned
 		assertNotNull(result);
 		// assert the correct facility was returned
