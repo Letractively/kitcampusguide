@@ -72,6 +72,8 @@ public class TestData {
 		// TODO create dummy values
 
 		Building build1 = createPersisted(Building.class, "BUILDING#1");
+		build1.setName("Fakultät für Informatik");
+		build1.setNumber("50.34");
 		Building build2 = createPersisted(Building.class, "BUILDING#2");
 		build2.setName("Informatikgebäude");
 		build2.setNumber("08.15");
@@ -145,12 +147,6 @@ public class TestData {
 		build1.addContainedFacility(facil3);
 		build1.addContainedFacility(facil4);
 		build1.addProperty(prop1);
-
-		// jpaTemplate.merge(facil1);
-		// jpaTemplate.merge(facil2);
-		// jpaTemplate.merge(facil3);
-		// jpaTemplate.merge(facil4);
-		// jpaTemplate.merge(facil5);
 
 		DummyFacilities addedFacilities = new DummyFacilities();
 

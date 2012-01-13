@@ -44,7 +44,7 @@ public class FacilityManagementImplTest {
 	private static String FACILITYID = null;
 
 	/** The Constant SEARCH_TEXT. */
-	private static final String SEARCH_TEXT = "Informatik";
+	private static final String SEARCH_TEXT = "Informatik 50.34";
 
 	/** The Constant NEEDED_WORKPLACES. */
 	private static final int NEEDED_WORKPLACES = 3;
@@ -92,6 +92,7 @@ public class FacilityManagementImplTest {
 	public void testGetFacility() {
 		// check for right input
 		assertNotNull(FACILITYID);
+		assertFalse(FACILITYID.isEmpty());
 		// try to get facility
 		Facility result = facilityManagement.getFacility(FACILITYID);
 		// a facility should be returned
@@ -111,7 +112,7 @@ public class FacilityManagementImplTest {
 		// the room query
 		FacilityQuery testQuery = new RoomQuery(Arrays.asList(new Property(
 				"Strom")), SEARCH_TEXT, NEEDED_WORKPLACES);
-
+		// no such facility should be found
 		Collection<? extends Facility> result = facilityManagement
 				.findMatchingFacilities(testQuery);
 		assertNotNull(result);
