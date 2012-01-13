@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Facility;
+import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.entity.Workplace;
 import edu.kit.pse.ass.facility.dao.FacilityDAO;
@@ -80,6 +81,20 @@ public class RoomFinder extends FacilityFinder {
 							add = false;
 							break;
 						}
+					}
+				}
+				if (add && roomQuery.getWorkplaceProperties() != null) {
+					// check properties of workplaces
+					Collection<Property> props = roomQuery
+							.getWorkplaceProperties();
+					int fittingPlaces = 0;
+					for (Facility containedFac : r.getContainedFacilities()) {
+						if (containedFac.getProperties().containsAll(props)) {
+							fittingPlaces++;
+						}
+					}
+					if (fittingPlaces < minWorkpl) {
+						add = false;
 					}
 				}
 				if (add) {
