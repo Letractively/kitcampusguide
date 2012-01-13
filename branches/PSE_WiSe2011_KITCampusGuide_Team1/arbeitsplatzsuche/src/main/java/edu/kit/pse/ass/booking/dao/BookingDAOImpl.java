@@ -61,11 +61,10 @@ public class BookingDAOImpl implements BookingDAO {
 			throw new IllegalArgumentException("start-date is after end-date");
 		}
 		Collection<Reservation> result = new ArrayList<Reservation>();
-		Collection<Reservation> reservations = jpaTemplate
-				.find("from t_reservation");
+		Collection<Reservation> reservations = jpaTemplate.find(
+				"from t_reservation WHERE bookingUserId = ?", userID);
 
-		// TODO diese Filterung kann auch die Datenbank übernehmen. Dafür müsste
-		// man die SearchQuery für das jpaTemplate schreiben
+		// TODO remove duplicate checks
 
 		// find matching reservations and add them to the result
 		for (Reservation tmp : reservations) {
@@ -73,21 +72,9 @@ public class BookingDAOImpl implements BookingDAO {
 				Date end = tmp.getEndTime();
 				Date start = tmp.getStartTime();
 
-				// reservation contains the time quantum
-				if (start.before(asFrom) && end.after(upTo)) {
-					result.add(tmp);
-				}
-
-				// the start or end point of the reservation is in the time
-				// quantum
-				else if (((start.after(asFrom)) && (start.before(upTo)))
-						|| ((end.after(asFrom)) && (end.before(upTo)))) {
-					result.add(tmp);
-				}
-
-				// start or end point of reservation is equal to start or end
-				// point of time quantum
-				else if (start.equals(asFrom) || end.equals(upTo)) {
+				// time quantum starts before reservation ends
+				// and ends after reservation starts
+				if (start.before(upTo) && end.after(asFrom)) {
 					result.add(tmp);
 				}
 			}
@@ -116,10 +103,10 @@ public class BookingDAOImpl implements BookingDAO {
 		}
 		Collection<Reservation> result = new ArrayList<Reservation>();
 		Collection<Reservation> reservations = jpaTemplate
-				.find("from t_reservation");
+				.find("from t_reservation r WHERE ? IN elements(r.bookedFacilityIds)",
+						facilityID);
 
-		// TODO diese Filterung kann auch die Datenbank übernehmen. Dafür müsste
-		// man die SearchQuery für das jpaTemplate schreiben
+		// TODO remove duplicate checks
 
 		// find matching reservations and add them to the result
 		for (Reservation tmp : reservations) {
@@ -127,21 +114,9 @@ public class BookingDAOImpl implements BookingDAO {
 				Date end = tmp.getEndTime();
 				Date start = tmp.getStartTime();
 
-				// reservation contains the time quantum
-				if (start.before(asFrom) && end.after(upTo)) {
-					result.add(tmp);
-				}
-
-				// the start or end point of the reservation is in the time
-				// quantum
-				else if (((start.after(asFrom)) && (start.before(upTo)))
-						|| ((end.after(asFrom)) && (end.before(upTo)))) {
-					result.add(tmp);
-				}
-
-				// start or end point of reservation is equal to start or end
-				// point of time quantum
-				else if (start.equals(asFrom) || end.equals(upTo)) {
+				// time quantum starts before reservation ends
+				// and ends after reservation starts
+				if (start.before(upTo) && end.after(asFrom)) {
 					result.add(tmp);
 				}
 			}
@@ -178,7 +153,6 @@ public class BookingDAOImpl implements BookingDAO {
 		if (reservation == null) {
 			throw new IllegalArgumentException("Reservation is null");
 		}
-		// TODO generated ID return
 		jpaTemplate.persist(reservation);
 		return reservation.getId();
 	}
@@ -225,7 +199,7 @@ public class BookingDAOImpl implements BookingDAO {
 	 */
 	@Override
 	public void bookingFillWithDummies() {
-		// TODO
+		// TODO move booking Dummy data to TestData
 		// the available facilities
 		List<String> facilityIDs = Arrays.asList("ID##01", "ID##02", "ID##03",
 				"ID##04", "ID##05", "ID##06");
