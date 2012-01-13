@@ -101,6 +101,7 @@ public class TestData {
 		facil2.setName("Raum 2");
 		facil3.setName("Raum 3");
 		facil4.setName("Raum 4");
+		// contains only dummy properties
 		facil5.setName("Raum 5");
 
 		Workplace place1 = createPersisted(Workplace.class, "place1");

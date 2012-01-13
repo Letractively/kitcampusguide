@@ -53,6 +53,12 @@ public class FacilityManagementImplTest {
 	private static final Collection<Property> FIND_PROPERTIES = Arrays.asList(
 			new Property("WLAN"), new Property("Steckdose"));
 
+	/** all available properties of rooms */
+	private static final Collection<Property> ALL_ROOM_PROPERTIES = Arrays
+			.asList(new Property("WLAN"), new Property("Steckdose"),
+					new Property("LAN"), new Property("Barrierefrei"),
+					new Property("Licht"), new Property("PC"));
+
 	/** The fm. */
 	@Autowired
 	private FacilityManagement facilityManagement;
@@ -137,7 +143,7 @@ public class FacilityManagementImplTest {
 	}
 
 	/**
-	 * Test get available propertis of.
+	 * Test get available properties of.
 	 */
 	@Test
 	public void testGetAvailablePropertisOf() {
@@ -146,20 +152,20 @@ public class FacilityManagementImplTest {
 			// throw error or return null if parameter is null
 			assertNull("Accepted wrong parameters.",
 					facilityManagement.getAvailablePropertiesOf(null));
-
-			result = facilityManagement.getAvailablePropertiesOf(Room.class);
-			assertTrue(facilityManagement.getAvailablePropertiesOf(
-					Building.class).contains(
-					((List<Property>) FIND_PROPERTIES).get(0)));
-			assertFalse(facilityManagement.getAvailablePropertiesOf(
-					Building.class).contains(
-					((List<Property>) FIND_PROPERTIES).get(1)));
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
+		// buildings only have wlan
+		result = facilityManagement.getAvailablePropertiesOf(Building.class);
+		assertNotNull("Result is null", result);
+		assertTrue(result.contains(((List<Property>) FIND_PROPERTIES).get(0)));
+		assertFalse(facilityManagement.getAvailablePropertiesOf(Building.class)
+				.contains(((List<Property>) FIND_PROPERTIES).get(1)));
+		result = null;
+		result = facilityManagement.getAvailablePropertiesOf(Room.class);
 		// something should be returned
-		assertNotNull(result);
+		assertNotNull("Result is null", result);
 		// assert the correct properties are returned
-		assertTrue(result.containsAll(FIND_PROPERTIES));
+		assertTrue(result.containsAll(ALL_ROOM_PROPERTIES));
 	}
 }
