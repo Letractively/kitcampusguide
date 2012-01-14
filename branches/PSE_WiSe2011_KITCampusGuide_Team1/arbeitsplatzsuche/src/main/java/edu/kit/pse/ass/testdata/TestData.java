@@ -43,14 +43,16 @@ public class TestData {
 	 * User fill with dummies.
 	 */
 	@Transactional
-	public void userFillWithDummies() {
-		// TODO Auto-generated method stub
+	public DummyUsers userFillWithDummies() {
+		// initialize the return
+		DummyUsers dummies = new DummyUsers();
+		dummies.users = new ArrayList<User>();
 		// 4 letter email part, used as id
 		List<String> email = Arrays.asList("bbbb", "bbbc", "bbbd", "bbbe",
 				"bbbf", "bbbg", "bbbh", "bbbi", "bbbj", "bbbk", "bbbl", "bbbm");
 		if (null != jpaTemplate.find(User.class, "u" + email.get(0)
 				+ "@student.kit.edu")) {
-			return;
+			return null;
 		}
 		for (int i = 0; i < email.size(); i++) {
 			User u = new User();
@@ -61,7 +63,9 @@ public class TestData {
 			u.setPassword(passwordEncoder.encodePassword(
 					email.get(i) + email.get(i), null));
 			jpaTemplate.persist(u);
+			dummies.users.add(u);
 		}
+		return dummies;
 	}
 
 	@Transactional
@@ -103,6 +107,10 @@ public class TestData {
 		facil4.setName("Raum 4");
 		// contains only dummy properties
 		facil5.setName("Raum 5");
+
+		facil1.setDescription("Informatik");
+		facil2.setDescription("Informatik");
+		facil3.setDescription("Informatik");
 
 		Workplace place1 = createPersisted(Workplace.class, "place1");
 		Workplace place2 = createPersisted(Workplace.class, "place2");
@@ -184,6 +192,10 @@ public class TestData {
 		public ArrayList<Building> buildings;
 		public ArrayList<Room> rooms;
 		public ArrayList<Workplace> places;
+	}
+
+	public class DummyUsers {
+		public ArrayList<User> users;
 	}
 
 	@SuppressWarnings("deprecation")

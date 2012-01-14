@@ -52,8 +52,8 @@ public class BookingManagementImpl implements BookingManagement {
 		if (userID == null || userID.equals(""))
 			throw new IllegalArgumentException(
 					"userID must be not null and not empty.");
-		Collection<Reservation> userReservations = 
-				bookingDAO.getReservationsOfUser(userID, startDate, endDate);
+		Collection<Reservation> userReservations = bookingDAO
+				.getReservationsOfUser(userID, startDate, endDate);
 		if (userReservations.size() > 0)
 			throw new IllegalArgumentException(
 					"The user has a reservation at the same time");
@@ -85,12 +85,12 @@ public class BookingManagementImpl implements BookingManagement {
 	@PreAuthorize("authentication.name == #userID")
 	public Collection<Reservation> listReservationsOfUser(String userID,
 			Date asFrom, Date upTo) throws IllegalArgumentException {
-		if (userID == null || userID.equals("") || asFrom == null
+		if (userID == null || userID.isEmpty() || asFrom == null
 				|| upTo == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
 		// TODO Auto-generated method stub
-		return null;
+		return bookingDAO.getReservationsOfUser(userID, asFrom, upTo);
 	}
 
 	/*
@@ -126,8 +126,9 @@ public class BookingManagementImpl implements BookingManagement {
 				|| newEndDate == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
-		bookingDAO.getReservation(reservationID).setEndTime(newEndDate);
-
+		Reservation resv = bookingDAO.getReservation(reservationID);
+		resv.setEndTime(newEndDate);
+		bookingDAO.updateReservation(resv);
 	}
 
 	/*
@@ -144,7 +145,13 @@ public class BookingManagementImpl implements BookingManagement {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
 		// TODO Auto-generated method stub
-
+		Reservation resv = bookingDAO.getReservation(reservationID);
+		if (!resv.getBookedFacilityIds().contains(facilityID)) {
+			throw new IllegalArgumentException(
+					"The reservation doesn't contain the facility");
+		}
+		resv.removeBookedFacilityId(facilityID);
+		bookingDAO.updateReservation(resv);
 	}
 
 	/*
@@ -158,11 +165,11 @@ public class BookingManagementImpl implements BookingManagement {
 	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'delete')")
 	public void deleteReservation(String reservationID)
 			throws IllegalArgumentException {
-		if (reservationID == null || reservationID.equals("")) {
+		if (reservationID == null || reservationID.isEmpty()) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
 		// TODO Auto-generated method stub
-
+		bookingDAO.deleteReservation(reservationID);
 	}
 
 	/*
@@ -175,14 +182,14 @@ public class BookingManagementImpl implements BookingManagement {
 	@Override
 	public Reservation getReservation(String reservationID)
 			throws IllegalArgumentException {
-		if (reservationID == null || reservationID.equals("")) {
+		if (reservationID == null || reservationID.isEmpty()) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
 		Reservation reserv = bookingDAO.getReservation(reservationID);
 		if (reserv == null) {
 			throw new IllegalArgumentException("The reservationID is invalid.");
 		}
-		return null;
+		return reserv;
 	}
 
 	/*
