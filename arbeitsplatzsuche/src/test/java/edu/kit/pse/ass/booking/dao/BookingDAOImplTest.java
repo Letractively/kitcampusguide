@@ -24,6 +24,9 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.kit.pse.ass.entity.Reservation;
+import edu.kit.pse.ass.testdata.TestData;
+import edu.kit.pse.ass.testdata.TestData.DummyFacilities;
+import edu.kit.pse.ass.testdata.TestData.DummyUsers;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -63,6 +66,10 @@ public class BookingDAOImplTest {
 	/** The test reservation col. */
 	Collection<Reservation> testReservationCol = new ArrayList<Reservation>();
 
+	/** The test data. */
+	@Autowired
+	TestData testData;
+
 	/**
 	 * Sets the up.
 	 * 
@@ -77,11 +84,10 @@ public class BookingDAOImplTest {
 		bookingDAO.insertReservation(testReservation);
 		assertNotNull(testReservation.getId());
 		PERSISTED_RESERVATIONID = testReservation.getId();
-		/*
-		 * try { bm.updateReservation(testReservation);
-		 * bm.bookingFillWithDummies(); } catch (Exception e) {
-		 * System.out.println("Error: " + e.getMessage()); }
-		 */
+
+		DummyFacilities dummyFacilities = testData.facilityFillWithDummies();
+		DummyUsers dummyUsers = testData.userFillWithDummies();
+		testData.bookingFillWithDummies(dummyFacilities, dummyUsers);
 	}
 
 	/**

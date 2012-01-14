@@ -2,6 +2,8 @@ package edu.kit.pse.ass.testdata;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
+import edu.kit.pse.ass.entity.Reservation;
 import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.entity.User;
 import edu.kit.pse.ass.entity.Workplace;
@@ -186,6 +189,57 @@ public class TestData {
 		addedFacilities.places.add(place4_3);
 		addedFacilities.places.add(place4_4);
 		return addedFacilities;
+	}
+
+	@Transactional
+	public List<String> bookingFillWithDummies(DummyFacilities facilities,
+			DummyUsers dummyusers) {
+		// the reservations IDs
+		List<String> resvIDs = new ArrayList<String>();
+		// the available rooms
+		List<Room> allRooms = facilities.rooms;
+		// the available users
+		List<User> allUsers = dummyusers.users;
+		// the start dates
+		List<GregorianCalendar> start = Arrays.asList(new GregorianCalendar(
+				2012, 1, 1, 9, 0), new GregorianCalendar(2012, 1, 1, 12, 0),
+				new GregorianCalendar(2012, 1, 1, 15, 0));
+		// the end dates, all of them after the latest start
+		List<GregorianCalendar> end = Arrays.asList(new GregorianCalendar(2012,
+				1, 1, 11, 0), new GregorianCalendar(2012, 1, 1, 14, 0),
+				new GregorianCalendar(2012, 1, 1, 17, 0));
+		int i = 0;
+		// create reservations and persist them
+		int[] sizes = { allRooms.size(), allUsers.size(), start.size(),
+				end.size() };
+		// shortest list
+		int s = allRooms.size();
+		// longest list
+		int l = allRooms.size();
+		// get size of shortest and longest list
+		for (int j : sizes) {
+			if (j < s) {
+				s = j;
+			}
+			if (j > l) {
+				l = j;
+			}
+		}
+		while (resvIDs.size() < l) {
+			// makes the lists size independent
+			i %= s;
+			Reservation resvTmp = new Reservation(start.get(i).getTime(), end
+					.get(i).getTime(), allUsers.get(i).getEmail());
+			resvTmp.addBookedFacilityId(allRooms.get(i).getId());
+			jpaTemplate.merge(resvTmp);
+			resvIDs.add(resvTmp.getId());
+			// adds a day to each start and end, thus preventing double
+			// reservations
+			start.get(i).add(Calendar.DATE, 1);
+			end.get(i).add(Calendar.DATE, 1);
+			i++;
+		}
+		return resvIDs;
 	}
 
 	public class DummyFacilities {
