@@ -27,11 +27,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import edu.kit.pse.ass.booking.management.BookingManagement;
 import edu.kit.pse.ass.booking.management.FreeFacilityResult;
+import edu.kit.pse.ass.booking.management.FreeRoomQuery;
 import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.facility.management.FacilityManagement;
-import edu.kit.pse.ass.facility.management.RoomQuery;
 import edu.kit.pse.ass.gui.model.DataTableParamModel;
 import edu.kit.pse.ass.gui.model.SearchFilterModel;
 import edu.kit.pse.ass.gui.model.SearchFormModel;
@@ -144,8 +144,9 @@ public class SearchController extends MainController {
 			searchFilterModel.setFilters(new ArrayList<Property>());
 		}
 
-		RoomQuery roomQuery = new RoomQuery(searchFilterModel.getFilters(),
-				sfm.getSearchText(), sfm.getWorkplaceCount());
+		FreeRoomQuery roomQuery = new FreeRoomQuery(
+				searchFilterModel.getFilters(), sfm.getSearchText(),
+				sfm.getWorkplaceCount());
 		Collection<FreeFacilityResult> searchResultsCollection = bookingManagement
 				.findFreeFacilites(roomQuery, sfm.getStart(), sfm.getEnd(),
 						sfm.isWholeRoom());

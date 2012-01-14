@@ -27,11 +27,14 @@ public class FacilityManagementImpl implements FacilityManagement {
 	 */
 	@Override
 	public Facility getFacility(String facilityID)
-			throws IllegalArgumentException {
+			throws IllegalArgumentException, FacilityNotFoundException {
+		if (facilityID == null) {
+			throw new IllegalArgumentException("facilityID is null.");
+		}
 		Facility facility = facilityDAO.getFacility(facilityID);
 
 		if (facility == null) {
-			throw new IllegalArgumentException("The ID does not exist.");
+			throw new FacilityNotFoundException("The ID does not exist.");
 		}
 
 		return facility;
@@ -45,12 +48,16 @@ public class FacilityManagementImpl implements FacilityManagement {
 	 * (edu.kit.pse.ass.facility.management.FacilityQuery)
 	 */
 	@Override
-	public <T extends Facility> T getFacility(Class<T> type, String facilityID) {
+	public <T extends Facility> T getFacility(Class<T> type, String facilityID)
+			throws FacilityNotFoundException {
+		if (facilityID == null) {
+			throw new IllegalArgumentException("facilityID is null.");
+		}
 		T facility = facilityDAO.getFacility(type, facilityID);
 
 		if (facility == null) {
-			throw new IllegalArgumentException(
-					"The ID does not exist with this type.");
+			throw new FacilityNotFoundException(
+					"The specified facility was not found.");
 		}
 
 		return facility;

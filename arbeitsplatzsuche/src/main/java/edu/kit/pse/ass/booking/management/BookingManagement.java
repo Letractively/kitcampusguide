@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import edu.kit.pse.ass.entity.Reservation;
+import edu.kit.pse.ass.facility.management.FacilityNotFoundException;
 import edu.kit.pse.ass.facility.management.FacilityQuery;
 
 // TODO: Auto-generated Javadoc
@@ -31,9 +32,12 @@ public interface BookingManagement {
 	 * @return the reservationID
 	 * @throws FacilityNotFreeException
 	 *             the facility not free exception
+	 * @throws FacilityNotFoundException
+	 * @throws IllegalArgumentException
 	 */
 	public String book(String userID, Collection<String> facilityIDs,
-			Date startDate, Date endDate) throws FacilityNotFreeException;
+			Date startDate, Date endDate) throws FacilityNotFreeException,
+			IllegalArgumentException, FacilityNotFoundException;
 
 	/**
 	 * List reservations of user.
@@ -70,8 +74,11 @@ public interface BookingManagement {
 	 *            the reservation id
 	 * @param newEndDate
 	 *            the new end date
+	 * @throws FacilityNotFreeException
+	 * @throws IllegalArgumentException
 	 */
-	public void changeReservationEnd(String reservationID, Date newEndDate);
+	public void changeReservationEnd(String reservationID, Date newEndDate)
+			throws IllegalArgumentException, FacilityNotFreeException;
 
 	/**
 	 * Removes the facility from reservation.
@@ -98,8 +105,11 @@ public interface BookingManagement {
 	 * @param reservationID
 	 *            the reservation id
 	 * @return the reservation
+	 * @throws ReservationNotFoundException
+	 * @throws IllegalArgumentException
 	 */
-	public Reservation getReservation(String reservationID);
+	public Reservation getReservation(String reservationID)
+			throws IllegalArgumentException, ReservationNotFoundException;
 
 	/**
 	 * Find free facilities.
@@ -127,7 +137,10 @@ public interface BookingManagement {
 	 * @param endDate
 	 *            the end date
 	 * @return true, if is facility free
+	 * @throws FacilityNotFoundException
+	 * @throws IllegalArgumentException
 	 */
 	public boolean isFacilityFree(String facilityID, Date startDate,
-			Date endDate);
+			Date endDate) throws IllegalArgumentException,
+			FacilityNotFoundException;
 }

@@ -1,7 +1,6 @@
 package edu.kit.pse.ass.gui.controller;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -26,7 +25,9 @@ import edu.kit.pse.ass.booking.management.FacilityNotFreeException;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Reservation;
 import edu.kit.pse.ass.entity.Room;
+import edu.kit.pse.ass.entity.Workplace;
 import edu.kit.pse.ass.facility.management.FacilityManagement;
+import edu.kit.pse.ass.facility.management.FacilityNotFoundException;
 import edu.kit.pse.ass.gui.model.BookingFormModel;
 import edu.kit.pse.ass.gui.model.CalendarParamModel;
 import edu.kit.pse.ass.gui.model.SearchFilterModel;
@@ -58,18 +59,22 @@ public class RoomDetailController extends MainController {
 	 * @param searchFilterModel
 	 *            the search filter model
 	 * @return the string
+	 * @throws FacilityNotFoundException
+	 * @throws IllegalArgumentException
 	 */
 	@RequestMapping(value = "room/{roomId}/details.html", method = { RequestMethod.GET })
 	public String setUpRoomDetails(@PathVariable("roomId") String roomId,
 			Model model, @ModelAttribute SearchFormModel sfm,
 			@ModelAttribute SearchFilterModel searchFilterModel,
-			@ModelAttribute BookingFormModel bfm) {
+			@ModelAttribute BookingFormModel bfm)
+			throws IllegalArgumentException, FacilityNotFoundException {
 		setUpRoomDetailModel(model, roomId, sfm);
 		return "room/details";
 	}
 
 	private void setUpRoomDetailModel(Model model, String roomId,
-			SearchFormModel sfm) {
+			SearchFormModel sfm) throws IllegalArgumentException,
+			FacilityNotFoundException {
 		Facility f = facilityManagement.getFacility(roomId);
 
 		if (!(f instanceof Room)) {
@@ -88,10 +93,13 @@ public class RoomDetailController extends MainController {
 	 * @param model
 	 *            the model
 	 * @return the string
+	 * @throws FacilityNotFoundException
+	 * @throws IllegalArgumentException
 	 */
 	@RequestMapping(value = "room/{roomId}/details.html", method = { RequestMethod.POST })
 	public String book(@PathVariable("roomId") String roomId, Model model,
-			@ModelAttribute BookingFormModel bfm) {
+			@ModelAttribute BookingFormModel bfm)
+			throws IllegalArgumentException, FacilityNotFoundException {
 
 		String returnedView = "room/details";
 
@@ -175,15 +183,18 @@ public class RoomDetailController extends MainController {
 	 *            the request
 	 * @param response
 	 *            the response
+	 * @throws FacilityNotFoundException
 	 */
 	@RequestMapping(value = "room/{roomId}/calendar.html")
 	public void showBookableOccupancy(@PathVariable("roomId") String roomId,
 			HttpServletRequest request, HttpServletResponse response,
-			@ModelAttribute CalendarParamModel cpm) {
+			@ModelAttribute CalendarParamModel cpm)
+			throws FacilityNotFoundException {
 
 		Collection<Reservation> reservations = bookingManagement
 				.listReservationsOfFacility(roomId, cpm.getStart(),
 						cpm.getEnd());
+		Room room = facilityManagement.getFacility(Room.class, roomId);
 
 		// create JSON response
 		try {
@@ -194,8 +205,29 @@ public class RoomDetailController extends MainController {
 				o.put("id", r.getId());
 				o.put("start", r.getStartTime().getTime());
 				o.put("end", r.getEndTime().getTime());
-				o.put("title", "besetzt");
+				o.put("title", "Raum besetzt");
 				events.put(o);
+			}
+
+			for (Facility fac : room.getContainedFacilities()) {
+				String title = "teilw. besetzt";
+				if (fac instanceof Workplace) {
+					String name = ((Workplace) fac).getName();
+					if (name != null && !name.isEmpty()) {
+						title = name + " besetzt";
+					}
+				}
+				reservations = bookingManagement.listReservationsOfFacility(
+						fac.getId(), cpm.getStart(), cpm.getEnd());
+				for (Reservation r : reservations) {
+					JSONObject o = new JSONObject();
+					o.put("id", r.getId());
+					o.put("start", r.getStartTime().getTime());
+					o.put("end", r.getEndTime().getTime());
+					o.put("title", title);
+					o.put("color", "yellow");
+					events.put(o);
+				}
 			}
 
 			JSONObject jsonResponse = new JSONObject();
@@ -214,5 +246,4 @@ public class RoomDetailController extends MainController {
 			e.printStackTrace();
 		}
 	}
-
 }
