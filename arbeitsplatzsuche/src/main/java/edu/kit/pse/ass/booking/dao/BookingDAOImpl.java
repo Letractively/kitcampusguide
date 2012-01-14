@@ -62,7 +62,7 @@ public class BookingDAOImpl implements BookingDAO {
 		}
 		Collection<Reservation> result = new ArrayList<Reservation>();
 		Collection<Reservation> reservations = jpaTemplate.find(
-				"from t_reservation WHERE bookingUserId = ?", userID);
+				"from t_reservation r WHERE r.bookingUserId LIKE ?", userID);
 
 		// TODO remove duplicate checks
 
@@ -134,7 +134,7 @@ public class BookingDAOImpl implements BookingDAO {
 	@Override
 	public Reservation getReservation(String reservationID)
 			throws IllegalArgumentException {
-		if (reservationID == null || reservationID.equals("")) {
+		if (reservationID == null || reservationID.isEmpty()) {
 			throw new IllegalArgumentException("Parameter is null or empty");
 		}
 		return jpaTemplate.find(Reservation.class, reservationID);
@@ -184,7 +184,7 @@ public class BookingDAOImpl implements BookingDAO {
 	@Override
 	@Transactional
 	public void deleteReservation(String reservationID) {
-		if (reservationID == null || reservationID.equals("")) {
+		if (reservationID == null || reservationID.isEmpty()) {
 			throw new IllegalArgumentException("Parameter is null or empty");
 		}
 		Reservation reservation = getReservation(reservationID);

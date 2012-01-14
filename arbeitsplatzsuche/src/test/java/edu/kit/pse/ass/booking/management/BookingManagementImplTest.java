@@ -44,8 +44,8 @@ import edu.kit.pse.ass.testdata.TestData;
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class BookingManagementImplTest {
 
-	/** The Constant USERID. */
-	private static final String USERID = "uxyxy@student.kit.edu";
+	/** The email of the user. */
+	private static String USERID = null;
 
 	/** The Constant FACILITIES. */
 	private static List<String> FACILITIES = null;
@@ -88,6 +88,9 @@ public class BookingManagementImplTest {
 	/** Collection of the Collections of the test-dummy facilities */
 	TestData.DummyFacilities dummyFacilities = null;
 
+	/** Collection of the Collections of the test-dummy facilities */
+	TestData.DummyUsers dummyUsers = null;
+
 	/**
 	 * Sets the up.
 	 * 
@@ -97,6 +100,9 @@ public class BookingManagementImplTest {
 	@Before
 	public void setUp() throws Exception {
 		dummyFacilities = testData.facilityFillWithDummies();
+		dummyUsers = testData.userFillWithDummies();
+		// get real-DB ID of a user
+		USERID = dummyUsers.users.get(0).getEmail();
 		// get real-DB IDs of the test-dummy rooms
 		List<Room> tmp;
 		tmp = dummyFacilities.rooms;
@@ -107,12 +113,16 @@ public class BookingManagementImplTest {
 
 		assertNotNull("No bookingManagement initialized", bookingManagement);
 		RESERVATIONID = bookingManagement.book(USERID, FACILITIES, start, end);
+		// ensure setup booking was successful
+		assertNotNull(RESERVATIONID);
+		assertFalse(RESERVATIONID.isEmpty());
 
 		Date start2 = new GregorianCalendar(2012, 0, 2, 18, 0).getTime();
 		Date end2 = new GregorianCalendar(2012, 0, 2, 19, 0).getTime();
 		RESERVATIONID2 = bookingManagement.book(USERID, FACILITIES3, start2,
 				end2);
-
+		assertNotNull(RESERVATIONID2);
+		assertFalse(RESERVATIONID2.isEmpty());
 	}
 
 	/**
@@ -134,17 +144,22 @@ public class BookingManagementImplTest {
 			assertNull("Accepted wrong parameters.",
 					bookingManagement.book(USERID, FACILITIES, startDate, null));
 
-			resvID = bookingManagement.book("uxyzz@student.kit.edu",
-					FACILITIES, startDate, endDate);
 		} catch (Exception e) {
 			System.out.println("Error:" + e);
+		}
+		try {
+			resvID = bookingManagement.book(USERID, FACILITIES, startDate,
+					endDate);
+		} catch (FacilityNotFreeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		// a reservation must be returned
 		assertNotNull("Reservation id is null", resvID);
 		assertFalse("Reservation id is emtpy", resvID.equals(""));
 		// check if returned reservation is correct
-		assertEquals("uxyzz@student.kit.edu",
-				bookingManagement.getReservation(resvID).getBookingUserId());
+		assertEquals(USERID, bookingManagement.getReservation(resvID)
+				.getBookingUserId());
 		assertTrue(bookingManagement.getReservation(resvID)
 				.getBookedFacilityIds().containsAll(FACILITIES));
 		assertEquals(startDate, bookingManagement.getReservation(resvID)
@@ -248,10 +263,10 @@ public class BookingManagementImplTest {
 			bookingManagement.changeReservationEnd(RESERVATIONID, null);
 			bookingManagement.changeReservationEnd(null, newEnd);
 
-			bookingManagement.changeReservationEnd(RESERVATIONID, newEnd);
 		} catch (Exception e) {
 			System.out.println("Error: " + e);
 		}
+		bookingManagement.changeReservationEnd(RESERVATIONID, newEnd);
 		// check if reservation is changed successfully
 		assertEquals(newEnd, bookingManagement.getReservation(RESERVATIONID)
 				.getEndTime());
@@ -275,11 +290,11 @@ public class BookingManagementImplTest {
 			bookingManagement
 					.removeFacilityFromReservation(RESERVATIONID, null);
 
-			bookingManagement.removeFacilityFromReservation(RESERVATIONID,
-					FACILITIES.get(0));
 		} catch (Exception e) {
 			System.out.println("Error: " + e);
 		}
+		bookingManagement.removeFacilityFromReservation(RESERVATIONID,
+				FACILITIES.get(0));
 		// check if the right facility was removed
 		assertTrue("No facility removed", FACILITIES.size() > bookingManagement
 				.getReservation(RESERVATIONID).getBookedFacilityIds().size());
@@ -299,10 +314,10 @@ public class BookingManagementImplTest {
 			// TODO throw error if parameter is null
 			bookingManagement.deleteReservation(null);
 
-			bookingManagement.deleteReservation(RESERVATIONID);
 		} catch (Exception e) {
 			System.out.println("Error: " + e);
 		}
+		bookingManagement.deleteReservation(RESERVATIONID);
 		// TODO getRes must return null if res not found
 		assertNull(bookingManagement.getReservation(RESERVATIONID));
 		// check if other reservation untouched
@@ -318,11 +333,10 @@ public class BookingManagementImplTest {
 		try {
 			// throw error or return null if parameter is null
 			assertNull(bookingManagement.getReservation(null));
-
-			resv = bookingManagement.getReservation(RESERVATIONID);
 		} catch (Exception e) {
 			System.out.println("Error: " + e);
 		}
+		resv = bookingManagement.getReservation(RESERVATIONID);
 		// a reservation must be returned
 		assertNotNull("No reservation returned", resv);
 		// check if the right reservation was returned
@@ -354,19 +368,15 @@ public class BookingManagementImplTest {
 					false));
 			assertNull(bookingManagement.findFreeFacilites(query, start, null,
 					false));
-
-			result = bookingManagement.findFreeFacilites(query, start, end,
-					false);
 		} catch (Exception e) {
 			System.out.println("Error: " + e);
 		}
+		result = bookingManagement.findFreeFacilites(query, start, end, false);
 		// free facilities should be returned
 		assertNotNull("Result is null", result);
 		assertTrue("Resultlist is empty", result.size() > 0);
 		// check if right facilities are returned
 		for (FreeFacilityResult freeFacility : result) {
-			// TODO search text unused in the facility construction, what needed
-			// for?
 			assertFalse(FACILITIES.contains(freeFacility.getFacility().getId()));
 			assertTrue(FACILITIES2.contains(freeFacility.getFacility().getId()));
 			assertFalse(FACILITIES3
