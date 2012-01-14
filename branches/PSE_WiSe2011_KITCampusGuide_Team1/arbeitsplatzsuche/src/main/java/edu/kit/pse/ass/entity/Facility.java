@@ -25,7 +25,7 @@ import org.hibernate.annotations.GenericGenerator;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Facility.
- *
+ * 
  * @author Sebastian, Lennart
  */
 @Entity(name = "t_facility")
@@ -158,7 +158,9 @@ public class Facility {
 			throw new IllegalArgumentException("facilities is null");
 		}
 		for (Facility facility : containedFacilities) {
-			facility.setParentFacility(null);
+			if (!facilities.contains(facility)) {
+				facility.setParentFacility(null);
+			}
 		}
 		containedFacilities = facilities;
 	}
@@ -198,8 +200,16 @@ public class Facility {
 	 */
 	public void removeContainedFacility(Facility removedFacility)
 			throws IllegalArgumentException {
-		if (containedFacilities.remove(removedFacility)) {
-			removedFacility.setParentFacility(null);
+		if (getContainedFacilities().contains(removedFacility)) {
+			try {
+				removedFacility.setParentFacility(null);
+				containedFacilities.remove(removedFacility);
+			} catch (UnsupportedOperationException e) {
+				ArrayList<Facility> facilities = new ArrayList<Facility>(
+						containedFacilities);
+				facilities.remove(removedFacility);
+				this.setContainedFacilities(facilities);
+			}
 		} else {
 			throw new IllegalArgumentException(
 					"the facility to remove is not contained in this facility");
@@ -217,7 +227,7 @@ public class Facility {
 
 	public void setProperties(Collection<Property> properties) {
 		if (properties == null) {
-			throw new IllegalArgumentException("properties is null");
+			this.properties = new ArrayList<Property>();
 		}
 		this.properties = properties;
 	}
@@ -270,8 +280,14 @@ public class Facility {
 		if (property == null) {
 			throw new IllegalArgumentException("property must not null.");
 		}
-		if (properties.contains(property)) {
-			properties.remove(property);
+		if (getProperties().contains(property)) {
+			try {
+				properties.remove(property);
+			} catch (UnsupportedOperationException e) {
+				ArrayList<Property> props = new ArrayList<Property>(properties);
+				props.remove(property);
+				this.setProperties(props);
+			}
 		} else {
 			throw new IllegalArgumentException(
 					"the property to remove is no property of this facility");

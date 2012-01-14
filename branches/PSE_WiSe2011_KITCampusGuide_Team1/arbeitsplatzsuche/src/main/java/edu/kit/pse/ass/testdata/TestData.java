@@ -158,6 +158,7 @@ public class TestData {
 		build1.addContainedFacility(facil2);
 		build1.addContainedFacility(facil3);
 		build1.addContainedFacility(facil4);
+		build1.addContainedFacility(facil5);
 		build1.addProperty(prop1);
 
 		DummyFacilities addedFacilities = new DummyFacilities();

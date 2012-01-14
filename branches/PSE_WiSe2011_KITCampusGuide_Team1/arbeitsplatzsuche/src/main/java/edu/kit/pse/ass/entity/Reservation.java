@@ -3,6 +3,7 @@
  */
 package edu.kit.pse.ass.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
@@ -236,12 +237,17 @@ public class Reservation {
 			throw new IllegalArgumentException(
 					"facilityID must be not null or empty");
 		}
-		if (!bookedFacilityIds.contains(facilityID)) {
+		if (!getBookedFacilityIds().contains(facilityID)) {
 			throw new IllegalArgumentException(
 					"the facility you want to remove is not booked in this reservation");
 		}
-
-		bookedFacilityIds.remove(facilityID);
+		try {
+			bookedFacilityIds.remove(facilityID);
+		} catch (UnsupportedOperationException e) {
+			ArrayList<String> facilityIDs = new ArrayList<String>(
+					bookedFacilityIds);
+			facilityIDs.remove(facilityID);
+			setBookedFacilityIDs(facilityIDs);
+		}
 	}
-
 }
