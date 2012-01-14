@@ -83,9 +83,4 @@ public interface BookingDAO {
 	 *            the reservation id
 	 */
 	public void deleteReservation(String reservationID);
-
-	/**
-	 * Fills the DAO with dummy values specified in its implementation.
-	 */
-	public void bookingFillWithDummies();
 }
