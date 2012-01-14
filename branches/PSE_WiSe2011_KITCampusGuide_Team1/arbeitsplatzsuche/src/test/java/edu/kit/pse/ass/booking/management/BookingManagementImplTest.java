@@ -24,9 +24,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Reservation;
+import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.facility.management.FacilityQuery;
 import edu.kit.pse.ass.facility.management.RoomQuery;
 import edu.kit.pse.ass.testdata.TestData;
@@ -98,16 +98,20 @@ public class BookingManagementImplTest {
 	public void setUp() throws Exception {
 		dummyFacilities = testData.facilityFillWithDummies();
 		// get real-DB IDs of the test-dummy rooms
-		Facility[] temp;
-		temp = (Facility[]) dummyFacilities.rooms.toArray();
-		FACILITIES = Arrays.asList(temp[0].getId(), temp[1].getId());
-		FACILITIES2 = Arrays.asList(temp[2].getId());
-		FACILITIES3 = Arrays.asList(temp[3].getId());
+		List<Room> tmp;
+		tmp = dummyFacilities.rooms;
+
+		FACILITIES = Arrays.asList(tmp.get(0).getId(), tmp.get(1).getId());
+		FACILITIES2 = Arrays.asList(tmp.get(2).getId());
+		FACILITIES3 = Arrays.asList(tmp.get(3).getId());
 
 		assertNotNull("No bookingManagement initialized", bookingManagement);
 		RESERVATIONID = bookingManagement.book(USERID, FACILITIES, start, end);
-		RESERVATIONID2 = bookingManagement
-				.book(USERID, FACILITIES3, start, end);
+
+		Date start2 = new GregorianCalendar(2012, 0, 2, 18, 0).getTime();
+		Date end2 = new GregorianCalendar(2012, 0, 2, 19, 0).getTime();
+		RESERVATIONID2 = bookingManagement.book(USERID, FACILITIES3, start2,
+				end2);
 
 	}
 
