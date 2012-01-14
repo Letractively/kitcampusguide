@@ -50,7 +50,7 @@ public class FacilityManagementImplTest {
 	private static final int NEEDED_WORKPLACES = 3;
 
 	/** The Constant FIND_PROPERTIES. */
-	private static final Collection<Property> FIND_PROPERTIES = Arrays.asList(
+	private static final List<Property> FIND_PROPERTIES = Arrays.asList(
 			new Property("WLAN"), new Property("Steckdose"));
 
 	/** all available properties of rooms */
@@ -80,22 +80,28 @@ public class FacilityManagementImplTest {
 		FACILITYID = dummyFacilities.rooms.iterator().next().getId();
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testGetNotExistingFacility() {
+	@Test(expected = FacilityNotFoundException.class)
+	public void testGetNotExistingFacility() throws IllegalArgumentException,
+			FacilityNotFoundException {
 		// The id should not exist.
 		facilityManagement.getFacility("ID9");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testGetFacilityWithNullArgument() {
+	public void testGetFacilityWithNullArgument()
+			throws IllegalArgumentException, FacilityNotFoundException {
 		facilityManagement.getFacility(null);
 	}
 
 	/**
 	 * Test get facility.
+	 * 
+	 * @throws FacilityNotFoundException
+	 * @throws IllegalArgumentException
 	 */
 	@Test
-	public void testGetFacility() {
+	public void testGetFacility() throws IllegalArgumentException,
+			FacilityNotFoundException {
 		// check for right input
 		assertNotNull(FACILITYID);
 		assertFalse(FACILITYID.isEmpty());
@@ -133,12 +139,14 @@ public class FacilityManagementImplTest {
 
 		Collection<? extends Facility> result = facilityManagement
 				.findMatchingFacilities(FACILITY_QUERY);
-		assertNotNull(result);
-		assertFalse(result.isEmpty());
+		assertNotNull("result is null", result);
+		assertFalse("result ist empty", result.isEmpty());
 		for (Facility fac : result) {
-			assertEquals(fac.getClass(), Room.class);
-			assertTrue(fac.getContainedFacilities().size() >= NEEDED_WORKPLACES);
-			assertTrue(fac.getProperties().containsAll(FIND_PROPERTIES));
+			assertEquals("wrong class", fac.getClass(), Room.class);
+			assertTrue("not enough places",
+					fac.getContainedFacilities().size() >= NEEDED_WORKPLACES);
+			assertTrue("not all properties",
+					fac.getProperties().containsAll(FIND_PROPERTIES));
 		}
 	}
 
@@ -155,6 +163,11 @@ public class FacilityManagementImplTest {
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
+		result = facilityManagement.getAvailablePropertiesOf(Room.class);
+		assertTrue(facilityManagement.getAvailablePropertiesOf(Building.class)
+				.contains(FIND_PROPERTIES.get(0)));
+		assertFalse(facilityManagement.getAvailablePropertiesOf(Building.class)
+				.contains(FIND_PROPERTIES.get(1)));
 		// buildings only have wlan
 		result = facilityManagement.getAvailablePropertiesOf(Building.class);
 		assertNotNull("Result is null", result);
