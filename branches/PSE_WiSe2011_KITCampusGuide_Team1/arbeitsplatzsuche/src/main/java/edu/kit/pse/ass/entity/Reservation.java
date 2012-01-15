@@ -241,13 +241,8 @@ public class Reservation {
 			throw new IllegalArgumentException(
 					"the facility you want to remove is not booked in this reservation");
 		}
-		try {
-			bookedFacilityIds.remove(facilityID);
-		} catch (UnsupportedOperationException e) {
-			ArrayList<String> facilityIDs = new ArrayList<String>(
-					bookedFacilityIds);
-			facilityIDs.remove(facilityID);
-			setBookedFacilityIDs(facilityIDs);
-		}
+		ArrayList<String> facilityIDs = new ArrayList<String>(bookedFacilityIds);
+		facilityIDs.remove(facilityID);
+		setBookedFacilityIDs(facilityIDs);
 	}
 }
