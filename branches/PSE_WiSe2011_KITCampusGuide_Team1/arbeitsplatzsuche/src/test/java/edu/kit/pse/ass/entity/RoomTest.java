@@ -1,11 +1,10 @@
 package edu.kit.pse.ass.entity;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RoomTest.
  */
@@ -13,20 +12,21 @@ public class RoomTest {
 
 	/** The room. */
 	private Room room;
-	
+
 	/** The TES t_ number. */
-	private static String TEST_NUMBER = "-101";
-	
+	private static final String TEST_NUMBER = "-101";
+
 	/** The TES t_ level. */
-	private static int TEST_LEVEL = 1;
-	
+	private static final int TEST_LEVEL = 1;
+
 	/** The TES t_ description. */
-	private static String TEST_DESCRIPTION = "Seminarraum";
+	private static final String TEST_DESCRIPTION = "Seminarraum";
 
 	/**
 	 * Sets the up.
-	 *
-	 * @throws Exception the exception
+	 * 
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Before
 	public void setUp() throws Exception {

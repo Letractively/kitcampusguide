@@ -41,16 +41,14 @@ public class BookingDAOImpl implements BookingDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.booking.dao.BookingDAO#getReservationsOfUser(java.lang
-	 * .String, java.util.Date, java.util.Date)
+	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#getReservationsOfUser(java.lang .String, java.util.Date,
+	 * java.util.Date)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public Collection<Reservation> getReservationsOfUser(String userID,
-			Date asFrom, Date upTo) throws IllegalArgumentException {
-		if (userID == null || userID.equals("") || asFrom == null
-				|| upTo == null) {
+	public Collection<Reservation> getReservationsOfUser(String userID, Date asFrom, Date upTo)
+			throws IllegalArgumentException {
+		if (userID == null || userID.equals("") || asFrom == null || upTo == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
 		if (asFrom.after(upTo)) {
@@ -82,25 +80,22 @@ public class BookingDAOImpl implements BookingDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.booking.dao.BookingDAO#getReservationsOfFacility(java
-	 * .lang.String, java.util.Date, java.util.Date)
+	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#getReservationsOfFacility(java .lang.String, java.util.Date,
+	 * java.util.Date)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public Collection<Reservation> getReservationsOfFacility(String facilityID,
-			Date asFrom, Date upTo) throws IllegalArgumentException {
-		if (facilityID == null || facilityID.equals("") || asFrom == null
-				|| upTo == null) {
+	public Collection<Reservation> getReservationsOfFacility(String facilityID, Date asFrom, Date upTo)
+			throws IllegalArgumentException {
+		if (facilityID == null || facilityID.equals("") || asFrom == null || upTo == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
 		if (asFrom.after(upTo)) {
 			throw new IllegalArgumentException("start-date is after end-date");
 		}
 		Collection<Reservation> result = new ArrayList<Reservation>();
-		Collection<Reservation> reservations = jpaTemplate
-				.find("from t_reservation r WHERE ? IN elements(r.bookedFacilityIds)",
-						facilityID);
+		Collection<Reservation> reservations = jpaTemplate.find(
+				"from t_reservation r WHERE ? IN elements(r.bookedFacilityIds)", facilityID);
 
 		// TODO remove duplicate checks
 
@@ -124,12 +119,10 @@ public class BookingDAOImpl implements BookingDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.booking.dao.BookingDAO#getReservation(java.lang.String)
+	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#getReservation(java.lang.String)
 	 */
 	@Override
-	public Reservation getReservation(String reservationID)
-			throws IllegalArgumentException {
+	public Reservation getReservation(String reservationID) throws IllegalArgumentException {
 		if (reservationID == null || reservationID.isEmpty()) {
 			throw new IllegalArgumentException("Parameter is null or empty");
 		}
@@ -139,9 +132,7 @@ public class BookingDAOImpl implements BookingDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.booking.dao.BookingDAO#insertReservation(edu.kit.pse.
-	 * ass.entity.Reservation)
+	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#insertReservation(edu.kit.pse. ass.entity.Reservation)
 	 */
 	@Override
 	@Transactional
@@ -156,13 +147,10 @@ public class BookingDAOImpl implements BookingDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.booking.dao.BookingDAO#updateReservation(edu.kit.pse.
-	 * ass.entity.Reservation)
+	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#updateReservation(edu.kit.pse. ass.entity.Reservation)
 	 */
 	@Override
-	public String updateReservation(Reservation reservation)
-			throws IllegalArgumentException {
+	public String updateReservation(Reservation reservation) throws IllegalArgumentException {
 		if (reservation == null) {
 			throw new IllegalArgumentException("Reservation is null");
 		}
@@ -173,9 +161,7 @@ public class BookingDAOImpl implements BookingDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.booking.dao.BookingDAO#deleteReservation(java.lang.String
-	 * )
+	 * @see edu.kit.pse.ass.booking.dao.BookingDAO#deleteReservation(java.lang.String )
 	 */
 	@Override
 	@Transactional
@@ -184,7 +170,8 @@ public class BookingDAOImpl implements BookingDAO {
 			throw new IllegalArgumentException("Parameter is null or empty");
 		}
 		Reservation reservation = getReservation(reservationID);
-		if (reservation != null)
+		if (reservation != null) {
 			jpaTemplate.remove(reservation);
+		}
 	}
 }

@@ -25,14 +25,13 @@ public class FacilityDAOImpl implements FacilityDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.facility.dao.FacilityDAO#getFacility(java.lang.String)
+	 * @see edu.kit.pse.ass.facility.dao.FacilityDAO#getFacility(java.lang.String)
 	 */
 	@Override
-	public Facility getFacility(String facilityID)
-			throws IllegalArgumentException {
-		if (facilityID == null || facilityID.isEmpty())
+	public Facility getFacility(String facilityID) throws IllegalArgumentException {
+		if (facilityID == null || facilityID.isEmpty()) {
 			throw new IllegalArgumentException("facilityID must not be null");
+		}
 
 		return jpaTemplate.find(Facility.class, facilityID);
 	}
@@ -40,13 +39,10 @@ public class FacilityDAOImpl implements FacilityDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.facility.dao.FacilityDAO#getFacility(java.lang.Class,
-	 * java.lang.String)
+	 * @see edu.kit.pse.ass.facility.dao.FacilityDAO#getFacility(java.lang.Class, java.lang.String)
 	 */
 	@Override
-	public <T extends Facility> T getFacility(Class<T> type, String facilityID)
-			throws IllegalArgumentException {
+	public <T extends Facility> T getFacility(Class<T> type, String facilityID) throws IllegalArgumentException {
 		if (facilityID == null || facilityID.isEmpty()) {
 			throw new IllegalArgumentException("facilityID is null");
 		} else if (type == null) {
@@ -58,9 +54,7 @@ public class FacilityDAOImpl implements FacilityDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.facility.dao.FacilityDAO#getFacilities(java.util.Collection
-	 * )
+	 * @see edu.kit.pse.ass.facility.dao.FacilityDAO#getFacilities(java.util.Collection )
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -84,21 +78,16 @@ public class FacilityDAOImpl implements FacilityDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.facility.dao.FacilityDAO#getAvailablePropertiesOf(java
-	 * .lang.Class)
+	 * @see edu.kit.pse.ass.facility.dao.FacilityDAO#getAvailablePropertiesOf(java .lang.Class)
 	 */
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
-	public Collection<Property> getAvailablePropertiesOf(
-			Class<? extends Facility> facilityClass) {
+	public Collection<Property> getAvailablePropertiesOf(Class<? extends Facility> facilityClass) {
 		Collection<Facility> facilities;
 		HashSet<Property> properties = new HashSet<Property>();
 		try {
-			facilities = jpaTemplate
-					.find("from t_facility fac where fac.class = "
-							+ facilityClass.getName());
+			facilities = jpaTemplate.find("from t_facility fac where fac.class = " + facilityClass.getName());
 		} catch (DataRetrievalFailureException e) {
 			return null;
 		}
@@ -118,9 +107,7 @@ public class FacilityDAOImpl implements FacilityDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.facility.dao.FacilityDAO#merge(edu.kit.pse.ass.entity
-	 * .Facility)
+	 * @see edu.kit.pse.ass.facility.dao.FacilityDAO#merge(edu.kit.pse.ass.entity .Facility)
 	 */
 	@Override
 	@Transactional
@@ -131,24 +118,21 @@ public class FacilityDAOImpl implements FacilityDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.facility.dao.FacilityDAO#remove(edu.kit.pse.ass.entity
-	 * .Facility)
+	 * @see edu.kit.pse.ass.facility.dao.FacilityDAO#remove(edu.kit.pse.ass.entity .Facility)
 	 */
 	@Override
 	@Transactional
 	public void remove(String facilityID) {
 		Facility facility = getFacility(facilityID);
-		if (facility != null)
+		if (facility != null) {
 			jpaTemplate.remove(facility);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.facility.dao.FacilityDAO#persist(edu.kit.pse.ass.entity
-	 * .Facility)
+	 * @see edu.kit.pse.ass.facility.dao.FacilityDAO#persist(edu.kit.pse.ass.entity .Facility)
 	 */
 	@Override
 	@Transactional

@@ -1,6 +1,6 @@
 package edu.kit.pse.ass.entity;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -16,17 +16,18 @@ public class ReservationTest {
 
 	/** The reservation. */
 	private Reservation reservation;
-	
+
 	/** The Constant FACILITY_IDs. */
-	private static final String[] FACILITY_IDs = { "f1", "f2", "f3" };
-	
+	private static final String[] FACILITY_ID_ARRAY = { "f1", "f2", "f3" };
+
 	/** The Constant USER_ID. */
 	private static final String USER_ID = "u1";
 
 	/**
 	 * Sets the up.
-	 *
-	 * @throws Exception the exception
+	 * 
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Before
 	public void setUp() throws Exception {
@@ -47,11 +48,10 @@ public class ReservationTest {
 	 */
 	@Test
 	public void testAddBookedFacilityId() {
-		for (String facilityID : FACILITY_IDs) {
+		for (String facilityID : FACILITY_ID_ARRAY) {
 			reservation.addBookedFacilityId(facilityID);
 		}
-		assertEquals(FACILITY_IDs.length, reservation.getBookedFacilityIds()
-				.size());
+		assertEquals(FACILITY_ID_ARRAY.length, reservation.getBookedFacilityIds().size());
 	}
 
 	/**

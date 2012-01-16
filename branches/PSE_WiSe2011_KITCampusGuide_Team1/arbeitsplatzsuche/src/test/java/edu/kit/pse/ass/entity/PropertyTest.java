@@ -1,6 +1,6 @@
 package edu.kit.pse.ass.entity;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,14 +13,15 @@ public class PropertyTest {
 
 	/** The prop. */
 	Property prop;
-	
+
 	/** The TES t_ name. */
-	private static String TEST_NAME = "WLAN";
+	private static final String TEST_NAME = "WLAN";
 
 	/**
 	 * Sets the up.
-	 *
-	 * @throws Exception the exception
+	 * 
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Before
 	public void setUp() throws Exception {

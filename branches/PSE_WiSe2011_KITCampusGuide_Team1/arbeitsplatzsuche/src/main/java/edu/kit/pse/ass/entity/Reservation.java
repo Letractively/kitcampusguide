@@ -61,11 +61,9 @@ public class Reservation {
 	 * @param bookingUserId
 	 *            the id of the user, which does the reservation
 	 * @throws IllegalArgumentException
-	 *             when startTime is after endTime or one of them is null or
-	 *             bookingUserId is null or empty.
+	 *             when startTime is after endTime or one of them is null or bookingUserId is null or empty.
 	 */
-	public Reservation(Date startTime, Date endTime, String bookingUserId)
-			throws IllegalArgumentException {
+	public Reservation(Date startTime, Date endTime, String bookingUserId) throws IllegalArgumentException {
 		setStartTime(startTime);
 		setEndTime(endTime);
 		setBookingUserId(bookingUserId);
@@ -114,8 +112,7 @@ public class Reservation {
 			throw new IllegalArgumentException("startTime must not be null.");
 		}
 		if (endTime != null && startTime.after(endTime)) {
-			throw new IllegalArgumentException(
-					"startTime must be before endTime");
+			throw new IllegalArgumentException("startTime must be before endTime");
 		}
 
 		this.startTime = startTime;
@@ -143,8 +140,7 @@ public class Reservation {
 			throw new IllegalArgumentException("endTime must not be null");
 		}
 		if (startTime != null && endTime.before(startTime)) {
-			throw new IllegalArgumentException(
-					"end time must be after start time");
+			throw new IllegalArgumentException("end time must be after start time");
 		}
 
 		this.endTime = endTime;
@@ -167,11 +163,9 @@ public class Reservation {
 	 * @throws IllegalArgumentException
 	 *             bookingUserID is empty or null
 	 */
-	public void setBookingUserId(String bookingUserId)
-			throws IllegalArgumentException {
+	public void setBookingUserId(String bookingUserId) throws IllegalArgumentException {
 		if (bookingUserId == null || bookingUserId.isEmpty()) {
-			throw new IllegalArgumentException(
-					"bookingUserId must not be null or empty");
+			throw new IllegalArgumentException("bookingUserId must not be null or empty");
 		}
 
 		this.bookingUserId = bookingUserId;
@@ -194,10 +188,10 @@ public class Reservation {
 	 * @throws IllegalArgumentException
 	 *             the illegal argument exception
 	 */
-	public void setBookedFacilityIDs(Collection<String> facilityIDs)
-			throws IllegalArgumentException {
-		if (facilityIDs == null)
+	public void setBookedFacilityIDs(Collection<String> facilityIDs) throws IllegalArgumentException {
+		if (facilityIDs == null) {
 			throw new IllegalArgumentException("facilityIDs must be not null");
+		}
 		this.bookedFacilityIds = facilityIDs;
 	}
 
@@ -209,15 +203,12 @@ public class Reservation {
 	 * @throws IllegalArgumentException
 	 *             facility id is null or empty
 	 */
-	public void addBookedFacilityId(String facilityID)
-			throws IllegalArgumentException {
+	public void addBookedFacilityId(String facilityID) throws IllegalArgumentException {
 		if (facilityID == null || facilityID.isEmpty()) {
-			throw new IllegalArgumentException(
-					"facilityID must not be null or empty");
+			throw new IllegalArgumentException("facilityID must not be null or empty");
 		}
 		if (bookedFacilityIds.contains(facilityID)) {
-			throw new IllegalArgumentException(
-					"facilityID was added a long time ago ;-)");
+			throw new IllegalArgumentException("facilityID was added a long time ago ;-)");
 		}
 
 		bookedFacilityIds.add(facilityID);
@@ -231,15 +222,12 @@ public class Reservation {
 	 * @throws IllegalArgumentException
 	 *             facilityID is null or empty
 	 */
-	public void removeBookedFacilityId(String facilityID)
-			throws IllegalArgumentException {
+	public void removeBookedFacilityId(String facilityID) throws IllegalArgumentException {
 		if (facilityID == null || facilityID.isEmpty()) {
-			throw new IllegalArgumentException(
-					"facilityID must be not null or empty");
+			throw new IllegalArgumentException("facilityID must be not null or empty");
 		}
 		if (!getBookedFacilityIds().contains(facilityID)) {
-			throw new IllegalArgumentException(
-					"the facility you want to remove is not booked in this reservation");
+			throw new IllegalArgumentException("the facility you want to remove is not booked in this reservation");
 		}
 		ArrayList<String> facilityIDs = new ArrayList<String>(bookedFacilityIds);
 		facilityIDs.remove(facilityID);

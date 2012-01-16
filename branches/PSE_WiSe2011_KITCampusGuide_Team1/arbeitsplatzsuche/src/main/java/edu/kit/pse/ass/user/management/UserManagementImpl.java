@@ -20,7 +20,9 @@ public class UserManagementImpl implements UserManagement {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see edu.kit.pse.ass.user.management.UserManagement#register(java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -30,12 +32,15 @@ public class UserManagementImpl implements UserManagement {
 			password = passwordEncoder.encodePassword(password, null);
 		}
 		User u = userDAO.insertUser(userID, password);
-		if (u == null)
+		if (u == null) {
 			return null;
+		}
 		return u.getEmail();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see edu.kit.pse.ass.user.management.UserManagement#getUser(java.lang.String)
 	 */
 	@Override
