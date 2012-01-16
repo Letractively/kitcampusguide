@@ -81,8 +81,8 @@ public class ReservationController extends MainController {
 		Collections.sort(reservationModels);
 
 		// get past reservations and create models
-		Collection<Reservation> pastReservations = bookingManagement.listReservationsOfUser(userID, asFrom.getTime(),
-				new Date());
+		Collection<Reservation> pastReservations = bookingManagement.listReservationsOfUser(userID,
+				asFrom.getTime(), new Date());
 		ArrayList<ReservationModel> pastReservationModels = new ArrayList<ReservationModel>();
 		Date now = new Date();
 		for (Reservation r : pastReservations) {
@@ -95,7 +95,6 @@ public class ReservationController extends MainController {
 
 		model.addAttribute("reservations", reservationModels);
 		model.addAttribute("pastReservations", pastReservationModels);
-
 		model.addAttribute("deleteNotification", request.getParameter("deleteNotification"));
 
 		return "reservation/list";
@@ -151,6 +150,8 @@ public class ReservationController extends MainController {
 			@ModelAttribute("updatedReservation") ReservationModel updatedReservation,
 			BindingResult updatedReservationResult) {
 
+		String returnedView = "reservation/details";
+
 		// Get reservation
 		ReservationModel resModel = null;
 		try {
@@ -193,6 +194,9 @@ public class ReservationController extends MainController {
 					} catch (IllegalArgumentException e) {
 						// arguments are wrong (should not happen as form is validated)
 						model.addAttribute("formErrors", true);
+					} catch (IllegalStateException e) {
+						// database is inconsistent
+						returnedView = handleIllegalRequest(e);
 					}
 				}
 
@@ -203,7 +207,7 @@ public class ReservationController extends MainController {
 		}
 
 		// show reservation details after update
-		return "reservation/details";
+		return returnedView;
 	}
 
 	/**
@@ -221,7 +225,7 @@ public class ReservationController extends MainController {
 	public String deleteReservations(Model model, Principal principal,
 			@PathVariable("reservationId") String reservationID) {
 
-		String view;
+		String returnedView;
 
 		try {
 			// check if reservation exists
@@ -233,16 +237,16 @@ public class ReservationController extends MainController {
 			model.addAttribute("deleteNotification", true);
 
 			// show reservation list after delete
-			view = "redirect:/reservation/list.html";
+			returnedView = "redirect:/reservation/list.html";
 
 		} catch (IllegalArgumentException e) {
 			model.addAttribute("errorReservationNotFound", true);
-			view = "reservation/details";
+			returnedView = "reservation/details";
 		} catch (ReservationNotFoundException e) {
 			model.addAttribute("errorReservationNotFound", true);
-			view = "reservation/details";
+			returnedView = "reservation/details";
 		}
 
-		return view;
+		return returnedView;
 	}
 }
