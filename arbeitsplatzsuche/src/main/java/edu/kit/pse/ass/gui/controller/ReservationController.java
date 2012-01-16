@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 
 import javax.inject.Inject;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.kit.pse.ass.booking.management.BookingManagement;
 import edu.kit.pse.ass.booking.management.FacilityNotFreeException;
+import edu.kit.pse.ass.booking.management.ReservationNotFoundException;
 import edu.kit.pse.ass.entity.Reservation;
+import edu.kit.pse.ass.facility.management.FacilityManagement;
 import edu.kit.pse.ass.gui.model.ReservationModel;
 import edu.kit.pse.ass.gui.model.ReservationValidator;
 
@@ -36,6 +39,10 @@ public class ReservationController extends MainController {
 	@Inject
 	BookingManagement bookingManagement;
 
+	/** The facility management. */
+	@Inject
+	FacilityManagement facilityManagement;
+
 	/**
 	 * List reservations.
 	 * 
@@ -43,11 +50,12 @@ public class ReservationController extends MainController {
 	 *            the model
 	 * @param principal
 	 *            the principal
+	 * @param request
+	 *            the http request
 	 * @return the string
 	 */
 	@RequestMapping(value = "reservation/list")
-	public String listReservations(Model model, Principal principal,
-			HttpServletRequest request) {
+	public String listReservations(Model model, Principal principal, HttpServletRequest request) {
 
 		// get name of logged in user
 		String userID = "";
@@ -64,64 +72,33 @@ public class ReservationController extends MainController {
 		upTo.add(Calendar.YEAR, 1);
 
 		// get current reservations and create models
-		Collection<Reservation> reservations = bookingManagement
-				.listReservationsOfUser(userID, new Date(), upTo.getTime());
-
-		reservations = tempReservationList(); // TEMP
-
-		Collection<ReservationModel> reservationModels = new ArrayList<ReservationModel>();
+		Collection<Reservation> reservations = bookingManagement.listReservationsOfUser(userID, new Date(),
+				upTo.getTime());
+		ArrayList<ReservationModel> reservationModels = new ArrayList<ReservationModel>();
 		for (Reservation r : reservations) {
-			reservationModels.add(new ReservationModel(r));
+			reservationModels.add(new ReservationModel(r, facilityManagement));
 		}
+		Collections.sort(reservationModels);
 
 		// get past reservations and create models
-		Collection<Reservation> pastReservations = bookingManagement
-				.listReservationsOfUser(userID, asFrom.getTime(), new Date());
-		pastReservations = tempReservationList(); // TEMP
-		Collection<ReservationModel> pastReservationModels = new ArrayList<ReservationModel>();
+		Collection<Reservation> pastReservations = bookingManagement.listReservationsOfUser(userID, asFrom.getTime(),
+				new Date());
+		ArrayList<ReservationModel> pastReservationModels = new ArrayList<ReservationModel>();
+		Date now = new Date();
 		for (Reservation r : pastReservations) {
-			pastReservationModels.add(new ReservationModel(r));
+			if (r.getEndTime().before(now)) {
+				// Only show reservation if it has ended (then it is shown in the current reservations list
+				pastReservationModels.add(new ReservationModel(r, facilityManagement));
+			}
 		}
+		Collections.sort(pastReservationModels);
 
 		model.addAttribute("reservations", reservationModels);
 		model.addAttribute("pastReservations", pastReservationModels);
 
-		model.addAttribute("deleteNotification",
-				request.getParameter("deleteNotification"));
+		model.addAttribute("deleteNotification", request.getParameter("deleteNotification"));
 
 		return "reservation/list";
-	}
-
-	/**
-	 * Temp reservation list.
-	 * 
-	 * @return the collection
-	 */
-	private Collection<Reservation> tempReservationList() {
-
-		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
-
-		Reservation res1 = new Reservation(new Date(111, 11, 27, 15, 30),
-				new Date(111, 11, 27, 16, 00), "ubbbb@student.kit.edu");
-		Reservation res2 = new Reservation(new Date(111, 11, 29, 11, 00),
-				new Date(111, 11, 29, 13, 15), "ubbbb@student.kit.edu");
-		Reservation res3 = new Reservation(new Date(112, 12, 29, 11, 00),
-				new Date(112, 12, 29, 13, 15), "ubbbb@student.kit.edu");
-
-		res1.addBookedFacilityId("wpid1");
-		res1.addBookedFacilityId("wpid2");
-		res2.addBookedFacilityId("roomid3");
-		res3.addBookedFacilityId("wpid1");
-
-		res1.setId("resid1");
-		res2.setId("resid2");
-		res3.setId("resid3");
-
-		reservations.add(res1);
-		reservations.add(res2);
-		reservations.add(res3);
-
-		return reservations;
 	}
 
 	/**
@@ -134,16 +111,23 @@ public class ReservationController extends MainController {
 	 * @return the string
 	 */
 	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.GET)
-	public String showReservationDetails(Model model,
-			@PathVariable("reservationId") String reservationID) {
+	public String showReservationDetails(Model model, @PathVariable("reservationId") String reservationID) {
 
-		// Reservation reservation =
-		// bookingManagement.getReservation(reservationID);
-		Reservation reservation = tempGetReservation(reservationID);
+		// Get reservation
+		Reservation reservation = null;
+		try {
+			reservation = bookingManagement.getReservation(reservationID);
 
-		ReservationModel resModel = new ReservationModel(reservation);
-		model.addAttribute("reservation", resModel);
-		model.addAttribute("updatedReservation", resModel);
+			// Create and add models
+			ReservationModel resModel = new ReservationModel(reservation, facilityManagement);
+			model.addAttribute("reservation", resModel);
+			model.addAttribute("updatedReservation", resModel);
+
+		} catch (IllegalArgumentException e) {
+			model.addAttribute("errorReservationNotFound", true);
+		} catch (ReservationNotFoundException e) {
+			model.addAttribute("errorReservationNotFound", true);
+		}
 
 		return "reservation/details";
 
@@ -158,81 +142,68 @@ public class ReservationController extends MainController {
 	 *            the reservation id
 	 * @param updatedReservation
 	 *            the updated reservation
-	 * @param updatedReservationBindingResult
+	 * @param updatedReservationResult
 	 *            the result of the updated reservation
 	 * @return the string
 	 */
 	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.POST)
-	public String updateReservation(
-			Model model,
-			@PathVariable("reservationId") String reservationID,
+	public String updateReservation(Model model, @PathVariable("reservationId") String reservationID,
 			@ModelAttribute("updatedReservation") ReservationModel updatedReservation,
 			BindingResult updatedReservationResult) {
 
-		// TEMP
-		// ReservationModel reservation =
-		// new
-		// ReservationModel(bookingManagement.getReservation(reservationID));
-		ReservationModel resModel = new ReservationModel(
-				tempGetReservation(reservationID));
-		if (resModel.bookedFacilityIsRoom()) {
-			// Set workplace count value for Room reservations
-			updatedReservation.setWorkplaceCount(resModel.getWorkplaceCount());
+		// Get reservation
+		ReservationModel resModel = null;
+		try {
+			resModel = new ReservationModel(bookingManagement.getReservation(reservationID), facilityManagement);
+		} catch (IllegalArgumentException e) {
+			model.addAttribute("errorReservationNotFound", true);
+		} catch (ReservationNotFoundException e) {
+			model.addAttribute("errorReservationNotFound", true);
 		}
 
-		// Validate update form
-		ReservationValidator resValidator = new ReservationValidator();
-		resValidator.validate(updatedReservation, updatedReservationResult);
+		if (resModel != null) {
 
-		if (updatedReservationResult.hasErrors()) {
-			// form errors
-			model.addAttribute("formErrors", true);
-		} else {
-			// update form is OK
-
-			if (!updatedReservation.getEndTime().equals(resModel.getEndTime())) {
-				// bookingManagement.changeReservationEnd(reservationID,
-				// updatedReservation.getEndTime());
-				// TODO catch exceptions in changeReservationEnd
+			// Set form workplace count value for Room reservations so the Validator does not fail
+			if (resModel.bookedFacilityIsRoom()) {
+				updatedReservation.setWorkplaceCount(resModel.getWorkplaceCount());
 			}
 
-			// TODO add changing number of workplaces
+			// Validate update form
+			ReservationValidator resValidator = new ReservationValidator();
+			resValidator.validate(updatedReservation, resModel, updatedReservationResult);
 
-			boolean updateSuccessful;
-			// random updateSuccess for testing purposes
-			updateSuccessful = ((int) (Math.random() * 2)) == 0;
-			if (!updateSuccessful) {
-				model.addAttribute("updateErrorFacilityOccupied", true);
+			if (updatedReservationResult.hasErrors()) {
+				// form errors
+				model.addAttribute("formErrors", true);
 			} else {
-				model.addAttribute("updateSuccess", true);
+				// update form is OK
+
+				if (updatedReservation.getEndTime().equals(resModel.getEndTime())) {
+					// no changes to the reservation - show success!
+					model.addAttribute("updateSuccess", true);
+				} else {
+					// Change reservation end
+					try {
+						bookingManagement.changeReservationEnd(reservationID, updatedReservation.getEndTime());
+						// success!
+						model.addAttribute("updateSuccess", true);
+					} catch (FacilityNotFreeException e) {
+						// Facility is not free
+						model.addAttribute("updateErrorFacilityOccupied", true);
+					} catch (IllegalArgumentException e) {
+						// arguments are wrong (should not happen as form is validated)
+						model.addAttribute("formErrors", true);
+					}
+				}
+
 			}
 
+			model.addAttribute("reservation", resModel);
+			model.addAttribute("updatedReservation", updatedReservation);
 		}
-
-		model.addAttribute("reservation", resModel);
-		model.addAttribute("updatedReservation", updatedReservation);
 
 		// show reservation details after update
 		return "reservation/details";
-	}
-
-	/**
-	 * Temp get reservation.
-	 * 
-	 * @param reservationID
-	 *            the reservation id
-	 * @return the reservation
-	 */
-	private Reservation tempGetReservation(String reservationID) {
-		Object[] reservations = tempReservationList().toArray();
-		if (reservationID.equals("resid1")) {
-			return (Reservation) reservations[0];
-		} else if (reservationID.equals("resid2")) {
-			return (Reservation) reservations[1];
-		} else if (reservationID.equals("resid3")) {
-			return (Reservation) reservations[2];
-		}
-		return (Reservation) reservations[0];
 	}
 
 	/**
@@ -240,6 +211,8 @@ public class ReservationController extends MainController {
 	 * 
 	 * @param model
 	 *            the model
+	 * @param principal
+	 *            the principal
 	 * @param reservationID
 	 *            the reservation id
 	 * @return the string
@@ -248,35 +221,28 @@ public class ReservationController extends MainController {
 	public String deleteReservations(Model model, Principal principal,
 			@PathVariable("reservationId") String reservationID) {
 
-		// TODO bookingManagement.deleteReservation(reservationID);
+		String view;
 
-		// show delete notification
-		model.addAttribute("deleteNotification", true);
+		try {
+			// check if reservation exists
+			Reservation reservation = bookingManagement.getReservation(reservationID);
 
-		// show reservation list after delete
-		return "redirect:/reservation/list.html";
+			bookingManagement.deleteReservation(reservationID);
 
+			// show delete notification
+			model.addAttribute("deleteNotification", true);
+
+			// show reservation list after delete
+			view = "redirect:/reservation/list.html";
+
+		} catch (IllegalArgumentException e) {
+			model.addAttribute("errorReservationNotFound", true);
+			view = "reservation/details";
+		} catch (ReservationNotFoundException e) {
+			model.addAttribute("errorReservationNotFound", true);
+			view = "reservation/details";
+		}
+
+		return view;
 	}
-
-	/**
-	 * Handle facility not free exception.
-	 * 
-	 * @param e
-	 *            the e
-	 */
-	private void handleFacilityNotFreeException(FacilityNotFreeException e) {
-
-	}
-
-	/*
-	 * commented methods because exceptions do not yet exist
-	 * 
-	 * private void handleFacilityNotFoundException(FacilityNotFoundException e)
-	 * {
-	 * 
-	 * }
-	 * 
-	 * private void handleReservationNotFoundException(
-	 * ReservationNotFoundException e) { }
-	 */
 }
