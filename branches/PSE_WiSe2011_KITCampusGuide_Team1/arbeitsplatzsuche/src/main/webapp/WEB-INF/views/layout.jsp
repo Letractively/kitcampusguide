@@ -2,12 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Arbeitsplatz-Such-System</title>
+<title><spring:message code="title.${fn:replace(view, '/', '-')}" text="KIT Arbeitsplatz-Such-System" arguments="${titleArguments}"/></title>
 <%-- Main Style sheet --%>
 <link href="<c:url value="/css/style.css" />" rel="stylesheet" type="text/css">
 <%-- Include jQuery UI Stylesheet --%>
@@ -25,17 +26,19 @@
 <%-- doc: https://github.com/robmonie/jquery-week-calendar/wiki/ --%>
 <script src="<c:url value="/scripts/lib/jquery.weekcalendar.js" />"></script>
 <link href="<c:url value="/css/jquery.weekcalendar.css" />" rel="stylesheet" type="text/css">
-<%-- Includes for advanced search --%>
-<c:if test="${view == 'search/advanced'}">
-<link href="<c:url value="/css/advancedSearch.css" />" rel="stylesheet" type="text/css">
-</c:if>
 <link href="<c:url value="/datatables/css/demo_page.css" />" rel="stylesheet" type="text/css" />
 <link href="<c:url value="/datatables/css/demo_table.css" />" rel="stylesheet" type="text/css" />
 <link href="<c:url value="/datatables/css/demo_table_jui.css" />" rel="stylesheet" type="text/css" />
 <link href="<c:url value="/datatables/themes/base/jquery-ui.css" />" rel="stylesheet" type="text/css" media="all" />
 <link href="<c:url value="/datatables/themes/smoothness/jquery-ui-1.7.2.custom.css" />" rel="stylesheet" type="text/css" media="all" />
 <script src="<c:url value="/scripts/lib/jquery.dataTables.min.js" />" type="text/javascript"></script>
-
+<%-- page specific CSS and JS files --%>
+<c:forEach var="file" items="${cssFiles}">
+<link href="<c:url value="${file}" />" rel="stylesheet" type="text/css">
+</c:forEach>
+<c:forEach var="file" items="${jsFiles}">
+<script src="<c:url value="${file}" />"></script>
+</c:forEach>
 <script>
 $(function() {
 	$.datepicker.regional['de'] = {

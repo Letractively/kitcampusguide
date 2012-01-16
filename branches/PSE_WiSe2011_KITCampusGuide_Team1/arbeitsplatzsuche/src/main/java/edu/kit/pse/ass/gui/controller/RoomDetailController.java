@@ -147,6 +147,9 @@ public class RoomDetailController extends MainController {
 		try {
 			Room room = facilityManagement.getFacility(Room.class, roomId);
 			model.addAttribute("room", room);
+			// Pass room and building name as arguments for page title
+			model.addAttribute("titleArguments",
+					new String[] { room.getName(), room.getParentFacility().getName() });
 			setUpWorkplaceList(model, room, searchFormModel);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();

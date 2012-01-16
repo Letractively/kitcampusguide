@@ -62,7 +62,7 @@ public class SearchController extends MainController {
 	}
 
 	/**
-	 * Sets up the AdvanceSearchPage
+	 * Sets up the AdvancedSearchPage
 	 * 
 	 * @param searchFormModel
 	 *            the SearchFormModel filled at the SimpleSearchPage or AdvancedSearchPage.
@@ -77,6 +77,14 @@ public class SearchController extends MainController {
 
 		model.addAttribute("searchFilterModel", new SearchFilterModel());
 		model.addAttribute("filterList", facilityManagement.getAvailablePropertiesOf(Room.class));
+
+		// Additional CSS / JS files
+		ArrayList<String> cssFiles = new ArrayList<String>();
+		cssFiles.add("/css/advancedSearch.css");
+		ArrayList<String> jsFiles = new ArrayList<String>();
+		model.addAttribute("cssFiles", cssFiles);
+		model.addAttribute("jsFiles", jsFiles);
+
 		// TODO workplace properties
 
 		return "search/advanced";
@@ -137,8 +145,8 @@ public class SearchController extends MainController {
 			searchFilterModel.setFilters(new ArrayList<Property>());
 		}
 
-		FreeRoomQuery roomQuery = new FreeRoomQuery(searchFilterModel.getFilters(), searchFormModel.getSearchText(),
-				searchFormModel.getWorkplaceCount());
+		FreeRoomQuery roomQuery = new FreeRoomQuery(searchFilterModel.getFilters(),
+				searchFormModel.getSearchText(), searchFormModel.getWorkplaceCount());
 		Collection<FreeFacilityResult> searchResultsCollection = bookingManagement.findFreeFacilites(roomQuery,
 				searchFormModel.getStart(), searchFormModel.getEnd(), searchFormModel.isWholeRoom());
 
