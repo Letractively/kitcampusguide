@@ -104,7 +104,7 @@ public class Property {
 	 */
 	public void setName(String name) throws IllegalArgumentException {
 		if (name == null || name.isEmpty()) {
-			throw new IllegalArgumentException("name must not null or empty");
+			throw new IllegalArgumentException("name must not be null or empty");
 		} else {
 			this.name = name;
 		}

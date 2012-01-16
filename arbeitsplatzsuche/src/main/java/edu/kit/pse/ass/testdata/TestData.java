@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaTemplate;
@@ -32,6 +33,37 @@ public class TestData {
 	/** The password encoder. */
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	// Data for dummy buildings, notice that each array needs the same size!
+	private static final String[] BUILDING_NAMES = { "Informatikgebäude", "Bibliothek", "Chemiegebäude",
+			"Physikgebäude" };
+	private static final String[] BUILDING_NUMBERS = { "34.50", "12.10", "80.51", "24.07" };
+
+	// Data for dummy rooms, notice that each array needs the same size!
+	private static final String[] ROOM_NAMES = { "Seminarraum", "Lesesaal", "Seminarraum", "Seminarraum",
+			"Computerraum", "Abstellraum", "Lesesaal", "Instiutsraum", "Lernraum", "Nebenraum" };
+	private static final String[] ROOM_NUMBERS = { "-119", "123", "364", "-234", "-120", "-118", "107", "204",
+			"111", "999" };
+	private static final int[] ROOM_LEVELS = { -1, 1, 3, -2, -1, -1, 1, 2, 1, 9 };
+	private static final String[] ROOM_DESCRIPTIONS = { "Der Seminarraum ist Olivers Lieblingsraum.",
+			"Der Lesesaal belegt Sebastian gerne.", "Der Seminarraum wird stets von Lennart gebucht.",
+			"Im Seminarraum arbeitet Fabian gerne.", "Der Computerraum ist Andreas zweites Zuhause",
+			"Der Abstellraum wird eigentlich nicht benötigt.", "Im Lesesaal ist kein Platz.",
+			"In diesem Instiutsraum gibt es Kaffee für umme.",
+			"Der Lernraum wird stets von abschreibenden Studenten bevölkert.", "Der Nebenraum ist nie frei." };
+
+	// Data for dummy workplaces
+	private static final String[] WORKPLACE_NAMES = { "Nummer1", "Nummer2", "Nummer3", "Nummer4", "Nummer5",
+			"Nummer6", "Nummer7", "Nummer8", "Nummer9", "Nummer10", "Nummer11", "Nummer12", "Nummer13",
+			"Nummer14", "Nummer15", "Nummer16", "Nummer17", "Nummer18", "Nummer19", "Nummer20", "Number21",
+			"Number22", "Nummer23", "Nummer24", "Nummer25", "Nummer26", "Nummer27", "Nummer28", "Nummer29",
+			"Nummer30", "Nummer31", "Nummer32", "Nummer33", "Nummer34", "Nummer35", "Nummer36", "Nummer37",
+			"Nummer38", "Nummer39" };
+
+	// Data for dummy properties
+	private static final String[] PROPERTY_NAMES = { "W-LAN", "LAN", "Licht", "Steckdose", "PC vorhanden",
+			"Drucker vorhanden", "Ruhezone", "Essen / Trinken erlaubt", "Beamer", "FlipChart",
+			"Tafel / White Board", "Overheadprojektor", "Barrierefrei" };
 
 	/**
 	 * Load all data.
@@ -70,121 +102,6 @@ public class TestData {
 			dummies.users.add(u);
 		}
 		return dummies;
-	}
-
-	@Transactional
-	public DummyFacilities facilityFillWithDummies() {
-		if (null != jpaTemplate.find(Facility.class, "place1")) {
-			return null;
-		}
-		// TODO create dummy values
-
-		Building build1 = createPersisted(Building.class, "Fakultät für Informatik");
-		build1.setNumber("50.34");
-		Building build2 = createPersisted(Building.class, "Informatikgebäude");
-		build2.setNumber("08.15");
-
-		Property prop1 = new Property("WLAN");
-		Property prop2 = new Property("Steckdose");
-		Property prop3 = new Property("LAN");
-		Property prop4 = new Property("Barrierefrei");
-		Property prop5 = new Property("Licht");
-		Property prop6 = new Property("PC");
-		prop1 = jpaTemplate.merge(prop1);
-		prop2 = jpaTemplate.merge(prop2);
-		prop3 = jpaTemplate.merge(prop3);
-		prop4 = jpaTemplate.merge(prop4);
-		prop5 = jpaTemplate.merge(prop5);
-		prop6 = jpaTemplate.merge(prop6);
-
-		Room facil1 = createPersisted(Room.class, "Raum 1");
-		Room facil2 = createPersisted(Room.class, "Raum 2");
-		Room facil3 = createPersisted(Room.class, "Raum 3");
-		Room facil4 = createPersisted(Room.class, "Raum 4");
-		// contains only dummy properties
-		Room facil5 = createPersisted(Room.class, "Raum 5");
-
-		facil1.setDescription("Informatik");
-		facil2.setDescription("Informatik");
-		facil3.setDescription("Informatik");
-
-		Workplace place1 = createPersisted(Workplace.class, "place1");
-		Workplace place2 = createPersisted(Workplace.class, "place2");
-		Workplace place3 = createPersisted(Workplace.class, "place3");
-
-		Workplace place2_1 = createPersisted(Workplace.class, "place2_1");
-		Workplace place3_1 = createPersisted(Workplace.class, "place3_1");
-		Workplace place3_2 = createPersisted(Workplace.class, "place3_2");
-		Workplace place3_3 = createPersisted(Workplace.class, "place3_3");
-		Workplace place4_1 = createPersisted(Workplace.class, "place4_1");
-		Workplace place4_2 = createPersisted(Workplace.class, "place4_2");
-		Workplace place4_3 = createPersisted(Workplace.class, "place4_3");
-		Workplace place4_4 = createPersisted(Workplace.class, "place4_4");
-		Workplace place5_1 = createPersisted(Workplace.class, "place5_1");
-
-		facil1.addProperty(prop1);
-		facil1.addContainedFacility(place1);
-		facil1.addContainedFacility(place2);
-		facil1.addContainedFacility(place3);
-
-		facil2.addProperty(prop2);
-		facil2.addContainedFacility(place2_1);
-
-		facil3.addProperty(prop1);
-		facil3.addProperty(prop2);
-		facil3.addContainedFacility(place3_1);
-		facil3.addContainedFacility(place3_2);
-		facil3.addContainedFacility(place3_3);
-
-		facil4.addProperty(prop1);
-		facil4.addProperty(prop2);
-		facil4.addContainedFacility(place4_1);
-		facil4.addContainedFacility(place4_2);
-		facil4.addContainedFacility(place4_3);
-		facil4.addContainedFacility(place4_4);
-
-		facil5.addProperty(prop3);
-		facil5.addProperty(prop4);
-		facil5.addProperty(prop5);
-		facil5.addProperty(prop6);
-		facil5.addContainedFacility(place5_1);
-
-		build1.addContainedFacility(facil1);
-		build1.addContainedFacility(facil2);
-		build1.addContainedFacility(facil3);
-		build1.addContainedFacility(facil4);
-		build1.addProperty(prop1);
-		build2.addContainedFacility(facil5);
-
-		DummyFacilities addedFacilities = new DummyFacilities();
-
-		// building
-		addedFacilities.buildings = new ArrayList<Building>();
-		addedFacilities.buildings.add(build1);
-		addedFacilities.buildings.add(build2);
-
-		// Rooms
-		addedFacilities.rooms = new ArrayList<Room>();
-		addedFacilities.rooms.add(facil1);
-		addedFacilities.rooms.add(facil2);
-		addedFacilities.rooms.add(facil3);
-		addedFacilities.rooms.add(facil4);
-		addedFacilities.rooms.add(facil5);
-
-		// workplaces
-		addedFacilities.places = new ArrayList<Workplace>();
-		addedFacilities.places.add(place1);
-		addedFacilities.places.add(place2);
-		addedFacilities.places.add(place3);
-		addedFacilities.places.add(place2_1);
-		addedFacilities.places.add(place3_1);
-		addedFacilities.places.add(place3_2);
-		addedFacilities.places.add(place3_3);
-		addedFacilities.places.add(place4_1);
-		addedFacilities.places.add(place4_2);
-		addedFacilities.places.add(place4_3);
-		addedFacilities.places.add(place4_4);
-		return addedFacilities;
 	}
 
 	@Transactional
@@ -234,13 +151,129 @@ public class TestData {
 		return resvIDs;
 	}
 
+	/**
+	 * Creates facility dummies.
+	 * 
+	 * @return the created facility dummies
+	 */
+	@Transactional
+	public DummyFacilities facilityFillWithDummies() {
+
+		// create dummy facilities
+		DummyFacilities df = new DummyFacilities();
+		df.buildings = createBuildings(BUILDING_NAMES, BUILDING_NUMBERS);
+		df.rooms = createRooms(ROOM_NAMES, ROOM_NUMBERS, ROOM_LEVELS, ROOM_DESCRIPTIONS);
+		df.places = createWorkplaces(WORKPLACE_NAMES);
+
+		// create dependencies between buildings<->rooms and rooms<->workplaces
+		addDependenciesRandomized(df.buildings, df.rooms);
+		addDependenciesRandomized(df.rooms, df.places);
+
+		// add properties to rooms and workplaces
+		ArrayList<Property> properties = createProperties(PROPERTY_NAMES);
+		addPropertiesRandomized(df.rooms, properties);
+		addPropertiesRandomized(df.places, properties);
+
+		return df;
+	}
+
+	private void addDependenciesRandomized(ArrayList<? extends Facility> parents,
+			ArrayList<? extends Facility> children) {
+		int index = 0;
+		Random r = new Random();
+		int randomEnd = 0;
+
+		for (int i = 0; i < parents.size(); i++) {
+			randomEnd = index + r.nextInt(children.size() - index);
+
+			for (int k = index; k < randomEnd; k++) {
+				parents.get(i).addContainedFacility(children.get(index));
+			}
+			index += randomEnd;
+
+		}
+
+	}
+
+	private void addPropertiesRandomized(ArrayList<? extends Facility> facilities, ArrayList<Property> properties) {
+		Random r = new Random();
+		Property actual;
+
+		for (int i = 0; i < facilities.size(); i++) {
+
+			for (int k = 0; k < properties.size(); k++) {
+
+				actual = properties.get(r.nextInt(properties.size()));
+				if (!facilities.get(i).hasProperty(actual)) {
+					facilities.get(i).addProperty(actual);
+				}
+
+			}
+
+		}
+	}
+
+	private ArrayList<Building> createBuildings(String[] names, String[] numbers) {
+		ArrayList<Building> buildings = new ArrayList<Building>();
+		for (int i = 0; i < names.length; i++) {
+			buildings.add(new Building());
+			buildings.get(i).setName(names[i]);
+			buildings.get(i).setNumber(numbers[i]);
+			buildings.get(i).setParentFacility(null);
+
+			jpaTemplate.merge(buildings.get(i));
+		}
+		return buildings;
+	}
+
+	private ArrayList<Room> createRooms(String[] names, String[] numbers, int[] levels, String[] descriptions) {
+		ArrayList<Room> rooms = new ArrayList<Room>();
+		for (int i = 0; i < names.length; i++) {
+			rooms.add(new Room());
+			rooms.get(i).setName(names[i]);
+			rooms.get(i).setNumber(numbers[i]);
+			rooms.get(i).setLevel(i);
+			rooms.get(i).setDescription(descriptions[i]);
+
+			jpaTemplate.merge(rooms.get(i));
+		}
+		return rooms;
+	}
+
+	private ArrayList<Workplace> createWorkplaces(String[] names) {
+		ArrayList<Workplace> workplaces = new ArrayList<Workplace>();
+		for (int i = 0; i < names.length; i++) {
+			workplaces.add(new Workplace());
+			workplaces.get(i).setName(names[i]);
+
+			jpaTemplate.merge(workplaces.get(i));
+		}
+		return workplaces;
+	}
+
+	private ArrayList<Property> createProperties(String[] names) {
+		ArrayList<Property> properties = new ArrayList<Property>();
+		for (int i = 0; i < names.length; i++) {
+			properties.add(new Property(names[i]));
+
+			jpaTemplate.merge(properties.get(i));
+		}
+		return properties;
+	}
+
+	/** Class for return type of facility creating method. */
 	public class DummyFacilities {
+		/** the dummy buildings */
 		public ArrayList<Building> buildings;
+		/** the dummy rooms */
 		public ArrayList<Room> rooms;
+		/** the dummy workplaces */
 		public ArrayList<Workplace> places;
 	}
 
+	/** Class for return type of user creating method. */
 	public class DummyUsers {
+		/** the dummy users */
 		public ArrayList<User> users;
 	}
 
