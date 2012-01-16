@@ -41,8 +41,8 @@ import edu.kit.pse.ass.testdata.TestData.DummyUsers;
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class BookingDAOImplTest {
 
-	/** The Constant USERID. */
-	private static final String USERID = "uzzzz@student.kit.edu";
+	/** The Constant USEREMAIL. */
+	private static final String USEREMAIL = "uzzzz@student.kit.edu";
 
 	/** The Constant FACILITYID. */
 	private static final String FACILITYID = "#SOME_FACILITY_ID#";
@@ -61,7 +61,7 @@ public class BookingDAOImplTest {
 	Date end = new GregorianCalendar(2012, 0, 2, 10, 0).getTime();
 
 	/** The test reservation. */
-	Reservation testReservation = new Reservation(start, end, USERID);
+	Reservation testReservation = new Reservation(start, end, USEREMAIL);
 
 	/** The test reservation col. */
 	Collection<Reservation> testReservationCol = new ArrayList<Reservation>();
@@ -105,41 +105,36 @@ public class BookingDAOImplTest {
 		} catch (IllegalArgumentException e) {
 		}
 		try {
-			bookingDAO.getReservationsOfUser(USERID, null, to);
+			bookingDAO.getReservationsOfUser(USEREMAIL, null, to);
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 		}
 		try {
-			bookingDAO.getReservationsOfUser(USERID, from, null);
+			bookingDAO.getReservationsOfUser(USEREMAIL, from, null);
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 		}
 
 		// test if returned reservations belong all to the user
-		result = bookingDAO.getReservationsOfUser(USERID, start, end);
+		result = bookingDAO.getReservationsOfUser(USEREMAIL, start, end);
 		assertNotNull("Didn't return result", result);
 		assertFalse("Empty list returned", result.size() == 0);
-		assertTrue("Wrong amount of reservations returned",
-				result.size() == testReservationCol.size());
+		assertTrue("Wrong amount of reservations returned", result.size() == testReservationCol.size());
 		for (Reservation resv : result) {
-			assertEquals(USERID, resv.getBookingUserId());
+			assertEquals(USEREMAIL, resv.getBookingUserId());
 		}
 		result = null;
-		result = bookingDAO.getReservationsOfUser(USERID, from, to);
+		result = bookingDAO.getReservationsOfUser(USEREMAIL, from, to);
 		assertNotNull("Didn't return result", result);
 		for (Reservation resv : result) {
-			assertEquals(USERID, resv.getBookingUserId());
+			assertEquals(USEREMAIL, resv.getBookingUserId());
 		}
 		// test if returned reservations are the right
-		assertTrue("Contains not all reservations",
-				bookingDAO.getReservationsOfUser(USERID, start, end)
-						.containsAll(testReservationCol));
-		assertTrue(bookingDAO.getReservationsOfUser(USERID, from, to)
+		assertTrue("Contains not all reservations", bookingDAO.getReservationsOfUser(USEREMAIL, start, end)
 				.containsAll(testReservationCol));
-		assertTrue(bookingDAO.getReservationsOfUser(USERID, start, to)
-				.containsAll(testReservationCol));
-		assertFalse(bookingDAO.getReservationsOfUser(USERID, end, to)
-				.containsAll(testReservationCol));
+		assertTrue(bookingDAO.getReservationsOfUser(USEREMAIL, from, to).containsAll(testReservationCol));
+		assertTrue(bookingDAO.getReservationsOfUser(USEREMAIL, start, to).containsAll(testReservationCol));
+		assertFalse(bookingDAO.getReservationsOfUser(USEREMAIL, end, to).containsAll(testReservationCol));
 	}
 
 	/**
@@ -170,8 +165,7 @@ public class BookingDAOImplTest {
 		result = bookingDAO.getReservationsOfFacility(FACILITYID, from, to);
 		assertNotNull("Didn't return result", result);
 		assertFalse("Empty list returned", result.size() == 0);
-		assertTrue("Wrong amount of reservations returned",
-				result.size() == testReservationCol.size());
+		assertTrue("Wrong amount of reservations returned", result.size() == testReservationCol.size());
 		for (Reservation resv : result) {
 			assertTrue(resv.getBookedFacilityIds().contains(FACILITYID));
 		}
@@ -180,18 +174,14 @@ public class BookingDAOImplTest {
 			assertTrue(resv.getBookedFacilityIds().contains(FACILITYID));
 		}
 		// test if returned reservations are the right
-		assertTrue("Doesn't contain all reservations",
-				bookingDAO.getReservationsOfFacility(FACILITYID, from, to)
-						.containsAll(testReservationCol));
-		assertTrue("Doesn't contain all reservations",
-				bookingDAO.getReservationsOfFacility(FACILITYID, start, end)
-						.containsAll(testReservationCol));
-		assertTrue("Doesn't contain all reservations",
-				bookingDAO.getReservationsOfFacility(FACILITYID, start, to)
-						.containsAll(testReservationCol));
+		assertTrue("Doesn't contain all reservations", bookingDAO.getReservationsOfFacility(FACILITYID, from, to)
+				.containsAll(testReservationCol));
+		assertTrue("Doesn't contain all reservations", bookingDAO
+				.getReservationsOfFacility(FACILITYID, start, end).containsAll(testReservationCol));
+		assertTrue("Doesn't contain all reservations", bookingDAO.getReservationsOfFacility(FACILITYID, start, to)
+				.containsAll(testReservationCol));
 		assertFalse("Did return reservations it shouldn't have!",
-				bookingDAO.getReservationsOfFacility(FACILITYID, end, to)
-						.containsAll(testReservationCol));
+				bookingDAO.getReservationsOfFacility(FACILITYID, end, to).containsAll(testReservationCol));
 	}
 
 	/**
@@ -210,13 +200,11 @@ public class BookingDAOImplTest {
 		assertNotNull("Didn't return reservation", resv);
 		// ensure the returned reservation is correct
 		assertEquals("Ids are not equal", PERSISTED_RESERVATIONID, resv.getId());
-		assertTrue("Returned reservation doesn't contain the right facilities",
-				resv.getBookedFacilityIds().contains(FACILITYID));
-		assertEquals("The start dates are not equal", start,
-				resv.getStartTime());
+		assertTrue("Returned reservation doesn't contain the right facilities", resv.getBookedFacilityIds()
+				.contains(FACILITYID));
+		assertEquals("The start dates are not equal", start, resv.getStartTime());
 		assertEquals("The end dates are not equal", end, resv.getEndTime());
-		assertEquals("The booking user ids are not equal", USERID,
-				resv.getBookingUserId());
+		assertEquals("The booking user ids are not equal", USEREMAIL, resv.getBookingUserId());
 	}
 
 	/**
@@ -224,7 +212,7 @@ public class BookingDAOImplTest {
 	 */
 	@Test
 	public void testInsertReservation() {
-		Reservation newResv = new Reservation(start, end, USERID);
+		Reservation newResv = new Reservation(start, end, USEREMAIL);
 		newResv.addBookedFacilityId(FACILITYID);
 		String newResvId = null;
 		// throw error or return null if parameter is null
@@ -243,7 +231,7 @@ public class BookingDAOImplTest {
 		assertTrue(resv.getBookedFacilityIds().contains(FACILITYID));
 		assertEquals(start, resv.getStartTime());
 		assertEquals(end, resv.getEndTime());
-		assertEquals(USERID, resv.getBookingUserId());
+		assertEquals(USEREMAIL, resv.getBookingUserId());
 	}
 
 	/**
@@ -266,7 +254,7 @@ public class BookingDAOImplTest {
 		assertEquals(newEnd, resv.getEndTime());
 		assertEquals(start, resv.getStartTime());
 		assertTrue(resv.getBookedFacilityIds().contains(FACILITYID));
-		assertEquals(USERID, resv.getBookingUserId());
+		assertEquals(USEREMAIL, resv.getBookingUserId());
 	}
 
 	/**
