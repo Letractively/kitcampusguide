@@ -41,7 +41,8 @@ public class BookingManagementImpl implements BookingManagement {
 	// @Secured({ "ROLE_STUDENT", "ROLE_TUTOR" })
 	@Transactional
 	public String book(String userID, Collection<String> facilityIDs, Date startDate, Date endDate)
-			throws FacilityNotFreeException, IllegalArgumentException, FacilityNotFoundException {
+			throws FacilityNotFreeException, IllegalArgumentException, FacilityNotFoundException,
+			BookingNotAllowedException {
 		// check given dates
 		if ((startDate == null) || (endDate == null) || (startDate.after(endDate))) {
 			throw new IllegalArgumentException(
@@ -53,8 +54,9 @@ public class BookingManagementImpl implements BookingManagement {
 			throw new IllegalArgumentException("userID must be not null and not empty.");
 		}
 		Collection<Reservation> userReservations = bookingDAO.getReservationsOfUser(userID, startDate, endDate);
+
 		if (userReservations.size() > 0) {
-			throw new IllegalArgumentException("The user has a reservation at the same time");
+			throw new BookingNotAllowedException(userID, "The user has a reservation at the same time");
 		}
 
 		// check each facility

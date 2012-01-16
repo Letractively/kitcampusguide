@@ -34,9 +34,11 @@ public interface BookingManagement {
 	 *             the facility not free exception
 	 * @throws FacilityNotFoundException
 	 * @throws IllegalArgumentException
+	 * @throws BookingNotAllowedException
 	 */
 	public String book(String userID, Collection<String> facilityIDs, Date startDate, Date endDate)
-			throws FacilityNotFreeException, IllegalArgumentException, FacilityNotFoundException;
+			throws FacilityNotFreeException, IllegalArgumentException, FacilityNotFoundException,
+			BookingNotAllowedException;
 
 	/**
 	 * List reservations of user.
@@ -136,6 +138,8 @@ public interface BookingManagement {
 	 * @throws FacilityNotFoundException
 	 * @throws IllegalArgumentException
 	 */
-	public boolean isFacilityFree(String facilityID, Date startDate, Date endDate) throws IllegalArgumentException,
-			FacilityNotFoundException;
+
+	public boolean isFacilityFree(String facilityID, Date startDate, Date endDate)
+			throws IllegalArgumentException, FacilityNotFoundException;
+
 }
