@@ -79,11 +79,9 @@ public class TestData {
 		}
 		// TODO create dummy values
 
-		Building build1 = createPersisted(Building.class, "BUILDING#1");
-		build1.setName("Fakultät für Informatik");
+		Building build1 = createPersisted(Building.class, "Fakultät für Informatik");
 		build1.setNumber("50.34");
-		Building build2 = createPersisted(Building.class, "BUILDING#2");
-		build2.setName("Informatikgebäude");
+		Building build2 = createPersisted(Building.class, "Informatikgebäude");
 		build2.setNumber("08.15");
 
 		Property prop1 = new Property("WLAN");
@@ -99,18 +97,12 @@ public class TestData {
 		prop5 = jpaTemplate.merge(prop5);
 		prop6 = jpaTemplate.merge(prop6);
 
-		Room facil1 = createPersisted(Room.class, "ID###1");
-		Room facil2 = createPersisted(Room.class, "ID###2");
-		Room facil3 = createPersisted(Room.class, "ID###3");
-		Room facil4 = createPersisted(Room.class, "ID###4");
-		Room facil5 = createPersisted(Room.class, "ID###5");
-
-		facil1.setName("Raum 1");
-		facil2.setName("Raum 2");
-		facil3.setName("Raum 3");
-		facil4.setName("Raum 4");
+		Room facil1 = createPersisted(Room.class, "Raum 1");
+		Room facil2 = createPersisted(Room.class, "Raum 2");
+		Room facil3 = createPersisted(Room.class, "Raum 3");
+		Room facil4 = createPersisted(Room.class, "Raum 4");
 		// contains only dummy properties
-		facil5.setName("Raum 5");
+		Room facil5 = createPersisted(Room.class, "Raum 5");
 
 		facil1.setDescription("Informatik");
 		facil2.setDescription("Informatik");
@@ -128,6 +120,7 @@ public class TestData {
 		Workplace place4_2 = createPersisted(Workplace.class, "place4_2");
 		Workplace place4_3 = createPersisted(Workplace.class, "place4_3");
 		Workplace place4_4 = createPersisted(Workplace.class, "place4_4");
+		Workplace place5_1 = createPersisted(Workplace.class, "place5_1");
 
 		facil1.addProperty(prop1);
 		facil1.addContainedFacility(place1);
@@ -154,13 +147,14 @@ public class TestData {
 		facil5.addProperty(prop4);
 		facil5.addProperty(prop5);
 		facil5.addProperty(prop6);
+		facil5.addContainedFacility(place5_1);
 
 		build1.addContainedFacility(facil1);
 		build1.addContainedFacility(facil2);
 		build1.addContainedFacility(facil3);
 		build1.addContainedFacility(facil4);
-		build1.addContainedFacility(facil5);
 		build1.addProperty(prop1);
+		build2.addContainedFacility(facil5);
 
 		DummyFacilities addedFacilities = new DummyFacilities();
 
@@ -197,23 +191,23 @@ public class TestData {
 	public List<String> bookingFillWithDummies(DummyFacilities facilities, DummyUsers dummyusers) {
 		// the reservations IDs
 		List<String> resvIDs = new ArrayList<String>();
-		// the available rooms
-		List<Room> allRooms = facilities.rooms;
+		// the available workplaces
+		List<Workplace> allWorkplaces = facilities.places;
 		// the available users
 		List<User> allUsers = dummyusers.users;
 		// the start dates
-		List<GregorianCalendar> start = Arrays.asList(new GregorianCalendar(2012, 1, 1, 9, 0), new GregorianCalendar(
-				2012, 1, 1, 12, 0), new GregorianCalendar(2012, 1, 1, 15, 0));
+		List<GregorianCalendar> start = Arrays.asList(new GregorianCalendar(2012, 1, 1, 9, 0),
+				new GregorianCalendar(2012, 1, 1, 12, 0), new GregorianCalendar(2012, 1, 1, 15, 0));
 		// the end dates, all of them after the latest start
-		List<GregorianCalendar> end = Arrays.asList(new GregorianCalendar(2012, 1, 1, 11, 0), new GregorianCalendar(
-				2012, 1, 1, 14, 0), new GregorianCalendar(2012, 1, 1, 17, 0));
+		List<GregorianCalendar> end = Arrays.asList(new GregorianCalendar(2012, 1, 1, 11, 0),
+				new GregorianCalendar(2012, 1, 1, 14, 0), new GregorianCalendar(2012, 1, 1, 17, 0));
 		int i = 0;
 		// create reservations and persist them
-		int[] sizes = { allRooms.size(), allUsers.size(), start.size(), end.size() };
+		int[] sizes = { allWorkplaces.size(), allUsers.size(), start.size(), end.size() };
 		// shortest list
-		int s = allRooms.size();
+		int s = allWorkplaces.size();
 		// longest list
-		int l = allRooms.size();
+		int l = allWorkplaces.size();
 		// get size of shortest and longest list
 		for (int j : sizes) {
 			if (j < s) {
@@ -228,7 +222,7 @@ public class TestData {
 			i %= s;
 			Reservation resvTmp = new Reservation(start.get(i).getTime(), end.get(i).getTime(), allUsers.get(i)
 					.getEmail());
-			resvTmp.addBookedFacilityId(allRooms.get(i).getId());
+			resvTmp.addBookedFacilityId(allWorkplaces.get(i).getId());
 			jpaTemplate.merge(resvTmp);
 			resvIDs.add(resvTmp.getId());
 			// adds a day to each start and end, thus preventing double
@@ -250,12 +244,11 @@ public class TestData {
 		public ArrayList<User> users;
 	}
 
-	@SuppressWarnings("deprecation")
-	private <T extends Facility> T createPersisted(Class<T> type, String id) {
+	private <T extends Facility> T createPersisted(Class<T> type, String name) {
 		T t = null;
 		try {
 			t = type.newInstance();
-			t.setId(id);
+			t.setName(name);
 			t = jpaTemplate.merge(t);
 		} catch (InstantiationException e) {
 		} catch (IllegalAccessException e) {
