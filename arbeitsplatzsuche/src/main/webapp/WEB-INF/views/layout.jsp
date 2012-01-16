@@ -12,26 +12,20 @@
 <%-- Main Style sheet --%>
 <link href="<c:url value="/css/style.css" />" rel="stylesheet" type="text/css">
 <%-- Include jQuery UI Stylesheet --%>
-<link href="<c:url value="/css/ui-lightness/jquery-ui-1.8.16.custom.css" />" rel="stylesheet" type="text/css">
+<link href="<c:url value="/libs/jquery/ui-lightness/jquery-ui-1.8.16.custom.css" />" rel="stylesheet" type="text/css">
 <%-- Include jQuery, jQuery UI and Modernizr --%>
-<script src="<c:url value="/scripts/lib/jquery-1.6.2.min.js" />"></script>
-<script src="<c:url value="/scripts/lib/jquery-ui-1.8.16.custom.min.js" />"></script>
+<script src="<c:url value="/libs/jquery/jquery-1.6.2.min.js" />"></script>
+<script src="<c:url value="/libs/jquery/jquery-ui-1.8.16.custom.min.js" />"></script>
 <%-- doc: http://trentrichardson.com/examples/timepicker/ --%>
-<script src="<c:url value="/scripts/lib/jquery-ui-timepicker-addon.js" />"></script>
+<script src="<c:url value="/libs/jquery/jquery-ui-timepicker-addon.js" />"></script>
 <%-- doc: www.modernizr.com --%>
-<script src="<c:url value="/scripts/lib/modernizr-2.0.6.js" />"></script>
+<script src="<c:url value="/libs/modernizr/modernizr-2.0.6.js" />"></script>
 <%-- doc: http://www.myjqueryplugins.com/jNotify --%>
-<script src="<c:url value="/scripts/lib/jNotify.jquery.js" />"></script>
-<link href="<c:url value="/css/jNotify.jquery.css" />" rel="stylesheet" type="text/css">
+<script src="<c:url value="/libs/jnotify/jNotify.jquery.js" />"></script>
+<link href="<c:url value="/libs/jnotify/jNotify.jquery.css" />" rel="stylesheet" type="text/css">
 <%-- doc: https://github.com/robmonie/jquery-week-calendar/wiki/ --%>
-<script src="<c:url value="/scripts/lib/jquery.weekcalendar.js" />"></script>
-<link href="<c:url value="/css/jquery.weekcalendar.css" />" rel="stylesheet" type="text/css">
-<link href="<c:url value="/datatables/css/demo_page.css" />" rel="stylesheet" type="text/css" />
-<link href="<c:url value="/datatables/css/demo_table.css" />" rel="stylesheet" type="text/css" />
-<link href="<c:url value="/datatables/css/demo_table_jui.css" />" rel="stylesheet" type="text/css" />
-<link href="<c:url value="/datatables/themes/base/jquery-ui.css" />" rel="stylesheet" type="text/css" media="all" />
-<link href="<c:url value="/datatables/themes/smoothness/jquery-ui-1.7.2.custom.css" />" rel="stylesheet" type="text/css" media="all" />
-<script src="<c:url value="/scripts/lib/jquery.dataTables.min.js" />" type="text/javascript"></script>
+<script src="<c:url value="/libs/weekcalendar/jquery.weekcalendar.js" />"></script>
+<link href="<c:url value="/libs/weekcalendar/jquery.weekcalendar.css" />" rel="stylesheet" type="text/css">
 <%-- page specific CSS and JS files --%>
 <c:forEach var="file" items="${cssFiles}">
 <link href="<c:url value="${file}" />" rel="stylesheet" type="text/css">

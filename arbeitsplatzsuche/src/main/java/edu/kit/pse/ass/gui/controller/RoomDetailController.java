@@ -151,6 +151,14 @@ public class RoomDetailController extends MainController {
 			model.addAttribute("titleArguments",
 					new String[] { room.getName(), room.getParentFacility().getName() });
 			setUpWorkplaceList(model, room, searchFormModel);
+
+			// Additional CSS / JS files
+			String[] cssFiles = { "/libs/datatables/css/datatable.css", "/libs/datatables/css/datatable_jui.css",
+					"/libs/datatables/themes/base/jquery-ui.css" };
+			String[] jsFiles = { "/libs/datatables/jquery.dataTables.min.js", "/scripts/roomDetails.js" };
+			model.addAttribute("cssFiles", cssFiles);
+			model.addAttribute("jsFiles", jsFiles);
+
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			returnedView = handleIllegalRequest(e);
