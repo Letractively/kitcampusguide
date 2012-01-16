@@ -38,8 +38,11 @@ public class TestData {
 	 */
 	@Transactional
 	public void loadAllData() {
-		userFillWithDummies();
-		facilityFillWithDummies();
+		DummyUsers du = userFillWithDummies();
+		DummyFacilities df = facilityFillWithDummies();
+		if (du != null) {
+			bookingFillWithDummies(df, du);
+		}
 	}
 
 	/**
@@ -51,10 +54,9 @@ public class TestData {
 		DummyUsers dummies = new DummyUsers();
 		dummies.users = new ArrayList<User>();
 		// 4 letter email part, used as id
-		List<String> email = Arrays.asList("bbbb", "bbbc", "bbbd", "bbbe",
-				"bbbf", "bbbg", "bbbh", "bbbi", "bbbj", "bbbk", "bbbl", "bbbm");
-		if (null != jpaTemplate.find(User.class, "u" + email.get(0)
-				+ "@student.kit.edu")) {
+		List<String> email = Arrays.asList("bbbb", "bbbc", "bbbd", "bbbe", "bbbf", "bbbg", "bbbh", "bbbi", "bbbj",
+				"bbbk", "bbbl", "bbbm");
+		if (null != jpaTemplate.find(User.class, "u" + email.get(0) + "@student.kit.edu")) {
 			return null;
 		}
 		for (int i = 0; i < email.size(); i++) {
@@ -63,8 +65,7 @@ public class TestData {
 			s.add("ROLE_STUDENT");
 			u.setRoles(s);
 			u.setEmail("u" + email.get(i) + "@student.kit.edu");
-			u.setPassword(passwordEncoder.encodePassword(
-					email.get(i) + email.get(i), null));
+			u.setPassword(passwordEncoder.encodePassword(email.get(i) + email.get(i), null));
 			jpaTemplate.persist(u);
 			dummies.users.add(u);
 		}
@@ -193,8 +194,7 @@ public class TestData {
 	}
 
 	@Transactional
-	public List<String> bookingFillWithDummies(DummyFacilities facilities,
-			DummyUsers dummyusers) {
+	public List<String> bookingFillWithDummies(DummyFacilities facilities, DummyUsers dummyusers) {
 		// the reservations IDs
 		List<String> resvIDs = new ArrayList<String>();
 		// the available rooms
@@ -202,17 +202,14 @@ public class TestData {
 		// the available users
 		List<User> allUsers = dummyusers.users;
 		// the start dates
-		List<GregorianCalendar> start = Arrays.asList(new GregorianCalendar(
-				2012, 1, 1, 9, 0), new GregorianCalendar(2012, 1, 1, 12, 0),
-				new GregorianCalendar(2012, 1, 1, 15, 0));
+		List<GregorianCalendar> start = Arrays.asList(new GregorianCalendar(2012, 1, 1, 9, 0), new GregorianCalendar(
+				2012, 1, 1, 12, 0), new GregorianCalendar(2012, 1, 1, 15, 0));
 		// the end dates, all of them after the latest start
-		List<GregorianCalendar> end = Arrays.asList(new GregorianCalendar(2012,
-				1, 1, 11, 0), new GregorianCalendar(2012, 1, 1, 14, 0),
-				new GregorianCalendar(2012, 1, 1, 17, 0));
+		List<GregorianCalendar> end = Arrays.asList(new GregorianCalendar(2012, 1, 1, 11, 0), new GregorianCalendar(
+				2012, 1, 1, 14, 0), new GregorianCalendar(2012, 1, 1, 17, 0));
 		int i = 0;
 		// create reservations and persist them
-		int[] sizes = { allRooms.size(), allUsers.size(), start.size(),
-				end.size() };
+		int[] sizes = { allRooms.size(), allUsers.size(), start.size(), end.size() };
 		// shortest list
 		int s = allRooms.size();
 		// longest list
@@ -229,8 +226,8 @@ public class TestData {
 		while (resvIDs.size() < l) {
 			// makes the lists size independent
 			i %= s;
-			Reservation resvTmp = new Reservation(start.get(i).getTime(), end
-					.get(i).getTime(), allUsers.get(i).getEmail());
+			Reservation resvTmp = new Reservation(start.get(i).getTime(), end.get(i).getTime(), allUsers.get(i)
+					.getEmail());
 			resvTmp.addBookedFacilityId(allRooms.get(i).getId());
 			jpaTemplate.merge(resvTmp);
 			resvIDs.add(resvTmp.getId());
