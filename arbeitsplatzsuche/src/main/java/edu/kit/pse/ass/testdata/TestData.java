@@ -158,9 +158,14 @@ public class TestData {
 	 */
 	@Transactional
 	public DummyFacilities facilityFillWithDummies() {
+		// TODO get to know what this if() is doing ...
+		if (jpaTemplate.find(Facility.class, "place1") != null) {
+			return null;
+		}
 
 		// create dummy facilities
 		DummyFacilities df = new DummyFacilities();
+		// TODO maybe write 1 generic method instead of 3
 		df.buildings = createBuildings(BUILDING_NAMES, BUILDING_NUMBERS);
 		df.rooms = createRooms(ROOM_NAMES, ROOM_NUMBERS, ROOM_LEVELS, ROOM_DESCRIPTIONS);
 		df.places = createWorkplaces(WORKPLACE_NAMES);
@@ -179,20 +184,19 @@ public class TestData {
 
 	private void addDependenciesRandomized(ArrayList<? extends Facility> parents,
 			ArrayList<? extends Facility> children) {
-		int index = 0;
 		Random r = new Random();
+		int indexOfFirstFreeChild = 0;
 		int randomEnd = 0;
 
 		for (int i = 0; i < parents.size(); i++) {
-			randomEnd = index + r.nextInt(children.size() - index);
 
-			for (int k = index; k < randomEnd; k++) {
-				parents.get(i).addContainedFacility(children.get(index));
+			randomEnd = indexOfFirstFreeChild + r.nextInt(children.size() - indexOfFirstFreeChild);
+			for (int k = indexOfFirstFreeChild; k < randomEnd; k++) {
+				parents.get(i).addContainedFacility(children.get(k));
 			}
-			index += randomEnd;
+			indexOfFirstFreeChild += (randomEnd - indexOfFirstFreeChild);
 
 		}
-
 	}
 
 	private void addPropertiesRandomized(ArrayList<? extends Facility> facilities, ArrayList<Property> properties) {
@@ -215,38 +219,47 @@ public class TestData {
 
 	private ArrayList<Building> createBuildings(String[] names, String[] numbers) {
 		ArrayList<Building> buildings = new ArrayList<Building>();
+		Building b;
 		for (int i = 0; i < names.length; i++) {
-			buildings.add(new Building());
-			buildings.get(i).setName(names[i]);
-			buildings.get(i).setNumber(numbers[i]);
-			buildings.get(i).setParentFacility(null);
+			b = new Building();
+			jpaTemplate.merge(b);
 
-			jpaTemplate.merge(buildings.get(i));
+			b.setName(names[i]);
+			b.setNumber(numbers[i]);
+			b.setParentFacility(null);
+
+			buildings.add(b);
 		}
 		return buildings;
 	}
 
 	private ArrayList<Room> createRooms(String[] names, String[] numbers, int[] levels, String[] descriptions) {
 		ArrayList<Room> rooms = new ArrayList<Room>();
+		Room r;
 		for (int i = 0; i < names.length; i++) {
-			rooms.add(new Room());
-			rooms.get(i).setName(names[i]);
-			rooms.get(i).setNumber(numbers[i]);
-			rooms.get(i).setLevel(i);
-			rooms.get(i).setDescription(descriptions[i]);
+			r = new Room();
+			jpaTemplate.merge(r);
 
-			jpaTemplate.merge(rooms.get(i));
+			r.setName(names[i]);
+			r.setNumber(numbers[i]);
+			r.setLevel(i);
+			r.setDescription(descriptions[i]);
+
+			rooms.add(r);
 		}
 		return rooms;
 	}
 
 	private ArrayList<Workplace> createWorkplaces(String[] names) {
 		ArrayList<Workplace> workplaces = new ArrayList<Workplace>();
+		Workplace w;
 		for (int i = 0; i < names.length; i++) {
-			workplaces.add(new Workplace());
-			workplaces.get(i).setName(names[i]);
+			w = new Workplace();
+			jpaTemplate.merge(w);
 
-			jpaTemplate.merge(workplaces.get(i));
+			w.setName(names[i]);
+
+			workplaces.add(w);
 		}
 		return workplaces;
 	}
