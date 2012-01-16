@@ -7,23 +7,22 @@ import javax.inject.Inject;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Reservation;
 import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.entity.Workplace;
 import edu.kit.pse.ass.facility.management.FacilityManagement;
+import edu.kit.pse.ass.facility.management.FacilityNotFoundException;
 
 /**
  * This class represents the model of a Reservation.
  * 
- * It wraps a Reservation object and is needed to get and format data not
- * provided by the Reservation class.
+ * It wraps a Reservation object and is needed to get and format data not provided by the Reservation class.
  * 
  * @author Jannis Koch
  * 
  */
-public class ReservationModel {
+public class ReservationModel implements Comparable<ReservationModel> {
 
 	/** The facility management. */
 	@Inject
@@ -33,8 +32,8 @@ public class ReservationModel {
 	private final Reservation reservation;
 
 	/**
-	 * the room of the reservation (the room where the booked facilities are
-	 * located in - the room must not necessarily be part of the reservation!).
+	 * the room of the reservation (the room where the booked facilities are located in - the room must not necessarily
+	 * be part of the reservation!).
 	 */
 	private Room room;
 
@@ -51,15 +50,18 @@ public class ReservationModel {
 		this.reservation = new Reservation();
 	}
 
+	// TODO pass facilityManagement in constructor as @inject does not (yet?) work when Spring does not create the
+	// objects
 	/**
 	 * constructs a new ReservationModel wrapping the specified reservation
-	 * ======= constructs a new ReservationModel wrapping the specified
-	 * reservation. >>>>>>> .r1143
 	 * 
 	 * @param reservation
 	 *            the reservation to wrap
+	 * @param facilityManagement
+	 *            the facilityManagement
 	 */
-	public ReservationModel(Reservation reservation) {
+	public ReservationModel(Reservation reservation, FacilityManagement facilityManagement) {
+		setFacilityManagement(facilityManagement);
 		this.reservation = reservation;
 		setWorkplaceCount(calculateWorkplaceCountFromReservation());
 	}
@@ -93,6 +95,16 @@ public class ReservationModel {
 	}
 
 	/**
+	 * sets the start time of this reservation
+	 * 
+	 * @param startTime
+	 *            the start time
+	 */
+	public void setStartTime(Date startTime) {
+		this.reservation.setStartTime(startTime);
+	}
+
+	/**
 	 * returns the end time of this reservation
 	 * 
 	 * @return the end time of this reservation
@@ -115,23 +127,22 @@ public class ReservationModel {
 	/**
 	 * returns the id of this reservation
 	 * 
-	 * @return
+	 * @return the id of this reservation
 	 */
 	public String getId() {
 		return reservation.getId();
 	}
 
 	/**
-	 * returns the number of hours of the duration, not counting additional
-	 * time, e.g. a duration of 130 minutes will return 2
+	 * returns the number of hours of the duration, not counting additional time, e.g. a duration of 130 minutes will
+	 * return 2
 	 * 
 	 * @return the number of hours of the duration
 	 */
 	public int getDurationHours() {
 
 		// Duration in ms
-		long duration = reservation.getEndTime().getTime()
-				- reservation.getStartTime().getTime();
+		long duration = reservation.getEndTime().getTime() - reservation.getStartTime().getTime();
 
 		// Calculate hours
 		int hours = (int) (duration / (1000 * 60 * 60));
@@ -140,16 +151,15 @@ public class ReservationModel {
 	}
 
 	/**
-	 * returns the number of minutes of the duration, not counting additional
-	 * time, e.g. a duration of 130 minutes will return 10
+	 * returns the number of minutes of the duration, not counting additional time, e.g. a duration of 130 minutes will
+	 * return 10
 	 * 
 	 * @return the number of minutes of the duration
 	 */
 	public int getDurationMinutes() {
 
 		// Duration in ms
-		long duration = reservation.getEndTime().getTime()
-				- reservation.getStartTime().getTime();
+		long duration = reservation.getEndTime().getTime() - reservation.getStartTime().getTime();
 
 		// Calculate minutes
 		int minutes = (int) (duration / (1000 * 60) % 60);
@@ -169,10 +179,16 @@ public class ReservationModel {
 			Iterator<String> i = reservation.getBookedFacilityIds().iterator();
 			if (i.hasNext()) {
 				String facilityID = i.next();
-				Facility bookedFacility = tempGetFacility(facilityID); // Facility
-																		// bookedFacility
-																		// =
-				// facilityManagement.getFacility(facilityID);
+				Facility bookedFacility = null;
+				try {
+					bookedFacility = facilityManagement.getFacility(facilityID);
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (FacilityNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				if (bookedFacility instanceof Room) {
 					// we assume that the reservation consists of one room only
@@ -197,18 +213,26 @@ public class ReservationModel {
 	 * @return the name of the room where the booked facilities are located in
 	 */
 	public String getRoomName() {
-		return getRoom().getName();
+		Room room = getRoom();
+		if (room != null) {
+			return room.getName();
+		} else {
+			return "";
+		}
 	}
 
 	/**
-	 * returns the name of the building where the booked facilities are located
-	 * in.
+	 * returns the name of the building where the booked facilities are located in.
 	 * 
-	 * @return the name of the building where the booked facilities are located
-	 *         in
+	 * @return the name of the building where the booked facilities are located in
 	 */
 	public String getBuildingName() {
-		return getRoom().getParentFacility().getName();
+		Room room = getRoom();
+		if (room != null) {
+			return room.getParentFacility().getName();
+		} else {
+			return "";
+		}
 	}
 
 	/**
@@ -232,17 +256,24 @@ public class ReservationModel {
 			Iterator<String> i = reservation.getBookedFacilityIds().iterator();
 			if (i.hasNext()) {
 				String facilityID = i.next();
-				// Facility bookedFacility =
-				// facilityManagement.getFacility(facilityID);
-				Facility bookedFacility = tempGetFacility(facilityID);
+
+				Facility bookedFacility = null;
+				try {
+					bookedFacility = facilityManagement.getFacility(facilityID);
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (FacilityNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				if (bookedFacility instanceof Workplace) {
 					// reservation consists of one workplace only
 					workplaceCount = 1;
 				} else if (bookedFacility instanceof Room) {
 					// return number of workplaces of the room
-					workplaceCount = bookedFacility.getContainedFacilities()
-							.size();
+					workplaceCount = bookedFacility.getContainedFacilities().size();
 				}
 			}
 		}
@@ -251,40 +282,13 @@ public class ReservationModel {
 	}
 
 	/**
-	 * Temp get facility.
+	 * Sets the facilityManagement
 	 * 
-	 * @param facilityID
-	 *            the facility id
-	 * @return the facility
+	 * @param facilityManagement
+	 *            the facilityManagement
 	 */
-	private Facility tempGetFacility(String facilityID) {
-		Building b = new Building();
-		b.setName("Informatik Hauptgebäude");
-
-		Room r = new Room();
-		r.setId("roomid3");
-		r.setName("Seminarraum 1");
-		b.addContainedFacility(r);
-
-		Workplace w = new Workplace();
-		w.setName("Arbeitsplatz 1");
-		r.addContainedFacility(w);
-
-		if (facilityID.equals("wpid1")) {
-			return w;
-		} else if (facilityID.equals("wpid2")) {
-			w.setName("Arbeitsplatz 2");
-			return w;
-		} else if (facilityID.equals("roomid3")) {
-			Workplace w1 = new Workplace();
-			w1.setName("Arbeitsplatz 2");
-			r.addContainedFacility(w1);
-			Workplace w2 = new Workplace();
-			w2.setName("Arbeitsplatz 3");
-			r.addContainedFacility(w2);
-			return r;
-		}
-		return w;
+	public void setFacilityManagement(FacilityManagement facilityManagement) {
+		this.facilityManagement = facilityManagement;
 	}
 
 	/**
@@ -297,10 +301,16 @@ public class ReservationModel {
 		Iterator<String> i = reservation.getBookedFacilityIds().iterator();
 		if (i.hasNext()) {
 			String facilityID = i.next();
-			Facility bookedFacility = tempGetFacility(facilityID); // Facility
-																	// bookedFacility
-																	// =
-			// facilityManagement.getFacility(facilityID);
+			Facility bookedFacility = null;
+			try {
+				bookedFacility = facilityManagement.getFacility(facilityID);
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (FacilityNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			if (bookedFacility instanceof Room) {
 				return true;
@@ -309,5 +319,22 @@ public class ReservationModel {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Compares another ReservationModel with this instance using the start time of the reservation
+	 * 
+	 * @param otherReservationModel
+	 *            the other ReservationModel to compare
+	 * @return the comparison result
+	 */
+	@Override
+	public int compareTo(ReservationModel otherReservationModel) {
+		if (this.reservation.getStartTime() != null) {
+			return this.reservation.getStartTime().compareTo(otherReservationModel.reservation.getStartTime());
+		} else {
+			return 0;
+		}
+
 	}
 }

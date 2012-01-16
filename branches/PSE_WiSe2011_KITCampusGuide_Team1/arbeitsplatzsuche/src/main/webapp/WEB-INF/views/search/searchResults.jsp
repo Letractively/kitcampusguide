@@ -28,6 +28,7 @@
 	        
 	        "oLanguage": {
 				"sZeroRecords": "Es wurden keine Arbeitspl&auml;tze mit diesen Suchkriterien gefunden.",
+				"sProcessing": "Lade Suchergebnisse...",
 	        },
 	        
 			"bPaginate" : true,
