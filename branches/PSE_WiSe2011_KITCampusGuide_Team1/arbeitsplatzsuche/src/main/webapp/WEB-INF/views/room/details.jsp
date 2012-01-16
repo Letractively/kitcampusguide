@@ -28,6 +28,7 @@
 				return 600;
 			},
 			use24Hour: true,
+			readonly: true,
 			businessHours: {start: 8, end: 22, limitDisplay: true}
 		});
 		
