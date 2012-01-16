@@ -33,88 +33,71 @@ import edu.kit.pse.ass.gui.model.CalendarParamModel;
 import edu.kit.pse.ass.gui.model.SearchFilterModel;
 import edu.kit.pse.ass.gui.model.SearchFormModel;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RoomDetailController.
  */
 @Controller
 public class RoomDetailController extends MainController {
 
-	/** The facility management. */
+	/** The FacilityManagement component. */
 	@Inject
-	FacilityManagement facilityManagement;
+	private FacilityManagement facilityManagement;
 
+	/** The BookingManagement component. */
 	@Inject
-	BookingManagement bookingManagement;
+	private BookingManagement bookingManagement;
 
 	/**
-	 * Sets the up room details.
+	 * This method is called to display the RoomDetailsPage.
 	 * 
 	 * @param roomId
-	 *            the room id
+	 *            the room id to display details of
 	 * @param model
-	 *            the model
-	 * @param sfm
-	 *            the sfm
+	 *            the spring model
+	 * @param searchFormModel
+	 *            the SearchFormModel filled at SearchPage
 	 * @param searchFilterModel
-	 *            the search filter model
-	 * @return the string
-	 * @throws FacilityNotFoundException
-	 * @throws IllegalArgumentException
+	 *            the SearchFilterModel filled at SearchPage
+	 * @param bookingFormModel
+	 *            the BookingFormModel if filled at RoomDetailsPage
+	 * @return the view path
 	 */
 	@RequestMapping(value = "room/{roomId}/details.html", method = { RequestMethod.GET })
-	public String setUpRoomDetails(@PathVariable("roomId") String roomId,
-			Model model, @ModelAttribute SearchFormModel sfm,
-			@ModelAttribute SearchFilterModel searchFilterModel,
-			@ModelAttribute BookingFormModel bfm)
-			throws IllegalArgumentException, FacilityNotFoundException {
-		setUpRoomDetailModel(model, roomId, sfm);
+	public String setUpRoomDetails(@PathVariable("roomId") String roomId, Model model,
+			@ModelAttribute SearchFormModel searchFormModel, @ModelAttribute SearchFilterModel searchFilterModel,
+			@ModelAttribute BookingFormModel bookingFormModel) {
+		setUpRoomDetailModel(model, roomId, searchFormModel);
 		return "room/details";
 	}
 
-	private void setUpRoomDetailModel(Model model, String roomId,
-			SearchFormModel sfm) throws IllegalArgumentException,
-			FacilityNotFoundException {
-		Facility f = facilityManagement.getFacility(roomId);
-
-		if (!(f instanceof Room)) {
-			// TODO error!
-		}
-
-		Room room = (Room) f;
-		model.addAttribute("room", room);
-
-		listWorkplaces(model, room, sfm);
-	}
-
 	/**
-	 * Book.
+	 * This method is called when the BookingForm at the RoomDetailsPage was filled and submitted to the server.
 	 * 
+	 * @param roomId
+	 *            the room id to display details of
 	 * @param model
-	 *            the model
-	 * @return the string
-	 * @throws FacilityNotFoundException
-	 * @throws IllegalArgumentException
+	 *            the spring model
+	 * @param bookingFormModel
+	 *            the BookingFormModel if filled at RoomDetailsPage
+	 * @return the view path
 	 */
 	@RequestMapping(value = "room/{roomId}/details.html", method = { RequestMethod.POST })
 	public String book(@PathVariable("roomId") String roomId, Model model,
-			@ModelAttribute BookingFormModel bfm)
-			throws IllegalArgumentException, FacilityNotFoundException {
+			@ModelAttribute BookingFormModel bookingFormModel) {
 
 		String returnedView = "room/details";
 
 		setUpRoomDetailModel(model, roomId, new SearchFormModel());
 
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String userID = auth.getName();
 
 		ArrayList<String> facilityIDs = new ArrayList<String>();
 
-		if (bfm.isWholeRoom()) {
+		if (bookingFormModel.isWholeRoom()) {
 			facilityIDs.add(roomId);
 		} else {
-			for (String id : bfm.getWorkplaces()) {
+			for (String id : bookingFormModel.getWorkplaces()) {
 				if (id != null) {
 					facilityIDs.add(id);
 				}
@@ -123,8 +106,7 @@ public class RoomDetailController extends MainController {
 
 		if (facilityIDs.size() != 0) {
 			try {
-				bookingManagement.book(userID, facilityIDs, bfm.getStart(),
-						bfm.getEnd());
+				bookingManagement.book(userID, facilityIDs, bookingFormModel.getStart(), bookingFormModel.getEnd());
 
 				returnedView = "redirect:/reservation/list.html";
 			} catch (IllegalStateException e) {
@@ -132,6 +114,11 @@ public class RoomDetailController extends MainController {
 				e.printStackTrace();
 			} catch (FacilityNotFreeException e) {
 				model.addAttribute("notFree", true);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (FacilityNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		} else {
 			model.addAttribute("noFacilities", true);
@@ -142,24 +129,49 @@ public class RoomDetailController extends MainController {
 	}
 
 	/**
-	 * List workplaces.
+	 * Helper Method to set the needed model data of the RoomDetailsPage.
 	 * 
 	 * @param model
-	 *            the model
-	 * @param room
-	 *            the room
+	 *            the spring Model
+	 * @param roomId
+	 *            the rooms ID to display
+	 * @param searchFormModel
+	 *            the SearchFormModel filled at the SearchPage
 	 */
-	private void listWorkplaces(Model model, Room room, SearchFormModel sfm) {
+	private void setUpRoomDetailModel(Model model, String roomId, SearchFormModel searchFormModel) {
+		try {
+			Room room = facilityManagement.getFacility(Room.class, roomId);
+			model.addAttribute("room", room);
+			setUpWorkplaceList(model, room, searchFormModel);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (FacilityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Set up the workplaces list.
+	 * 
+	 * @param model
+	 *            the spring model
+	 * @param room
+	 *            the Room to list workplaces of
+	 * @param searchFormModel
+	 *            the SearchFormModel filled at the SearchPage
+	 */
+	private void setUpWorkplaceList(Model model, Room room, SearchFormModel searchFormModel) {
 		Collection<Facility> workplaces = room.getContainedFacilities();
 
 		boolean[] checked = new boolean[workplaces.size()];
 
-		if (sfm.isWholeRoom()) {
+		if (searchFormModel.isWholeRoom()) {
 			for (int i = 0; i < checked.length; i++) {
 				checked[i] = false;
 			}
 		} else {
-			int workplacesToSelect = sfm.getWorkplaceCount();
+			int workplacesToSelect = searchFormModel.getWorkplaceCount();
 			for (int i = 0; i < checked.length; i++) {
 				if (workplacesToSelect > 0) {
 					// TODO: isFree, hasProps
@@ -177,27 +189,27 @@ public class RoomDetailController extends MainController {
 	}
 
 	/**
-	 * Show bookable occupancy.
+	 * Json return for the occupancy of the room
 	 * 
+	 * @param roomId
+	 *            the room id to show occupancy of
 	 * @param request
-	 *            the request
+	 *            the spring HttpServletRequest
 	 * @param response
-	 *            the response
-	 * @throws FacilityNotFoundException
+	 *            the spring HttpServletResponse
+	 * @param calendarParamModel
+	 *            the Parameters of the jquery calendar
 	 */
 	@RequestMapping(value = "room/{roomId}/calendar.html")
-	public void showBookableOccupancy(@PathVariable("roomId") String roomId,
-			HttpServletRequest request, HttpServletResponse response,
-			@ModelAttribute CalendarParamModel cpm)
-			throws FacilityNotFoundException {
+	public void showBookableOccupancy(@PathVariable("roomId") String roomId, HttpServletRequest request,
+			HttpServletResponse response, @ModelAttribute CalendarParamModel calendarParamModel) {
 
-		Collection<Reservation> reservations = bookingManagement
-				.listReservationsOfFacility(roomId, cpm.getStart(),
-						cpm.getEnd());
-		Room room = facilityManagement.getFacility(Room.class, roomId);
-
-		// create JSON response
+		Collection<Reservation> reservations = bookingManagement.listReservationsOfFacility(roomId,
+				calendarParamModel.getStart(), calendarParamModel.getEnd());
 		try {
+			Room room = facilityManagement.getFacility(Room.class, roomId);
+
+			// create JSON response
 			JSONArray events = new JSONArray();
 
 			for (Reservation r : reservations) {
@@ -217,8 +229,8 @@ public class RoomDetailController extends MainController {
 						title = name + " besetzt";
 					}
 				}
-				reservations = bookingManagement.listReservationsOfFacility(
-						fac.getId(), cpm.getStart(), cpm.getEnd());
+				reservations = bookingManagement.listReservationsOfFacility(fac.getId(), calendarParamModel.getStart(),
+						calendarParamModel.getEnd());
 				for (Reservation r : reservations) {
 					JSONObject o = new JSONObject();
 					o.put("id", r.getId());
@@ -242,6 +254,9 @@ public class RoomDetailController extends MainController {
 			response.setContentType("text/html");
 			// response.getWriter().print(e.getMessage());
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FacilityNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
