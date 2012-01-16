@@ -47,14 +47,17 @@ public class BookingManagementImplTest {
 	/** The email of the user. */
 	private String userID;
 
-	/** The Constant FACILITIES. */
-	private List<String> facilities;
+	/** The booked workplaces */
+	private List<String> place;
 
-	/** The Constant FACILITIES2. */
-	private List<String> facilities2;
+	/** The booked workplaces2. */
+	private List<String> place2;
 
-	/** The Constant FACILITIES3. */
-	private List<String> facilities3;
+	/** The booked workplaces3. */
+	private List<String> place3;
+
+	/** The booked room. */
+	private List<String> room;
 
 	/** The RESERVATIONID. */
 	private String reservationID;
@@ -103,16 +106,18 @@ public class BookingManagementImplTest {
 		dummyUsers = testData.userFillWithDummies();
 		// get real-DB ID of a user
 		userID = dummyUsers.users.get(0).getEmail();
-		// get real-DB IDs of the test-dummy rooms
-		facilities = new ArrayList<String>(Arrays.asList(dummyFacilities.rooms.get(0).getId(),
-				dummyFacilities.rooms.get(1).getId()));
-		facilities2 = new ArrayList<String>(Arrays.asList(dummyFacilities.rooms.get(2).getId(),
-				dummyFacilities.rooms.get(4).getId()));
-		facilities3 = new ArrayList<String>(Arrays.asList(dummyFacilities.rooms.get(3).getId()));
+		// get real-DB IDs of the test-dummy facilities
+		place = new ArrayList<String>(Arrays.asList(dummyFacilities.places.get(0).getId(), dummyFacilities.places
+				.get(1).getId()));
+		place2 = new ArrayList<String>(Arrays.asList(dummyFacilities.places.get(4).getId(), dummyFacilities.places
+				.get(5).getId()));
+		place3 = new ArrayList<String>(Arrays.asList(dummyFacilities.places.get(2).getId()));
+
+		room = new ArrayList<String>(Arrays.asList(dummyFacilities.rooms.get(4).getId()));
 
 		assertNotNull("No bookingManagement initialized", bookingManagement);
-		reservationID = bookingManagement.book(userID, facilities, start, end);
-		reservationID2 = bookingManagement.book(dummyUsers.users.get(1).getEmail(), facilities3, start, end);
+		reservationID = bookingManagement.book(userID, place, start, end);
+		reservationID2 = bookingManagement.book(dummyUsers.users.get(1).getEmail(), place3, start, end);
 
 	}
 
@@ -133,7 +138,7 @@ public class BookingManagementImplTest {
 		String resvID = null;
 		try {
 			// throw error or return null if parameter is null
-			assertNull("Accepted wrong parameters.", bookingManagement.book(null, facilities, startDate, endDate));
+			assertNull("Accepted wrong parameters.", bookingManagement.book(null, place, startDate, endDate));
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 			System.out.println("Error:" + e);
@@ -145,27 +150,39 @@ public class BookingManagementImplTest {
 			System.out.println("Error:" + e);
 		}
 		try {
-			assertNull("Accepted wrong parameters.", bookingManagement.book(userID, facilities, null, endDate));
+			assertNull("Accepted wrong parameters.", bookingManagement.book(userID, place, null, endDate));
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 			System.out.println("Error:" + e);
 		}
 		try {
-			assertNull("Accepted wrong parameters.", bookingManagement.book(userID, facilities, startDate, null));
+			assertNull("Accepted wrong parameters.", bookingManagement.book(userID, place, startDate, null));
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 			System.out.println("Error:" + e);
 		}
 
-		resvID = bookingManagement.book("uxyzz@student.kit.edu", facilities, startDate, endDate);
+		resvID = bookingManagement.book("uxyzz@student.kit.edu", place, startDate, endDate);
 		// a reservation must be returned
 		assertNotNull("Reservation id is null", resvID);
-		assertFalse("Reservation id is emtpy", resvID.equals(""));
+		assertFalse("Reservation id is emtpy", resvID.isEmpty());
 		// check if returned reservation is correct
 		assertEquals("uxyzz@student.kit.edu", bookingManagement.getReservation(resvID).getBookingUserId());
-		assertTrue(bookingManagement.getReservation(resvID).getBookedFacilityIds().containsAll(facilities));
+		assertTrue(bookingManagement.getReservation(resvID).getBookedFacilityIds().containsAll(place));
 		assertEquals(startDate, bookingManagement.getReservation(resvID).getStartTime());
 		assertEquals(endDate, bookingManagement.getReservation(resvID).getEndTime());
+
+		// test book a room
+		String roomResvID = null;
+		roomResvID = bookingManagement.book(dummyUsers.users.get(2).getEmail(), room, start, end);
+		// a reservation must be returned
+		assertNotNull("Reservation id is null", roomResvID);
+		assertFalse("Reservation id is emtpy", roomResvID.isEmpty());
+		// check if returned reservation is correct
+		assertEquals("ubbbd@student.kit.edu", bookingManagement.getReservation(roomResvID).getBookingUserId());
+		assertTrue(bookingManagement.getReservation(roomResvID).getBookedFacilityIds().containsAll(room));
+		assertEquals(start, bookingManagement.getReservation(roomResvID).getStartTime());
+		assertEquals(end, bookingManagement.getReservation(roomResvID).getEndTime());
 	}
 
 	/**
@@ -230,20 +247,20 @@ public class BookingManagementImplTest {
 		}
 		try {
 			assertNull("Accepted wrong parameters.",
-					bookingManagement.listReservationsOfFacility(facilities.get(0), null, endDate));
+					bookingManagement.listReservationsOfFacility(place.get(0), null, endDate));
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 			System.out.println("Error: " + e);
 		}
 		try {
 			assertNull("Accepted wrong parameters.",
-					bookingManagement.listReservationsOfFacility(facilities.get(0), startDate, null));
+					bookingManagement.listReservationsOfFacility(place.get(0), startDate, null));
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 			System.out.println("Error: " + e);
 		}
-		resvCol = bookingManagement.listReservationsOfFacility(facilities.get(0), startDate, endDate);
-		resvCol2 = bookingManagement.listReservationsOfFacility(facilities3.get(0), startDate, endDate);
+		resvCol = bookingManagement.listReservationsOfFacility(place.get(0), startDate, endDate);
+		resvCol2 = bookingManagement.listReservationsOfFacility(place3.get(0), startDate, endDate);
 		// a reservation must be returned
 		assertNotNull("Collection of reservations is null", resvCol);
 		assertTrue("No reservations in collection", resvCol.size() > 0);
@@ -251,12 +268,12 @@ public class BookingManagementImplTest {
 		assertTrue("No reservations in collection", resvCol2.size() > 0);
 		// check if returned reservations are correct
 		for (Reservation resv : resvCol) {
-			assertTrue(resv.getBookedFacilityIds().contains(facilities.get(0)));
+			assertTrue(resv.getBookedFacilityIds().contains(place.get(0)));
 			assertTrue(startDate.before(resv.getStartTime()));
 			assertTrue(endDate.after(resv.getEndTime()));
 		}
 		for (Reservation resv : resvCol2) {
-			assertTrue(resv.getBookedFacilityIds().contains(facilities3.get(0)));
+			assertTrue(resv.getBookedFacilityIds().contains(place3.get(0)));
 			assertTrue(startDate.before(resv.getStartTime()));
 			assertTrue(endDate.after(resv.getEndTime()));
 		}
@@ -302,11 +319,10 @@ public class BookingManagementImplTest {
 	 */
 	@Test
 	public void testRemoveFacilityFromReservation() throws IllegalArgumentException, ReservationNotFoundException {
-		assertTrue(facilities.size() == bookingManagement.getReservation(reservationID).getBookedFacilityIds()
-				.size());
+		assertTrue(place.size() == bookingManagement.getReservation(reservationID).getBookedFacilityIds().size());
 		try {
 			// TODO throw error if parameter is null
-			bookingManagement.removeFacilityFromReservation(null, facilities.get(0));
+			bookingManagement.removeFacilityFromReservation(null, place.get(0));
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 			System.out.println("Error: " + e);
@@ -318,12 +334,12 @@ public class BookingManagementImplTest {
 			System.out.println("Error: " + e);
 		}
 
-		bookingManagement.removeFacilityFromReservation(reservationID, facilities.get(0));
+		bookingManagement.removeFacilityFromReservation(reservationID, place.get(0));
 		// check if the right facility was removed
-		assertTrue("No facility removed", facilities.size() > bookingManagement.getReservation(reservationID)
+		assertTrue("No facility removed", place.size() > bookingManagement.getReservation(reservationID)
 				.getBookedFacilityIds().size());
 		assertFalse("Facility still in bookedFacilityIds, but a facility was removed", bookingManagement
-				.getReservation(reservationID).getBookedFacilityIds().contains(facilities.get(0)));
+				.getReservation(reservationID).getBookedFacilityIds().contains(place.get(0)));
 	}
 
 	/**
@@ -377,7 +393,7 @@ public class BookingManagementImplTest {
 		// check if the right reservation was returned
 		assertEquals(reservationID, resv.getId());
 		assertEquals(userID, resv.getBookingUserId());
-		assertTrue(resv.getBookedFacilityIds().containsAll(facilities));
+		assertTrue(resv.getBookedFacilityIds().containsAll(place));
 		assertEquals(start, resv.getStartTime());
 		assertEquals(end, resv.getEndTime());
 	}
@@ -430,9 +446,9 @@ public class BookingManagementImplTest {
 			// TODO search text unused in the facility construction, what needed
 			// for?
 			assertTrue("invalid facility returned", dummyFacilities.rooms.contains(freeFacility.getFacility()));
-			assertFalse("facility is in booking 1", facilities.contains(freeFacility.getFacility().getId())
+			assertFalse("facility is in booking 1", place.contains(freeFacility.getFacility().getId())
 					&& freeFacility.getStart().before(end));
-			assertFalse("facility is in booking 2", facilities3.contains(freeFacility.getFacility().getId())
+			assertFalse("facility is in booking 2", place3.contains(freeFacility.getFacility().getId())
 					&& freeFacility.getStart().before(end));
 			// assertTrue(FACILITIES2.contains(freeFacility.getFacility().getId()));
 		}
@@ -458,31 +474,31 @@ public class BookingManagementImplTest {
 			System.out.println("Error: " + e);
 		}
 		try {
-			assertNull(bookingManagement.isFacilityFree(facilities.get(0), null, end));
+			assertNull(bookingManagement.isFacilityFree(place.get(0), null, end));
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 			System.out.println("Error: " + e);
 		}
 		try {
-			assertNull(bookingManagement.isFacilityFree(facilities.get(0), start, null));
+			assertNull(bookingManagement.isFacilityFree(place.get(0), start, null));
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 			System.out.println("Error: " + e);
 		}
 
 		// different dates used
-		assertFalse("assert 1", bookingManagement.isFacilityFree(facilities.get(0), start, end));
-		assertFalse("assert 2", bookingManagement.isFacilityFree(facilities.get(1), start, end));
-		assertTrue("assert 3", bookingManagement.isFacilityFree(facilities.get(0), startUnused, endUnused));
-		assertTrue("assert 4", bookingManagement.isFacilityFree(facilities2.get(0), startUnused, endUnused));
-		assertTrue("assert 5", bookingManagement.isFacilityFree(facilities2.get(0), start, end));
-		assertFalse("assert 6", bookingManagement.isFacilityFree(facilities.get(0), start, endUnused));
-		assertTrue("assert 7", bookingManagement.isFacilityFree(facilities.get(0), end, startUnused));
-		assertFalse("assert 8", bookingManagement.isFacilityFree(facilities.get(0), startUsedHalf, endUsedHalf));
-		assertFalse("assert 9", bookingManagement.isFacilityFree(facilities.get(0), startUsedHalf, end));
-		assertFalse("assert 10", bookingManagement.isFacilityFree(facilities.get(0), start, endUsedHalf));
-		assertFalse("assert 11", bookingManagement.isFacilityFree(facilities.get(0), startUsedHalf, endUnused));
-		assertTrue("assert 12", bookingManagement.isFacilityFree(facilities.get(0), startUsedHalf, start));
-		assertTrue("assert 13", bookingManagement.isFacilityFree(facilities.get(0), end, endUsedHalf));
+		assertFalse("assert 1", bookingManagement.isFacilityFree(place.get(0), start, end));
+		assertFalse("assert 2", bookingManagement.isFacilityFree(place.get(1), start, end));
+		assertTrue("assert 3", bookingManagement.isFacilityFree(place.get(0), startUnused, endUnused));
+		assertTrue("assert 4", bookingManagement.isFacilityFree(place2.get(0), startUnused, endUnused));
+		assertTrue("assert 5", bookingManagement.isFacilityFree(place2.get(0), start, end));
+		assertFalse("assert 6", bookingManagement.isFacilityFree(place.get(0), start, endUnused));
+		assertTrue("assert 7", bookingManagement.isFacilityFree(place.get(0), end, startUnused));
+		assertFalse("assert 8", bookingManagement.isFacilityFree(place.get(0), startUsedHalf, endUsedHalf));
+		assertFalse("assert 9", bookingManagement.isFacilityFree(place.get(0), startUsedHalf, end));
+		assertFalse("assert 10", bookingManagement.isFacilityFree(place.get(0), start, endUsedHalf));
+		assertFalse("assert 11", bookingManagement.isFacilityFree(place.get(0), startUsedHalf, endUnused));
+		assertTrue("assert 12", bookingManagement.isFacilityFree(place.get(0), startUsedHalf, start));
+		assertTrue("assert 13", bookingManagement.isFacilityFree(place.get(0), end, endUsedHalf));
 	}
 }
