@@ -46,8 +46,9 @@ public class FreeFacilityResult {
 	 *             facility is null.
 	 */
 	public void setFacility(Facility facility) throws IllegalArgumentException {
-		if (facility == null)
+		if (facility == null) {
 			throw new IllegalArgumentException("Parameter is null");
+		}
 		this.facility = facility;
 	}
 
@@ -69,8 +70,9 @@ public class FreeFacilityResult {
 	 *             start is null
 	 */
 	public void setStart(Date start) throws IllegalArgumentException {
-		if (start == null)
+		if (start == null) {
 			throw new IllegalArgumentException("Parameter is null");
+		}
 		this.start = start;
 	}
 }

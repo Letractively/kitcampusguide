@@ -1,6 +1,6 @@
 package edu.kit.pse.ass.entity;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,14 +13,15 @@ public class BuildingTest {
 
 	/** The building. */
 	private Building building;
-	
+
 	/** The TES t_ number. */
-	private static String TEST_NUMBER = "20.24";
+	private static final String TEST_NUMBER = "20.24";
 
 	/**
 	 * Sets the up.
-	 *
-	 * @throws Exception the exception
+	 * 
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Before
 	public void setUp() throws Exception {

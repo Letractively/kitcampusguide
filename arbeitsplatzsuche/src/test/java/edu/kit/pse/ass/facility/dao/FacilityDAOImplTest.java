@@ -67,8 +67,9 @@ public class FacilityDAOImplTest {
 		propWlan = new Property("WLAN");
 
 		for (Facility f : dummyFacilities.rooms) {
-			if (f.hasProperty(propWlan))
+			if (f.hasProperty(propWlan)) {
 				facsWithWlan.add(f);
+			}
 		}
 		persistedFacility = dummyFacilities.rooms.get(0);
 	}
@@ -90,18 +91,14 @@ public class FacilityDAOImplTest {
 		assertNotNull("no facility found", result);
 		// ensure the right facility is returned
 		assertTrue("facility is not a Room", result instanceof Room);
-		assertEquals("ID of facility is wrong", persistedFacility.getId(),
-				result.getId());
+		assertEquals("ID of facility is wrong", persistedFacility.getId(), result.getId());
 
-		assertEquals("containedFacilities are different", persistedFacility
-				.getContainedFacilities().size(), result
-				.getContainedFacilities().size());
-		assertTrue(
-				"containedFacilities are different",
-				result.getContainedFacilities().containsAll(
-						persistedFacility.getContainedFacilities()));
-		assertTrue("properties are different", result.getProperties()
-				.containsAll(persistedFacility.getProperties()));
+		assertEquals("containedFacilities are different", persistedFacility.getContainedFacilities().size(),
+				result.getContainedFacilities().size());
+		assertTrue("containedFacilities are different",
+				result.getContainedFacilities().containsAll(persistedFacility.getContainedFacilities()));
+		assertTrue("properties are different",
+				result.getProperties().containsAll(persistedFacility.getProperties()));
 	}
 
 	/**

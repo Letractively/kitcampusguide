@@ -14,8 +14,10 @@ public abstract class FacilityFinder {
 	/**
 	 * Execute.
 	 * 
+	 * @param facilityDAO
+	 *            The DataAccessObject
 	 * @return the collection<? extends facility>
 	 */
-	public abstract Collection<? extends Facility> execute(
-			FacilityDAO FacilityDAO);
+	public abstract Collection<? extends Facility> execute(FacilityDAO facilityDAO);
+
 }

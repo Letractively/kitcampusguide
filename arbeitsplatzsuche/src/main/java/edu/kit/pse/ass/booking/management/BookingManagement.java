@@ -35,9 +35,8 @@ public interface BookingManagement {
 	 * @throws FacilityNotFoundException
 	 * @throws IllegalArgumentException
 	 */
-	public String book(String userID, Collection<String> facilityIDs,
-			Date startDate, Date endDate) throws FacilityNotFreeException,
-			IllegalArgumentException, FacilityNotFoundException;
+	public String book(String userID, Collection<String> facilityIDs, Date startDate, Date endDate)
+			throws FacilityNotFreeException, IllegalArgumentException, FacilityNotFoundException;
 
 	/**
 	 * List reservations of user.
@@ -50,8 +49,7 @@ public interface BookingManagement {
 	 *            the up to
 	 * @return the collection
 	 */
-	public Collection<Reservation> listReservationsOfUser(String userID,
-			Date asFrom, Date upTo);
+	public Collection<Reservation> listReservationsOfUser(String userID, Date asFrom, Date upTo);
 
 	/**
 	 * List reservations of facility.
@@ -64,8 +62,7 @@ public interface BookingManagement {
 	 *            the up to
 	 * @return the collection
 	 */
-	public Collection<Reservation> listReservationsOfFacility(
-			String facilityID, Date asFrom, Date upTo);
+	public Collection<Reservation> listReservationsOfFacility(String facilityID, Date asFrom, Date upTo);
 
 	/**
 	 * Change reservation end.
@@ -77,8 +74,8 @@ public interface BookingManagement {
 	 * @throws FacilityNotFreeException
 	 * @throws IllegalArgumentException
 	 */
-	public void changeReservationEnd(String reservationID, Date newEndDate)
-			throws IllegalArgumentException, FacilityNotFreeException;
+	public void changeReservationEnd(String reservationID, Date newEndDate) throws IllegalArgumentException,
+			FacilityNotFreeException;
 
 	/**
 	 * Removes the facility from reservation.
@@ -88,8 +85,7 @@ public interface BookingManagement {
 	 * @param facilityID
 	 *            the facility id
 	 */
-	public void removeFacilityFromReservation(String reservationID,
-			String facilityID);
+	public void removeFacilityFromReservation(String reservationID, String facilityID);
 
 	/**
 	 * Delete reservation.
@@ -108,8 +104,8 @@ public interface BookingManagement {
 	 * @throws ReservationNotFoundException
 	 * @throws IllegalArgumentException
 	 */
-	public Reservation getReservation(String reservationID)
-			throws IllegalArgumentException, ReservationNotFoundException;
+	public Reservation getReservation(String reservationID) throws IllegalArgumentException,
+			ReservationNotFoundException;
 
 	/**
 	 * Find free facilities.
@@ -124,8 +120,8 @@ public interface BookingManagement {
 	 *            the fully available
 	 * @return the collection
 	 */
-	public Collection<FreeFacilityResult> findFreeFacilites(
-			FacilityQuery query, Date start, Date end, boolean fullyAvailable);
+	public Collection<FreeFacilityResult> findFreeFacilites(FacilityQuery query, Date start, Date end,
+			boolean fullyAvailable);
 
 	/**
 	 * Checks if facility is free.
@@ -140,7 +136,6 @@ public interface BookingManagement {
 	 * @throws FacilityNotFoundException
 	 * @throws IllegalArgumentException
 	 */
-	public boolean isFacilityFree(String facilityID, Date startDate,
-			Date endDate) throws IllegalArgumentException,
+	public boolean isFacilityFree(String facilityID, Date startDate, Date endDate) throws IllegalArgumentException,
 			FacilityNotFoundException;
 }

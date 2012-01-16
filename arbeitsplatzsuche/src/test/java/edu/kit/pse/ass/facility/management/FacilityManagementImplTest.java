@@ -50,14 +50,13 @@ public class FacilityManagementImplTest {
 	private static final int NEEDED_WORKPLACES = 3;
 
 	/** The Constant FIND_PROPERTIES. */
-	private static final List<Property> FIND_PROPERTIES = Arrays.asList(
-			new Property("WLAN"), new Property("Steckdose"));
+	private static final List<Property> FIND_PROPERTIES = Arrays.asList(new Property("WLAN"), new Property(
+			"Steckdose"));
 
 	/** all available properties of rooms */
-	private static final Collection<Property> ALL_ROOM_PROPERTIES = Arrays
-			.asList(new Property("WLAN"), new Property("Steckdose"),
-					new Property("LAN"), new Property("Barrierefrei"),
-					new Property("Licht"), new Property("PC"));
+	private static final Collection<Property> ALL_ROOM_PROPERTIES = Arrays.asList(new Property("WLAN"),
+			new Property("Steckdose"), new Property("LAN"), new Property("Barrierefrei"), new Property("Licht"),
+			new Property("PC"));
 
 	/** The fm. */
 	@Autowired
@@ -68,28 +67,41 @@ public class FacilityManagementImplTest {
 	TestData testData;
 
 	/** The FACILIT y_ query. */
-	FacilityQuery FACILITY_QUERY = new RoomQuery(FIND_PROPERTIES, SEARCH_TEXT,
-			NEEDED_WORKPLACES);
+	FacilityQuery facilityQuery = new RoomQuery(FIND_PROPERTIES, SEARCH_TEXT, NEEDED_WORKPLACES);
 
 	/** Collection of the Collections of the test-dummy facilities */
-	TestData.DummyFacilities dummyFacilities = null;
+	TestData.DummyFacilities dummyFacilities;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		dummyFacilities = testData.facilityFillWithDummies();
 		FACILITYID = dummyFacilities.rooms.iterator().next().getId();
 	}
 
+	/**
+	 * Tests the method getFacility(String ID) with an ID which does not exist.
+	 * 
+	 * @throws IllegalArgumentException
+	 * 
+	 * @throws FacilityNotFoundException
+	 */
 	@Test(expected = FacilityNotFoundException.class)
-	public void testGetNotExistingFacility() throws IllegalArgumentException,
-			FacilityNotFoundException {
+	public void testGetNotExistingFacility() throws IllegalArgumentException, FacilityNotFoundException {
 		// The id should not exist.
 		facilityManagement.getFacility("ID9");
 	}
 
+	/**
+	 * Tests the method getFacility(String ID) with null as parameter.
+	 * 
+	 * @throws IllegalArgumentException
+	 * @throws FacilityNotFoundException
+	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testGetFacilityWithNullArgument()
-			throws IllegalArgumentException, FacilityNotFoundException {
+	public void testGetFacilityWithNullArgument() throws IllegalArgumentException, FacilityNotFoundException {
 		facilityManagement.getFacility(null);
 	}
 
@@ -100,8 +112,7 @@ public class FacilityManagementImplTest {
 	 * @throws IllegalArgumentException
 	 */
 	@Test
-	public void testGetFacility() throws IllegalArgumentException,
-			FacilityNotFoundException {
+	public void testGetFacility() throws IllegalArgumentException, FacilityNotFoundException {
 		// check for right input
 		assertNotNull(FACILITYID);
 		assertFalse(FACILITYID.isEmpty());
@@ -115,18 +126,24 @@ public class FacilityManagementImplTest {
 		assertTrue(result.getContainedFacilities().size() == 3);
 	}
 
+	/**
+	 * Tests the method findMatchingFacilities(FacilityQuery facilityQuery) with null as parameter.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testFindMatchingFacilitiesWithNullArgument() {
 		facilityManagement.findMatchingFacilities(null);
 	}
 
+	/**
+	 * Tests the result of the method findMatchingFacilities(FacilityQuery facilityQuery) if it is empty but not null
+	 * when it should be so.
+	 */
 	public void testFindMatchingFacilitiesWithEmptyResult() {
 		// the room query
-		FacilityQuery testQuery = new RoomQuery(Arrays.asList(new Property(
-				"Strom")), SEARCH_TEXT, NEEDED_WORKPLACES);
+		FacilityQuery testQuery = new RoomQuery(Arrays.asList(new Property("Strom")), SEARCH_TEXT,
+				NEEDED_WORKPLACES);
 		// no such facility should be found
-		Collection<? extends Facility> result = facilityManagement
-				.findMatchingFacilities(testQuery);
+		Collection<? extends Facility> result = facilityManagement.findMatchingFacilities(testQuery);
 		assertNotNull(result);
 		assertTrue(result.isEmpty());
 	}
@@ -137,16 +154,13 @@ public class FacilityManagementImplTest {
 	@Test
 	public void testFindMatchingFacilities() {
 
-		Collection<? extends Facility> result = facilityManagement
-				.findMatchingFacilities(FACILITY_QUERY);
+		Collection<? extends Facility> result = facilityManagement.findMatchingFacilities(facilityQuery);
 		assertNotNull("result is null", result);
 		assertFalse("result ist empty", result.isEmpty());
 		for (Facility fac : result) {
 			assertEquals("wrong class", fac.getClass(), Room.class);
-			assertTrue("not enough places",
-					fac.getContainedFacilities().size() >= NEEDED_WORKPLACES);
-			assertTrue("not all properties",
-					fac.getProperties().containsAll(FIND_PROPERTIES));
+			assertTrue("not enough places", fac.getContainedFacilities().size() >= NEEDED_WORKPLACES);
+			assertTrue("not all properties", fac.getProperties().containsAll(FIND_PROPERTIES));
 		}
 	}
 
@@ -158,22 +172,18 @@ public class FacilityManagementImplTest {
 		Collection<Property> result = null;
 		try {
 			// throw error or return null if parameter is null
-			assertNull("Accepted wrong parameters.",
-					facilityManagement.getAvailablePropertiesOf(null));
+			assertNull("Accepted wrong parameters.", facilityManagement.getAvailablePropertiesOf(null));
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
 		result = facilityManagement.getAvailablePropertiesOf(Room.class);
-		assertTrue(facilityManagement.getAvailablePropertiesOf(Building.class)
-				.contains(FIND_PROPERTIES.get(0)));
-		assertFalse(facilityManagement.getAvailablePropertiesOf(Building.class)
-				.contains(FIND_PROPERTIES.get(1)));
+		assertTrue(facilityManagement.getAvailablePropertiesOf(Building.class).contains(FIND_PROPERTIES.get(0)));
+		assertFalse(facilityManagement.getAvailablePropertiesOf(Building.class).contains(FIND_PROPERTIES.get(1)));
 		// buildings only have wlan
 		result = facilityManagement.getAvailablePropertiesOf(Building.class);
 		assertNotNull("Result is null", result);
-		assertTrue(result.contains(((List<Property>) FIND_PROPERTIES).get(0)));
-		assertFalse(facilityManagement.getAvailablePropertiesOf(Building.class)
-				.contains(((List<Property>) FIND_PROPERTIES).get(1)));
+		assertTrue(result.contains(FIND_PROPERTIES.get(0)));
+		assertFalse(facilityManagement.getAvailablePropertiesOf(Building.class).contains(FIND_PROPERTIES.get(1)));
 		result = null;
 		result = facilityManagement.getAvailablePropertiesOf(Room.class);
 		// something should be returned
