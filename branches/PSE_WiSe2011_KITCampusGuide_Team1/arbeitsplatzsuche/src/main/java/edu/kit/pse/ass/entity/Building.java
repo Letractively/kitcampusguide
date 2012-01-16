@@ -22,16 +22,12 @@ public class Building extends Facility {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.entity.Facility#setParentFacility(edu.kit.pse.ass.entity
-	 * .Facility)
+	 * @see edu.kit.pse.ass.entity.Facility#setParentFacility(edu.kit.pse.ass.entity .Facility)
 	 */
 	@Override
-	public void setParentFacility(Facility parentFacility)
-			throws IllegalArgumentException {
+	public void setParentFacility(Facility parentFacility) throws IllegalArgumentException {
 		if (parentFacility != null) {
-			throw new IllegalArgumentException(
-					"a building can not have a parent facility");
+			throw new IllegalArgumentException("a building can not have a parent facility");
 		} else {
 			super.setParentFacility(null);
 		}
@@ -40,18 +36,14 @@ public class Building extends Facility {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.entity.Facility#addContainedFacilitiy(edu.kit.pse.ass
-	 * .entity.Facility)
+	 * @see edu.kit.pse.ass.entity.Facility#addContainedFacilitiy(edu.kit.pse.ass .entity.Facility)
 	 */
 	@Override
-	public void addContainedFacility(Facility containedFacility)
-			throws IllegalArgumentException {
+	public void addContainedFacility(Facility containedFacility) throws IllegalArgumentException {
 		if (containedFacility instanceof Room) {
 			super.addContainedFacility(containedFacility);
 		} else {
-			throw new IllegalArgumentException(
-					"a building can only contain rooms.");
+			throw new IllegalArgumentException("a building can only contain rooms.");
 		}
 	}
 
@@ -74,8 +66,7 @@ public class Building extends Facility {
 	 */
 	public void setNumber(String number) throws IllegalArgumentException {
 		if ((number == null) || number.isEmpty()) {
-			throw new IllegalArgumentException(
-					"number must not be null and not empty");
+			throw new IllegalArgumentException("number must not be null and not empty");
 		} else {
 			this.number = number;
 		}

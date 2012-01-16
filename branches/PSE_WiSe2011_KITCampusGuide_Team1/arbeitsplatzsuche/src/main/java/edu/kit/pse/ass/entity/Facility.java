@@ -51,11 +51,10 @@ public class Facility {
 	private Facility parentFacility;
 
 	/**
-	 * the contained facilities of this facility. e.g. a room contains
-	 * workplaces.
+	 * the contained facilities of this facility. e.g. a room contains workplaces.
 	 */
-	@OneToMany(targetEntity = Facility.class, mappedBy = "parentFacility", cascade = {
-			CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE }, fetch = FetchType.EAGER)
+	@OneToMany(targetEntity = Facility.class, mappedBy = "parentFacility", cascade = { CascadeType.PERSIST,
+			CascadeType.REFRESH, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	private Collection<Facility> containedFacilities;
 
 	/**
@@ -88,8 +87,7 @@ public class Facility {
 	 * 
 	 * @param id
 	 *            the id to set
-	 * @deprecated WARNING! only used for testing! DO NOT under any
-	 *             circumstances use it in the real application!
+	 * @deprecated WARNING! only used for testing! DO NOT under any circumstances use it in the real application!
 	 */
 	@Deprecated
 	public void setId(String id) {
@@ -173,16 +171,13 @@ public class Facility {
 	 * @throws IllegalArgumentException
 	 *             , when containedFacility is null.
 	 */
-	public void addContainedFacility(Facility containedFacility)
-			throws IllegalArgumentException {
+	public void addContainedFacility(Facility containedFacility) throws IllegalArgumentException {
 
 		if (containedFacility == null) {
-			throw new IllegalArgumentException(
-					"containedFacility must not be null.");
+			throw new IllegalArgumentException("containedFacility must not be null.");
 		}
 		if (containedFacility.getParentFacility() != null) {
-			throw new IllegalArgumentException(
-					"the facility to add already have a parent.");
+			throw new IllegalArgumentException("the facility to add already have a parent.");
 		}
 
 		containedFacilities.add(containedFacility);
@@ -195,24 +190,20 @@ public class Facility {
 	 * @param removedFacility
 	 *            the facility to remove
 	 * @throws IllegalArgumentException
-	 *             , when removedFacility is null or not contained in the
-	 *             collection.
+	 *             , when removedFacility is null or not contained in the collection.
 	 */
-	public void removeContainedFacility(Facility removedFacility)
-			throws IllegalArgumentException {
+	public void removeContainedFacility(Facility removedFacility) throws IllegalArgumentException {
 		if (getContainedFacilities().contains(removedFacility)) {
 			try {
 				removedFacility.setParentFacility(null);
 				containedFacilities.remove(removedFacility);
 			} catch (UnsupportedOperationException e) {
-				ArrayList<Facility> facilities = new ArrayList<Facility>(
-						containedFacilities);
+				ArrayList<Facility> facilities = new ArrayList<Facility>(containedFacilities);
 				facilities.remove(removedFacility);
 				this.setContainedFacilities(facilities);
 			}
 		} else {
-			throw new IllegalArgumentException(
-					"the facility to remove is not contained in this facility");
+			throw new IllegalArgumentException("the facility to remove is not contained in this facility");
 		}
 	}
 
@@ -257,8 +248,7 @@ public class Facility {
 	 */
 	public void addProperty(Property property) throws IllegalArgumentException {
 		if (properties.contains(property)) {
-			throw new IllegalArgumentException(
-					"property was added a long time ago ;)");
+			throw new IllegalArgumentException("property was added a long time ago ;)");
 		}
 		if (property == null) {
 			throw new IllegalArgumentException("property must not null");
@@ -275,8 +265,7 @@ public class Facility {
 	 * @throws IllegalArgumentException
 	 *             , when property is null or not contained in the collection.
 	 */
-	public void removeProperty(Property property)
-			throws IllegalArgumentException {
+	public void removeProperty(Property property) throws IllegalArgumentException {
 		if (property == null) {
 			throw new IllegalArgumentException("property must not null.");
 		}
@@ -289,8 +278,7 @@ public class Facility {
 				this.setProperties(props);
 			}
 		} else {
-			throw new IllegalArgumentException(
-					"the property to remove is no property of this facility");
+			throw new IllegalArgumentException("the property to remove is no property of this facility");
 		}
 	}
 
@@ -325,8 +313,7 @@ public class Facility {
 			boolean equal = true;
 			equal = (f.id == this.id) || (f.id != null && f.id.equals(this.id));
 			if (equal) {
-				equal = (f.name == this.name)
-						|| (f.name != null && f.name.equals(this.name));
+				equal = (f.name == this.name) || (f.name != null && f.name.equals(this.name));
 			}
 			return equal;
 		}
