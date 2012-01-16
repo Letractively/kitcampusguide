@@ -26,7 +26,7 @@
     	<intercept-url pattern="/login.html*" access="isAnonymous()" />
     	<intercept-url pattern="/register.html*" access="isAnonymous()" />
     	<intercept-url pattern="/css/**" filters="none" />
-    	<intercept-url pattern="/datatables/**" filters="none" />
+    	<intercept-url pattern="/libs/**" filters="none" />
     	<intercept-url pattern="/images/**" filters="none" />
     	<intercept-url pattern="/scripts/**" filters="none" />
         <intercept-url pattern="/**" access="isAuthenticated()" />
