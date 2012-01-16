@@ -131,7 +131,7 @@ public class BookingManagementImpl implements BookingManagement {
 								"One of the facilities is not free at the specified time.");
 					}
 				} catch (FacilityNotFoundException e) {
-					e.printStackTrace();
+					throw new IllegalStateException("Facility of reservation does not exist.");
 				}
 
 			}
