@@ -39,11 +39,11 @@ import edu.kit.pse.ass.gui.model.SearchFormModel;
 @Controller
 public class RoomDetailController extends MainController {
 
-	/** The FacilityManagement component. */
+	/** The facility management. */
 	@Inject
 	private FacilityManagement facilityManagement;
 
-	/** The BookingManagement component. */
+	/** The booking management. */
 	@Inject
 	private BookingManagement bookingManagement;
 

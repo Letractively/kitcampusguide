@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import edu.kit.pse.ass.booking.management.BookingManagement;
 import edu.kit.pse.ass.booking.management.FreeFacilityResult;
 import edu.kit.pse.ass.booking.management.FreeRoomQuery;
-import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.facility.management.FacilityManagement;
@@ -37,7 +34,6 @@ import edu.kit.pse.ass.gui.model.SearchFilterModel;
 import edu.kit.pse.ass.gui.model.SearchFormModel;
 import edu.kit.pse.ass.gui.model.SearchFormValidator;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class SearchController.
  */
@@ -53,36 +49,34 @@ public class SearchController extends MainController {
 	FacilityManagement facilityManagement;
 
 	/**
-	 * Sets the up simple search.
+	 * Sets up the SimpleSearchPage.
 	 * 
 	 * @param model
-	 *            the model
-	 * @return the string
+	 *            the spring model
+	 * @return the view path
 	 */
 	@RequestMapping(value = "search/simple.html")
 	public String setUpSimpleSearch(Model model) {
-		prefillSearchForm(new SearchFormModel(), model);
+		prefillSearchForm(model, new SearchFormModel());
 		return "search/simple";
 	}
 
 	/**
-	 * Sets the up advanced search.
+	 * Sets up the AdvanceSearchPage
 	 * 
-	 * @param sfm
-	 *            the sfm
+	 * @param searchFormModel
+	 *            the SearchFormModel filled at the SimpleSearchPage or AdvancedSearchPage.
 	 * @param model
-	 *            the model
-	 * @return the string
+	 *            the spring model
+	 * @return the view path
 	 */
 	@RequestMapping(value = "search/advanced.html")
-	public String setUpAdvancedSearch(@ModelAttribute SearchFormModel sfm,
-			Model model) {
+	public String setUpAdvancedSearch(Model model, @ModelAttribute SearchFormModel searchFormModel) {
 
-		prefillSearchForm(sfm, model);
+		prefillSearchForm(model, searchFormModel);
 
 		model.addAttribute("searchFilterModel", new SearchFilterModel());
-		model.addAttribute("filterList",
-				facilityManagement.getAvailablePropertiesOf(Room.class));
+		model.addAttribute("filterList", facilityManagement.getAvailablePropertiesOf(Room.class));
 		// TODO workplace properties
 
 		return "search/advanced";
@@ -91,38 +85,37 @@ public class SearchController extends MainController {
 	/**
 	 * Prefill search form.
 	 * 
-	 * @param sfm
-	 *            the sfm
+	 * @param searchFormModel
+	 *            the SearchFormModel
 	 * @param model
-	 *            the model
+	 *            the spring model
 	 */
-	private void prefillSearchForm(SearchFormModel sfm, Model model) {
-		model.addAttribute("searchFormModel", sfm);
+	private void prefillSearchForm(Model model, SearchFormModel searchFormModel) {
+		model.addAttribute("searchFormModel", searchFormModel);
 	}
 
 	/**
-	 * List search results.
+	 * JSON-Response for DataTable to list search results.
 	 * 
-	 * @param sfm
-	 *            the sfm
-	 * @param sfmResult
-	 *            the sfm result
-	 * @param searchFilterModel
-	 *            the search filter model
 	 * @param request
-	 *            the request
+	 *            the spring HttpServletRequest
 	 * @param response
-	 *            the response
+	 *            the spring HttpServletResponse
+	 * @param searchFormModel
+	 *            the SearchFormModel filled at the AdvacedSearchPage
+	 * @param sfmResult
+	 *            the spring BindingResult for error handling
+	 * @param searchFilterModel
+	 *            the SearchFilterModel filled at the AdvancedSearchPage
 	 */
 	@RequestMapping(value = "search/results")
 	@Transactional
-	public void listSearchResults(@ModelAttribute SearchFormModel sfm,
-			BindingResult sfmResult,
-			@ModelAttribute SearchFilterModel searchFilterModel,
-			HttpServletRequest request, HttpServletResponse response) {
+	public void listSearchResults(HttpServletRequest request, HttpServletResponse response,
+			@ModelAttribute SearchFormModel searchFormModel, BindingResult sfmResult,
+			@ModelAttribute SearchFilterModel searchFilterModel) {
 
 		SearchFormValidator sfmValidator = new SearchFormValidator();
-		sfmValidator.validate(sfm, sfmResult);
+		sfmValidator.validate(searchFormModel, sfmResult);
 
 		// DataTable Parameters
 		DataTableParamModel parameters;
@@ -144,18 +137,15 @@ public class SearchController extends MainController {
 			searchFilterModel.setFilters(new ArrayList<Property>());
 		}
 
-		FreeRoomQuery roomQuery = new FreeRoomQuery(
-				searchFilterModel.getFilters(), sfm.getSearchText(),
-				sfm.getWorkplaceCount());
-		Collection<FreeFacilityResult> searchResultsCollection = bookingManagement
-				.findFreeFacilites(roomQuery, sfm.getStart(), sfm.getEnd(),
-						sfm.isWholeRoom());
+		FreeRoomQuery roomQuery = new FreeRoomQuery(searchFilterModel.getFilters(), searchFormModel.getSearchText(),
+				searchFormModel.getWorkplaceCount());
+		Collection<FreeFacilityResult> searchResultsCollection = bookingManagement.findFreeFacilites(roomQuery,
+				searchFormModel.getStart(), searchFormModel.getEnd(), searchFormModel.isWholeRoom());
 
 		if (searchResultsCollection instanceof List) {
 			searchResults = (List<FreeFacilityResult>) searchResultsCollection;
 		} else {
-			searchResults = new ArrayList<FreeFacilityResult>(
-					searchResultsCollection);
+			searchResults = new ArrayList<FreeFacilityResult>(searchResultsCollection);
 		}
 
 		// create dummy search results (temp!)
@@ -166,20 +156,16 @@ public class SearchController extends MainController {
 
 		// Sort results
 		final int sortColumnIndex = parameters.getiSortColumnIndex();
-		final int sortDirection = parameters.getsSortDirection().equals("asc") ? 1
-				: -1;
+		final int sortDirection = parameters.getsSortDirection().equals("asc") ? 1 : -1;
 		sortResults(searchResults, sortColumnIndex, sortDirection);
 
 		// show requested part of results
-		if (searchResults.size() < parameters.getiDisplayStart()
-				+ parameters.getiDisplayLength())
-			searchResults = searchResults.subList(
-					parameters.getiDisplayStart(), searchResults.size());
-		else
-			searchResults = searchResults.subList(
-					parameters.getiDisplayStart(),
-					parameters.getiDisplayStart()
-							+ parameters.getiDisplayLength());
+		if (searchResults.size() < parameters.getiDisplayStart() + parameters.getiDisplayLength()) {
+			searchResults = searchResults.subList(parameters.getiDisplayStart(), searchResults.size());
+		} else {
+			searchResults = searchResults.subList(parameters.getiDisplayStart(), parameters.getiDisplayStart()
+					+ parameters.getiDisplayLength());
+		}
 
 		// create JSON response
 		try {
@@ -206,10 +192,8 @@ public class SearchController extends MainController {
 				for (Property p : c.getFacility().getProperties()) {
 					equipment += p.getName() + " ";
 				}
-				row.put(c.getFacility().getName() + " ")
-						.put(c.getFacility().getParentFacility().getName())
-						.put(equipment).put(formatTime.format(c.getStart()))
-						.put(c.getFacility().getId());
+				row.put(c.getFacility().getName() + " ").put(c.getFacility().getParentFacility().getName())
+						.put(equipment).put(formatTime.format(c.getStart())).put(c.getFacility().getId());
 				data.put(row);
 			}
 			jsonResponse.put("aaData", data);
@@ -228,8 +212,7 @@ public class SearchController extends MainController {
 	}
 
 	/**
-	 * sorts the specified search results according to the given column index
-	 * and sortDirection.
+	 * sorts the specified search results according to the given column index and sortDirection.
 	 * 
 	 * @param results
 	 *            the results to sort
@@ -238,85 +221,27 @@ public class SearchController extends MainController {
 	 * @param sortDirection
 	 *            the sort direction, must be 1 or -1
 	 */
-	private void sortResults(List<FreeFacilityResult> results,
-			final int sortColumnIndex, final int sortDirection) {
+	private void sortResults(List<FreeFacilityResult> results, final int sortColumnIndex, final int sortDirection) {
 		Collections.sort(results, new Comparator<FreeFacilityResult>() {
 			@Override
 			public int compare(FreeFacilityResult c1, FreeFacilityResult c2) {
 				switch (sortColumnIndex) {
 				case 0: // Room name
-					return c1.getFacility().getName()
-							.compareTo(c2.getFacility().getName())
-							* sortDirection;
+					return c1.getFacility().getName().compareTo(c2.getFacility().getName()) * sortDirection;
 				case 1: // Building name
-					return c1
-							.getFacility()
-							.getParentFacility()
-							.getName()
-							.compareTo(
-									c2.getFacility().getParentFacility()
-											.getName())
+					return c1.getFacility().getParentFacility().getName()
+							.compareTo(c2.getFacility().getParentFacility().getName())
 							* sortDirection;
 				case 2: // Equipment (DataTables does not allow sorting, this
 						// implementation would sort the number of Properties
-					return (c1.getFacility().getProperties().size() - c2
-							.getFacility().getProperties().size())
+					return (c1.getFacility().getProperties().size() - c2.getFacility().getProperties().size())
 							* sortDirection;
 				case 3: // start date
-					return c1.getStart().compareTo(c2.getStart())
-							* sortDirection;
+					return c1.getStart().compareTo(c2.getStart()) * sortDirection;
 				}
 				return 0;
 			}
 		});
 
-	}
-
-	/*
-	 * dummy!
-	 */
-	/**
-	 * Temp search results.
-	 * 
-	 * @return the linked list
-	 */
-	private LinkedList<FreeFacilityResult> tempSearchResults() {
-
-		LinkedList<FreeFacilityResult> results = new LinkedList<FreeFacilityResult>();
-
-		Building b1 = new Building();
-		b1.setName("Info Hauptgebäude");
-		Building b2 = new Building();
-		b2.setName("Rechenzentrum");
-		Building b3 = new Building();
-		b3.setName("KIT Bibliothek");
-
-		Room r = new Room();
-
-		b2.addContainedFacility(r);
-		r.addProperty(new Property("WLAN"));
-		r.addProperty(new Property("Strom"));
-		r.addProperty(new Property("Licht"));
-		r.setName("Foyer");
-		results.add(new FreeFacilityResult(r, new Date(111, 11, 27, 15, 20)));
-
-		r = new Room();
-		r.addProperty(new Property("WLAN"));
-		r.addProperty(new Property("Strom"));
-		b3.addContainedFacility(r);
-		r.setName("Saal");
-		results.add(new FreeFacilityResult(r, new Date(111, 11, 27, 15, 30)));
-
-		for (int i = 0; i < 100; i++) {
-			r = new Room();
-			b1.addContainedFacility(r);
-			r.setName("Seminarraum " + i);
-			r.setLevel(1);
-			r.addProperty(new Property("WLAN"));
-			r.addProperty(new Property("Barrierefrei"));
-			results.add(new FreeFacilityResult(r, new Date(111, 11, 27,
-					(i * 23 / 99), (int) (Math.random() * 59))));
-		}
-		return results;
 	}
 }
