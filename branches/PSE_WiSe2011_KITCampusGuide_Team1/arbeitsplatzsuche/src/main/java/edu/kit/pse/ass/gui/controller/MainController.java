@@ -6,8 +6,7 @@ import org.springframework.ui.Model;
 /**
  * This Controller provides basic functionality used in all GUI controllers.
  * 
- * All other GUI controllers use this functionality by subclassing from
- * MainController and calling its methods.
+ * All other GUI controllers use this functionality by subclassing from MainController and calling its methods.
  * 
  * @author Jannis Koch
  * 
@@ -17,9 +16,13 @@ public abstract class MainController {
 
 	/**
 	 * handles illegal requests, e.g. calling non-existent pages
+	 * 
+	 * @param e
+	 *            the exception raised the error
+	 * @return the error view path
 	 */
-	protected void handleIllegalRequest() {
-
+	protected String handleIllegalRequest(Exception e) {
+		return "error";
 	}
 
 	/**

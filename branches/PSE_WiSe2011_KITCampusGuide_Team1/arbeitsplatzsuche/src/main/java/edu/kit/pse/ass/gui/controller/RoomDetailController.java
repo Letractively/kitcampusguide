@@ -66,8 +66,8 @@ public class RoomDetailController extends MainController {
 	public String setUpRoomDetails(@PathVariable("roomId") String roomId, Model model,
 			@ModelAttribute SearchFormModel searchFormModel, @ModelAttribute SearchFilterModel searchFilterModel,
 			@ModelAttribute BookingFormModel bookingFormModel) {
-		setUpRoomDetailModel(model, roomId, searchFormModel);
-		return "room/details";
+		String returnedView = setUpRoomDetailModel(model, roomId, searchFormModel);
+		return returnedView;
 	}
 
 	/**
@@ -85,9 +85,7 @@ public class RoomDetailController extends MainController {
 	public String book(@PathVariable("roomId") String roomId, Model model,
 			@ModelAttribute BookingFormModel bookingFormModel) {
 
-		String returnedView = "room/details";
-
-		setUpRoomDetailModel(model, roomId, new SearchFormModel());
+		String returnedView = setUpRoomDetailModel(model, roomId, new SearchFormModel());
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String userID = auth.getName();
@@ -106,19 +104,21 @@ public class RoomDetailController extends MainController {
 
 		if (facilityIDs.size() != 0) {
 			try {
-				bookingManagement.book(userID, facilityIDs, bookingFormModel.getStart(), bookingFormModel.getEnd());
+				bookingManagement
+						.book(userID, facilityIDs, bookingFormModel.getStart(), bookingFormModel.getEnd());
 
 				returnedView = "redirect:/reservation/list.html";
 			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				returnedView = handleIllegalRequest(e);
 			} catch (FacilityNotFreeException e) {
 				model.addAttribute("notFree", true);
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
+				returnedView = handleIllegalRequest(e);
 			} catch (FacilityNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				returnedView = handleIllegalRequest(e);
 			}
 		} else {
 			model.addAttribute("noFacilities", true);
@@ -138,17 +138,20 @@ public class RoomDetailController extends MainController {
 	 * @param searchFormModel
 	 *            the SearchFormModel filled at the SearchPage
 	 */
-	private void setUpRoomDetailModel(Model model, String roomId, SearchFormModel searchFormModel) {
+	private String setUpRoomDetailModel(Model model, String roomId, SearchFormModel searchFormModel) {
+		String returnedView = "room/details";
 		try {
 			Room room = facilityManagement.getFacility(Room.class, roomId);
 			model.addAttribute("room", room);
 			setUpWorkplaceList(model, room, searchFormModel);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
+			returnedView = handleIllegalRequest(e);
 		} catch (FacilityNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			returnedView = handleIllegalRequest(e);
 		}
+		return returnedView;
 	}
 
 	/**
@@ -229,8 +232,8 @@ public class RoomDetailController extends MainController {
 						title = name + " besetzt";
 					}
 				}
-				reservations = bookingManagement.listReservationsOfFacility(fac.getId(), calendarParamModel.getStart(),
-						calendarParamModel.getEnd());
+				reservations = bookingManagement.listReservationsOfFacility(fac.getId(),
+						calendarParamModel.getStart(), calendarParamModel.getEnd());
 				for (Reservation r : reservations) {
 					JSONObject o = new JSONObject();
 					o.put("id", r.getId());
