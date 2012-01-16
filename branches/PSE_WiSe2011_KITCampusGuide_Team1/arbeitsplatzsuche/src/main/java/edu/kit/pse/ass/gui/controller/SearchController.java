@@ -79,9 +79,9 @@ public class SearchController extends MainController {
 		model.addAttribute("filterList", facilityManagement.getAvailablePropertiesOf(Room.class));
 
 		// Additional CSS / JS files
-		ArrayList<String> cssFiles = new ArrayList<String>();
-		cssFiles.add("/css/advancedSearch.css");
-		ArrayList<String> jsFiles = new ArrayList<String>();
+		String[] cssFiles = { "/css/advancedSearch.css", "/libs/datatables/css/datatable.css",
+				"/libs/datatables/css/datatable_jui.css", "/libs/datatables/themes/base/jquery-ui.css" };
+		String[] jsFiles = { "/libs/datatables/jquery.dataTables.min.js", "/scripts/advancedSearch.js" };
 		model.addAttribute("cssFiles", cssFiles);
 		model.addAttribute("jsFiles", jsFiles);
 
