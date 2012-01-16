@@ -104,10 +104,10 @@ public class BookingManagementImplTest {
 		// get real-DB ID of a user
 		userID = dummyUsers.users.get(0).getEmail();
 		// get real-DB IDs of the test-dummy rooms
-		facilities = new ArrayList<String>(Arrays.asList(dummyFacilities.rooms.get(0).getId(), dummyFacilities.rooms
-				.get(1).getId()));
-		facilities2 = new ArrayList<String>(Arrays.asList(dummyFacilities.rooms.get(2).getId(), dummyFacilities.rooms
-				.get(4).getId()));
+		facilities = new ArrayList<String>(Arrays.asList(dummyFacilities.rooms.get(0).getId(),
+				dummyFacilities.rooms.get(1).getId()));
+		facilities2 = new ArrayList<String>(Arrays.asList(dummyFacilities.rooms.get(2).getId(),
+				dummyFacilities.rooms.get(4).getId()));
 		facilities3 = new ArrayList<String>(Arrays.asList(dummyFacilities.rooms.get(3).getId()));
 
 		assertNotNull("No bookingManagement initialized", bookingManagement);
@@ -123,10 +123,11 @@ public class BookingManagementImplTest {
 	 * @throws ReservationNotFoundException
 	 * @throws FacilityNotFreeException
 	 * @throws FacilityNotFoundException
+	 * @throws BookingNotAllowedException
 	 */
 	@Test
-	public void testBook() throws IllegalArgumentException, ReservationNotFoundException, FacilityNotFreeException,
-			FacilityNotFoundException {
+	public void testBook() throws IllegalArgumentException, ReservationNotFoundException,
+			FacilityNotFreeException, FacilityNotFoundException, BookingNotAllowedException {
 		Date startDate = new GregorianCalendar(2012, 0, 1, 9, 0).getTime();
 		Date endDate = new GregorianCalendar(2012, 0, 1, 10, 0).getTime();
 		String resvID = null;
@@ -177,19 +178,22 @@ public class BookingManagementImplTest {
 		Collection<Reservation> resvCol = null;
 		try {
 			// throw error or return null if parameter is null
-			assertNull("Accepted wrong parameters.", bookingManagement.listReservationsOfUser(null, startDate, endDate));
+			assertNull("Accepted wrong parameters.",
+					bookingManagement.listReservationsOfUser(null, startDate, endDate));
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 			System.out.println("Error: " + e);
 		}
 		try {
-			assertNull("Accepted wrong parameters.", bookingManagement.listReservationsOfUser(userID, null, endDate));
+			assertNull("Accepted wrong parameters.",
+					bookingManagement.listReservationsOfUser(userID, null, endDate));
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 			System.out.println("Error: " + e);
 		}
 		try {
-			assertNull("Accepted wrong parameters.", bookingManagement.listReservationsOfUser(userID, startDate, null));
+			assertNull("Accepted wrong parameters.",
+					bookingManagement.listReservationsOfUser(userID, startDate, null));
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 			System.out.println("Error: " + e);
@@ -298,7 +302,8 @@ public class BookingManagementImplTest {
 	 */
 	@Test
 	public void testRemoveFacilityFromReservation() throws IllegalArgumentException, ReservationNotFoundException {
-		assertTrue(facilities.size() == bookingManagement.getReservation(reservationID).getBookedFacilityIds().size());
+		assertTrue(facilities.size() == bookingManagement.getReservation(reservationID).getBookedFacilityIds()
+				.size());
 		try {
 			// TODO throw error if parameter is null
 			bookingManagement.removeFacilityFromReservation(null, facilities.get(0));

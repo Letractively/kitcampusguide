@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.kit.pse.ass.booking.management.BookingManagement;
+import edu.kit.pse.ass.booking.management.BookingNotAllowedException;
 import edu.kit.pse.ass.booking.management.FacilityNotFreeException;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Reservation;
@@ -119,6 +120,9 @@ public class RoomDetailController extends MainController {
 			} catch (FacilityNotFoundException e) {
 				e.printStackTrace();
 				returnedView = handleIllegalRequest(e);
+			} catch (BookingNotAllowedException e) {
+				// TODO Message
+				e.printStackTrace();
 			}
 		} else {
 			model.addAttribute("noFacilities", true);
