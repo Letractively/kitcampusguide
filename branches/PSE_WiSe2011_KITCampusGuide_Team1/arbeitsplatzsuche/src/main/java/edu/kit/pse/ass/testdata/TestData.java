@@ -65,6 +65,8 @@ public class TestData {
 			"Drucker vorhanden", "Ruhezone", "Essen / Trinken erlaubt", "Beamer", "FlipChart",
 			"Tafel / White Board", "Overheadprojektor", "Barrierefrei" };
 
+	private DummyFacilities dummyFacilities;
+
 	/**
 	 * Load all data.
 	 */
@@ -159,27 +161,27 @@ public class TestData {
 	@Transactional
 	public DummyFacilities facilityFillWithDummies() {
 		// TODO get to know what this if() is doing ...
-		if (jpaTemplate.find(Facility.class, "place1") != null) {
-			return null;
+		if (dummyFacilities != null) {
+			return dummyFacilities;
 		}
 
 		// create dummy facilities
-		DummyFacilities df = new DummyFacilities();
+		dummyFacilities = new DummyFacilities();
 		// TODO maybe write 1 generic method instead of 3
-		df.buildings = createBuildings(BUILDING_NAMES, BUILDING_NUMBERS);
-		df.rooms = createRooms(ROOM_NAMES, ROOM_NUMBERS, ROOM_LEVELS, ROOM_DESCRIPTIONS);
-		df.places = createWorkplaces(WORKPLACE_NAMES);
+		dummyFacilities.buildings = createBuildings(BUILDING_NAMES, BUILDING_NUMBERS);
+		dummyFacilities.rooms = createRooms(ROOM_NAMES, ROOM_NUMBERS, ROOM_LEVELS, ROOM_DESCRIPTIONS);
+		dummyFacilities.places = createWorkplaces(WORKPLACE_NAMES);
 
 		// create dependencies between buildings<->rooms and rooms<->workplaces
-		addDependenciesRandomized(df.buildings, df.rooms);
-		addDependenciesRandomized(df.rooms, df.places);
+		addDependenciesRandomized(dummyFacilities.buildings, dummyFacilities.rooms);
+		addDependenciesRandomized(dummyFacilities.rooms, dummyFacilities.places);
 
 		// add properties to rooms and workplaces
 		ArrayList<Property> properties = createProperties(PROPERTY_NAMES);
-		addPropertiesRandomized(df.rooms, properties);
-		addPropertiesRandomized(df.places, properties);
+		addPropertiesRandomized(dummyFacilities.rooms, properties);
+		addPropertiesRandomized(dummyFacilities.places, properties);
 
-		return df;
+		return dummyFacilities;
 	}
 
 	private void addDependenciesRandomized(ArrayList<? extends Facility> parents,
@@ -222,8 +224,7 @@ public class TestData {
 		Building b;
 		for (int i = 0; i < names.length; i++) {
 			b = new Building();
-			jpaTemplate.merge(b);
-
+			jpaTemplate.persist(b);
 			b.setName(names[i]);
 			b.setNumber(numbers[i]);
 			b.setParentFacility(null);
@@ -238,7 +239,7 @@ public class TestData {
 		Room r;
 		for (int i = 0; i < names.length; i++) {
 			r = new Room();
-			jpaTemplate.merge(r);
+			jpaTemplate.persist(r);
 
 			r.setName(names[i]);
 			r.setNumber(numbers[i]);
@@ -255,7 +256,7 @@ public class TestData {
 		Workplace w;
 		for (int i = 0; i < names.length; i++) {
 			w = new Workplace();
-			jpaTemplate.merge(w);
+			jpaTemplate.persist(w);
 
 			w.setName(names[i]);
 
@@ -269,7 +270,7 @@ public class TestData {
 		for (int i = 0; i < names.length; i++) {
 			properties.add(new Property(names[i]));
 
-			jpaTemplate.merge(properties.get(i));
+			jpaTemplate.persist(properties.get(i));
 		}
 		return properties;
 	}
