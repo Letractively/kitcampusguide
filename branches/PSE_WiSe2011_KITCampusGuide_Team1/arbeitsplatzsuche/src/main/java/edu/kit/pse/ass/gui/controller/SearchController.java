@@ -122,25 +122,14 @@ public class SearchController extends MainController {
 			@ModelAttribute SearchFormModel searchFormModel, BindingResult sfmResult,
 			@ModelAttribute SearchFilterModel searchFilterModel) {
 
+		// Validate form
 		SearchFormValidator sfmValidator = new SearchFormValidator();
 		sfmValidator.validate(searchFormModel, sfmResult);
 
-		// DataTable Parameters
-		DataTableParamModel parameters;
-		// total number of entries (unfiltered)
-		int iTotalRecords;
-		// numbers of entries displayed
-		int iTotalDisplayRecords;
-		// the search results
-		List<FreeFacilityResult> searchResults;
-		// output data in JSON format
-		JSONArray data = new JSONArray();
+		// Get DataTable Parameters
+		DataTableParamModel parameters = new DataTableParamModel(request);
 
-		// Get parameters for DataTable
-		parameters = new DataTableParamModel(request);
-
-		// find free rooms
-
+		// Find free rooms
 		if (searchFilterModel.getFilters() == null) {
 			searchFilterModel.setFilters(new ArrayList<Property>());
 		}
@@ -150,17 +139,12 @@ public class SearchController extends MainController {
 		Collection<FreeFacilityResult> searchResultsCollection = bookingManagement.findFreeFacilites(roomQuery,
 				searchFormModel.getStart(), searchFormModel.getEnd(), searchFormModel.isWholeRoom());
 
+		List<FreeFacilityResult> searchResults;
 		if (searchResultsCollection instanceof List) {
 			searchResults = (List<FreeFacilityResult>) searchResultsCollection;
 		} else {
 			searchResults = new ArrayList<FreeFacilityResult>(searchResultsCollection);
 		}
-
-		// create dummy search results (temp!)
-		// searchResults = tempSearchResults();
-
-		iTotalRecords = searchResults.size();
-		iTotalDisplayRecords = iTotalRecords;
 
 		// Sort results
 		final int sortColumnIndex = parameters.getiSortColumnIndex();
@@ -175,13 +159,20 @@ public class SearchController extends MainController {
 					+ parameters.getiDisplayLength());
 		}
 
-		// create JSON response
-		try {
-			JSONObject jsonResponse = new JSONObject();
+		// create JSON result List
+		JSONArray resultListData = createJSONResultList(searchResults);
 
+		// Create JSON response object and send response
+		JSONObject jsonResponse = new JSONObject();
+		try {
+			// request sequence number sent by DataTable
 			jsonResponse.put("sEcho", parameters.getsEcho());
-			jsonResponse.put("iTotalRecords", iTotalRecords);
-			jsonResponse.put("iTotalDisplayRecords", iTotalDisplayRecords);
+
+			// total records and displayed records are the same (filtering is disabled)
+			jsonResponse.put("iTotalRecords", searchResults.size());
+			jsonResponse.put("iTotalDisplayRecords", searchResults.size());
+
+			jsonResponse.put("aaData", resultListData);
 
 			// add errors if any
 			if (sfmResult.hasErrors()) {
@@ -192,27 +183,13 @@ public class SearchController extends MainController {
 				jsonResponse.put("asErrors", asErrors);
 			}
 
-			SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
-
-			for (FreeFacilityResult c : searchResults) {
-				JSONArray row = new JSONArray();
-				String equipment = "";
-				for (Property p : c.getFacility().getProperties()) {
-					equipment += p.getName() + " ";
-				}
-				row.put(c.getFacility().getName() + " ").put(c.getFacility().getParentFacility().getName())
-						.put(equipment).put(formatTime.format(c.getStart())).put(c.getFacility().getId());
-				data.put(row);
-			}
-			jsonResponse.put("aaData", data);
-
+			// send response
 			response.setContentType("application/json");
 			response.getWriter().print(jsonResponse.toString());
+
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			response.setContentType("text/html");
-			// response.getWriter().print(e.getMessage());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -251,5 +228,69 @@ public class SearchController extends MainController {
 			}
 		});
 
+	}
+
+	/**
+	 * creates a JSONArray containing the search results for DataTables
+	 * 
+	 * @param searchResults
+	 *            the search results for the output
+	 * @return JSONArray containing the search results for DataTables
+	 */
+	private JSONArray createJSONResultList(List<FreeFacilityResult> searchResults) {
+
+		JSONArray resultListData = new JSONArray();
+		SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
+
+		for (FreeFacilityResult c : searchResults) {
+
+			if (c.getFacility() instanceof Room) {
+
+				Room room = (Room) c.getFacility();
+
+				// output for this row
+				String roomName = "", buildingName = "", equipment = "", startTime = "", roomID = "";
+
+				if (room != null) {
+
+					if (room.getName().isEmpty()) {
+						roomName = "Raum";
+					} else {
+						roomName = room.getName();
+					}
+					if (!room.getNumber().isEmpty()) {
+						roomName += " " + room.getNumber();
+					}
+					roomID = room.getId();
+					if (room.getParentFacility() != null) {
+						buildingName = room.getParentFacility().getName();
+					}
+
+					// TODO replace text with icons
+					boolean equipmentListStart = true;
+					for (Property p : room.getProperties()) {
+						if (equipmentListStart) {
+							equipmentListStart = false;
+						} else {
+							equipment += ", ";
+						}
+						equipment += p.getName();
+					}
+				}
+				if (c.getStart() != null) {
+					startTime = formatTime.format(c.getStart());
+				}
+
+				JSONArray row = new JSONArray();
+				row.put(roomName);
+				row.put(buildingName);
+				row.put(equipment);
+				row.put(startTime);
+				row.put(roomID);
+
+				resultListData.put(row);
+			}
+		}
+		return resultListData;
 	}
 }
