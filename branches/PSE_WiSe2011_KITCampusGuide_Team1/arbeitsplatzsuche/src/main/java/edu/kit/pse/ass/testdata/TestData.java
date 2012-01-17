@@ -35,17 +35,22 @@ public class TestData {
 	private PasswordEncoder passwordEncoder;
 
 	// Data for dummy buildings, notice that each array needs the same size!
-	private static final String[] BUILDING_NAMES = { "Informatikgebäude", "Bibliothek", "Chemiegebäude",
-			"Physikgebäude" };
-	private static final String[] BUILDING_NUMBERS = { "34.50", "12.10", "80.51", "24.07" };
+	/** building names */
+	public static final String[] BUILDING_NAMES = { "Informatik", "Bibliothek", "Chemiegebäude", "Physikgebäude" };
+	/** building numbers */
+	public static final String[] BUILDING_NUMBERS = { "50.34", "12.10", "80.51", "24.07" };
 
 	// Data for dummy rooms, notice that each array needs the same size!
-	private static final String[] ROOM_NAMES = { "Seminarraum", "Lesesaal", "Seminarraum", "Seminarraum",
+	/** room names */
+	public static final String[] ROOM_NAMES = { "Seminarraum", "Lesesaal", "Seminarraum", "Seminarraum",
 			"Computerraum", "Abstellraum", "Lesesaal", "Instiutsraum", "Lernraum", "Nebenraum" };
-	private static final String[] ROOM_NUMBERS = { "-119", "123", "364", "-234", "-120", "-118", "107", "204",
+	/** room numbers */
+	public static final String[] ROOM_NUMBERS = { "-119", "123", "364", "-234", "-120", "-118", "107", "204",
 			"111", "999" };
-	private static final int[] ROOM_LEVELS = { -1, 1, 3, -2, -1, -1, 1, 2, 1, 9 };
-	private static final String[] ROOM_DESCRIPTIONS = { "Der Seminarraum ist Olivers Lieblingsraum.",
+	/** room levels */
+	public static final int[] ROOM_LEVELS = { -1, 1, 3, -2, -1, -1, 1, 2, 1, 9 };
+	/** room descriptions */
+	public static final String[] ROOM_DESCRIPTIONS = { "Der Seminarraum ist Olivers Lieblingsraum.",
 			"Der Lesesaal belegt Sebastian gerne.", "Der Seminarraum wird stets von Lennart gebucht.",
 			"Im Seminarraum arbeitet Fabian gerne.", "Der Computerraum ist Andreas zweites Zuhause",
 			"Der Abstellraum wird eigentlich nicht benötigt.", "Im Lesesaal ist kein Platz.",
@@ -53,7 +58,8 @@ public class TestData {
 			"Der Lernraum wird stets von abschreibenden Studenten bevölkert.", "Der Nebenraum ist nie frei." };
 
 	// Data for dummy workplaces
-	private static final String[] WORKPLACE_NAMES = { "Nummer1", "Nummer2", "Nummer3", "Nummer4", "Nummer5",
+	/** workplace names */
+	public static final String[] WORKPLACE_NAMES = { "Nummer1", "Nummer2", "Nummer3", "Nummer4", "Nummer5",
 			"Nummer6", "Nummer7", "Nummer8", "Nummer9", "Nummer10", "Nummer11", "Nummer12", "Nummer13",
 			"Nummer14", "Nummer15", "Nummer16", "Nummer17", "Nummer18", "Nummer19", "Nummer20", "Number21",
 			"Number22", "Nummer23", "Nummer24", "Nummer25", "Nummer26", "Nummer27", "Nummer28", "Nummer29",
@@ -61,10 +67,12 @@ public class TestData {
 			"Nummer38", "Nummer39" };
 
 	// Data for dummy properties
+	/** property names */
 	private static final String[] PROPERTY_NAMES = { "W-LAN", "LAN", "Licht", "Steckdose", "PC vorhanden",
 			"Drucker vorhanden", "Ruhezone", "Essen / Trinken erlaubt", "Beamer", "FlipChart",
 			"Tafel / White Board", "Overheadprojektor", "Barrierefrei" };
 
+	// the created dummy facilities
 	private DummyFacilities dummyFacilities;
 
 	/**
@@ -160,7 +168,6 @@ public class TestData {
 	 */
 	@Transactional
 	public DummyFacilities facilityFillWithDummies() {
-		// TODO get to know what this if() is doing ...
 		if (dummyFacilities != null) {
 			return dummyFacilities;
 		}
@@ -173,36 +180,41 @@ public class TestData {
 		dummyFacilities.places = createWorkplaces(WORKPLACE_NAMES);
 
 		// create dependencies between buildings<->rooms and rooms<->workplaces
-		addDependenciesRandomized(dummyFacilities.buildings, dummyFacilities.rooms);
-		addDependenciesRandomized(dummyFacilities.rooms, dummyFacilities.places);
+		addDependencies(dummyFacilities.buildings, dummyFacilities.rooms);
+		addDependencies(dummyFacilities.rooms, dummyFacilities.places);
 
 		// add properties to rooms and workplaces
-		ArrayList<Property> properties = createProperties(PROPERTY_NAMES);
-		addPropertiesRandomized(dummyFacilities.rooms, properties);
-		addPropertiesRandomized(dummyFacilities.places, properties);
+		dummyFacilities.properties = createProperties(PROPERTY_NAMES);
+		addPropertiesRandomized(dummyFacilities.rooms, dummyFacilities.properties);
+		addPropertiesRandomized(dummyFacilities.places, dummyFacilities.properties);
 
 		return dummyFacilities;
 	}
 
-	private void addDependenciesRandomized(ArrayList<? extends Facility> parents,
-			ArrayList<? extends Facility> children) {
-		Random r = new Random();
+	private void addDependencies(ArrayList<? extends Facility> parents, ArrayList<? extends Facility> children) {
 		int indexOfFirstFreeChild = 0;
-		int randomEnd = 0;
+		int numberOfChildren = children.size() / parents.size();
+		int end = 0;
 
 		for (int i = 0; i < parents.size(); i++) {
-
-			randomEnd = indexOfFirstFreeChild + r.nextInt(children.size() - indexOfFirstFreeChild);
-			for (int k = indexOfFirstFreeChild; k < randomEnd; k++) {
-				parents.get(i).addContainedFacility(children.get(k));
+			// add each parent #numberOfChildren children
+			end += numberOfChildren;
+			for (int j = indexOfFirstFreeChild; j < end; j++) {
+				parents.get(i).addContainedFacility(children.get(j));
 			}
-			indexOfFirstFreeChild += (randomEnd - indexOfFirstFreeChild);
+			indexOfFirstFreeChild += numberOfChildren;
 
+		}
+		// if children remainds not added, then add them to last parent
+		if (end < children.size()) {
+			for (int i = end; i < parents.size(); i++) {
+				parents.get(i).addContainedFacility(children.get(i));
+			}
 		}
 	}
 
 	private void addPropertiesRandomized(ArrayList<? extends Facility> facilities, ArrayList<Property> properties) {
-		Random r = new Random();
+		Random r = new Random(5674847624526l);
 		Property actual;
 
 		for (int i = 0; i < facilities.size(); i++) {
@@ -283,6 +295,8 @@ public class TestData {
 		public ArrayList<Room> rooms;
 		/** the dummy workplaces */
 		public ArrayList<Workplace> places;
+		/** the dummy properties */
+		public ArrayList<Property> properties;
 	}
 
 	/** Class for return type of user creating method. */
