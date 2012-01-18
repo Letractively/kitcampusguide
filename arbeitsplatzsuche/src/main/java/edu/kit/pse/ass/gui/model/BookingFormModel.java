@@ -1,10 +1,6 @@
 package edu.kit.pse.ass.gui.model;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 // TODO: Auto-generated Javadoc
 /**
