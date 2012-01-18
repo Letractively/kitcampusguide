@@ -1,6 +1,3 @@
-/**
- * 
- */
 package edu.kit.pse.ass.facility.dao;
 
 import java.util.Collection;
@@ -8,7 +5,6 @@ import java.util.Collection;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface FacilityDAO.
  * 
@@ -17,7 +13,7 @@ import edu.kit.pse.ass.entity.Property;
 public interface FacilityDAO {
 
 	/**
-	 * returns facility with given ID.
+	 * Returns facility with given ID.
 	 * 
 	 * @param facilityID
 	 *            the ID of the facility
@@ -25,11 +21,10 @@ public interface FacilityDAO {
 	 * @throws IllegalArgumentException
 	 *             facilityID is null
 	 */
-	public Facility getFacility(String facilityID)
-			throws IllegalArgumentException;
+	Facility getFacility(String facilityID) throws IllegalArgumentException;
 
 	/**
-	 * returns facility with given ID as a specific subclass type.
+	 * Returns facility with given ID as a specific subclass type.
 	 * 
 	 * @param <T>
 	 *            the generic type
@@ -39,52 +34,50 @@ public interface FacilityDAO {
 	 *            the ID of the facility
 	 * @return facility with given ID
 	 */
-	public <T extends Facility> T getFacility(Class<T> type, String facilityID);
+	<T extends Facility> T getFacility(Class<T> type, String facilityID);
 
 	/**
-	 * returns a collection of facilities that have the given properties.
+	 * Returns a collection of facilities that have the given properties.
 	 * 
 	 * @param properties
 	 *            the properties that the facilities must have
 	 * @return collection of facilities that have the given properties
 	 */
-	public Collection<Facility> getFacilities(Collection<Property> properties);
+	Collection<Facility> getFacilities(Collection<Property> properties);
 
 	/**
-	 * returns a collection of properties that an object of the given class can
-	 * have.
+	 * Returns a collection of all properties that an object of the given class can have.
 	 * 
 	 * @param facilityClass
-	 *            the class
-	 * @return collection of properties that an object of the given class can
-	 *         have
+	 *            the class whose properties shall be returned
+	 * @return collection of all properties that an object of the given class can have
 	 */
-	public Collection<Property> getAvailablePropertiesOf(
-			Class<? extends Facility> facilityClass);
+	Collection<Property> getAvailablePropertiesOf(Class<? extends Facility> facilityClass);
 
+	/* Standard jpaTemplate methods - merge, remove, persist. */
 	/**
-	 * Standard jpaTemplate methods - merge, remove, persist.
+	 * Merges the given facility.
 	 * 
 	 * @param facility
-	 *            the facility
-	 * @return the facility
+	 *            the facility which shall be merged
+	 * @return the merged facility
 	 */
-	public Facility merge(Facility facility);
+	Facility merge(Facility facility);
 
 	/**
-	 * Removes the.
+	 * Removes the facility with the given ID.
 	 * 
 	 * @param facilityID
-	 *            the facility id
+	 *            the ID of the facility to remove
 	 */
-	public void remove(String facilityID);
+	void remove(String facilityID);
 
 	/**
-	 * Persist.
+	 * Persist the given facility.
 	 * 
 	 * @param facility
-	 *            the facility
+	 *            the facility to persist
 	 */
-	public void persist(Facility facility);
+	void persist(Facility facility);
 
 }

@@ -1,11 +1,5 @@
 package edu.kit.pse.ass.gui.model;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class SearchFormModel.

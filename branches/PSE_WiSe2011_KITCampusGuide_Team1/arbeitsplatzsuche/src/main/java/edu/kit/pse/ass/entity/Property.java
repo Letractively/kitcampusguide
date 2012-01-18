@@ -1,6 +1,3 @@
-/**
- *  This Class represents a property of a facility.
- */
 package edu.kit.pse.ass.entity;
 
 import javax.persistence.Column;
@@ -8,9 +5,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Property.
+ * The class Property.
  * 
  * @author Sebastian
  */
@@ -23,15 +19,9 @@ public class Property {
 	@Id
 	private String name;
 
-	/*
-	 * no 'value:boolean' needed.
-	 */
-
 	/**
 	 * Creates a new property with the specified values.
 	 * 
-	 * @param name
-	 *            the name of the property
 	 * @throws IllegalArgumentException
 	 *             when name is null or empty.
 	 */
@@ -111,7 +101,7 @@ public class Property {
 	}
 
 	/**
-	 * returns a string representation of this property.
+	 * Returns a string representation of this property.
 	 * 
 	 * @return the string
 	 */

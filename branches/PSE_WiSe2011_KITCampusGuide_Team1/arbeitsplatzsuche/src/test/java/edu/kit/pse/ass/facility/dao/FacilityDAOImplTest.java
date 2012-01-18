@@ -26,7 +26,6 @@ import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.testdata.TestData;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FacilityDAOImplTest.
  * 

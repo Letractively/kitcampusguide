@@ -4,11 +4,13 @@ import java.util.Date;
 
 import edu.kit.pse.ass.entity.Facility;
 
+/**
+ * The interface FreeFacilityQuery
+ */
 interface FreeFacilityQuery {
 
 	/**
-	 * Checks if is facility partially free, so that the query requirements can
-	 * be fulfilled.
+	 * Checks if the facility is partially free, so that the query requirements can be fulfilled.
 	 * 
 	 * @param bookingManagement
 	 *            the booking management
@@ -18,9 +20,9 @@ interface FreeFacilityQuery {
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * @return true, if is facility partially free
+	 * @return true, if the facility is partially free
 	 */
-	public boolean isFacilityPartiallyFree(BookingManagement bookingManagement,
-			Facility facility, Date startDate, Date endDate);
+	boolean isFacilityPartiallyFree(BookingManagement bookingManagement, Facility facility, Date startDate,
+			Date endDate);
 
 }
