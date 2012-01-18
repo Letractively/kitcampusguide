@@ -212,7 +212,16 @@ public class SearchController extends MainController {
 			public int compare(FreeFacilityResult c1, FreeFacilityResult c2) {
 				switch (sortColumnIndex) {
 				case 0: // Room name
-					return c1.getFacility().getName().compareTo(c2.getFacility().getName()) * sortDirection;
+					if (c1.getFacility() instanceof Room && c2.getFacility() instanceof Room) {
+						// Both facilities are rooms - compare the formatted name for a room (this is the name shown in
+						// DataTables!)
+						Room r1 = (Room) c1.getFacility();
+						Room r2 = (Room) c2.getFacility();
+						return formatRoomName(r1).compareTo(formatRoomName(r2));
+					} else {
+						// Compare the normal name of the facility
+						return c1.getFacility().getName().compareTo(c2.getFacility().getName()) * sortDirection;
+					}
 				case 1: // Building name
 					return c1.getFacility().getParentFacility().getName()
 							.compareTo(c2.getFacility().getParentFacility().getName())
@@ -252,15 +261,7 @@ public class SearchController extends MainController {
 				String roomName = "", buildingName = "", equipment = "", startTime = "", roomID = "";
 
 				if (room != null) {
-
-					if (room.getName().isEmpty()) {
-						roomName = "Raum";
-					} else {
-						roomName = room.getName();
-					}
-					if (!room.getNumber().isEmpty()) {
-						roomName += " " + room.getNumber();
-					}
+					roomName = formatRoomName(room);
 					roomID = room.getId();
 					if (room.getParentFacility() != null) {
 						buildingName = room.getParentFacility().getName();
@@ -292,5 +293,30 @@ public class SearchController extends MainController {
 			}
 		}
 		return resultListData;
+	}
+
+	/**
+	 * returns a formatted room name of the given Room.
+	 * 
+	 * if the given Room is null, an empty String is returned.
+	 * 
+	 * @param room
+	 *            the room
+	 * @return the formatted room name of the given Room
+	 */
+	private static String formatRoomName(Room room) {
+		String roomName = "";
+		if (room != null) {
+			if (room.getName().isEmpty()) {
+				roomName = "Raum";
+			} else {
+				roomName = room.getName();
+			}
+			if (!room.getNumber().isEmpty()) {
+				roomName += " " + room.getNumber();
+			}
+		}
+		return roomName;
+
 	}
 }

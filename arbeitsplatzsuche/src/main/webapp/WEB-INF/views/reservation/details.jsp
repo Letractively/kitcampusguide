@@ -1,50 +1,59 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="header2">
 	<jsp:include page="/WEB-INF/views/logo.jsp"></jsp:include>
 	<div class="right">
-		<h1>
-			Reservierungsdetails
-		</h1>
+		<h1><spring:message code="reservation-details.heading" /></h1>
 	</div>
 </div>
 <div class="page">
 	<c:choose>
 		<c:when test="${errorReservationNotFound}">	
-			<div class="msg-error">Die Reservierung wurde nicht gefunden!</div>
+			<div class="msg-error"><spring:message code="reservation-details.notFound" /></div>
 		</c:when>
 		<c:otherwise>
 			<div class="reservationDetails">
-				<div class="room"><a href="<c:url value="/room/${reservation.room.id}/details.html" />"><c:out value="${reservation.roomName}" /></a> (<c:out value="${reservation.buildingName}" />)</div>
+				<div class="room"><spring:message code="reservation-details.roomBuilding" arguments="${reservation.formattedRoomName},${reservation.buildingName}" /></div>
 				<div class="time">
-					<fmt:formatDate value="${reservation.startTime}" pattern="dd.MM.yyyy"/> 
-					um <fmt:formatDate value="${reservation.startTime}" pattern="HH:mm"/> Uhr 
-					(f&uuml;r <fmt:formatNumber pattern="00" value="${reservation.durationHours}" />:<fmt:formatNumber pattern="00" value="${reservation.durationMinutes}" /> Stunden)</div>
+					<fmt:formatDate var="formattedStartDate" value="${reservation.startTime}" pattern="dd.MM.yyyy"/> 
+					<fmt:formatDate var="formattedStartHour" value="${reservation.startTime}" pattern="HH:mm"/>
+					<fmt:formatNumber var="formattedHours" pattern="00" value="${reservation.durationHours}" />
+					<fmt:formatNumber var="formattedMinutes" pattern="00" value="${reservation.durationMinutes}" />
+					<spring:message code="reservation-details.time" arguments="${formattedStartDate},${formattedStartHour},${formattedHours},${formattedMinutes}"/>
+				</div>
 				<div class="info">
-					<c:if test="${reservation.bookedFacilityIsRoom()}">
-						Der ganze Raum wurde reserviert (<c:out value="${reservation.workplaceCount}" /> Arbeitpl&auml;tze).
+					<c:choose>
+						<c:when test="${reservation.bookedFacilityIsRoom()}">
+							<spring:message code="reservation-details.roomIsBooked" arguments="${reservation.workplaceCount}" />
+						</c:when>
+						<c:otherwise>
+							<spring:message code="reservation-details.workplacesAreBooked" arguments="${reservation.workplaceCount}" />
+						</c:otherwise>
+					</c:choose>
+					<c:if test="">
+						
 					</c:if>
 					<c:if test="${!reservation.bookedFacilityIsRoom()}">
-						Es sind <c:out value="${reservation.workplaceCount}" /> Arbeitpl&auml;tze reserviert.
 					</c:if>
 				</div>
 			</div>
 			<div class="reservationDetails">
-				<div>Reservierung l&ouml;schen</div>
-				<div><a href="<c:url value="/reservation/${reservation.id}/delete.html" />">Diese Reservierung l&ouml;schen</a></div>
+				<div><spring:message code="reservation-details.deleteHeading" /></div>
+				<div><a href="<c:url value="/reservation/${reservation.id}/delete.html" />"><spring:message code="reservation-details.deleteLinkLabel" /></a></div>
 			</div>
 			<c:if test="${updateSuccess}">
-				<div class="msg-success">Die Reservierung wurde erfolgreich ge&auml;ndert!</div>
+				<div class="msg-success"><spring:message code="reservation-details.updateMessageSuccess" /></div>
 			</c:if>
 			<c:if test="${updateErrorFacilityOccupied}">
-				<div class="msg-error">Die Reservierung konnte nicht ge&auml;ndert werden: Die gew&uuml;nschten Arbeitspl&auml;tze sind nicht frei.</div>
+				<div class="msg-error"><spring:message code="reservation-details.updateMessageFacilityOccupied" /></div>
 			</c:if>
 			<c:if test="${formErrors}">
-				<div class="msg-error">Fehler im Formular</div>
+				<div class="msg-error"><spring:message code="reservation-details.updateMessageFormErrors" /></div>
 			</c:if>
 			<div class="reservationDetails">
-				<div>Diese Reservierung &auml;ndern</div>
-				<div style="text-decoration: italic;">Hinweis: Die Reservierung kann nur dann ge&auml;ndert werden, wenn die Arbeitspl&auml;tze nicht von einem anderen Nutzer reserviert sind.</div>
+				<div><spring:message code="reservation-details.updateHeading" /></div>
+				<div style="text-decoration: italic;"><spring:message code="reservation-details.updateNote" /></div>
 				<div><jsp:include page="/WEB-INF/views/reservation/updateForm.jsp"></jsp:include></div>
 			</div>
 		</c:otherwise>
