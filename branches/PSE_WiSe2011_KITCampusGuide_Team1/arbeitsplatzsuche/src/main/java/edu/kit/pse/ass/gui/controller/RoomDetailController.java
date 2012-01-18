@@ -3,6 +3,7 @@ package edu.kit.pse.ass.gui.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -121,7 +122,7 @@ public class RoomDetailController extends MainController {
 				e.printStackTrace();
 				returnedView = handleIllegalRequest(e);
 			} catch (BookingNotAllowedException e) {
-				// TODO Message
+				model.addAttribute("hasBookingAtTime", true);
 				e.printStackTrace();
 			}
 		} else {
@@ -182,28 +183,40 @@ public class RoomDetailController extends MainController {
 	private void setUpWorkplaceList(Model model, Room room, SearchFormModel searchFormModel) {
 		Collection<Facility> workplaces = room.getContainedFacilities();
 
-		boolean[] checked = new boolean[workplaces.size()];
+		try {
+			boolean[] checked = new boolean[workplaces.size()];
 
-		if (searchFormModel.isWholeRoom()) {
-			for (int i = 0; i < checked.length; i++) {
-				checked[i] = false;
-			}
-		} else {
-			int workplacesToSelect = searchFormModel.getWorkplaceCount();
-			for (int i = 0; i < checked.length; i++) {
-				if (workplacesToSelect > 0) {
-					// TODO: isFree, hasProps
-					checked[i] = true;
-					workplacesToSelect--;
-				} else {
+			if (searchFormModel.isWholeRoom()) {
+				for (int i = 0; i < checked.length; i++) {
 					checked[i] = false;
 				}
+			} else {
+				int workplacesToSelect = searchFormModel.getWorkplaceCount();
 
+				Iterator<Facility> workplaceIter = workplaces.iterator();
+				for (int i = 0; i < checked.length; i++) {
+					Facility f = workplaceIter.next();
+					if (workplacesToSelect > 0) {
+						boolean isFree = bookingManagement.isFacilityFree(f.getId(), searchFormModel.getStart(),
+								searchFormModel.getEnd());
+						if (isFree) {
+							checked[i] = true;
+							workplacesToSelect--;
+						}
+
+					} else {
+						checked[i] = false;
+					}
+
+				}
 			}
+
+			model.addAttribute("checked", checked);
+			model.addAttribute("workplaces", workplaces);
+		} catch (FacilityNotFoundException e) {
+			e.printStackTrace();
 		}
 
-		model.addAttribute("checked", checked);
-		model.addAttribute("workplaces", workplaces);
 	}
 
 	/**
