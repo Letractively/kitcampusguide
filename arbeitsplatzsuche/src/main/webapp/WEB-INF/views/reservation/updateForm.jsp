@@ -2,22 +2,17 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <form:form method="post" commandName="updatedReservation" id="updateForm">
-	<!-- 
-	<c:if test="${!reservation.bookedFacilityIsRoom()}">
+	<c:if test="${!reservation.bookedFacilityIsRoom() && reservation.workplaceCount > 1}">
 		<div>
-			<label for="workplaceCount" style="color: grey;"><spring:message code="reservation-details.updateFormWorkplaceCount" /></label>
+			<label for="workplaceCount"><spring:message code="reservation-details.updateFormWorkplaceCount" /></label>
 			<form:select path="workplaceCount" >
-				<form:option value="1"/>
-				<form:option value="2"/>
-				<form:option value="3"/>
-				<form:option value="4"/>
-				<form:option value="5"/>
-				<form:option value="6"/>
+				<c:forEach var="i" begin="1" end="${reservation.workplaceCount}">
+					<form:option value="${i}"/>
+				</c:forEach>
 			</form:select>
 			<form:errors path="workplaceCount" cssClass="form-error"/>
 		</div>
 	</c:if>
-	 -->
 	<div>
 		<label for="endTime"><spring:message code="reservation-details.updateFormEndTime" /></label>
 		<form:input path="endTime" class="date" />

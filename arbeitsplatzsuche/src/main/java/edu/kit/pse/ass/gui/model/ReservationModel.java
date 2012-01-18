@@ -1,5 +1,6 @@
 package edu.kit.pse.ass.gui.model;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -148,6 +149,15 @@ public class ReservationModel implements Comparable<ReservationModel> {
 		int hours = (int) (duration / (1000 * 60 * 60));
 
 		return hours;
+	}
+
+	/**
+	 * returns the ids of the booked facilities
+	 * 
+	 * @return the ids of the booked facilities
+	 */
+	public Collection<String> getBookedFacilityIds() {
+		return reservation.getBookedFacilityIds();
 	}
 
 	/**

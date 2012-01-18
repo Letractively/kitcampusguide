@@ -16,7 +16,7 @@
 	</c:if>
 	<c:forEach var="reservation" items="${reservations}">
 		<div class="reservationDetails">
-			<div class="room"><spring:message code="reservation-details.roomBuilding" arguments="${reservation.formattedRoomName},${reservation.buildingName}" /></div>
+			<div class="room heading"><spring:message code="reservation-details.roomBuilding" arguments="${reservation.formattedRoomName},${reservation.buildingName}" /></div>
 			<div class="time">
 				<fmt:formatDate var="formattedStartDate" value="${reservation.startTime}" pattern="dd.MM.yyyy"/> 
 				<fmt:formatDate var="formattedStartHour" value="${reservation.startTime}" pattern="HH:mm"/>
@@ -49,7 +49,7 @@
 		<h2><spring:message code="reservation-list.pastReservations" /></h2>
 		<c:forEach var="reservation" items="${pastReservations}">
 			<div class="reservationDetails">
-				<div class="room"><spring:message code="reservation-details.roomBuilding" arguments="${reservation.formattedRoomName},${reservation.buildingName}" /></div>
+				<div class="room heading"><spring:message code="reservation-details.roomBuilding" arguments="${reservation.formattedRoomName},${reservation.buildingName}" /></div>
 				<div class="time">
 					<fmt:formatDate var="formattedStartDate" value="${reservation.startTime}" pattern="dd.MM.yyyy"/> 
 					<fmt:formatDate var="formattedStartHour" value="${reservation.startTime}" pattern="HH:mm"/>

@@ -50,5 +50,10 @@ public class ReservationValidator implements Validator {
 				&& !updatedReservationModel.getEndTime().after(originalReservationModel.getStartTime())) {
 			errors.rejectValue("endTime", "endTime.beforeStart");
 		}
+		// check if form workplace count is not greater than reservation workplace count - adding workplaces is not
+		// (yet) supported!
+		if (updatedReservationModel.getWorkplaceCount() > originalReservationModel.getWorkplaceCount()) {
+			errors.rejectValue("workplaceCount", "workplaceCount.invalid");
+		}
 	}
 }
