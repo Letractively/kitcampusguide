@@ -222,6 +222,45 @@ public class ReservationModel implements Comparable<ReservationModel> {
 	}
 
 	/**
+	 * returns a formatted name of the room where the booked facilities are located in.
+	 * 
+	 * @return the formatted name of the room where the booked facilities are located in
+	 */
+	public String getFormattedRoomName() {
+		Room room = getRoom();
+		if (room != null) {
+			return formatRoomName(room);
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * returns a formatted room name of the given Room.
+	 * 
+	 * if the given Room is null, an empty String is returned.
+	 * 
+	 * @param room
+	 *            the room
+	 * @return the formatted room name of the given Room
+	 */
+	private static String formatRoomName(Room room) {
+		String roomName = "";
+		if (room != null) {
+			if (room.getName().isEmpty()) {
+				roomName = "Raum";
+			} else {
+				roomName = room.getName();
+			}
+			if (!room.getNumber().isEmpty()) {
+				roomName += " " + room.getNumber();
+			}
+		}
+		return roomName;
+
+	}
+
+	/**
 	 * returns the name of the building where the booked facilities are located in.
 	 * 
 	 * @return the name of the building where the booked facilities are located in

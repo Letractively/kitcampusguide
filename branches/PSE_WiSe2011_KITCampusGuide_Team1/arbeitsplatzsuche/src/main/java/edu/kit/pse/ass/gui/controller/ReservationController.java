@@ -112,6 +112,7 @@ public class ReservationController extends MainController {
 	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.GET)
 	public String showReservationDetails(Model model, @PathVariable("reservationId") String reservationID) {
 
+		// TODO user check
 		// Get reservation
 		Reservation reservation = null;
 		try {
@@ -163,6 +164,9 @@ public class ReservationController extends MainController {
 		}
 
 		if (resModel != null) {
+
+			// WorkplaceCount update not yet implemented - set workplace count value so the Validator does not fail
+			updatedReservation.setWorkplaceCount(resModel.getWorkplaceCount());
 
 			// Set form workplace count value for Room reservations so the Validator does not fail
 			if (resModel.bookedFacilityIsRoom()) {
