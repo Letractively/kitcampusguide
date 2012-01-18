@@ -80,4 +80,6 @@ public interface FacilityDAO {
 	 */
 	void persist(Facility facility);
 
+	public <T extends Facility> Collection<T> getAllFacilities(Class<T> facilityClass);
+
 }

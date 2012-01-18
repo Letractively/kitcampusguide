@@ -108,7 +108,7 @@ public class FacilityDAOImplTest {
 		Collection<Facility> result = null;
 		try {
 			// throw error or return null if parameter is null
-			assertNull(facilityDAO.getFacilities(null));
+			assertNull(facilityDAO.getAllFacilities(null));
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
