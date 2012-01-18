@@ -115,6 +115,7 @@ public class BookingManagementImpl implements BookingManagement {
 	 */
 	@Override
 	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'edit')")
+	@Transactional
 	public void changeReservationEnd(String reservationID, Date newEndDate) throws IllegalArgumentException,
 			FacilityNotFreeException {
 		if (reservationID == null || reservationID.equals("") || newEndDate == null) {
