@@ -2,6 +2,7 @@ package edu.kit.pse.ass.user.management;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.kit.pse.ass.entity.User;
 import edu.kit.pse.ass.user.dao.UserDAO;
@@ -26,10 +27,14 @@ public class UserManagementImpl implements UserManagement {
 	 * @see edu.kit.pse.ass.user.management.UserManagement#register(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String register(String userID, String password) {
+	@Transactional
+	public String register(String userID, String password) throws UserAlreadyExistsException {
 		// TODO Auto-generated method stub
 		if (passwordEncoder != null) {
 			password = passwordEncoder.encodePassword(password, null);
+		}
+		if (userDAO.getUser(userID) != null) {
+			throw new UserAlreadyExistsException();
 		}
 		User u = userDAO.insertUser(userID, password);
 		if (u == null) {
