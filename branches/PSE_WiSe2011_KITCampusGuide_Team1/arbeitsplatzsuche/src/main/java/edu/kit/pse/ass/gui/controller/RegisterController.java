@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.kit.pse.ass.entity.User;
 import edu.kit.pse.ass.gui.model.UserValidator;
+import edu.kit.pse.ass.user.management.UserAlreadyExistsException;
 import edu.kit.pse.ass.user.management.UserManagement;
 
 // TODO: Auto-generated Javadoc
@@ -44,10 +45,9 @@ public class RegisterController extends MainController {
 	 * @return the view
 	 */
 	@RequestMapping(value = "register.html", method = RequestMethod.POST)
-	public String registerUser(Model model,
-			@ModelAttribute("registerUser") User user, BindingResult userResult) {
+	public String registerUser(Model model, @ModelAttribute("registerUser") User user, BindingResult userResult) {
 
-		String nextView;
+		String nextView = "register/register";
 
 		// Validate form
 		UserValidator userValidator = new UserValidator();
@@ -56,24 +56,24 @@ public class RegisterController extends MainController {
 		if (userResult.hasErrors()) {
 			nextView = "register/register";
 			/*
-			 * // temp: print error codes for (FieldError e :
-			 * userResult.getFieldErrors()) {
-			 * System.out.println("FieldError Code " + e.getCode() + ", Field "
-			 * + e.getField() + "," + e.getClass() + ", Object " +
-			 * e.getObjectName()); if (e.getCodes() != null) for (String code :
-			 * e.getCodes()) System.out.println(" + Code " + code); if
-			 * (e.getArguments() != null) for (Object arg : e.getArguments())
+			 * // temp: print error codes for (FieldError e : userResult.getFieldErrors()) {
+			 * System.out.println("FieldError Code " + e.getCode() + ", Field " + e.getField() + "," + e.getClass() +
+			 * ", Object " + e.getObjectName()); if (e.getCodes() != null) for (String code : e.getCodes())
+			 * System.out.println(" + Code " + code); if (e.getArguments() != null) for (Object arg : e.getArguments())
 			 * System.out.println(" + Argu " + arg);
 			 * 
 			 * }
 			 */
 		} else {
-			String userID = userManagement.register(user.getEmail(),
-					user.getPassword());
-			if (userID.isEmpty()) {
-				// TODO error
-				nextView = "register/register";
-			} else {
+			String userID = "";
+			try {
+				userID = userManagement.register(user.getEmail(), user.getPassword());
+			} catch (UserAlreadyExistsException e) {
+				e.printStackTrace();
+				model.addAttribute("userExists", true);
+				return "register/register";
+			}
+			if (!userID.isEmpty()) {
 				// Show success message in login form
 				model.addAttribute("registerSuccess", true);
 				nextView = "login";
