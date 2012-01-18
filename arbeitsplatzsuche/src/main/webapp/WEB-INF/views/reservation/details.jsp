@@ -16,7 +16,6 @@
 			<div class="reservationDetails">
 				<div class="room heading">
 					<spring:message code="reservation-details.roomBuilding" arguments="${reservation.formattedRoomName},${reservation.buildingName}" />
-					<a href="<c:url value="/room/${reservation.room.id}/details.html" />"><spring:message code="reservation-details.roomLinkLabel" /></a>
 				</div>
 				<div class="time">
 					<fmt:formatDate var="formattedStartDate" value="${reservation.startTime}" pattern="dd.MM.yyyy"/> 
@@ -40,10 +39,10 @@
 					<c:if test="${!reservation.bookedFacilityIsRoom()}">
 					</c:if>
 				</div>
-			</div>
-			<div class="reservationDetails">
-				<div class="heading"><spring:message code="reservation-details.deleteHeading" /></div>
-				<div><a href="<c:url value="/reservation/${reservation.id}/delete.html" />"><spring:message code="reservation-details.deleteLinkLabel" /></a></div>
+				<div class="button">
+					<span class="button delete"><a href="<c:url value="/reservation/${reservation.id}/delete.html" />"><spring:message code="reservation-details.deleteLinkLabel" /></a></span>
+					<span class="button link"><a href="<c:url value="/room/${reservation.room.id}/details.html" />"><spring:message code="reservation-details.roomLinkLabel" /></a></span>
+				</div>
 			</div>
 			<c:if test="${updateSuccess}">
 				<div class="msg-success"><spring:message code="reservation-details.updateMessageSuccess" /></div>

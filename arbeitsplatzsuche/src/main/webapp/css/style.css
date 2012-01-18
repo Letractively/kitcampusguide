@@ -207,10 +207,6 @@ div.reservationDetails .heading {
 	color: #0E4669;
 	padding-bottom: 8px;
 }
-div.reservationDetails div.room a:link {
-	font-size: 11px;
-	padding-left: 10px;
-}
 div.reservationDetails div.time, div.reservationDetails div.room {
 	padding-bottom: 8px;
 }
@@ -307,4 +303,42 @@ li{
     color: #D8000C;
     background-color: #FFBABA;
     background-image: url('/arbeitsplatzsuche/images/error.png');
+}
+
+/*
+ * css buttons(http://woork.blogspot.com/2008/06/beautiful-css-buttons-with-icon-set.html)
+ */
+div.button {
+	padding: 15px 0 2px 0;
+}
+span.button {
+	padding-right:15px;
+	
+}
+span.button a:link, span.button a:visited, span.button a:hover, span.button a:active {
+	font-weight:bold;
+	text-decoration:none;
+	margin-top: 10px;
+    border:1px solid #dedede;
+    border-top:1px solid #eee;
+    border-left:1px solid #eee;
+	border-radius: 3px;
+
+    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    font-size:12px;
+    color:#565656;
+	padding: 6px 16px 7px 30px;
+    background-color:#f5f5f5;
+}
+span.button a:hover{
+color:#0066CC;
+}
+.link a {
+background:url(/arbeitsplatzsuche/images/btn_link.png) no-repeat 7px 6px;
+}
+.ok a {
+background:url(/arbeitsplatzsuche/images/btn_apply.png) no-repeat 7px 6px;
+}
+.delete a{
+background:url(/arbeitsplatzsuche/images/btn_cross.png) no-repeat 7px 6px;
 }
