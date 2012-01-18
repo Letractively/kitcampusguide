@@ -39,8 +39,8 @@
 				<c:if test="${!reservation.bookedFacilityIsRoom()}">
 				</c:if>
 			</div>
-			<div class="options">
-				<a href="<c:url value="/reservation/${reservation.id}/details.html" />"><spring:message code="reservation-details.details" /></a>
+			<div class="button">
+				<span class="button link"><a href="<c:url value="/reservation/${reservation.id}/details.html" />"><spring:message code="reservation-details.details" /></a></span>
 			</div>
 		</div>
 	</c:forEach>
