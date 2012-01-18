@@ -5,6 +5,8 @@ package edu.kit.pse.ass.entity;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -235,6 +237,40 @@ public class Facility {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	public Collection<Property> getInheritedProperties() {
+		LinkedHashSet<Property> properties = new LinkedHashSet<Property>(this.properties);
+		if (getParentFacility() != null) {
+			properties.addAll(getParentFacility().getInheritedProperties());
+		}
+		return properties;
+	}
+
+	public boolean hasInheritedProperty(Property property) {
+		if (this.properties.contains(property)) {
+			return true;
+		} else if (getParentFacility() == null) {
+			return false;
+		} else {
+			return getParentFacility().hasInheritedProperty(property);
+		}
+	}
+
+	public boolean hasInheritedProperties(Collection<Property> properties) {
+		if (this.properties.containsAll(properties)) {
+			return true;
+		} else if (getParentFacility() == null) {
+			return false;
+		} else {
+			LinkedList<Property> missingProps = new LinkedList<Property>();
+			for (Property property : properties) {
+				if (!this.properties.contains(property)) {
+					missingProps.add(property);
+				}
+			}
+			return getParentFacility().hasInheritedProperties(missingProps);
 		}
 	}
 

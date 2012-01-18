@@ -78,7 +78,12 @@ public class FacilityManagementImplTest {
 	@Before
 	public void setUp() {
 		dummyFacilities = testData.facilityFillWithDummies();
-		FACILITYID = dummyFacilities.rooms.iterator().next().getId();
+		for (Room r : dummyFacilities.rooms) {
+			if (r.hasProperty(new Property("WLAN"))) {
+				FACILITYID = r.getId();
+				break;
+			}
+		}
 	}
 
 	/**
@@ -122,8 +127,8 @@ public class FacilityManagementImplTest {
 		assertNotNull(result);
 		// assert the correct facility was returned
 		assertEquals(FACILITYID, result.getId());
-		assertTrue(result.getProperties().contains(new Property("WLAN")));
-		assertTrue(result.getContainedFacilities().size() == 3);
+		assertTrue("result has no wlan", result.hasInheritedProperty(new Property("WLAN")));
+		assertTrue("result has not enough workplaces", result.getContainedFacilities().size() == 3);
 	}
 
 	/**

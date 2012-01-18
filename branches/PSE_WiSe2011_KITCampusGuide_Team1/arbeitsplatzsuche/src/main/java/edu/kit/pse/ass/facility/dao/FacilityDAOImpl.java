@@ -1,5 +1,6 @@
 package edu.kit.pse.ass.facility.dao;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -73,6 +74,21 @@ public class FacilityDAOImpl implements FacilityDAO {
 
 		return jpaTemplate.findByNamedParams(query, props);
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.kit.pse.ass.facility.dao.FacilityDAO#getAllFacilities(java.lang.Class)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends Facility> Collection<T> getAllFacilities(Class<T> facilityClass) {
+		Collection<T> result = jpaTemplate.find("from t_facility f where f.class = " + facilityClass.getName());
+		if (result == null) {
+			return new ArrayList<T>();
+		}
+		return result;
 	}
 
 	/*

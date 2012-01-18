@@ -13,8 +13,6 @@ public class RoomQuery extends FacilityQuery {
 	/** The minimum workplaces. */
 	protected int minimumWorkplaces;
 
-	protected Collection<Property> workplaceProperties;
-
 	/**
 	 * Instantiates a new room query.
 	 * 
@@ -25,36 +23,9 @@ public class RoomQuery extends FacilityQuery {
 	 * @param minimumWorkplaces
 	 *            the minimum workplaces
 	 */
-	public RoomQuery(Collection<Property> properties, String searchText,
-			int minimumWorkplaces) {
+	public RoomQuery(Collection<Property> properties, String searchText, int minimumWorkplaces) {
 		super(properties, searchText);
 		this.minimumWorkplaces = minimumWorkplaces;
-		this.workplaceProperties = null;
-	}
-
-	/**
-	 * Instantiates a new room query.
-	 * 
-	 * @param properties
-	 *            the properties
-	 * @param searchText
-	 *            the search text
-	 * @param minimumWorkplaces
-	 *            the minimum workplaces
-	 */
-	public RoomQuery(Collection<Property> properties,
-			Collection<Property> workplaceProperties, String searchText,
-			int minimumWorkplaces) {
-		super(properties, searchText);
-		this.minimumWorkplaces = minimumWorkplaces;
-		this.workplaceProperties = workplaceProperties;
-	}
-
-	/**
-	 * @return the workplaceProperties
-	 */
-	public Collection<Property> getWorkplaceProperties() {
-		return this.workplaceProperties;
 	}
 
 	/**
