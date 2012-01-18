@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#workplaces").dataTable({
@@ -48,28 +49,34 @@
 	<jsp:include page="/WEB-INF/views/logo.jsp"></jsp:include>
 	<div class="right">
 		<h1>
-			Details für
-			<c:out value="${room.name}" />
+			<spring:message code="roomDetails.headline" arguments="${room.name}"/>
 		</h1>
 	</div>
 </div>
 <div class="page roomDetails">
 	<c:if test="${formErrors}">
-		<div class="msg-error">Fehler beim Buchen</div>
+		<div class="msg-error">
+			<spring:message code="book.error.inForm" />
+		</div>
 	</c:if>
 	<c:if test="${notFree}">
 		<div class="msg-error">
 			<c:if test="${bookingFormModel.wholeRoom}">
-				Der Raum ist zur angegebenen Zeit nicht frei.
+				<spring:message code="book.error.roomNotFree" />
 			</c:if>
 			<c:if test="${!bookingFormModel.wholeRoom}">
-				Nicht alle angegebenen Arbeitsplätze sind zur angegebenen Zeit frei.
+				<spring:message code="book.error.workplaceNotFree" />
 			</c:if>
 		</div>
 	</c:if>
 	<c:if test="${noFacilities}">
 		<div class="msg-error">
-				Sie haben keine Arbeitsplätze ausgewählt.
+			<spring:message code="book.error.noWorkplacesSelected" />
+		</div>
+	</c:if>
+		<c:if test="${hasBookingAtTime}">
+		<div class="msg-error">
+			<spring:message code="book.error.hasBookingAtTime" />
 		</div>
 	</c:if>
 <form:form method="post" commandName="bookingFormModel" action="${pageContext.request.contextPath}/room/${room.id}/details.html" id="searchForm">
