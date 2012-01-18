@@ -26,7 +26,6 @@ import edu.kit.pse.ass.facility.management.FacilityManagement;
 import edu.kit.pse.ass.gui.model.ReservationModel;
 import edu.kit.pse.ass.gui.model.ReservationValidator;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ReservationController.
  * 
@@ -105,23 +104,36 @@ public class ReservationController extends MainController {
 	 * 
 	 * @param model
 	 *            the model
+	 * @param principal
+	 *            the principal
 	 * @param reservationID
 	 *            the reservation id
 	 * @return the string
 	 */
 	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.GET)
-	public String showReservationDetails(Model model, @PathVariable("reservationId") String reservationID) {
+	public String showReservationDetails(Model model, Principal principal,
+			@PathVariable("reservationId") String reservationID) {
 
-		// TODO user check
+		// get name of logged in user
+		String userID = "";
+		if (principal != null) {
+			userID = principal.getName();
+		}
+
 		// Get reservation
 		Reservation reservation = null;
 		try {
 			reservation = bookingManagement.getReservation(reservationID);
 
-			// Create and add models
-			ReservationModel resModel = new ReservationModel(reservation, facilityManagement);
-			model.addAttribute("reservation", resModel);
-			model.addAttribute("updatedReservation", resModel);
+			if (!reservation.getBookingUserId().equals(userID)) {
+				// Reservation does not belong to this user!
+				model.addAttribute("errorReservationNotFound", true);
+			} else {
+				// Create and add models
+				ReservationModel resModel = new ReservationModel(reservation, facilityManagement);
+				model.addAttribute("reservation", resModel);
+				model.addAttribute("updatedReservation", resModel);
+			}
 
 		} catch (IllegalArgumentException e) {
 			model.addAttribute("errorReservationNotFound", true);
@@ -138,6 +150,8 @@ public class ReservationController extends MainController {
 	 * 
 	 * @param model
 	 *            the model
+	 * @param principal
+	 *            the principal
 	 * @param reservationID
 	 *            the reservation id
 	 * @param updatedReservation
@@ -147,20 +161,34 @@ public class ReservationController extends MainController {
 	 * @return the string
 	 */
 	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.POST)
-	public String updateReservation(Model model, @PathVariable("reservationId") String reservationID,
+	public String updateReservation(Model model, Principal principal,
+			@PathVariable("reservationId") String reservationID,
 			@ModelAttribute("updatedReservation") ReservationModel updatedReservation,
 			BindingResult updatedReservationResult) {
 
-		String returnedView = "reservation/details";
+		// get name of logged in user
+		String userID = "";
+		if (principal != null) {
+			userID = principal.getName();
+		}
 
 		// Get reservation
 		ReservationModel resModel = null;
 		try {
-			resModel = new ReservationModel(bookingManagement.getReservation(reservationID), facilityManagement);
+			Reservation reservation = bookingManagement.getReservation(reservationID);
+			if (!reservation.getBookingUserId().equals(userID)) {
+				// Reservation does not belong to this user!
+				model.addAttribute("errorReservationNotFound", true);
+				return "reservation/details";
+			} else {
+				resModel = new ReservationModel(reservation, facilityManagement);
+			}
 		} catch (IllegalArgumentException e) {
 			model.addAttribute("errorReservationNotFound", true);
+			return "reservation/details";
 		} catch (ReservationNotFoundException e) {
 			model.addAttribute("errorReservationNotFound", true);
+			return "reservation/details";
 		}
 
 		if (resModel != null) {
@@ -200,7 +228,7 @@ public class ReservationController extends MainController {
 						model.addAttribute("formErrors", true);
 					} catch (IllegalStateException e) {
 						// database is inconsistent
-						returnedView = handleIllegalRequest(e);
+						return handleIllegalRequest(e);
 					}
 				}
 
@@ -211,7 +239,7 @@ public class ReservationController extends MainController {
 		}
 
 		// show reservation details after update
-		return returnedView;
+		return "reservation/details";
 	}
 
 	/**
