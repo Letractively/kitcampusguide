@@ -14,7 +14,10 @@
 		</c:when>
 		<c:otherwise>
 			<div class="reservationDetails">
-				<div class="room"><spring:message code="reservation-details.roomBuilding" arguments="${reservation.formattedRoomName},${reservation.buildingName}" /></div>
+				<div class="room heading">
+					<spring:message code="reservation-details.roomBuilding" arguments="${reservation.formattedRoomName},${reservation.buildingName}" />
+					<a href="<c:url value="/room/${reservation.room.id}/details.html" />"><spring:message code="reservation-details.roomLinkLabel" /></a>
+				</div>
 				<div class="time">
 					<fmt:formatDate var="formattedStartDate" value="${reservation.startTime}" pattern="dd.MM.yyyy"/> 
 					<fmt:formatDate var="formattedStartHour" value="${reservation.startTime}" pattern="HH:mm"/>
@@ -39,11 +42,14 @@
 				</div>
 			</div>
 			<div class="reservationDetails">
-				<div><spring:message code="reservation-details.deleteHeading" /></div>
+				<div class="heading"><spring:message code="reservation-details.deleteHeading" /></div>
 				<div><a href="<c:url value="/reservation/${reservation.id}/delete.html" />"><spring:message code="reservation-details.deleteLinkLabel" /></a></div>
 			</div>
 			<c:if test="${updateSuccess}">
 				<div class="msg-success"><spring:message code="reservation-details.updateMessageSuccess" /></div>
+			</c:if>
+			<c:if test="${updateErrorWorkplaceCount}">
+				<div class="msg-error"><spring:message code="reservation-details.updateMessageWorkplaceCount" /></div>
 			</c:if>
 			<c:if test="${updateErrorFacilityOccupied}">
 				<div class="msg-error"><spring:message code="reservation-details.updateMessageFacilityOccupied" /></div>
@@ -52,8 +58,8 @@
 				<div class="msg-error"><spring:message code="reservation-details.updateMessageFormErrors" /></div>
 			</c:if>
 			<div class="reservationDetails">
-				<div><spring:message code="reservation-details.updateHeading" /></div>
-				<div style="text-decoration: italic;"><spring:message code="reservation-details.updateNote" /></div>
+				<div class="heading"><spring:message code="reservation-details.updateHeading" /></div>
+				<div class="note"><spring:message code="reservation-details.updateNote" /></div>
 				<div><jsp:include page="/WEB-INF/views/reservation/updateForm.jsp"></jsp:include></div>
 			</div>
 		</c:otherwise>

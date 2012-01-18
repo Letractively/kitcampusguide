@@ -173,7 +173,7 @@ public class ReservationController extends MainController {
 		}
 
 		// Get reservation
-		ReservationModel resModel = null;
+		ReservationModel originalReservation = null;
 		try {
 			Reservation reservation = bookingManagement.getReservation(reservationID);
 			if (!reservation.getBookingUserId().equals(userID)) {
@@ -181,7 +181,7 @@ public class ReservationController extends MainController {
 				model.addAttribute("errorReservationNotFound", true);
 				return "reservation/details";
 			} else {
-				resModel = new ReservationModel(reservation, facilityManagement);
+				originalReservation = new ReservationModel(reservation, facilityManagement);
 			}
 		} catch (IllegalArgumentException e) {
 			model.addAttribute("errorReservationNotFound", true);
@@ -191,55 +191,116 @@ public class ReservationController extends MainController {
 			return "reservation/details";
 		}
 
-		if (resModel != null) {
+		if (originalReservation != null) {
 
-			// WorkplaceCount update not yet implemented - set workplace count value so the Validator does not fail
-			updatedReservation.setWorkplaceCount(resModel.getWorkplaceCount());
-
-			// Set form workplace count value for Room reservations so the Validator does not fail
-			if (resModel.bookedFacilityIsRoom()) {
-				updatedReservation.setWorkplaceCount(resModel.getWorkplaceCount());
+			// Set form workplace count value for Room reservations / reservations with one workplace, so the Validator
+			// does not fail
+			if (originalReservation.bookedFacilityIsRoom() || originalReservation.getWorkplaceCount() == 1) {
+				updatedReservation.setWorkplaceCount(originalReservation.getWorkplaceCount());
 			}
 
 			// Validate update form
 			ReservationValidator resValidator = new ReservationValidator();
-			resValidator.validate(updatedReservation, resModel, updatedReservationResult);
+			resValidator.validate(updatedReservation, originalReservation, updatedReservationResult);
 
 			if (updatedReservationResult.hasErrors()) {
 				// form errors
 				model.addAttribute("formErrors", true);
 			} else {
-				// update form is OK
+				// form ok
 
-				if (updatedReservation.getEndTime().equals(resModel.getEndTime())) {
-					// no changes to the reservation - show success!
-					model.addAttribute("updateSuccess", true);
+				// Remove workplaces from Reservation, if necessary
+				boolean updateWorkplaceSuccess = updateWorkplaceCount(originalReservation,
+						updatedReservation.getWorkplaceCount());
+
+				if (!updateWorkplaceSuccess) {
+					model.addAttribute("updateErrorWorkplaceCount", true);
 				} else {
-					// Change reservation end
-					try {
-						bookingManagement.changeReservationEnd(reservationID, updatedReservation.getEndTime());
-						// success!
-						model.addAttribute("updateSuccess", true);
-					} catch (FacilityNotFreeException e) {
-						// Facility is not free
+					// Update end time of reservation, if necessary
+					boolean updateEndTimeSuccess = updateEndTime(originalReservation,
+							updatedReservation.getEndTime());
+					if (!updateEndTimeSuccess) {
 						model.addAttribute("updateErrorFacilityOccupied", true);
-					} catch (IllegalArgumentException e) {
-						// arguments are wrong (should not happen as form is validated)
-						model.addAttribute("formErrors", true);
-					} catch (IllegalStateException e) {
-						// database is inconsistent
-						return handleIllegalRequest(e);
+					} else {
+						model.addAttribute("updateSuccess", true);
 					}
+				}
+
+				// Get new, updated reservation
+				try {
+					originalReservation = new ReservationModel(bookingManagement.getReservation(reservationID),
+							facilityManagement);
+				} catch (IllegalArgumentException e) {
+					// Internal error
+					return handleIllegalRequest(e);
+				} catch (ReservationNotFoundException e) {
+					// Internal error
+					return handleIllegalRequest(e);
 				}
 
 			}
 
-			model.addAttribute("reservation", resModel);
+			model.addAttribute("reservation", originalReservation);
 			model.addAttribute("updatedReservation", updatedReservation);
 		}
 
 		// show reservation details after update
 		return "reservation/details";
+	}
+
+	/**
+	 * updates the workplace count of the given reservation to the given integer value and return true on success
+	 * 
+	 * @param reservation
+	 *            the reservation to update
+	 * @param newWorkplaceCount
+	 *            the new workplace count
+	 * @return true if update was successful
+	 */
+	private boolean updateWorkplaceCount(ReservationModel reservation, int newWorkplaceCount) {
+		boolean updateError = false;
+		if (newWorkplaceCount < reservation.getWorkplaceCount()) {
+			int removeWorkplacesCount = reservation.getWorkplaceCount() - newWorkplaceCount;
+			Collection<String> bookedFacilities = reservation.getBookedFacilityIds();
+			int removedWorkplaces = 0;
+			for (String workplaceID : bookedFacilities) {
+				if (removedWorkplaces < removeWorkplacesCount) {
+					try {
+						bookingManagement.removeFacilityFromReservation(reservation.getId(), workplaceID);
+						removedWorkplaces++;
+					} catch (IllegalArgumentException e) {
+						System.out.println(e.getMessage());
+					}
+				}
+			}
+			if (removedWorkplaces != removeWorkplacesCount) {
+				updateError = true;
+			}
+		}
+		return !updateError;
+	}
+
+	/**
+	 * updates the end time of the given reservation to the given end time and return true on success
+	 * 
+	 * @param reservation
+	 *            the reservation to update
+	 * @param newEndTime
+	 *            the new end time
+	 * @return true if update was successful
+	 */
+	private boolean updateEndTime(ReservationModel reservation, Date newEndTime) {
+		boolean updateError = false;
+		if (!reservation.getEndTime().equals(newEndTime)) {
+			try {
+				bookingManagement.changeReservationEnd(reservation.getId(), newEndTime);
+			} catch (FacilityNotFreeException e) {
+				updateError = true;
+			} catch (IllegalArgumentException e) {
+				updateError = true;
+			}
+		}
+		return !updateError;
 	}
 
 	/**

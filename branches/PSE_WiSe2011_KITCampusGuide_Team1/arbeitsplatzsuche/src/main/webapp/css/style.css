@@ -202,15 +202,21 @@ div.reservationDetails {
 div.reservationDetails div {
 	padding-bottom: 5px;
 }
-div.reservationDetails div.room {
+div.reservationDetails .heading {
 	font-size: 19px;
 	color: #0E4669;
 	padding-bottom: 8px;
 }
-div.reservationDetails div.time {
+div.reservationDetails div.room a:link {
+	font-size: 11px;
+	padding-left: 10px;
+}
+div.reservationDetails div.time, div.reservationDetails div.room {
 	padding-bottom: 8px;
 }
-
+div.reservationDetails .note {
+	 font-style: italic;
+}
 div.page {
 	padding: 0 10px 0 15px;
 }
