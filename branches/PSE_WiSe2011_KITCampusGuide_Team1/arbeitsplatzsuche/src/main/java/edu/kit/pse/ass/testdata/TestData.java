@@ -205,10 +205,10 @@ public class TestData {
 			indexOfFirstFreeChild += numberOfChildren;
 
 		}
-		// if children remainds not added, then add them to last parent
+		// if children remains not added, then add them to last parent
 		if (end < children.size()) {
-			for (int i = end; i < parents.size(); i++) {
-				parents.get(i).addContainedFacility(children.get(i));
+			for (int i = end; i < children.size(); i++) {
+				parents.get(0).addContainedFacility(children.get(i));
 			}
 		}
 	}

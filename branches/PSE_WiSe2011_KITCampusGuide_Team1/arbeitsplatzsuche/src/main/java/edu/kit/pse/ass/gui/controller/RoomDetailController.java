@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -25,11 +26,13 @@ import edu.kit.pse.ass.booking.management.BookingManagement;
 import edu.kit.pse.ass.booking.management.BookingNotAllowedException;
 import edu.kit.pse.ass.booking.management.FacilityNotFreeException;
 import edu.kit.pse.ass.entity.Facility;
+import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Reservation;
 import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.entity.Workplace;
 import edu.kit.pse.ass.facility.management.FacilityManagement;
 import edu.kit.pse.ass.facility.management.FacilityNotFoundException;
+import edu.kit.pse.ass.gui.layout.PropertyIconMap;
 import edu.kit.pse.ass.gui.model.BookingFormModel;
 import edu.kit.pse.ass.gui.model.CalendarParamModel;
 import edu.kit.pse.ass.gui.model.SearchFilterModel;
@@ -68,7 +71,7 @@ public class RoomDetailController extends MainController {
 	public String setUpRoomDetails(@PathVariable("roomId") String roomId, Model model,
 			@ModelAttribute SearchFormModel searchFormModel, @ModelAttribute SearchFilterModel searchFilterModel,
 			@ModelAttribute BookingFormModel bookingFormModel) {
-		String returnedView = setUpRoomDetailModel(model, roomId, searchFormModel);
+		String returnedView = setUpRoomDetailModel(model, roomId, searchFormModel, searchFilterModel);
 		return returnedView;
 	}
 
@@ -87,7 +90,7 @@ public class RoomDetailController extends MainController {
 	public String book(@PathVariable("roomId") String roomId, Model model,
 			@ModelAttribute BookingFormModel bookingFormModel) {
 
-		String returnedView = setUpRoomDetailModel(model, roomId, new SearchFormModel());
+		String returnedView = setUpRoomDetailModel(model, roomId, new SearchFormModel(), new SearchFilterModel());
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String userID = auth.getName();
@@ -143,7 +146,8 @@ public class RoomDetailController extends MainController {
 	 * @param searchFormModel
 	 *            the SearchFormModel filled at the SearchPage
 	 */
-	private String setUpRoomDetailModel(Model model, String roomId, SearchFormModel searchFormModel) {
+	private String setUpRoomDetailModel(Model model, String roomId, SearchFormModel searchFormModel,
+			SearchFilterModel searchFilterModel) {
 		String returnedView = "room/details";
 		try {
 			Room room = facilityManagement.getFacility(Room.class, roomId);
@@ -151,7 +155,7 @@ public class RoomDetailController extends MainController {
 			// Pass room and building name as arguments for page title
 			model.addAttribute("titleArguments",
 					new String[] { room.getName(), room.getParentFacility().getName() });
-			setUpWorkplaceList(model, room, searchFormModel);
+			setUpWorkplaceList(model, room, searchFormModel, searchFilterModel);
 
 			// Additional CSS / JS files
 			String[] cssFiles = { "/libs/datatables/css/datatable.css", "/libs/datatables/css/datatable_jui.css",
@@ -159,6 +163,8 @@ public class RoomDetailController extends MainController {
 			String[] jsFiles = { "/libs/datatables/jquery.dataTables.min.js", "/scripts/roomDetails.js" };
 			model.addAttribute("cssFiles", cssFiles);
 			model.addAttribute("jsFiles", jsFiles);
+
+			model.addAttribute("icons", new PropertyIconMap());
 
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
@@ -180,11 +186,14 @@ public class RoomDetailController extends MainController {
 	 * @param searchFormModel
 	 *            the SearchFormModel filled at the SearchPage
 	 */
-	private void setUpWorkplaceList(Model model, Room room, SearchFormModel searchFormModel) {
+	private void setUpWorkplaceList(Model model, Room room, SearchFormModel searchFormModel,
+			SearchFilterModel searchFilterModel) {
+
 		Collection<Facility> workplaces = room.getContainedFacilities();
 
 		try {
 			boolean[] checked = new boolean[workplaces.size()];
+			Collection<Property>[] workplaceProps = new Collection[workplaces.size()];
 
 			if (searchFormModel.isWholeRoom()) {
 				for (int i = 0; i < checked.length; i++) {
@@ -194,12 +203,16 @@ public class RoomDetailController extends MainController {
 				int workplacesToSelect = searchFormModel.getWorkplaceCount();
 
 				Iterator<Facility> workplaceIter = workplaces.iterator();
+
 				for (int i = 0; i < checked.length; i++) {
 					Facility f = workplaceIter.next();
+
+					workplaceProps[i] = getExtraProperties(room, (Workplace) f);
+
 					if (workplacesToSelect > 0) {
 						boolean isFree = bookingManagement.isFacilityFree(f.getId(), searchFormModel.getStart(),
 								searchFormModel.getEnd());
-						if (isFree) {
+						if (isFree && f.hasInheritedProperties(searchFilterModel.getFilters())) {
 							checked[i] = true;
 							workplacesToSelect--;
 						}
@@ -213,10 +226,25 @@ public class RoomDetailController extends MainController {
 
 			model.addAttribute("checked", checked);
 			model.addAttribute("workplaces", workplaces);
+			model.addAttribute("workplacesProps", workplaceProps);
 		} catch (FacilityNotFoundException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	private Collection<Property> getExtraProperties(Room room, Workplace workplace) {
+
+		Collection<Property> roomProperties = room.getInheritedProperties();
+		Collection<Property> workplaceProperties = new ArrayList<Property>(workplace.getProperties());
+
+		Iterator<Property> propIter = workplaceProperties.iterator();
+		while (propIter.hasNext()) {
+			if (roomProperties.contains(propIter.next())) {
+				propIter.remove();
+			}
+		}
+		return workplaceProperties;
 	}
 
 	/**

@@ -95,8 +95,8 @@
 	<br />
 	<h2>Raumausstattung:</h2>
 	<ul>
-		<c:forEach var="property" items="${room.properties}">
-			<li><c:out value="${property.name}" /></li>
+		<c:forEach var="property" items="${room.inheritedProperties}">
+			<li><img src="${pageContext.request.contextPath}/${icons.getIconFileName(property, 16)}" /> <c:out value="${property.name}" /></li>
 		</c:forEach>
 	</ul>
 	<h2>Beschreibung:</h2>
@@ -109,7 +109,7 @@
 			<tr>
 				<th style="width: 75px;">Gewählt</th>
 				<th style="width: 100px;">Platznr.</th>
-				<th style="width: 500px;">zusätzliche Ausstattung</th>
+				<th style="width: 700px;">zusätzliche Ausstattung</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -120,8 +120,9 @@
 				</td>
 				<td><c:out value="${workplace.name}" /></td>
 				<td>
-					<c:forEach var="property" items="${workplace.properties}">
-						<c:out value="${property.name}" /> 
+					<c:forEach var="property" items="${workplacesProps[status.index]}" varStatus="status2">
+						<img src="${pageContext.request.contextPath}/${icons.getIconFileName(property, 16)}" /> 
+						<c:out value="${property.name}" /><c:if test="${status2.index != fn:length(workplacesProps[status.index])-1 }">, </c:if>
 					</c:forEach>
 				</td>
 			</tr>
