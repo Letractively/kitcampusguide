@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -191,6 +190,9 @@ public class RoomDetailController extends MainController {
 
 		Collection<Facility> workplaces = room.getContainedFacilities();
 
+		if (searchFilterModel.getFilters() == null) {
+			searchFilterModel.setFilters(new ArrayList<Property>());
+		}
 		try {
 			boolean[] checked = new boolean[workplaces.size()];
 			Collection<Property>[] workplaceProps = new Collection[workplaces.size()];
@@ -220,7 +222,6 @@ public class RoomDetailController extends MainController {
 					} else {
 						checked[i] = false;
 					}
-
 				}
 			}
 
