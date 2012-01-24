@@ -38,20 +38,15 @@ import edu.kit.pse.ass.testdata.TestData;
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class FacilityDAOImplTest {
 
-	/** The persisted facility. */
+	@Autowired
+	private FacilityDAO facilityDAO;
+
 	private Facility persistedFacility;
 
-	/** The dao. */
-	@Autowired
-	FacilityDAO facilityDAO;
+	private Property propWlan;
 
-	/** The property wlan. */
-	Property propWlan;
+	private Collection<Facility> facsWithWlan;
 
-	/** The facscilites with Wlan */
-	Collection<Facility> facsWithWlan = new ArrayList<Facility>();
-
-	/** The test data. */
 	@Autowired
 	private TestData testData;
 
@@ -65,6 +60,7 @@ public class FacilityDAOImplTest {
 		dummyFacilities = testData.facilityFillWithDummies();
 		propWlan = new Property("WLAN");
 
+		facsWithWlan = new ArrayList<Facility>();
 		for (Facility f : dummyFacilities.rooms) {
 			if (f.hasProperty(propWlan)) {
 				facsWithWlan.add(f);
@@ -79,25 +75,30 @@ public class FacilityDAOImplTest {
 	@Test
 	public void testGetFacility() {
 		Facility result = null;
+		boolean exception = false;
+
 		try {
-			// throw error or return null if parameter is null
-			assertNull(facilityDAO.getFacility(null));
+			assertNull("getFacility() should return null when the parameter was null.",
+					facilityDAO.getFacility(null));
 		} catch (IllegalArgumentException e) {
+			exception = true;
 		}
+		assertTrue("An IllegalArgumentException should have been thrown.", exception);
 
 		result = facilityDAO.getFacility(persistedFacility.getId());
 		// a facility should be returned
 		assertNotNull("no facility found", result);
+
 		// ensure the right facility is returned
 		assertTrue("facility is not a Room", result instanceof Room);
 		assertEquals("ID of facility is wrong", persistedFacility.getId(), result.getId());
-
 		assertEquals("containedFacilities are different", persistedFacility.getContainedFacilities().size(),
 				result.getContainedFacilities().size());
 		assertTrue("containedFacilities are different",
 				result.getContainedFacilities().containsAll(persistedFacility.getContainedFacilities()));
 		assertTrue("properties are different",
 				result.getProperties().containsAll(persistedFacility.getProperties()));
+		assertTrue("Wrong facility returned.", persistedFacility.equals(result));
 	}
 
 	/**
