@@ -57,22 +57,11 @@ public class Property {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
+		if (obj instanceof Property) {
+			Property p = (Property) obj;
+			return name != null && name.equals(p.getName());
 		}
-		if (!(obj instanceof Property)) {
-			return false;
-		}
-		if (this == obj) {
-			return true;
-		}
-		Property other = (Property) obj;
-		if ((getName() == null) && (other.name != null)) {
-			return false;
-		} else if (!name.equals(other.getName())) {
-			return false;
-		}
-		return true;
+		return false;
 	}
 
 	/**

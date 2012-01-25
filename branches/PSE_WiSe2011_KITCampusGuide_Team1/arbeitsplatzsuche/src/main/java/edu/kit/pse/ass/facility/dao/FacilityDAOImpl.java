@@ -61,15 +61,15 @@ public class FacilityDAOImpl implements FacilityDAO {
 	@Override
 	public Collection<Facility> getFacilities(Collection<Property> properties) {
 		if (properties == null) {
-			throw new IllegalArgumentException("properties is null.");
+			throw new IllegalArgumentException("Parameter properties is null.");
 		}
 		String query = "from t_facility f where 1=1 ";
 
 		HashMap<String, Property> props = new HashMap<String, Property>();
-		Iterator<Property> propiter = properties.iterator();
+		Iterator<Property> propIter = properties.iterator();
 		for (int i = 0; i < properties.size(); i++) {
 			query += " and :prop" + i + " in elements(f.properties) ";
-			props.put("prop" + i, propiter.next());
+			props.put("prop" + i, propIter.next());
 		}
 
 		return jpaTemplate.findByNamedParams(query, props);
@@ -100,6 +100,9 @@ public class FacilityDAOImpl implements FacilityDAO {
 	@Transactional
 	@Override
 	public Collection<Property> getAvailablePropertiesOf(Class<? extends Facility> facilityClass) {
+		if (facilityClass == null) {
+			throw new IllegalArgumentException("Parameter facilityClass musst not be null.");
+		}
 		Collection<Facility> facilities;
 		HashSet<Property> properties = new HashSet<Property>();
 		try {

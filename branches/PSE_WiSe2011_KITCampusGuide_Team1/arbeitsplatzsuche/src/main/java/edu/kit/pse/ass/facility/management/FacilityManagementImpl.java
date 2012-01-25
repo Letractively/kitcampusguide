@@ -21,13 +21,10 @@ public class FacilityManagementImpl implements FacilityManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.facility.management.FacilityManagement#getFacility(java
-	 * .lang.String)
+	 * @see edu.kit.pse.ass.facility.management.FacilityManagement#getFacility(java .lang.String)
 	 */
 	@Override
-	public Facility getFacility(String facilityID)
-			throws IllegalArgumentException, FacilityNotFoundException {
+	public Facility getFacility(String facilityID) throws IllegalArgumentException, FacilityNotFoundException {
 		if (facilityID == null) {
 			throw new IllegalArgumentException("facilityID is null.");
 		}
@@ -43,21 +40,18 @@ public class FacilityManagementImpl implements FacilityManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.facility.management.FacilityManagement#findMatchingFacilities
+	 * @see edu.kit.pse.ass.facility.management.FacilityManagement#findMatchingFacilities
 	 * (edu.kit.pse.ass.facility.management.FacilityQuery)
 	 */
 	@Override
-	public <T extends Facility> T getFacility(Class<T> type, String facilityID)
-			throws FacilityNotFoundException {
+	public <T extends Facility> T getFacility(Class<T> type, String facilityID) throws FacilityNotFoundException {
 		if (facilityID == null) {
 			throw new IllegalArgumentException("facilityID is null.");
 		}
 		T facility = facilityDAO.getFacility(type, facilityID);
 
 		if (facility == null) {
-			throw new FacilityNotFoundException(
-					"The specified facility was not found.");
+			throw new FacilityNotFoundException("The specified facility was not found.");
 		}
 
 		return facility;
@@ -66,13 +60,11 @@ public class FacilityManagementImpl implements FacilityManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * edu.kit.pse.ass.facility.management.FacilityManagement#findMatchingFacilities
+	 * @see edu.kit.pse.ass.facility.management.FacilityManagement#findMatchingFacilities
 	 * (edu.kit.pse.ass.facility.management.FacilityQuery)
 	 */
 	@Override
-	public Collection<? extends Facility> findMatchingFacilities(
-			FacilityQuery facilityQuery) {
+	public Collection<? extends Facility> findMatchingFacilities(FacilityQuery facilityQuery) {
 		if (facilityQuery == null) {
 			throw new IllegalArgumentException("query was null");
 		}
@@ -84,12 +76,10 @@ public class FacilityManagementImpl implements FacilityManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see edu.kit.pse.ass.facility.management.FacilityManagement#
-	 * getAvailablePropertiesOf(java.lang.Class)
+	 * @see edu.kit.pse.ass.facility.management.FacilityManagement# getAvailablePropertiesOf(java.lang.Class)
 	 */
 	@Override
-	public Collection<Property> getAvailablePropertiesOf(
-			Class<? extends Facility> facilityClass) {
+	public Collection<Property> getAvailablePropertiesOf(Class<? extends Facility> facilityClass) {
 		return facilityDAO.getAvailablePropertiesOf(facilityClass);
 	}
 
