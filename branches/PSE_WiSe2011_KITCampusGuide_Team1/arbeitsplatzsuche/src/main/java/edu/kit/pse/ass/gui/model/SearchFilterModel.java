@@ -1,6 +1,7 @@
 package edu.kit.pse.ass.gui.model;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 import edu.kit.pse.ass.entity.Property;
 
@@ -73,6 +74,9 @@ public class SearchFilterModel {
 	 * @return the filters
 	 */
 	public Collection<Property> getFilters() {
+		if (filters == null) {
+			return new LinkedList<Property>();
+		}
 		return filters;
 	}
 
