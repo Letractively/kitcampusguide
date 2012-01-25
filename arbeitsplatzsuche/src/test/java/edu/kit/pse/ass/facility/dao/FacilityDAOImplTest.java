@@ -70,20 +70,19 @@ public class FacilityDAOImplTest {
 	}
 
 	/**
-	 * Test get facility.
+	 * Tests getFacility() with wrong parameters.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetFacilityWithWrongParameters() {
+		facilityDAO.getFacility(null);
+	}
+
+	/**
+	 * Test getFacility() if this methode returns the right Object.
 	 */
 	@Test
-	public void testGetFacility() {
+	public void testGetFacilityRightFacilityIsReturned() {
 		Facility result = null;
-		boolean exception = false;
-
-		try {
-			assertNull("getFacility() should return null when the parameter was null.",
-					facilityDAO.getFacility(null));
-		} catch (IllegalArgumentException e) {
-			exception = true;
-		}
-		assertTrue("An IllegalArgumentException should have been thrown.", exception);
 
 		result = facilityDAO.getFacility(persistedFacility.getId());
 		// a facility should be returned
