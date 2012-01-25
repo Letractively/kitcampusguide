@@ -48,7 +48,7 @@ public class BookingDAOImplTest {
 	private static final String FACILITYID = "#SOME_FACILITY_ID#";
 
 	/** The Constant PERSISTED_RESERVATIONID. */
-	private static String PERSISTED_RESERVATIONID;
+	private static String persisted_reservationid;
 
 	/** Setup a BookingDAO with a dummy reservation. */
 	@Autowired
@@ -83,7 +83,7 @@ public class BookingDAOImplTest {
 
 		bookingDAO.insertReservation(testReservation);
 		assertNotNull(testReservation.getId());
-		PERSISTED_RESERVATIONID = testReservation.getId();
+		persisted_reservationid = testReservation.getId();
 
 		DummyFacilities dummyFacilities = testData.facilityFillWithDummies();
 		DummyUsers dummyUsers = testData.userFillWithDummies();
@@ -196,10 +196,10 @@ public class BookingDAOImplTest {
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 		}
-		resv = bookingDAO.getReservation(PERSISTED_RESERVATIONID);
+		resv = bookingDAO.getReservation(persisted_reservationid);
 		assertNotNull("Didn't return reservation", resv);
 		// ensure the returned reservation is correct
-		assertEquals("Ids are not equal", PERSISTED_RESERVATIONID, resv.getId());
+		assertEquals("Ids are not equal", persisted_reservationid, resv.getId());
 		assertTrue("Returned reservation doesn't contain the right facilities", resv.getBookedFacilityIds()
 				.contains(FACILITYID));
 		assertEquals("The start dates are not equal", start, resv.getStartTime());
@@ -248,9 +248,9 @@ public class BookingDAOImplTest {
 		}
 		bookingDAO.updateReservation(testReservation);
 		// ensure reservation was updated correct
-		Reservation resv = bookingDAO.getReservation(PERSISTED_RESERVATIONID);
+		Reservation resv = bookingDAO.getReservation(persisted_reservationid);
 		assertNotNull("Didn't return reservation", resv);
-		assertEquals(PERSISTED_RESERVATIONID, resv.getId());
+		assertEquals(persisted_reservationid, resv.getId());
 		assertEquals(newEnd, resv.getEndTime());
 		assertEquals(start, resv.getStartTime());
 		assertTrue(resv.getBookedFacilityIds().contains(FACILITYID));
@@ -267,10 +267,10 @@ public class BookingDAOImplTest {
 			fail("Accepted wrong parameters.");
 		} catch (IllegalArgumentException e) {
 		}
-		bookingDAO.deleteReservation(PERSISTED_RESERVATIONID);
+		bookingDAO.deleteReservation(persisted_reservationid);
 		/*
 		 * TODO wait for return of getReservation if id not used
 		 */
-		assertNull(bookingDAO.getReservation(PERSISTED_RESERVATIONID));
+		assertNull(bookingDAO.getReservation(persisted_reservationid));
 	}
 }
