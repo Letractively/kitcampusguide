@@ -84,6 +84,9 @@ public class FacilityDAOImpl implements FacilityDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends Facility> Collection<T> getAllFacilities(Class<T> facilityClass) {
+		if (facilityClass == null) {
+			throw new IllegalArgumentException("facilityClass is null");
+		}
 		Collection<T> result = jpaTemplate.find("from t_facility f where f.class = " + facilityClass.getName());
 		if (result == null) {
 			return new ArrayList<T>();

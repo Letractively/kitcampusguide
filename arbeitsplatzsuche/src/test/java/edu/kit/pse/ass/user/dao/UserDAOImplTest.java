@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import edu.kit.pse.ass.entity.User;
 // TODO: Auto-generated Javadoc
 /**
  * Test for UserDAOImpl.
- *
+ * 
  * @author Oliver Schneider
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,11 +34,25 @@ public class UserDAOImplTest {
 	@Autowired
 	private UserDAO users;
 
+	/** The Constant persistedUser. */
+	private static User persistedUser;
+
+	/** The Constant TEST_PERSISTEDMAIL. */
+	private static final String TEST_PERSISTEDMAIL = "upers@student.kit.edu";
+
 	/** The Constant TEST_EMAIL1. */
 	private static final String TEST_EMAIL1 = "uaaaa@student.kit.edu";
-	
+
 	/** The Constant TEST_PW1. */
 	private static final String TEST_PW1 = "pw11111111";
+
+	/**
+	 * Sets the up.
+	 */
+	@Before
+	public void setUp() {
+		persistedUser = users.insertUser(TEST_PERSISTEDMAIL, "pw2453565");
+	}
 
 	/**
 	 * Test insert user.
@@ -46,12 +61,12 @@ public class UserDAOImplTest {
 	public void testInsertUser() {
 		User user = users.insertUser(TEST_EMAIL1, TEST_PW1);
 		assertNotNull(user);
-		assertEquals(TEST_EMAIL1, user.getEmail());
-		assertEquals(TEST_PW1, user.getPassword());
+		assertEquals("E-Mail is wrong", TEST_EMAIL1, user.getEmail());
+		assertEquals("Passwordhash is wrong", TEST_PW1, user.getPassword());
 
 		User gettedUser = users.getUser(TEST_EMAIL1);
-		assertNotNull(gettedUser);
-		assertEquals(user, gettedUser);
+		assertNotNull("User was not saved", gettedUser);
+		assertEquals("Stored user is not equal", user, gettedUser);
 	}
 
 	/**
@@ -59,10 +74,9 @@ public class UserDAOImplTest {
 	 */
 	@Test
 	public void testGetUser() {
-		User user = users.insertUser(TEST_EMAIL1, TEST_PW1);
-		User gettedUser = users.getUser(TEST_EMAIL1);
-		assertNotNull(gettedUser);
-		assertEquals(user, gettedUser);
+		User gettedUser = users.getUser(TEST_PERSISTEDMAIL);
+		assertNotNull("User does not exist", gettedUser);
+		assertEquals("User is not equal", persistedUser, gettedUser);
 	}
 
 	/**
@@ -70,13 +84,14 @@ public class UserDAOImplTest {
 	 */
 	@Test
 	public void testDeleteUser() {
-		User user = users.insertUser(TEST_EMAIL1, TEST_PW1);
-		assertNotNull(user);
+		User user = users.getUser(TEST_PERSISTEDMAIL);
+		assertNotNull("User did not exist", user);
+		user = null;
 
-		users.deleteUser(TEST_EMAIL1);
+		users.deleteUser(TEST_PERSISTEDMAIL);
 
-		User gettedUser = users.getUser(TEST_EMAIL1);
-		assertNull(gettedUser);
+		User gettedUser = users.getUser(TEST_PERSISTEDMAIL);
+		assertNull("User was not deleted", gettedUser);
 	}
 
 }

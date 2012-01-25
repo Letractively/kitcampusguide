@@ -45,7 +45,10 @@ public class RoomFinder extends FacilityFinder {
 		if (facilities == null || facilities.isEmpty()) {
 			return new LinkedHashSet<Room>();
 		}
-		String[] searchText = roomQuery.getSearchText().toLowerCase().split("\\s+");
+		String[] searchText = null;
+		if (roomQuery.getSearchText() != null) {
+			searchText = roomQuery.getSearchText().toLowerCase().split("\\s+");
+		}
 		int minWorkpl = roomQuery.getMinimumWorkplaces();
 		LinkedHashSet<Room> result = new LinkedHashSet<Room>(facilities.size() / 6);
 		// check all facilities for the requested options
@@ -74,7 +77,7 @@ public class RoomFinder extends FacilityFinder {
 				}
 			}
 
-			if (add) {
+			if (add && searchText != null) {
 				// check for search text
 				String search = "";
 				if (r.getParentFacility() instanceof Building) {
