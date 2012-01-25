@@ -3,7 +3,6 @@ package edu.kit.pse.ass.facility.management;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -16,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -119,14 +119,14 @@ public class FacilityManagementImplTest {
 	@Test
 	public void testGetFacility() throws IllegalArgumentException, FacilityNotFoundException {
 		// check for right input
-		assertNotNull(FACILITYID);
-		assertFalse(FACILITYID.isEmpty());
+		assertNotNull("No facility given", FACILITYID);
+		assertFalse("No facility given", FACILITYID.isEmpty());
 		// try to get facility
 		Facility result = facilityManagement.getFacility(FACILITYID);
 		// a facility should be returned
 		assertNotNull(result);
 		// assert the correct facility was returned
-		assertEquals(FACILITYID, result.getId());
+		assertEquals("Wrong facility ID", FACILITYID, result.getId());
 		assertTrue("result has no wlan", result.hasInheritedProperty(new Property("WLAN")));
 		assertTrue("result has not enough workplaces", result.getContainedFacilities().size() == 3);
 	}
@@ -169,31 +169,31 @@ public class FacilityManagementImplTest {
 		}
 	}
 
+	@Test
+	@ExpectedException(IllegalArgumentException.class)
+	public void testGetAvailablePropertisOfWrongParameters() {
+		facilityManagement.getAvailablePropertiesOf(null);
+	}
+
 	/**
 	 * Test get available properties of.
 	 */
 	@Test
-	public void testGetAvailablePropertisOf() {
-		Collection<Property> result = null;
-		try {
-			// throw error or return null if parameter is null
-			assertNull("Accepted wrong parameters.", facilityManagement.getAvailablePropertiesOf(null));
-		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
-		}
-		result = facilityManagement.getAvailablePropertiesOf(Room.class);
-		assertTrue(facilityManagement.getAvailablePropertiesOf(Building.class).contains(FIND_PROPERTIES.get(0)));
-		assertFalse(facilityManagement.getAvailablePropertiesOf(Building.class).contains(FIND_PROPERTIES.get(1)));
-		// buildings only have wlan
-		result = facilityManagement.getAvailablePropertiesOf(Building.class);
+	public void testGetAvailablePropertiesOfBuilding() {
+		Collection<Property> result = facilityManagement.getAvailablePropertiesOf(Building.class);
 		assertNotNull("Result is null", result);
-		assertTrue(result.contains(FIND_PROPERTIES.get(0)));
-		assertFalse(facilityManagement.getAvailablePropertiesOf(Building.class).contains(FIND_PROPERTIES.get(1)));
-		result = null;
+		assertTrue("Property missing", result.contains(FIND_PROPERTIES.get(0)));
+		assertFalse("Wrong Property found", result.contains(FIND_PROPERTIES.get(1)));
+	}
+
+	@Test
+	public void testGetAvailablePropertiesOfRoom() {
+		Collection<Property> result = null;
 		result = facilityManagement.getAvailablePropertiesOf(Room.class);
 		// something should be returned
 		assertNotNull("Result is null", result);
 		// assert the correct properties are returned
-		assertTrue(result.containsAll(ALL_ROOM_PROPERTIES));
+		assertTrue("Missing properties or too many",
+				result.size() == ALL_ROOM_PROPERTIES.size() && result.containsAll(ALL_ROOM_PROPERTIES));
 	}
 }

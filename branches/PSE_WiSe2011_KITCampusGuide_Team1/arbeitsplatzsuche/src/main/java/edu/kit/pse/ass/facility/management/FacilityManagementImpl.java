@@ -80,6 +80,9 @@ public class FacilityManagementImpl implements FacilityManagement {
 	 */
 	@Override
 	public Collection<Property> getAvailablePropertiesOf(Class<? extends Facility> facilityClass) {
+		if (facilityClass == null) {
+			throw new IllegalArgumentException("class was null");
+		}
 		return facilityDAO.getAvailablePropertiesOf(facilityClass);
 	}
 
