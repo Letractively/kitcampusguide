@@ -293,7 +293,7 @@ public class RoomDetailController extends MainController {
 						calendarParamModel.getStart(), calendarParamModel.getEnd());
 				for (Reservation r : reservations) {
 					JSONObject o = new JSONObject();
-					o.put("id", r.getId());
+					o.put("id", r.getId() + fac.getId());
 					o.put("start", r.getStartTime().getTime());
 					o.put("end", r.getEndTime().getTime());
 					o.put("title", title);
