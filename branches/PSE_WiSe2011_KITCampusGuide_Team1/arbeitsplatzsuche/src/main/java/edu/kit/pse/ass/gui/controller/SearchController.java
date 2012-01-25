@@ -71,11 +71,12 @@ public class SearchController extends MainController {
 	 * @return the view path
 	 */
 	@RequestMapping(value = "search/advanced.html")
-	public String setUpAdvancedSearch(Model model, @ModelAttribute SearchFormModel searchFormModel) {
+	public String setUpAdvancedSearch(Model model, @ModelAttribute SearchFormModel searchFormModel,
+			@ModelAttribute SearchFilterModel searchFilterModel) {
 
 		prefillSearchForm(model, searchFormModel);
 
-		model.addAttribute("searchFilterModel", new SearchFilterModel());
+		model.addAttribute("searchFilterModel", searchFilterModel);
 		model.addAttribute("filterList", facilityManagement.getAvailablePropertiesOf(Room.class));
 
 		// Additional CSS / JS files

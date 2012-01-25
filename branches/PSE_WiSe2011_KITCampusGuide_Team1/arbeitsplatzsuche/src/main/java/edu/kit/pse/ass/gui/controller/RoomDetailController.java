@@ -3,6 +3,7 @@ package edu.kit.pse.ass.gui.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 
 import javax.inject.Inject;
@@ -16,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -87,9 +90,10 @@ public class RoomDetailController extends MainController {
 	 */
 	@RequestMapping(value = "room/{roomId}/details.html", method = { RequestMethod.POST })
 	public String book(@PathVariable("roomId") String roomId, Model model,
-			@ModelAttribute BookingFormModel bookingFormModel) {
+			@ModelAttribute BookingFormModel bookingFormModel, @ModelAttribute SearchFormModel searchFormModel,
+			@ModelAttribute SearchFilterModel searchFilterModel) {
 
-		String returnedView = setUpRoomDetailModel(model, roomId, new SearchFormModel(), new SearchFilterModel());
+		String returnedView = setUpRoomDetailModel(model, roomId, searchFormModel, searchFilterModel);
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String userID = auth.getName();
@@ -164,6 +168,7 @@ public class RoomDetailController extends MainController {
 			model.addAttribute("jsFiles", jsFiles);
 
 			model.addAttribute("icons", new PropertyIconMap());
+			model.addAttribute("filters", searchFilterModel.getFilters());
 
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
