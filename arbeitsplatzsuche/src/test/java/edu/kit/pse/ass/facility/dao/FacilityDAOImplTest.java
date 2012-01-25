@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
@@ -24,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
-import edu.kit.pse.ass.testdata.TestData;
+import edu.kit.pse.ass.entity.Workplace;
 
 /**
  * The Class FacilityDAOImplTest.
@@ -39,108 +40,178 @@ import edu.kit.pse.ass.testdata.TestData;
 public class FacilityDAOImplTest {
 
 	@Autowired
-	private FacilityDAO facilityDAO;
-
-	private Facility persistedFacility;
-
-	private Property propWlan;
-
-	private Collection<Facility> facsWithWlan;
+	private JpaTemplate jpaTemplate;
 
 	@Autowired
-	private TestData testData;
+	private FacilityDAO facilityDAO;
 
-	private TestData.DummyFacilities dummyFacilities;
+	private Facility persistedRoom1;
+
+	private Facility persistedRoom2;
+
+	private Property propertyWLAN;
+
+	private Collection<Facility> roomsWithWLAN;
 
 	/**
 	 * Sets the up.
 	 */
 	@Before
 	public void setUp() {
-		dummyFacilities = testData.facilityFillWithDummies();
-		propWlan = new Property("WLAN");
+		propertyWLAN = new Property("WLAN");
 
-		facsWithWlan = new ArrayList<Facility>();
-		for (Facility f : dummyFacilities.rooms) {
-			if (f.hasProperty(propWlan)) {
-				facsWithWlan.add(f);
-			}
-		}
-		persistedFacility = dummyFacilities.rooms.get(0);
+		// create 2 new rooms with WLAN and persist them in jpaTemplate
+		persistedRoom1 = new Room();
+		persistedRoom1.addProperty(propertyWLAN);
+		jpaTemplate.persist(persistedRoom1);
+
+		persistedRoom2 = new Room();
+		persistedRoom2.addProperty(propertyWLAN);
+		jpaTemplate.persist(persistedRoom2);
+
+		// add this rooms to Collection roomsWithWLAN
+		roomsWithWLAN = new ArrayList<Facility>();
+		roomsWithWLAN.add(persistedRoom1);
+		roomsWithWLAN.add(persistedRoom2);
 	}
 
 	/**
-	 * Tests getFacility() with wrong parameters.
+	 * Tests getFacility() with null parameter.
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testGetFacilityWithWrongParameters() {
+	public void testGetFacilityWithNullParameter() {
 		facilityDAO.getFacility(null);
 	}
 
 	/**
-	 * Test getFacility() if this methode returns the right Object.
+	 * Tests getFacility() with empty parameter.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetFacilityWithEmptyParameter() {
+		facilityDAO.getFacility("");
+	}
+
+	/**
+	 * Tests getFacility() with parameter that leads to a return equal null.
 	 */
 	@Test
-	public void testGetFacilityRightFacilityIsReturned() {
-		Facility result = null;
+	public void testGetFacilityWithNotExistingParameter() {
+		assertNull("There should not be a facility with this ID. Really!", facilityDAO.getFacility("INVALID"));
+	}
 
-		result = facilityDAO.getFacility(persistedFacility.getId());
-		// a facility should be returned
-		assertNotNull("no facility found", result);
+	/**
+	 * Test getFacility() whether this method returns the right object.
+	 */
+	@Test
+	public void testGetFacilityWithValidParameter() {
+		// get a persisted room with getFacility() via his ID
+		Facility result = facilityDAO.getFacility(persistedRoom1.getId());
+
+		// at least any facility should be returned
+		assertNotNull("No facility found despite it was added before.", result);
 
 		// ensure the right facility is returned
+		// check class of result
 		assertTrue("facility is not a Room", result instanceof Room);
-		assertEquals("ID of facility is wrong", persistedFacility.getId(), result.getId());
-		assertEquals("containedFacilities are different", persistedFacility.getContainedFacilities().size(),
-				result.getContainedFacilities().size());
+
+		// check ID of result
+		assertEquals("ID of facility is wrong", persistedRoom1.getId(), result.getId());
+
+		// check children of result
+		assertEquals("containedFacilities are different", persistedRoom1.getContainedFacilities().size(), result
+				.getContainedFacilities().size());
 		assertTrue("containedFacilities are different",
-				result.getContainedFacilities().containsAll(persistedFacility.getContainedFacilities()));
-		assertTrue("properties are different",
-				result.getProperties().containsAll(persistedFacility.getProperties()));
-		assertTrue("Wrong facility returned.", persistedFacility.equals(result));
+				result.getContainedFacilities().containsAll(persistedRoom1.getContainedFacilities()));
+
+		// check properties of result
+		assertTrue("properties are different", result.getProperties().containsAll(persistedRoom1.getProperties()));
+
+		// check if result is equal
+		assertTrue("Wrong facility returned.", persistedRoom1.equals(result));
 	}
 
 	/**
-	 * Test get facilities.
+	 * Tests getAvailablePropertiesOf() with null parameter.
 	 */
-	@Test
-	public void testGetFacilities() {
-		Collection<Facility> result = null;
-		try {
-			// throw error or return null if parameter is null
-			assertNull(facilityDAO.getAllFacilities(null));
-		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
-		}
-		result = facilityDAO.getFacilities(Arrays.asList(propWlan));
-		// facilities should be returned
-		assertNotNull("no facilities found (NULL)", result);
-		// facilities should be returned
-		assertFalse("no facilities found (EMPTY)", result.isEmpty());
-		// ensure the right facilities are returned
-		assertTrue("not all facilities found", result.containsAll(facsWithWlan));
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetAvailablePropertiesOfWithNullParameter() {
+		facilityDAO.getAvailablePropertiesOf(null);
 	}
 
 	/**
-	 * Test get available properties of.
+	 * Tests getAvailablePropertiesOf() with parameter that leads to a return equal null.
 	 */
 	@Test
-	public void testGetAvailablePropertiesOf() {
-		Collection<Property> result = null;
-		Collection<Property> expected = new ArrayList<Property>();
-		expected.add(new Property("WLAN"));
-		expected.add(new Property("Steckdose"));
-		try {
-			// throw error or return null if parameter is null
-			assertNull(facilityDAO.getAvailablePropertiesOf(null));
+	public void testGetAvailablePropertiesOfNotExistingParameter() {
+		assertNull("There should not be a workingplace, thus no properties neither",
+				facilityDAO.getAvailablePropertiesOf(Workplace.class));
+	}
 
-		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
-		}
-		result = facilityDAO.getAvailablePropertiesOf(Room.class);
+	/**
+	 * Test getAvailablePropertiesOf() with valid parameter.
+	 */
+	@Test
+	public void testGetAvailablePropertiesOfWithValidParameter() {
+		Collection<Property> result = facilityDAO.getAvailablePropertiesOf(Room.class);
+
 		// properties should be returned
-		assertNotNull("no properties", result);
-		// ensure all properties are returned
-		assertTrue("not all properties", result.containsAll(expected));
+		assertFalse("The properties were not found.", result.isEmpty());
+
+		// ensure the right properties are returned
+		assertTrue("The 2 Collection<Property> should have same size.",
+				persistedRoom1.getProperties().size() == result.size());
+		assertTrue("More properties as intended were found.", persistedRoom1.getProperties().containsAll(result));
+		assertTrue("Not all properties were found.", result.containsAll(persistedRoom1.getProperties()));
+		assertTrue("The found properties do not match the existing ones.",
+				result.equals(persistedRoom1.getProperties()));
+
+	}
+
+	/**
+	 * Tests getFacilities with null parameter.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetFacilitiesWithNullParameter() {
+		facilityDAO.getFacilities(null);
+	}
+
+	/**
+	 * Tests getFacilities() with empty parameter.
+	 */
+	public void testGetFacilitiesWithEmptyParameter() {
+		assertNull(facilityDAO.getFacilities(new ArrayList<Property>()));
+	}
+
+	/**
+	 * Tests getFacilities() with property parameter that should lead to a result equal null.
+	 */
+	@Test
+	public void testGetFacilitiesWithNotExistingProperty() {
+		Property propertyToillet = new Property();
+		propertyToillet.setName("Toillet");
+
+		Collection<Facility> result = facilityDAO.getFacilities(Arrays.asList(propertyToillet));
+
+		assertNotNull("getFacilities() should have returned an empty collection.", result);
+		assertTrue("There should not be any facilities with this property", result.isEmpty());
+	}
+
+	/**
+	 * Tests getFacilities() with valid parameter.
+	 */
+	@Test
+	public void testGetFacilitiesWithValidParameter() {
+		Collection<Facility> result = facilityDAO.getFacilities(Arrays.asList(propertyWLAN));
+
+		// here you should only get rooms, because nothing else was added
+
+		// at least any facilities/rooms should be returned
+		assertNotNull("No facilities found.", result);
+		assertFalse("Not one facility found.", result.isEmpty());
+
+		// ensure the right facilities are returned
+		assertTrue("Not all facilities were found.", result.containsAll(roomsWithWLAN));
+		assertTrue("Too many facilities were returned.", roomsWithWLAN.containsAll(result));
+		assertTrue("Wrong facilities were returned.", roomsWithWLAN.equals(result));
 	}
 }
