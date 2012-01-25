@@ -129,11 +129,6 @@ public class SearchController extends MainController {
 		// Get DataTable Parameters
 		DataTableParamModel parameters = new DataTableParamModel(request);
 
-		// Find free rooms
-		if (searchFilterModel.getFilters() == null) {
-			searchFilterModel.setFilters(new ArrayList<Property>());
-		}
-
 		FreeRoomQuery roomQuery = new FreeRoomQuery(searchFilterModel.getFilters(),
 				searchFormModel.getSearchText(), searchFormModel.getWorkplaceCount());
 		Collection<FreeFacilityResult> searchResultsCollection = bookingManagement.findFreeFacilites(roomQuery,
