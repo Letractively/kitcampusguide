@@ -78,7 +78,7 @@
 			<input type="hidden" name="filters" value="${filter}" />
 		</c:forEach>
 		<input type="hidden" name="_filters" value="on" />
-		<input type='submit' value="Zurück zu den Suchergebnissen">
+		<input type='submit' value="<spring:message code="book.backToSearch" />" class="back">
 	</form:form>
 
 	<div class="right">

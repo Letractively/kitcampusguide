@@ -169,7 +169,7 @@ div.header2 div.right{
 
 div.header2 div.right h1{
 	padding: 10px 10px;
-	font-size: 18px;
+	font-size: 20px;
 }
 
 strong{
@@ -178,7 +178,7 @@ strong{
 
 h2{
 	margin: 10px 0 5px 0;
-	font-weight: bold;
+	font-weight: bold; 
 }
 
 #resultTable tbody tr{
@@ -263,6 +263,10 @@ ul{
 }
 li{
 	padding-left: 5px;
+}
+
+input.back{
+	margin: 15px;
 }
 
 
