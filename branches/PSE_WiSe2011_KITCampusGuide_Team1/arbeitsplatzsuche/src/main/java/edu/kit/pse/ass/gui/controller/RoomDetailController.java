@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import edu.kit.pse.ass.booking.management.BookingManagement;
 import edu.kit.pse.ass.booking.management.BookingNotAllowedException;
 import edu.kit.pse.ass.booking.management.FacilityNotFreeException;
+import edu.kit.pse.ass.booking.management.IllegalDateException;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Reservation;
@@ -129,6 +130,9 @@ public class RoomDetailController extends MainController {
 				returnedView = handleIllegalRequest(e);
 			} catch (BookingNotAllowedException e) {
 				model.addAttribute("hasBookingAtTime", true);
+				e.printStackTrace();
+			} catch (IllegalDateException e) {
+				model.addAttribute("illegalDate", true);
 				e.printStackTrace();
 			}
 		} else {

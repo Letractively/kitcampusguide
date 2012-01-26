@@ -113,6 +113,11 @@
 			<spring:message code="book.error.hasBookingAtTime" />
 		</div>
 	</c:if>
+	<c:if test="${illegalDate}">
+		<div class="msg-error">
+			<spring:message code="book.error.illegalDate" />
+		</div>
+	</c:if>
 	<form:form method="post" commandName="bookingFormModel"
 		action="${pageContext.request.contextPath}/room/${room.id}/details.html"
 		id="searchForm">
