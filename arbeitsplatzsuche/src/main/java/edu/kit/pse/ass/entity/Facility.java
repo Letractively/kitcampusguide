@@ -24,7 +24,6 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Facility.
  * 
@@ -63,7 +62,8 @@ public class Facility {
 	 * the properties of this facility. e.g. WLAN, Strom, PC
 	 */
 	@ManyToMany(targetEntity = Property.class, cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
-	@JoinTable(name = "T_FACILITY_T_PROPERTY", joinColumns = { @JoinColumn(name = "PROPERTY_NAME") }, inverseJoinColumns = { @JoinColumn(name = "FACILITY_ID") })
+	@JoinTable(name = "T_FACILITY_T_PROPERTY", joinColumns = { @JoinColumn(name = "PROPERTY_NAME") },
+			inverseJoinColumns = { @JoinColumn(name = "FACILITY_ID") })
 	private Collection<Property> properties;
 
 	/**
@@ -153,7 +153,15 @@ public class Facility {
 		return containedFacilities;
 	}
 
-	public void setContainedFacilities(Collection<Facility> facilities) {
+	/**
+	 * Removes all current contained facilities and adds the specified facilities.
+	 * 
+	 * @param facilities
+	 *            the facilities to set
+	 * @throws IllegalArgumentException
+	 *             parameter is null.
+	 */
+	public void addContainedFacilities(Collection<Facility> facilities) throws IllegalArgumentException {
 		if (facilities == null) {
 			throw new IllegalArgumentException("facilities is null");
 		}
@@ -202,7 +210,7 @@ public class Facility {
 			} catch (UnsupportedOperationException e) {
 				ArrayList<Facility> facilities = new ArrayList<Facility>(containedFacilities);
 				facilities.remove(removedFacility);
-				this.setContainedFacilities(facilities);
+				this.addContainedFacilities(facilities);
 			}
 		} else {
 			throw new IllegalArgumentException("the facility to remove is not contained in this facility");
@@ -218,6 +226,12 @@ public class Facility {
 		return properties;
 	}
 
+	/**
+	 * Remove all current properties of the facility and adds the specified.
+	 * 
+	 * @param properties
+	 *            the properties to set. if properties is null, all properties of the facility are only removed.
+	 */
 	public void setProperties(Collection<Property> properties) {
 		if (properties == null) {
 			this.properties = new ArrayList<Property>();
@@ -240,6 +254,9 @@ public class Facility {
 		}
 	}
 
+	/**
+	 * @return all properties of this facility and all properties of all parents.
+	 */
 	public Collection<Property> getInheritedProperties() {
 		LinkedHashSet<Property> properties = new LinkedHashSet<Property>(this.properties);
 		if (getParentFacility() != null) {
@@ -248,6 +265,11 @@ public class Facility {
 		return properties;
 	}
 
+	/**
+	 * @param property
+	 *            the property to check
+	 * @return true, when the facility have this property or one of its parents.
+	 */
 	public boolean hasInheritedProperty(Property property) {
 		if (this.properties.contains(property)) {
 			return true;
@@ -258,6 +280,12 @@ public class Facility {
 		}
 	}
 
+	// TODO clean code: a for loop would be better to read.
+	/**
+	 * @param properties
+	 *            the properties to check
+	 * @return true, when all specified properties are owned be this facility or one of its parents.
+	 */
 	public boolean hasInheritedProperties(Collection<Property> properties) {
 		if (this.properties.containsAll(properties)) {
 			return true;

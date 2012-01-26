@@ -10,8 +10,17 @@ import edu.kit.pse.ass.entity.Room;
 import edu.kit.pse.ass.facility.management.FacilityNotFoundException;
 import edu.kit.pse.ass.facility.management.RoomQuery;
 
+/**
+ * @author ???
+ * This class represents a room query.
+ */
 public class FreeRoomQuery extends RoomQuery implements FreeFacilityQuery {
 
+	/**
+	 * @param properties the properties the workplaces should have.
+	 * @param searchText the search text to search for.
+	 * @param minimumWorkplaces the amount of places to search for.
+	 */
 	public FreeRoomQuery(Collection<Property> properties, String searchText, int minimumWorkplaces) {
 		super(properties, searchText, minimumWorkplaces);
 	}
@@ -23,7 +32,7 @@ public class FreeRoomQuery extends RoomQuery implements FreeFacilityQuery {
 			throw new IllegalArgumentException("at least one parameter is null.");
 		}
 		if (!(facility instanceof Room)) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("The facility must be a room.");
 		}
 
 		// check if enough fitting workplaces are free
@@ -39,6 +48,8 @@ public class FreeRoomQuery extends RoomQuery implements FreeFacilityQuery {
 						}
 					}
 				} catch (FacilityNotFoundException e) {
+					//TODO
+					
 				}
 			}
 

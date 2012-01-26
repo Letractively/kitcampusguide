@@ -58,22 +58,18 @@ public class BookingDAOImpl implements BookingDAO {
 		Collection<Reservation> reservations = jpaTemplate.find(
 				"from t_reservation r WHERE r.bookingUserId LIKE ?", userID);
 
-		// TODO remove duplicate checks
-
 		// find matching reservations and add them to the result
 		for (Reservation tmp : reservations) {
-			if (tmp.getBookingUserId().equals(userID)) {
-				Date end = tmp.getEndTime();
-				Date start = tmp.getStartTime();
+			Date end = tmp.getEndTime();
+			Date start = tmp.getStartTime();
 
-				// time quantum starts before reservation ends
-				// and ends after reservation starts
-				if (start.before(upTo) && end.after(asFrom)) {
-					result.add(tmp);
-				}
+			// time quantum starts before reservation ends
+			// and ends after reservation starts
+			if (start.before(upTo) && end.after(asFrom)) {
+				result.add(tmp);
 			}
 		}
-
+		
 		return result;
 	}
 
@@ -87,32 +83,29 @@ public class BookingDAOImpl implements BookingDAO {
 	@Override
 	public Collection<Reservation> getReservationsOfFacility(String facilityID, Date asFrom, Date upTo)
 			throws IllegalArgumentException {
-		if (facilityID == null || facilityID.equals("") || asFrom == null || upTo == null) {
+		if (facilityID == null || facilityID.isEmpty() || asFrom == null || upTo == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
 		if (asFrom.after(upTo)) {
 			throw new IllegalArgumentException("start-date is after end-date");
 		}
+		
 		Collection<Reservation> result = new ArrayList<Reservation>();
 		Collection<Reservation> reservations = jpaTemplate.find(
 				"from t_reservation r WHERE ? IN elements(r.bookedFacilityIds)", facilityID);
 
-		// TODO remove duplicate checks
-
 		// find matching reservations and add them to the result
 		for (Reservation tmp : reservations) {
-			if (tmp.getBookedFacilityIds().contains(facilityID)) {
-				Date end = tmp.getEndTime();
-				Date start = tmp.getStartTime();
-
-				// time quantum starts before reservation ends
-				// and ends after reservation starts
-				if (start.before(upTo) && end.after(asFrom)) {
-					result.add(tmp);
-				}
+			Date end = tmp.getEndTime();
+			Date start = tmp.getStartTime();
+			
+			// time quantum starts before reservation ends
+			// and ends after reservation starts
+			if (start.before(upTo) && end.after(asFrom)) {
+				result.add(tmp);
 			}
+			
 		}
-
 		return result;
 	}
 
@@ -154,8 +147,8 @@ public class BookingDAOImpl implements BookingDAO {
 		if (reservation == null) {
 			throw new IllegalArgumentException("Reservation is null");
 		}
-		Reservation id = jpaTemplate.merge(reservation);
-		return id.getId();
+		Reservation newReservation = jpaTemplate.merge(reservation);
+		return newReservation.getId();
 	}
 
 	/*
