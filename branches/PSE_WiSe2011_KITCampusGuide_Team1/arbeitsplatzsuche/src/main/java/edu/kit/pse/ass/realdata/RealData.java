@@ -162,6 +162,9 @@ public class RealData {
 		for (Room tmp : rooms50341) {
 			building1.addContainedFacility(tmp);
 		}
+		for (Room tmp : rooms50342) {
+			building1.addContainedFacility(tmp);
+		}
 	}
 
 	private Building createPersistedBuilding(String name, String number, ArrayList<Property> properties) {
