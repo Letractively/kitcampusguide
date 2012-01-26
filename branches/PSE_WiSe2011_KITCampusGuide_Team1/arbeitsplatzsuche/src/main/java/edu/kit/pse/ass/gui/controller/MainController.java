@@ -29,6 +29,7 @@ public abstract class MainController {
 	 * sets up the page header
 	 * 
 	 * @param model
+	 *            the spring model
 	 */
 	protected void setUpHeader(Model model) {
 

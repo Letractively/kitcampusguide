@@ -3,7 +3,6 @@ package edu.kit.pse.ass.gui.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 
 import javax.inject.Inject;
@@ -17,8 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -87,6 +84,10 @@ public class RoomDetailController extends MainController {
 	 *            the spring model
 	 * @param bookingFormModel
 	 *            the BookingFormModel if filled at RoomDetailsPage
+	 * @param searchFormModel
+	 *            the SearchFormModel filled at AdvanceSearchPage
+	 * @param searchFilterModel
+	 *            the SearchFilterModel filled at AdvanceSearchPage
 	 * @return the view path
 	 */
 	@RequestMapping(value = "room/{roomId}/details.html", method = { RequestMethod.POST })
@@ -194,6 +195,7 @@ public class RoomDetailController extends MainController {
 	 * @param searchFormModel
 	 *            the SearchFormModel filled at the SearchPage
 	 */
+	@SuppressWarnings("unchecked")
 	private void setUpWorkplaceList(Model model, Room room, SearchFormModel searchFormModel,
 			SearchFilterModel searchFilterModel) {
 
@@ -318,15 +320,11 @@ public class RoomDetailController extends MainController {
 			response.setContentType("application/json");
 			response.getWriter().print(jsonResponse.toString());
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			response.setContentType("text/html");
-			// response.getWriter().print(e.getMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (FacilityNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
