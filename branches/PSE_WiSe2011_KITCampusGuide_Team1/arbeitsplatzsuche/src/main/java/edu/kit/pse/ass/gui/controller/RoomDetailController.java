@@ -1,17 +1,10 @@
 package edu.kit.pse.ass.gui.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.kit.pse.ass.booking.management.BookingManagement;
 import edu.kit.pse.ass.booking.management.BookingNotAllowedException;
@@ -35,6 +29,7 @@ import edu.kit.pse.ass.facility.management.FacilityNotFoundException;
 import edu.kit.pse.ass.gui.layout.PropertyIconMap;
 import edu.kit.pse.ass.gui.model.BookingFormModel;
 import edu.kit.pse.ass.gui.model.CalendarParamModel;
+import edu.kit.pse.ass.gui.model.Event;
 import edu.kit.pse.ass.gui.model.SearchFilterModel;
 import edu.kit.pse.ass.gui.model.SearchFormModel;
 
@@ -260,36 +255,28 @@ public class RoomDetailController extends MainController {
 	}
 
 	/**
-	 * Json return for the occupancy of the room
+	 * JSON return for the occupancy of the room
 	 * 
 	 * @param roomId
 	 *            the room id to show occupancy of
-	 * @param request
-	 *            the spring HttpServletRequest
-	 * @param response
-	 *            the spring HttpServletResponse
 	 * @param calendarParamModel
-	 *            the Parameters of the jquery calendar
+	 *            the Parameters of the jQuery calendar
+	 * @return JSON response: a list of events to display
 	 */
 	@RequestMapping(value = "room/{roomId}/calendar.html")
-	public void showBookableOccupancy(@PathVariable("roomId") String roomId, HttpServletRequest request,
-			HttpServletResponse response, @ModelAttribute CalendarParamModel calendarParamModel) {
+	public @ResponseBody
+	Collection<Event> showBookableOccupancy(@PathVariable("roomId") String roomId,
+			@ModelAttribute CalendarParamModel calendarParamModel) {
+
+		ArrayList<Event> events = new ArrayList<Event>();
 
 		Collection<Reservation> reservations = bookingManagement.listReservationsOfFacility(roomId,
 				calendarParamModel.getStart(), calendarParamModel.getEnd());
 		try {
 			Room room = facilityManagement.getFacility(Room.class, roomId);
 
-			// create JSON response
-			JSONArray events = new JSONArray();
-
 			for (Reservation r : reservations) {
-				JSONObject o = new JSONObject();
-				o.put("id", r.getId());
-				o.put("start", r.getStartTime().getTime());
-				o.put("end", r.getEndTime().getTime());
-				o.put("title", "Raum besetzt");
-				events.put(o);
+				events.add(new Event(r.getId(), r.getStartTime(), r.getEndTime(), "Raum besetzt"));
 			}
 
 			for (Facility fac : room.getContainedFacilities()) {
@@ -303,29 +290,14 @@ public class RoomDetailController extends MainController {
 				reservations = bookingManagement.listReservationsOfFacility(fac.getId(),
 						calendarParamModel.getStart(), calendarParamModel.getEnd());
 				for (Reservation r : reservations) {
-					JSONObject o = new JSONObject();
-					o.put("id", r.getId() + fac.getId());
-					o.put("start", r.getStartTime().getTime());
-					o.put("end", r.getEndTime().getTime());
-					o.put("title", title);
-					o.put("color", "yellow");
-					events.put(o);
+					events.add(new Event(r.getId() + fac.getId(), r.getStartTime(), r.getEndTime(), title));
 				}
 			}
 
-			JSONObject jsonResponse = new JSONObject();
-
-			jsonResponse.put("events", events);
-
-			response.setContentType("application/json");
-			response.getWriter().print(jsonResponse.toString());
-		} catch (JSONException e) {
-			e.printStackTrace();
-			response.setContentType("text/html");
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (FacilityNotFoundException e) {
 			e.printStackTrace();
 		}
+
+		return events;
 	}
 }
