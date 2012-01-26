@@ -21,6 +21,7 @@ import edu.kit.pse.ass.user.management.UserManagement;
 @Controller
 public class RegisterController extends MainController {
 
+	/** The user management. */
 	@Inject
 	UserManagement userManagement;
 
@@ -42,6 +43,10 @@ public class RegisterController extends MainController {
 	 * 
 	 * @param model
 	 *            the model
+	 * @param user
+	 *            the user data of the register form
+	 * @param userResult
+	 *            binding result for errors
 	 * @return the view
 	 */
 	@RequestMapping(value = "register.html", method = RequestMethod.POST)

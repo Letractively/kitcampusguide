@@ -68,6 +68,8 @@ public class SearchController extends MainController {
 	 *            the SearchFormModel filled at the SimpleSearchPage or AdvancedSearchPage.
 	 * @param model
 	 *            the spring model
+	 * @param searchFilterModel
+	 *            the SearchFilterModel filled at the AdvancedSearchPage.
 	 * @return the view path
 	 */
 	@RequestMapping(value = "search/advanced.html")
@@ -85,9 +87,6 @@ public class SearchController extends MainController {
 		String[] jsFiles = { "/libs/datatables/jquery.dataTables.min.js", "/scripts/advancedSearch.js" };
 		model.addAttribute("cssFiles", cssFiles);
 		model.addAttribute("jsFiles", jsFiles);
-
-		// TODO workplace properties
-
 		return "search/advanced";
 	}
 

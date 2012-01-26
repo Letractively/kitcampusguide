@@ -322,7 +322,7 @@ public class ReservationController extends MainController {
 
 		try {
 			// check if reservation exists
-			Reservation reservation = bookingManagement.getReservation(reservationID);
+			bookingManagement.getReservation(reservationID);
 
 			bookingManagement.deleteReservation(reservationID);
 
