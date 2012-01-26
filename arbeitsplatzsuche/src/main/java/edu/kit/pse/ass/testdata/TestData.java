@@ -124,10 +124,14 @@ public class TestData {
 		List<User> allUsers = dummyusers.users;
 		// the start dates
 		List<GregorianCalendar> start = Arrays.asList(new GregorianCalendar(2012, 1, 1, 9, 0),
-				new GregorianCalendar(2012, 1, 1, 12, 0), new GregorianCalendar(2012, 1, 1, 15, 0));
+				new GregorianCalendar(2012, 1, 1, 12, 0), new GregorianCalendar(2012, 1, 1, 15, 0),
+				new GregorianCalendar(2012, 1, 1, 9, 0), new GregorianCalendar(2012, 1, 1, 12, 0),
+				new GregorianCalendar(2012, 1, 1, 15, 0));
 		// the end dates, all of them after the latest start
 		List<GregorianCalendar> end = Arrays.asList(new GregorianCalendar(2012, 1, 1, 11, 0),
-				new GregorianCalendar(2012, 1, 1, 14, 0), new GregorianCalendar(2012, 1, 1, 17, 0));
+				new GregorianCalendar(2012, 1, 1, 14, 0), new GregorianCalendar(2012, 1, 1, 17, 0),
+				new GregorianCalendar(2012, 1, 1, 11, 0), new GregorianCalendar(2012, 1, 1, 14, 0),
+				new GregorianCalendar(2012, 1, 1, 17, 0));
 		int i = 0;
 		// create reservations and persist them
 		int[] sizes = { allWorkplaces.size(), allUsers.size(), start.size(), end.size() };
