@@ -23,52 +23,45 @@ public class BookingPermissionEvaluatorImpl implements PermissionEvaluator {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.springframework.security.access.PermissionEvaluator#hasPermission
-	 * (org.springframework.security.core.Authentication, java.lang.Object,
-	 * java.lang.Object)
+	 * @see org.springframework.security.access.PermissionEvaluator#hasPermission
+	 * (org.springframework.security.core.Authentication, java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public boolean hasPermission(Authentication authentication,
-			Object targetDomainObject, Object permission) {
+	public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.springframework.security.access.PermissionEvaluator#hasPermission
-	 * (org.springframework.security.core.Authentication, java.io.Serializable,
-	 * java.lang.String, java.lang.Object)
+	 * @see org.springframework.security.access.PermissionEvaluator#hasPermission
+	 * (org.springframework.security.core.Authentication, java.io.Serializable, java.lang.String, java.lang.Object)
 	 */
 	@Override
-	public boolean hasPermission(Authentication authentication,
-			Serializable targetId, String targetType, Object permission) {
-		if (targetId == null
-				|| (targetId instanceof String && ((String) targetId).isEmpty())) {
+	public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType,
+			Object permission) {
+		if (targetId == null || (targetId instanceof String && ((String) targetId).isEmpty())) {
 			return false;
 		}
-		if (targetType.equalsIgnoreCase("Booking")) {
-			// allow anyone to edit their own bookings
-			if (permission.equals("edit") || permission.equals("delete")
-					|| permission.equals("view")) {
-				Reservation resv;
-				try {
-					resv = bookingDAO.getReservation(targetId.toString());
-				} catch (IllegalArgumentException e) {
-					// if ID does not exist, then allow access for proper error
-					// handling
-					return true;
-				} catch (DataRetrievalFailureException e) {
-					return true;
-				}
-				if (authentication.getName().equals(resv.getBookingUserId())) {
-					return true;
-				}
-			}
 
+		// allow anyone to edit their own bookings
+		if (targetType.equalsIgnoreCase("Booking")
+				&& (permission.equals("edit") || permission.equals("delete") || permission.equals("view"))) {
+			Reservation resv;
+			try {
+				resv = bookingDAO.getReservation(targetId.toString());
+			} catch (IllegalArgumentException e) {
+				// if ID does not exist, then allow access for proper error
+				// handling
+				return true;
+			} catch (DataRetrievalFailureException e) {
+				return true;
+			}
+			if (authentication.getName().equals(resv.getBookingUserId())) {
+				return true;
+			}
 		}
+
 		return false;
 	}
 }
