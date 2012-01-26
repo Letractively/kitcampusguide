@@ -129,7 +129,7 @@
 			gewählte Arbeitsplätze (<span class="workplaceCount"></span>)<br />
 			<input type='submit' value='Reservieren'>
 			<%-- Pass searchformModel attributes for back link --%>
-			<input type="hidden" name="searchFormModel" value="searchFormModel.searchText" />
+			<input type="hidden" name="searchText" value="${searchFormModel.searchText}" />
 			<c:forEach var="filter" items="${filters}" varStatus="status">
 				<input type="hidden" name="filters" value="${filter}" />
 			</c:forEach>
