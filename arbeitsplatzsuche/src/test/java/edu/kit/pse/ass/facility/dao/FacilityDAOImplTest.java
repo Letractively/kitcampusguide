@@ -143,7 +143,7 @@ public class FacilityDAOImplTest {
 	 */
 	@Test
 	public void testGetAvailablePropertiesOfNotExistingParameter() {
-		assertNull("There should not be a workingplace, thus no properties neither",
+		assertNull("There should not be a workingplace, thus no properties neither.",
 				facilityDAO.getAvailablePropertiesOf(Workplace.class));
 	}
 
@@ -162,9 +162,6 @@ public class FacilityDAOImplTest {
 				persistedRoom1.getProperties().size() == result.size());
 		assertTrue("More properties as intended were found.", persistedRoom1.getProperties().containsAll(result));
 		assertTrue("Not all properties were found.", result.containsAll(persistedRoom1.getProperties()));
-		assertTrue("The found properties do not match the existing ones.",
-				result.equals(persistedRoom1.getProperties()));
-
 	}
 
 	/**
