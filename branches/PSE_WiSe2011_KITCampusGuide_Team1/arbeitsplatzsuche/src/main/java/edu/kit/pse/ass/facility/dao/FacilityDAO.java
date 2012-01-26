@@ -80,6 +80,11 @@ public interface FacilityDAO {
 	 */
 	void persist(Facility facility);
 
-	public <T extends Facility> Collection<T> getAllFacilities(Class<T> facilityClass);
+	/**
+	 * @param <T> the facilityClass have to be a facility.
+	 * @param facilityClass the class to search for.
+	 * @return all facilities of the specified class, e.g. Room
+	 */
+	<T extends Facility> Collection<T> getAllFacilities(Class<T> facilityClass);
 
 }

@@ -89,6 +89,7 @@ public class TestData {
 
 	/**
 	 * User fill with dummies.
+	 * @return dummy users
 	 */
 	@Transactional
 	public DummyUsers userFillWithDummies() {
@@ -114,6 +115,11 @@ public class TestData {
 		return dummies;
 	}
 
+	/**
+	 * @param facilities the facilities to generate bookings for.
+	 * @param dummyusers the users to generate bookings for.
+	 * @return the ids of the generated reservations.
+	 */
 	@Transactional
 	public List<String> bookingFillWithDummies(DummyFacilities facilities, DummyUsers dummyusers) {
 		// the reservations IDs
@@ -316,7 +322,9 @@ public class TestData {
 			t.setName(name);
 			t = jpaTemplate.merge(t);
 		} catch (InstantiationException e) {
+			//TODO
 		} catch (IllegalAccessException e) {
+			//TODO
 		}
 		return t;
 	}

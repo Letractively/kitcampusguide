@@ -34,10 +34,11 @@ public interface BookingManagement {
 	 *             a given parameter is null or invalid
 	 * @throws BookingNotAllowedException
 	 *             the reservation is not allowed
+	 * @throws IllegalDateException a date is in the past.
 	 */
 	String book(String userID, Collection<String> facilityIDs, Date startDate, Date endDate)
 			throws FacilityNotFreeException, IllegalArgumentException, FacilityNotFoundException,
-			BookingNotAllowedException;
+			BookingNotAllowedException, IllegalDateException;
 
 	/**
 	 * List reservations of user.

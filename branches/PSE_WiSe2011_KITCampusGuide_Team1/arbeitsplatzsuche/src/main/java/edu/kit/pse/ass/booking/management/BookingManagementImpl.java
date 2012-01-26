@@ -1,6 +1,7 @@
 package edu.kit.pse.ass.booking.management;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -16,7 +17,6 @@ import edu.kit.pse.ass.facility.management.FacilityManagement;
 import edu.kit.pse.ass.facility.management.FacilityNotFoundException;
 import edu.kit.pse.ass.facility.management.FacilityQuery;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BookingManagementImpl.
  */
@@ -37,24 +37,29 @@ public class BookingManagementImpl implements BookingManagement {
 	 * java.util.Date, java.util.Date)
 	 */
 	@Override
-	// TODO: Does not work!
-	// @Secured({ "ROLE_STUDENT", "ROLE_TUTOR" })
 	@Transactional
 	public String book(String userID, Collection<String> facilityIDs, Date startDate, Date endDate)
 			throws FacilityNotFreeException, IllegalArgumentException, FacilityNotFoundException,
-			BookingNotAllowedException {
+			BookingNotAllowedException, IllegalDateException {
 		// check given dates
-		if ((startDate == null) || (endDate == null) || (startDate.after(endDate))) {
-			throw new IllegalArgumentException(
-					"The start date has to be before the end date and both must not be null.");
+		if ((startDate == null) || (endDate == null)) {
+			throw new IllegalArgumentException("start or end date is null");
+		}
+		if (startDate.after(endDate)) {
+			throw new IllegalArgumentException("The start date has to be before end date.");
+		}
+		Date now = Calendar.getInstance().getTime();
+		if (startDate.before(now)) {
+			throw new IllegalDateException("start date is in the past.");
 		}
 
 		// check user
-		if (userID == null || userID.equals("")) {
+		if (userID == null || userID.isEmpty()) {
 			throw new IllegalArgumentException("userID must be not null and not empty.");
 		}
+		
+		//check user reservations
 		Collection<Reservation> userReservations = bookingDAO.getReservationsOfUser(userID, startDate, endDate);
-
 		if (userReservations.size() > 0) {
 			throw new BookingNotAllowedException(userID, "The user has a reservation at the same time");
 		}
@@ -64,8 +69,12 @@ public class BookingManagementImpl implements BookingManagement {
 			throw new IllegalArgumentException("facilityIDs must be not null and not be empty.");
 		}
 		for (String tmpID : facilityIDs) {
-			if (isFacilityFree(tmpID, startDate, endDate) == false) {
-				throw new FacilityNotFreeException("The facility is not available at the given time.");
+			try {
+				if (isFacilityFree(tmpID, startDate, endDate) == false) {
+					throw new FacilityNotFreeException("The facility is not available at the given time.");
+				}
+			} catch (IllegalArgumentException e) {
+				throw new FacilityNotFreeException("The facility does not exist.");
 			}
 		}
 
@@ -87,7 +96,7 @@ public class BookingManagementImpl implements BookingManagement {
 	@PreAuthorize("authentication.name == #userID")
 	public Collection<Reservation> listReservationsOfUser(String userID, Date asFrom, Date upTo)
 			throws IllegalArgumentException {
-		if (userID == null || userID.isEmpty() || asFrom == null || upTo == null) {
+		if (userID == null || userID.isEmpty() || asFrom == null || upTo == null || asFrom.after(upTo)) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
 		return bookingDAO.getReservationsOfUser(userID, asFrom, upTo);
@@ -102,7 +111,7 @@ public class BookingManagementImpl implements BookingManagement {
 	@Override
 	public Collection<Reservation> listReservationsOfFacility(String facilityID, Date asFrom, Date upTo)
 			throws IllegalArgumentException {
-		if (facilityID == null || facilityID.equals("") || asFrom == null || upTo == null) {
+		if (facilityID == null || facilityID.equals("") || asFrom == null || upTo == null || asFrom.after(upTo)) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
 		return bookingDAO.getReservationsOfFacility(facilityID, asFrom, upTo);
@@ -117,16 +126,20 @@ public class BookingManagementImpl implements BookingManagement {
 	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'edit')")
 	@Transactional
 	public void changeReservationEnd(String reservationID, Date newEndDate) throws IllegalArgumentException,
-			FacilityNotFreeException {
-		if (reservationID == null || reservationID.equals("") || newEndDate == null) {
+			FacilityNotFreeException, IllegalStateException {
+		if (reservationID == null || reservationID.isEmpty() || newEndDate == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
 		Reservation resv = bookingDAO.getReservation(reservationID);
+		if (resv == null) {
+			throw new IllegalStateException("The Reservation does not exist");
+		}
 		if (!newEndDate.after(resv.getStartTime())) {
 			throw new IllegalArgumentException("The new end date is before the start date.");
 		} else if (newEndDate.after(resv.getEndTime())) {
 			for (String facilityID : resv.getBookedFacilityIds()) {
 				try {
+					//TODO does isFacilityFree ignore the reservation, which we want to change here?
 					if (!isFacilityFree(facilityID, resv.getEndTime(), newEndDate)) {
 						throw new FacilityNotFreeException(
 								"One of the facilities is not free at the specified time.");
@@ -134,11 +147,11 @@ public class BookingManagementImpl implements BookingManagement {
 				} catch (FacilityNotFoundException e) {
 					throw new IllegalStateException("Facility of reservation does not exist.");
 				}
-
 			}
 		}
+		//TODO check other reservation of the same user!
 		resv.setEndTime(newEndDate);
-		// not necessary, but it makes things more clear
+		
 		bookingDAO.updateReservation(resv);
 	}
 
@@ -153,7 +166,7 @@ public class BookingManagementImpl implements BookingManagement {
 	@Transactional
 	public void removeFacilityFromReservation(String reservationID, String facilityID)
 			throws IllegalArgumentException {
-		if (reservationID == null || reservationID.equals("")) {
+		if (reservationID == null || reservationID.isEmpty()) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
 		Reservation reservation = bookingDAO.getReservation(reservationID);
@@ -185,7 +198,7 @@ public class BookingManagementImpl implements BookingManagement {
 	@Override
 	public Reservation getReservation(String reservationID) throws IllegalArgumentException,
 			ReservationNotFoundException {
-		if (reservationID == null || reservationID.equals("")) {
+		if (reservationID == null || reservationID.isEmpty()) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
 		Reservation reserv = bookingDAO.getReservation(reservationID);
@@ -207,6 +220,10 @@ public class BookingManagementImpl implements BookingManagement {
 			boolean fullyAvailable) throws IllegalArgumentException {
 		if (query == null || start == null || end == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
+		}
+		Date now = Calendar.getInstance().getTime();
+		if (start.before(now) || end.before(now) || end.before(start)) {
+			throw new IllegalArgumentException("start or end date is in the past or end is after start date.");
 		}
 		// the concrete instance of FacilityManagement is specified via
 		// Dependency Injection
@@ -264,10 +281,10 @@ public class BookingManagementImpl implements BookingManagement {
 	@Transactional
 	public boolean isFacilityFree(String facilityID, Date startDate, Date endDate)
 			throws IllegalArgumentException, FacilityNotFoundException {
-		if (facilityID == null || facilityID.equals("") || startDate == null || endDate == null) {
+		if (facilityID == null || facilityID.isEmpty() || startDate == null || endDate == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
-
+		//TODO check start before end date
 		Collection<Reservation> reservations = bookingDAO
 				.getReservationsOfFacility(facilityID, startDate, endDate);
 		if (reservations != null && reservations.size() > 0) {

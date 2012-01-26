@@ -8,4 +8,10 @@ package edu.kit.pse.ass.user.management;
  */
 public class UserAlreadyExistsException extends Exception {
 
+	/**
+	 * generated serialversionUID
+	 */
+	private static final long serialVersionUID = -5833398163445177211L;
+
+
 }
