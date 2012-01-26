@@ -11,15 +11,17 @@ import edu.kit.pse.ass.facility.management.FacilityNotFoundException;
 import edu.kit.pse.ass.facility.management.RoomQuery;
 
 /**
- * @author ???
- * This class represents a room query.
+ * @author ??? This class represents a room query.
  */
 public class FreeRoomQuery extends RoomQuery implements FreeFacilityQuery {
 
 	/**
-	 * @param properties the properties the workplaces should have.
-	 * @param searchText the search text to search for.
-	 * @param minimumWorkplaces the amount of places to search for.
+	 * @param properties
+	 *            the properties the workplaces should have.
+	 * @param searchText
+	 *            the search text to search for.
+	 * @param minimumWorkplaces
+	 *            the amount of places to search for.
 	 */
 	public FreeRoomQuery(Collection<Property> properties, String searchText, int minimumWorkplaces) {
 		super(properties, searchText, minimumWorkplaces);
@@ -48,8 +50,8 @@ public class FreeRoomQuery extends RoomQuery implements FreeFacilityQuery {
 						}
 					}
 				} catch (FacilityNotFoundException e) {
-					//TODO
-					
+					e.printStackTrace();
+					assert false;
 				}
 			}
 
