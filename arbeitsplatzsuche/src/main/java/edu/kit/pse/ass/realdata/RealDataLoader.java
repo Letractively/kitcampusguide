@@ -10,7 +10,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
  */
 public class RealDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-	/** The test data. */
+	/** The real data. */
 	@Autowired
 	RealData realData;
 
