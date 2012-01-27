@@ -41,8 +41,8 @@ http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 		<property name="basename" value="/WEB-INF/messages"></property>
     </bean>
 
-	<bean id="testData" class="edu.kit.pse.ass.testdata.TestData" />
+	<bean id="realData" class="edu.kit.pse.ass.realdata.RealData" />
 	<!-- listens on ContextRefreshedEvent -->
-	<bean id="testDataLoader" class="edu.kit.pse.ass.testdata.TestDataLoader" />
+	<bean id="realDataLoader" class="edu.kit.pse.ass.realdata.RealDataLoader" />
 
 </beans>

@@ -36,9 +36,9 @@ public class RealData {
 	/**
 	 * empty constructor
 	 */
-	public RealData() {
-		loadAllData();
-	}
+	/*
+	 * public RealData() { loadAllData(); }
+	 */
 
 	/**
 	 * Load all data.
@@ -77,7 +77,8 @@ public class RealData {
 	 */
 	@Transactional
 	public void realFacilities() {
-		// 01 building
+		ArrayList<Property> emptyList = new ArrayList<Property>();
+		// 01 building - Fakultät für Informatik
 		ArrayList<Property> buildingProperties = new ArrayList<Property>(Arrays.asList(new Property("WLAN"),
 				new Property("Barrierefrei")));
 		Building building1 = createPersistedBuilding("Fakultät für Informatik", "50.34", buildingProperties);
@@ -86,6 +87,8 @@ public class RealData {
 				new Property("Beamer"), new Property("Tafel"), new Property("Overhead Projektor")));
 		ArrayList<Property> roomProperties = new ArrayList<Property>(Arrays.asList(new Property("Steckdose"),
 				new Property("LAN"), new Property("Whiteboard")));
+		ArrayList<Property> atisWorkplaces = new ArrayList<Property>(Arrays.asList(new Property("Steckdose"),
+				new Property("LAN"), new Property("PC")));
 		Room room106 = createPersistedRoom("Seminarraum", "-106", -1, roomPropertiesSR);
 		Room room107 = createPersistedRoom("Seminarraum", "-107", -1, roomPropertiesSR);
 		Room room108 = createPersistedRoom("Seminarraum", "-108", -1, roomPropertiesSR);
@@ -103,67 +106,81 @@ public class RealData {
 		Collection<Room> rooms50342 = new ArrayList<Room>(Arrays.asList(room140, room141));
 
 		// 01 workplaces
-		/*
-		 * test when connected to GUI instead of testdata
-		 * 
-		 * for (Room tmp : rooms50341) { int i = 1; for (int j = 0; j < 5; j++) { String name = "1." + i;
-		 * tmp.addContainedFacility(createPersistedWorkplace(name)); i++; } building1.addContainedFacility(tmp); }
-		 */
-
-		/*
-		 * for (Room tmp : rooms50342) { for(int i = 1; i < 11; i++) { for (int j = 1; j < 6; j++) { String name = i+"."
-		 * + j; tmp.addContainedFacility(createPersistedWorkplace(name));} }building1.addContainedFacility(tmp); }
-		 */
-		// -106
-		room106.addContainedFacility(createPersistedWorkplace("01.01"));
-		room106.addContainedFacility(createPersistedWorkplace("01.02"));
-		room106.addContainedFacility(createPersistedWorkplace("01.03"));
-		room106.addContainedFacility(createPersistedWorkplace("01.04"));
-		room106.addContainedFacility(createPersistedWorkplace("01.05"));
-		// -107
-		room107.addContainedFacility(createPersistedWorkplace("01.01"));
-		room107.addContainedFacility(createPersistedWorkplace("01.02"));
-		room107.addContainedFacility(createPersistedWorkplace("01.03"));
-		room107.addContainedFacility(createPersistedWorkplace("01.04"));
-		room107.addContainedFacility(createPersistedWorkplace("01.05"));
-		// -108
-		room108.addContainedFacility(createPersistedWorkplace("01.01"));
-		room108.addContainedFacility(createPersistedWorkplace("01.02"));
-		room108.addContainedFacility(createPersistedWorkplace("01.03"));
-		room108.addContainedFacility(createPersistedWorkplace("01.04"));
-		room108.addContainedFacility(createPersistedWorkplace("01.05"));
-		// -109
-		room109.addContainedFacility(createPersistedWorkplace("01.01"));
-		room109.addContainedFacility(createPersistedWorkplace("01.02"));
-		room109.addContainedFacility(createPersistedWorkplace("01.03"));
-		room109.addContainedFacility(createPersistedWorkplace("01.04"));
-		room109.addContainedFacility(createPersistedWorkplace("01.05"));
-		// -118
-		room118.addContainedFacility(createPersistedWorkplace("01.01"));
-		room118.addContainedFacility(createPersistedWorkplace("01.02"));
-		room118.addContainedFacility(createPersistedWorkplace("01.03"));
-		room118.addContainedFacility(createPersistedWorkplace("01.04"));
-		room118.addContainedFacility(createPersistedWorkplace("01.05"));
-		// -119
-		room119.addContainedFacility(createPersistedWorkplace("01.01"));
-		room119.addContainedFacility(createPersistedWorkplace("01.02"));
-		room119.addContainedFacility(createPersistedWorkplace("01.03"));
-		room119.addContainedFacility(createPersistedWorkplace("01.04"));
-		room119.addContainedFacility(createPersistedWorkplace("01.05"));
-		// -120
-		room120.addContainedFacility(createPersistedWorkplace("01.01"));
-		room120.addContainedFacility(createPersistedWorkplace("01.02"));
-		room120.addContainedFacility(createPersistedWorkplace("01.03"));
-		room120.addContainedFacility(createPersistedWorkplace("01.04"));
-		room120.addContainedFacility(createPersistedWorkplace("01.05"));
-		room120.addContainedFacility(createPersistedWorkplace("01.06"));
-		room120.addContainedFacility(createPersistedWorkplace("01.07"));
-		// TODO put in for loop adding the workplaces after all are added
 		for (Room tmp : rooms50341) {
+			for (int j = 1; j < 6; j++) {
+				String name = "1." + j;
+				tmp.addContainedFacility(createPersistedWorkplace(name, emptyList));
+			}
 			building1.addContainedFacility(tmp);
 		}
+
 		for (Room tmp : rooms50342) {
+			for (int i = 1; i < 11; i++) {
+				for (int j = 1; j < 6; j++) {
+					String name = i + "." + j;
+					tmp.addContainedFacility(createPersistedWorkplace(name, atisWorkplaces));
+				}
+			}
 			building1.addContainedFacility(tmp);
+		}
+		// 02 building - Zähringerhaus
+		Building building2 = createPersistedBuilding("Zähringerhaus", "01.85", emptyList);
+		ArrayList<Property> mathbibProperties = new ArrayList<Property>(Arrays.asList(new Property("WLAN"),
+				new Property("Kopierer")));
+		Room roomMathBib = createPersistedRoom("Mathematische Bibliothek", "", 1, mathbibProperties);
+		Room roomVorZ1 = createPersistedRoom("Z1 Vorraum", "", 1,
+				new ArrayList<Property>(Arrays.asList(new Property("WLAN"))));
+		// 02 workplaces
+		for (int i = 1; i < 6; i++) {
+			for (int j = 1; j < 6; j++) {
+				String name = i + "." + j;
+				roomMathBib.addContainedFacility(createPersistedWorkplace(name, emptyList));
+			}
+		}
+		for (int i = 1; i < 4; i++) {
+			for (int j = 1; j < 6; j++) {
+				String name = i + "." + j;
+				roomVorZ1.addContainedFacility(createPersistedWorkplace(name, emptyList));
+			}
+		}
+		building2.addContainedFacility(roomMathBib);
+		building2.addContainedFacility(roomVorZ1);
+
+		// 03 building - Bibliothek
+		Building building3 = createPersistedBuilding("Bibliothek", "30.50",
+				new ArrayList<Property>(Arrays.asList(new Property("WLAN"))));
+		ArrayList<Property> bibWorkplaces = new ArrayList<Property>(Arrays.asList(new Property("Steckdose"),
+				new Property("LAN")));
+		Room roomBib1 = createPersistedRoom("Lesesaal 1", "Altbau", 0, bibWorkplaces);
+		Room roomBib2 = createPersistedRoom("Lesesaal 2", "Neubau", 1, bibWorkplaces);
+		Room roomBib3 = createPersistedRoom("Gruppenraum 1", "Altbau", 1, bibWorkplaces);
+		Room roomBib4 = createPersistedRoom("Gruppenraum 2", "Altbau", 1, bibWorkplaces);
+		Room roomBib5 = createPersistedRoom("Gruppenraum 3", "Altbau", 1, bibWorkplaces);
+		Room roomBib6 = createPersistedRoom("Gruppenraum 4", "Altbau", 1, bibWorkplaces);
+		Room roomBib7 = createPersistedRoom("Gruppenraum 5", "Altbau", 1, bibWorkplaces);
+		Collection<Room> rooms30502 = new ArrayList<Room>(Arrays.asList(roomBib3, roomBib4, roomBib5, roomBib6,
+				roomBib7));
+		// 03 workplaces
+		for (int j = 1; j < 13; j++) {
+			String name = "1." + j;
+			roomBib1.addContainedFacility(createPersistedWorkplace(name, emptyList));
+		}
+		building3.addContainedFacility(roomBib1);
+		for (int i = 1; i < 9; i++) {
+			for (int j = 1; j < 9; j++) {
+				String name = i + "." + j;
+				roomBib2.addContainedFacility(createPersistedWorkplace(name, emptyList));
+			}
+		}
+		building3.addContainedFacility(roomBib2);
+		for (Room tmp : rooms30502) {
+			for (int i = 1; i < 3; i++) {
+				for (int j = 1; j < 7; j++) {
+					String name = i + "." + j;
+					tmp.addContainedFacility(createPersistedWorkplace(name, atisWorkplaces));
+				}
+			}
+			building3.addContainedFacility(tmp);
 		}
 	}
 
@@ -171,6 +188,9 @@ public class RealData {
 		Building t = new Building();
 		t.setName(name);
 		t.setNumber(number);
+		for (Property tmp : properties) {
+			t.addProperty(tmp);
+		}
 		t = jpaTemplate.merge(t);
 		return t;
 	}
@@ -180,13 +200,19 @@ public class RealData {
 		t.setName(name);
 		t.setNumber(number);
 		t.setLevel(level);
+		for (Property tmp : properties) {
+			t.addProperty(tmp);
+		}
 		t = jpaTemplate.merge(t);
 		return t;
 	}
 
-	private Workplace createPersistedWorkplace(String name) {
+	private Workplace createPersistedWorkplace(String name, ArrayList<Property> properties) {
 		Workplace t = new Workplace();
 		t.setName(name);
+		for (Property tmp : properties) {
+			t.addProperty(tmp);
+		}
 		t = jpaTemplate.merge(t);
 		return t;
 	}
