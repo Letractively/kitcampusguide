@@ -69,11 +69,11 @@
 
 	<form:form method="get" commandName="searchFormModel"
 		action="${pageContext.request.contextPath}/search/advanced.html">
-		<form:input type="hidden" path="workplaceCount" />
-		<form:input type="hidden" path="start" />
-		<form:input type="hidden" path="duration" />
-		<form:input type="hidden" path="wholeRoom" />
-		<form:input type="hidden" path="searchText" />
+		<form:input type="hidden" path="workplaceCount"  id=""/>
+		<form:input type="hidden" path="start" id=""/>
+		<form:input type="hidden" path="duration"  id=""/>
+		<form:input type="hidden" path="wholeRoom"  id=""/>
+		<form:input type="hidden" path="searchText"  id=""/>
 		<c:forEach var="filter" items="${filters}" varStatus="status">
 			<input type="hidden" name="filters" value="${filter}" />
 		</c:forEach>
