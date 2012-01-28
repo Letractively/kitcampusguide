@@ -24,7 +24,10 @@ public abstract class BookingInfoModel {
 	/** The whole room. */
 	protected boolean wholeRoom;
 
-	public BookingInfoModel() {
+	/**
+	 * Sets now date, duration and wholeRoom to standard values.
+	 */
+	protected BookingInfoModel() {
 		Calendar now = Calendar.getInstance();
 		int minutes = now.get(Calendar.MINUTE);
 		// round to next 15 minitues;
