@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -79,16 +80,25 @@ public class RoomDetailController extends MainController {
 	 *            the spring model
 	 * @param bookingFormModel
 	 *            the BookingFormModel if filled at RoomDetailsPage
+	 * @param bookingFormModelResult
+	 *            result for error binding while booking
 	 * @param searchFormModel
 	 *            the SearchFormModel filled at AdvanceSearchPage
 	 * @param searchFilterModel
 	 *            the SearchFilterModel filled at AdvanceSearchPage
 	 * @return the view path
+	 * @throws FacilityNotFoundException
+	 *             to be handled by general error page
+	 * @throws IllegalStateException
+	 *             to be handled by general error page
+	 * @throws IllegalArgumentException
+	 *             to be handled by general error page
 	 */
 	@RequestMapping(value = "room/{roomId}/details.html", method = { RequestMethod.POST })
 	public String book(@PathVariable("roomId") String roomId, Model model,
-			@ModelAttribute BookingFormModel bookingFormModel, @ModelAttribute SearchFormModel searchFormModel,
-			@ModelAttribute SearchFilterModel searchFilterModel) {
+			@ModelAttribute BookingFormModel bookingFormModel, BindingResult bookingFormModelResult,
+			@ModelAttribute SearchFormModel searchFormModel, @ModelAttribute SearchFilterModel searchFilterModel)
+			throws IllegalArgumentException, IllegalStateException, FacilityNotFoundException {
 
 		String returnedView = setUpRoomDetailModel(model, roomId, searchFormModel, searchFilterModel);
 
@@ -111,28 +121,20 @@ public class RoomDetailController extends MainController {
 			try {
 				bookingManagement
 						.book(userID, facilityIDs, bookingFormModel.getStart(), bookingFormModel.getEnd());
-
 				returnedView = "redirect:/reservation/list.html";
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-				returnedView = handleIllegalRequest(e);
 			} catch (FacilityNotFreeException e) {
-				model.addAttribute("notFree", true);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-				returnedView = handleIllegalRequest(e);
-			} catch (FacilityNotFoundException e) {
-				e.printStackTrace();
-				returnedView = handleIllegalRequest(e);
+				if (bookingFormModel.isWholeRoom()) {
+					bookingFormModelResult.reject("book.error.roomNotFree", e.getMessage());
+				} else {
+					bookingFormModelResult.reject("book.error.workplaceNotFree", e.getMessage());
+				}
 			} catch (BookingNotAllowedException e) {
-				model.addAttribute("hasBookingAtTime", true);
-				e.printStackTrace();
+				bookingFormModelResult.reject("book.error.hasBookingAtTime", e.getMessage());
 			} catch (IllegalDateException e) {
-				model.addAttribute("illegalDate", true);
-				e.printStackTrace();
+				bookingFormModelResult.reject("book.error.illegalDate", e.getMessage());
 			}
 		} else {
-			model.addAttribute("noFacilities", true);
+			bookingFormModelResult.reject("book.error.noWorkplacesSelected", "No workplaces selected.");
 		}
 
 		return returnedView;

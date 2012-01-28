@@ -88,39 +88,12 @@
 	</div>
 </div>
 <div class="page roomDetails">
-	<c:if test="${formErrors}">
-		<div class="msg-error">
-			<spring:message code="book.error.inForm" />
-		</div>
-	</c:if>
-	<c:if test="${notFree}">
-		<div class="msg-error">
-			<c:if test="${bookingFormModel.wholeRoom}">
-				<spring:message code="book.error.roomNotFree" />
-			</c:if>
-			<c:if test="${!bookingFormModel.wholeRoom}">
-				<spring:message code="book.error.workplaceNotFree" />
-			</c:if>
-		</div>
-	</c:if>
-	<c:if test="${noFacilities}">
-		<div class="msg-error">
-			<spring:message code="book.error.noWorkplacesSelected" />
-		</div>
-	</c:if>
-	<c:if test="${hasBookingAtTime}">
-		<div class="msg-error">
-			<spring:message code="book.error.hasBookingAtTime" />
-		</div>
-	</c:if>
-	<c:if test="${illegalDate}">
-		<div class="msg-error">
-			<spring:message code="book.error.illegalDate" />
-		</div>
-	</c:if>
 	<form:form method="post" commandName="bookingFormModel"
 		action="${pageContext.request.contextPath}/room/${room.id}/details.html"
 		id="searchForm">
+		
+		<form:errors element="div" cssClass="msg-error"/>
+		
 		<div class="bookingForm">
 			<h2>Reservieren</h2>
 			Am
@@ -173,14 +146,19 @@
 							<c:if test="${checked[status.index]}">  checked="checked"  </c:if>></input>
 						</td>
 						<td><c:out value="${workplace.name}" /></td>
-						<td><c:forEach var="property"
+						<td>
+							<c:if test="${fn:length(workplacesProps[status.index]) == 0}">
+								<span style="color:gray;"><spring:message code="noWorkplaceProperties" /></span>
+							</c:if>
+							<c:forEach var="property"
 								items="${workplacesProps[status.index]}" varStatus="status2">
 								<img
 									src="${pageContext.request.contextPath}/${icons.getIconFileName(property, 16)}" />
 								<c:out value="${property.name}" />
 								<c:if
 									test="${status2.index != fn:length(workplacesProps[status.index])-1 }">, </c:if>
-							</c:forEach></td>
+							</c:forEach>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
