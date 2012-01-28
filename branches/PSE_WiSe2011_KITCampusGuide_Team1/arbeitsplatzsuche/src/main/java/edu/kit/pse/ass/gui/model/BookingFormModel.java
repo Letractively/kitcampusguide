@@ -20,6 +20,11 @@ public class BookingFormModel extends BookingInfoModel {
 		workplaces = new ArrayList<String>();
 	}
 
+	/**
+	 * Get selected Workplaces
+	 * 
+	 * @return selected workplaces
+	 */
 	public ArrayList<String> getWorkplaces() {
 		return workplaces;
 	}

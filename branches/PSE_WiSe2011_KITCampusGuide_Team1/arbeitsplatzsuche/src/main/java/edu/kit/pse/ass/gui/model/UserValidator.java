@@ -5,6 +5,13 @@ import org.springframework.validation.Validator;
 
 import edu.kit.pse.ass.entity.User;
 
+/**
+ * 
+ * TODO: author?
+ * 
+ * @author ?
+ * 
+ */
 public class UserValidator implements Validator {
 
 	@Override
