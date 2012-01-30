@@ -27,11 +27,16 @@ public class FreeFacilityResult {
 	 *            the facility
 	 * @param start
 	 *            the start
+	 * @param freeChildren
 	 */
-	public FreeFacilityResult(Facility facility, Date start) {
+	public FreeFacilityResult(Facility facility, Date start, Collection<Facility> freeChildren) {
 		this.facility = facility;
 		this.start = start;
-		this.childFacilities = new LinkedList<Facility>();
+		if (freeChildren != null) {
+			this.childFacilities = freeChildren;
+		} else {
+			this.childFacilities = new LinkedList<Facility>();
+		}
 	}
 
 	/**

@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -253,16 +254,17 @@ public class BookingManagementImpl implements BookingManagement {
 						if (isFacilityFree(facilityResult.getFacility().getId(), startDate, endDate)) {
 							// add the found facility
 							freeFacilityResult.add(new FreeFacilityResult(facilityResult.getFacility(),
-									(Date) startDate.clone()));
+									(Date) startDate.clone(), facilityResult.getMatchingChildFacilities()));
 							// remove from queue
 							facilityIterator.remove();
 						}
 					} else {
-						if (areRequiredChildFacilitiesFree(facilityResult, query.getRequiredChildCount(),
-								startDate, endDate)) {
+						Collection<Facility> freeChildren = getAndTestRequiredFreeChildFacilities(facilityResult,
+								query.getRequiredChildCount(), startDate, endDate);
+						if (freeChildren != null) {
 							// add the found facility
 							freeFacilityResult.add(new FreeFacilityResult(facilityResult.getFacility(),
-									(Date) startDate.clone()));
+									(Date) startDate.clone(), freeChildren));
 							// remove from queue
 							facilityIterator.remove();
 						}
@@ -296,35 +298,37 @@ public class BookingManagementImpl implements BookingManagement {
 	 *            the end date
 	 * @return true, if successful
 	 */
-	private boolean areRequiredChildFacilitiesFree(FacilityResult facilityResult, int requiredChildCount,
-			Date startDate, Date endDate) {
+	private Collection<Facility> getAndTestRequiredFreeChildFacilities(FacilityResult facilityResult,
+			int requiredChildCount, Date startDate, Date endDate) {
 		if (facilityResult == null || startDate == null || endDate == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
+		LinkedList<Facility> free = new LinkedList<Facility>();
 		Collection<Reservation> reservations = bookingDAO.getReservationsOfFacility(facilityResult.getFacility()
 				.getId(), startDate, endDate);
 		if (reservations != null && reservations.size() > 0) {
-			return false;
+			return null;
 		}
 		Facility parent = facilityResult.getFacility().getParentFacility();
 		// check parent facilities
 		while (parent != null) {
 			reservations = bookingDAO.getReservationsOfFacility(parent.getId(), startDate, endDate);
 			if (reservations != null && reservations.size() > 0) {
-				return false;
+				return null;
 			}
 			parent = parent.getParentFacility();
 		}
 		for (Facility requiredFacility : facilityResult.getMatchingChildFacilities()) {
 			reservations = bookingDAO.getReservationsOfFacility(requiredFacility.getId(), startDate, endDate);
 			if (reservations != null && reservations.size() > 0) {
-				return false;
+				return null;
 			}
 			if (!areChildFacilitiesFree(requiredFacility, startDate, endDate)) {
-				return false;
+				return null;
 			}
+			free.add(requiredFacility);
 		}
-		return true;
+		return free;
 	}
 
 	/*
