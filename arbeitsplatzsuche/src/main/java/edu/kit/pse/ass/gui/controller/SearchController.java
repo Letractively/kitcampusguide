@@ -1,20 +1,17 @@
 package edu.kit.pse.ass.gui.controller;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -22,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.kit.pse.ass.booking.management.BookingManagement;
 import edu.kit.pse.ass.booking.management.FreeFacilityResult;
@@ -33,6 +31,7 @@ import edu.kit.pse.ass.gui.model.DataTableParamModel;
 import edu.kit.pse.ass.gui.model.SearchFilterModel;
 import edu.kit.pse.ass.gui.model.SearchFormModel;
 import edu.kit.pse.ass.gui.model.SearchFormValidator;
+import edu.kit.pse.ass.gui.model.SearchResultsModel;
 
 /**
  * The Class SearchController.
@@ -47,6 +46,10 @@ public class SearchController extends MainController {
 	/** The facility management. */
 	@Inject
 	FacilityManagement facilityManagement;
+
+	/** The message source. */
+	@Inject
+	MessageSource messageSource;
 
 	/**
 	 * Sets up the SimpleSearchPage.
@@ -70,11 +73,17 @@ public class SearchController extends MainController {
 	 *            the spring model
 	 * @param searchFilterModel
 	 *            the SearchFilterModel filled at the AdvancedSearchPage.
+	 * @param sfmResult
+	 *            the spring BindingResult for error handling
 	 * @return the view path
 	 */
 	@RequestMapping(value = "search/advanced.html")
 	public String setUpAdvancedSearch(Model model, @ModelAttribute SearchFormModel searchFormModel,
-			@ModelAttribute SearchFilterModel searchFilterModel) {
+			BindingResult sfmResult, @ModelAttribute SearchFilterModel searchFilterModel) {
+
+		// Validate form
+		SearchFormValidator sfmValidator = new SearchFormValidator();
+		sfmValidator.validate(searchFormModel, sfmResult);
 
 		prefillSearchForm(model, searchFormModel);
 
@@ -107,32 +116,40 @@ public class SearchController extends MainController {
 	 * 
 	 * @param request
 	 *            the spring HttpServletRequest
-	 * @param response
-	 *            the spring HttpServletResponse
 	 * @param searchFormModel
 	 *            the SearchFormModel filled at the AdvacedSearchPage
 	 * @param sfmResult
 	 *            the spring BindingResult for error handling
 	 * @param searchFilterModel
 	 *            the SearchFilterModel filled at the AdvancedSearchPage
+	 * @return JSON response containing parameters for DataTables, search results and error messages
 	 */
 	@RequestMapping(value = "search/results")
 	@Transactional
-	public void listSearchResults(HttpServletRequest request, HttpServletResponse response,
+	public @ResponseBody
+	SearchResultsModel listSearchResults(HttpServletRequest request,
 			@ModelAttribute SearchFormModel searchFormModel, BindingResult sfmResult,
 			@ModelAttribute SearchFilterModel searchFilterModel) {
 
-		// Validate form
+		// Validate form (Validator sets invalid values to standard values, so search can be executed in any case.)
 		SearchFormValidator sfmValidator = new SearchFormValidator();
 		sfmValidator.validate(searchFormModel, sfmResult);
 
 		// Get DataTable Parameters
 		DataTableParamModel parameters = new DataTableParamModel(request);
 
-		RoomQuery roomQuery = new RoomQuery(searchFilterModel.getFilters(), searchFormModel.getSearchText(),
-				searchFormModel.getWorkplaceCount());
+		// Parameters for search
+		Date searchStart = searchFormModel.getStart();
+		Date searchEnd = searchFormModel.getEnd();
+		String searchText = searchFormModel.getSearchText();
+		int workplaceCount = searchFormModel.getWorkplaceCount();
+		boolean wholeRoom = searchFormModel.isWholeRoom();
+		Collection<Property> properties = searchFilterModel.getFilters();
+
+		// Execute search
+		RoomQuery roomQuery = new RoomQuery(properties, searchText, workplaceCount);
 		Collection<FreeFacilityResult> searchResultsCollection = bookingManagement.findFreeFacilites(roomQuery,
-				searchFormModel.getStart(), searchFormModel.getEnd(), searchFormModel.isWholeRoom());
+				searchStart, searchEnd, wholeRoom);
 
 		List<FreeFacilityResult> searchResults;
 		if (searchResultsCollection instanceof List) {
@@ -154,41 +171,23 @@ public class SearchController extends MainController {
 					+ parameters.getiDisplayLength());
 		}
 
-		// create JSON result List
-		JSONArray resultListData = createJSONResultList(searchResults);
+		// Format search results for output
+		Collection<Collection<String>> searchResultsData = createResultList(searchResults);
 
-		// Create JSON response object and send response
-		JSONObject jsonResponse = new JSONObject();
-		try {
-			// request sequence number sent by DataTable
-			jsonResponse.put("sEcho", parameters.getsEcho());
+		// Create model for search results
+		SearchResultsModel searchResultsModel = new SearchResultsModel(parameters.getsEcho(),
+				searchResults.size(), searchResults.size(), searchResultsData);
 
-			// total records and displayed records are the same (filtering is disabled)
-			jsonResponse.put("iTotalRecords", searchResults.size());
-			jsonResponse.put("iTotalDisplayRecords", searchResults.size());
-
-			jsonResponse.put("aaData", resultListData);
-
-			// add errors if any
-			if (sfmResult.hasErrors()) {
-				JSONArray asErrors = new JSONArray();
-				for (ObjectError error : sfmResult.getAllErrors()) {
-					asErrors.put(error.getDefaultMessage());
-				}
-				jsonResponse.put("asErrors", asErrors);
+		// in case of errors: add error messages to model
+		if (sfmResult.hasErrors()) {
+			Collection<String> asErrors = new ArrayList<String>();
+			for (ObjectError error : sfmResult.getAllErrors()) {
+				asErrors.add(messageSource.getMessage(error.getCode(), null, null));
 			}
-
-			// send response
-			response.setContentType("application/json");
-			response.getWriter().print(jsonResponse.toString());
-
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			searchResultsModel.setAsErrors(asErrors);
 		}
+
+		return searchResultsModel;
 	}
 
 	/**
@@ -235,19 +234,20 @@ public class SearchController extends MainController {
 	}
 
 	/**
-	 * creates a JSONArray containing the search results for DataTables
+	 * creates a String collection containing the search results for DataTables
 	 * 
 	 * @param searchResults
 	 *            the search results for the output
-	 * @return JSONArray containing the search results for DataTables
+	 * @return String collection containing the search results for DataTables
 	 */
-	private JSONArray createJSONResultList(List<FreeFacilityResult> searchResults) {
+	private Collection<Collection<String>> createResultList(List<FreeFacilityResult> searchResults) {
 
-		JSONArray resultListData = new JSONArray();
+		Collection<Collection<String>> results = new ArrayList<Collection<String>>();
 		SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 
 		for (FreeFacilityResult c : searchResults) {
 
+			Collection<String> facilityResult = new ArrayList<String>();
 			if (c.getFacility() instanceof Room) {
 
 				Room room = (Room) c.getFacility();
@@ -276,18 +276,16 @@ public class SearchController extends MainController {
 				if (c.getStart() != null) {
 					startTime = formatTime.format(c.getStart());
 				}
+				facilityResult.add(roomName);
+				facilityResult.add(buildingName);
+				facilityResult.add(equipment);
+				facilityResult.add(startTime);
+				facilityResult.add(roomID);
 
-				JSONArray row = new JSONArray();
-				row.put(roomName);
-				row.put(buildingName);
-				row.put(equipment);
-				row.put(startTime);
-				row.put(roomID);
-
-				resultListData.put(row);
+				results.add(facilityResult);
 			}
 		}
-		return resultListData;
+		return results;
 	}
 
 	/**
