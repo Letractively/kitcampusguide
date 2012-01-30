@@ -131,6 +131,105 @@ public class FacilityDAOImplTest {
 	}
 
 	/**
+	 * Tests getAllFacilities with null as parameter.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetAllFacilitiesWithNullParameter() {
+		facilityDAO.getAllFacilities(null);
+	}
+
+	/**
+	 * Tests getAllFacilities with not existing parameter.
+	 */
+	@Test
+	public void testGetAllFacilitiesWithNotExistingParameter() {
+		Collection<Workplace> workplaces = facilityDAO.getAllFacilities(Workplace.class);
+		assertNotNull("There are no workplaces in database, but the return value should not be null.", workplaces);
+		assertEquals("There should not be any workplaces.", workplaces.size(), 0);
+	}
+
+	/**
+	 * Tests getAllFacilities with valid parameter.
+	 */
+	@Test
+	public void testGetAllFacilitiesWithValidParameter() {
+		Collection<Room> rooms = facilityDAO.getAllFacilities(Room.class);
+
+		assertNotNull("There should be returned rooms from the database.", rooms);
+		assertEquals("There are exactly 2 rooms in the database.", rooms.size(), 2);
+		assertTrue("The room persistedRoom1 was added to the database.", rooms.contains(persistedRoom1));
+		assertTrue("The room persistedRoom2 was added to the database.", rooms.contains(persistedRoom2));
+	}
+
+	/**
+	 * Tests getFacility() with first parameter null.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetFacilityWithFirstParameterNull() {
+		facilityDAO.getFacility(null, persistedRoom1.getId());
+	}
+
+	/**
+	 * Tests getFacility() with second parameter null.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetFacilityWithSecondParameterNull() {
+		facilityDAO.getFacility(Room.class, null);
+	}
+
+	/**
+	 * Tests getFacility() with all parameter null.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetFacilityWithAllParametersNull() {
+		facilityDAO.getFacility(null, null);
+	}
+
+	/**
+	 * Tests getFacility() with second parameter empty.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetFacilityWithSecondParameterEmpty() {
+		facilityDAO.getFacility(Room.class, "");
+	}
+
+	/**
+	 * Tests getFacility() with not existing first parameter.
+	 */
+	@Test
+	public void testGetFacilityWithNotExistingFirstParameter() {
+		Facility facility = facilityDAO.getFacility(Workplace.class, persistedRoom1.getId());
+		assertNull("There is no workplace, thus no facility should be returned.", facility);
+	}
+
+	/**
+	 * Tests getFacility() with not existing second parameter.
+	 */
+	@Test
+	public void testGetFacilityWithNotExistingSecondParameter() {
+		Facility facility = facilityDAO.getFacility(Room.class, "ThisIsNoID");
+		assertNull("There is no such ID, thus no facility should be returned.", facility);
+	}
+
+	/**
+	 * Tests getFacility() with not existing parameters at all.
+	 */
+	@Test
+	public void testGetFacilityWithNotExistingParameters() {
+		Facility facility = facilityDAO.getFacility(Workplace.class, "ThisIsNoID");
+		assertNull("There are no such parameters, thus no facility should be returned.", facility);
+	}
+
+	/**
+	 * Tests getFacility() with all parameter valid.
+	 */
+	@Test
+	public void testGetFacilityWithAllParameterValid() {
+		Facility facility = facilityDAO.getFacility(Room.class, persistedRoom1.getId());
+		assertEquals("The returned facility should be equals persistedRoom1.", facility, persistedRoom1);
+	}
+
+	/**
 	 * Tests getAvailablePropertiesOf() with null parameter.
 	 */
 	@Test(expected = IllegalArgumentException.class)
@@ -175,8 +274,12 @@ public class FacilityDAOImplTest {
 	/**
 	 * Tests getFacilities() with empty parameter.
 	 */
+	@Test
 	public void testGetFacilitiesWithEmptyParameter() {
-		assertNull(facilityDAO.getFacilities(new ArrayList<Property>()));
+		Collection<Facility> facilities = facilityDAO.getFacilities(new ArrayList<Property>());
+		assertNotNull("This collection should at least be empty but not null.", facilities);
+		assertTrue("There are no facilities with no properties, so this result should be emtpy.",
+				facilities.isEmpty());
 	}
 
 	/**
@@ -211,4 +314,29 @@ public class FacilityDAOImplTest {
 		assertTrue("Too many facilities were returned.", roomsWithWLAN.containsAll(result));
 		assertTrue("Wrong facilities were returned.", roomsWithWLAN.equals(result));
 	}
+
+	/**
+	 * Tests merge() with invalid parameter.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testMergeWithInvalidParameter() {
+		facilityDAO.merge(null);
+	}
+
+	/**
+	 * Tests remove() with invalid parameter.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testRemoveWithInvalidParameter() {
+		facilityDAO.remove(null);
+	}
+
+	/**
+	 * Tests persist() with invalid parameter.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testPersistWithInvalidParameter() {
+		facilityDAO.persist(null);
+	}
+
 }
