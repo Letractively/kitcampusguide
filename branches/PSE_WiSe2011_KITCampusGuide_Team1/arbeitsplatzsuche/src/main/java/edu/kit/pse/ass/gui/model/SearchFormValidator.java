@@ -8,7 +8,9 @@ import org.springframework.validation.Validator;
  */
 public class SearchFormValidator implements Validator {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.springframework.validation.Validator#supports(java.lang.Class)
 	 */
 	@Override
@@ -16,17 +18,23 @@ public class SearchFormValidator implements Validator {
 		return SearchFormModel.class.equals(clazz);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.springframework.validation.Validator#validate(java.lang.Object, org.springframework.validation.Errors)
 	 */
 	@Override
 	public void validate(Object target, Errors errors) {
 		SearchFormModel sfm = (SearchFormModel) target;
 		if (sfm.getStart() == null) {
-			errors.reject("start.null", "Keine gültige Suchzeit angegeben.");
+			errors.reject("startDate.null");
+			// set to standard value
+			sfm.setStartToNow();
 		}
-		if (!sfm.isDurationValid()) {
-			errors.reject("duration.invalid", "Keine gültige Dauer angegeben.");
+		if (!sfm.isDurationValid() || sfm.getDuration().isEmpty()) {
+			errors.reject("duration.invalid");
+			// set to standard value
+			sfm.setDuration("1:00");
 		}
 
 	}

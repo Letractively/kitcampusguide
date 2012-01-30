@@ -28,11 +28,7 @@ public abstract class BookingInfoModel {
 	 * Sets now date, duration and wholeRoom to standard values.
 	 */
 	protected BookingInfoModel() {
-		Calendar now = Calendar.getInstance();
-		int minutes = now.get(Calendar.MINUTE);
-		// round to next 15 minitues;
-		now.add(Calendar.MINUTE, 15 - (minutes % 15));
-		start = now.getTime();
+		setStartToNow();
 		duration = "1:00";
 		wholeRoom = false;
 	}
@@ -129,5 +125,16 @@ public abstract class BookingInfoModel {
 	 */
 	public void setWholeRoom(boolean wholeRoom) {
 		this.wholeRoom = wholeRoom;
+	}
+
+	/**
+	 * sets the start date to now, rounded to the next 15 minutes
+	 */
+	public void setStartToNow() {
+		Calendar now = Calendar.getInstance();
+		int minutes = now.get(Calendar.MINUTE);
+		// round to next 15 minitues;
+		now.add(Calendar.MINUTE, 15 - (minutes % 15));
+		start = now.getTime();
 	}
 }
