@@ -143,8 +143,8 @@ public class FacilityDAOImplTest {
 	 */
 	@Test
 	public void testGetAvailablePropertiesOfNotExistingParameter() {
-		assertNull("There should not be a workingplace, thus no properties neither.",
-				facilityDAO.getAvailablePropertiesOf(Workplace.class));
+		Collection<Property> properties = facilityDAO.getAvailablePropertiesOf(Workplace.class);
+		assertTrue("There should not be a workingplace, thus no properties either.", properties.isEmpty());
 	}
 
 	/**

@@ -111,7 +111,8 @@ public class FacilityDAOImpl implements FacilityDAO {
 		try {
 			facilities = jpaTemplate.find("from t_facility fac where fac.class = " + facilityClass.getName());
 		} catch (DataRetrievalFailureException e) {
-			return null;
+			// no facilities of this type found
+			return properties;
 		}
 		if (facilities != null) {
 			for (Facility facility : facilities) {
