@@ -16,6 +16,7 @@ import edu.kit.pse.ass.entity.Reservation;
 import edu.kit.pse.ass.facility.management.FacilityManagement;
 import edu.kit.pse.ass.facility.management.FacilityNotFoundException;
 import edu.kit.pse.ass.facility.management.FacilityQuery;
+import edu.kit.pse.ass.facility.management.FacilityResult;
 
 /**
  * The Class BookingManagementImpl.
@@ -38,6 +39,7 @@ public class BookingManagementImpl implements BookingManagement {
 	 */
 	@Override
 	@Transactional
+	@PreAuthorize("authentication.name == #userID or hasRole('ROLE_ADMIN')")
 	public String book(String userID, Collection<String> facilityIDs, Date startDate, Date endDate)
 			throws FacilityNotFreeException, IllegalArgumentException, FacilityNotFoundException,
 			BookingNotAllowedException, IllegalDateException {
@@ -57,8 +59,8 @@ public class BookingManagementImpl implements BookingManagement {
 		if (userID == null || userID.isEmpty()) {
 			throw new IllegalArgumentException("userID must be not null and not empty.");
 		}
-		
-		//check user reservations
+
+		// check user reservations
 		Collection<Reservation> userReservations = bookingDAO.getReservationsOfUser(userID, startDate, endDate);
 		if (userReservations.size() > 0) {
 			throw new BookingNotAllowedException(userID, "The user has a reservation at the same time");
@@ -139,7 +141,7 @@ public class BookingManagementImpl implements BookingManagement {
 		} else if (newEndDate.after(resv.getEndTime())) {
 			for (String facilityID : resv.getBookedFacilityIds()) {
 				try {
-					//TODO does isFacilityFree ignore the reservation, which we want to change here?
+					// TODO does isFacilityFree ignore the reservation, which we want to change here?
 					if (!isFacilityFree(facilityID, resv.getEndTime(), newEndDate)) {
 						throw new FacilityNotFreeException(
 								"One of the facilities is not free at the specified time.");
@@ -149,9 +151,9 @@ public class BookingManagementImpl implements BookingManagement {
 				}
 			}
 		}
-		//TODO check other reservation of the same user!
+		// TODO check other reservation of the same user!
 		resv.setEndTime(newEndDate);
-		
+
 		bookingDAO.updateReservation(resv);
 	}
 
@@ -228,32 +230,42 @@ public class BookingManagementImpl implements BookingManagement {
 		// the concrete instance of FacilityManagement is specified via
 		// Dependency Injection
 		// fetch matching facilites
-		Collection<? extends Facility> facilityCollection = facilityManagement.findMatchingFacilities(query);
+		Collection<FacilityResult> facilityCollection = facilityManagement.findMatchingFacilities(query);
 		// create output array
-		ArrayList<FreeFacilityResult> facilityResult = new ArrayList<FreeFacilityResult>();
+		ArrayList<FreeFacilityResult> freeFacilityResult = new ArrayList<FreeFacilityResult>();
 		Date startDate = (Date) start.clone();
 		Date endDate = (Date) end.clone();
 
 		if (facilityCollection == null) {
-			return facilityResult;
+			return freeFacilityResult;
 		}
 		// find free matching facilities
 		// if less than 5 are found, shift the reservation time forward up to
 		// 2 hours.
 		int addQuarterHour = 0;
-		while (!facilityCollection.isEmpty() && addQuarterHour < 9 && facilityResult.size() < 5) {
-			Iterator<? extends Facility> facilityIterator = facilityCollection.iterator();
+		while (!facilityCollection.isEmpty() && addQuarterHour < 9 && freeFacilityResult.size() < 5) {
+			Iterator<FacilityResult> facilityIterator = facilityCollection.iterator();
 			// collect all free facilities
 			while (facilityIterator.hasNext()) {
-				Facility facility = facilityIterator.next();
+				FacilityResult facilityResult = facilityIterator.next();
 				try {
-					if (isFacilityFree(facility.getId(), startDate, endDate)
-							|| ((!fullyAvailable && query instanceof FreeFacilityQuery) && ((FreeFacilityQuery) query)
-									.isFacilityPartiallyFree(this, facility, startDate, endDate))) {
-						// add the found facility
-						facilityResult.add(new FreeFacilityResult(facility, (Date) startDate.clone()));
-						// remove from queue
-						facilityIterator.remove();
+					if (fullyAvailable) {
+						if (isFacilityFree(facilityResult.getFacility().getId(), startDate, endDate)) {
+							// add the found facility
+							freeFacilityResult.add(new FreeFacilityResult(facilityResult.getFacility(),
+									(Date) startDate.clone()));
+							// remove from queue
+							facilityIterator.remove();
+						}
+					} else {
+						if (areRequiredChildFacilitiesFree(facilityResult, query.getRequiredChildCount(),
+								startDate, endDate)) {
+							// add the found facility
+							freeFacilityResult.add(new FreeFacilityResult(facilityResult.getFacility(),
+									(Date) startDate.clone()));
+							// remove from queue
+							facilityIterator.remove();
+						}
 					}
 
 				} catch (FacilityNotFoundException e) {
@@ -268,7 +280,51 @@ public class BookingManagementImpl implements BookingManagement {
 			startDate.setTime(startDate.getTime() + 15 * 60000);
 			endDate.setTime(endDate.getTime() + 15 * 60000);
 		}
-		return facilityResult;
+		return freeFacilityResult;
+	}
+
+	/**
+	 * Are required child facilities free.
+	 * 
+	 * @param facilityResult
+	 *            the facility result
+	 * @param requiredChildCount
+	 *            the required child count
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 * @return true, if successful
+	 */
+	private boolean areRequiredChildFacilitiesFree(FacilityResult facilityResult, int requiredChildCount,
+			Date startDate, Date endDate) {
+		if (facilityResult == null || startDate == null || endDate == null) {
+			throw new IllegalArgumentException("One parameter is null or empty");
+		}
+		Collection<Reservation> reservations = bookingDAO.getReservationsOfFacility(facilityResult.getFacility()
+				.getId(), startDate, endDate);
+		if (reservations != null && reservations.size() > 0) {
+			return false;
+		}
+		Facility parent = facilityResult.getFacility().getParentFacility();
+		// check parent facilities
+		while (parent != null) {
+			reservations = bookingDAO.getReservationsOfFacility(parent.getId(), startDate, endDate);
+			if (reservations != null && reservations.size() > 0) {
+				return false;
+			}
+			parent = parent.getParentFacility();
+		}
+		for (Facility requiredFacility : facilityResult.getMatchingChildFacilities()) {
+			reservations = bookingDAO.getReservationsOfFacility(requiredFacility.getId(), startDate, endDate);
+			if (reservations != null && reservations.size() > 0) {
+				return false;
+			}
+			if (!areChildFacilitiesFree(requiredFacility, startDate, endDate)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/*
@@ -284,7 +340,7 @@ public class BookingManagementImpl implements BookingManagement {
 		if (facilityID == null || facilityID.isEmpty() || startDate == null || endDate == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
-		//TODO check start before end date
+		// TODO check start before end date
 		Collection<Reservation> reservations = bookingDAO
 				.getReservationsOfFacility(facilityID, startDate, endDate);
 		if (reservations != null && reservations.size() > 0) {

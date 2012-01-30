@@ -10,9 +10,6 @@ import edu.kit.pse.ass.entity.Property;
  */
 public class RoomQuery extends FacilityQuery {
 
-	/** The minimum workplaces. */
-	protected int minimumWorkplaces;
-
 	/**
 	 * Instantiates a new room query.
 	 * 
@@ -24,17 +21,7 @@ public class RoomQuery extends FacilityQuery {
 	 *            the minimum workplaces
 	 */
 	public RoomQuery(Collection<Property> properties, String searchText, int minimumWorkplaces) {
-		super(properties, searchText);
-		this.minimumWorkplaces = minimumWorkplaces;
-	}
-
-	/**
-	 * Gets the minimum workplaces.
-	 * 
-	 * @return the minimum workplaces
-	 */
-	public int getMinimumWorkplaces() {
-		return this.minimumWorkplaces;
+		super(properties, searchText, minimumWorkplaces);
 	}
 
 	/*
@@ -45,6 +32,10 @@ public class RoomQuery extends FacilityQuery {
 	@Override
 	protected FacilityFinder createFinder() {
 		return new RoomFinder(this);
+	}
+
+	public int getMinimumWorkplaces() {
+		return getRequiredChildCount();
 	}
 
 }

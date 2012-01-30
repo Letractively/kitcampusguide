@@ -1,8 +1,8 @@
 package edu.kit.pse.ass.facility.management;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -39,25 +39,27 @@ public class RoomFinder extends FacilityFinder {
 	 */
 	@Override
 	@Transactional
-	public Collection<Room> execute(FacilityDAO facilityDAO) {
+	public Collection<FacilityResult> execute(FacilityDAO facilityDAO) {
 		// fetch facilities with matching properties
 		Collection<Room> facilities = facilityDAO.getAllFacilities(Room.class);
 		if (facilities == null || facilities.isEmpty()) {
-			return new LinkedHashSet<Room>();
+			return new ArrayList<FacilityResult>();
 		}
 		String[] searchText = null;
 		if (roomQuery.getSearchText() != null) {
 			searchText = roomQuery.getSearchText().toLowerCase().split("\\s+");
 		}
 		int minWorkpl = roomQuery.getMinimumWorkplaces();
-		LinkedHashSet<Room> result = new LinkedHashSet<Room>(facilities.size() / 6);
+		ArrayList<FacilityResult> result = new ArrayList<FacilityResult>();
 		// check all facilities for the requested options
 		Iterator<Room> iter = facilities.iterator();
 		while (iter.hasNext()) {
 			Room r = iter.next();
+			ArrayList<Facility> matchingWorkplaces = null;
 			boolean add = (r.getContainedFacilities() != null) ? r.getContainedFacilities().size() >= minWorkpl
 					: minWorkpl == 0;
 			if (add) {
+				// if room has not all properties, lokk for workplaces with the missing ones
 				if (!r.hasInheritedProperties(this.roomQuery.getProperties())) {
 					LinkedList<Property> workplaceProps = new LinkedList<Property>();
 					for (Property property : this.roomQuery.getProperties()) {
@@ -65,18 +67,23 @@ public class RoomFinder extends FacilityFinder {
 							workplaceProps.add(property);
 						}
 					}
+					matchingWorkplaces = new ArrayList<Facility>();
 					int fittingPlaces = 0;
 					for (Facility containedFac : r.getContainedFacilities()) {
 						if (containedFac.getProperties().containsAll(workplaceProps)) {
 							fittingPlaces++;
+							matchingWorkplaces.add(containedFac);
 						}
 					}
 					if (fittingPlaces < minWorkpl) {
 						add = false;
 					}
+				} else {
+					matchingWorkplaces = new ArrayList<Facility>(r.getContainedFacilities());
 				}
 			}
 
+			// if we have a search text, try to find it
 			if (add && searchText != null) {
 				// check for search text
 				String search = "";
@@ -93,14 +100,10 @@ public class RoomFinder extends FacilityFinder {
 					}
 				}
 			}
-			/*
-			 * if (add && roomQuery.getWorkplaceProperties() != null) { // check properties of workplaces
-			 * Collection<Property> props = roomQuery.getWorkplaceProperties(); int fittingPlaces = 0; for (Facility
-			 * containedFac : r.getContainedFacilities()) { if (containedFac.getProperties().containsAll(props)) {
-			 * fittingPlaces++; } } if (fittingPlaces < minWorkpl) { add = false; } }
-			 */
+
+			// if all tests succeeded, we have a result
 			if (add) {
-				result.add(r);
+				result.add(new FacilityResult(r, matchingWorkplaces));
 			}
 		}
 		return result;

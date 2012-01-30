@@ -47,7 +47,7 @@ public interface FacilityManagement {
 	 *            the facility query
 	 * @return a collection of matching facilities
 	 */
-	Collection<? extends Facility> findMatchingFacilities(FacilityQuery facilityQuery);
+	Collection<FacilityResult> findMatchingFacilities(FacilityQuery facilityQuery);
 
 	/**
 	 * Returns a collection of properties that an object of the given class can have.
