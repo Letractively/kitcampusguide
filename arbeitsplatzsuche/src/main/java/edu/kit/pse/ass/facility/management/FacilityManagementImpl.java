@@ -64,7 +64,7 @@ public class FacilityManagementImpl implements FacilityManagement {
 	 * (edu.kit.pse.ass.facility.management.FacilityQuery)
 	 */
 	@Override
-	public Collection<? extends Facility> findMatchingFacilities(FacilityQuery facilityQuery) {
+	public Collection<FacilityResult> findMatchingFacilities(FacilityQuery facilityQuery) {
 		if (facilityQuery == null) {
 			throw new IllegalArgumentException("query was null");
 		}

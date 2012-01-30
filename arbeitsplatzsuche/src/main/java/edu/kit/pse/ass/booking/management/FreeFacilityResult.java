@@ -1,6 +1,8 @@
 package edu.kit.pse.ass.booking.management;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
 
 import edu.kit.pse.ass.entity.Facility;
 
@@ -8,6 +10,9 @@ import edu.kit.pse.ass.entity.Facility;
  * The Class FreeFacilityResult.
  */
 public class FreeFacilityResult {
+
+	/** The child facilities. */
+	Collection<Facility> childFacilities;
 
 	/** The facility. */
 	Facility facility;
@@ -26,6 +31,31 @@ public class FreeFacilityResult {
 	public FreeFacilityResult(Facility facility, Date start) {
 		this.facility = facility;
 		this.start = start;
+		this.childFacilities = new LinkedList<Facility>();
+	}
+
+	/**
+	 * Gets the facility.
+	 * 
+	 * @return the facility
+	 */
+	public Collection<Facility> getChildFacilities() {
+		return childFacilities;
+	}
+
+	/**
+	 * Sets the facility.
+	 * 
+	 * @param facility
+	 *            the new facility
+	 * @throws IllegalArgumentException
+	 *             facility is null.
+	 */
+	public void setChildFacilities(Collection<Facility> facilities) throws IllegalArgumentException {
+		if (facilities == null) {
+			throw new IllegalArgumentException("Parameter is null");
+		}
+		this.childFacilities = facilities;
 	}
 
 	/**

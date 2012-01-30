@@ -2,7 +2,6 @@ package edu.kit.pse.ass.facility.management;
 
 import java.util.Collection;
 
-import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.facility.dao.FacilityDAO;
 
 // TODO: Auto-generated Javadoc
@@ -18,6 +17,6 @@ public abstract class FacilityFinder {
 	 *            The DataAccessObject
 	 * @return the collection<? extends facility>
 	 */
-	public abstract Collection<? extends Facility> execute(FacilityDAO facilityDAO);
+	public abstract Collection<FacilityResult> execute(FacilityDAO facilityDAO);
 
 }
