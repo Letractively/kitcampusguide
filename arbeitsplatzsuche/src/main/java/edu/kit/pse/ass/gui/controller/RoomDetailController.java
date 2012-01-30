@@ -278,7 +278,7 @@ public class RoomDetailController extends MainController {
 			Room room = facilityManagement.getFacility(Room.class, roomId);
 
 			for (Reservation r : reservations) {
-				events.add(new Event(r.getId(), r.getStartTime(), r.getEndTime(), "Raum besetzt"));
+				events.add(new Event(r.getId(), r.getStartTime(), r.getEndTime(), "Raum besetzt", true));
 			}
 
 			for (Facility fac : room.getContainedFacilities()) {
@@ -292,7 +292,7 @@ public class RoomDetailController extends MainController {
 				reservations = bookingManagement.listReservationsOfFacility(fac.getId(),
 						calendarParamModel.getStart(), calendarParamModel.getEnd());
 				for (Reservation r : reservations) {
-					events.add(new Event(r.getId() + fac.getId(), r.getStartTime(), r.getEndTime(), title));
+					events.add(new Event(r.getId() + fac.getId(), r.getStartTime(), r.getEndTime(), title, false));
 				}
 			}
 

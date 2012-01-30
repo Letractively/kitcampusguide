@@ -346,3 +346,7 @@ background:url(/arbeitsplatzsuche/images/btn_apply.png) no-repeat 7px 6px;
 .delete a{
 background:url(/arbeitsplatzsuche/images/btn_cross.png) no-repeat 7px 6px;
 }
+
+div#calendar .wc-cal-event .wc-time, div#calendar .wc-cal-event .wc-title {
+    color: black ;
+}

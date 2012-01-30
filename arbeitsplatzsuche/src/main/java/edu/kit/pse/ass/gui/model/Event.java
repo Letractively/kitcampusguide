@@ -14,6 +14,7 @@ public class Event {
 	private final Date start;
 	private final Date end;
 	private final String title;
+	private final boolean wholeRoom;
 
 	/**
 	 * Creates a new event
@@ -27,11 +28,12 @@ public class Event {
 	 * @param title
 	 *            displayed title
 	 */
-	public Event(String id, Date start, Date end, String title) {
+	public Event(String id, Date start, Date end, String title, boolean wholeRoom) {
 		this.id = id;
 		this.start = start;
 		this.end = end;
 		this.title = title;
+		this.wholeRoom = wholeRoom;
 	}
 
 	/**
@@ -60,6 +62,13 @@ public class Event {
 	 */
 	public String getTitle() {
 		return title;
+	}
+
+	/**
+	 * @return the wholeRoom
+	 */
+	public boolean isWholeRoom() {
+		return wholeRoom;
 	}
 
 }

@@ -46,7 +46,23 @@
 												end : 22,
 												limitDisplay : true
 											},
-											overlapEventsSeparate : false
+											overlapEventsSeparate : true,
+											allowCalEventOverlap : true,
+											   eventRender : function(calEvent, $event) {
+											         if (calEvent.wholeRoom == 1) {
+											            $event.css("background-color", "#ff4a4a");
+											            $event.find(".wc-time").css({
+											                "backgroundColor" : "#ff2424",
+											                "border" : "1px solid #e00000"
+											             });
+											         }else{
+												            $event.css("background-color", "#ffee5c");
+												            $event.find(".wc-time").css({
+												                "backgroundColor" : "#ffe933",
+												                "border" : "1px solid #ffe404"
+												             });											        	 
+											         }
+											      },
 										});
 
 						var updateWorkplaceCount = function() {
