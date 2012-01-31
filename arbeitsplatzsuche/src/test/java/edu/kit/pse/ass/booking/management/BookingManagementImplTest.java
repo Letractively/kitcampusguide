@@ -374,10 +374,10 @@ public class BookingManagementImplTest {
 		// list end is now + 24h
 		Date listEnd = cal.getTime();
 
-		// first reservation start date is 1 hour before list start
-		cal.add(Calendar.HOUR, -25);
+		// first reservation start date is 2 hour before list start
+		cal.add(Calendar.HOUR, -26);
 		Date reservation1StartDate = cal.getTime();
-		cal.add(Calendar.HOUR, +2);
+		cal.add(Calendar.HOUR, +1);
 		Date reservation1EndDate = cal.getTime();
 		dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(), reservation1StartDate,
 				reservation1EndDate);
@@ -410,33 +410,35 @@ public class BookingManagementImplTest {
 	}
 
 	/**
-	 * Tests if listReservationsOfUser throws an IllegalArgumentException if endDate is null.
+	 * Tests if listReservationsOfFacility throws an IllegalArgumentException if endDate is null.
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testListReservationsOfUserWithNullEndDate() {
-		bookingManagement.listReservationsOfUser(USER_ID, validStartDate, null);
+	public void testListReservationsOfFacilityWithNullEndDate() {
+		bookingManagement.listReservationsOfFacility(room1.getId(), validStartDate, null);
 	}
 
 	/**
-	 * Tests if listReservationsOfUser not lists reservations of other users.
+	 * Tests if listReservationsOfFacility not lists reservations of other facilities.
 	 */
 	@Test
-	public void testListReservationsOfUserNoMatch() {
+	public void testListReservationsOfFacilityNoMatch() {
 		// create a reservation of another user
-		dataHelper.createPersistedReservation("someID", new ArrayList<String>(), validStartDate, validEndDate);
+		dataHelper.createPersistedReservation(USER_ID, Arrays.asList(room1.getId()), validStartDate, validEndDate);
 
 		// should not find above reservation
-		Collection<Reservation> reservationsOfUser;
-		reservationsOfUser = bookingManagement.listReservationsOfUser(USER_ID, validStartDate, validEndDate);
-		assertNotNull(reservationsOfUser);
-		assertTrue(reservationsOfUser.isEmpty());
+		Collection<Reservation> reservationsOfFacility;
+		reservationsOfFacility = bookingManagement.listReservationsOfFacility(infoBuilding.getId(),
+				validStartDate, validEndDate);
+		assertNotNull(reservationsOfFacility);
+		assertTrue(reservationsOfFacility.isEmpty());
 	}
 
 	/**
-	 * Tests if listReservationsOfUser lists reservations that start after list start date and end before list end date.
+	 * Tests if listReservationsOfFacility lists reservations that start after list start date and end before list end
+	 * date.
 	 */
 	@Test
-	public void testListReservationsOfUserInInterval() {
+	public void testListReservationsOfFacilityInInterval() {
 		// create a reservation
 		Calendar cal = Calendar.getInstance();
 
@@ -452,7 +454,7 @@ public class BookingManagementImplTest {
 		Date reservation1StartDate = cal.getTime();
 		cal.add(Calendar.HOUR, +2);
 		Date reservation1EndDate = cal.getTime();
-		Reservation reservation1 = dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(),
+		Reservation reservation1 = dataHelper.createPersistedReservation(USER_ID, Arrays.asList(room1.getId()),
 				reservation1StartDate, reservation1EndDate);
 
 		// second reservation is from now +4 to now +5
@@ -462,24 +464,24 @@ public class BookingManagementImplTest {
 		cal.add(Calendar.HOUR, 1);
 		Date reservation2EndDate = cal.getTime();
 
-		Reservation reservation2 = dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(),
-				reservation2StartDate, reservation2EndDate);
+		Reservation reservation2 = dataHelper.createPersistedReservation(USER_ID,
+				Arrays.asList(room1.getId(), infoBuilding.getId()), reservation2StartDate, reservation2EndDate);
 
 		// should find both above reservation
-		Collection<Reservation> reservationsOfUser;
-		reservationsOfUser = bookingManagement.listReservationsOfUser(USER_ID, listStart, listEnd);
+		Collection<Reservation> reservationsOfFacility;
+		reservationsOfFacility = bookingManagement.listReservationsOfFacility(room1.getId(), listStart, listEnd);
 
-		assertNotNull(reservationsOfUser);
-		assertEquals(2, reservationsOfUser.size());
-		assertTrue(reservationsOfUser.contains(reservation1));
-		assertTrue(reservationsOfUser.contains(reservation2));
+		assertNotNull(reservationsOfFacility);
+		assertEquals(2, reservationsOfFacility.size());
+		assertTrue(reservationsOfFacility.contains(reservation1));
+		assertTrue(reservationsOfFacility.contains(reservation2));
 	}
 
 	/**
-	 * Tests if listReservationsOfUser lists reservations that start and end at given list dates
+	 * Tests if listReservationsOfFacility lists reservations that start and end at given list dates
 	 */
 	@Test
-	public void testListReservationsOfUserEqualInterval() {
+	public void testListReservationsOfFacilityEqualInterval() {
 		// create a reservation
 		Calendar cal = Calendar.getInstance();
 
@@ -489,23 +491,23 @@ public class BookingManagementImplTest {
 		// list end is now + 24h
 		Date listEnd = cal.getTime();
 
-		Reservation reservation1 = dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(),
+		Reservation reservation1 = dataHelper.createPersistedReservation(USER_ID, Arrays.asList(room1.getId()),
 				listStart, listEnd);
 
 		// should find above reservation
-		Collection<Reservation> reservationsOfUser;
-		reservationsOfUser = bookingManagement.listReservationsOfUser(USER_ID, listStart, listEnd);
+		Collection<Reservation> reservationsOfFacility;
+		reservationsOfFacility = bookingManagement.listReservationsOfFacility(room1.getId(), listStart, listEnd);
 
-		assertNotNull(reservationsOfUser);
-		assertEquals(1, reservationsOfUser.size());
-		assertTrue(reservationsOfUser.contains(reservation1));
+		assertNotNull(reservationsOfFacility);
+		assertEquals(1, reservationsOfFacility.size());
+		assertTrue(reservationsOfFacility.contains(reservation1));
 	}
 
 	/**
-	 * Tests if listReservationsOfUser not lists reservations after given list interval
+	 * Tests if listReservationsOfFacility not lists reservations after given list interval
 	 */
 	@Test
-	public void testListReservationsOfUserAfterInterval() {
+	public void testListReservationsOfFacilityAfterInterval() {
 		// create a reservation
 		Calendar cal = Calendar.getInstance();
 
@@ -520,22 +522,22 @@ public class BookingManagementImplTest {
 		Date reservation1StartDate = cal.getTime();
 		cal.add(Calendar.HOUR, +2);
 		Date reservation1EndDate = cal.getTime();
-		dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(), reservation1StartDate,
+		dataHelper.createPersistedReservation(USER_ID, Arrays.asList(room1.getId()), reservation1StartDate,
 				reservation1EndDate);
 
 		// should not find above reservation
-		Collection<Reservation> reservationsOfUser;
-		reservationsOfUser = bookingManagement.listReservationsOfUser(USER_ID, listStart, listEnd);
+		Collection<Reservation> reservationsOfFacility;
+		reservationsOfFacility = bookingManagement.listReservationsOfFacility(room1.getId(), listStart, listEnd);
 
-		assertNotNull(reservationsOfUser);
-		assertTrue(reservationsOfUser.isEmpty());
+		assertNotNull(reservationsOfFacility);
+		assertTrue(reservationsOfFacility.isEmpty());
 	}
 
 	/**
 	 * Tests if listReservationsOfUser not lists reservations before given list interval.
 	 */
 	@Test
-	public void testListReservationsOfUserBeforeInterval() {
+	public void testListReservationsOfFacilityBeforeInterval() {
 		// create a reservation
 		Calendar cal = Calendar.getInstance();
 
@@ -546,19 +548,19 @@ public class BookingManagementImplTest {
 		Date listEnd = cal.getTime();
 
 		// first reservation start date is 1 hour before list start
-		cal.add(Calendar.HOUR, -25);
+		cal.add(Calendar.HOUR, -26);
 		Date reservation1StartDate = cal.getTime();
-		cal.add(Calendar.HOUR, +2);
+		cal.add(Calendar.HOUR, +1);
 		Date reservation1EndDate = cal.getTime();
-		dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(), reservation1StartDate,
+		dataHelper.createPersistedReservation(USER_ID, Arrays.asList(room1.getId()), reservation1StartDate,
 				reservation1EndDate);
 
 		// should not find above reservation
-		Collection<Reservation> reservationsOfUser;
-		reservationsOfUser = bookingManagement.listReservationsOfUser(USER_ID, listStart, listEnd);
+		Collection<Reservation> reservationsOfFacility;
+		reservationsOfFacility = bookingManagement.listReservationsOfFacility(room1.getId(), listStart, listEnd);
 
-		assertNotNull(reservationsOfUser);
-		assertTrue(reservationsOfUser.isEmpty());
+		assertNotNull(reservationsOfFacility);
+		assertTrue(reservationsOfFacility.isEmpty());
 	}
 
 	// /**
