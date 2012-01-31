@@ -24,7 +24,7 @@ import edu.kit.pse.ass.entity.Workplace;
 /**
  * The Class TestData.
  */
-public class TestData {
+public class TestData2 {
 
 	/** The jpa template. */
 	@Autowired
@@ -89,6 +89,7 @@ public class TestData {
 
 	/**
 	 * User fill with dummies.
+	 * 
 	 * @return dummy users
 	 */
 	@Transactional
@@ -116,8 +117,10 @@ public class TestData {
 	}
 
 	/**
-	 * @param facilities the facilities to generate bookings for.
-	 * @param dummyusers the users to generate bookings for.
+	 * @param facilities
+	 *            the facilities to generate bookings for.
+	 * @param dummyusers
+	 *            the users to generate bookings for.
 	 * @return the ids of the generated reservations.
 	 */
 	@Transactional
@@ -322,9 +325,9 @@ public class TestData {
 			t.setName(name);
 			t = jpaTemplate.merge(t);
 		} catch (InstantiationException e) {
-			//TODO
+			// TODO
 		} catch (IllegalAccessException e) {
-			//TODO
+			// TODO
 		}
 		return t;
 	}
