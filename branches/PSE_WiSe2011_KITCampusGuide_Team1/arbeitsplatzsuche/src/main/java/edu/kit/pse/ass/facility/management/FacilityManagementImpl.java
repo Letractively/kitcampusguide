@@ -8,7 +8,6 @@ import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.facility.dao.FacilityDAO;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FacilityManagementImpl.
  */

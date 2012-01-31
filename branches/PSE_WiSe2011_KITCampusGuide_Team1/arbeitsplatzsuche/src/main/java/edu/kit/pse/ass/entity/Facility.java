@@ -370,16 +370,9 @@ public class Facility {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == this) {
-			return true;
-		} else if (obj instanceof Facility) {
+		if (obj instanceof Facility) {
 			Facility f = (Facility) obj;
-			boolean equal = true;
-			equal = (f.id == this.id) || (f.id != null && f.id.equals(this.id));
-			if (equal) {
-				equal = (f.name == this.name) || (f.name != null && f.name.equals(this.name));
-			}
-			return equal;
+			return id != null && id == f.id;
 		}
 		return false;
 	}

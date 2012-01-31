@@ -30,7 +30,7 @@ import edu.kit.pse.ass.entity.Workplace;
 /**
  * The Class FacilityDAOImplTest.
  * 
- * @author Lennart
+ * @author Fabian
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext/applicationContext-*.xml" })
@@ -46,7 +46,6 @@ public class FacilityDAOImplTest {
 	private FacilityDAO facilityDAO;
 
 	private Facility persistedRoom1;
-
 	private Facility persistedRoom2;
 
 	private Property propertyWLAN;

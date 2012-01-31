@@ -5,14 +5,15 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.annotation.ExpectedException;
@@ -26,11 +27,10 @@ import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FacilityManagementImplTest.
  * 
- * @author Lennart
+ * @author Fabian
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext/applicationContext-*.xml" })
@@ -39,93 +39,103 @@ import edu.kit.pse.ass.entity.Room;
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class FacilityManagementImplTest {
 
-	/** The Constant FACILITYID. */
-	private static String FACILITYID = null;
-
-	/** The Constant SEARCH_TEXT. */
 	private static final String SEARCH_TEXT = "Informatik 50.34";
 
-	/** The Constant NEEDED_WORKPLACES. */
 	private static final int NEEDED_WORKPLACES = 3;
 
-	/** The Constant FIND_PROPERTIES. */
-	private static final List<Property> FIND_PROPERTIES = Arrays.asList(new Property("WLAN"), new Property(
-			"Steckdose"));
+	@Autowired
+	private JpaTemplate jpaTemplate;
 
-	/** all available properties of rooms */
-	private static final Collection<Property> ALL_ROOM_PROPERTIES = Arrays.asList(new Property("WLAN"),
-			new Property("Steckdose"), new Property("LAN"), new Property("Barrierefrei"), new Property("Licht"),
-			new Property("PC"));
-
-	/** The fm. */
 	@Autowired
 	private FacilityManagement facilityManagement;
 
-	/** The test data. */
-	@Autowired
-	TestData testData;
+	private Property propertyWLAN;
+	private Property propertyLAN;
+	private Property propertySteckdose;
+	private Property propertyBarrierefrei;
+	private Property propertyLicht;
+	private Property propertyPC;
 
-	/** The FACILIT y_ query. */
-	FacilityQuery facilityQuery = new RoomQuery(FIND_PROPERTIES, SEARCH_TEXT, NEEDED_WORKPLACES);
+	private Collection<Property> propertiesToFind;
 
-	/** Collection of the Collections of the test-dummy facilities */
-	TestData.DummyFacilities dummyFacilities;
+	private Facility persistedRoom1;
+	private Facility persistedRoom2;
+
+	private FacilityQuery facilityQuery;
+
+	private String facilityID;
 
 	/**
 	 * Sets the up.
 	 */
 	@Before
 	public void setUp() {
-		dummyFacilities = testData.facilityFillWithDummies();
-		for (Room r : dummyFacilities.rooms) {
-			if (r.hasProperty(new Property("WLAN"))) {
-				FACILITYID = r.getId();
-				break;
-			}
-		}
+		// create the properties
+		propertyWLAN = new Property("WLAN");
+		propertyLAN = new Property("LAN");
+		propertySteckdose = new Property("Steckdose");
+		propertyBarrierefrei = new Property("Barrierefrei");
+		propertyLicht = new Property("Licht");
+		propertyPC = new Property("PC");
+
+		// define which properties shall be found
+		propertiesToFind = new ArrayList<Property>();
+		propertiesToFind.add(propertyWLAN);
+		propertiesToFind.add(propertySteckdose);
+
+		// create 2 new rooms with WLAN and persist them in jpaTemplate
+		persistedRoom1 = new Room();
+		persistedRoom1.addProperty(propertyWLAN);
+		jpaTemplate.persist(persistedRoom1);
+
+		persistedRoom2 = new Room();
+		persistedRoom2.addProperty(propertyWLAN);
+		jpaTemplate.persist(persistedRoom2);
+
+		// define the search
+		facilityQuery = new RoomQuery(propertiesToFind, SEARCH_TEXT, NEEDED_WORKPLACES);
 	}
 
 	/**
-	 * Tests the method getFacility(String ID) with an ID which does not exist.
-	 * 
-	 * @throws IllegalArgumentException
+	 * Tests the method getFacility(String ID) with an not existing ID.
 	 * 
 	 * @throws FacilityNotFoundException
+	 *             This exception is expected!
 	 */
 	@Test(expected = FacilityNotFoundException.class)
-	public void testGetNotExistingFacility() throws IllegalArgumentException, FacilityNotFoundException {
-		// The id should not exist.
-		facilityManagement.getFacility("ID9");
+	public void testGetFacilityWithNotExistingParameter() throws FacilityNotFoundException {
+		facilityManagement.getFacility("ThisIsNotAnID");
 	}
 
 	/**
-	 * Tests the method getFacility(String ID) with null as parameter.
+	 * Tests the method getFacility(String ID) with a null parameter.
 	 * 
-	 * @throws IllegalArgumentException
 	 * @throws FacilityNotFoundException
+	 *             This exception will never occure!
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testGetFacilityWithNullArgument() throws IllegalArgumentException, FacilityNotFoundException {
+	public void testGetFacilityWithNullParameter() throws FacilityNotFoundException {
 		facilityManagement.getFacility(null);
 	}
 
 	/**
-	 * Test get facility.
+	 * Tests the method getFacility(String ID) with a null parameter.
 	 * 
 	 * @throws FacilityNotFoundException
-	 * @throws IllegalArgumentException
+	 *             This exception will never occure!
 	 */
 	@Test
-	public void testGetFacility() throws IllegalArgumentException, FacilityNotFoundException {
+	public void testGetFacility() throws FacilityNotFoundException {
+
 		// check for right input
-		assertNotNull("No facility given", FACILITYID);
-		assertFalse("No facility given", FACILITYID.isEmpty());
+		assertNotNull("No facility given", facilityID);
+		assertFalse("No facility given", facilityID.isEmpty());
 		// try to get facility
-		Facility result = facilityManagement.getFacility(FACILITYID);
+		Facility result = facilityManagement.getFacility(facilityID);
 		// a facility should be returned
 		assertNotNull(result);
 		// assert the correct facility was returned
-		assertEquals("Wrong facility ID", FACILITYID, result.getId());
+		assertEquals("Wrong facility ID", facilityID, result.getId());
 		assertTrue("result has no wlan", result.hasInheritedProperty(new Property("WLAN")));
 		assertTrue("result has not enough workplaces", result.getContainedFacilities().size() == 3);
 	}
@@ -168,6 +178,9 @@ public class FacilityManagementImplTest {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	@ExpectedException(IllegalArgumentException.class)
 	public void testGetAvailablePropertisOfWrongParameters() {
@@ -185,6 +198,9 @@ public class FacilityManagementImplTest {
 		assertFalse("Wrong Property found", result.contains(FIND_PROPERTIES.get(1)));
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	public void testGetAvailablePropertiesOfRoom() {
 		Collection<Property> result = null;
