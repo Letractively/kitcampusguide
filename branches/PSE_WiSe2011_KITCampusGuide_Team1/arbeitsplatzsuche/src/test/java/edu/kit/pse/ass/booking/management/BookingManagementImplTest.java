@@ -561,124 +561,176 @@ public class BookingManagementImplTest {
 		assertTrue(reservationsOfFacility.isEmpty());
 	}
 
-	// /**
-	// * Test change reservation end.
-	// *
-	// * @throws ReservationNotFoundException
-	// * @throws IllegalArgumentException
-	// * @throws FacilityNotFreeException
-	// */
-	// @Test
-	// public void testChangeReservationEnd() throws IllegalArgumentException, ReservationNotFoundException,
-	// FacilityNotFreeException {
-	// Date newEnd = new GregorianCalendar(2012, 0, 2, 11, 0).getTime();
-	// try {
-	// // TODO throw error if parameter is null
-	// bookingManagement.changeReservationEnd(reservationID, null);
-	// fail("Accepted wrong parameters.");
-	// } catch (IllegalArgumentException e) {
-	// System.out.println("Error: " + e);
-	// }
-	// try {
-	// bookingManagement.changeReservationEnd(null, newEnd);
-	// fail("Accepted wrong parameters.");
-	// } catch (IllegalArgumentException e) {
-	// System.out.println("Error: " + e);
-	// }
-	//
-	// bookingManagement.changeReservationEnd(reservationID, newEnd);
-	// // check if reservation is changed successfully
-	// assertEquals(newEnd, bookingManagement.getReservation(reservationID).getEndTime());
-	// assertEquals(start, bookingManagement.getReservation(reservationID).getStartTime());
-	// assertEquals(userID, bookingManagement.getReservation(reservationID).getBookingUserId());
-	// }
-	//
-	// /**
-	// * Test remove facility from reservation.
-	// *
-	// * @throws ReservationNotFoundException
-	// * @throws IllegalArgumentException
-	// */
-	// @Test
-	// public void testRemoveFacilityFromReservation() throws IllegalArgumentException, ReservationNotFoundException {
-	// assertTrue(place.size() == bookingManagement.getReservation(reservationID).getBookedFacilityIds().size());
-	// try {
-	// // TODO throw error if parameter is null
-	// bookingManagement.removeFacilityFromReservation(null, place.get(0));
-	// fail("Accepted wrong parameters.");
-	// } catch (IllegalArgumentException e) {
-	// System.out.println("Error: " + e);
-	// }
-	// try {
-	// bookingManagement.removeFacilityFromReservation(reservationID, null);
-	// fail("Accepted wrong parameters.");
-	// } catch (IllegalArgumentException e) {
-	// System.out.println("Error: " + e);
-	// }
-	//
-	// bookingManagement.removeFacilityFromReservation(reservationID, place.get(0));
-	// // check if the right facility was removed
-	// assertTrue("No facility removed", place.size() > bookingManagement.getReservation(reservationID)
-	// .getBookedFacilityIds().size());
-	// assertFalse("Facility still in bookedFacilityIds, but a facility was removed", bookingManagement
-	// .getReservation(reservationID).getBookedFacilityIds().contains(place.get(0)));
-	// }
-	//
-	// /**
-	// * Test delete reservation.
-	// *
-	// * @throws ReservationNotFoundException
-	// * @throws IllegalArgumentException
-	// */
-	// @Test
-	// public void testDeleteReservation() throws IllegalArgumentException, ReservationNotFoundException {
-	// assertNotNull(bookingManagement.getReservation(reservationID));
-	// try {
-	// // TODO throw error if parameter is null
-	// bookingManagement.deleteReservation(null);
-	// fail("Accepted wrong parameters.");
-	// } catch (IllegalArgumentException e) {
-	// System.out.println("Error: " + e);
-	// }
-	//
-	// bookingManagement.deleteReservation(reservationID);
-	// // TODO getRes must return null if res not found
-	// try {
-	// bookingManagement.getReservation(reservationID);
-	// fail("No ReservationNotFoundException");
-	// } catch (ReservationNotFoundException e) {
-	// }
-	// // check if other reservation untouched
-	// assertNotNull(bookingManagement.getReservation(reservationID2));
-	// }
-	//
-	// /**
-	// * Test get reservation.
-	// *
-	// * @throws ReservationNotFoundException
-	// */
-	// @Test
-	// public void testGetReservation() throws ReservationNotFoundException {
-	// Reservation resv = null;
-	// try {
-	// // throw error or return null if parameter is null
-	// assertNull(bookingManagement.getReservation(null));
-	// fail("Accepted wrong parameters.");
-	// } catch (IllegalArgumentException e) {
-	// System.out.println("Error: " + e);
-	// }
-	//
-	// resv = bookingManagement.getReservation(reservationID);
-	//
-	// // a reservation must be returned
-	// assertNotNull("No reservation returned", resv);
-	// // check if the right reservation was returned
-	// assertEquals(reservationID, resv.getId());
-	// assertEquals(userID, resv.getBookingUserId());
-	// assertTrue(resv.getBookedFacilityIds().containsAll(place));
-	// assertEquals(start, resv.getStartTime());
-	// assertEquals(end, resv.getEndTime());
-	// }
+	/**
+	 * Tests if changeReservationEnd throws an IllegalArgumentException if reservationID is null.
+	 * 
+	 * @throws Exception
+	 *             should be an IllegalArgumentException
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testChangeReservationEndWithNullID() throws Exception {
+		bookingManagement.changeReservationEnd(null, validEndDate);
+	}
+
+	/**
+	 * Tests if changeReservationEnd throws an IllegalArgumentException if newEndDate is null.
+	 * 
+	 * @throws Exception
+	 *             should be an IllegalArgumentException
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testChangeReservationEndWithNullDate() throws Exception {
+		Reservation res1 = dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(), validStartDate,
+				validEndDate);
+
+		bookingManagement.changeReservationEnd(res1.getId(), null);
+	}
+
+	/**
+	 * Tests changeReservationEnd it reducing end works.
+	 * 
+	 * @throws Exception
+	 *             no exception should be thrown
+	 */
+	@Test
+	public void testChangeReservationEndReduceEnd() throws Exception {
+
+		Calendar cal = Calendar.getInstance();
+		Date start = cal.getTime();
+		cal.add(Calendar.HOUR, 4);
+		Date end = cal.getTime();
+		cal.add(Calendar.HOUR, -1);
+		Date newEnd = cal.getTime();
+
+		Reservation res1 = dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(), start, end);
+
+		bookingManagement.changeReservationEnd(res1.getId(), newEnd);
+
+		res1 = bookingManagement.getReservation(res1.getId());
+		assertNotNull(res1);
+		// check if reservation is changed successfully
+		assertEquals(newEnd, res1.getEndTime());
+		assertEquals(start, res1.getStartTime());
+	}
+
+	/**
+	 * Tests changeReservationEnd it extending end works.
+	 * 
+	 * @throws Exception
+	 *             no exception should be thrown
+	 */
+	@Test
+	public void testChangeReservationEndExtendEnd() throws Exception {
+
+		Calendar cal = Calendar.getInstance();
+		Date start = cal.getTime();
+		cal.add(Calendar.HOUR, 4);
+		Date end = cal.getTime();
+		cal.add(Calendar.HOUR, +1);
+		Date newEnd = cal.getTime();
+
+		Reservation res1 = dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(), start, end);
+
+		bookingManagement.changeReservationEnd(res1.getId(), newEnd);
+
+		res1 = bookingManagement.getReservation(res1.getId());
+		assertNotNull(res1);
+		// check if reservation is changed successfully
+		assertEquals(newEnd, res1.getEndTime());
+		assertEquals(start, res1.getStartTime());
+	}
+
+	/**
+	 * Tests if removeFacilityFromReservation throws an IllegalArgumentException if reservationID is null.
+	 * 
+	 * @throws Exception
+	 *             should be an IllegalArgumentException
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testRemoveFacilityFromReservationWithNullID() throws Exception {
+		bookingManagement.removeFacilityFromReservation(null, room1.getId());
+	}
+
+	/**
+	 * Tests if removeFacilityFromReservation throws an IllegalArgumentException if facilityID is null.
+	 * 
+	 * @throws Exception
+	 *             should be an IllegalArgumentException
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testRemoveFacilityFromReservationWithNullFacilityID() throws Exception {
+		Reservation res1 = dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(), validStartDate,
+				validEndDate);
+		bookingManagement.removeFacilityFromReservation(res1.getId(), null);
+	}
+
+	/**
+	 * Test if removeFacilityFromReservation removes the right facility.
+	 * 
+	 * @throws Exception
+	 *             no exception expected
+	 */
+	@Test
+	public void testRemoveFacilityFromReservation() throws Exception {
+		Reservation res1 = dataHelper.createPersistedReservation(USER_ID,
+				Arrays.asList(infoBuilding.getId(), room1.getId()), validStartDate, validEndDate);
+
+		bookingManagement.removeFacilityFromReservation(res1.getId(), room1.getId());
+
+		res1 = bookingManagement.getReservation(res1.getId());
+		assertNotNull(res1);
+		assertEquals(1, res1.getBookedFacilityIds().size());
+		assertTrue(res1.getBookedFacilityIds().contains(infoBuilding.getId()));
+	}
+
+	/**
+	 * Test if deleteReservation throws an IllegalArgumentException with null reservationID
+	 * 
+	 * @throws Exception
+	 *             should be an IllegalArgumentException
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testDeleteReservationWithNullID() throws Exception {
+		bookingManagement.deleteReservation(null);
+	}
+
+	/**
+	 * Tests if deleteReservation deletes the right reservation.
+	 */
+	@Test
+	public void testDeleteReservation() {
+		// TODO: add a second res that sould be let untouched
+		Reservation res1 = dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(), validStartDate,
+				validEndDate);
+		assertNotNull(res1.getId());
+		bookingManagement.deleteReservation(res1.getId());
+
+		res1 = dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(), validStartDate,
+				validEndDate);
+		assertTrue(res1 == null);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetReservationWithNullID() throws Exception {
+		bookingManagement.getReservation(null);
+	}
+
+	@Test
+	public void testGetReservation() throws ReservationNotFoundException {
+		Reservation res1 = dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(), validStartDate,
+				validEndDate);
+		Reservation res2 = dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(), validStartDate,
+				validEndDate);
+
+		assertNotNull(res1.getId());
+		assertNotNull(res2.getId());
+
+		// Check if second reservation is returned
+		Reservation res2Result = bookingManagement.getReservation(res2.getId());
+		assertNotNull(res2Result);
+		assertEquals(res2, res2Result);
+	}
+
 	//
 	// /**
 	// * Test find free facilites.
