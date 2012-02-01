@@ -26,6 +26,7 @@ import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Room;
+import edu.kit.pse.ass.entity.Workplace;
 
 /**
  * The Class FacilityManagementImplTest.
@@ -78,6 +79,12 @@ public class FacilityManagementImplTest {
 		propertyLicht = new Property("Licht");
 		propertyPC = new Property("PC");
 
+		Building building = new Building();
+		building.setName("Informatik-Hauptgebäude");
+		building.setNumber("50.34");
+		building.addProperty(propertyBarrierefrei);
+		jpaTemplate.persist(building);
+
 		// define which properties shall be found
 		propertiesToFind = new ArrayList<Property>();
 		propertiesToFind.add(propertyWLAN);
@@ -87,13 +94,33 @@ public class FacilityManagementImplTest {
 		persistedRoom1 = new Room();
 		persistedRoom1.addProperty(propertyWLAN);
 		jpaTemplate.persist(persistedRoom1);
+		building.addContainedFacility(persistedRoom1);
+
+		Workplace workplace = new Workplace();
+		workplace.addProperty(propertySteckdose);
+		jpaTemplate.persist(workplace);
+		persistedRoom1.addContainedFacility(workplace);
+
+		Workplace workplace2 = new Workplace();
+		workplace2.addProperty(propertySteckdose);
+		jpaTemplate.persist(workplace2);
+		persistedRoom1.addContainedFacility(workplace2);
+
+		Workplace workplace3 = new Workplace();
+		workplace3.addProperty(propertySteckdose);
+		jpaTemplate.persist(workplace3);
+		persistedRoom1.addContainedFacility(workplace3);
 
 		persistedRoom2 = new Room();
 		persistedRoom2.addProperty(propertyWLAN);
+		persistedRoom2.addProperty(propertyLicht);
 		jpaTemplate.persist(persistedRoom2);
+		building.addContainedFacility(persistedRoom2);
 
 		// define the search
 		facilityQuery = new RoomQuery(propertiesToFind, SEARCH_TEXT, NEEDED_WORKPLACES);
+		facilityID = persistedRoom1.getId();
+		assertFalse("Error on creating testdata", facilityID == null || facilityID.isEmpty());
 	}
 
 	/**
@@ -119,17 +146,14 @@ public class FacilityManagementImplTest {
 	}
 
 	/**
-	 * Tests the method getFacility(String ID) with a null parameter.
+	 * Tests the method getFacility(String ID) with an existing id.
 	 * 
 	 * @throws FacilityNotFoundException
-	 *             This exception will never occure!
+	 *             This exception will never occur!
 	 */
 	@Test
 	public void testGetFacility() throws FacilityNotFoundException {
 
-		// check for right input
-		assertNotNull("No facility given", facilityID);
-		assertFalse("No facility given", facilityID.isEmpty());
 		// try to get facility
 		Facility result = facilityManagement.getFacility(facilityID);
 		// a facility should be returned
@@ -138,6 +162,30 @@ public class FacilityManagementImplTest {
 		assertEquals("Wrong facility ID", facilityID, result.getId());
 		assertTrue("result has no wlan", result.hasInheritedProperty(new Property("WLAN")));
 		assertTrue("result has not enough workplaces", result.getContainedFacilities().size() == 3);
+	}
+
+	/**
+	 * Test get facility with wrong type but existing id.
+	 * 
+	 * @throws FacilityNotFoundException
+	 *             the facility not found exception
+	 */
+	@ExpectedException(FacilityNotFoundException.class)
+	@Test
+	public void testGetFacilityWithWrongType() throws FacilityNotFoundException {
+		facilityManagement.getFacility(Building.class, facilityID);
+	}
+
+	/**
+	 * Test get facility with type Room.
+	 * 
+	 * @throws FacilityNotFoundException
+	 *             must never occur
+	 */
+	@Test
+	public void testGetFacilityWithTypeRoom() throws FacilityNotFoundException {
+		Room r = facilityManagement.getFacility(Room.class, facilityID);
+		assertEquals("Wrong facility returned", facilityID, r.getId());
 	}
 
 	/**
@@ -157,7 +205,7 @@ public class FacilityManagementImplTest {
 		FacilityQuery testQuery = new RoomQuery(Arrays.asList(new Property("Strom")), SEARCH_TEXT,
 				NEEDED_WORKPLACES);
 		// no such facility should be found
-		Collection<? extends Facility> result = facilityManagement.findMatchingFacilities(testQuery);
+		Collection<FacilityResult> result = facilityManagement.findMatchingFacilities(testQuery);
 		assertNotNull(result);
 		assertTrue(result.isEmpty());
 	}
@@ -168,14 +216,26 @@ public class FacilityManagementImplTest {
 	@Test
 	public void testFindMatchingFacilities() {
 
-		Collection<? extends Facility> result = facilityManagement.findMatchingFacilities(facilityQuery);
+		Collection<FacilityResult> result = facilityManagement.findMatchingFacilities(facilityQuery);
 		assertNotNull("result is null", result);
 		assertFalse("result ist empty", result.isEmpty());
-		for (Facility fac : result) {
-			assertEquals("wrong class", fac.getClass(), Room.class);
-			assertTrue("not enough places", fac.getContainedFacilities().size() >= NEEDED_WORKPLACES);
-			assertTrue("not all properties", fac.getProperties().containsAll(FIND_PROPERTIES));
+		for (FacilityResult fac : result) {
+			assertEquals("wrong class", Room.class, fac.getFacility().getClass());
+			assertTrue("not enough places", fac.getFacility().getContainedFacilities().size() >= NEEDED_WORKPLACES);
+			assertTrue("not enough places", fac.getMatchingChildFacilities().size() >= NEEDED_WORKPLACES);
+			assertTrue("not all properties", fac.getFacility().hasInheritedProperties(propertiesToFind)
+					|| allChildrenMatchProps(fac.getMatchingChildFacilities(), propertiesToFind));
 		}
+	}
+
+	private boolean allChildrenMatchProps(Collection<Facility> matchingChildFacilities,
+			Collection<Property> properties) {
+		for (Facility fac : matchingChildFacilities) {
+			if (!fac.hasInheritedProperties(properties)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -194,8 +254,8 @@ public class FacilityManagementImplTest {
 	public void testGetAvailablePropertiesOfBuilding() {
 		Collection<Property> result = facilityManagement.getAvailablePropertiesOf(Building.class);
 		assertNotNull("Result is null", result);
-		assertTrue("Property missing", result.contains(FIND_PROPERTIES.get(0)));
-		assertFalse("Wrong Property found", result.contains(FIND_PROPERTIES.get(1)));
+		assertTrue("Property missing", result.contains(propertyBarrierefrei));
+		assertTrue("Wrong Property found", result.size() == 1);
 	}
 
 	/**
@@ -209,6 +269,6 @@ public class FacilityManagementImplTest {
 		assertNotNull("Result is null", result);
 		// assert the correct properties are returned
 		assertTrue("Missing properties or too many",
-				result.size() == ALL_ROOM_PROPERTIES.size() && result.containsAll(ALL_ROOM_PROPERTIES));
+				result.size() == 2 && result.contains(propertyWLAN) && result.contains(propertyLicht));
 	}
 }
