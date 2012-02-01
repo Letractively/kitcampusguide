@@ -65,4 +65,8 @@
 	<bean id="facilityManagement" 
 			class="edu.kit.pse.ass.facility.management.FacilityManagementImpl"
 	        autowire-candidate="true"/>
+	        
+	<bean id="userManagement" 
+			class="edu.kit.pse.ass.user.management.UserManagementImpl"
+	        autowire-candidate="true"/>
 </beans>
