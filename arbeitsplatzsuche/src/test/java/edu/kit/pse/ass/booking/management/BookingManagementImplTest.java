@@ -26,8 +26,6 @@ import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Reservation;
 import edu.kit.pse.ass.entity.Room;
-import edu.kit.pse.ass.facility.management.FacilityNotFoundException;
-import edu.kit.pse.ass.facility.management.FacilityQuery;
 import edu.kit.pse.ass.realdata.DataHelper;
 
 // TODO: Auto-generated Javadoc
@@ -44,7 +42,7 @@ import edu.kit.pse.ass.realdata.DataHelper;
 public class BookingManagementImplTest {
 
 	/** The email of the user. */
-	private static final String USER_ID = "ubbbb@student.kit.edu";;
+	private static final String USER_ID = "ubbbb@student.kit.edu";
 
 	/** The Constant FIND_PROPERTY_NAMES. */
 	private static final String[] FIND_PROPERTY_NAMES = { "WLAN", "Steckdose" };
