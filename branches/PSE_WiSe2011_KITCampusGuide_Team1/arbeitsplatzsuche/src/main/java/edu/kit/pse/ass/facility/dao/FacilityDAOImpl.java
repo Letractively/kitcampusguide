@@ -135,6 +135,9 @@ public class FacilityDAOImpl implements FacilityDAO {
 	@Override
 	@Transactional
 	public Facility merge(Facility facility) {
+		if (facility == null) {
+			throw new IllegalArgumentException("The facility to merge musst not be null.");
+		}
 		return jpaTemplate.merge(facility);
 	}
 
@@ -146,6 +149,9 @@ public class FacilityDAOImpl implements FacilityDAO {
 	@Override
 	@Transactional
 	public void remove(String facilityID) {
+		if (facilityID == null || facilityID.isEmpty()) {
+			throw new IllegalArgumentException("The facilityID to remove musst not be null or empty.");
+		}
 		Facility facility = getFacility(facilityID);
 		if (facility != null) {
 			jpaTemplate.remove(facility);
@@ -160,6 +166,9 @@ public class FacilityDAOImpl implements FacilityDAO {
 	@Override
 	@Transactional
 	public void persist(Facility facility) {
+		if (facility == null) {
+			throw new IllegalArgumentException("The facility to persist musst not be null.");
+		}
 		jpaTemplate.persist(facility);
 
 	}

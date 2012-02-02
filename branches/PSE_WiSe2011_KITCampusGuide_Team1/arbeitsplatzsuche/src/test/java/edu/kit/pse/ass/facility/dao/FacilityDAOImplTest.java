@@ -276,9 +276,10 @@ public class FacilityDAOImplTest {
 	@Test
 	public void testGetFacilitiesWithEmptyParameter() {
 		Collection<Facility> facilities = facilityDAO.getFacilities(new ArrayList<Property>());
-		assertNotNull("This collection should at least be empty but not null.", facilities);
-		assertTrue("There are no facilities with no properties, so this result should be emtpy.",
-				facilities.isEmpty());
+		assertNotNull("This collection should not be null.", facilities);
+		assertTrue("Every facility fits to the requirements, which are nothing specific.", !facilities.isEmpty());
+		assertTrue("All facility in the datebase fits to the empty parameter, "
+				+ "so there should be returned every facility available.", facilities.size() == 2);
 	}
 
 	/**
