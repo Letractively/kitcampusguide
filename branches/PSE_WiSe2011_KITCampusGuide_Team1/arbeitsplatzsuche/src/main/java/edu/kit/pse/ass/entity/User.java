@@ -40,7 +40,7 @@ public class User implements UserDetails {
 	@Id
 	private String email;
 
-	/** the password of the user. */
+	/** the password hash of the user. */
 	private String password;
 
 	/**
@@ -114,13 +114,9 @@ public class User implements UserDetails {
 	public void setPassword(String password) throws IllegalArgumentException {
 		if (password == null) {
 			throw new IllegalArgumentException("password must not be null");
-		} else if (password.length() < 8) {
-			throw new IllegalArgumentException(
-					"password is too short. min. 8 characters");
-		} else {
-			// TODO generate password hash???
-			this.password = password;
 		}
+		
+		this.password = password;
 	}
 
 	/*
