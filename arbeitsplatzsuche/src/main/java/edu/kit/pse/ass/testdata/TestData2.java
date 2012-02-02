@@ -318,6 +318,7 @@ public class TestData2 {
 		public ArrayList<User> users;
 	}
 
+	@SuppressWarnings("unused")
 	private <T extends Facility> T createPersisted(Class<T> type, String name) {
 		T t = null;
 		try {
@@ -325,9 +326,9 @@ public class TestData2 {
 			t.setName(name);
 			t = jpaTemplate.merge(t);
 		} catch (InstantiationException e) {
-			// TODO
+			int i;
 		} catch (IllegalAccessException e) {
-			// TODO
+			int i;
 		}
 		return t;
 	}

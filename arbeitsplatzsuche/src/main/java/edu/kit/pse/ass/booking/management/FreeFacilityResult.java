@@ -28,6 +28,7 @@ public class FreeFacilityResult {
 	 * @param start
 	 *            the start
 	 * @param freeChildren
+	 *            the free children
 	 */
 	public FreeFacilityResult(Facility facility, Date start, Collection<Facility> freeChildren) {
 		this.facility = facility;
