@@ -180,12 +180,12 @@ public class FacilityManagementImplTest {
 	 * Test get facility with type Room.
 	 * 
 	 * @throws FacilityNotFoundException
-	 *             must never occur
+	 *             musst never occur
 	 */
 	@Test
 	public void testGetFacilityWithTypeRoom() throws FacilityNotFoundException {
 		Room r = facilityManagement.getFacility(Room.class, facilityID);
-		assertEquals("Wrong facility returned", facilityID, r.getId());
+		assertEquals("Wrong facility returned.", facilityID, r.getId());
 	}
 
 	/**
