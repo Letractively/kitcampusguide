@@ -35,7 +35,7 @@ public class UserDAOImplTest {
 	private UserDAO users;
 
 	/** The Constant persistedUser. */
-	private static User persistedUser;
+	private User persistedUser;
 
 	/** The Constant TEST_PERSISTEDMAIL. */
 	private static final String TEST_PERSISTEDMAIL = "upers@student.kit.edu";

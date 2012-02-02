@@ -372,7 +372,7 @@ public class Facility {
 	public boolean equals(Object obj) {
 		if (obj instanceof Facility) {
 			Facility f = (Facility) obj;
-			return id != null && id == f.id;
+			return id != null && id.equals(f.id);
 		}
 		return false;
 	}
