@@ -57,13 +57,15 @@ public class FacilityTest {
 	 * Test add contained facilities.
 	 */
 	@Test
+	@SuppressWarnings("deprecation")
 	public void testAddContainedFacilities() {
 		// Collection of rooms to add to a bulding:
 		Collection<Room> roomsToAdd = new ArrayList<Room>();
-
+		building.setId("1asljcbaljf");
 		// Add 5 rooms to the bulding:
 		for (int i = 0; i < 5; i++) {
 			Room r = new Room();
+			r.setId("" + i);
 			r.setName(NAME + i);
 			roomsToAdd.add(r);
 			building.addContainedFacility(r);
@@ -73,8 +75,9 @@ public class FacilityTest {
 		assertEquals(5, building.getContainedFacilities().size());
 
 		// Are all Rooms in Building?
-		for (Room r : roomsToAdd) {
-			assertTrue(building.getContainedFacilities().contains(r));
+		Collection<Facility> containedFacilities = building.getContainedFacilities();
+		for (Facility r : roomsToAdd) {
+			assertTrue(containedFacilities.contains(r));
 			// check parent
 			assertEquals(building, r.getParentFacility());
 		}
@@ -87,6 +90,7 @@ public class FacilityTest {
 	@Test
 	public void removeContainedFacility() {
 		Room r = new Room();
+		r.setId("roomxyz1");
 		building.addContainedFacility(r);
 		// We added a room so size should be 1
 		assertEquals("Facility is not added", 1, building

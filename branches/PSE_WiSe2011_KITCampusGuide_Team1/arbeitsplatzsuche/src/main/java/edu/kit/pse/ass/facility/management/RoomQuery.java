@@ -34,6 +34,9 @@ public class RoomQuery extends FacilityQuery {
 		return new RoomFinder(this);
 	}
 
+	/**
+	 * @return the minimum workplaces
+	 */
 	public int getMinimumWorkplaces() {
 		return getRequiredChildCount();
 	}
