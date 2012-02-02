@@ -22,7 +22,10 @@ public class LoginTest {
 	/** the constant base url */
 	private static final String BASEURL = "http://localhost:8080/arbeitsplatzsuche/";
 
+	/** the user */
 	private static final String USERNAME = "ubbbb@student.kit.edu";
+
+	/** the user's password */
 	private static final String PASSWORD = "bbbbbbbb";
 
 	/**
@@ -31,7 +34,7 @@ public class LoginTest {
 	 * Test submits wrong login data, followed by correct login data, and then logs out.
 	 * 
 	 * @throws IOException
-	 *             if an IO error
+	 *             if an IO error occurs
 	 */
 	@Test
 	public void login() throws IOException {
