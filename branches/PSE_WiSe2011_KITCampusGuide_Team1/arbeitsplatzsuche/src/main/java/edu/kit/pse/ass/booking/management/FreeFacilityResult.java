@@ -51,7 +51,7 @@ public class FreeFacilityResult {
 	/**
 	 * Sets the facility.
 	 * 
-	 * @param facility
+	 * @param facilities
 	 *            the new facility
 	 * @throws IllegalArgumentException
 	 *             facility is null.

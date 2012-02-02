@@ -7,7 +7,6 @@ import java.util.HashSet;
 import org.junit.Before;
 import org.junit.Test;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UserTest.
  */
@@ -16,14 +15,14 @@ public class UserTest {
 	/** The user. */
 	User user;
 
-	/** The TES t_ role. */
-	private static String TEST_ROLE = "student";
+	/** The test role. */
+	private static final String TEST_ROLE = "student";
 
-	/** The TES t_ email. */
-	private static String TEST_EMAIL = "uaaaa@student.kit.edu";
+	/** The test email. */
+	private static final String TEST_EMAIL = "uaaaa@student.kit.edu";
 
-	/** The TES t_ pw. */
-	private static String TEST_PW = "pwWithMin8Chars";
+	/** The test pw. */
+	private static final String TEST_PW = "pwWithMin8Chars";
 
 	/**
 	 * Sets the up.
