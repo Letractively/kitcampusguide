@@ -29,15 +29,17 @@ public class UserManagementImpl implements UserManagement {
 	@Override
 	@Transactional
 	public String register(String userID, String password) throws UserAlreadyExistsException, IllegalArgumentException {
-		// TODO Auto-generated method stub
+		if (userID == null || userID.isEmpty()) {
+			throw new IllegalArgumentException("Illegal userID specified.");
+		}
+		if (password == null || password.isEmpty()) {
+			throw new IllegalArgumentException("Illegal password specified");
+		}
 		if (passwordEncoder != null) {
 			password = passwordEncoder.encodePassword(password, null);
 		}
 		if (userDAO.getUser(userID) != null) {
 			throw new UserAlreadyExistsException();
-		}
-		if (userID == null || userID.isEmpty()) {
-			throw new IllegalArgumentException("Illegal userID specified.");
 		}
 		User u = userDAO.insertUser(userID, password);
 		if (u == null) {
@@ -52,7 +54,10 @@ public class UserManagementImpl implements UserManagement {
 	 * @see edu.kit.pse.ass.user.management.UserManagement#getUser(java.lang.String)
 	 */
 	@Override
-	public User getUser(String userID) {
+	public User getUser(String userID) throws IllegalArgumentException {
+		if (userID == null || userID.isEmpty()) {
+			throw new IllegalArgumentException("Illegal userID specified.");
+		}
 		return userDAO.getUser(userID);
 	}
 
