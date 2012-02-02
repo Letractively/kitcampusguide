@@ -49,7 +49,7 @@ public class BookingManagementImpl implements BookingManagement {
 			throw new IllegalArgumentException("start or end date is null");
 		}
 		if (startDate.after(endDate)) {
-			throw new IllegalArgumentException("The start date has to be before end date.");
+			throw new IllegalDateException("The start date has to be before end date.");
 		}
 		Date now = Calendar.getInstance().getTime();
 		if (startDate.before(now)) {
