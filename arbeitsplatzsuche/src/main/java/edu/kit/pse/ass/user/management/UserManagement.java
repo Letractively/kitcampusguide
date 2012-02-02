@@ -28,6 +28,8 @@ public interface UserManagement {
 	 * @param userID
 	 *            the user's id
 	 * @return the user with the given ID
+	 * @throws IllegalArgumentException
+	 *             when userID is empty or null.
 	 */
-	User getUser(String userID);
+	User getUser(String userID) throws IllegalArgumentException;
 }
