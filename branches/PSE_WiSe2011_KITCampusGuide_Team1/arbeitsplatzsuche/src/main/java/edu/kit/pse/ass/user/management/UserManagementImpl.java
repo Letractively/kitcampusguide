@@ -28,13 +28,16 @@ public class UserManagementImpl implements UserManagement {
 	 */
 	@Override
 	@Transactional
-	public String register(String userID, String password) throws UserAlreadyExistsException {
+	public String register(String userID, String password) throws UserAlreadyExistsException, IllegalArgumentException {
 		// TODO Auto-generated method stub
 		if (passwordEncoder != null) {
 			password = passwordEncoder.encodePassword(password, null);
 		}
 		if (userDAO.getUser(userID) != null) {
 			throw new UserAlreadyExistsException();
+		}
+		if (userID == null || userID.isEmpty()) {
+			throw new IllegalArgumentException("Illegal userID specified.");
 		}
 		User u = userDAO.insertUser(userID, password);
 		if (u == null) {

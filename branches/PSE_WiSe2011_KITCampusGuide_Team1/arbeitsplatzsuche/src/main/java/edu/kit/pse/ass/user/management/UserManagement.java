@@ -17,8 +17,10 @@ public interface UserManagement {
 	 * @return the user id
 	 * @throws UserAlreadyExistsException
 	 *             if user already exists
+	 * @throws IllegalArgumentException
+	 *             when userID is empty or null.
 	 */
-	String register(String userID, String password) throws UserAlreadyExistsException;
+	String register(String userID, String password) throws UserAlreadyExistsException, IllegalArgumentException;
 
 	/**
 	 * returns the user with the given ID.
