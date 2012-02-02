@@ -174,7 +174,7 @@ public class BookingManagementImplTest {
 	 * @throws Exception
 	 *             should be an IllegalArgumentException
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = IllegalDateException.class)
 	public void testBookStartDateAfterEndDate() throws Exception {
 		// switched end and start
 		bookingManagement.book(USER_ID, Arrays.asList(room1.getId()), validEndDate, validStartDate);
@@ -697,16 +697,16 @@ public class BookingManagementImplTest {
 	/**
 	 * Tests if deleteReservation deletes the right reservation.
 	 */
-	@Test
-	public void testDeleteReservation() {
+	@Test(expected = ReservationNotFoundException.class)
+	public void testDeleteReservation() throws ReservationNotFoundException {
 		// TODO: add a second res that sould be let untouched
 		Reservation res1 = dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(), validStartDate,
 				validEndDate);
 		assertNotNull(res1.getId());
+		String id = res1.getId();
 		bookingManagement.deleteReservation(res1.getId());
 
-		res1 = dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(), validStartDate,
-				validEndDate);
+		res1 = bookingManagement.getReservation(id);
 		assertTrue(res1 == null);
 	}
 
