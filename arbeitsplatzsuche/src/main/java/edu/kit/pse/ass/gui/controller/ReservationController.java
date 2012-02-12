@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,26 +49,35 @@ public class ReservationController extends MainController {
 	 * 
 	 * @param model
 	 *            the model
-	 * @param principal
-	 *            the principal
 	 * @param request
 	 *            the http request
 	 * @return the string
 	 */
 	@RequestMapping(value = "reservation/list")
-	public String listReservations(Model model, Principal principal, HttpServletRequest request) {
+	public String listReservations(Model model, HttpServletRequest request) {
 
-		// get name of logged in user
-		String userID = "";
-		if (principal != null) {
-			userID = principal.getName();
-		}
+		String userID = getUserID();
 
-		// Show reservations starting from 6 months in the past...
-		Calendar asFrom = Calendar.getInstance();
-		asFrom.add(Calendar.MONTH, -6);
+		ArrayList<ReservationModel> reservations = getCurrentReservations(userID);
+		ArrayList<ReservationModel> pastReservations = getPastReservations(userID);
 
-		// ... up until 1 year from now
+		model.addAttribute("reservations", reservations);
+		model.addAttribute("pastReservations", pastReservations);
+		model.addAttribute("deleteNotification", request.getParameter("deleteNotification"));
+
+		return "reservation/list";
+	}
+
+	/**
+	 * returns the current reservations of the user with the given id
+	 * 
+	 * @param userID
+	 *            the user id
+	 * @return the current reservations of the user with the given id
+	 */
+	private ArrayList<ReservationModel> getCurrentReservations(String userID) {
+
+		// show reservations up until 1 year from now
 		Calendar upTo = Calendar.getInstance();
 		upTo.add(Calendar.YEAR, 1);
 
@@ -78,6 +89,21 @@ public class ReservationController extends MainController {
 			reservationModels.add(new ReservationModel(r, facilityManagement));
 		}
 		Collections.sort(reservationModels);
+		return reservationModels;
+	}
+
+	/**
+	 * returns the past reservations of the user with the given id
+	 * 
+	 * @param userID
+	 *            the user id
+	 * @return the past reservations of the user with the given id
+	 */
+	private ArrayList<ReservationModel> getPastReservations(String userID) {
+
+		// Show reservations starting from 6 months in the past
+		Calendar asFrom = Calendar.getInstance();
+		asFrom.add(Calendar.MONTH, -6);
 
 		// get past reservations and create models
 		Collection<Reservation> pastReservations = bookingManagement.listReservationsOfUser(userID,
@@ -91,12 +117,7 @@ public class ReservationController extends MainController {
 			}
 		}
 		Collections.sort(pastReservationModels);
-
-		model.addAttribute("reservations", reservationModels);
-		model.addAttribute("pastReservations", pastReservationModels);
-		model.addAttribute("deleteNotification", request.getParameter("deleteNotification"));
-
-		return "reservation/list";
+		return pastReservationModels;
 	}
 
 	/**
@@ -104,42 +125,17 @@ public class ReservationController extends MainController {
 	 * 
 	 * @param model
 	 *            the model
-	 * @param principal
-	 *            the principal
 	 * @param reservationID
 	 *            the reservation id
 	 * @return the string
 	 */
 	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.GET)
-	public String showReservationDetails(Model model, Principal principal,
-			@PathVariable("reservationId") String reservationID) {
+	public String showReservationDetails(Model model, @PathVariable("reservationId") String reservationID) {
 
-		// get name of logged in user
-		String userID = "";
-		if (principal != null) {
-			userID = principal.getName();
-		}
+		ReservationModel resModel = getReservation(reservationID, getUserID(), model);
 
-		// Get reservation
-		Reservation reservation = null;
-		try {
-			reservation = bookingManagement.getReservation(reservationID);
-
-			if (!reservation.getBookingUserId().equals(userID)) {
-				// Reservation does not belong to this user!
-				model.addAttribute("errorReservationNotFound", true);
-			} else {
-				// Create and add models
-				ReservationModel resModel = new ReservationModel(reservation, facilityManagement);
-				model.addAttribute("reservation", resModel);
-				model.addAttribute("updatedReservation", resModel);
-			}
-
-		} catch (IllegalArgumentException e) {
-			model.addAttribute("errorReservationNotFound", true);
-		} catch (ReservationNotFoundException e) {
-			model.addAttribute("errorReservationNotFound", true);
-		}
+		model.addAttribute("reservation", resModel);
+		model.addAttribute("updatedReservation", resModel);
 
 		return "reservation/details";
 
@@ -150,8 +146,6 @@ public class ReservationController extends MainController {
 	 * 
 	 * @param model
 	 *            the model
-	 * @param principal
-	 *            the principal
 	 * @param reservationID
 	 *            the reservation id
 	 * @param updatedReservation
@@ -161,83 +155,31 @@ public class ReservationController extends MainController {
 	 * @return the string
 	 */
 	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.POST)
-	public String updateReservation(Model model, Principal principal,
-			@PathVariable("reservationId") String reservationID,
+	public String updateReservation(Model model, @PathVariable("reservationId") String reservationID,
 			@ModelAttribute("updatedReservation") ReservationModel updatedReservation,
 			BindingResult updatedReservationResult) {
+		String userID = getUserID();
 
-		// get name of logged in user
-		String userID = "";
-		if (principal != null) {
-			userID = principal.getName();
-		}
-
-		// Get reservation
-		ReservationModel originalReservation = null;
-		try {
-			Reservation reservation = bookingManagement.getReservation(reservationID);
-			if (!reservation.getBookingUserId().equals(userID)) {
-				// Reservation does not belong to this user!
-				model.addAttribute("errorReservationNotFound", true);
-				return "reservation/details";
-			} else {
-				originalReservation = new ReservationModel(reservation, facilityManagement);
-			}
-		} catch (IllegalArgumentException e) {
-			model.addAttribute("errorReservationNotFound", true);
-			return "reservation/details";
-		} catch (ReservationNotFoundException e) {
-			model.addAttribute("errorReservationNotFound", true);
-			return "reservation/details";
-		}
+		// get original reservation
+		ReservationModel originalReservation = getReservation(reservationID, userID, model);
 
 		if (originalReservation != null) {
 
-			// Set form workplace count value for Room reservations / reservations with one workplace, so the Validator
-			// does not fail
-			if (originalReservation.bookedFacilityIsRoom() || originalReservation.getWorkplaceCount() == 1) {
-				updatedReservation.setWorkplaceCount(originalReservation.getWorkplaceCount());
-			}
-
-			// Validate update form
-			ReservationValidator resValidator = new ReservationValidator();
-			resValidator.validate(updatedReservation, originalReservation, updatedReservationResult);
+			// validate update form
+			validateUpdateForm(updatedReservation, updatedReservationResult, originalReservation);
 
 			if (updatedReservationResult.hasErrors()) {
-				// form errors
 				model.addAttribute("formErrors", true);
 			} else {
-				// form ok
-
-				// Remove workplaces from Reservation, if necessary
-				boolean updateWorkplaceSuccess = updateWorkplaceCount(originalReservation,
-						updatedReservation.getWorkplaceCount());
-
-				if (!updateWorkplaceSuccess) {
-					model.addAttribute("updateErrorWorkplaceCount", true);
-				} else {
-					// Update end time of reservation, if necessary
-					boolean updateEndTimeSuccess = updateEndTime(originalReservation,
-							updatedReservation.getEndTime());
-					if (!updateEndTimeSuccess) {
-						model.addAttribute("updateErrorFacilityOccupied", true);
-					} else {
-						model.addAttribute("updateSuccess", true);
-					}
-				}
+				updateReservation(originalReservation, updatedReservation, model);
 
 				// Get new, updated reservation
-				try {
-					originalReservation = new ReservationModel(bookingManagement.getReservation(reservationID),
-							facilityManagement);
-				} catch (IllegalArgumentException e) {
-					// Internal error
-					return handleIllegalRequest(e);
-				} catch (ReservationNotFoundException e) {
-					// Internal error
-					return handleIllegalRequest(e);
-				}
+				originalReservation = getReservation(reservationID, userID, model);
 
+				if (originalReservation == null) {
+					// iternal error: reservation has been found before, but not this time
+					return handleIllegalRequest(new ReservationNotFoundException());
+				}
 			}
 
 			model.addAttribute("reservation", originalReservation);
@@ -246,6 +188,95 @@ public class ReservationController extends MainController {
 
 		// show reservation details after update
 		return "reservation/details";
+	}
+
+	/**
+	 * validates the update form
+	 * 
+	 * @param updatedReservation
+	 *            the updated reservation representing the form
+	 * @param updatedReservationResult
+	 *            the binding result of the form
+	 * @param originalReservation
+	 *            the original reservation
+	 */
+	private void validateUpdateForm(ReservationModel updatedReservation, BindingResult updatedReservationResult,
+			ReservationModel originalReservation) {
+
+		// reservations with a room / one workplace: set workplace count, so the Validator does not fail
+		if (originalReservation.bookedFacilityIsRoom() || originalReservation.getWorkplaceCount() == 1) {
+			updatedReservation.setWorkplaceCount(originalReservation.getWorkplaceCount());
+		}
+
+		// Validate update form
+		ReservationValidator resValidator = new ReservationValidator();
+		resValidator.validate(updatedReservation, originalReservation, updatedReservationResult);
+
+	}
+
+	/**
+	 * returns the reservation with the given id
+	 * 
+	 * also performs checks on user. if errors occur, they are added to the model.
+	 * 
+	 * @param reservationID
+	 *            the reservation id
+	 * @param userID
+	 *            the user id
+	 * @param model
+	 *            the model
+	 * @return the reservation with the given id
+	 */
+	private ReservationModel getReservation(String reservationID, String userID, Model model) {
+
+		ReservationModel reservationModel = null;
+		try {
+			Reservation reservation = bookingManagement.getReservation(reservationID);
+			if (!reservation.getBookingUserId().equals(userID)) {
+				// Reservation does not belong to this user!
+				model.addAttribute("errorReservationNotFound", true);
+				return null;
+			} else {
+				reservationModel = new ReservationModel(reservation, facilityManagement);
+			}
+		} catch (IllegalArgumentException e) {
+			model.addAttribute("errorReservationNotFound", true);
+			return null;
+		} catch (ReservationNotFoundException e) {
+			model.addAttribute("errorReservationNotFound", true);
+			return null;
+		}
+		return reservationModel;
+	}
+
+	/**
+	 * updates the given reservation to the given updated reservation if errors occur, they are added to the model
+	 * 
+	 * @param originalReservation
+	 *            the original reservation
+	 * @param updatedReservation
+	 *            the updated reservation
+	 * @param model
+	 *            the model
+	 */
+	private void updateReservation(ReservationModel originalReservation, ReservationModel updatedReservation,
+			Model model) {
+		// Remove workplaces from Reservation, if necessary
+		boolean updateWorkplaceSuccess = updateWorkplaceCount(originalReservation,
+				updatedReservation.getWorkplaceCount());
+
+		if (!updateWorkplaceSuccess) {
+			model.addAttribute("updateErrorWorkplaceCount", true);
+		} else {
+			// Update end time of reservation, if necessary
+			boolean updateEndTimeSuccess = updateEndTime(originalReservation, updatedReservation.getEndTime());
+			if (!updateEndTimeSuccess) {
+				model.addAttribute("updateErrorFacilityOccupied", true);
+			} else {
+				model.addAttribute("updateSuccess", true);
+			}
+		}
+
 	}
 
 	/**
@@ -318,28 +349,32 @@ public class ReservationController extends MainController {
 	public String deleteReservations(Model model, Principal principal,
 			@PathVariable("reservationId") String reservationID) {
 
-		String returnedView;
-
 		try {
 			// check if reservation exists
 			bookingManagement.getReservation(reservationID);
 
+			// delete and set notification
 			bookingManagement.deleteReservation(reservationID);
-
-			// show delete notification
 			model.addAttribute("deleteNotification", true);
-
-			// show reservation list after delete
-			returnedView = "redirect:/reservation/list.html";
 
 		} catch (IllegalArgumentException e) {
 			model.addAttribute("errorReservationNotFound", true);
-			returnedView = "reservation/details";
+			return "reservation/details";
 		} catch (ReservationNotFoundException e) {
 			model.addAttribute("errorReservationNotFound", true);
-			returnedView = "reservation/details";
+			return "reservation/details";
 		}
 
-		return returnedView;
+		return "redirect:/reservation/list.html";
+	}
+
+	/**
+	 * returns the user id of the currently logged in user
+	 * 
+	 * @return the user id
+	 */
+	private String getUserID() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return auth.getName();
 	}
 }
