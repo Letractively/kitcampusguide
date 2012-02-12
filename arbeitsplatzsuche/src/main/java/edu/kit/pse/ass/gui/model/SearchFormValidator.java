@@ -1,5 +1,7 @@
 package edu.kit.pse.ass.gui.model;
 
+import java.util.Date;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -28,6 +30,12 @@ public class SearchFormValidator implements Validator {
 		SearchFormModel sfm = (SearchFormModel) target;
 		if (sfm.getStart() == null) {
 			errors.reject("startDate.null");
+			// set to standard value
+			sfm.setStartToNow();
+		}
+		Date now = new Date();
+		if (sfm.getStart().before(now)) {
+			errors.reject("startDate.inThePast");
 			// set to standard value
 			sfm.setStartToNow();
 		}

@@ -96,6 +96,7 @@ public class SearchController extends MainController {
 		String[] jsFiles = { "/libs/datatables/jquery.dataTables.min.js", "/scripts/advancedSearch.js" };
 		model.addAttribute("cssFiles", cssFiles);
 		model.addAttribute("jsFiles", jsFiles);
+
 		return "search/advanced";
 	}
 
@@ -131,12 +132,82 @@ public class SearchController extends MainController {
 			@ModelAttribute SearchFormModel searchFormModel, BindingResult sfmResult,
 			@ModelAttribute SearchFilterModel searchFilterModel) {
 
-		// Validate form (Validator sets invalid values to standard values, so search can be executed in any case.)
+		// Validate form and correct to standard values, if input is invalid
 		SearchFormValidator sfmValidator = new SearchFormValidator();
 		sfmValidator.validate(searchFormModel, sfmResult);
 
 		// Get DataTable Parameters
 		DataTableParamModel parameters = new DataTableParamModel(request);
+
+		// Execute search
+		List<FreeFacilityResult> searchResults = executeSearch(searchFormModel, searchFilterModel);
+
+		// Sort results
+		sortResults(searchResults, parameters);
+
+		// show requested part of results
+		clipRequestedResults(searchResults, parameters);
+
+		// Format search results for output
+		Collection<Collection<String>> searchResultsData = createResultList(searchResults);
+
+		// Create search results model
+		SearchResultsModel searchResultsModel = new SearchResultsModel(parameters.getsEcho(),
+				searchResults.size(), searchResults.size(), searchResultsData);
+
+		// add possible error messages to model
+		addErrors(searchResultsModel, sfmResult);
+
+		return searchResultsModel;
+	}
+
+	/**
+	 * adds form errors of the specified search form model to the specified search results model.
+	 * 
+	 * @param searchResultsModel
+	 *            the search results model
+	 * @param sfmResult
+	 *            the search form model result
+	 */
+	private void addErrors(SearchResultsModel searchResultsModel, BindingResult sfmResult) {
+		if (sfmResult.hasErrors()) {
+			Collection<String> errors = new ArrayList<String>();
+			for (ObjectError error : sfmResult.getAllErrors()) {
+				errors.add(messageSource.getMessage(error.getCode(), null, null));
+			}
+			searchResultsModel.setAsErrors(errors);
+		}
+	}
+
+	/**
+	 * removes search results from the given list that are not to be shown by DataTables. The given DataTables
+	 * parameters give the information which results are to be shown.
+	 * 
+	 * @param searchResults
+	 *            the search results
+	 * @param parameters
+	 *            the DataTables parameters
+	 */
+	private void clipRequestedResults(List<FreeFacilityResult> searchResults, DataTableParamModel parameters) {
+		if (searchResults.size() < parameters.getiDisplayStart() + parameters.getiDisplayLength()) {
+			searchResults = searchResults.subList(parameters.getiDisplayStart(), searchResults.size());
+		} else {
+			searchResults = searchResults.subList(parameters.getiDisplayStart(), parameters.getiDisplayStart()
+					+ parameters.getiDisplayLength());
+		}
+	}
+
+	/**
+	 * executes the search using the data from the given form models
+	 * 
+	 * @param searchFormModel
+	 *            the search form model
+	 * @param searchFilterModel
+	 *            the filter form model
+	 * @return the search results
+	 */
+	private List<FreeFacilityResult> executeSearch(SearchFormModel searchFormModel,
+			SearchFilterModel searchFilterModel) {
 
 		// Parameters for search
 		Date searchStart = searchFormModel.getStart();
@@ -146,11 +217,12 @@ public class SearchController extends MainController {
 		boolean wholeRoom = searchFormModel.isWholeRoom();
 		Collection<Property> properties = searchFilterModel.getFilters();
 
-		// Execute search
+		// get search results collection
 		RoomQuery roomQuery = new RoomQuery(properties, searchText, workplaceCount);
 		Collection<FreeFacilityResult> searchResultsCollection = bookingManagement.findFreeFacilites(roomQuery,
 				searchStart, searchEnd, wholeRoom);
 
+		// convert collection to list
 		List<FreeFacilityResult> searchResults;
 		if (searchResultsCollection instanceof List) {
 			searchResults = (List<FreeFacilityResult>) searchResultsCollection;
@@ -158,79 +230,30 @@ public class SearchController extends MainController {
 			searchResults = new ArrayList<FreeFacilityResult>(searchResultsCollection);
 		}
 
-		// Sort results
-		final int sortColumnIndex = parameters.getiSortColumnIndex();
-		final int sortDirection = parameters.getsSortDirection().equals("asc") ? 1 : -1;
-		sortResults(searchResults, sortColumnIndex, sortDirection);
-
-		// show requested part of results
-		if (searchResults.size() < parameters.getiDisplayStart() + parameters.getiDisplayLength()) {
-			searchResults = searchResults.subList(parameters.getiDisplayStart(), searchResults.size());
-		} else {
-			searchResults = searchResults.subList(parameters.getiDisplayStart(), parameters.getiDisplayStart()
-					+ parameters.getiDisplayLength());
-		}
-
-		// Format search results for output
-		Collection<Collection<String>> searchResultsData = createResultList(searchResults);
-
-		// Create model for search results
-		SearchResultsModel searchResultsModel = new SearchResultsModel(parameters.getsEcho(),
-				searchResults.size(), searchResults.size(), searchResultsData);
-
-		// in case of errors: add error messages to model
-		if (sfmResult.hasErrors()) {
-			Collection<String> asErrors = new ArrayList<String>();
-			for (ObjectError error : sfmResult.getAllErrors()) {
-				asErrors.add(messageSource.getMessage(error.getCode(), null, null));
-			}
-			searchResultsModel.setAsErrors(asErrors);
-		}
-
-		return searchResultsModel;
+		return searchResults;
 	}
 
 	/**
-	 * sorts the specified search results according to the given column index and sortDirection.
+	 * sorts the specified search results according to the given DataTables parameters
 	 * 
 	 * @param results
 	 *            the results to sort
-	 * @param sortColumnIndex
-	 *            the index of the column to sort
-	 * @param sortDirection
-	 *            the sort direction, must be 1 or -1
+	 * @param parameters
+	 *            the DataTable parameters
 	 */
-	private void sortResults(List<FreeFacilityResult> results, final int sortColumnIndex, final int sortDirection) {
-		Collections.sort(results, new Comparator<FreeFacilityResult>() {
-			@Override
-			public int compare(FreeFacilityResult c1, FreeFacilityResult c2) {
-				switch (sortColumnIndex) {
-				case 0: // Room name
-					if (c1.getFacility() instanceof Room && c2.getFacility() instanceof Room) {
-						// Both facilities are rooms - compare the formatted name for a room (this is the name shown in
-						// DataTables!)
-						Room r1 = (Room) c1.getFacility();
-						Room r2 = (Room) c2.getFacility();
-						return formatRoomName(r1).compareTo(formatRoomName(r2));
-					} else {
-						// Compare the normal name of the facility
-						return c1.getFacility().getName().compareTo(c2.getFacility().getName()) * sortDirection;
-					}
-				case 1: // Building name
-					return c1.getFacility().getParentFacility().getName()
-							.compareTo(c2.getFacility().getParentFacility().getName())
-							* sortDirection;
-				case 2: // Equipment (DataTables does not allow sorting, this
-						// implementation would sort the number of Properties
-					return (c1.getFacility().getProperties().size() - c2.getFacility().getProperties().size())
-							* sortDirection;
-				case 3: // start date
-					return c1.getStart().compareTo(c2.getStart()) * sortDirection;
-				}
-				return 0;
-			}
-		});
+	private void sortResults(List<FreeFacilityResult> results, DataTableParamModel parameters) {
 
+		int sortColumnIndex = parameters.getiSortColumnIndex();
+
+		// Get comparator for the column index
+		Comparator<FreeFacilityResult> comparator = new FacilityResultComparator(sortColumnIndex);
+
+		// revert comparator if necessary
+		if (!parameters.getsSortDirection().equals("asc")) {
+			comparator = Collections.reverseOrder(comparator);
+		}
+
+		Collections.sort(results, comparator);
 	}
 
 	/**
@@ -243,49 +266,77 @@ public class SearchController extends MainController {
 	private Collection<Collection<String>> createResultList(List<FreeFacilityResult> searchResults) {
 
 		Collection<Collection<String>> results = new ArrayList<Collection<String>>();
-		SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 
 		for (FreeFacilityResult c : searchResults) {
-
-			Collection<String> facilityResult = new ArrayList<String>();
 			if (c.getFacility() instanceof Room) {
-
 				Room room = (Room) c.getFacility();
-
-				// output for this row
-				String roomName = "", buildingName = "", equipment = "", startTime = "", roomID = "";
-
-				if (room != null) {
-					roomName = formatRoomName(room);
-					roomID = room.getId();
-					if (room.getParentFacility() != null) {
-						buildingName = room.getParentFacility().getName();
-					}
-
-					// TODO replace text with icons
-					boolean equipmentListStart = true;
-					for (Property p : room.getProperties()) {
-						if (equipmentListStart) {
-							equipmentListStart = false;
-						} else {
-							equipment += ", ";
-						}
-						equipment += p.getName();
-					}
-				}
-				if (c.getStart() != null) {
-					startTime = formatTime.format(c.getStart());
-				}
-				facilityResult.add(roomName);
-				facilityResult.add(buildingName);
-				facilityResult.add(equipment);
-				facilityResult.add(startTime);
-				facilityResult.add(roomID);
-
-				results.add(facilityResult);
+				Collection<String> rowData = createResultListRow(room, c.getStart());
+				results.add(rowData);
 			}
 		}
 		return results;
+	}
+
+	/**
+	 * creates a String Collection containing the data of one row in the search results for DataTables.
+	 * 
+	 * This row contains the data of the given room and start date
+	 * 
+	 * @param room
+	 *            the room
+	 * @param startDate
+	 *            the start date
+	 * @return the row with the data
+	 */
+	private Collection<String> createResultListRow(Room room, Date startDate) {
+
+		Collection<String> rowData = new ArrayList<String>();
+		SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
+
+		// output for this row
+		String roomName = "", buildingName = "", equipment = "", startTime = "", roomID = "";
+
+		if (room != null) {
+			roomName = formatRoomName(room);
+			roomID = room.getId();
+			if (room.getParentFacility() != null) {
+				buildingName = room.getParentFacility().getName();
+			}
+			equipment = searchResultsFormatEquipment(room);
+		}
+		if (startDate != null) {
+			startTime = formatTime.format(startDate);
+		}
+
+		rowData.add(roomName);
+		rowData.add(buildingName);
+		rowData.add(equipment);
+		rowData.add(startTime);
+		rowData.add(roomID);
+
+		return rowData;
+	}
+
+	/**
+	 * formats the output for the equipment of the given Room for the search Results
+	 * 
+	 * @param room
+	 * @return
+	 */
+	private String searchResultsFormatEquipment(Room room) {
+		String output = "";
+
+		// TODO replace text with icons
+		boolean equipmentListStart = true;
+		for (Property p : room.getProperties()) {
+			if (equipmentListStart) {
+				equipmentListStart = false;
+			} else {
+				output += ", ";
+			}
+			output += p.getName();
+		}
+		return output;
 	}
 
 	/**
@@ -297,7 +348,7 @@ public class SearchController extends MainController {
 	 *            the room
 	 * @return the formatted room name of the given Room
 	 */
-	private static String formatRoomName(Room room) {
+	public static String formatRoomName(Room room) {
 		String roomName = "";
 		if (room != null) {
 			if (room.getName().isEmpty()) {
