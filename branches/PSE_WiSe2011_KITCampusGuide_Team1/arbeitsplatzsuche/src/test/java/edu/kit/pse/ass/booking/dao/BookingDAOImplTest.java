@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,6 +30,14 @@ import edu.kit.pse.ass.entity.Reservation;
  * 
  * @author Lennart
  */
+/**
+ * @author Lennart
+ *
+ */
+/**
+ * @author Lennart
+ * 
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext/applicationContext-*.xml" })
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
@@ -45,7 +52,7 @@ public class BookingDAOImplTest {
 	private static final String FACILITYID = "#SOME_FACILITY_ID#";
 
 	/** The Constant PERSISTED_RESERVATIONID. */
-	private static String persisted_reservationid;
+	private static String persistedReservationId;
 
 	/** Setup a BookingDAO with a dummy reservation. */
 	@Autowired
@@ -76,8 +83,63 @@ public class BookingDAOImplTest {
 
 		bookingDAO.insertReservation(testReservation);
 		assertNotNull(testReservation.getId());
-		persisted_reservationid = testReservation.getId();
+		persistedReservationId = testReservation.getId();
 
+	}
+
+	/**
+	 * Test getReservationsOfUser, start after end
+	 * 
+	 * @throws Exception
+	 *             should be illegalArgument
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetReservationsOfUserStartAfterEnd() throws Exception {
+		bookingDAO.getReservationsOfUser(USEREMAIL, end, start);
+	}
+
+	/**
+	 * Test getReservationsOfUser, user is null
+	 * 
+	 * @throws Exception
+	 *             should be illegalArgument
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetReservationsOfUserUserNull() throws Exception {
+		bookingDAO.getReservationsOfUser(null, start, end);
+	}
+
+	/**
+	 * Test getReservationsOfUser, start is null
+	 * 
+	 * @throws Exception
+	 *             should be illegalArgument
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetReservationsOfUserStartNull() throws Exception {
+		bookingDAO.getReservationsOfUser(USEREMAIL, null, end);
+	}
+
+	/**
+	 * Test getReservationsOfUser, end is null
+	 * 
+	 * @throws Exception
+	 *             should be illegalArgument
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetReservationsOfUserEndNull() throws Exception {
+		bookingDAO.getReservationsOfUser(USEREMAIL, start, null);
+	}
+
+	/**
+	 * Test getReservationsOfUser, user is empty
+	 * 
+	 * @throws Exception
+	 *             should be illegalArgument
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetReservationOfUserEmpty() throws Exception {
+		bookingDAO.getReservationsOfUser("", start, end);
 	}
 
 	/**
@@ -88,25 +150,8 @@ public class BookingDAOImplTest {
 		Date from = new GregorianCalendar(2012, 0, 2).getTime();
 		Date to = new GregorianCalendar(2012, 0, 3).getTime();
 		Collection<Reservation> result = null;
-		try {
-			// throw error or return null if parameter is null
-			bookingDAO.getReservationsOfUser(null, from, to);
-			fail("Accepted wrong parameters.");
-		} catch (IllegalArgumentException e) {
-		}
-		try {
-			bookingDAO.getReservationsOfUser(USEREMAIL, null, to);
-			fail("Accepted wrong parameters.");
-		} catch (IllegalArgumentException e) {
-		}
-		try {
-			bookingDAO.getReservationsOfUser(USEREMAIL, from, null);
-			fail("Accepted wrong parameters.");
-		} catch (IllegalArgumentException e) {
-		}
-
-		// test if returned reservations belong all to the user
 		result = bookingDAO.getReservationsOfUser(USEREMAIL, start, end);
+		// test if returned reservations belong all to the user
 		assertNotNull("Didn't return result", result);
 		assertFalse("Empty list returned", result.size() == 0);
 		assertTrue("Wrong amount of reservations returned", result.size() == testReservationCol.size());
@@ -128,6 +173,61 @@ public class BookingDAOImplTest {
 	}
 
 	/**
+	 * Test getReservationsOfFacility,start after end
+	 * 
+	 * @throws Exception
+	 *             should be illegalArgument
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetReservationsOfFacilityStartAfterEnd() throws Exception {
+		bookingDAO.getReservationsOfFacility(FACILITYID, end, start);
+	}
+
+	/**
+	 * Test getReservationsOfFacility, facility is null
+	 * 
+	 * @throws Exception
+	 *             should be illegalArgument
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetReservationsOfFacilityUserNull() throws Exception {
+		bookingDAO.getReservationsOfFacility(null, start, end);
+	}
+
+	/**
+	 * Test getReservationsOfFacility, start is null
+	 * 
+	 * @throws Exception
+	 *             should be illegalArgument
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetReservationsOfFacilityStartNull() throws Exception {
+		bookingDAO.getReservationsOfFacility(FACILITYID, null, end);
+	}
+
+	/**
+	 * Test getReservationsOfFacility, end is null
+	 * 
+	 * @throws Exception
+	 *             should be illegalArgument
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetReservationsOfFacilityEndNull() throws Exception {
+		bookingDAO.getReservationsOfFacility(FACILITYID, start, null);
+	}
+
+	/**
+	 * Test getReservationsOfFacility, facility is empty
+	 * 
+	 * @throws Exception
+	 *             should be illegalArgument
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetReservationOfFacilityEmpty() throws Exception {
+		bookingDAO.getReservationsOfFacility("", start, end);
+	}
+
+	/**
 	 * Test get reservations of facility.
 	 */
 	@Test
@@ -135,24 +235,8 @@ public class BookingDAOImplTest {
 		Date from = new GregorianCalendar(2012, 0, 2).getTime();
 		Date to = new GregorianCalendar(2012, 0, 3).getTime();
 		Collection<Reservation> result = null;
-		try {
-			// throw error or return null if parameter is null
-			bookingDAO.getReservationsOfFacility(null, from, to);
-			fail("Accepted wrong parameters.");
-		} catch (IllegalArgumentException e) {
-		}
-		try {
-			bookingDAO.getReservationsOfFacility(FACILITYID, null, to);
-			fail("Accepted wrong parameters.");
-		} catch (IllegalArgumentException e) {
-		}
-		try {
-			bookingDAO.getReservationsOfFacility(FACILITYID, from, null);
-			fail("Accepted wrong parameters.");
-		} catch (IllegalArgumentException e) {
-		}
-		// test if returned reservations belong all to the facility
 		result = bookingDAO.getReservationsOfFacility(FACILITYID, from, to);
+		// test if returned reservations belong all to the facility
 		assertNotNull("Didn't return result", result);
 		assertFalse("Empty list returned", result.size() == 0);
 		assertTrue("Wrong amount of reservations returned", result.size() == testReservationCol.size());
@@ -175,26 +259,53 @@ public class BookingDAOImplTest {
 	}
 
 	/**
+	 * Test getReservation, reservationId is null
+	 * 
+	 * @throws Exception
+	 *             should be illegalArgument
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetReservationNull() throws Exception {
+		bookingDAO.getReservation(null);
+	}
+
+	/**
+	 * Test getReservation, reservationId is empty
+	 * 
+	 * @throws Exception
+	 *             should be illegalArgument
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetReservationEmpty() throws Exception {
+		bookingDAO.getReservation("");
+	}
+
+	/**
 	 * Test get reservation.
 	 */
 	@Test
 	public void testGetReservation() {
 		Reservation resv = null;
-		try {
-			// throw error or return null if parameter is null
-			bookingDAO.getReservation(null);
-			fail("Accepted wrong parameters.");
-		} catch (IllegalArgumentException e) {
-		}
-		resv = bookingDAO.getReservation(persisted_reservationid);
+		resv = bookingDAO.getReservation(persistedReservationId);
 		assertNotNull("Didn't return reservation", resv);
 		// ensure the returned reservation is correct
-		assertEquals("Ids are not equal", persisted_reservationid, resv.getId());
+		assertEquals("Ids are not equal", persistedReservationId, resv.getId());
 		assertTrue("Returned reservation doesn't contain the right facilities", resv.getBookedFacilityIds()
 				.contains(FACILITYID));
 		assertEquals("The start dates are not equal", start, resv.getStartTime());
 		assertEquals("The end dates are not equal", end, resv.getEndTime());
 		assertEquals("The booking user ids are not equal", USEREMAIL, resv.getBookingUserId());
+	}
+
+	/**
+	 * Test insertReservation, reservation is null
+	 * 
+	 * @throws Exception
+	 *             should be illegalArgument
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testInsertReservationNull() throws Exception {
+		bookingDAO.insertReservation(null);
 	}
 
 	/**
@@ -205,13 +316,6 @@ public class BookingDAOImplTest {
 		Reservation newResv = new Reservation(start, end, USEREMAIL);
 		newResv.addBookedFacilityId(FACILITYID);
 		String newResvId = null;
-		// throw error or return null if parameter is null
-
-		try {
-			bookingDAO.insertReservation(null);
-			fail("Accepted wrong parameters.");
-		} catch (IllegalArgumentException e) {
-		}
 		// TODO id is not returned correctly
 		newResvId = bookingDAO.insertReservation(newResv);
 		// ensure reservation was inserted correct
@@ -225,22 +329,28 @@ public class BookingDAOImplTest {
 	}
 
 	/**
+	 * Test updateReservation, reservation is null
+	 * 
+	 * @throws Exception
+	 *             should be illegalArgument
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testUpdateReservationNull() throws Exception {
+		bookingDAO.updateReservation(null);
+	}
+
+	/**
 	 * Test update reservation.
 	 */
 	@Test
 	public void testUpdateReservation() {
 		Date newEnd = new GregorianCalendar(2012, 0, 2, 11, 0).getTime();
 		testReservation.setEndTime(newEnd);
-		try {
-			bookingDAO.updateReservation(null);
-			fail("Accepted wrong parameters.");
-		} catch (IllegalArgumentException e) {
-		}
 		bookingDAO.updateReservation(testReservation);
 		// ensure reservation was updated correct
-		Reservation resv = bookingDAO.getReservation(persisted_reservationid);
+		Reservation resv = bookingDAO.getReservation(persistedReservationId);
 		assertNotNull("Didn't return reservation", resv);
-		assertEquals(persisted_reservationid, resv.getId());
+		assertEquals(persistedReservationId, resv.getId());
 		assertEquals(newEnd, resv.getEndTime());
 		assertEquals(start, resv.getStartTime());
 		assertTrue(resv.getBookedFacilityIds().contains(FACILITYID));
@@ -248,19 +358,33 @@ public class BookingDAOImplTest {
 	}
 
 	/**
+	 * Test deleteReservation, reservationId is null
+	 * 
+	 * @throws Exception
+	 *             should be illegalArgument
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testDeleteReservatioNull() throws Exception {
+		bookingDAO.deleteReservation(null);
+	}
+
+	/**
+	 * Test deleteReservation, reservationId is empty
+	 * 
+	 * @throws Exception
+	 *             should be illegalArgument
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testDeleteReservatioEmpty() throws Exception {
+		bookingDAO.deleteReservation("");
+	}
+
+	/**
 	 * Test delete reservation.
 	 */
 	@Test
 	public void testDeleteReservation() {
-		try {
-			bookingDAO.deleteReservation(null);
-			fail("Accepted wrong parameters.");
-		} catch (IllegalArgumentException e) {
-		}
-		bookingDAO.deleteReservation(persisted_reservationid);
-		/*
-		 * TODO wait for return of getReservation if id not used
-		 */
-		assertNull(bookingDAO.getReservation(persisted_reservationid));
+		bookingDAO.deleteReservation(persistedReservationId);
+		assertNull(bookingDAO.getReservation(persistedReservationId));
 	}
 }
