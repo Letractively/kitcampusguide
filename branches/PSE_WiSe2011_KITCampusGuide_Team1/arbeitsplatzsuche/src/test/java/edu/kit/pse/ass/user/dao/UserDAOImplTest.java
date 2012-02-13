@@ -3,11 +3,14 @@ package edu.kit.pse.ass.user.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
@@ -92,6 +95,28 @@ public class UserDAOImplTest {
 
 		User gettedUser = users.getUser(TEST_PERSISTEDMAIL);
 		assertNull("User was not deleted", gettedUser);
+	}
+
+	/**
+	 * Test UsernameNotFoundException
+	 * 
+	 * @throws Exception
+	 *             should be UsernameNotFoundException
+	 */
+	@Test(expected = UsernameNotFoundException.class)
+	public void testUsernameNotFoundException() throws Exception {
+		users.loadUserByUsername("Peter");
+	}
+
+	/**
+	 * Test load users by username
+	 */
+
+	@Test
+	public void testLoadUserByUsername() {
+		UserDetails userDets = null;
+		userDets = users.loadUserByUsername(TEST_PERSISTEDMAIL);
+		assertTrue(userDets.getPassword().equals("pw2453565"));
 	}
 
 }

@@ -22,8 +22,7 @@ public class UserDAOImpl implements UserDAO, UserDetailsService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see edu.kit.pse.ass.user.dao.UserDAO#insertUser(java.lang.String,
-	 * java.lang.String)
+	 * @see edu.kit.pse.ass.user.dao.UserDAO#insertUser(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public User insertUser(String userID, String passwordHash) {
@@ -60,14 +59,13 @@ public class UserDAOImpl implements UserDAO, UserDetailsService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.springframework.security.core.userdetails.UserDetailsService#
-	 * loadUserByUsername(java.lang.String)
+	 * @see org.springframework.security.core.userdetails.UserDetailsService# loadUserByUsername(java.lang.String)
 	 */
 	@Override
-	public UserDetails loadUserByUsername(String username)
-			throws UsernameNotFoundException, DataAccessException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
 		try {
 			User u = jpaTemplate.find(User.class, username);
+
 			if (u == null) {
 				throw new UsernameNotFoundException("Username not found.");
 			}
