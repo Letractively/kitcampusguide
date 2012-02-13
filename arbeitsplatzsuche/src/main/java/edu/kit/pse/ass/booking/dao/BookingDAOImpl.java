@@ -48,7 +48,7 @@ public class BookingDAOImpl implements BookingDAO {
 	@Override
 	public Collection<Reservation> getReservationsOfUser(String userID, Date asFrom, Date upTo)
 			throws IllegalArgumentException {
-		if (userID == null || userID.equals("") || asFrom == null || upTo == null) {
+		if (userID == null || userID.isEmpty() || asFrom == null || upTo == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
 		if (asFrom.after(upTo)) {
@@ -69,7 +69,7 @@ public class BookingDAOImpl implements BookingDAO {
 				result.add(tmp);
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -89,7 +89,7 @@ public class BookingDAOImpl implements BookingDAO {
 		if (asFrom.after(upTo)) {
 			throw new IllegalArgumentException("start-date is after end-date");
 		}
-		
+
 		Collection<Reservation> result = new ArrayList<Reservation>();
 		Collection<Reservation> reservations = jpaTemplate.find(
 				"from t_reservation r WHERE ? IN elements(r.bookedFacilityIds)", facilityID);
@@ -98,13 +98,13 @@ public class BookingDAOImpl implements BookingDAO {
 		for (Reservation tmp : reservations) {
 			Date end = tmp.getEndTime();
 			Date start = tmp.getStartTime();
-			
+
 			// time quantum starts before reservation ends
 			// and ends after reservation starts
 			if (start.before(upTo) && end.after(asFrom)) {
 				result.add(tmp);
 			}
-			
+
 		}
 		return result;
 	}
@@ -163,8 +163,6 @@ public class BookingDAOImpl implements BookingDAO {
 			throw new IllegalArgumentException("Parameter is null or empty");
 		}
 		Reservation reservation = getReservation(reservationID);
-		if (reservation != null) {
-			jpaTemplate.remove(reservation);
-		}
+		jpaTemplate.remove(reservation);
 	}
 }
