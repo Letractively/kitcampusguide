@@ -1,5 +1,7 @@
 package edu.kit.pse.ass.user.dao;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import edu.kit.pse.ass.entity.User;
 
 /**
@@ -34,5 +36,7 @@ public interface UserDAO {
 	 * @return the User with the given ID
 	 */
 	User getUser(String userID);
+
+	UserDetails loadUserByUsername(String username);
 
 }

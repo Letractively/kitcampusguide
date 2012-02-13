@@ -83,6 +83,28 @@ public class UserManagementImplTest {
 	}
 
 	/**
+	 * Emptytest first register parameter
+	 * 
+	 * @throws Exception
+	 *             - an IllegalArgumentException should be thrown
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testRegisterEmpty1() throws Exception {
+		userManagement.register("", USER_PW);
+	}
+
+	/**
+	 * Emptytest second register parameter
+	 * 
+	 * @throws Exception
+	 *             - an IllegalArgumentException should be thrown
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testRegisterEmpty2() throws Exception {
+		userManagement.register(USER_ID, "");
+	}
+
+	/**
 	 * test for register method
 	 * 
 	 * @throws Exception
@@ -106,6 +128,17 @@ public class UserManagementImplTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testGetUserNull() throws Exception {
 		userManagement.getUser(null);
+	}
+
+	/**
+	 * Emptytest getUser parameter
+	 * 
+	 * @throws Exception
+	 *             - an IllegalArgumentException should be thrown
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetUserEmpty() throws Exception {
+		userManagement.getUser("");
 	}
 
 	/**
