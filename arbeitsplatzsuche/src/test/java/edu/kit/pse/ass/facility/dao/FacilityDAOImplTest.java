@@ -316,7 +316,7 @@ public class FacilityDAOImplTest {
 	}
 
 	/**
-	 * Tests merge() with invalid parameter.
+	 * Tests merge() with null parameter.
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testMergeWithInvalidParameter() {
@@ -324,7 +324,19 @@ public class FacilityDAOImplTest {
 	}
 
 	/**
-	 * Tests remove() with invalid parameter.
+	 * Test merge(), if the facility is updated correct
+	 */
+	@Test
+	public void testMerge() {
+		persistedRoom2.addProperty(new Property("LAN"));
+		facilityDAO.merge(persistedRoom2);
+		Facility result = facilityDAO.getFacility(persistedRoom2.getId());
+		assertTrue("No Property wasn't added", result.getProperties().size() == 1);
+		assertTrue("Wrong Property was added", result.getProperties().contains(new Property("LAN")));
+	}
+
+	/**
+	 * Tests remove() with null parameter.
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testRemoveWithInvalidParameter() {
@@ -332,11 +344,51 @@ public class FacilityDAOImplTest {
 	}
 
 	/**
-	 * Tests persist() with invalid parameter.
+	 * Tests remove() with empty parameter.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testRemoveWithEmptyParameter() {
+		facilityDAO.remove("");
+	}
+
+	/**
+	 * Test remove()
+	 */
+	@Test
+	public void testRemove() {
+		String roomId = persistedRoom1.getId();
+		facilityDAO.remove(roomId);
+		assertNull("There should no longer be a facility with this ID.", facilityDAO.getFacility(roomId));
+	}
+
+	/**
+	 * Test remove a removed facility
+	 */
+	@Test
+	public void testRemoveRemoved() {
+		String roomId = persistedRoom1.getId();
+		facilityDAO.remove(roomId);
+		facilityDAO.remove(roomId);
+	}
+
+	/**
+	 * Tests persist() with null parameter.
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testPersistWithInvalidParameter() {
 		facilityDAO.persist(null);
+	}
+
+	/**
+	 * Tests persist()
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testPersist() {
+		Room persistRoom = new Room();
+		persistRoom.addProperty(propertyWLAN);
+		facilityDAO.persist(persistRoom);
+		Facility result = facilityDAO.getFacility(persistRoom.getId());
+		assertTrue("Room doesn't contain the property", result.getProperties().contains(propertyWLAN));
 	}
 
 }
