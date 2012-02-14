@@ -114,13 +114,11 @@ public class FacilityDAOImpl implements FacilityDAO {
 			// no facilities of this type found
 			return properties;
 		}
-		if (facilities != null) {
+		if (!facilities.isEmpty()) {
 			for (Facility facility : facilities) {
 				Collection<Property> facProperties = facility.getProperties();
-				if (facProperties != null) {
-					for (Property prop : facProperties) {
-						properties.add(prop);
-					}
+				for (Property prop : facProperties) {
+					properties.add(prop);
 				}
 			}
 		}
@@ -152,7 +150,7 @@ public class FacilityDAOImpl implements FacilityDAO {
 		if (facilityID == null || facilityID.isEmpty()) {
 			throw new IllegalArgumentException("The facilityID to remove musst not be null or empty.");
 		}
-		Facility facility = getFacility(facilityID);
+		Facility facility = this.getFacility(facilityID);
 		if (facility != null) {
 			jpaTemplate.remove(facility);
 		}
@@ -170,7 +168,6 @@ public class FacilityDAOImpl implements FacilityDAO {
 			throw new IllegalArgumentException("The facility to persist musst not be null.");
 		}
 		jpaTemplate.persist(facility);
-
 	}
 
 }
