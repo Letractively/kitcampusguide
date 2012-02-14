@@ -331,7 +331,7 @@ public class FacilityDAOImplTest {
 		persistedRoom2.addProperty(new Property("LAN"));
 		facilityDAO.merge(persistedRoom2);
 		Facility result = facilityDAO.getFacility(persistedRoom2.getId());
-		assertTrue("No Property wasn't added", result.getProperties().size() == 1);
+		assertTrue("No Property was added", result.getProperties().size() == 2);
 		assertTrue("Wrong Property was added", result.getProperties().contains(new Property("LAN")));
 	}
 
@@ -382,7 +382,7 @@ public class FacilityDAOImplTest {
 	/**
 	 * Tests persist()
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testPersist() {
 		Room persistRoom = new Room();
 		persistRoom.addProperty(propertyWLAN);
