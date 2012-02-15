@@ -3,6 +3,7 @@
  */
 package edu.kit.pse.ass.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 
 // TODO: Auto-generated Javadoc
@@ -86,8 +87,7 @@ public class User implements UserDetails {
 		if (email.matches("u[a-z]{4}@student.kit.edu")) {
 			this.email = email;
 		} else {
-			throw new IllegalArgumentException("#" + email
-					+ "# is not a valid email adress");
+			throw new IllegalArgumentException("#" + email + "# is not a valid email adress");
 		}
 	}
 
@@ -115,16 +115,14 @@ public class User implements UserDetails {
 		if (password == null) {
 			throw new IllegalArgumentException("password must not be null");
 		}
-		
+
 		this.password = password;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.springframework.security.core.userdetails.UserDetails#getAuthorities
-	 * ()
+	 * @see org.springframework.security.core.userdetails.UserDetails#getAuthorities ()
 	 */
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
@@ -132,18 +130,17 @@ public class User implements UserDetails {
 		if (roles == null) {
 			return null;
 		}
-		Object[] ar = roles.toArray();
-		if (ar == null || ar.length == 0 || !(ar instanceof String[])) {
-			return null;
+		ArrayList<GrantedAuthority> list = new ArrayList<GrantedAuthority>(roles.size());
+		for (String role : roles) {
+			list.add(new GrantedAuthorityImpl(role));
 		}
-		return AuthorityUtils.createAuthorityList((String[]) ar);
+		return list;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.springframework.security.core.userdetails.UserDetails#getUsername()
+	 * @see org.springframework.security.core.userdetails.UserDetails#getUsername()
 	 */
 	@Override
 	public String getUsername() {
@@ -153,9 +150,7 @@ public class User implements UserDetails {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.springframework.security.core.userdetails.UserDetails#isAccountNonExpired
-	 * ()
+	 * @see org.springframework.security.core.userdetails.UserDetails#isAccountNonExpired ()
 	 */
 	@Override
 	public boolean isAccountNonExpired() {
@@ -165,9 +160,7 @@ public class User implements UserDetails {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.springframework.security.core.userdetails.UserDetails#isAccountNonLocked
-	 * ()
+	 * @see org.springframework.security.core.userdetails.UserDetails#isAccountNonLocked ()
 	 */
 	@Override
 	public boolean isAccountNonLocked() {
@@ -177,8 +170,7 @@ public class User implements UserDetails {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.springframework.security.core.userdetails.UserDetails#
-	 * isCredentialsNonExpired()
+	 * @see org.springframework.security.core.userdetails.UserDetails# isCredentialsNonExpired()
 	 */
 	@Override
 	public boolean isCredentialsNonExpired() {
@@ -188,8 +180,7 @@ public class User implements UserDetails {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.springframework.security.core.userdetails.UserDetails#isEnabled()
+	 * @see org.springframework.security.core.userdetails.UserDetails#isEnabled()
 	 */
 	@Override
 	public boolean isEnabled() {
