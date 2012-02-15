@@ -387,4 +387,13 @@ public class BookingDAOImplTest {
 		bookingDAO.deleteReservation(persistedReservationId);
 		assertNull(bookingDAO.getReservation(persistedReservationId));
 	}
+
+	/**
+	 * Test delete deleted reservation.
+	 */
+	@Test
+	public void testDeleteDeletedReservation() {
+		bookingDAO.deleteReservation(persistedReservationId);
+		bookingDAO.deleteReservation(persistedReservationId);
+	}
 }

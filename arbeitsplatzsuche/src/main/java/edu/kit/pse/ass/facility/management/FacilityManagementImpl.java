@@ -24,8 +24,8 @@ public class FacilityManagementImpl implements FacilityManagement {
 	 */
 	@Override
 	public Facility getFacility(String facilityID) throws IllegalArgumentException, FacilityNotFoundException {
-		if (facilityID == null) {
-			throw new IllegalArgumentException("facilityID is null.");
+		if (facilityID == null || facilityID.isEmpty()) {
+			throw new IllegalArgumentException("facilityID is null or empty.");
 		}
 		Facility facility = facilityDAO.getFacility(facilityID);
 
@@ -44,8 +44,8 @@ public class FacilityManagementImpl implements FacilityManagement {
 	 */
 	@Override
 	public <T extends Facility> T getFacility(Class<T> type, String facilityID) throws FacilityNotFoundException {
-		if (facilityID == null) {
-			throw new IllegalArgumentException("facilityID is null.");
+		if (facilityID == null || facilityID.isEmpty()) {
+			throw new IllegalArgumentException("facilityID is null or empty.");
 		}
 		T facility = facilityDAO.getFacility(type, facilityID);
 

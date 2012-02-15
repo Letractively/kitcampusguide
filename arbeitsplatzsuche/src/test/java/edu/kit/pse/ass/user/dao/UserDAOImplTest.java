@@ -87,14 +87,27 @@ public class UserDAOImplTest {
 	 */
 	@Test
 	public void testDeleteUser() {
-		User user = users.getUser(TEST_PERSISTEDMAIL);
+		User user = null;
+		user = users.getUser(TEST_PERSISTEDMAIL);
 		assertNotNull("User did not exist", user);
-		user = null;
 
 		users.deleteUser(TEST_PERSISTEDMAIL);
 
 		User gettedUser = users.getUser(TEST_PERSISTEDMAIL);
 		assertNull("User was not deleted", gettedUser);
+	}
+
+	/**
+	 * Test remove a removed user
+	 */
+	@Test
+	public void testRemoveRemoved() {
+		User user = null;
+		user = users.getUser(TEST_PERSISTEDMAIL);
+		assertNotNull("User did not exist", user);
+
+		users.deleteUser(TEST_PERSISTEDMAIL);
+		users.deleteUser(TEST_PERSISTEDMAIL);
 	}
 
 	/**
