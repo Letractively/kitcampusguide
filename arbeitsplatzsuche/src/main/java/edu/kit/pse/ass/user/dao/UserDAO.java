@@ -1,13 +1,13 @@
 package edu.kit.pse.ass.user.dao;
 
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import edu.kit.pse.ass.entity.User;
 
 /**
  * The Interface UserDAO.
  */
-public interface UserDAO {
+public interface UserDAO extends UserDetailsService {
 
 	/**
 	 * Inserts a user with the given ID and password hash and returns the inserted User object.
@@ -36,7 +36,5 @@ public interface UserDAO {
 	 * @return the User with the given ID
 	 */
 	User getUser(String userID);
-
-	UserDetails loadUserByUsername(String username);
 
 }
