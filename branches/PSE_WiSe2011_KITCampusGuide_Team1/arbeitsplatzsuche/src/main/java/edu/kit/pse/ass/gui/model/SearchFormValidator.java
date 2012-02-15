@@ -44,6 +44,11 @@ public class SearchFormValidator implements Validator {
 			// set to standard value
 			sfm.setDuration("1:00");
 		}
+		if (sfm.getWorkplaceCount() < 1) {
+			errors.reject("workplaceCount.invalid");
+			// set to standard value
+			sfm.setWorkplaceCount(1);
+		}
 
 	}
 }
