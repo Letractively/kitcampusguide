@@ -69,4 +69,8 @@
 	<bean id="userManagement" 
 			class="edu.kit.pse.ass.user.management.UserManagementImpl"
 	        autowire-candidate="true"/>
+	        
+	<bean id="searchController" 
+			class="edu.kit.pse.ass.gui.controller.SearchController"
+	        autowire-candidate="true"/>
 </beans>
