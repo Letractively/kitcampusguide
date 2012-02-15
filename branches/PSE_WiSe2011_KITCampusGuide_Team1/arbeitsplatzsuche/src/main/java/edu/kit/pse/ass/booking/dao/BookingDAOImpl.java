@@ -163,6 +163,8 @@ public class BookingDAOImpl implements BookingDAO {
 			throw new IllegalArgumentException("Parameter is null or empty");
 		}
 		Reservation reservation = getReservation(reservationID);
-		jpaTemplate.remove(reservation);
+		if (reservation != null) {
+			jpaTemplate.remove(reservation);
+		}
 	}
 }

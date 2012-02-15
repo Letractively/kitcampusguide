@@ -63,16 +63,16 @@ public class UserDAOImpl implements UserDAO, UserDetailsService {
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
+		User u = null;
 		try {
-			User u = jpaTemplate.find(User.class, username);
-
-			if (u == null) {
-				throw new UsernameNotFoundException("Username not found.");
-			}
-			return u;
+			u = jpaTemplate.find(User.class, username);
 		} catch (DataRetrievalFailureException e) {
 			throw new UsernameNotFoundException("Username not found.");
 		}
+		if (u == null) {
+			throw new UsernameNotFoundException("Username not found.");
+		}
+		return u;
 	}
 
 }
