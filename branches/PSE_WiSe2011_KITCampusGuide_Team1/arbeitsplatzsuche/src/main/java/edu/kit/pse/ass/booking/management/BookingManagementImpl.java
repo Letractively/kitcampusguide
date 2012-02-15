@@ -245,37 +245,11 @@ public class BookingManagementImpl implements BookingManagement {
 		// 2 hours.
 		int addQuarterHour = 0;
 		while (!facilityCollection.isEmpty() && addQuarterHour < 9 && freeFacilityResult.size() < 5) {
-			Iterator<FacilityResult> facilityIterator = facilityCollection.iterator();
-			// collect all free facilities
-			while (facilityIterator.hasNext()) {
-				FacilityResult facilityResult = facilityIterator.next();
-				try {
-					if (fullyAvailable) {
-						if (isFacilityFree(facilityResult.getFacility().getId(), startDate, endDate)) {
-							// add the found facility
-							freeFacilityResult.add(new FreeFacilityResult(facilityResult.getFacility(),
-									(Date) startDate.clone(), facilityResult.getMatchingChildFacilities()));
-							// remove from queue
-							facilityIterator.remove();
-						}
-					} else {
-						Collection<Facility> freeChildren = getAndTestRequiredFreeChildFacilities(facilityResult,
-								query.getRequiredChildCount(), startDate, endDate);
-						if (freeChildren != null) {
-							// add the found facility
-							freeFacilityResult.add(new FreeFacilityResult(facilityResult.getFacility(),
-									(Date) startDate.clone(), freeChildren));
-							// remove from queue
-							facilityIterator.remove();
-						}
-					}
-
-				} catch (FacilityNotFoundException e) {
-					// do not add if not found
-
-					// remove from queue
-					facilityIterator.remove();
-				}
+			if (fullyAvailable) {
+				selectFreeFacilities(facilityCollection, startDate, endDate, freeFacilityResult);
+			} else {
+				selectByFreeChildFacilities(facilityCollection, query.getRequiredChildCount(), startDate, endDate,
+						freeFacilityResult);
 			}
 			// shift reservation time 15 minutes in the future.
 			++addQuarterHour;
@@ -283,6 +257,74 @@ public class BookingManagementImpl implements BookingManagement {
 			endDate.setTime(endDate.getTime() + 15 * 60000);
 		}
 		return freeFacilityResult;
+	}
+
+	/**
+	 * Select by free child facilities.
+	 * 
+	 * @param facilityCollection
+	 *            the facility collection
+	 * @param freeChildrenCount
+	 *            the required amount of free child facilities
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 * @param freeFacilityResult
+	 *            the free facility result
+	 */
+	private void selectByFreeChildFacilities(Collection<FacilityResult> facilityCollection, int freeChildrenCount,
+			Date startDate, Date endDate, Collection<FreeFacilityResult> freeFacilityResult) {
+		Iterator<FacilityResult> facilityIterator = facilityCollection.iterator();
+		// collect all free facilities
+		while (facilityIterator.hasNext()) {
+			FacilityResult facilityResult = facilityIterator.next();
+			Collection<Facility> freeChildren = getAndTestRequiredFreeChildFacilities(facilityResult,
+					freeChildrenCount, startDate, endDate);
+			if (freeChildren != null) {
+				// add the found facility
+				freeFacilityResult.add(new FreeFacilityResult(facilityResult.getFacility(), (Date) startDate
+						.clone(), freeChildren));
+				// remove from queue
+				facilityIterator.remove();
+
+			}
+		}
+	}
+
+	/**
+	 * Select free facilities from a collection of facilities
+	 * 
+	 * @param facilityCollection
+	 *            the facility collection to search, free facilites will be removed
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 * @param freeFacilityResult
+	 *            the collection to which the free facilities will be appended as FreeFacilityResult-objects
+	 */
+	private void selectFreeFacilities(Collection<FacilityResult> facilityCollection, Date startDate, Date endDate,
+			Collection<FreeFacilityResult> freeFacilityResult) {
+		Iterator<FacilityResult> facilityIterator = facilityCollection.iterator();
+		// collect all free facilities
+		while (facilityIterator.hasNext()) {
+			FacilityResult facilityResult = facilityIterator.next();
+			try {
+				if (isFacilityFree(facilityResult.getFacility().getId(), startDate, endDate)) {
+					// add the found facility
+					freeFacilityResult.add(new FreeFacilityResult(facilityResult.getFacility(), (Date) startDate
+							.clone(), facilityResult.getMatchingChildFacilities()));
+					// remove from queue
+					facilityIterator.remove();
+				}
+
+			} catch (FacilityNotFoundException e) {
+				// do not add if not found
+				// remove from queue
+				facilityIterator.remove();
+			}
+		}
 	}
 
 	/**
