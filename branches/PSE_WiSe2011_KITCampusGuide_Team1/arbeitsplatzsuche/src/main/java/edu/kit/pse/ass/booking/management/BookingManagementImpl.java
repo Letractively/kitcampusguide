@@ -77,7 +77,7 @@ public class BookingManagementImpl implements BookingManagement {
 					throw new FacilityNotFreeException("The facility is not available at the given time.");
 				}
 			} catch (IllegalArgumentException e) {
-				throw new FacilityNotFreeException("The facility does not exist.");
+				throw new IllegalArgumentException("The facility does not exist.");
 			}
 		}
 
