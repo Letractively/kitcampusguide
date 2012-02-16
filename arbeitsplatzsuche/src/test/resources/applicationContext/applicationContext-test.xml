@@ -71,6 +71,10 @@
 	        autowire-candidate="true"/>
 	        
 	<bean id="searchController" 
-			class="edu.kit.pse.ass.gui.controller.SearchController"
+			class="edu.kit.pse.ass.gui.controller.SearchControllerImpl"
 	        autowire-candidate="true"/>
+	        
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="/WEB-INF/messages"></property>
+    </bean>
 </beans>

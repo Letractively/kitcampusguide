@@ -70,7 +70,7 @@ public class FacilityResultComparator implements Comparator<FreeFacilityResult> 
 			// DataTables!)
 			Room r1 = (Room) c1.getFacility();
 			Room r2 = (Room) c2.getFacility();
-			return SearchController.formatRoomName(r1).compareTo(SearchController.formatRoomName(r2));
+			return SearchControllerImpl.formatRoomName(r1).compareTo(SearchControllerImpl.formatRoomName(r2));
 		} else {
 			// Compare the normal name of the facility
 			return c1.getFacility().getName().compareTo(c2.getFacility().getName());
