@@ -36,5 +36,37 @@ public class BuildingTest {
 		building.setNumber(TEST_NUMBER);
 		assertEquals(TEST_NUMBER, building.getNumber());
 	}
+	
+	/**
+	 * Test set number.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetNumber2() {
+		building.setNumber("");
+	}
+	
+	/**
+	 * Test set number.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetNumber3() {
+		building.setNumber(null);
+	}
+	
+	/**
+	 * Test set parent facility.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetParentFacility() {
+		building.setParentFacility(new Room());
+	}
+	
+	/**
+	 * Test set parent facility
+	 */
+	@Test
+	public void testSetParentFacility2() {
+		building.setParentFacility(null);
+	}
 
 }

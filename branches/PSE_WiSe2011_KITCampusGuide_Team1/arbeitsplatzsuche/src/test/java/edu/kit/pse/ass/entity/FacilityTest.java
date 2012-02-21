@@ -17,6 +17,9 @@ public class FacilityTest {
 
 	/** The building. */
 	private Building building;
+	
+	/** A second building. */
+	private Building building2;
 
 	/** The room. */
 	private Room room;
@@ -38,7 +41,27 @@ public class FacilityTest {
 		building = new Building();
 		room = new Room();
 		workplace = new Workplace();
+		building2 = new Building();
 	}
+	
+	/**
+	 * Test set ID.
+	 */
+	@SuppressWarnings("deprecation")
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetId() {
+		building2.setId(null);
+	}
+	
+	/**
+	 * Test set ID.
+	 */
+	@SuppressWarnings("deprecation")
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetId2() {
+		building2.setId("");
+	}
+	
 
 	/**
 	 * Test set name.
@@ -52,13 +75,29 @@ public class FacilityTest {
 		workplace.setName(NAME);
 		assertEquals(NAME, workplace.getName());
 	}
+	
+	/**
+	 * Test set name.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetName2() {
+		building2.setName(null);
+	}
+	
+	/**
+	 * Test set name.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetName3() {
+		building2.setName("");
+	}
 
 	/**
 	 * Test add contained facilities.
 	 */
 	@Test
 	@SuppressWarnings("deprecation")
-	public void testAddContainedFacilities() {
+	public void testAddContainedFacility() {
 		// Collection of rooms to add to a bulding:
 		Collection<Room> roomsToAdd = new ArrayList<Room>();
 		building.setId("1asljcbaljf");
@@ -83,12 +122,78 @@ public class FacilityTest {
 		}
 
 	}
+	
+	/**
+	 * Test add contained facility.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddContainedFacility2() {
+		Facility tmp = new Facility();
+		tmp.addContainedFacility(null);
+	}
+	
+	/**
+	 * Test add contained facility.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddContainedFacility3() {
+		Room tmp = new Room();
+		tmp.setParentFacility(building);
+		building2.addContainedFacility(tmp);
+	}
+	
+	/**
+	 * Test add contained facilities.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddContainedFacilities() {
+		building2.addContainedFacilities(null);
+	}
+	
+	/**
+	 * Test add contained facilities.
+	 */
+	@SuppressWarnings("deprecation")
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddContainedFacilities2() {
+		Room r = new Room();
+		r.setId("blub");
+		building2.addContainedFacility(r);
+		Collection<Facility> rooms = new ArrayList<Facility>();
+		Room r2 = new Room();
+		r2.setId("blub2");
+		rooms.add(r2);
+		building2.addContainedFacilities(rooms);
+	}
+	
+	/**
+	 * Test add contained facilities.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddContainedFacilities3() {
+		Collection<Facility> rooms = new ArrayList<Facility>();
+		rooms.add(null);
+		building2.addContainedFacilities(rooms);
+	}
+	
+	/**
+	 * Test add contained facilities.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddContainedFacilities4() {
+		Collection<Facility> rooms = new ArrayList<Facility>();
+		Room tmp = new Room();
+		tmp.setParentFacility(building);
+		rooms.add(tmp);
+		building2.addContainedFacilities(rooms);
+	}
 
 	/**
 	 * Removes the contained facility.
 	 */
+	@SuppressWarnings("deprecation")
 	@Test
-	public void removeContainedFacility() {
+	public void testRemoveContainedFacility() {
 		Room r = new Room();
 		r.setId("roomxyz1");
 		building.addContainedFacility(r);
@@ -99,6 +204,33 @@ public class FacilityTest {
 		// We removed the room so size should be 0
 		assertEquals("Facility is not removed", 0, building
 				.getContainedFacilities().size());
+	}
+	
+	/**
+	 * Removes the contained facility.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testRemoveContainedFacility2() {
+		Room r = new Room();
+		r.removeContainedFacility(new Workplace());
+	}
+	
+	/**
+	 * Test set properties
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetProperties() {
+		building2.setProperties(null);
+	}
+	
+	/**
+	 * Test set properties
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetProperties2() {
+		Collection<Property> tmp = new ArrayList<Property>();
+		tmp.add(new Property());
+		building2.setProperties(tmp);
 	}
 
 	/**
@@ -130,6 +262,9 @@ public class FacilityTest {
 	public void testHasProperty() {
 		room.addProperty(new Property("WLAN"));
 		assertTrue(room.hasProperty(new Property("WLAN")));
+		// ''assertFalse'' == assertTrue(![something thats false])
+		Room r = new Room();
+		assertTrue(!(r.hasProperty(new Property("XYZ"))));
 	}
 
 	/**
