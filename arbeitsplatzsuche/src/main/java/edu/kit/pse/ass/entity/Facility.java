@@ -165,11 +165,20 @@ public class Facility {
 		if (facilities == null) {
 			throw new IllegalArgumentException("facilities is null");
 		}
-		for (Facility facility : containedFacilities) {
-			if (!facilities.contains(facility)) {
-				facility.setParentFacility(null);
+		for (Facility facility : facilities) {
+			if (facility == null) {
+				throw new IllegalArgumentException("One of the facilities you want to add is null");
+			}
+			if (facility.getParentFacility() != null) {
+				throw new IllegalArgumentException("One of the facilities you want to add already has a parent.");
 			}
 		}
+		//clear the parent entry of the actual children
+		for (Facility facility : containedFacilities) {
+				facility.setParentFacility(null);
+		}
+		
+		//set the new children.
 		containedFacilities = facilities;
 	}
 
@@ -203,7 +212,7 @@ public class Facility {
 	 *             , when removedFacility is null or not contained in the collection.
 	 */
 	public void removeContainedFacility(Facility removedFacility) throws IllegalArgumentException {
-		if (getContainedFacilities().contains(removedFacility)) {
+		if (containedFacilities.contains(removedFacility)) {
 			try {
 				removedFacility.setParentFacility(null);
 				containedFacilities.remove(removedFacility);
