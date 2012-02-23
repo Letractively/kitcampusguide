@@ -1,6 +1,7 @@
 package edu.kit.pse.ass.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -254,6 +255,25 @@ public class FacilityTest {
 			assertTrue(room.hasProperty(prop));
 		}
 	}
+	
+	/**
+	 * Test add property
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddProperty() {
+		Room r1 = new Room();
+		r1.addProperty(new Property("WLAN"));
+		r1.addProperty(new Property("WLAN"));
+	}
+	
+	/**
+	 * Test add property
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddProperty2() {
+		Room r1 = new Room();
+		r1.addProperty(null);
+	}
 
 	/**
 	 * Test has property.
@@ -262,9 +282,38 @@ public class FacilityTest {
 	public void testHasProperty() {
 		room.addProperty(new Property("WLAN"));
 		assertTrue(room.hasProperty(new Property("WLAN")));
-		// ''assertFalse'' == assertTrue(![something thats false])
-		Room r = new Room();
-		assertTrue(!(r.hasProperty(new Property("XYZ"))));
+	}
+	
+	/**
+	 * Test has property.
+	 */
+	@Test
+	public void testHasProperty2() {
+		assertFalse(room.hasProperty(new Property("TEST_PROPERTY")));
+	}
+	
+	/**
+	 * Test get inherited properties
+	 */
+	@Test
+	public void testGetInheritedProperties() {
+		Building b1 = new Building();
+		b1.addProperty(new Property("Building_Property"));
+		Room r1 = new Room();
+		r1.setParentFacility(b1);
+		r1.addProperty(new Property("Room_Property"));
+		assertTrue(r1.getInheritedProperties().contains(new Property("Building_Property")));
+		assertTrue(r1.getInheritedProperties().contains(new Property("Room_Property")));
+	}
+	
+	/**
+	 * Test get inherited properties
+	 */
+	@Test
+	public void testGetInheritedProperties2() {
+		Room r1 = new Room();
+		r1.addProperty(new Property("Room_Property"));
+		assertTrue(r1.getInheritedProperties().contains("Room_Property"));
 	}
 
 	/**
@@ -275,6 +324,24 @@ public class FacilityTest {
 		room.addProperty(new Property("WLAN"));
 		room.removeProperty(new Property("WLAN"));
 		assertEquals(0, room.getProperties().size());
+	}
+	
+	/**
+	 * Test remove property
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testRemoveProperty() {
+		Room r1 = new Room();
+		r1.removeProperty(null);
+	}
+	
+	/**
+	 * Test remove property
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testRemoveProperty2() {
+		Room r1 = new Room();
+		r1.removeProperty(new Property("ROOM_HAS_NO_PROPERTIES"));
 	}
 
 	/**
@@ -308,5 +375,62 @@ public class FacilityTest {
 	public void testSetNullName() {
 		room.setName(null);
 	}
-
+	
+	/**
+	 * Test hash code
+	 */
+	@SuppressWarnings("deprecation")
+	@Test
+	public void testHashCode() {
+		Room r1 = new Room();
+		r1.setId("TEST");
+		r1.setName("TEST_NAME");
+		assertTrue(r1.hashCode() != 0);
+	}
+	
+	/**
+	 * Test hash code
+	 */
+	@Test
+	public void testHashCode2() {
+		Room r1 = new Room();
+		assertTrue(r1.hashCode() == 0);
+	}
+	
+	/**
+	 * Test equals.
+	 */
+	@SuppressWarnings("deprecation")
+	@Test
+	public void testEquals() {
+		Room r1 = new Room();
+		r1.setId("Room No. 1");
+		Room r2 = new Room();
+		r2.setId("Room No. 2");
+		assertFalse(r1.equals(r2));
+	}
+	
+	/**
+	 * Test equals.
+	 */
+	@SuppressWarnings("deprecation")
+	@Test
+	public void testEquals2() {
+		Room r1 = new Room();
+		r1.setId("Room No. 1");
+		Room r2 = new Room();
+		r2.setId("Room No. 1");
+		assertTrue(r1.equals(r2));
+	}
+	
+	/**
+	 * Test equals.
+	 */
+	@SuppressWarnings("deprecation")
+	@Test
+	public void testEquals3() {
+		Room r1 = new Room();
+		r1.setId("Room No. 1");
+		assertFalse(r1.equals(null));
+	}
 }
