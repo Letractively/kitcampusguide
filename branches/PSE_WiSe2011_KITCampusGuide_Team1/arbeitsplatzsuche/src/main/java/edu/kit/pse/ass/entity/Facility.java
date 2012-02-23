@@ -256,11 +256,7 @@ public class Facility {
 	 * @return true , when the facility have the specified property
 	 */
 	public boolean hasProperty(Property property) {
-		if (properties.contains(property)) {
-			return true;
-		} else {
-			return false;
-		}
+		return properties.contains(property);
 	}
 
 	/**

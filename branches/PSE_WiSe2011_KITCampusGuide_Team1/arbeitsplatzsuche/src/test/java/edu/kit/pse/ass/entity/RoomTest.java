@@ -34,12 +34,44 @@ public class RoomTest {
 	}
 
 	/**
+	 * Test set parent facility
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetParentFacility() {
+		room.setParentFacility(null);
+	}
+	
+	/**
+	 * Test set parent facility
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetParentFacility2() {
+		room.setParentFacility(new Workplace());
+	}
+	
+	/**
+	 * Test set parent facility
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetParentFacility3() {
+		room.setParentFacility(new Room());
+	}
+	
+	/**
 	 * Test set description.
 	 */
 	@Test
 	public void testSetDescription() {
 		room.setDescription(TEST_DESCRIPTION);
 		assertEquals(TEST_DESCRIPTION, room.getDescription());
+	}
+	
+	/**
+	 * Test set description.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetDescription2() {
+		room.setDescription(null);
 	}
 
 	/**
@@ -58,6 +90,14 @@ public class RoomTest {
 	public void testSetNumber() {
 		room.setNumber(TEST_NUMBER);
 		assertEquals(TEST_NUMBER, room.getNumber());
+	}
+	
+	/**
+	 * Test set number.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetNumber2() {
+		room.setNumber(null);
 	}
 
 }
