@@ -433,4 +433,16 @@ public class FacilityTest {
 		r1.setId("Room No. 1");
 		assertFalse(r1.equals(null));
 	}
+	
+	/**
+	 * Test equals.
+	 */
+	@SuppressWarnings("deprecation")
+	@Test
+	public void testEquals4() {
+		Room r1 = new Room();
+		Room r2 = new Room();
+		r2.setId("TEST");
+		assertFalse(r1.equals(r2));
+	}
 }
