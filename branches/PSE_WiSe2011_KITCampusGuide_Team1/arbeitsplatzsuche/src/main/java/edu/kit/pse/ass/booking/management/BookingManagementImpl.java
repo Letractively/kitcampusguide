@@ -73,7 +73,7 @@ public class BookingManagementImpl implements BookingManagement {
 		}
 		for (String tmpID : facilityIDs) {
 			try {
-				if (isFacilityFree(tmpID, startDate, endDate) == false) {
+				if (!isFacilityFree(tmpID, startDate, endDate)) {
 					throw new FacilityNotFreeException("The facility is not available at the given time.");
 				}
 			} catch (IllegalArgumentException e) {
@@ -237,9 +237,7 @@ public class BookingManagementImpl implements BookingManagement {
 		Date startDate = (Date) start.clone();
 		Date endDate = (Date) end.clone();
 
-		if (facilityCollection == null) {
-			return freeFacilityResult;
-		}
+		assert facilityCollection != null;
 		// find free matching facilities
 		// if less than 5 are found, shift the reservation time forward up to
 		// 2 hours.
@@ -342,27 +340,34 @@ public class BookingManagementImpl implements BookingManagement {
 	 */
 	private Collection<Facility> getAndTestRequiredFreeChildFacilities(FacilityResult facilityResult,
 			int requiredChildCount, Date startDate, Date endDate) {
-		if (facilityResult == null || startDate == null || endDate == null) {
-			throw new IllegalArgumentException("One parameter is null or empty");
-		}
+
+		assert facilityResult != null;
+		assert startDate != null;
+		assert endDate != null;
+
 		LinkedList<Facility> free = new LinkedList<Facility>();
 		Collection<Reservation> reservations = bookingDAO.getReservationsOfFacility(facilityResult.getFacility()
 				.getId(), startDate, endDate);
-		if (reservations != null && reservations.size() > 0) {
+
+		assert reservations != null;
+
+		if (reservations.size() > 0) {
 			return null;
 		}
 		Facility parent = facilityResult.getFacility().getParentFacility();
 		// check parent facilities
 		while (parent != null) {
 			reservations = bookingDAO.getReservationsOfFacility(parent.getId(), startDate, endDate);
-			if (reservations != null && reservations.size() > 0) {
+			assert reservations != null;
+			if (reservations.size() > 0) {
 				return null;
 			}
 			parent = parent.getParentFacility();
 		}
 		for (Facility requiredFacility : facilityResult.getMatchingChildFacilities()) {
 			reservations = bookingDAO.getReservationsOfFacility(requiredFacility.getId(), startDate, endDate);
-			if (reservations != null && reservations.size() > 0) {
+			assert reservations != null;
+			if (reservations.size() > 0) {
 				return null;
 			}
 			if (!areChildFacilitiesFree(requiredFacility, startDate, endDate)) {
@@ -420,9 +425,8 @@ public class BookingManagementImpl implements BookingManagement {
 	@Transactional
 	private boolean areChildFacilitiesFree(Facility facility, Date startDate, Date endDate) {
 		Collection<Reservation> reservations;
-		if (facility.getContainedFacilities() == null) {
-			return true;
-		}
+		assert facility.getContainedFacilities() != null;
+
 		for (Facility containedFacility : facility.getContainedFacilities()) {
 			reservations = bookingDAO.getReservationsOfFacility(containedFacility.getId(), startDate, endDate);
 			if (reservations != null && reservations.size() > 0) {

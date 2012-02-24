@@ -26,6 +26,9 @@ import edu.kit.pse.ass.entity.Building;
 import edu.kit.pse.ass.entity.Property;
 import edu.kit.pse.ass.entity.Reservation;
 import edu.kit.pse.ass.entity.Room;
+import edu.kit.pse.ass.entity.Workplace;
+import edu.kit.pse.ass.facility.management.FacilityNotFoundException;
+import edu.kit.pse.ass.facility.management.RoomQuery;
 import edu.kit.pse.ass.realdata.DataHelper;
 
 // TODO: Auto-generated Javadoc
@@ -71,6 +74,9 @@ public class BookingManagementImplTest {
 	/** a room that could be booked */
 	private Room room1;
 
+	private Workplace workplace1;
+	private Workplace workplace2;
+
 	/**
 	 * Sets the up.
 	 * 
@@ -98,6 +104,13 @@ public class BookingManagementImplTest {
 	private void initTestBuildingWithRoomsAndWorkplaces() {
 		infoBuilding = dataHelper.createPersistedBuilding("50.20", "Informatik", new ArrayList<Property>());
 		room1 = dataHelper.createPersistedRoom("Seminarraum", "-101", -1, Arrays.asList(new Property("WLAN")));
+
+		workplace1 = dataHelper.createPersistedWorkplace("WP1",
+				Arrays.asList(new Property("LAN"), new Property("Lampe")));
+		workplace2 = dataHelper.createPersistedWorkplace("WP2", Arrays.asList(new Property("LAN")));
+
+		room1.addContainedFacility(workplace1);
+		room1.addContainedFacility(workplace2);
 
 		infoBuilding.addContainedFacility(room1);
 	}
@@ -190,9 +203,44 @@ public class BookingManagementImplTest {
 	public void testBookStartDateInPast() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.HOUR, -2);
-		// start is current date + 1
+		// start is current date - 2
 		Date invalidStartDate = cal.getTime();
 		bookingManagement.book(USER_ID, Arrays.asList(room1.getId()), invalidStartDate, validEndDate);
+	}
+
+	/**
+	 * Tests if book throws an BookingNotAllowedException if user has a Reservation.
+	 * 
+	 * @throws Exception
+	 *             should be an BookingNotAllowedException
+	 */
+	@Test(expected = BookingNotAllowedException.class)
+	public void testBookNotAllowed() throws Exception {
+		dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(), validStartDate, validEndDate);
+		bookingManagement.book(USER_ID, Arrays.asList(room1.getId()), validStartDate, validEndDate);
+	}
+
+	/**
+	 * Tests if book throws an IllegalArgumentException if a facility id is invalid.
+	 * 
+	 * @throws Exception
+	 *             should be an IllegalArgumentException
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testBookIllegalFacilityID() throws Exception {
+		bookingManagement.book(USER_ID, Arrays.asList((String) null), validStartDate, validEndDate);
+	}
+
+	/**
+	 * Tests if book throws an FacilityNotFoundException if a facility id does not exist.
+	 * 
+	 * @throws Exception
+	 *             should be an FacilityNotFoundException
+	 */
+	@Test(expected = FacilityNotFoundException.class)
+	public void testBookFacilityIDDoesNotExist() throws Exception {
+		bookingManagement
+				.book(USER_ID, Arrays.asList("some id that does not exist"), validStartDate, validEndDate);
 	}
 
 	/**
@@ -218,6 +266,20 @@ public class BookingManagementImplTest {
 		assertTrue(createdReservation.getBookedFacilityIds().contains(room1.getId()));
 		assertEquals(validStartDate, createdReservation.getStartTime());
 		assertEquals(validEndDate, createdReservation.getEndTime());
+	}
+
+	/**
+	 * Tests if book fails id workplace is not free.
+	 * 
+	 * @throws Exception
+	 *             a FacilityNotFreeException should be thrown
+	 */
+	@Test(expected = FacilityNotFreeException.class)
+	public void testBookNotFree() throws Exception {
+		// create a reservation
+		dataHelper.createPersistedReservation("aUser", Arrays.asList(room1.getId()), validStartDate, validEndDate);
+		// book should fail..
+		bookingManagement.book(USER_ID, Arrays.asList(room1.getId()), validStartDate, validEndDate);
 	}
 
 	/**
@@ -729,6 +791,180 @@ public class BookingManagementImplTest {
 		Reservation res2Result = bookingManagement.getReservation(res2.getId());
 		assertNotNull(res2Result);
 		assertEquals(res2, res2Result);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testFindFreeFacilitiesWithNullQuery() {
+		bookingManagement.findFreeFacilites(null, validStartDate, validEndDate, true);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testFindFreeFacilitiesWithNullStart() {
+		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), SEARCH_TEXT, NEEDED_WORKPLACES);
+		bookingManagement.findFreeFacilites(query, null, validEndDate, true);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testFindFreeFacilitiesWithNullEnd() {
+		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), SEARCH_TEXT, NEEDED_WORKPLACES);
+		bookingManagement.findFreeFacilites(query, validStartDate, null, true);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testFindFreeFacilitiesWithStartAfterEnd() {
+		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), SEARCH_TEXT, NEEDED_WORKPLACES);
+		bookingManagement.findFreeFacilites(query, validEndDate, validStartDate, true);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testFindFreeFacilitiesWithIllegalStart() {
+		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), SEARCH_TEXT, NEEDED_WORKPLACES);
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.HOUR, -2);
+		// start is current date - 2
+		Date invalidStartDate = cal.getTime();
+		bookingManagement.findFreeFacilites(query, invalidStartDate, validEndDate, true);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testFindFreeFacilitiesWithIllegalEnd() {
+		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), SEARCH_TEXT, NEEDED_WORKPLACES);
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.HOUR, -2);
+		// end is current date - 2
+		Date invalidEndDate = cal.getTime();
+		bookingManagement.findFreeFacilites(query, validStartDate, invalidEndDate, true);
+	}
+
+	@Test
+	public void testFindFreeFacility2Workplaces() {
+		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), "", 2);
+		Collection<FreeFacilityResult> result;
+		result = bookingManagement.findFreeFacilites(query, validStartDate, validEndDate, false);
+
+		// should find the one room with the two workplaces.
+		assertNotNull(result);
+		assertEquals(1, result.size());
+		assertEquals(validStartDate, result.iterator().next().start);
+	}
+
+	@Test
+	public void testFindFreeFacility2WorkplacesFullyAvailible() {
+		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), "", 2);
+		Collection<FreeFacilityResult> result;
+		result = bookingManagement.findFreeFacilites(query, validStartDate, validEndDate, true);
+
+		// should find the one room with the two workplaces.
+		assertNotNull(result);
+		assertEquals(1, result.size());
+		assertEquals(validStartDate, result.iterator().next().start);
+	}
+
+	@Test
+	public void testFindFreeFacility2WorkplacesNext15() {
+		Calendar cal = Calendar.getInstance();
+
+		// create a reservation for 15 miniutes for workplace 1 so it is
+		// just bookable in 15 minitues
+		cal.add(Calendar.HOUR, 1);
+		cal.set(Calendar.MINUTE, 15);
+
+		Date bookingStart = cal.getTime();
+
+		cal.add(Calendar.MINUTE, 15);
+		Date bookingEnd = cal.getTime();
+
+		// book one workplace of the two:
+		dataHelper.createPersistedReservation("aID", Arrays.asList(workplace1.getId()), bookingStart, bookingEnd);
+
+		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), "", 2);
+		Collection<FreeFacilityResult> result;
+		result = bookingManagement.findFreeFacilites(query, bookingStart, bookingEnd, false);
+
+		// should find the one room with the two workplaces.
+		assertNotNull(result);
+		assertEquals(1, result.size());
+		assertEquals(bookingEnd, result.iterator().next().start);
+	}
+
+	@Test
+	public void testFindFreeFacility2WorkplacesNotFullyAvailible() {
+		// get current date
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.HOUR, 1);
+		// start is current date + 1
+		Date startDate = cal.getTime();
+
+		cal.add(Calendar.HOUR, 24);
+		Date reservationEndDate = cal.getTime();
+
+		cal.add(Calendar.HOUR, -23);
+		Date findEndDate = cal.getTime();
+
+		dataHelper.createPersistedReservation("aID", Arrays.asList(workplace1.getId()), startDate,
+				reservationEndDate);
+
+		// search for 2 workplaces
+		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), "", 2);
+		Collection<FreeFacilityResult> result;
+		result = bookingManagement.findFreeFacilites(query, startDate, findEndDate, true);
+
+		// should find no room because room1 is not fullyAvailible
+		assertNotNull(result);
+		assertEquals(0, result.size());
+	}
+
+	@Test
+	public void testFindFreeFacilityWorkplacesNotAvailible() {
+		// get current date
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.HOUR, 1);
+		// start is current date + 1
+		Date startDate = cal.getTime();
+
+		cal.add(Calendar.HOUR, 24);
+		Date reservationEndDate = cal.getTime();
+
+		cal.add(Calendar.HOUR, -23);
+		Date findEndDate = cal.getTime();
+
+		dataHelper.createPersistedReservation("aID", Arrays.asList(workplace1.getId(), workplace2.getId()),
+				startDate, reservationEndDate);
+
+		// search for 1 workplace
+		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), "", 1);
+		Collection<FreeFacilityResult> result;
+		result = bookingManagement.findFreeFacilites(query, startDate, findEndDate, false);
+
+		// should find no room because workplace1 and workplace 2 are not available
+		assertNotNull(result);
+		assertEquals(0, result.size());
+	}
+
+	@Test
+	public void testFindFreeFacilityRoomNotAvailible() {
+		// get current date
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.HOUR, 1);
+		// start is current date + 1
+		Date startDate = cal.getTime();
+
+		cal.add(Calendar.HOUR, 24);
+		Date reservationEndDate = cal.getTime();
+
+		cal.add(Calendar.HOUR, -23);
+		Date findEndDate = cal.getTime();
+
+		dataHelper.createPersistedReservation("aID", Arrays.asList(room1.getId()), startDate, reservationEndDate);
+
+		// search for one workplace in room1
+		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), "", 1);
+		Collection<FreeFacilityResult> result;
+		result = bookingManagement.findFreeFacilites(query, startDate, findEndDate, false);
+
+		// should find no room because room is not available
+		assertNotNull(result);
+		assertEquals(0, result.size());
 	}
 
 	//
