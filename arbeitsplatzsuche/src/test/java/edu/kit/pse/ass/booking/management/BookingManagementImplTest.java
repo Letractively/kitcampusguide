@@ -31,7 +31,6 @@ import edu.kit.pse.ass.facility.management.FacilityNotFoundException;
 import edu.kit.pse.ass.facility.management.RoomQuery;
 import edu.kit.pse.ass.realdata.DataHelper;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BookingManagementImplTest.
  * 
@@ -46,9 +45,6 @@ public class BookingManagementImplTest {
 
 	/** The email of the user. */
 	private static final String USER_ID = "ubbbb@student.kit.edu";
-
-	/** The Constant FIND_PROPERTY_NAMES. */
-	private static final String[] FIND_PROPERTY_NAMES = { "WLAN", "Steckdose" };
 
 	/** The Constant SEARCH_TEXT. */
 	private static final String SEARCH_TEXT = "Informatik";
@@ -758,6 +754,10 @@ public class BookingManagementImplTest {
 
 	/**
 	 * Tests if deleteReservation deletes the right reservation.
+	 * 
+	 * @throws ReservationNotFoundException
+	 *             should be thrown
+	 * 
 	 */
 	@Test(expected = ReservationNotFoundException.class)
 	public void testDeleteReservation() throws ReservationNotFoundException {
@@ -772,11 +772,23 @@ public class BookingManagementImplTest {
 		assertTrue(res1 == null);
 	}
 
+	/**
+	 * Test if getReservation throws an IllegalArgumentException with null reservationID
+	 * 
+	 * @throws Exception
+	 *             should be an IllegalArgumentException
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testGetReservationWithNullID() throws Exception {
 		bookingManagement.getReservation(null);
 	}
 
+	/**
+	 * Tests if getReservation returns the right reservation.
+	 * 
+	 * @throws ReservationNotFoundException
+	 *             should not be thrown
+	 */
 	@Test
 	public void testGetReservation() throws ReservationNotFoundException {
 		Reservation res1 = dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(), validStartDate,
@@ -793,29 +805,44 @@ public class BookingManagementImplTest {
 		assertEquals(res2, res2Result);
 	}
 
+	/**
+	 * Tests if findFreeFacility throws a IllegalArgumentException with null query.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testFindFreeFacilitiesWithNullQuery() {
 		bookingManagement.findFreeFacilites(null, validStartDate, validEndDate, true);
 	}
 
+	/**
+	 * Tests if findFreeFacility throws a IllegalArgumentException with null start date.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testFindFreeFacilitiesWithNullStart() {
 		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), SEARCH_TEXT, NEEDED_WORKPLACES);
 		bookingManagement.findFreeFacilites(query, null, validEndDate, true);
 	}
 
+	/**
+	 * Tests if findFreeFacility throws a IllegalArgumentException with null end date.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testFindFreeFacilitiesWithNullEnd() {
 		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), SEARCH_TEXT, NEEDED_WORKPLACES);
 		bookingManagement.findFreeFacilites(query, validStartDate, null, true);
 	}
 
+	/**
+	 * Tests if findFreeFacility throws a IllegalArgumentException with start date before end date.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testFindFreeFacilitiesWithStartAfterEnd() {
 		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), SEARCH_TEXT, NEEDED_WORKPLACES);
 		bookingManagement.findFreeFacilites(query, validEndDate, validStartDate, true);
 	}
 
+	/**
+	 * Tests if findFreeFacility throws a IllegalArgumentException with start date in the past.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testFindFreeFacilitiesWithIllegalStart() {
 		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), SEARCH_TEXT, NEEDED_WORKPLACES);
@@ -826,6 +853,9 @@ public class BookingManagementImplTest {
 		bookingManagement.findFreeFacilites(query, invalidStartDate, validEndDate, true);
 	}
 
+	/**
+	 * Tests if findFreeFacility throws a IllegalArgumentException with end date in the past.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testFindFreeFacilitiesWithIllegalEnd() {
 		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), SEARCH_TEXT, NEEDED_WORKPLACES);
@@ -836,6 +866,9 @@ public class BookingManagementImplTest {
 		bookingManagement.findFreeFacilites(query, validStartDate, invalidEndDate, true);
 	}
 
+	/**
+	 * Tests if findFreeFacility finds the 2 workplaces.
+	 */
 	@Test
 	public void testFindFreeFacility2Workplaces() {
 		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), "", 2);
@@ -848,6 +881,9 @@ public class BookingManagementImplTest {
 		assertEquals(validStartDate, result.iterator().next().start);
 	}
 
+	/**
+	 * Tests if findFreeFacility finds the 2 workplaces when room must be fully available.
+	 */
 	@Test
 	public void testFindFreeFacility2WorkplacesFullyAvailible() {
 		RoomQuery query = new RoomQuery(Arrays.asList(new Property("WLAN")), "", 2);
@@ -860,6 +896,9 @@ public class BookingManagementImplTest {
 		assertEquals(validStartDate, result.iterator().next().start);
 	}
 
+	/**
+	 * Tests if findFreeFacility finds the 2 workplaces if they are booked, but free in 15min.
+	 */
 	@Test
 	public void testFindFreeFacility2WorkplacesNext15() {
 		Calendar cal = Calendar.getInstance();
@@ -887,6 +926,9 @@ public class BookingManagementImplTest {
 		assertEquals(bookingEnd, result.iterator().next().start);
 	}
 
+	/**
+	 * Tests if findFreeFacility finds not the workplaces if they are not fully available.
+	 */
 	@Test
 	public void testFindFreeFacility2WorkplacesNotFullyAvailible() {
 		// get current date
@@ -914,6 +956,9 @@ public class BookingManagementImplTest {
 		assertEquals(0, result.size());
 	}
 
+	/**
+	 * Tests if findFreeFacility finds not the workplaces if they are not available.
+	 */
 	@Test
 	public void testFindFreeFacilityWorkplacesNotAvailible() {
 		// get current date
@@ -941,6 +986,9 @@ public class BookingManagementImplTest {
 		assertEquals(0, result.size());
 	}
 
+	/**
+	 * Tests if findFreeFacility finds not the room if the room is not availible.
+	 */
 	@Test
 	public void testFindFreeFacilityRoomNotAvailible() {
 		// get current date
@@ -967,108 +1015,4 @@ public class BookingManagementImplTest {
 		assertEquals(0, result.size());
 	}
 
-	//
-	// /**
-	// * Test find free facilites.
-	// */
-	// @Test
-	// public void testFindFreeFacilites() {
-	// // TODO findFreeFacilites needs a facility database to work
-	// ArrayList<Property> propertiesList = new ArrayList<Property>();
-	// for (String property : FIND_PROPERTY_NAMES) {
-	// propertiesList.add(new Property(property));
-	// }
-	// FacilityQuery query = new FreeRoomQuery(propertiesList, SEARCH_TEXT, NEEDED_WORKPLACES);
-	// Collection<FreeFacilityResult> result = null;
-	// try {
-	// // TODO throw error or return null if parameter is null
-	// assertNull(bookingManagement.findFreeFacilites(null, start, end, false));
-	// fail("Accepted wrong parameters.");
-	// } catch (IllegalArgumentException e) {
-	// System.out.println("Error: " + e);
-	// }
-	// try {
-	// assertNull(bookingManagement.findFreeFacilites(query, null, end, false));
-	// fail("Accepted wrong parameters.");
-	// } catch (IllegalArgumentException e) {
-	// System.out.println("Error: " + e);
-	// }
-	// try {
-	// assertNull(bookingManagement.findFreeFacilites(query, start, null, false));
-	// fail("Accepted wrong parameters.");
-	// } catch (IllegalArgumentException e) {
-	// System.out.println("Error: " + e);
-	// }
-	//
-	// result = bookingManagement.findFreeFacilites(query, start, end, false);
-	//
-	// // free facilities should be returned
-	// assertNotNull("Result is null", result);
-	// assertTrue("Resultlist is empty", result.size() > 0);
-	// // check if right facilities are returned
-	//
-	// System.out.println("##FREE FACS");
-	// for (FreeFacilityResult freeFacility : result) {
-	// System.out.println(freeFacility.getFacility().getId());
-	// }
-	//
-	// for (FreeFacilityResult freeFacility : result) {
-	// // TODO search text unused in the facility construction, what needed
-	// // for?
-	// assertTrue("invalid facility returned", dummyFacilities.rooms.contains(freeFacility.getFacility()));
-	// assertFalse("facility is in booking 1", place.contains(freeFacility.getFacility().getId())
-	// && freeFacility.getStart().before(end));
-	// assertFalse("facility is in booking 2", place3.contains(freeFacility.getFacility().getId())
-	// && freeFacility.getStart().before(end));
-	// // assertTrue(FACILITIES2.contains(freeFacility.getFacility().getId()));
-	// }
-	//
-	// }
-	//
-	// /**
-	// * Test is facility free.
-	// *
-	// * @throws FacilityNotFoundException
-	// */
-	// @Test
-	// public void testIsFacilityFree() throws FacilityNotFoundException {
-	// Date startUnused = new GregorianCalendar(2012, 0, 3, 9, 0).getTime();
-	// Date endUnused = new GregorianCalendar(2012, 0, 3, 10, 0).getTime();
-	// Date startUsedHalf = new GregorianCalendar(2012, 0, 2, 8, 0).getTime();
-	// Date endUsedHalf = new GregorianCalendar(2012, 0, 2, 11, 0).getTime();
-	// try {
-	// // throw error or return null if parameter is null
-	// assertNull(bookingManagement.isFacilityFree(null, start, end));
-	// fail("Accepted wrong parameters.");
-	// } catch (IllegalArgumentException e) {
-	// System.out.println("Error: " + e);
-	// }
-	// try {
-	// assertNull(bookingManagement.isFacilityFree(place.get(0), null, end));
-	// fail("Accepted wrong parameters.");
-	// } catch (IllegalArgumentException e) {
-	// System.out.println("Error: " + e);
-	// }
-	// try {
-	// assertNull(bookingManagement.isFacilityFree(place.get(0), start, null));
-	// fail("Accepted wrong parameters.");
-	// } catch (IllegalArgumentException e) {
-	// System.out.println("Error: " + e);
-	// }
-	//
-	// // different dates used
-	// assertFalse("assert 1", bookingManagement.isFacilityFree(place.get(0), start, end));
-	// assertFalse("assert 2", bookingManagement.isFacilityFree(place.get(1), start, end));
-	// assertTrue("assert 3", bookingManagement.isFacilityFree(place.get(0), startUnused, endUnused));
-	// assertTrue("assert 4", bookingManagement.isFacilityFree(place2.get(0), startUnused, endUnused));
-	// assertTrue("assert 5", bookingManagement.isFacilityFree(place2.get(0), start, end));
-	// assertFalse("assert 6", bookingManagement.isFacilityFree(place.get(0), start, endUnused));
-	// assertTrue("assert 7", bookingManagement.isFacilityFree(place.get(0), end, startUnused));
-	// assertFalse("assert 8", bookingManagement.isFacilityFree(place.get(0), startUsedHalf, endUsedHalf));
-	// assertFalse("assert 9", bookingManagement.isFacilityFree(place.get(0), startUsedHalf, end));
-	// assertFalse("assert 10", bookingManagement.isFacilityFree(place.get(0), start, endUsedHalf));
-	// assertFalse("assert 11", bookingManagement.isFacilityFree(place.get(0), startUsedHalf, endUnused));
-	// assertTrue("assert 12", bookingManagement.isFacilityFree(place.get(0), startUsedHalf, start));
-	// assertTrue("assert 13", bookingManagement.isFacilityFree(place.get(0), end, endUsedHalf));
-	// }
 }
