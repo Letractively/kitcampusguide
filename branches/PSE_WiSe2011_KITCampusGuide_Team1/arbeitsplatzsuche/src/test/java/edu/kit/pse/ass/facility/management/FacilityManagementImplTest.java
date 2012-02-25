@@ -138,11 +138,22 @@ public class FacilityManagementImplTest {
 	 * Tests the method getFacility(String ID) with a null parameter.
 	 * 
 	 * @throws FacilityNotFoundException
-	 *             This exception will never occure!
+	 *             This exception will never occur!
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testGetFacilityWithNullParameter() throws FacilityNotFoundException {
 		facilityManagement.getFacility(null);
+	}
+
+	/**
+	 * Test getFacility(String ID) with empty parameter.
+	 * 
+	 * @throws FacilityNotFoundException
+	 *             This exception will never occur!
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetFacilityWithEmptyParameter() throws FacilityNotFoundException {
+		facilityManagement.getFacility("");
 	}
 
 	/**
@@ -170,10 +181,31 @@ public class FacilityManagementImplTest {
 	 * @throws FacilityNotFoundException
 	 *             the facility not found exception
 	 */
-	@ExpectedException(FacilityNotFoundException.class)
-	@Test
+	@Test(expected = FacilityNotFoundException.class)
 	public void testGetFacilityWithWrongType() throws FacilityNotFoundException {
 		facilityManagement.getFacility(Building.class, facilityID);
+	}
+
+	/**
+	 * Tests getFacility(Class<T> type,String ID) with null parameter.
+	 * 
+	 * @throws FacilityNotFoundException
+	 *             This exception will never occur!
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetFacilityTypeWithNullParameter() throws FacilityNotFoundException {
+		facilityManagement.getFacility(Building.class, null);
+	}
+
+	/**
+	 * Test getFacility(Class<T> type,String ID) with empty parameter.
+	 * 
+	 * @throws FacilityNotFoundException
+	 *             This exception will never occur!
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetFacilityTypeWithEmptyParameter() throws FacilityNotFoundException {
+		facilityManagement.getFacility(Building.class, "");
 	}
 
 	/**

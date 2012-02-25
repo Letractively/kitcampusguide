@@ -25,11 +25,6 @@
            <!-- your example configuration here -->
         </configuration>
       </plugin>
- <!--     <plugin>
-      	<groupId>org.codehaus.mojo</groupId>
-      	<artifactId>cobertura-maven-plugin</artifactId>
-      	<version>2.5.1</version>
-      </plugin> -->
     </plugins>
   </reporting>
 
@@ -227,12 +222,10 @@
         <configuration>
           <instrumentation>
             <ignores>
-         	   <ignore>edu.kit.pse.ass.realdata.*</ignore>
-         	   <ignore>edu.kit.pse.ass.testdata.*</ignore>
             </ignores>
             <excludes>
-              <exclude>edu/kit/pse/ass/realdata/*.class</exclude>
-              <exclude>edu/kit/pse/ass/testdata/*.class</exclude>
+              <exclude>src/main/java/edu/kit/pse/ass/realdata/*.class</exclude>
+              <exclude>src/main/java/edu/kit/pse/ass/testdata/*.class</exclude>
             </excludes>
           </instrumentation>
         </configuration>
