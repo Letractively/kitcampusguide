@@ -15,12 +15,6 @@ public class ReservationNotFoundException extends Exception {
 
 	/**
 	 * Instantiates a new facility not free exception.
-	 */
-	public ReservationNotFoundException() {
-	}
-
-	/**
-	 * Instantiates a new facility not free exception.
 	 * 
 	 * @param message
 	 *            the message
