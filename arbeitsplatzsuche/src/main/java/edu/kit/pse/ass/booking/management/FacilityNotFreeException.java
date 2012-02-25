@@ -5,19 +5,13 @@ package edu.kit.pse.ass.booking.management;
 
 /**
  * The Class FacilityNotFreeException.
- *
+ * 
  * @author Andreas Bosch
  */
 public class FacilityNotFreeException extends Exception {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -3752325413375454423L;
-
-	/**
-	 * Instantiates a new facility not free exception.
-	 */
-	public FacilityNotFreeException() {
-	}
 
 	/**
 	 * Instantiates a new facility not free exception.

@@ -15,13 +15,6 @@ public class IllegalDateException extends Exception {
 	private static final long serialVersionUID = 4086893658106126623L;
 
 	/**
-	 * 
-	 */
-	public IllegalDateException() {
-		super();
-	}
-
-	/**
 	 * @param message
 	 *            the message to throw
 	 */

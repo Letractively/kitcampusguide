@@ -178,7 +178,7 @@ public class ReservationController extends MainController {
 
 				if (originalReservation == null) {
 					// iternal error: reservation has been found before, but not this time
-					return handleIllegalRequest(new ReservationNotFoundException());
+					return handleIllegalRequest(new ReservationNotFoundException(""));
 				}
 			}
 
