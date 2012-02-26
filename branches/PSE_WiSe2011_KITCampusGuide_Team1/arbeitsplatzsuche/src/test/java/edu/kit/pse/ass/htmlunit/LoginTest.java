@@ -1,4 +1,4 @@
-package edu.kit.pse.ass.gui;
+package edu.kit.pse.ass.htmlunit;
 
 import static org.junit.Assert.assertEquals;
 
