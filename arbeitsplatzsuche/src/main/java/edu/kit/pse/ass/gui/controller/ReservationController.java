@@ -1,7 +1,5 @@
 package edu.kit.pse.ass.gui.controller;
 
-import java.security.Principal;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
@@ -13,6 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.kit.pse.ass.gui.model.ReservationModel;
 
+/**
+ * The Reservation Controller
+ * 
+ * @author Jannis Koch
+ * 
+ */
 public interface ReservationController {
 
 	/**
@@ -25,7 +29,7 @@ public interface ReservationController {
 	 * @return the string
 	 */
 	@RequestMapping(value = "reservation/list")
-	public abstract String listReservations(Model model, HttpServletRequest request);
+	String listReservations(Model model, HttpServletRequest request);
 
 	/**
 	 * Show reservation details.
@@ -37,7 +41,7 @@ public interface ReservationController {
 	 * @return the string
 	 */
 	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.GET)
-	public abstract String showReservationDetails(Model model, @PathVariable("reservationId") String reservationID);
+	String showReservationDetails(Model model, @PathVariable("reservationId") String reservationID);
 
 	/**
 	 * Update reservations.
@@ -53,7 +57,7 @@ public interface ReservationController {
 	 * @return the string
 	 */
 	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.POST)
-	public abstract String updateReservation(Model model, @PathVariable("reservationId") String reservationID,
+	String updateReservation(Model model, @PathVariable("reservationId") String reservationID,
 			@ModelAttribute("updatedReservation") ReservationModel updatedReservation,
 			BindingResult updatedReservationResult);
 
@@ -62,14 +66,11 @@ public interface ReservationController {
 	 * 
 	 * @param model
 	 *            the model
-	 * @param principal
-	 *            the principal
 	 * @param reservationID
 	 *            the reservation id
 	 * @return the string
 	 */
 	@RequestMapping(value = "reservation/{reservationId}/delete.html")
-	public abstract String deleteReservations(Model model, Principal principal,
-			@PathVariable("reservationId") String reservationID);
+	String deleteReservations(Model model, @PathVariable("reservationId") String reservationID);
 
 }

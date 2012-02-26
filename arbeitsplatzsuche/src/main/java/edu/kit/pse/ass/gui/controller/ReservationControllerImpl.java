@@ -1,6 +1,5 @@
 package edu.kit.pse.ass.gui.controller;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -332,13 +331,19 @@ public class ReservationControllerImpl extends MainController implements Reserva
 	 */
 	@Override
 	@RequestMapping(value = "reservation/{reservationId}/delete.html")
-	public String deleteReservations(Model model, Principal principal,
-			@PathVariable("reservationId") String reservationID) {
+	public String deleteReservations(Model model, @PathVariable("reservationId") String reservationID) {
+
+		String userID = getUserID();
 
 		try {
 			// check if reservation exists
-			bookingManagement.getReservation(reservationID);
+			Reservation reservation = bookingManagement.getReservation(reservationID);
 
+			if (!reservation.getBookingUserId().equals(userID)) {
+				// Reservation does not belong to this user!
+				model.addAttribute("errorReservationNotFound", true);
+				return "reservation/details";
+			}
 			// delete and set notification
 			bookingManagement.deleteReservation(reservationID);
 			model.addAttribute("deleteNotification", true);
