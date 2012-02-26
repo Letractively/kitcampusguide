@@ -62,6 +62,9 @@ public class BookingManagementImplTest {
 	/** a valid end date (in future, after start date) */
 	private Date validEndDate;
 
+	/** a date (in future, after end date) */
+	private Date dateAfterEndDate;
+
 	@Autowired
 	private DataHelper dataHelper;
 
@@ -92,6 +95,10 @@ public class BookingManagementImplTest {
 		cal.add(Calendar.HOUR, 1);
 		// end is current date + 2
 		validEndDate = cal.getTime();
+
+		cal.add(Calendar.HOUR, 1);
+		// dateAfterEndDate is date + 3
+		dateAfterEndDate = cal.getTime();
 	}
 
 	/**
@@ -642,6 +649,49 @@ public class BookingManagementImplTest {
 				validEndDate);
 
 		bookingManagement.changeReservationEnd(res1.getId(), null);
+	}
+
+	/**
+	 * Tests if changeReservationEnd throws an FacilityNotFreeException when facility is not free for new EndDate.
+	 * 
+	 * @throws Exception
+	 *             should be an FacilityNotFreeException
+	 */
+	@Test(expected = FacilityNotFreeException.class)
+	public void testChangeReservationEndNotFreeForNewEndDate() throws Exception {
+		ArrayList<String> facilityIDs = new ArrayList<String>();
+		facilityIDs.add(room1.getId());
+
+		Reservation res1 = dataHelper.createPersistedReservation(USER_ID, facilityIDs, validStartDate,
+				validEndDate);
+		// make second reservation, so the booked facility is not free after first reservation
+		dataHelper.createPersistedReservation(USER_ID, facilityIDs, validEndDate, dateAfterEndDate);
+
+		bookingManagement.changeReservationEnd(res1.getId(), dateAfterEndDate);
+	}
+
+	/**
+	 * Tests if changeReservationEnd throws an IllegalStateException if not existing ID is used.
+	 * 
+	 * @throws Exception
+	 *             should be an IllegalStateException
+	 */
+	@Test(expected = IllegalStateException.class)
+	public void testChangeReservationEndWithNotExistingID() throws Exception {
+		bookingManagement.changeReservationEnd("This is not a valid ID", validEndDate);
+	}
+
+	/**
+	 * Tests if changeReservationEnd throws an IllegalArgumentException if the EndDate is before the StartDate.
+	 * 
+	 * @throws Exception
+	 *             should be an IllegalArgumentException
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testChangeReservationEndWithStartDateAfterEndDate() throws Exception {
+		Reservation res1 = dataHelper.createPersistedReservation(USER_ID, new ArrayList<String>(), validStartDate,
+				validEndDate);
+		bookingManagement.changeReservationEnd(res1.getId(), validStartDate);
 	}
 
 	/**
