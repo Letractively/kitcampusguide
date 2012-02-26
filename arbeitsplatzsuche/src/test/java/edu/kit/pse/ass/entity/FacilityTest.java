@@ -313,7 +313,7 @@ public class FacilityTest {
 	public void testGetInheritedProperties2() {
 		Room r1 = new Room();
 		r1.addProperty(new Property("Room_Property"));
-		assertTrue(r1.getInheritedProperties().contains("Room_Property"));
+		assertTrue(r1.getInheritedProperties().contains(new Property("Room_Property")));
 	}
 
 	/**
