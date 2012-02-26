@@ -15,11 +15,11 @@ import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 
 /**
- * The Class FacilityDAOImpl implements the FacilityDAO.
+ * The Class FacilityDAOImpl implements the interface FacilityDAO.
  */
 public class FacilityDAOImpl implements FacilityDAO {
 
-	/** The jpa template. */
+	/** The jpaTemplate, our database */
 	@Autowired
 	private JpaTemplate jpaTemplate;
 

@@ -19,7 +19,10 @@ import edu.kit.pse.ass.entity.User;
 import edu.kit.pse.ass.entity.Workplace;
 
 /**
- * @author Oliver Schneider Just to insert test data into db
+ * The class {@code DataHelper} provides methods to persist objects easier to the database. These classes have a
+ * createPersisted method: {@code Building, Room, Workplace, User, Reservation}
+ * 
+ * @author Oliver Schneider
  */
 public class DataHelper {
 
@@ -32,7 +35,7 @@ public class DataHelper {
 	private PasswordEncoder passwordEncoder;
 
 	/**
-	 * Add a building to the db with following attributes:
+	 * Add a building to the database with following attributes:
 	 * 
 	 * @param name
 	 *            - the name of the building (e.g. "Informatik Fakultät")
@@ -54,7 +57,7 @@ public class DataHelper {
 	}
 
 	/**
-	 * Add a room to the db with following attributes:
+	 * Add a room to the database with following attributes:
 	 * 
 	 * @param name
 	 *            - the name of the room (e.g. "Seminarraum")
@@ -80,7 +83,7 @@ public class DataHelper {
 	}
 
 	/**
-	 * Add a workplace to the db with following attributes:
+	 * Add a workplace to the database with following attributes:
 	 * 
 	 * @param name
 	 *            - the name of the workplace (e.g. "1.5", desk 1 place 5)
@@ -99,12 +102,12 @@ public class DataHelper {
 	}
 
 	/**
-	 * Add a user to the db with following attributes:
+	 * Add a user to the database with following attributes:
 	 * 
 	 * @param email
 	 *            - the email of the user (must match: "u[a-z]{4}@student.kit.edu")
 	 * @param password
-	 *            - the password for the account (must be 8 characters long)
+	 *            - the password for the account (must be at least 8 characters long)
 	 * @param roles
 	 *            - the roles the users holds
 	 * @return the persisted user
@@ -119,7 +122,7 @@ public class DataHelper {
 	}
 
 	/**
-	 * Add a reservation to the db with following attributes:
+	 * Add a reservation to the database with following attributes:
 	 * 
 	 * @param userID
 	 *            - the id of the reserving user
