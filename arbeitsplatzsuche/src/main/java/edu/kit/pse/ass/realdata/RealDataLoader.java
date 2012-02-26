@@ -5,6 +5,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
 /**
+ * The class {@code RealDataLoader} provides an onApplicationEvent listener, which loads the realData.
+ * 
  * @author Lennart
  * 
  */

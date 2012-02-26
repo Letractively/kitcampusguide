@@ -6,37 +6,42 @@ import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 
 /**
- * The Interface FacilityManagement.
+ * The Interface FacilityManagement encapsulates the facilityDAO methods.
  * 
  * @author Andreas Bosch
  */
 public interface FacilityManagement {
 
 	/**
-	 * Gets the facility.
+	 * Returns the facility with the given ID.
 	 * 
 	 * @param facilityID
-	 *            the ID of the facility
+	 *            - the ID of the facility
 	 * @return the facility object with the given ID
+	 * 
 	 * @throws IllegalArgumentException
-	 *             facilityID is null or the string is empty
+	 *             - if facilityID is null or empty
 	 * @throws FacilityNotFoundException
-	 *             ID does not exist
+	 *             - if no facility with the given ID exists
 	 */
 	Facility getFacility(String facilityID) throws IllegalArgumentException, FacilityNotFoundException;
 
 	/**
-	 * Returns facility with given ID as a specific subclass type.
+	 * Returns the facility with given ID as the specified subclass type.
 	 * 
 	 * @param <T>
-	 *            the generic type
+	 *            - the generic type
 	 * @param type
-	 *            the specific subclass of Facility to load
+	 *            - the specific subclass of Facility to load
 	 * @param facilityID
-	 *            the ID of the facility
-	 * @return facility with given ID
+	 *            - the ID of the facility
+	 * @return facility with given ID as the subclass type
+	 * 
+	 * @throws IllegalArgumentException
+	 *             - if facilityID is null or empty
+	 * 
 	 * @throws FacilityNotFoundException
-	 *             there is no facility with the given ID
+	 *             - if no facility with the given ID exists
 	 */
 	<T extends Facility> T getFacility(Class<T> type, String facilityID) throws FacilityNotFoundException;
 
@@ -44,17 +49,23 @@ public interface FacilityManagement {
 	 * Returns a collection of facilities matching the criteria of the given facilityQuery.
 	 * 
 	 * @param facilityQuery
-	 *            the facility query
+	 *            - the facility query
 	 * @return a collection of matching facilities
+	 * 
+	 * @throws IllegalArgumentException
+	 *             - if facilityQuery is null
 	 */
 	Collection<FacilityResult> findMatchingFacilities(FacilityQuery facilityQuery);
 
 	/**
-	 * Returns a collection of properties that an object of the given class can have.
+	 * Returns a collection of properties that objects of the given class have.
 	 * 
 	 * @param facilityClass
-	 *            the class
-	 * @return collection of properties that an object of the given class can have
+	 *            - the class whose properties shall be returned
+	 * @return collection of properties that objects of the given class have
+	 * 
+	 * @throws IllegalArgumentException
+	 *             - if facilityClass is null
 	 */
 	Collection<Property> getAvailablePropertiesOf(Class<? extends Facility> facilityClass);
 }

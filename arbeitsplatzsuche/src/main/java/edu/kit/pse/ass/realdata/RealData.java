@@ -38,7 +38,7 @@ public class RealData {
 	private static boolean facilitiesInserted = false;
 
 	/**
-	 * Load all data.
+	 * Load facilities and users to the database
 	 */
 	@Transactional
 	public void loadAllData() {
@@ -47,7 +47,8 @@ public class RealData {
 	}
 
 	/**
-	 * Adds users to the database
+	 * Adds users to the database, only students are added. For more users add strings to the list email matching the
+	 * pattern: [a-z]{4}
 	 */
 	@Transactional
 	public void realUsers() {
@@ -68,19 +69,24 @@ public class RealData {
 	}
 
 	/**
-	 * Adds the real facilities to the database
+	 * Adds the real facilities to the database. Each private method adds a building(with contained facilities). For new
+	 * buildings create new private methods.
+	 * 
 	 */
 	@Transactional
 	public void realFacilities() {
 		if (!facilitiesInserted) {
-			buildAtis();
+			buildFakultaetInfo();
 			buildZaehringerHaus();
 			buildBibliothek();
 			facilitiesInserted = true;
 		}
 	}
 
-	private void buildAtis() {
+	/**
+	 * Creates the level -1 of the Informatik Fakultät
+	 */
+	private void buildFakultaetInfo() {
 		ArrayList<Property> emptyList = new ArrayList<Property>();
 		// 01 building - Fakultät für Informatik
 		ArrayList<Property> buildingProperties = new ArrayList<Property>(Arrays.asList(new Property("WLAN"),
@@ -130,6 +136,9 @@ public class RealData {
 		}
 	}
 
+	/**
+	 * Creates the Zähringerhaus, only mathematical library and the room in front of Z1.
+	 */
 	private void buildZaehringerHaus() {
 		ArrayList<Property> emptyList = new ArrayList<Property>();
 		// 02 building - Zähringerhaus
@@ -156,6 +165,10 @@ public class RealData {
 		building2.addContainedFacility(roomVorZ1);
 	}
 
+	/**
+	 * Creates the library, only the reading rooms in the old building level 0 and new building level 1, as well as the
+	 * group rooms in the first level of the old building.
+	 */
 	private void buildBibliothek() {
 		ArrayList<Property> emptyList = new ArrayList<Property>();
 		// 03 building - Bibliothek

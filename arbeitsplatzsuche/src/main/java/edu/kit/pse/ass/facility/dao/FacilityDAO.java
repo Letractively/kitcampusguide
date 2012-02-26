@@ -6,33 +6,37 @@ import edu.kit.pse.ass.entity.Facility;
 import edu.kit.pse.ass.entity.Property;
 
 /**
- * The Interface FacilityDAO.
+ * The Interface FacilityDAO, contains methods for facility related database access .
  * 
  * @author Andreas Bosch
  */
 public interface FacilityDAO {
 
 	/**
-	 * Returns facility with given ID.
+	 * Returns the facility with the given ID.
 	 * 
 	 * @param facilityID
-	 *            the ID of the facility
-	 * @return facility with given ID
+	 *            - the ID of the facility
+	 * @return the facility with given ID
+	 * 
 	 * @throws IllegalArgumentException
-	 *             facilityID is null
+	 *             - if facilityID is null or empty
 	 */
 	Facility getFacility(String facilityID) throws IllegalArgumentException;
 
 	/**
-	 * Returns facility with given ID as a specific subclass type.
+	 * Returns the facility with given ID as the specified subclass type.
 	 * 
 	 * @param <T>
-	 *            the generic type
+	 *            - the generic type
 	 * @param type
-	 *            the specific subclass of Facility to load
+	 *            - the specific subclass of Facility to load
 	 * @param facilityID
-	 *            the ID of the facility
-	 * @return facility with given ID
+	 *            - the ID of the facility
+	 * @return the facility with given ID as the subclass type
+	 * 
+	 * @throws IllegalArgumentException
+	 *             - if facilityID is null or empty or type is null
 	 */
 	<T extends Facility> T getFacility(Class<T> type, String facilityID);
 
@@ -40,27 +44,36 @@ public interface FacilityDAO {
 	 * Returns a collection of facilities that have the given properties.
 	 * 
 	 * @param properties
-	 *            the properties that the facilities must have
-	 * @return collection of facilities that have the given properties
+	 *            - the properties that the facilities must have
+	 * @return a collection of facilities that have the given properties
+	 * 
+	 * @throws IllegalArgumentException
+	 *             - if properties is null
 	 */
 	Collection<Facility> getFacilities(Collection<Property> properties);
 
 	/**
-	 * Returns a collection of all properties that an object of the given class can have.
+	 * Returns a collection of all properties that objects of the given class have.
 	 * 
 	 * @param facilityClass
-	 *            the class whose properties shall be returned
-	 * @return collection of all properties that an object of the given class can have
+	 *            - the class whose properties shall be returned
+	 * 
+	 * @return a collection of all properties that objects of the given class have
+	 * 
+	 * @throws IllegalArgumentException
+	 *             - if facilityClass is null
 	 */
 	Collection<Property> getAvailablePropertiesOf(Class<? extends Facility> facilityClass);
 
-	/* Standard jpaTemplate methods - merge, remove, persist. */
 	/**
 	 * Merges the given facility.
 	 * 
 	 * @param facility
-	 *            the facility which shall be merged
+	 *            - the facility which shall be merged
 	 * @return the merged facility
+	 * 
+	 * @throws IllegalArgumentException
+	 *             - if facility is null
 	 */
 	Facility merge(Facility facility);
 
@@ -68,7 +81,10 @@ public interface FacilityDAO {
 	 * Removes the facility with the given ID.
 	 * 
 	 * @param facilityID
-	 *            the ID of the facility to remove
+	 *            - the ID of the facility to remove
+	 * 
+	 * @throws IllegalArgumentException
+	 *             - if facilityID is null or empty
 	 */
 	void remove(String facilityID);
 
@@ -76,14 +92,22 @@ public interface FacilityDAO {
 	 * Persist the given facility.
 	 * 
 	 * @param facility
-	 *            the facility to persist
+	 *            - the facility to persist
+	 * 
+	 * @throws IllegalArgumentException
+	 *             - if facility is null
 	 */
 	void persist(Facility facility);
 
 	/**
-	 * @param <T> the facilityClass have to be a facility.
-	 * @param facilityClass the class to search for.
+	 * @param <T>
+	 *            - the facilityClass has to be a facility subclass.
+	 * @param facilityClass
+	 *            - the class to search for.
 	 * @return all facilities of the specified class, e.g. Room
+	 * 
+	 * @throws IllegalArgumentException
+	 *             - if facilityClass is null
 	 */
 	<T extends Facility> Collection<T> getAllFacilities(Class<T> facilityClass);
 
