@@ -1,11 +1,8 @@
-/**
- * 
- */
 package edu.kit.pse.ass.facility.management;
 
 /**
- * The Class FacilityNotFreeException.
- *
+ * The class FacilityNotFreeException.
+ * 
  * @author Andreas Bosch
  */
 public class FacilityNotFoundException extends Exception {
@@ -20,32 +17,32 @@ public class FacilityNotFoundException extends Exception {
 	}
 
 	/**
-	 * Instantiates a new facility not free exception.
+	 * Instantiates a new facility not free exception with the given message
 	 * 
 	 * @param message
-	 *            the message
+	 *            - the message
 	 */
 	public FacilityNotFoundException(String message) {
 		super(message);
 	}
 
 	/**
-	 * Instantiates a new facility not free exception.
+	 * Instantiates a new facility not free exception with the given cause
 	 * 
 	 * @param cause
-	 *            the cause
+	 *            - the cause
 	 */
 	public FacilityNotFoundException(Throwable cause) {
 		super(cause);
 	}
 
 	/**
-	 * Instantiates a new facility not free exception.
+	 * Instantiates a new facility not free exception with the given message and cause
 	 * 
 	 * @param message
-	 *            the message
+	 *            - the message
 	 * @param cause
-	 *            the cause
+	 *            - the cause
 	 */
 	public FacilityNotFoundException(String message, Throwable cause) {
 		super(message, cause);

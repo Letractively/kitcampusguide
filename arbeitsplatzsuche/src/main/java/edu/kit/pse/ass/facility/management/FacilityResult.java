@@ -6,11 +6,12 @@ import java.util.Collection;
 import edu.kit.pse.ass.entity.Facility;
 
 /**
- * The Class FacilityResult represents the result of a facility search.
+ * One instance of the Class FacilityResult represents one result of a facility search. E.g.: one room matching the
+ * search and the needed workplaces contained in the room.
  */
 public class FacilityResult {
 
-	/** The found facility. */
+	/** The facility matching the search */
 	private final Facility facility;
 
 	/** The matching child facilities. */
@@ -20,9 +21,9 @@ public class FacilityResult {
 	 * Instantiates a new facility result.
 	 * 
 	 * @param facility
-	 *            the facility
+	 *            - the matching facility
 	 * @param matchingChildFacilities
-	 *            the matching child facilities
+	 *            - the matching child facilities of the matching facility
 	 */
 	protected FacilityResult(Facility facility, Collection<Facility> matchingChildFacilities) {
 		this.facility = facility;
@@ -34,7 +35,7 @@ public class FacilityResult {
 	}
 
 	/**
-	 * Gets the found facility.
+	 * Get the matching facility.
 	 * 
 	 * @return the facility
 	 */
@@ -43,7 +44,7 @@ public class FacilityResult {
 	}
 
 	/**
-	 * Gets the matching child facilities.
+	 * Get all matching child facilities.
 	 * 
 	 * @return the matchingChildFacilities
 	 */

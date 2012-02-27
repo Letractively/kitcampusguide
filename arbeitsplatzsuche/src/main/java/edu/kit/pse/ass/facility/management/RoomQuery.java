@@ -4,9 +4,8 @@ import java.util.Collection;
 
 import edu.kit.pse.ass.entity.Property;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class RoomQuery.
+ * The Class RoomQuery extends the abstract class FacilityQuery.
  */
 public class RoomQuery extends FacilityQuery {
 
@@ -14,11 +13,11 @@ public class RoomQuery extends FacilityQuery {
 	 * Instantiates a new room query.
 	 * 
 	 * @param properties
-	 *            the properties
+	 *            - the properties
 	 * @param searchText
-	 *            the search text
+	 *            - the search text
 	 * @param minimumWorkplaces
-	 *            the minimum workplaces
+	 *            - the minimum free workplaces
 	 */
 	public RoomQuery(Collection<Property> properties, String searchText, int minimumWorkplaces) {
 		super(properties, searchText, minimumWorkplaces);
@@ -35,7 +34,9 @@ public class RoomQuery extends FacilityQuery {
 	}
 
 	/**
-	 * @return the minimum workplaces
+	 * Get the minimum free workplaces
+	 * 
+	 * @return the minimum free workplaces
 	 */
 	public int getMinimumWorkplaces() {
 		return getRequiredChildCount();

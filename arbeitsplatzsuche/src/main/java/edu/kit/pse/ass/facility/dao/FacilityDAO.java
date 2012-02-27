@@ -20,7 +20,7 @@ public interface FacilityDAO {
 	 * @return the facility with given ID
 	 * 
 	 * @throws IllegalArgumentException
-	 *             - if facilityID is null or empty
+	 *             if facilityID is null or empty
 	 */
 	Facility getFacility(String facilityID) throws IllegalArgumentException;
 
@@ -36,7 +36,7 @@ public interface FacilityDAO {
 	 * @return the facility with given ID as the subclass type
 	 * 
 	 * @throws IllegalArgumentException
-	 *             - if facilityID is null or empty or type is null
+	 *             if facilityID is null or empty or type is null
 	 */
 	<T extends Facility> T getFacility(Class<T> type, String facilityID);
 
@@ -48,7 +48,7 @@ public interface FacilityDAO {
 	 * @return a collection of facilities that have the given properties
 	 * 
 	 * @throws IllegalArgumentException
-	 *             - if properties is null
+	 *             if properties is null
 	 */
 	Collection<Facility> getFacilities(Collection<Property> properties);
 
@@ -61,7 +61,7 @@ public interface FacilityDAO {
 	 * @return a collection of all properties that objects of the given class have
 	 * 
 	 * @throws IllegalArgumentException
-	 *             - if facilityClass is null
+	 *             if facilityClass is null
 	 */
 	Collection<Property> getAvailablePropertiesOf(Class<? extends Facility> facilityClass);
 
@@ -73,7 +73,7 @@ public interface FacilityDAO {
 	 * @return the merged facility
 	 * 
 	 * @throws IllegalArgumentException
-	 *             - if facility is null
+	 *             if facility is null
 	 */
 	Facility merge(Facility facility);
 
@@ -84,7 +84,7 @@ public interface FacilityDAO {
 	 *            - the ID of the facility to remove
 	 * 
 	 * @throws IllegalArgumentException
-	 *             - if facilityID is null or empty
+	 *             if facilityID is null or empty
 	 */
 	void remove(String facilityID);
 
@@ -95,7 +95,7 @@ public interface FacilityDAO {
 	 *            - the facility to persist
 	 * 
 	 * @throws IllegalArgumentException
-	 *             - if facility is null
+	 *             if facility is null
 	 */
 	void persist(Facility facility);
 
@@ -107,7 +107,7 @@ public interface FacilityDAO {
 	 * @return all facilities of the specified class, e.g. Room
 	 * 
 	 * @throws IllegalArgumentException
-	 *             - if facilityClass is null
+	 *             if facilityClass is null
 	 */
 	<T extends Facility> Collection<T> getAllFacilities(Class<T> facilityClass);
 

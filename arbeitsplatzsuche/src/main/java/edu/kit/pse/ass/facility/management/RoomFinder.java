@@ -15,18 +15,18 @@ import edu.kit.pse.ass.facility.dao.FacilityDAO;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class RoomFinder.
+ * The Class RoomFinder, extends the abstract class FacilityFinder. It is adjusted for the need to find matching rooms
  */
 public class RoomFinder extends FacilityFinder {
 
-	/** The room query. */
+	/** The room query, containing the needed properties, a search text and the minimum workplaces */
 	protected RoomQuery roomQuery;
 
 	/**
 	 * Instantiates a new room finder.
 	 * 
 	 * @param roomQuery
-	 *            the room query
+	 *            - the room query
 	 */
 	public RoomFinder(RoomQuery roomQuery) {
 		this.roomQuery = roomQuery;
