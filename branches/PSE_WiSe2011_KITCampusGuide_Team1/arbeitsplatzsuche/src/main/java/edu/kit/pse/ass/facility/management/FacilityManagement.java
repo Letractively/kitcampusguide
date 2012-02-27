@@ -20,9 +20,9 @@ public interface FacilityManagement {
 	 * @return the facility object with the given ID
 	 * 
 	 * @throws IllegalArgumentException
-	 *             - if facilityID is null or empty
+	 *             if facilityID is null or empty
 	 * @throws FacilityNotFoundException
-	 *             - if no facility with the given ID exists
+	 *             if no facility with the given ID exists
 	 */
 	Facility getFacility(String facilityID) throws IllegalArgumentException, FacilityNotFoundException;
 
@@ -38,10 +38,10 @@ public interface FacilityManagement {
 	 * @return facility with given ID as the subclass type
 	 * 
 	 * @throws IllegalArgumentException
-	 *             - if facilityID is null or empty
+	 *             if facilityID is null or empty
 	 * 
 	 * @throws FacilityNotFoundException
-	 *             - if no facility with the given ID exists
+	 *             if no facility with the given ID exists
 	 */
 	<T extends Facility> T getFacility(Class<T> type, String facilityID) throws FacilityNotFoundException;
 
@@ -53,7 +53,7 @@ public interface FacilityManagement {
 	 * @return a collection of matching facilities
 	 * 
 	 * @throws IllegalArgumentException
-	 *             - if facilityQuery is null
+	 *             if facilityQuery is null
 	 */
 	Collection<FacilityResult> findMatchingFacilities(FacilityQuery facilityQuery);
 
@@ -65,7 +65,7 @@ public interface FacilityManagement {
 	 * @return collection of properties that objects of the given class have
 	 * 
 	 * @throws IllegalArgumentException
-	 *             - if facilityClass is null
+	 *             if facilityClass is null
 	 */
 	Collection<Property> getAvailablePropertiesOf(Class<? extends Facility> facilityClass);
 }

@@ -13,7 +13,7 @@ import edu.kit.pse.ass.user.dao.UserDAO;
  */
 public class UserManagementImpl implements UserManagement {
 
-	/** The user dao. */
+	/** The user DAO. */
 	@Autowired
 	private UserDAO userDAO;
 
@@ -36,18 +36,11 @@ public class UserManagementImpl implements UserManagement {
 		if (password == null || password.isEmpty()) {
 			throw new IllegalArgumentException("Illegal password specified");
 		}
-		// autowired should never be null
-		// if (passwordEncoder != null) {
 		password = passwordEncoder.encodePassword(password, null);
-		// }
 		if (userDAO.getUser(userID) != null) {
 			throw new UserAlreadyExistsException();
 		}
 		User u = userDAO.insertUser(userID, password);
-		/*
-		 * useless, insert returns a new created user, therefore never null 
-		 * if (u == null) { return null; }
-		 */
 		return u.getEmail();
 	}
 

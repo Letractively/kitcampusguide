@@ -4,9 +4,8 @@ import java.util.Collection;
 
 import edu.kit.pse.ass.entity.Property;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class FacilityQuery.
+ * The abstract class FacilityQuery. Used to create queries to alleviate the search for facilities via GUI
  */
 public abstract class FacilityQuery {
 
@@ -23,11 +22,11 @@ public abstract class FacilityQuery {
 	 * Instantiates a new facility query.
 	 * 
 	 * @param properties
-	 *            the properties
+	 *            - the wanted properties
 	 * @param searchText
-	 *            the search text
+	 *            - the entered search text
 	 * @param requiredChildCount
-	 *            the count of necessary childern
+	 *            - the count of necessary children (e.g. to get 2 workplaces in a room)
 	 */
 	protected FacilityQuery(Collection<Property> properties, String searchText, int requiredChildCount) {
 		this.properties = properties;
@@ -36,7 +35,7 @@ public abstract class FacilityQuery {
 	}
 
 	/**
-	 * Creates the finder.
+	 * Create the finder, must than be executed with the facilityDAO
 	 * 
 	 * @return the facility finder
 	 */
@@ -45,7 +44,7 @@ public abstract class FacilityQuery {
 	}
 
 	/**
-	 * Gets the properties.
+	 * Get the specified properties.
 	 * 
 	 * @return the properties
 	 */
@@ -54,7 +53,7 @@ public abstract class FacilityQuery {
 	}
 
 	/**
-	 * Gets the required child count.
+	 * Get the required child count.
 	 * 
 	 * @return the requiredChildCount
 	 */
@@ -63,7 +62,7 @@ public abstract class FacilityQuery {
 	}
 
 	/**
-	 * Gets the search text.
+	 * Get the added search text.
 	 * 
 	 * @return the search text
 	 */

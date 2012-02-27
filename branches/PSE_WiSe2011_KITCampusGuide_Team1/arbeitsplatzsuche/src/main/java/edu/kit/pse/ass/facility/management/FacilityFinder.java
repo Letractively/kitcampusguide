@@ -4,18 +4,17 @@ import java.util.Collection;
 
 import edu.kit.pse.ass.facility.dao.FacilityDAO;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class FacilityFinder.
+ * The abstract Class FacilityFinder, each implementation is used for a different facility subclass
  */
 public abstract class FacilityFinder {
 
 	/**
-	 * Execute.
+	 * Execute this finder on the given DAO
 	 * 
 	 * @param facilityDAO
-	 *            The DataAccessObject
-	 * @return the collection<? extends facility>
+	 *            - The DataAccessObject
+	 * @return a collection of facility results with the matching properties
 	 */
 	public abstract Collection<FacilityResult> execute(FacilityDAO facilityDAO);
 

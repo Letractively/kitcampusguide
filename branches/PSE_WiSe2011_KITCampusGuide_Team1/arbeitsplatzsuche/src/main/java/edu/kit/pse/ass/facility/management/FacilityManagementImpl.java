@@ -13,7 +13,7 @@ import edu.kit.pse.ass.facility.dao.FacilityDAO;
  */
 public class FacilityManagementImpl implements FacilityManagement {
 
-	/** The facility dao. */
+	/** The facility DAO. */
 	@Autowired
 	private FacilityDAO facilityDAO;
 

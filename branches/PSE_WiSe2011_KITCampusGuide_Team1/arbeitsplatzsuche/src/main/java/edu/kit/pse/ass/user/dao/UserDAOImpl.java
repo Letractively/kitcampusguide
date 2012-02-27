@@ -25,7 +25,13 @@ public class UserDAOImpl implements UserDAO, UserDetailsService {
 	 * @see edu.kit.pse.ass.user.dao.UserDAO#insertUser(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public User insertUser(String userID, String passwordHash) {
+	public User insertUser(String userID, String passwordHash) throws IllegalArgumentException {
+		if (userID == null || userID.isEmpty()) {
+			throw new IllegalArgumentException("Illegal userID specified.");
+		}
+		if (passwordHash == null || passwordHash.isEmpty()) {
+			throw new IllegalArgumentException("Illegal password hash");
+		}
 		User u = new User();
 		u.setEmail(userID);
 		u.setPassword(passwordHash);
@@ -39,7 +45,10 @@ public class UserDAOImpl implements UserDAO, UserDetailsService {
 	 * @see edu.kit.pse.ass.user.dao.UserDAO#deleteUser(java.lang.String)
 	 */
 	@Override
-	public void deleteUser(String userID) {
+	public void deleteUser(String userID) throws IllegalArgumentException {
+		if (userID == null || userID.isEmpty()) {
+			throw new IllegalArgumentException("Illegal userID specified.");
+		}
 		User u = jpaTemplate.find(User.class, userID);
 		if (u != null) {
 			jpaTemplate.remove(u);
@@ -52,7 +61,10 @@ public class UserDAOImpl implements UserDAO, UserDetailsService {
 	 * @see edu.kit.pse.ass.user.dao.UserDAO#getUser(java.lang.String)
 	 */
 	@Override
-	public User getUser(String userID) {
+	public User getUser(String userID) throws IllegalArgumentException {
+		if (userID == null || userID.isEmpty()) {
+			throw new IllegalArgumentException("Illegal userID specified.");
+		}
 		return jpaTemplate.find(User.class, userID);
 	}
 
