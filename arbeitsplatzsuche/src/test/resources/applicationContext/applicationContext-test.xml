@@ -82,6 +82,10 @@
 			class="edu.kit.pse.ass.gui.controller.ReservationControllerImpl"
 	        autowire-candidate="true"/>
 	        
+	<bean id="roomDetailController" 
+			class="edu.kit.pse.ass.gui.controller.RoomDetailControllerImpl"
+	        autowire-candidate="true"/>
+	        
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basename" value="/WEB-INF/messages"></property>
     </bean>
