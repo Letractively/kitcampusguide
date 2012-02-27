@@ -47,7 +47,7 @@ public class SearchControllerTest {
 
 	/** the search controller */
 	@Autowired
-	SearchController searchController;
+	private SearchController searchController;
 
 	/** data helper for creating test data */
 	@Autowired
