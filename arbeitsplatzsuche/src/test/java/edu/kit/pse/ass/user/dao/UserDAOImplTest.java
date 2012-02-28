@@ -58,6 +58,50 @@ public class UserDAOImplTest {
 	}
 
 	/**
+	 * Test insert with first parameter null
+	 * 
+	 * @throws Exception
+	 *             - an IllegalArgumentException should be thrown
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testInsertNull1() throws Exception {
+		users.insertUser(null, TEST_PW1);
+	}
+
+	/**
+	 * Test insert with second parameter null
+	 * 
+	 * @throws Exception
+	 *             - an IllegalArgumentException should be thrown
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testInsertNull2() throws Exception {
+		users.insertUser(TEST_EMAIL1, null);
+	}
+
+	/**
+	 * Test insert with first parameter empty
+	 * 
+	 * @throws Exception
+	 *             - an IllegalArgumentException should be thrown
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testInsertEmpty1() throws Exception {
+		users.insertUser("", TEST_PW1);
+	}
+
+	/**
+	 * Test insert with second parameter empty
+	 * 
+	 * @throws Exception
+	 *             - an IllegalArgumentException should be thrown
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testInsertEmpty2() throws Exception {
+		users.insertUser(TEST_EMAIL1, "");
+	}
+
+	/**
 	 * Test insert user.
 	 */
 	@Test
@@ -73,6 +117,28 @@ public class UserDAOImplTest {
 	}
 
 	/**
+	 * Test getUser with parameter null
+	 * 
+	 * @throws Exception
+	 *             - an IllegalArgumentException should be thrown
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetNull() throws Exception {
+		users.getUser(null);
+	}
+
+	/**
+	 * Test getUser with parameter null
+	 * 
+	 * @throws Exception
+	 *             - an IllegalArgumentException should be thrown
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetEmpty() throws Exception {
+		users.getUser("");
+	}
+
+	/**
 	 * Test get user.
 	 */
 	@Test
@@ -80,6 +146,28 @@ public class UserDAOImplTest {
 		User gettedUser = users.getUser(TEST_PERSISTEDMAIL);
 		assertNotNull("User does not exist", gettedUser);
 		assertEquals("User is not equal", persistedUser, gettedUser);
+	}
+
+	/**
+	 * Test deleteUser with parameter null
+	 * 
+	 * @throws Exception
+	 *             - an IllegalArgumentException should be thrown
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testDeleteNull() throws Exception {
+		users.deleteUser(null);
+	}
+
+	/**
+	 * Test deleteUser with parameter null
+	 * 
+	 * @throws Exception
+	 *             - an IllegalArgumentException should be thrown
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testDeleteEmpty() throws Exception {
+		users.deleteUser("");
 	}
 
 	/**
