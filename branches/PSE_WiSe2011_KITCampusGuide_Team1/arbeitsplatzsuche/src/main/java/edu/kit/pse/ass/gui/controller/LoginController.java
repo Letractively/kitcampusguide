@@ -3,16 +3,22 @@ package edu.kit.pse.ass.gui.controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * Provides the method that sets up the LoginForm.
+ * 
+ * @author Jannis Koch
+ * 
+ */
 public interface LoginController {
 
 	/**
-	 * Login.
+	 * Sets up the LoginForm.
 	 * 
 	 * @param model
-	 *            the model
-	 * @return the string
+	 *            the spring model
+	 * @return the login form view
 	 */
 	@RequestMapping(value = "login")
-	public abstract String login(Model model);
+	String login(Model model);
 
 }

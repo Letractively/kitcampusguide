@@ -5,15 +5,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * The Login Controller
+ * The implementation of the LoginController.
  * 
+ * @see edu.kit.pse.ass.gui.controller.LoginController
  * @author Jannis Koch
- * 
  */
 @Controller
 public class LoginControllerImpl extends MainController implements LoginController {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see edu.kit.pse.ass.gui.controller.LoginController#login(org.springframework.ui.Model)
 	 */
 	@Override

@@ -5,15 +5,25 @@ import java.util.HashMap;
 import edu.kit.pse.ass.entity.Property;
 
 /**
+ * Maps a Property name to an icon.
  * 
  * @author Oliver Schneider
  * 
  */
 public class PropertyIconMap {
-	HashMap<String, String> map = new HashMap<String, String>();
+	/**
+	 * All mapping of names to icons
+	 */
+	private final HashMap<String, String> map = new HashMap<String, String>();
 
+	/**
+	 * The path to the icons
+	 */
 	private static String iconFolder = "images/icons/properties/";
 
+	/**
+	 * Set up a few Mappings.
+	 */
 	public PropertyIconMap() {
 		map.put("WLAN", "network-wireless");
 		map.put("W-LAN", "network-wireless");
@@ -28,6 +38,15 @@ public class PropertyIconMap {
 		map.put("FlipChart", "whiteboard");
 	}
 
+	/**
+	 * Returns a icon for the given property.
+	 * 
+	 * @param prop
+	 *            property to get icon of.
+	 * @param size
+	 *            desired size of the icon. Can be 32, 22 or 16.
+	 * @return the path to the icon to print in html.
+	 */
 	public String getIconFileName(Property prop, int size) {
 		if (size != 32 && size != 22 && size != 16) {
 			throw new IllegalArgumentException("icon size has to be 16, 22 or 32.");
@@ -37,6 +56,13 @@ public class PropertyIconMap {
 		return iconFileName;
 	}
 
+	/**
+	 * Try to get icon name
+	 * 
+	 * @param prop
+	 *            property to get icon name of
+	 * @return the icon name.
+	 */
 	private String getIconName(Property prop) {
 		String value = "noicon";
 		String name = prop.getName();

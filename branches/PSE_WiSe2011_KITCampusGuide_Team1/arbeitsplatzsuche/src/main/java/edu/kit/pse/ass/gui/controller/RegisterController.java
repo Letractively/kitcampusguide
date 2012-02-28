@@ -14,9 +14,8 @@ import edu.kit.pse.ass.gui.model.UserValidator;
 import edu.kit.pse.ass.user.management.UserAlreadyExistsException;
 import edu.kit.pse.ass.user.management.UserManagement;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class RegisterController.
+ * The RegisterController sets up the register page and registers new users.
  */
 @Controller
 public class RegisterController extends MainController {
@@ -26,11 +25,11 @@ public class RegisterController extends MainController {
 	UserManagement userManagement;
 
 	/**
-	 * Sets the up register form.
+	 * Sets up the register form.
 	 * 
 	 * @param model
-	 *            the model
-	 * @return the view
+	 *            the spring model
+	 * @return the view path
 	 */
 	@RequestMapping(value = "register.html", method = RequestMethod.GET)
 	public String setUpRegisterForm(Model model) {
@@ -39,15 +38,15 @@ public class RegisterController extends MainController {
 	}
 
 	/**
-	 * Register user.
+	 * Is called if the register form is submitted. Checks the form for errors and registers the new user.
 	 * 
 	 * @param model
-	 *            the model
+	 *            the spring model
 	 * @param user
 	 *            the user data of the register form
 	 * @param userResult
 	 *            binding result for errors
-	 * @return the view
+	 * @return the view path
 	 */
 	@RequestMapping(value = "register.html", method = RequestMethod.POST)
 	public String registerUser(Model model, @ModelAttribute("registerUser") User user, BindingResult userResult) {

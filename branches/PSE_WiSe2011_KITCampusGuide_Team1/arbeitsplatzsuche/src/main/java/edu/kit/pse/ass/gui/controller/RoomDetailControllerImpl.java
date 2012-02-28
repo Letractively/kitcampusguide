@@ -38,6 +38,7 @@ import edu.kit.pse.ass.gui.model.SearchFormModel;
 /**
  * The implementation of the RoomDetailController.
  * 
+ * @see edu.kit.pse.ass.gui.controller.RoomDetailController
  * @author Oliver Schneider
  */
 @Controller

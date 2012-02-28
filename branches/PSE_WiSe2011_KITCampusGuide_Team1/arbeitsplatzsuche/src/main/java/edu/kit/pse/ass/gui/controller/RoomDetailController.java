@@ -18,8 +18,9 @@ import edu.kit.pse.ass.gui.model.SearchFilterModel;
 import edu.kit.pse.ass.gui.model.SearchFormModel;
 
 /**
- * The RoomDetail Controller
+ * The RoomDetailController sets up the room details page and handles book requests.
  * 
+ * @author Oliver Schneider
  */
 public interface RoomDetailController {
 

@@ -30,6 +30,8 @@ import edu.kit.pse.ass.gui.model.ReservationValidator;
 /**
  * The implementation of the ReservationController.
  * 
+ * @see edu.kit.pse.ass.gui.controller.ReservationControlle
+ * 
  * @author Jannis Koch
  */
 @Controller
