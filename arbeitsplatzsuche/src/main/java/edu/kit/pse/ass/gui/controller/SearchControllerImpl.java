@@ -36,7 +36,7 @@ import edu.kit.pse.ass.gui.model.SearchFormValidator;
 import edu.kit.pse.ass.gui.model.SearchResultsModel;
 
 /**
- * The Class SearchController.
+ * The implementation of the SearchController.
  */
 @Controller
 public class SearchControllerImpl extends MainController implements SearchController {

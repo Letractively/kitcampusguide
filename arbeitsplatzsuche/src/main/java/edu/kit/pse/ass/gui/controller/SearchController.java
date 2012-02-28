@@ -14,7 +14,7 @@ import edu.kit.pse.ass.gui.model.SearchFormModel;
 import edu.kit.pse.ass.gui.model.SearchResultsModel;
 
 /**
- * interface for the search controller
+ * The SearchController handles search requests and shows the search results.
  * 
  * @author Jannis Koch
  * 

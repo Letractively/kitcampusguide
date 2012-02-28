@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import edu.kit.pse.ass.gui.model.ReservationModel;
 
 /**
- * The Reservation Controller
+ * The ReservationController sets up the reservation page and handles updates and deletions of reservations.
  * 
  * @author Jannis Koch
  * 
@@ -20,41 +20,41 @@ import edu.kit.pse.ass.gui.model.ReservationModel;
 public interface ReservationController {
 
 	/**
-	 * List reservations.
+	 * List the reservations of a user.
 	 * 
 	 * @param model
-	 *            the model
+	 *            the spring model
 	 * @param request
 	 *            the http request
-	 * @return the string
+	 * @return the view path
 	 */
 	@RequestMapping(value = "reservation/list")
 	String listReservations(Model model, HttpServletRequest request);
 
 	/**
-	 * Show reservation details.
+	 * Shows a reservation details page.
 	 * 
 	 * @param model
-	 *            the model
+	 *            the spring model
 	 * @param reservationID
-	 *            the reservation id
-	 * @return the string
+	 *            the reservation id of the reservation to show details of
+	 * @return the view path
 	 */
 	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.GET)
 	String showReservationDetails(Model model, @PathVariable("reservationId") String reservationID);
 
 	/**
-	 * Update reservations.
+	 * Handles the submit of an changed reservation.
 	 * 
 	 * @param model
-	 *            the model
+	 *            the spring model
 	 * @param reservationID
-	 *            the reservation id
+	 *            the reservation id of the reservation to update
 	 * @param updatedReservation
 	 *            the updated reservation
 	 * @param updatedReservationResult
 	 *            the result of the updated reservation
-	 * @return the string
+	 * @return the view path
 	 */
 	@RequestMapping(value = "reservation/{reservationId}/details.html", method = RequestMethod.POST)
 	String updateReservation(Model model, @PathVariable("reservationId") String reservationID,
@@ -62,13 +62,13 @@ public interface ReservationController {
 			BindingResult updatedReservationResult);
 
 	/**
-	 * Delete reservations.
+	 * Handles a deletion of a reservations.
 	 * 
 	 * @param model
-	 *            the model
+	 *            the spring model
 	 * @param reservationID
-	 *            the reservation id
-	 * @return the string
+	 *            the reservation id of the reservation to delete
+	 * @return the view path
 	 */
 	@RequestMapping(value = "reservation/{reservationId}/delete.html")
 	String deleteReservations(Model model, @PathVariable("reservationId") String reservationID);

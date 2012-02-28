@@ -6,15 +6,24 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-//taken from: http://blog.tuxychandru.com/2009/12/simple-layouts-with-jsp-in-spring-mvc.html
+/**
+ * Embeds a view in the layout view.
+ * 
+ * @author http://blog.tuxychandru.com/2009/12/simple-layouts-with-jsp-in-spring-mvc.html
+ */
 public class LayoutInterceptor extends HandlerInterceptorAdapter {
 	private static final String NO_LAYOUT = "noLayout:";
 
+	/**
+	 * The layout view path to embed views in. Set by autowire.
+	 */
 	private String layoutView;
 
+	/*
+	 * If view name doesn't start view "redirect:" or "noLacout:" embed the view.
+	 */
 	@Override
-	public void postHandle(HttpServletRequest request,
-			HttpServletResponse response, Object handler,
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		super.postHandle(request, response, handler, modelAndView);
 
@@ -30,8 +39,7 @@ public class LayoutInterceptor extends HandlerInterceptorAdapter {
 	private void includeLayout(ModelAndView modelAndView, String originalView) {
 		boolean noLayout = originalView.startsWith(NO_LAYOUT);
 
-		String realViewName = (noLayout) ? originalView.substring(NO_LAYOUT
-				.length()) : originalView;
+		String realViewName = (noLayout) ? originalView.substring(NO_LAYOUT.length()) : originalView;
 
 		if (noLayout) {
 			modelAndView.setViewName(realViewName);
@@ -41,6 +49,12 @@ public class LayoutInterceptor extends HandlerInterceptorAdapter {
 		}
 	}
 
+	/**
+	 * Setter for autowire.
+	 * 
+	 * @param layoutView
+	 *            the layout view path.
+	 */
 	public void setLayoutView(String layoutView) {
 		this.layoutView = layoutView;
 	}
