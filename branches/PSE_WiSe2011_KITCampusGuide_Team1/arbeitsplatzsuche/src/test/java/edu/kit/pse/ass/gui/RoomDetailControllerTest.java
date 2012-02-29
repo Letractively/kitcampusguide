@@ -36,6 +36,8 @@ import edu.kit.pse.ass.entity.Workplace;
 import edu.kit.pse.ass.facility.management.FacilityNotFoundException;
 import edu.kit.pse.ass.gui.controller.RoomDetailController;
 import edu.kit.pse.ass.gui.model.BookingFormModel;
+import edu.kit.pse.ass.gui.model.CalendarParamModel;
+import edu.kit.pse.ass.gui.model.Event;
 import edu.kit.pse.ass.gui.model.SearchFilterModel;
 import edu.kit.pse.ass.gui.model.SearchFormModel;
 import edu.kit.pse.ass.realdata.DataHelper;
@@ -96,7 +98,8 @@ public class RoomDetailControllerTest {
 		Building building = dataHelper.createPersistedBuilding("50.20", "Informatik", new ArrayList<Property>());
 		room = dataHelper.createPersistedRoom("Seminarraum", "-101", -1,
 				Arrays.asList(propertyWLAN, propertySteckdose));
-		wp1 = dataHelper.createPersistedWorkplace("Workplace 1", Arrays.asList(propertyBarrierefrei));
+		wp1 = dataHelper
+				.createPersistedWorkplace("Workplace 1", Arrays.asList(propertyBarrierefrei, propertyWLAN));
 		wp2 = dataHelper.createPersistedWorkplace("Workplace 2", Arrays.asList(propertyLAN));
 		wp3 = dataHelper.createPersistedWorkplace("Workplace 3", Arrays.asList(propertyLAN));
 		room.addContainedFacility(wp1);
@@ -456,6 +459,50 @@ public class RoomDetailControllerTest {
 	}
 
 	/**
+	 * create reservations for user2 for testBookOccupiedFacilities()
+	 * 
+	 * @param date
+	 */
+	private void createReservationsOfAnotherUser(Date start) {
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(start);
+		calendar.add(Calendar.HOUR, 2);
+		Date end = calendar.getTime();
+
+		ArrayList<String> facilities = new ArrayList<String>();
+		for (Facility f : room.getContainedFacilities()) {
+			facilities.add(f.getId());
+		}
+
+		dataHelper.createPersistedReservation(USERID2, facilities, start, end);
+
+	}
+
+	/**
+	 * tests the book method() without selecting workplaces
+	 * 
+	 * @throws FacilityNotFoundException
+	 *             if the facility was not found
+	 */
+	@Test
+	public void testBookNoSelection() throws FacilityNotFoundException {
+
+		// create models
+		Model model = new BindingAwareModelMap();
+		SearchFormModel formModel = new SearchFormModel();
+		SearchFilterModel filterModel = new SearchFilterModel();
+		BookingFormModel bookingFormModel = new BookingFormModel();
+		BindingResult bookingFormModelResult = new BeanPropertyBindingResult(bookingFormModel, "bookingFormModel");
+
+		// no selection for workplaces in the booking form model
+		bookingFormModel.setStart(new Date());
+		bookAndExpectErrorCode("book.error.noWorkplacesSelected", room.getId(), model, bookingFormModel,
+				bookingFormModelResult, formModel, filterModel);
+
+	}
+
+	/**
 	 * tests the book method() using a wrong date
 	 * 
 	 * @throws FacilityNotFoundException
@@ -478,27 +525,6 @@ public class RoomDetailControllerTest {
 		bookingFormModel.setWholeRoom(true);
 		bookAndExpectErrorCode("book.error.illegalDate", room.getId(), model, bookingFormModel,
 				bookingFormModelResult, formModel, filterModel);
-
-	}
-
-	/**
-	 * create reservations for user2 for testBookOccupiedFacilities()
-	 * 
-	 * @param date
-	 */
-	private void createReservationsOfAnotherUser(Date start) {
-
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(start);
-		calendar.add(Calendar.HOUR, 2);
-		Date end = calendar.getTime();
-
-		ArrayList<String> facilities = new ArrayList<String>();
-		for (Facility f : room.getContainedFacilities()) {
-			facilities.add(f.getId());
-		}
-
-		dataHelper.createPersistedReservation(USERID2, facilities, start, end);
 
 	}
 
@@ -565,8 +591,6 @@ public class RoomDetailControllerTest {
 		// booking successful - expect to be redirected to reservation list
 		assertEquals("redirect:/reservation/list.html", view);
 	}
-
-	// TODO book whole room, room not free, workplace not free, user has booking, illegal date, no workplaces selected
 
 	/**
 	 * tests the book method() using an empty room id
@@ -643,4 +667,112 @@ public class RoomDetailControllerTest {
 		return calendar.getTime();
 	}
 
+	/**
+	 * tests the showBookableOccupancy() method
+	 */
+	@Test
+	public void testShowBookableOccupancy() {
+		Calendar start = Calendar.getInstance();
+		start.setTime(addDaysToCurrentDate(3));
+		start.set(Calendar.HOUR_OF_DAY, 0);
+		start.set(Calendar.MINUTE, 0);
+		start.set(Calendar.SECOND, 0);
+		Calendar end = Calendar.getInstance();
+		end.setTime(addDaysToCurrentDate(3));
+		end.set(Calendar.HOUR_OF_DAY, 23);
+		end.set(Calendar.MINUTE, 59);
+		end.set(Calendar.SECOND, 59);
+
+		Date[][] dateList = createReservationsForBookableOccupancy();
+
+		CalendarParamModel calendarParamModel = new CalendarParamModel();
+		calendarParamModel.setStart(start.getTime());
+		calendarParamModel.setEnd(end.getTime());
+
+		Collection<Event> events = roomDetailController.showBookableOccupancy(room.getId(), calendarParamModel);
+
+		// check events
+		assertEquals(5, events.size());
+		int i = 0;
+		for (Event event : events) {
+			assertEquals(dateList[i][0], event.getStart());
+			assertEquals(dateList[i][1], event.getEnd());
+			i++;
+		}
+
+		// try to get occupancy using...
+
+		// ... a wrong id
+		events = roomDetailController.showBookableOccupancy("wrongid", calendarParamModel);
+		assertEquals(0, events.size());
+
+		// ... a workplace id
+		events = roomDetailController.showBookableOccupancy(wp1.getId(), calendarParamModel);
+		assertEquals(0, events.size());
+
+		// ... the same start and end date
+		calendarParamModel.setEnd(start.getTime());
+		events = roomDetailController.showBookableOccupancy(room.getId(), calendarParamModel);
+		assertEquals(0, events.size());
+	}
+
+	/**
+	 * tests the showBookableOccupancy() method using an empty id
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testBookableOccupancyEmptyId() {
+
+		CalendarParamModel calendarParamModel = new CalendarParamModel();
+		calendarParamModel.setStart(new Date());
+		calendarParamModel.setEnd(new Date());
+
+		roomDetailController.showBookableOccupancy("", calendarParamModel);
+	}
+
+	/**
+	 * creates reservations for the bookableOccupancy() test and returns the start and end dates of the reservations in
+	 * an array
+	 * 
+	 * @return the start and end dates of the reservations
+	 */
+	private Date[][] createReservationsForBookableOccupancy() {
+
+		Date[][] dateList = new Date[5][2];
+
+		Calendar start = Calendar.getInstance();
+		start.setTime(addDaysToCurrentDate(3));
+		start.set(Calendar.MINUTE, 0);
+		start.set(Calendar.SECOND, 0);
+		Calendar end = Calendar.getInstance();
+		end.setTime(addDaysToCurrentDate(3));
+		end.set(Calendar.MINUTE, 00);
+		end.set(Calendar.SECOND, 00);
+
+		start.set(Calendar.HOUR_OF_DAY, 14);
+		end.set(Calendar.HOUR_OF_DAY, 15);
+		dataHelper
+				.createPersistedReservation(USERID1, Arrays.asList(room.getId()), start.getTime(), end.getTime());
+		dateList[0][0] = start.getTime();
+		dateList[0][1] = end.getTime();
+
+		start.set(Calendar.HOUR_OF_DAY, 12);
+		end.set(Calendar.HOUR_OF_DAY, 13);
+		dataHelper.createPersistedReservation(USERID2, Arrays.asList(wp1.getId()), start.getTime(), end.getTime());
+		dateList[1][0] = start.getTime();
+		dateList[1][1] = end.getTime();
+
+		start.set(Calendar.HOUR_OF_DAY, 10);
+		end.set(Calendar.HOUR_OF_DAY, 11);
+		dataHelper.createPersistedReservation(USERID1, Arrays.asList(wp1.getId(), wp2.getId(), wp3.getId()),
+				start.getTime(), end.getTime());
+		dateList[2][0] = start.getTime();
+		dateList[2][1] = end.getTime();
+		dateList[3][0] = start.getTime();
+		dateList[3][1] = end.getTime();
+		dateList[4][0] = start.getTime();
+		dateList[4][1] = end.getTime();
+
+		return dateList;
+
+	}
 }
