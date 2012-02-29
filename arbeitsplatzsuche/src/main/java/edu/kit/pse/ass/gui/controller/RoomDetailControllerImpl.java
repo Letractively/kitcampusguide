@@ -87,6 +87,8 @@ public class RoomDetailControllerImpl extends MainController implements RoomDeta
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String userID = auth.getName();
 
+		checkRoomId(roomId);
+
 		ArrayList<String> facilityIDs = new ArrayList<String>();
 
 		if (bookingFormModel.isWholeRoom()) {
@@ -120,6 +122,23 @@ public class RoomDetailControllerImpl extends MainController implements RoomDeta
 		}
 
 		return returnedView;
+
+	}
+
+	/**
+	 * checks if the room with the given id exists. if it does not, a FacilityNotFoundException is thrown.
+	 * 
+	 * @param roomId
+	 *            the id of the room to check
+	 * @throws FacilityNotFoundException
+	 *             if the room with the id was not found
+	 */
+	private void checkRoomId(String roomId) throws FacilityNotFoundException {
+		try {
+			facilityManagement.getFacility(Room.class, roomId);
+		} catch (IllegalArgumentException e) {
+			throw new FacilityNotFoundException();
+		}
 
 	}
 

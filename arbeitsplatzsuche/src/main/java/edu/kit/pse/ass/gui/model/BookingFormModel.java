@@ -29,4 +29,14 @@ public class BookingFormModel extends BookingInfoModel {
 		return workplaces;
 	}
 
+	/**
+	 * adds the given workplace id to the workplaces list
+	 * 
+	 * @param workplaceID
+	 *            the workplace id to add
+	 */
+	public void addWorkplace(String workplaceID) {
+		workplaces.add(workplaceID);
+	}
+
 }
