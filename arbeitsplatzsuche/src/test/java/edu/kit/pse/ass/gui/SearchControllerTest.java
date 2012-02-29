@@ -191,6 +191,10 @@ public class SearchControllerTest {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		setDataTablesParams(request);
 
+		// sort building name in descending order
+		request.setParameter("sSortDir_0", "desc");
+		request.setParameter("iSortCol_0", "1");
+
 		SearchResultsModel resultModel = searchController.listSearchResults(request, searchFormModel, sfmResult,
 				searchFilterModel);
 
@@ -198,6 +202,7 @@ public class SearchControllerTest {
 		assertTrue("wrong number of search results", resultModel.getiTotalRecords() == 1);
 		assertTrue("there are error messages", resultModel.getAsErrors().size() == 0);
 		checkResultModel(resultModel, request);
+		checkSortingBuildingName(resultModel.getAaData());
 	}
 
 	/**
@@ -264,7 +269,7 @@ public class SearchControllerTest {
 		assertTrue("wrong number of search results", resultModel.getiTotalRecords() == 51);
 		checkResultModel(resultModel, request);
 		checkErrorMessages(resultModel.getAsErrors());
-		checkSorting(resultModel.getAaData());
+		checkSortingRoomName(resultModel.getAaData());
 
 	}
 
@@ -274,7 +279,7 @@ public class SearchControllerTest {
 	 * @param aaData
 	 *            the search results
 	 */
-	private void checkSorting(Collection<Collection<String>> aaData) {
+	private void checkSortingRoomName(Collection<Collection<String>> aaData) {
 
 		String lastValue = null;
 		for (Collection<String> row : aaData) {
@@ -284,6 +289,26 @@ public class SearchControllerTest {
 				assertTrue("search results are not sorted", roomName.compareTo(lastValue) <= 0);
 			}
 			lastValue = roomName;
+		}
+	}
+
+	/**
+	 * checks the sorting for the listSearchResults test
+	 * 
+	 * @param aaData
+	 *            the search results
+	 */
+	private void checkSortingBuildingName(Collection<Collection<String>> aaData) {
+
+		String lastValue = null;
+		for (Collection<String> row : aaData) {
+			String roomName = row.iterator().next();
+			String buildingName = row.iterator().next();
+			if (lastValue != null) {
+				// check if sorted descendingly
+				assertTrue("search results are not sorted", buildingName.compareTo(lastValue) <= 0);
+			}
+			lastValue = buildingName;
 		}
 	}
 
