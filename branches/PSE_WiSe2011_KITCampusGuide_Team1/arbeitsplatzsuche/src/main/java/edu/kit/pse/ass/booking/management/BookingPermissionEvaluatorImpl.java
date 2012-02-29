@@ -40,7 +40,7 @@ public class BookingPermissionEvaluatorImpl implements PermissionEvaluator {
 	@Override
 	public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType,
 			Object permission) {
-		if (targetId == null || (targetId instanceof String && ((String) targetId).isEmpty())) {
+		if (targetId == null || (targetId.toString().isEmpty())) {
 			return false;
 		}
 
