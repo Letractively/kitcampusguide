@@ -20,7 +20,7 @@ public class BookingNotAllowedExceptionTest {
 	public void testBookingNotAllowedException() {
 		BookingNotAllowedException e = new BookingNotAllowedException("aUser", "aMessage");
 		assertEquals("aUser", e.getUserID());
-		assertEquals("aMesage", e.getMessage());
+		assertEquals("aMessage", e.getMessage());
 	}
 
 }
