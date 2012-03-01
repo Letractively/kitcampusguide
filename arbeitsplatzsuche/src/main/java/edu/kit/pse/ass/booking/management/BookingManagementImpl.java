@@ -152,7 +152,10 @@ public class BookingManagementImpl implements BookingManagement {
 				}
 			}
 		}
-		// TODO check other reservation of the same user!
+		//check other reservation of the user
+		if (bookingDAO.getReservationsOfUser(resv.getBookingUserId(), resv.getEndTime(), newEndDate).size() > 0) {
+			throw new IllegalArgumentException("The user already has a reservation at this time");
+		}
 		resv.setEndTime(newEndDate);
 
 		bookingDAO.updateReservation(resv);

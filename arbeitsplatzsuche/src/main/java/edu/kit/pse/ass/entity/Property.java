@@ -20,10 +20,7 @@ public class Property {
 	private String name;
 
 	/**
-	 * Creates a new property with the specified values.
-	 * 
-	 * @throws IllegalArgumentException
-	 *             when name is null or empty.
+	 * Creates a new property
 	 */
 	public Property() {
 	}
@@ -34,7 +31,7 @@ public class Property {
 	 * @param name
 	 *            the name of the property
 	 * @throws IllegalArgumentException
-	 *             when name is null or empty.
+	 *             name is null or empty.
 	 */
 	public Property(String name) throws IllegalArgumentException {
 		setName(name);
@@ -79,7 +76,7 @@ public class Property {
 	 * @param name
 	 *            the name to set
 	 * @throws IllegalArgumentException
-	 *             when name is null or empty
+	 *             name is null or empty
 	 */
 	public void setName(String name) throws IllegalArgumentException {
 		if (name == null || name.isEmpty()) {
@@ -92,7 +89,7 @@ public class Property {
 	/**
 	 * Returns a string representation of this property.
 	 * 
-	 * @return the string
+	 * @return the name
 	 */
 	@Override
 	public String toString() {

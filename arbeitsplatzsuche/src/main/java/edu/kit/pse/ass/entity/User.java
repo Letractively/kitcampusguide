@@ -18,7 +18,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class User.
  * 
@@ -98,8 +97,6 @@ public class User implements UserDetails {
 	 */
 	@Override
 	public String getPassword() {
-		// required even if password hash is stored
-		// (to check credentials in Spring Security)
 		return password;
 	}
 
@@ -107,9 +104,9 @@ public class User implements UserDetails {
 	 * Sets the password.
 	 * 
 	 * @param password
-	 *            the password to set
+	 *            the password to set (or a hashed password to set)
 	 * @throws IllegalArgumentException
-	 *             the illegal argument exception
+	 *             password is null
 	 */
 	public void setPassword(String password) throws IllegalArgumentException {
 		if (password == null) {

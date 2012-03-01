@@ -68,7 +68,6 @@ public class Facility {
 
 	/**
 	 * Creates a new Facility.
-	 * 
 	 */
 	public Facility() {
 		containedFacilities = new ArrayList<Facility>();
@@ -115,7 +114,7 @@ public class Facility {
 	 * @param name
 	 *            the name to set
 	 * @throws IllegalArgumentException
-	 *             the illegal argument exception
+	 *             name is null or empty.
 	 */
 	public void setName(String name) throws IllegalArgumentException {
 		if (name == null || name.isEmpty()) {
@@ -159,7 +158,8 @@ public class Facility {
 	 * @param facilities
 	 *            the facilities to set
 	 * @throws IllegalArgumentException
-	 *             parameter is null.
+	 *             parameter facilities is null or a facility of the collection is null or a facility of the collection
+	 *             already have a parent.
 	 */
 	public void addContainedFacilities(Collection<Facility> facilities) throws IllegalArgumentException {
 		if (facilities == null) {
@@ -173,12 +173,12 @@ public class Facility {
 				throw new IllegalArgumentException("One of the facilities you want to add already has a parent.");
 			}
 		}
-		//clear the parent entry of the actual children
+		// clear the parent entry of the actual children
 		for (Facility facility : containedFacilities) {
-				facility.setParentFacility(null);
+			facility.setParentFacility(null);
 		}
-		
-		//set the new children.
+
+		// set the new children.
 		containedFacilities = facilities;
 	}
 
@@ -188,7 +188,7 @@ public class Facility {
 	 * @param containedFacility
 	 *            the facility to add as contained facility
 	 * @throws IllegalArgumentException
-	 *             , when containedFacility is null.
+	 *             containedFacility is null or already have a parent.
 	 */
 	public void addContainedFacility(Facility containedFacility) throws IllegalArgumentException {
 
@@ -209,7 +209,7 @@ public class Facility {
 	 * @param removedFacility
 	 *            the facility to remove
 	 * @throws IllegalArgumentException
-	 *             , when removedFacility is null or not contained in the collection.
+	 *             removedFacility is null or not contained in the collection.
 	 */
 	public void removeContainedFacility(Facility removedFacility) throws IllegalArgumentException {
 		if (containedFacilities.contains(removedFacility)) {
@@ -285,7 +285,6 @@ public class Facility {
 		}
 	}
 
-	// TODO clean code: a for loop would be better to read.
 	/**
 	 * @param properties
 	 *            the properties to check
@@ -313,7 +312,7 @@ public class Facility {
 	 * @param property
 	 *            the property to add.
 	 * @throws IllegalArgumentException
-	 *             , when property was already added or property is null.
+	 *             property was already added or property is null.
 	 */
 	public void addProperty(Property property) throws IllegalArgumentException {
 		if (properties.contains(property)) {
@@ -332,7 +331,7 @@ public class Facility {
 	 * @param property
 	 *            the property to remove
 	 * @throws IllegalArgumentException
-	 *             , when property is null or not contained in the collection.
+	 *             property is null or not contained in the collection.
 	 */
 	public void removeProperty(Property property) throws IllegalArgumentException {
 		if (property == null) {
