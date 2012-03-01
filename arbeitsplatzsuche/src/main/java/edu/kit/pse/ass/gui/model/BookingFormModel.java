@@ -2,14 +2,16 @@ package edu.kit.pse.ass.gui.model;
 
 import java.util.ArrayList;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class SearchFormModel.
+ * The BookingFormModel contains information of a booking request.
  * 
  * @author Oliver Schneider
  */
 public class BookingFormModel extends BookingInfoModel {
 
+	/**
+	 * The ids of the workplaces that should be booked.
+	 */
 	private final ArrayList<String> workplaces;
 
 	/**
@@ -21,9 +23,9 @@ public class BookingFormModel extends BookingInfoModel {
 	}
 
 	/**
-	 * Get selected Workplaces
+	 * Get the id of the workplaces that should be booked.
 	 * 
-	 * @return selected workplaces
+	 * @return selected workplaces in booking form
 	 */
 	public ArrayList<String> getWorkplaces() {
 		return workplaces;

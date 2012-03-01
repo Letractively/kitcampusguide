@@ -1,21 +1,20 @@
 package edu.kit.pse.ass.gui.model;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class SearchFormModel.
+ * The SearchFormModel represents the date entered in the search form
  * 
  * @author Oliver Schneider
  */
 public class SearchFormModel extends BookingInfoModel {
 
-	/** The workplace count. */
+	/** The workplace count entered. */
 	private int workplaceCount;
 
-	/** The search text. */
+	/** The search text entered. */
 	private String searchText;
 
 	/**
-	 * Instantiates a new search form model.
+	 * Instantiates a new search form model with workplaceCount of one and empty searchText.
 	 */
 	public SearchFormModel() {
 		super();
@@ -24,7 +23,7 @@ public class SearchFormModel extends BookingInfoModel {
 	}
 
 	/**
-	 * Gets the workplace count.
+	 * Gets the entered workplace count.
 	 * 
 	 * @return the workplace count
 	 */
@@ -33,7 +32,7 @@ public class SearchFormModel extends BookingInfoModel {
 	}
 
 	/**
-	 * Sets the workplace count.
+	 * Sets the entered workplace count.
 	 * 
 	 * @param workplaceCount
 	 *            the new workplace count
