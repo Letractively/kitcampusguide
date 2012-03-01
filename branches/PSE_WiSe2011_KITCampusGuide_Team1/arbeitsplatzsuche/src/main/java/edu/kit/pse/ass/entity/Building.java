@@ -1,13 +1,10 @@
-/**
- *  This class represents a building.
- */
+
 package edu.kit.pse.ass.entity;
 
 import javax.persistence.Entity;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Building.
+ * This class represents a building.
  * 
  * @author Sebastian
  */
@@ -37,6 +34,7 @@ public class Building extends Facility {
 	 * (non-Javadoc)
 	 * 
 	 * @see edu.kit.pse.ass.entity.Facility#addContainedFacilitiy(edu.kit.pse.ass .entity.Facility)
+	 * restrict children. Must be instance of room.
 	 */
 	@Override
 	public void addContainedFacility(Facility containedFacility) throws IllegalArgumentException {

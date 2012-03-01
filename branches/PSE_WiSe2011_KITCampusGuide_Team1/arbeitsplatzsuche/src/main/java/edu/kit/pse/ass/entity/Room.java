@@ -31,6 +31,8 @@ public class Room extends Facility {
 	 * @see
 	 * edu.kit.pse.ass.entity.Facility#setParentFacility(edu.kit.pse.ass.entity
 	 * .Facility)
+	 * 
+	 * restrict parents to buildings.
 	 */
 	@Override
 	public void setParentFacility(Facility parentFacility)
@@ -49,6 +51,8 @@ public class Room extends Facility {
 	 * @see
 	 * edu.kit.pse.ass.entity.Facility#addContainedFacilitiy(edu.kit.pse.ass
 	 * .entity.Facility)
+	 * 
+	 * restrict children to workplaces
 	 */
 	@Override
 	public void addContainedFacility(Facility containedFacility)
@@ -76,7 +80,7 @@ public class Room extends Facility {
 	 * @param description
 	 *            the description to set
 	 * @throws IllegalArgumentException
-	 *             the illegal argument exception
+	 *             description is null.
 	 */
 	public void setDescription(String description)
 			throws IllegalArgumentException {
@@ -121,7 +125,7 @@ public class Room extends Facility {
 	 * @param number
 	 *            the number to set
 	 * @throws IllegalArgumentException
-	 *             the illegal argument exception
+	 *             number is null
 	 */
 	public void setNumber(String number) throws IllegalArgumentException {
 		if (number == null) {

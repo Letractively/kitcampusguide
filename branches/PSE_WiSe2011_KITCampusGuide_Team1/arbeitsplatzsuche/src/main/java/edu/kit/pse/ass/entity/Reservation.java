@@ -61,7 +61,7 @@ public class Reservation {
 	 * @param bookingUserId
 	 *            the id of the user, which does the reservation
 	 * @throws IllegalArgumentException
-	 *             when startTime is after endTime or one of them is null or bookingUserId is null or empty.
+	 *             startTime is after endTime or one of them is null or bookingUserId is null or empty.
 	 */
 	public Reservation(Date startTime, Date endTime, String bookingUserId) throws IllegalArgumentException {
 		setStartTime(startTime);
@@ -172,19 +172,19 @@ public class Reservation {
 	}
 
 	/**
-	 * Gets the booked facility ids.
+	 * Gets the booked facility IDs.
 	 * 
-	 * @return the ids of the booked facilities
+	 * @return the IDs of the booked facilities
 	 */
 	public Collection<String> getBookedFacilityIds() {
 		return bookedFacilityIds;
 	}
 
 	/**
-	 * Sets the booked facility i ds.
+	 * Sets the booked facility IDs.
 	 * 
 	 * @param facilityIDs
-	 *            the new booked facility i ds
+	 *            the new booked facility IDs
 	 * @throws IllegalArgumentException
 	 *             the illegal argument exception
 	 */

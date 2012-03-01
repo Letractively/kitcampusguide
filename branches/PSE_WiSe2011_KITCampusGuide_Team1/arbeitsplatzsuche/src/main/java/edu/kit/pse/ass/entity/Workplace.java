@@ -20,6 +20,8 @@ public class Workplace extends Facility {
 	 * @see
 	 * edu.kit.pse.ass.entity.Facility#setParentFacility(edu.kit.pse.ass.entity
 	 * .Facility)
+	 * 
+	 * restrict parents to rooms.
 	 */
 	@Override
 	public void setParentFacility(Facility parentFacility)
@@ -37,6 +39,8 @@ public class Workplace extends Facility {
 	 * @see
 	 * edu.kit.pse.ass.entity.Facility#addContainedFacilitiy(edu.kit.pse.ass
 	 * .entity.Facility)
+	 * 
+	 * workplaces must not have children.
 	 */
 	@Override
 	public void addContainedFacility(Facility containedFacility)
