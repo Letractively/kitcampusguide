@@ -6,7 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 /**
- * The Class SearchFormValidator.
+ * The Class SearchFormValidator Validates the SearchFormModel.
  */
 public class SearchFormValidator implements Validator {
 

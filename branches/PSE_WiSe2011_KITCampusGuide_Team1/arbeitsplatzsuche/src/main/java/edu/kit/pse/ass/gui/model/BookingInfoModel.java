@@ -7,21 +7,21 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 
- * Model for start date an duration of an Bookingevent
+ * Model for start date an duration of an booking event
  * 
  * @author Oliver Schneider
  * 
  */
 public abstract class BookingInfoModel {
 
-	/** The start. */
+	/** The start date of the (desired) booking */
 	@DateTimeFormat(pattern = "d-M-y HH:mm")
 	protected Date start;
 
-	/** The duration. */
+	/** The duration of the (desired booking). */
 	protected String duration;
 
-	/** The whole room. */
+	/** Should the whole room be booked. */
 	protected boolean wholeRoom;
 
 	/**
@@ -34,7 +34,7 @@ public abstract class BookingInfoModel {
 	}
 
 	/**
-	 * Gets the start.
+	 * Gets the start date of the (desired) booking.
 	 * 
 	 * @return the start
 	 */
@@ -43,7 +43,7 @@ public abstract class BookingInfoModel {
 	}
 
 	/**
-	 * Sets the start.
+	 * Sets the start date of the (desired) booking.
 	 * 
 	 * @param start
 	 *            the new start
@@ -53,7 +53,7 @@ public abstract class BookingInfoModel {
 	}
 
 	/**
-	 * Gets the duration.
+	 * Gets the duration of the (desired) booking.
 	 * 
 	 * @return the duration
 	 */
@@ -62,7 +62,7 @@ public abstract class BookingInfoModel {
 	}
 
 	/**
-	 * Sets the duration.
+	 * Sets the duration of the (desired) booking.
 	 * 
 	 * @param duration
 	 *            the new duration
@@ -72,20 +72,20 @@ public abstract class BookingInfoModel {
 	}
 
 	/**
-	 * Checks if is duration valid.
+	 * Checks if duration has a valid format.
 	 * 
-	 * @return true, if is duration valid
+	 * @return true, if duration is valid
 	 */
 	public boolean isDurationValid() {
 		return duration != null && duration.matches("[0-9]*:?[0-9]*");
 	}
 
 	/**
-	 * Gets the end.
+	 * Gets the end date of the (desired) booking.
 	 * 
-	 * @return the end
+	 * @return the end date
 	 * @throws IllegalStateException
-	 *             the illegal state exception
+	 *             if the duration has an illegal format.
 	 */
 	public Date getEnd() throws IllegalStateException {
 		Calendar result = Calendar.getInstance();
@@ -109,26 +109,26 @@ public abstract class BookingInfoModel {
 	}
 
 	/**
-	 * Checks if is whole room.
+	 * Checks if the whole room should be booked.
 	 * 
-	 * @return true, if is whole room
+	 * @return true, if the whole room should be booked
 	 */
 	public boolean isWholeRoom() {
 		return wholeRoom;
 	}
 
 	/**
-	 * Sets the whole room.
+	 * Sets if the whole room should be booked
 	 * 
 	 * @param wholeRoom
-	 *            the new whole room
+	 *            should the whole room be booked
 	 */
 	public void setWholeRoom(boolean wholeRoom) {
 		this.wholeRoom = wholeRoom;
 	}
 
 	/**
-	 * sets the start date to now, rounded to the next 15 minutes
+	 * Sets the start date to now, rounded to the next 15 minutes.
 	 */
 	public void setStartToNow() {
 		Calendar now = Calendar.getInstance();
