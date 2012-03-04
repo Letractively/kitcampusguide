@@ -3,6 +3,7 @@
  */
 package edu.kit.pse.ass.entity;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -10,7 +11,7 @@ import org.junit.Test;
 
 /**
  * @author Sebastian
- *
+ * 
  */
 public class WorkplaceTest {
 
@@ -27,15 +28,16 @@ public class WorkplaceTest {
 	public void setUp() throws Exception {
 		workplace = new Workplace();
 	}
-	
+
 	/**
 	 * Test set parent facility.
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testSetParentFacility() {
 		workplace.setParentFacility(null);
+		assertNull(workplace.getParentFacility());
 	}
-	
+
 	/**
 	 * Test set parent facility.
 	 */
@@ -43,7 +45,7 @@ public class WorkplaceTest {
 	public void testSetParentFacility2() {
 		workplace.setParentFacility(new Workplace());
 	}
-	
+
 	/**
 	 * Test set parent facility.
 	 */
@@ -51,7 +53,7 @@ public class WorkplaceTest {
 	public void testSetParentFacility3() {
 		workplace.setParentFacility(new Building());
 	}
-	
+
 	/**
 	 * Test set parent facility.
 	 */
@@ -60,7 +62,7 @@ public class WorkplaceTest {
 		workplace.setParentFacility(new Room());
 		assertTrue(workplace.getParentFacility() != null);
 	}
-	
+
 	/**
 	 * Test add contained facility
 	 */

@@ -1,6 +1,7 @@
 package edu.kit.pse.ass.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,11 +37,12 @@ public class RoomTest {
 	/**
 	 * Test set parent facility
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testSetParentFacility() {
 		room.setParentFacility(null);
+		assertNull(room.getParentFacility());
 	}
-	
+
 	/**
 	 * Test set parent facility
 	 */
@@ -48,7 +50,7 @@ public class RoomTest {
 	public void testSetParentFacility2() {
 		room.setParentFacility(new Workplace());
 	}
-	
+
 	/**
 	 * Test set parent facility
 	 */
@@ -56,7 +58,7 @@ public class RoomTest {
 	public void testSetParentFacility3() {
 		room.setParentFacility(new Room());
 	}
-	
+
 	/**
 	 * Test set description.
 	 */
@@ -65,7 +67,7 @@ public class RoomTest {
 		room.setDescription(TEST_DESCRIPTION);
 		assertEquals(TEST_DESCRIPTION, room.getDescription());
 	}
-	
+
 	/**
 	 * Test set description.
 	 */
@@ -91,7 +93,7 @@ public class RoomTest {
 		room.setNumber(TEST_NUMBER);
 		assertEquals(TEST_NUMBER, room.getNumber());
 	}
-	
+
 	/**
 	 * Test set number.
 	 */
