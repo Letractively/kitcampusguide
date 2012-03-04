@@ -2,6 +2,7 @@ package edu.kit.pse.ass.entity;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class FacilityTest {
 
 	/** The building. */
 	private Building building;
-	
+
 	/** A second building. */
 	private Building building2;
 
@@ -44,7 +45,7 @@ public class FacilityTest {
 		workplace = new Workplace();
 		building2 = new Building();
 	}
-	
+
 	/**
 	 * Test set ID.
 	 */
@@ -53,7 +54,7 @@ public class FacilityTest {
 	public void testSetId() {
 		building2.setId(null);
 	}
-	
+
 	/**
 	 * Test set ID.
 	 */
@@ -62,7 +63,6 @@ public class FacilityTest {
 	public void testSetId2() {
 		building2.setId("");
 	}
-	
 
 	/**
 	 * Test set name.
@@ -76,7 +76,7 @@ public class FacilityTest {
 		workplace.setName(NAME);
 		assertEquals(NAME, workplace.getName());
 	}
-	
+
 	/**
 	 * Test set name.
 	 */
@@ -84,7 +84,7 @@ public class FacilityTest {
 	public void testSetName2() {
 		building2.setName(null);
 	}
-	
+
 	/**
 	 * Test set name.
 	 */
@@ -123,7 +123,7 @@ public class FacilityTest {
 		}
 
 	}
-	
+
 	/**
 	 * Test add contained facility.
 	 */
@@ -132,7 +132,7 @@ public class FacilityTest {
 		Facility tmp = new Facility();
 		tmp.addContainedFacility(null);
 	}
-	
+
 	/**
 	 * Test add contained facility.
 	 */
@@ -142,7 +142,7 @@ public class FacilityTest {
 		tmp.setParentFacility(building);
 		building2.addContainedFacility(tmp);
 	}
-	
+
 	/**
 	 * Test add contained facilities.
 	 */
@@ -150,23 +150,7 @@ public class FacilityTest {
 	public void testAddContainedFacilities() {
 		building2.addContainedFacilities(null);
 	}
-	
-	/**
-	 * Test add contained facilities.
-	 */
-	@SuppressWarnings("deprecation")
-	@Test(expected = IllegalArgumentException.class)
-	public void testAddContainedFacilities2() {
-		Room r = new Room();
-		r.setId("blub");
-		building2.addContainedFacility(r);
-		Collection<Facility> rooms = new ArrayList<Facility>();
-		Room r2 = new Room();
-		r2.setId("blub2");
-		rooms.add(r2);
-		building2.addContainedFacilities(rooms);
-	}
-	
+
 	/**
 	 * Test add contained facilities.
 	 */
@@ -176,7 +160,7 @@ public class FacilityTest {
 		rooms.add(null);
 		building2.addContainedFacilities(rooms);
 	}
-	
+
 	/**
 	 * Test add contained facilities.
 	 */
@@ -199,14 +183,12 @@ public class FacilityTest {
 		r.setId("roomxyz1");
 		building.addContainedFacility(r);
 		// We added a room so size should be 1
-		assertEquals("Facility is not added", 1, building
-				.getContainedFacilities().size());
+		assertEquals("Facility is not added", 1, building.getContainedFacilities().size());
 		building.removeContainedFacility(r);
 		// We removed the room so size should be 0
-		assertEquals("Facility is not removed", 0, building
-				.getContainedFacilities().size());
+		assertEquals("Facility is not removed", 0, building.getContainedFacilities().size());
 	}
-	
+
 	/**
 	 * Removes the contained facility.
 	 */
@@ -215,23 +197,15 @@ public class FacilityTest {
 		Room r = new Room();
 		r.removeContainedFacility(new Workplace());
 	}
-	
+
 	/**
 	 * Test set properties
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test()
 	public void testSetProperties() {
 		building2.setProperties(null);
-	}
-	
-	/**
-	 * Test set properties
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void testSetProperties2() {
-		Collection<Property> tmp = new ArrayList<Property>();
-		tmp.add(new Property());
-		building2.setProperties(tmp);
+		assertNotNull(building2.getProperties());
+		assertEquals(0, building2.getProperties().size());
 	}
 
 	/**
@@ -255,7 +229,7 @@ public class FacilityTest {
 			assertTrue(room.hasProperty(prop));
 		}
 	}
-	
+
 	/**
 	 * Test add property
 	 */
@@ -265,7 +239,7 @@ public class FacilityTest {
 		r1.addProperty(new Property("WLAN"));
 		r1.addProperty(new Property("WLAN"));
 	}
-	
+
 	/**
 	 * Test add property
 	 */
@@ -283,7 +257,7 @@ public class FacilityTest {
 		room.addProperty(new Property("WLAN"));
 		assertTrue(room.hasProperty(new Property("WLAN")));
 	}
-	
+
 	/**
 	 * Test has property.
 	 */
@@ -291,7 +265,7 @@ public class FacilityTest {
 	public void testHasProperty2() {
 		assertFalse(room.hasProperty(new Property("TEST_PROPERTY")));
 	}
-	
+
 	/**
 	 * Test get inherited properties
 	 */
@@ -305,7 +279,7 @@ public class FacilityTest {
 		assertTrue(r1.getInheritedProperties().contains(new Property("Building_Property")));
 		assertTrue(r1.getInheritedProperties().contains(new Property("Room_Property")));
 	}
-	
+
 	/**
 	 * Test get inherited properties
 	 */
@@ -325,7 +299,7 @@ public class FacilityTest {
 		room.removeProperty(new Property("WLAN"));
 		assertEquals(0, room.getProperties().size());
 	}
-	
+
 	/**
 	 * Test remove property
 	 */
@@ -334,7 +308,7 @@ public class FacilityTest {
 		Room r1 = new Room();
 		r1.removeProperty(null);
 	}
-	
+
 	/**
 	 * Test remove property
 	 */
@@ -375,7 +349,7 @@ public class FacilityTest {
 	public void testSetNullName() {
 		room.setName(null);
 	}
-	
+
 	/**
 	 * Test hash code
 	 */
@@ -387,7 +361,7 @@ public class FacilityTest {
 		r1.setName("TEST_NAME");
 		assertTrue(r1.hashCode() != 0);
 	}
-	
+
 	/**
 	 * Test hash code
 	 */
@@ -396,7 +370,7 @@ public class FacilityTest {
 		Room r1 = new Room();
 		assertTrue(r1.hashCode() == 0);
 	}
-	
+
 	/**
 	 * Test equals.
 	 */
@@ -409,7 +383,7 @@ public class FacilityTest {
 		r2.setId("Room No. 2");
 		assertFalse(r1.equals(r2));
 	}
-	
+
 	/**
 	 * Test equals.
 	 */
@@ -422,7 +396,7 @@ public class FacilityTest {
 		r2.setId("Room No. 1");
 		assertTrue(r1.equals(r2));
 	}
-	
+
 	/**
 	 * Test equals.
 	 */
@@ -433,7 +407,7 @@ public class FacilityTest {
 		r1.setId("Room No. 1");
 		assertFalse(r1.equals(null));
 	}
-	
+
 	/**
 	 * Test equals.
 	 */

@@ -244,8 +244,9 @@ public class Facility {
 	public void setProperties(Collection<Property> properties) {
 		if (properties == null) {
 			this.properties = new ArrayList<Property>();
+		} else {
+			this.properties = properties;
 		}
-		this.properties = properties;
 	}
 
 	/**
