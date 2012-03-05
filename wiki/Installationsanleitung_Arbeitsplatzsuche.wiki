@@ -19,7 +19,7 @@ Zur Entwicklung der Arbeitsplatzsuche werden verschiedene Werkzeuge benötigt. D
 
 == Checkstyle Plug-in installieren ==
 
-  * Help -> Eclipse Marketplace...
+  * `Help` -> `Eclipse Marketplace...`
   * Nach `Checkstyle` suchen
   * `Eclipse Checkstyle Plug-in` installieren
   * Lizenz akzeptieren
@@ -28,7 +28,7 @@ Zur Entwicklung der Arbeitsplatzsuche werden verschiedene Werkzeuge benötigt. D
 
 == eCobertura Plug-in installieren ==
 
-  * Help -> Install new Software -> Add...
+  * `Help` -> `Install new Software` -> `Add...`
   * Work with: "http://ecobertura.johoop.de/update/"
   * Wähle `eCobertura Code Coverage` aus
   * Klicke auf `Next`
@@ -40,9 +40,9 @@ Zur Entwicklung der Arbeitsplatzsuche werden verschiedene Werkzeuge benötigt. D
 
 == SVN auschecken ==
 
-  * File -> New -> Other...
-  * SVN -> Project from SVN auswählen
-  * Next
+  * `File` -> `New` -> `Other...`
+  * SVN -> `Project from SVN` auswählen
+  * Klicke auf `Next`
   * URL: https://kitcampusguide.googlecode.com/svn/branches/PSE_WiSe2011_KITCampusGuide_Team1/arbeitsplatzsuche
   * Gebe unter `User` die E-mail Adresse deines Google Accounts ein.
   * Dein Passwort findest du unter https://code.google.com/hosting/settings
@@ -63,12 +63,16 @@ Zur Entwicklung der Arbeitsplatzsuche werden verschiedene Werkzeuge benötigt. D
   * Klicke auf `Apply`
   * Klicke auf `Close`
 
-Den Coverage Report findet man dann unter: Window -> Show View -> Other... -> eCobertura -> Coverage Session View
+Den Coverage Report findet man dann unter: `Window` -> `Show View` -> `Other...` -> `eCobertura` -> `Coverage Session View`
 
 == Projekt kompilieren ==
 
-  * Rechtsklick auf Projekt -> Run As -> Maven install
+  * Rechtsklick auf Projekt -> `Run As` -> `Maven install`
 
 == Projekt auf Tomcat Server starten ==
 
-  * 
+  * [Konfiguration_Tomcat Konfiguriere Tomcat]
+  * Rechtsklick auf das Projekt
+  * `Run As` -> `Run on Server`
+  * Wähle `Tomcat Server` aus
+  * Klicke auf `Finish`
