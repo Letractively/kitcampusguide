@@ -50,4 +50,20 @@ Zur Entwicklung der Arbeitsplatzsuche werden verschiedene Werkzeuge benötigt. D
   * Klicke auf `Finish`
   * Klicke erneut auf `Finish`
 
+== Projekt kompilieren ==
 
+  * Rechtsklick auf das Projekt
+  * Run As -> Maven install
+
+== eCobertura konfigurieren ==
+
+  * Rechtsklick auf Projekt
+  * `Cover As` -> `Coverage Configurations...`
+  * Wähle den Tab `Filters`
+  * Klicke auf `Add Exclude Filter`
+  * Trage dort `*realdata*` ein und wiederhole den letzen Schritt mit folgenden Einträgen (beachte Groß-/Kleinschreibung):
+    * `*layout*`
+    * `*model*`
+    * `*Test*`
+  * Klicke auf `Apply`
+  * Klicke auf `Coverage`
