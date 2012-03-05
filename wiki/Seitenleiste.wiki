@@ -13,7 +13,7 @@
       * [Installation_Eclipse_Mylyn_Google_Connector Installation des Mylyn-Konnektor für Google Code] 
       * [Installation_SpringToolSuite Installation der SpringSource Tool Suite für Eclipse]
     * [Installation_Tomcat Installation des Servlet-Containers Apache Tomcat]
-    * [Installationsanleitungen_Arbeitsplatzsuche Entwicklungsumgebung für die Arbeitsplatzsuche einrichten]
+    * [Installationsanleitung_Arbeitsplatzsuche Entwicklungsumgebung für die Arbeitsplatzsuche einrichten]
  * [Anleitungen Anleitungen, How-Tos, Konventionen]
    * [Subversion]
      * [SVN_Grundlagen Grundlagen zu Subversion]
