@@ -4,15 +4,15 @@
 
 Zur Entwicklung der Arbeitsplatzsuche werden verschiedene Werkzeuge benötigt. Die [Installationsanleitungen Entwicklungsumgebung] für die Arbeitsplatzsuche wird vorrausgesetzt. 
 
-= Übersicht über verwendete Werkzeuge =
+= Verwendete Werkzeuge =
 
-  * [Installation_JDK Java JDK] 
-  * [Installation_Eclipse Eclipse IDE for Java Developers]
-  * [Installation_WTP WTP]
-  * [Installation_Eclipse_m2e Maven Plug-In (m2e)]
-  * [Installation_m2e_wtp Maven für WTP]
-  * [Installation_Subversive Subversive]
-  * [Installation_SpringToolSuite SpringSource Tool Suite]
+  * [Installation_JDK Java JDK installieren] 
+  * [Installation_Eclipse Eclipse IDE for Java Developers installieren]
+  * [Installation_WTP WTP installieren]
+  * [Installation_Eclipse_m2e Maven Plug-In (m2e) installieren]
+  * [Installation_m2e_wtp Maven für WTP installieren]
+  * [Installation_Subversive Subversive installieren]
+  * [Installation_SpringToolSuite SpringSource Tool Suite installieren]
   * [#Checkstyle_Plug-in_installieren Checkstyle Plug-in installieren]
   * [#eCobertura_Plug-in_installieren eCobertura Plug-in installieren]
   * [Installation_Tomcat Tomcat Servlet installieren]
@@ -67,3 +67,5 @@ Zur Entwicklung der Arbeitsplatzsuche werden verschiedene Werkzeuge benötigt. D
     * `*Test*`
   * Klicke auf `Apply`
   * Klicke auf `Coverage`
+
+Den Coverage Report findet man dann unter: Window -> Show View -> Other... -> eCobertura -> Coverage Session View
