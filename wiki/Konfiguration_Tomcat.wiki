@@ -9,7 +9,7 @@ Existierende Eclipse und Tomcat Installation.
 Falls der Server-Tab nicht existiert, füge ihn hinzu:
   * Window -> Show View -> Other...
   * Server -> Servers
-  * Klick Ok
+  * Klicke Ok
 
 Ändere den Deploy-Path und den Start-Timeout
   * Öffne Server Tab
