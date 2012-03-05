@@ -50,11 +50,6 @@ Zur Entwicklung der Arbeitsplatzsuche werden verschiedene Werkzeuge benötigt. D
   * Klicke auf `Finish`
   * Klicke erneut auf `Finish`
 
-== Projekt kompilieren ==
-
-  * Rechtsklick auf das Projekt
-  * Run As -> Maven install
-
 == eCobertura konfigurieren ==
 
   * Rechtsklick auf Projekt
@@ -66,6 +61,14 @@ Zur Entwicklung der Arbeitsplatzsuche werden verschiedene Werkzeuge benötigt. D
     * `*model*`
     * `*Test*`
   * Klicke auf `Apply`
-  * Klicke auf `Coverage`
+  * Klicke auf `Close`
 
 Den Coverage Report findet man dann unter: Window -> Show View -> Other... -> eCobertura -> Coverage Session View
+
+== Projekt kompilieren ==
+
+  * Rechtsklick auf Projekt -> Run As -> Maven install
+
+== Projekt auf Tomcat Server starten ==
+
+  * 
