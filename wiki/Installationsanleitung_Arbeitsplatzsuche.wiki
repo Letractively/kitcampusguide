@@ -1,0 +1,51 @@
+#summary Startseite für die Einrichtung der Entwicklungsumgebung für die Arbeitsplatzsuche.
+
+= Einführung =
+
+Zur Entwicklung der Arbeitsplatzsuche werden verschiedene Werkzeuge benötigt. Die [Installationsanleitungen Entwicklungsumgebung] für die Arbeitsplatzsuche wird vorrausgesetzt. 
+
+= Übersicht über verwendete Werkzeuge =
+
+  * [Installation_JDK Java JDK] 
+  * [Installation_Eclipse Eclipse IDE for Java Developers]
+  * [Installation_WTP WTP]
+  * [Installation_Eclipse_m2e Maven Plug-In (m2e)]
+  * [Installation_m2e_wtp Maven für WTP]
+  * [Installation_Subversive Subversive]
+  * [Installation_SpringToolSuite SpringSource Tool Suite]
+  * [#Checkstyle_Plug-in_installieren Checkstyle Plug-in installieren]
+  * [#eCobertura Plug-in_installieren eCobertura Plug-in installieren]
+  * [Installation_Tomcat Tomcat Servlet installieren]
+
+== Checkstyle Plug-in installieren ==
+
+  * Help -> Eclipse Marketplace...
+  * Nach "Checkstyle" suchen
+  * "Eclipse Checkstyle Plug-in" installieren
+  * Lizenz akzeptieren
+  * Sicherheitswarnung bestätigen
+  * Eclipse neustarten
+
+== eCobertura Plug-in installieren ==
+
+  * Help -> Install new Software -> Add...
+  * Work with: "http://ecobertura.johoop.de/update/"
+  * Wähle `eCobertura Code Coverage` aus
+  * Klicke auf Next
+  * Lizenz akzeptieren
+  * Sicherheitswarnung bestätigen
+  * Eclipse neustarten
+
+= Projekt einrichten =
+
+== SVN auschecken ==
+
+  * File -> New -> Other...
+  * SVN -> Project from SVN auswählen
+  * Next
+  * URL: "https://kitcampusguide.googlecode.com/svn/branches/PSE_WiSe2011_KITCampusGuide_Team1/arbeitsplatzsuche"
+  * Gebe unter User die E-mail Adresse deines Google Accounts ein.
+  * Dein Passwort findest du unter https://code.google.com/hosting/settings
+  * Klicke auf Next
+  * Klicke auf Finish
+  * Klicke erneut auf Finish
