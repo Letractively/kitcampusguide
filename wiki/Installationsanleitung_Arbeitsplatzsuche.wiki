@@ -14,7 +14,7 @@ Zur Entwicklung der Arbeitsplatzsuche werden verschiedene Werkzeuge benötigt. D
   * [Installation_Subversive Subversive]
   * [Installation_SpringToolSuite SpringSource Tool Suite]
   * [#Checkstyle_Plug-in_installieren Checkstyle Plug-in installieren]
-  * [#eCobertura Plug-in_installieren eCobertura Plug-in installieren]
+  * [#eCobertura_Plug-in_installieren eCobertura Plug-in installieren]
   * [Installation_Tomcat Tomcat Servlet installieren]
 
 == Checkstyle Plug-in installieren ==
