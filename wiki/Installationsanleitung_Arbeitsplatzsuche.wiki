@@ -2,9 +2,11 @@
 
 = Einführung =
 
-Zur Entwicklung der Arbeitsplatzsuche werden verschiedene Werkzeuge benötigt. Die [Installationsanleitungen Entwicklungsumgebung] für die Arbeitsplatzsuche wird vorrausgesetzt. 
+Zur Entwicklung der Arbeitsplatzsuche werden verschiedene Werkzeuge benötigt. Wie man diese installiert und konfiguriert wird im Folgenden beschrieben. 
 
 = Verwendete Werkzeuge =
+
+Folgende Werkzeuge bilden die Grundausstattung für die Entwicklung in diesem Projekt:
 
   * [Installation_JDK Java JDK installieren] 
   * [Installation_Eclipse Eclipse IDE for Java Developers installieren]
@@ -13,9 +15,12 @@ Zur Entwicklung der Arbeitsplatzsuche werden verschiedene Werkzeuge benötigt. D
   * [Installation_m2e_wtp Maven für WTP installieren]
   * [Installation_Subversive Subversive installieren]
   * [Installation_SpringToolSuite SpringSource Tool Suite installieren]
+  * [Installation_Tomcat Tomcat Servlet installieren]
+
+Diese zusätzlichen Werkzeuge vereinfachen die Einhaltung von Konventionen und unterstützen beim Testen:
+
   * [#Checkstyle_Plug-in_installieren Checkstyle Plug-in installieren]
   * [#eCobertura_Plug-in_installieren eCobertura Plug-in installieren]
-  * [Installation_Tomcat Tomcat Servlet installieren]
 
 == Checkstyle Plug-in installieren ==
 
