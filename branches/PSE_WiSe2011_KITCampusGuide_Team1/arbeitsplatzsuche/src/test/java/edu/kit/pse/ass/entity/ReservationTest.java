@@ -54,15 +54,7 @@ public class ReservationTest {
 		Reservation r1 = new Reservation();
 		r1.setStartTime(null);
 	}
-	
-	/**
-	 * Test set start time.
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void testSetStartTime2() {
-		Reservation r1 = new Reservation();
-		r1.setStartTime(new Date());
-	}
+
 
 	/**
 	 * Test set start time.
@@ -75,17 +67,6 @@ public class ReservationTest {
 		r1.setStartTime(new Date());
 	}
 	
-	/**
-	 * Test set start time.
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void testSetStartTime4() {
-		Reservation r1 = new Reservation();
-		Date endTime = new GregorianCalendar(2012, 3, 1, 8, 0).getTime();
-		Date startTime = new GregorianCalendar(2012, 2, 10, 8, 0).getTime();
-		r1.setEndTime(endTime);
-		r1.setStartTime(startTime);
-	}
 
 	/**
 	 * Test set end time.
@@ -96,14 +77,6 @@ public class ReservationTest {
 		r1.setEndTime(null);
 	}
 	
-	/**
-	 * Test set end time.
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void testSetEndTime2() {
-		Reservation r1 = new Reservation();
-		r1.setEndTime(new Date());
-	}
 
 	/**
 	 * Test set end time.
@@ -114,18 +87,6 @@ public class ReservationTest {
 		Date startTime = new GregorianCalendar(2013, 1, 1, 8, 0).getTime();
 		r1.setStartTime(startTime);
 		r1.setEndTime(new Date());
-	}
-	
-	/**
-	 * Test set end time.
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void testSetEndTime4() {
-		Reservation r1 = new Reservation();
-		Date startTime = new GregorianCalendar(2012, 3, 1, 8, 0).getTime();
-		Date endTime = new GregorianCalendar(2012, 2, 10, 8, 0).getTime();
-		r1.setEndTime(startTime);
-		r1.setStartTime(endTime);
 	}
 	
 	/**
