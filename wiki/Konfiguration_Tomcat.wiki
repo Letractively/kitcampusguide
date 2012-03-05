@@ -1,0 +1,20 @@
+#summary Tomcat Server konfigurieren
+
+= Vorraussetzungen =
+
+Existierende Eclipse und Tomcat Installation.
+
+= Anleitung =
+
+Falls der Server-Tab nicht existiert, füge ihn hinzu:
+  * Window -> Show View -> Other...
+  * Server -> Servers
+  * Klick Ok
+
+Ändere den Deploy-Path und den Start-Timeout
+  * Öffne Server Tab
+  * Doppelklick auf Tomcat Server
+  * Alle vorhandenen Projekte vom Server löschen (Rechtsklick -> Remove) 
+  * Rechtsklick auf den Server -> Clean...
+  * Setze Deploy Path auf `webapps`
+  * Setze Start-Timeout auf 120 sec
