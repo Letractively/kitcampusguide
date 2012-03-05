@@ -8,14 +8,14 @@ Zur Entwicklung der Arbeitsplatzsuche werden verschiedene Werkzeuge benötigt. W
 
 Folgende Werkzeuge bilden die Grundausstattung für die Entwicklung in diesem Projekt:
 
-  * [Installation_JDK Java JDK installieren] 
-  * [Installation_Eclipse Eclipse IDE for Java Developers installieren]
-  * [Installation_WTP WTP installieren]
-  * [Installation_Eclipse_m2e Maven Plug-In (m2e) installieren]
-  * [Installation_m2e_wtp Maven für WTP installieren]
-  * [Installation_Subversive Subversive installieren]
-  * [Installation_SpringToolSuite SpringSource Tool Suite installieren]
-  * [Installation_Tomcat Tomcat Servlet installieren]
+  # [Installation_JDK Java JDK installieren] 
+  # [Installation_Eclipse Eclipse IDE for Java Developers installieren]
+  # [Installation_WTP WTP installieren]
+  # [Installation_Eclipse_m2e Maven Plug-In (m2e) installieren]
+  # [Installation_m2e_wtp Maven für WTP installieren]
+  # [Installation_Subversive Subversive installieren]
+  # [Installation_SpringToolSuite SpringSource Tool Suite installieren]
+  # [Installation_Tomcat Tomcat Servlet installieren]
 
 Diese zusätzlichen Werkzeuge vereinfachen die Einhaltung von Konventionen und unterstützen beim Testen:
 
