@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.kit.pse.ass.booking.management.BookingManagement;
+import edu.kit.pse.ass.booking.management.BookingQuotaExceededExcpetion;
 import edu.kit.pse.ass.booking.management.FacilityNotFreeException;
 import edu.kit.pse.ass.booking.management.ReservationNotFoundException;
 import edu.kit.pse.ass.entity.Reservation;
@@ -162,7 +163,7 @@ public class ReservationControllerImpl extends MainController implements Reserva
 			if (updatedReservationResult.hasErrors()) {
 				model.addAttribute("formErrors", true);
 			} else {
-				updateReservation(originalReservation, updatedReservation, model);
+				updateReservation(originalReservation, updatedReservation, model, updatedReservationResult);
 
 				// Get new, updated reservation
 				originalReservation = getReservation(reservationID, userID, model);
@@ -249,9 +250,10 @@ public class ReservationControllerImpl extends MainController implements Reserva
 	 *            the updated reservation
 	 * @param model
 	 *            the model
+	 * @param bindingResult
 	 */
 	private void updateReservation(ReservationModel originalReservation, ReservationModel updatedReservation,
-			Model model) {
+			Model model, BindingResult bindingResult) {
 		// Remove workplaces from Reservation, if necessary
 		boolean updateWorkplaceSuccess = updateWorkplaceCount(originalReservation,
 				updatedReservation.getWorkplaceCount());
@@ -260,7 +262,8 @@ public class ReservationControllerImpl extends MainController implements Reserva
 			model.addAttribute("updateErrorWorkplaceCount", true);
 		} else {
 			// Update end time of reservation, if necessary
-			boolean updateEndTimeSuccess = updateEndTime(originalReservation, updatedReservation.getEndTime());
+			boolean updateEndTimeSuccess = updateEndTime(originalReservation, updatedReservation.getEndTime(),
+					bindingResult);
 			if (!updateEndTimeSuccess) {
 				model.addAttribute("updateErrorFacilityOccupied", true);
 			} else {
@@ -311,7 +314,7 @@ public class ReservationControllerImpl extends MainController implements Reserva
 	 *            the new end time
 	 * @return true if update was successful
 	 */
-	private boolean updateEndTime(ReservationModel reservation, Date newEndTime) {
+	private boolean updateEndTime(ReservationModel reservation, Date newEndTime, BindingResult bindingResult) {
 		boolean updateError = false;
 		if (!reservation.getEndTime().equals(newEndTime)) {
 			try {
@@ -320,6 +323,11 @@ public class ReservationControllerImpl extends MainController implements Reserva
 				updateError = true;
 			} catch (IllegalArgumentException e) {
 				updateError = true;
+			} catch (IllegalStateException e) {
+				updateError = true;
+			} catch (BookingQuotaExceededExcpetion e) {
+				updateError = true;
+				translateBookingQuotaExceededException(e, bindingResult);
 			}
 		}
 		return !updateError;
@@ -369,5 +377,32 @@ public class ReservationControllerImpl extends MainController implements Reserva
 	private String getUserID() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return auth.getName();
+	}
+
+	/**
+	 * Translate booking quota exceeded exception.
+	 * 
+	 * @param e
+	 *            the BookingQuotaExceededException
+	 * @param bindingResult
+	 *            the binding result
+	 */
+	private void translateBookingQuotaExceededException(BookingQuotaExceededExcpetion e,
+			BindingResult bindingResult) {
+		Object[] parameter = new Object[] { e.getQuotaLimit() };
+		switch (e.getQuota()) {
+		case HOURS_PER_BOOKING:
+			bindingResult.reject("book.error.quotaHoursPerBookingExceeded", parameter, e.getMessage());
+			break;
+		case BOOKINGS_PER_DAY:
+			bindingResult.reject("book.error.quotaBookingsPerDayExceeded", parameter, e.getMessage());
+			break;
+		case SIMULTANEOUS_BOOKINGS:
+			bindingResult.reject("book.error.quotaSimultaneousBookingsExceeded", parameter, e.getMessage());
+			break;
+		default:
+			bindingResult.reject("book.error.quotaExceeded", e.getMessage());
+			break;
+		}
 	}
 }

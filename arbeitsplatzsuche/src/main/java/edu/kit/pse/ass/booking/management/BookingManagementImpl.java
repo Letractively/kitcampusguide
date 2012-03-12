@@ -32,6 +32,10 @@ public class BookingManagementImpl implements BookingManagement {
 	@Autowired
 	private FacilityManagement facilityManagement;
 
+	/** The booking quotas. */
+	@Autowired
+	private BookingQuotas bookingQuotas;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -43,7 +47,7 @@ public class BookingManagementImpl implements BookingManagement {
 	@PreAuthorize("authentication.name == #userID or hasRole('ROLE_ADMIN')")
 	public String book(String userID, Collection<String> facilityIDs, Date startDate, Date endDate)
 			throws FacilityNotFreeException, IllegalArgumentException, FacilityNotFoundException,
-			BookingNotAllowedException, IllegalDateException {
+			BookingNotAllowedException, IllegalDateException, BookingQuotaExceededExcpetion {
 		// check given dates
 		if ((startDate == null) || (endDate == null)) {
 			throw new IllegalArgumentException("start or end date is null");
@@ -81,11 +85,16 @@ public class BookingManagementImpl implements BookingManagement {
 			}
 		}
 
-		// create a reservation
+		// check quotas of user
+		BookingQuotaExceededExcpetion quotaExceeded = bookingQuotas.createBookingQuotaExceptionNewReservation(
+				userID, facilityIDs, startDate, endDate);
+		if (quotaExceeded != null) {
+			throw quotaExceeded;
+		}
+
+		// create the reservation
 		Reservation reservation = new Reservation(startDate, endDate, userID);
 		reservation.setBookedFacilityIDs(facilityIDs);
-
-		// return the id of the reservation
 		return bookingDAO.insertReservation(reservation);
 	}
 
@@ -126,10 +135,10 @@ public class BookingManagementImpl implements BookingManagement {
 	 * @see edu.kit.pse.ass.booking.management.BookingManagement#changeReservationEnd (java.lang.String, java.util.Date)
 	 */
 	@Override
-	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'edit')")
+	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'edit') or hasRole('ROLE_ADMIN')")
 	@Transactional
 	public void changeReservationEnd(String reservationID, Date newEndDate) throws IllegalArgumentException,
-			FacilityNotFreeException, IllegalStateException {
+			FacilityNotFreeException, IllegalStateException, BookingQuotaExceededExcpetion {
 		if (reservationID == null || reservationID.isEmpty() || newEndDate == null) {
 			throw new IllegalArgumentException("One parameter is null or empty");
 		}
@@ -140,6 +149,12 @@ public class BookingManagementImpl implements BookingManagement {
 		if (!newEndDate.after(resv.getStartTime())) {
 			throw new IllegalArgumentException("The new end date is before the start date.");
 		} else if (newEndDate.after(resv.getEndTime())) {
+			BookingQuotaExceededExcpetion quotaExceeded = bookingQuotas
+					.createBookingQuotaExceptionModifyReservation(reservationID, resv.getBookingUserId(),
+							resv.getBookedFacilityIds(), resv.getStartTime(), newEndDate);
+			if (quotaExceeded != null) {
+				throw quotaExceeded;
+			}
 			for (String facilityID : resv.getBookedFacilityIds()) {
 				try {
 					// TODO does isFacilityFree ignore the reservation, which we want to change here?
@@ -152,7 +167,7 @@ public class BookingManagementImpl implements BookingManagement {
 				}
 			}
 		}
-		//check other reservation of the user
+		// check other reservation of the user
 		if (bookingDAO.getReservationsOfUser(resv.getBookingUserId(), resv.getEndTime(), newEndDate).size() > 0) {
 			throw new IllegalArgumentException("The user already has a reservation at this time");
 		}
@@ -168,7 +183,7 @@ public class BookingManagementImpl implements BookingManagement {
 	 * java.lang.String)
 	 */
 	@Override
-	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'edit')")
+	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'edit') or hasRole('ROLE_ADMIN')")
 	@Transactional
 	public void removeFacilityFromReservation(String reservationID, String facilityID)
 			throws IllegalArgumentException {
@@ -187,7 +202,7 @@ public class BookingManagementImpl implements BookingManagement {
 	 * @see edu.kit.pse.ass.booking.management.BookingManagement#deleteReservation (java.lang.String)
 	 */
 	@Override
-	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'delete')")
+	@PreAuthorize("hasPermission(#reservationID, 'Booking', 'delete') or hasRole('ROLE_ADMIN')")
 	@Transactional
 	public void deleteReservation(String reservationID) throws IllegalArgumentException {
 		if (reservationID == null || reservationID.isEmpty()) {
