@@ -36,6 +36,10 @@ http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 	<bean id="userDAO" class="edu.kit.pse.ass.user.dao.UserDAOImpl" 
 			autowire-candidate="true">
 	</bean>
+	
+	<bean id = "bookingQuotas" class="edu.kit.pse.ass.booking.management.BookingQuotasImpl" 
+			autowire-candidate="true">
+	</bean>
 
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basename" value="/WEB-INF/messages"></property>

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.kit.pse.ass.booking.management.BookingManagement;
 import edu.kit.pse.ass.booking.management.BookingNotAllowedException;
+import edu.kit.pse.ass.booking.management.BookingQuotaExceededExcpetion;
 import edu.kit.pse.ass.booking.management.FacilityNotFreeException;
 import edu.kit.pse.ass.booking.management.IllegalDateException;
 import edu.kit.pse.ass.entity.Facility;
@@ -112,6 +113,8 @@ public class RoomDetailControllerImpl extends MainController implements RoomDeta
 				} else {
 					bookingFormModelResult.reject("book.error.workplaceNotFree", e.getMessage());
 				}
+			} catch (BookingQuotaExceededExcpetion e) {
+				translateBookingQuotaExceededException(e, bookingFormModelResult);
 			} catch (BookingNotAllowedException e) {
 				bookingFormModelResult.reject("book.error.hasBookingAtTime", e.getMessage());
 			} catch (IllegalDateException e) {
@@ -123,6 +126,33 @@ public class RoomDetailControllerImpl extends MainController implements RoomDeta
 
 		return returnedView;
 
+	}
+
+	/**
+	 * Translate booking quota exceeded exception.
+	 * 
+	 * @param e
+	 *            the BookingQuotaExceededException
+	 * @param bindingResult
+	 *            the binding result
+	 */
+	private void translateBookingQuotaExceededException(BookingQuotaExceededExcpetion e,
+			BindingResult bindingResult) {
+		Object[] parameter = new Object[] { e.getQuotaLimit() };
+		switch (e.getQuota()) {
+		case HOURS_PER_BOOKING:
+			bindingResult.reject("book.error.quotaHoursPerBookingExceeded", parameter, e.getMessage());
+			break;
+		case BOOKINGS_PER_DAY:
+			bindingResult.reject("book.error.quotaBookingsPerDayExceeded", parameter, e.getMessage());
+			break;
+		case SIMULTANEOUS_BOOKINGS:
+			bindingResult.reject("book.error.quotaSimultaneousBookingsExceeded", parameter, e.getMessage());
+			break;
+		default:
+			bindingResult.reject("book.error.quotaExceeded", e.getMessage());
+			break;
+		}
 	}
 
 	/**

@@ -28,17 +28,20 @@ public interface BookingManagement {
 	 * @return the reservationID
 	 * @throws FacilityNotFreeException
 	 *             the facility not free exception
-	 * @throws FacilityNotFoundException
-	 *             a wrong ID was passed, no facility exists with one the given ID
 	 * @throws IllegalArgumentException
 	 *             a given parameter is null or invalid
+	 * @throws FacilityNotFoundException
+	 *             a wrong ID was passed, no facility exists with one the given ID
 	 * @throws BookingNotAllowedException
 	 *             the reservation is not allowed
-	 * @throws IllegalDateException a date is in the past.
+	 * @throws IllegalDateException
+	 *             a date is in the past.
+	 * @throws BookingQuotaExceededExcpetion
+	 *             the modified reservation violates a quota
 	 */
 	String book(String userID, Collection<String> facilityIDs, Date startDate, Date endDate)
 			throws FacilityNotFreeException, IllegalArgumentException, FacilityNotFoundException,
-			BookingNotAllowedException, IllegalDateException;
+			BookingNotAllowedException, IllegalDateException, BookingQuotaExceededExcpetion;
 
 	/**
 	 * List reservations of user.
@@ -73,13 +76,17 @@ public interface BookingManagement {
 	 *            the reservation id
 	 * @param newEndDate
 	 *            the new end date
-	 * @throws FacilityNotFreeException
-	 *             the facility of the reservation is already booked
 	 * @throws IllegalArgumentException
 	 *             a parameter is null or invalid
+	 * @throws FacilityNotFreeException
+	 *             the facility of the reservation is already booked
+	 * @throws IllegalStateException
+	 *             the illegal state exception
+	 * @throws BookingQuotaExceededExcpetion
+	 *             the modified reservation violates a quota
 	 */
 	void changeReservationEnd(String reservationID, Date newEndDate) throws IllegalArgumentException,
-			FacilityNotFreeException;
+			FacilityNotFreeException, IllegalStateException, BookingQuotaExceededExcpetion;
 
 	/**
 	 * Removes the facility from reservation.

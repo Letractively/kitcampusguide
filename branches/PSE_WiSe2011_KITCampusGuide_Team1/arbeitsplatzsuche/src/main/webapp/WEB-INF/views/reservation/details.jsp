@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="header2">
@@ -56,11 +57,7 @@
 			<c:if test="${formErrors}">
 				<div class="msg-error"><spring:message code="reservation-details.updateMessageFormErrors" /></div>
 			</c:if>
-			<div class="reservationDetails">
-				<div class="heading"><spring:message code="reservation-details.updateHeading" /></div>
-				<div class="note"><spring:message code="reservation-details.updateNote" /></div>
-				<div><jsp:include page="/WEB-INF/views/reservation/updateForm.jsp"></jsp:include></div>
-			</div>
+			<div><jsp:include page="/WEB-INF/views/reservation/updateForm.jsp"></jsp:include></div>
 		</c:otherwise>
 	</c:choose>
 </div>
