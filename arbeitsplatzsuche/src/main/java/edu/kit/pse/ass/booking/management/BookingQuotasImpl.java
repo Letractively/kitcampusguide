@@ -106,14 +106,14 @@ public class BookingQuotasImpl implements BookingQuotas {
 	 * @param isTutor
 	 *            is the user a tutor
 	 * @param bookingID
-	 *            the booking id
+	 *            the booking id. If it is null a new booking is assumed, otherwise a modified booking
 	 * @param userID
 	 *            the user id
 	 * @param startDate
 	 *            the start date
 	 * @param endDate
 	 *            the end date
-	 * @return the booking quota exceeded excpetion
+	 * @return the booking quota exceeded excpetion or null if no quota was exceeded
 	 */
 	private BookingQuotaExceededExcpetion createQuotaExceptionReservationsPerDay(boolean isAdmin, boolean isTutor,
 			String bookingID, String userID, Date startDate, Date endDate) {

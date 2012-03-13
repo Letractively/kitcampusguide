@@ -92,7 +92,7 @@ $(function() {
 		<security:authorize access="isAuthenticated()">
 			<li><a href="<c:url value="/search/simple.html" />">Suche</a></li>
 			<li><a href="<c:url value="/reservation/list.html" />">Meine Reservierungen</a></li>
-			<li><a href="<spring:url value="/j_spring_security_logout" htmlEscape="true" />">Abmelden</a></li>
+			<li><a href="<spring:url value="/j_spring_security_logout" htmlEscape="true" />">Abmelden [<security:authentication property="principal.username" />]</a></li>
 		</security:authorize>
 		</ul>
 	</nav>
