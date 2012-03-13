@@ -12,6 +12,7 @@
 	<p><strong>Demo-user: </strong><br />
 	ubbbb@student.kit.edu / bbbbbbbb<br />
 	ubbbd@student.kit.edu / bbbdbbbd<br />
+	<strong>Tutor: </strong>ututo@student.kit.edu / tutotuto<br />
 	... (see ...ass.testdata.TestData.java)
 	</p>
 		<form name="f" action="<c:url value='j_spring_security_check'/>" method="POST">

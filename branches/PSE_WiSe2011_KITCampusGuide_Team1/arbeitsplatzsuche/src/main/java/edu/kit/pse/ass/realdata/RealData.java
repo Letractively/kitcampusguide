@@ -63,6 +63,12 @@ public class RealData {
 						email.get(i) + email.get(i), s);
 
 			}
+			HashSet<String> s = new HashSet<String>();
+			s.add("ROLE_TUTOR");
+			dataHelper.createPersistedUser("ututo@student.kit.edu", "tutotuto", s);
+			s = new HashSet<String>();
+			s.add("ROLE_ADMIN");
+			dataHelper.createPersistedUser("uadmi@student.kit.edu", "admiadmi", s);
 			userInserted = true;
 		}
 
