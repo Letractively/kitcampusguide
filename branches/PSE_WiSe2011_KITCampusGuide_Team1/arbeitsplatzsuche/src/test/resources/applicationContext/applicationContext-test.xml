@@ -86,6 +86,10 @@
 			class="edu.kit.pse.ass.gui.controller.RoomDetailControllerImpl"
 	        autowire-candidate="true"/>
 	        
+	<bean id = "bookingQuotas" class="edu.kit.pse.ass.booking.management.BookingQuotasImpl" 
+			autowire-candidate="true">
+	</bean>
+	        
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basename" value="/WEB-INF/messages"></property>
     </bean>
