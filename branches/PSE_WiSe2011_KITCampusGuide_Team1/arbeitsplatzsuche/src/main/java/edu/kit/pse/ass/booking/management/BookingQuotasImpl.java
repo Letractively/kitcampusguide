@@ -5,14 +5,15 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 
 import edu.kit.pse.ass.booking.dao.BookingDAO;
 import edu.kit.pse.ass.entity.Reservation;
+import edu.kit.pse.ass.entity.User;
+import edu.kit.pse.ass.user.dao.UserDAO;
 
 /**
  * The Class BookingQuotasImpl.
@@ -22,6 +23,10 @@ public class BookingQuotasImpl implements BookingQuotas {
 	/** The booking dao. */
 	@Autowired
 	BookingDAO bookingDAO;
+
+	/** The booking dao. */
+	@Autowired
+	UserDAO userDAO;
 
 	/** The Constant MILLISECONDS_PER_HOUR. */
 	private static final int MILLISECONDS_PER_HOUR = 3600000;
@@ -76,16 +81,13 @@ public class BookingQuotasImpl implements BookingQuotas {
 	private BookingQuotaExceededExcpetion createBookingQuotaException(String bookingID, String userID,
 			Collection<String> facilityIDs, Date startDate, Date endDate) {
 		assert userID != null && facilityIDs != null && startDate != null && endDate != null;
-		Collection<GrantedAuthority> roles = SecurityContextHolder.getContext().getAuthentication()
-				.getAuthorities();
-		boolean isTutor = false, isAdmin = false;
-		for (GrantedAuthority role : roles) {
-			if (role.getAuthority().equals("ROLE_TUTOR")) {
-				isTutor = true;
-			} else if (role.getAuthority().equals("ROLE_ADMIN")) {
-				isAdmin = true;
-			}
+		User u = userDAO.getUser(userID);
+		if (u == null) {
+			throw new IllegalArgumentException("User does not exist");
 		}
+		Set<String> roles = u.getRoles();
+		boolean isTutor = roles.contains("ROLE_TUTOR");
+		boolean isAdmin = roles.contains("ROLE_ADMIN");
 
 		// check for length of booking and return Exception on violation
 		int limit = getQuotaLimitHoursPerBooking(isAdmin, isTutor);
