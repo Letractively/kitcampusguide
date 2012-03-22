@@ -5,7 +5,6 @@ package edu.kit.pse.ass.entity;
 
 import javax.persistence.Entity;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Workplace.
  * 

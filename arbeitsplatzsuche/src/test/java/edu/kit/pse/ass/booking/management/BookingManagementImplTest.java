@@ -657,7 +657,7 @@ public class BookingManagementImplTest {
 	 * @throws Exception
 	 *             should be an FacilityNotFreeException
 	 */
-	@Test(expected = FacilityNotFreeException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testChangeReservationEndNotFreeForNewEndDate() throws Exception {
 		ArrayList<String> facilityIDs = new ArrayList<String>();
 		facilityIDs.add(room1.getId());

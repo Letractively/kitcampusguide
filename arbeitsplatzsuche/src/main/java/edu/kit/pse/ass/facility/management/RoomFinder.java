@@ -57,8 +57,8 @@ public class RoomFinder extends FacilityFinder {
 		while (iter.hasNext()) {
 			Room r = iter.next();
 			ArrayList<Facility> matchingWorkplaces = null;
-			boolean enoughWorkplaces = (r.getContainedFacilities() != null) ? r.getContainedFacilities().size() >= minWorkpl
-					: minWorkpl == 0;
+			boolean enoughWorkplaces = (r.getContainedFacilities() != null) 
+					? r.getContainedFacilities().size() >= minWorkpl : minWorkpl == 0;
 			if (enoughWorkplaces) {
 				matchingWorkplaces = chooseMatchingWorkplaces(r);
 				enoughWorkplaces = matchingWorkplaces.size() >= minWorkpl;

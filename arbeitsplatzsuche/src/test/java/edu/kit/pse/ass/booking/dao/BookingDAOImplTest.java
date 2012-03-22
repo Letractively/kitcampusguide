@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.kit.pse.ass.entity.Reservation;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BookingDAOImplTest.
  * 
