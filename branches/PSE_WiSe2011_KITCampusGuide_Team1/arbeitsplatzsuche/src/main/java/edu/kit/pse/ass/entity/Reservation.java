@@ -16,7 +16,6 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Reservation.
  * 

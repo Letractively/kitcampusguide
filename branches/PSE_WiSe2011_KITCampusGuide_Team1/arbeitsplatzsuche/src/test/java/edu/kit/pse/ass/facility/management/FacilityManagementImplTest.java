@@ -51,11 +51,9 @@ public class FacilityManagementImplTest {
 	private FacilityManagement facilityManagement;
 
 	private Property propertyWLAN;
-	private Property propertyLAN;
 	private Property propertySteckdose;
 	private Property propertyBarrierefrei;
 	private Property propertyLicht;
-	private Property propertyPC;
 
 	private Collection<Property> propertiesToFind;
 
@@ -73,23 +71,21 @@ public class FacilityManagementImplTest {
 	public void setUp() {
 		// create the properties
 		propertyWLAN = new Property("WLAN");
-		propertyLAN = new Property("LAN");
 		propertySteckdose = new Property("Steckdose");
 		propertyBarrierefrei = new Property("Barrierefrei");
 		propertyLicht = new Property("Licht");
-		propertyPC = new Property("PC");
 
 		Building building = new Building();
 		building.setName("Informatik-Hauptgebäude");
 		building.setNumber("50.34");
 		building.addProperty(propertyBarrierefrei);
 		jpaTemplate.persist(building);
-
+		
 		// define which properties shall be found
 		propertiesToFind = new ArrayList<Property>();
 		propertiesToFind.add(propertyWLAN);
 		propertiesToFind.add(propertySteckdose);
-
+		
 		// create 2 new rooms with WLAN and persist them in jpaTemplate
 		persistedRoom1 = new Room();
 		persistedRoom1.addProperty(propertyWLAN);

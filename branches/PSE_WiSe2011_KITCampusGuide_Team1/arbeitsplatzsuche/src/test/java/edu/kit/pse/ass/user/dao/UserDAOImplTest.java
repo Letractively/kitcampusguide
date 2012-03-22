@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.kit.pse.ass.entity.User;
 
-// TODO: Auto-generated Javadoc
 /**
  * Test for UserDAOImpl.
  * 

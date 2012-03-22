@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.kit.pse.ass.entity.User;
 import edu.kit.pse.ass.user.dao.UserDAO;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UserManagementImpl.
  */

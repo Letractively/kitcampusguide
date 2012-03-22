@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import edu.kit.pse.ass.booking.dao.BookingDAO;
 import edu.kit.pse.ass.entity.Reservation;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BookingPermissionEvaluatorImpl.
  */

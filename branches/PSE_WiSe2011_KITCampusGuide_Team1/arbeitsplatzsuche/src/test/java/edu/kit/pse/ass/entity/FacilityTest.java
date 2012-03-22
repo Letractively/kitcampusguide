@@ -11,7 +11,6 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FacilityTest.
  */
