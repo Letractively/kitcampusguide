@@ -151,7 +151,7 @@ public class BookingQuotasImpl implements BookingQuotas {
 					Iterator<Reservation> resIt = reservations.iterator();
 					while (resIt.hasNext()) {
 						Reservation res = resIt.next();
-						if (bookingID.equals(res.getBookedFacilityIds())) {
+						if (bookingID.equals(res.getId())) {
 							resIt.remove();
 						}
 					}

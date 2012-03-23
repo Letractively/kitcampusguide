@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -99,6 +100,10 @@ public class BookingManagementImplTest {
 		cal.add(Calendar.HOUR, 1);
 		// dateAfterEndDate is date + 3
 		dateAfterEndDate = cal.getTime();
+
+		HashSet<String> roles = new HashSet<String>();
+		roles.add("ROLE_STUDENT");
+		dataHelper.createPersistedUser(USER_ID, "12345678", roles);
 	}
 
 	/**
@@ -732,7 +737,7 @@ public class BookingManagementImplTest {
 
 		Calendar cal = Calendar.getInstance();
 		Date start = cal.getTime();
-		cal.add(Calendar.HOUR, 4);
+		cal.add(Calendar.HOUR, 1);
 		Date end = cal.getTime();
 		cal.add(Calendar.HOUR, +1);
 		Date newEnd = cal.getTime();

@@ -149,6 +149,11 @@ public class BookingManagementImpl implements BookingManagement {
 		if (!newEndDate.after(resv.getStartTime())) {
 			throw new IllegalArgumentException("The new end date is before the start date.");
 		} else if (newEndDate.after(resv.getEndTime())) {
+			// check other reservation of the user
+			if (bookingDAO.getReservationsOfUser(resv.getBookingUserId(), resv.getEndTime(), newEndDate).size() > 0) {
+				throw new IllegalArgumentException("The user already has a reservation at this time");
+			}
+			// check quotas
 			BookingQuotaExceededExcpetion quotaExceeded = bookingQuotas
 					.createBookingQuotaExceptionModifyReservation(reservationID, resv.getBookingUserId(),
 							resv.getBookedFacilityIds(), resv.getStartTime(), newEndDate);
@@ -166,10 +171,6 @@ public class BookingManagementImpl implements BookingManagement {
 					throw new IllegalStateException("Facility of reservation does not exist.");
 				}
 			}
-		}
-		// check other reservation of the user
-		if (bookingDAO.getReservationsOfUser(resv.getBookingUserId(), resv.getEndTime(), newEndDate).size() > 0) {
-			throw new IllegalArgumentException("The user already has a reservation at this time");
 		}
 		resv.setEndTime(newEndDate);
 
