@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:cc="http://java.sun.com/jsf/composite">
+	<cc:interface>
+		<!-- Attributes -->
+		<cc:attribute name="map"
+			type="edu.kit.cm.kitcampusguide.standardtypes.Map" required="true" />
+		<cc:attribute name="building" required="true"
+			type="edu.kit.cm.kitcampusguide.standardtypes.Building" />
+		<cc:attribute name="mapSection" required="true"
+			type="edu.kit.cm.kitcampusguide.standardtypes.MapSection" />
+		<cc:attribute name="POIs" required="true"/>
+		<cc:attribute name="highlightedPOI"
+			type="edu.kit.cm.kitcampusguide.standardtypes.POI" required="true" />
+		<cc:attribute name="markerFrom"
+			type="edu.kit.cm.kitcampusguide.standardtypes.MapPosition"
+			required="true" />
+		<cc:attribute name="markerTo"
+			type="edu.kit.cm.kitcampusguide.standardtypes.MapPosition"
+			required="true" />
+		<cc:attribute name="route" type="edu.kit.cm.kitcampusguide.standardtypes.Route" 
+		required="true"/>
+		<cc:attribute name="buildingPOI"
+			type="edu.kit.cm.kitcampusguide.standardtypes.POI" required="true" />
+		<cc:attribute name="buildingPOIList" required="true" />
+		<!-- EditableValueHolders -->
+		<cc:editableValueHolder name="mapSectionListener"
+			targets="form:mapSection" />
+		<!-- ActionSources -->
+		<cc:actionSource name="clickOnPOI" />
+		<cc:actionSource name="setRouteFromByContextMenu" />
+		<cc:actionSource name="setRouteToByContextMenu" />
+		<!-- TODO: POIListener action source must be defined -->
+	</cc:interface>
+	<cc:implementation>
+		<h:outputScript target="head" library="mapcomponent"
+			name="mapstraction.js" />
+		<h:outputScript target="head" library="mapcomponent"
+			name="mapcomponent.js" />
+			<script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js" />
+		<!-- This outputScript didn't always work in my system for some reason. Maybe it will work
+on the final system? -->
+		<!--		<h:outputScript target="head" library="mapcomponent"-->
+		<!--			name="openlayers.js" />-->
+		<h:outputStylesheet target="head" library="mapcomponent"
+			name="map.css" />
+		<h:outputScript target="head" library="javax.faces" name="jsf.js" />
+		<div id="#{cc.clientId}:map" class="map"></div>
+		<h:form id="form" class="hidden">
+			<h:inputHidden id="mapSection" value="#{cc.attrs.mapSection}">
+				<f:converter converterId="mapSectionConverter" />
+			</h:inputHidden>
+			<h:outputText id="map" value="#{cc.attrs.map}" class="hidden">
+				<f:converter converterId="mapConverter" />
+			</h:outputText>
+			<h:outputText id="building" value="#{cc.attrs.building}" class="hidden">
+				<f:converter converterId="buildingConverter" />
+			</h:outputText>
+			<h:outputText id="POIs" value="#{cc.attrs.POIs}" class="hidden">
+				<f:converter converterId="poiListConverter" />
+			</h:outputText>
+			<h:outputText id="highlightedPOI" value="#{cc.attrs.highlightedPOI}" class="hidden">
+				<f:converter converterId="poiConverter" />
+			</h:outputText>
+			<h:outputText id="markerFrom" value="#{cc.attrs.markerFrom}" class="hidden">
+				<f:converter converterId="mapPositionConverter" />
+			</h:outputText>
+			<h:outputText id="markerTo" value="#{cc.attrs.highlightedPOI}" class="hidden">
+				<f:converter converterId="mapPositionConverter" />
+			</h:outputText>
+			<h:outputText id="route" value="#{cc.attrs.route}" class="hidden">
+				<f:converter converterId="routeConverter" />
+			</h:outputText>
+			<h:outputText id="buildingPOI" value="#{cc.attrs.buildingPOI}" class="hidden">
+				<f:converter converterId="poiConverter" />
+			</h:outputText>
+			<h:outputText id="buildingPOIList" value="#{cc.attrs.buildingPOIList}" class="hidden">
+				<f:converter converterId="poiListConverter" />
+			</h:outputText>
+		</h:form>
+		<script type="text/javascript">
+			new KITCampusMap('#{cc.clientId}');
+		</script>
+	</cc:implementation>
+</ui:component>
