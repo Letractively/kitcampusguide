@@ -1,4 +1,4 @@
-#summary Anleitung für die Einrichtung der Entwicklungsumgebung für die Entwicklung von Android Anwendungen.
+#summary Anleitung für die Einrichtung der Entwicklungsumgebung für die Entwicklung von Android Anwendungen unter Windows 7.
 
 = Einführung =
 
