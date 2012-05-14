@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>Android authentication tester</display-name>
+  <welcome-file-list>
+    <welcome-file>login</welcome-file>
+  </welcome-file-list>
+  <servlet>
+  	<servlet-name>loginHandler</servlet-name>
+  	<servlet-class>main.java.edu.kit.cm.auth.LoginHandler</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>loginHandler</servlet-name>
+  	<url-pattern>/login</url-pattern>
+  </servlet-mapping>
+</web-app>
