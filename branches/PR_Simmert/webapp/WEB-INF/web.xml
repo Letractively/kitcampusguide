@@ -5,11 +5,19 @@
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
   <servlet>
-  	<servlet-name>loginHandler</servlet-name>
-  	<servlet-class>main.java.edu.kit.cm.auth.LoginHandler</servlet-class>
+    <servlet-name>classicLoginHandler</servlet-name>
+    <servlet-class>main.java.edu.kit.cm.auth.ClassicLoginHandler</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>qrLoginHandler</servlet-name>
+    <servlet-class>main.java.edu.kit.cm.auth.QrLoginHandler</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>loginHandler</servlet-name>
-  	<url-pattern>/login</url-pattern>
+    <servlet-name>classicLoginHandler</servlet-name>
+    <url-pattern>/login/classic</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>qrLoginHandler</servlet-name>
+    <url-pattern>/login/qr</url-pattern>
   </servlet-mapping>
 </web-app>

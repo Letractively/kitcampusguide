@@ -15,7 +15,9 @@
 </head>
 <body>
 <f:view>
-	<p>Hello ${username}</p>
+	<h1>Please login</h1>
+
+	<p><img src="/AuthTester/images/qrcodes/${qrCodeFileName}" /></p>
 </f:view>
 </body>
 </html>
