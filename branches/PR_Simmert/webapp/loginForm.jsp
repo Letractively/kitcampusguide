@@ -17,7 +17,7 @@
 <f:view>
 	<h1>Please login</h1>
 
-	<p><img src="/AuthTester/images/qrcodes/${qrCodeFileName}" /></p>
+	<p><img src="/AuthTester/img/qrcodes/${qrCodeFileName}" /></p>
 </f:view>
 </body>
 </html>
