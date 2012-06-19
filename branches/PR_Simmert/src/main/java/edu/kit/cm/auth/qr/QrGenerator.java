@@ -12,24 +12,24 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 public class QrGenerator
 {
-	private String imagePath;
+	private File imagePath;
 
 	
 	public QrGenerator(String imagePath)
 	{
-		this.imagePath = imagePath;
+		this.imagePath = new File(imagePath);
 	}
 
 
-	public String generate(QrMessage message) throws WriterException, IOException
+	public File generate(QrMessage message) throws WriterException, IOException
 	{
-		String imageFileName = "qr.png";
+		File imageFile = File.createTempFile("qrcode", ".png", this.imagePath);
 
         Writer qrWriter = new QRCodeWriter();
 
-        BitMatrix bb = qrWriter.encode(new String(message.content()), BarcodeFormat.QR_CODE, 300, 300);
-        MatrixToImageWriter.writeToFile(bb, "png", new File(this.imagePath + imageFileName));
+        BitMatrix bb = qrWriter.encode(new String(message.content()), BarcodeFormat.QR_CODE, 150, 150);
+        MatrixToImageWriter.writeToFile(bb, "png", imageFile);
 
-		return imageFileName;
+		return imageFile;
 	}
 }

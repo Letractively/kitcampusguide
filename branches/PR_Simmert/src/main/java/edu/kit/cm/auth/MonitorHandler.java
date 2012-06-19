@@ -5,52 +5,63 @@ import java.io.IOException;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import main.java.edu.kit.cm.auth.LoginHandler;
-import main.java.edu.kit.cm.auth.qr.QrException;
+
 import main.java.edu.kit.cm.auth.qr.QrGenerator;
 import main.java.edu.kit.cm.auth.qr.QrLoginMessage;
-import main.java.edu.kit.cm.auth.qr.QrMessage;
-import main.java.edu.kit.cm.auth.qr.QrParser;
 import main.java.edu.kit.cm.auth.qr.QrProvider;
-import main.java.edu.kit.cm.auth.qr.QrRegisterMessage;
 
 /**
- * Servlet implementation class QrLoginHandler
+ * Servlet implementation class MonitorHandler
  */
-public class QrLoginHandler extends LoginHandler {
+@WebServlet("/monitor")
+public class MonitorHandler extends HttpServlet
+{
     private static final long serialVersionUID = 1L;
 
+    
+    /**
+     * @see MonitorHandler#HttpServlet()
+     */
+    public MonitorHandler() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+    
+    
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-//        QrLoginMessage qrMessage = new QrLoginMessage(QrProvider.KCG);
-//        qrMessage.setChallenge(hexStringToByteArray(UUID.randomUUID().toString().replace("-", "")));
-
+        QrLoginMessage qrMessage = new QrLoginMessage(QrProvider.KCG);
+        qrMessage.setChallenge(hexStringToByteArray(UUID.randomUUID().toString().replace("-", "")));
+/*
         QrRegisterMessage qrMessage = new QrRegisterMessage(QrProvider.KCG);
-        qrMessage.setResponseUrl("http://localhost:8080/AuthTester/qrauth");
+        qrMessage.setResponseUrl("http://i71vpc06.cm-tm.uni-karlsruhe.de:8080/AuthTester/reponder");
         qrMessage.setUserId(new byte[] {0x47, 0x11});
         qrMessage.setSecret(hexStringToByteArray(UUID.randomUUID().toString().replace("-", "")));        
-        
+*/
         QrGenerator qrGenerator = new QrGenerator(this.getQrImagePath());
         
-        String qrCodeFileName = "invalid.png";
+        File qrCodeFile = null;
         
         try {
-            qrCodeFileName = qrGenerator.generate(qrMessage);
+            qrCodeFile = qrGenerator.generate(qrMessage);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        request.setAttribute("qrCodeFileName", qrCodeFileName);
-        request.getRequestDispatcher("/loginForm.jsp").forward(request, response);        
-
+        request.setAttribute("qrCodeFile", qrCodeFile);
+        request.getRequestDispatcher("/monitor.jsp").forward(request, response);        
+/*
         try {
             QrMessage parsedMessage = QrParser.parse(qrMessage.content());
         } catch (QrException e) {
             System.err.println("QR exception: " + e.getMessage());
         }
+*/
     }
     
     

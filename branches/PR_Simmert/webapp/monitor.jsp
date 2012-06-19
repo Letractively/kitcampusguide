@@ -1,21 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" version="2.0">
+    <jsp:directive.page language="java"
+        contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
+    <jsp:text>
+        <![CDATA[ <!DOCTYPE html> ]]>
+    </jsp:text>
+
+<html lang="de">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>KIT Authenticator Tester</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
     <!-- Le styles -->
-    <link href="/AuthTester/css/bootstrap.css" rel="stylesheet">
-    <link href="/AuthTester/css/main.css" rel="stylesheet">
+    <link href="/AuthTester/css/bootstrap.css" rel="stylesheet" />
+    <link href="/AuthTester/css/main.css" rel="stylesheet" />
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
     </style>
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet" />
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -23,7 +29,8 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body class="monitor">
+    <f:view>
 
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
@@ -36,14 +43,16 @@
           <a class="brand" href="#">KIT Authenticator Tester</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Arbeitsplatz-Monitor</a></li>
-              <li><a href="/AuthTester/devices/">Mobilgeräte verwalten</a></li>
+              <li class="active"><a href="/AuthTester/monitor">Arbeitsplatz-Monitor</a></li>
+              <li><a href="/AuthTester/devices">Mobilgeräte verwalten</a></li>
               <li><a href="/AuthTester/info.html">Info</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
+
+    <p id="qrcode" class="thumbnail"><img src="/AuthTester/img/qrcodes/${qrCodeFile.name}" /></p>
 
     <div id="workstations" class="container">
 
@@ -109,5 +118,8 @@
     <script src="/AuthTester/js/jquery.js"></script>
     <script src="/AuthTester/js/bootstrap.js"></script>
 
+  </f:view>
   </body>
 </html>
+
+</jsp:root>
