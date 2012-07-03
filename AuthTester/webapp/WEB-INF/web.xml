@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>KIT Authenticator Tester</display-name>
+  <listener>
+    <listener-class>main.java.edu.kit.cm.ivu.auth.SessionListener</listener-class>
+  </listener>
+  <welcome-file-list>
+    <welcome-file>monitor</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>monitorHandler</servlet-name>
+    <servlet-class>main.java.edu.kit.cm.ivu.auth.MonitorHandler</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>deviceHandler</servlet-name>
+    <servlet-class>main.java.edu.kit.cm.ivu.auth.DeviceHandler</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>responseHandler</servlet-name>
+    <servlet-class>main.java.edu.kit.cm.ivu.auth.ResponseHandler</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ajaxHandler</servlet-name>
+    <servlet-class>main.java.edu.kit.cm.ivu.auth.AjaxHandler</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>monitorHandler</servlet-name>
+    <url-pattern>/monitor</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>deviceHandler</servlet-name>
+    <url-pattern>/devices</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>responseHandler</servlet-name>
+    <url-pattern>/responder</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ajaxHandler</servlet-name>
+    <url-pattern>/status</url-pattern>
+  </servlet-mapping>
+</web-app>
