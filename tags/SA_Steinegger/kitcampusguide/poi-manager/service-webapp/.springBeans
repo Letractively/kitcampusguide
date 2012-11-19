@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[2.6.0.201103160035-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[true]]></enableImports>
+	<configs>
+		<config>src/main/webapp/WEB-INF/applicationContext.xml</config>
+		<config>src/main/webapp/WEB-INF/applicationContext-cxf.xml</config>
+		<config>src/main/webapp/WEB-INF/applicationContext-dao.xml</config>
+		<config>src/main/webapp/WEB-INF/applicationContext-model.xml</config>
+		<config>src/main/webapp/WEB-INF/applicationContext-persistence.xml</config>
+		<config>src/main/webapp/WEB-INF/applicationContext-beans.xml</config>
+		<config>src/main/webapp/WEB-INF/applicationContext-dummyBeans.xml</config>
+		<config>src/main/webapp/WEB-INF/applicationContext-security.xml</config>
+	</configs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>
