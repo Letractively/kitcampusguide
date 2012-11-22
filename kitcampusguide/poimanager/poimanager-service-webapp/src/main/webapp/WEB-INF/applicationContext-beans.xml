@@ -13,9 +13,10 @@
 	</bean>
 
 	<bean id="poiFacadeImpl" class="edu.kit.cm.kitcampusguide.ws.poi.PoiFacadeImpl">
-		<constructor-arg>
-			<ref bean="poiDaoImpl" />
-		</constructor-arg>
+		<constructor-arg ref="poiDaoImpl" />
+		<constructor-arg ref="securityServiceImpl"/>
 	</bean>
+	
+	<bean id="securityServiceImpl" class="edu.kit.cm.kitcampusguide.service.security.SecurityServiceImpl"/>
 
 </beans>

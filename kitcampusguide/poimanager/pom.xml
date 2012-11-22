@@ -12,13 +12,14 @@
 
 	<name>POI Manager</name>
 	<modules>
+		<module>poimanager-ws-stub</module>
 		<module>poimanager-data</module>
 		<module>poimanager-persistence</module>
 		<module>poimanager-webapp</module>
 		<module>poimanager-service-webapp</module>
 		<module>poimanager-service</module>
 		<module>poimanager-security</module>
-		<module>poimanager-ws-stub</module>
+		
 	</modules>
 
 	<build>

@@ -22,7 +22,7 @@ import edu.kit.tm.cm.kitcampusguide.poiservice.PoiService;
  * 
  */
 
-@WebService(serviceName = "PoiService", portName = "PoiServiceSOAP", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/", wsdlLocation = "http://www.example.org/?wsdl", endpointInterface = "edu.kit.cm.kitcampusguide.ws.poi.PoiService")
+@WebService(serviceName = "PoiService", portName = "PoiServiceSOAP", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/", wsdlLocation = "http://www.example.org/?wsdl", endpointInterface = "edu.kit.tm.cm.kitcampusguide.poiservice.PoiService")
 @Transactional
 public class PoiServiceImpl extends SpringBeanAutowiringSupport implements PoiService {
 

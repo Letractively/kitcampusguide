@@ -56,8 +56,9 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
         // constructor for auto wiring
     }
 
-    public PoiFacadeImpl(PoiDao dao) {
+    public PoiFacadeImpl(PoiDao dao, SecurityService secService) {
         this.dao = dao;
+        this.securityService = secService;
     }
 
     public ExecuteResponseComplexType execute(ExecuteRequestComplexType parameters) throws ExecuteFault {
