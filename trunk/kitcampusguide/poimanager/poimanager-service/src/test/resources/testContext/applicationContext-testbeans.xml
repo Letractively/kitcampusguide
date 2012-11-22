@@ -32,7 +32,7 @@
 		<property name="separatedGroupIds" value="group2" />
 	</bean>
 
-	<bean id="requestPoi" class="edu.kit.cm.kitcampusguide.ws.poi.type.Poi">
+	<bean id="requestPoi" class="edu.kit.tm.cm.kitcampusguide.poiservice.Poi">
 		<property name="name" value="Point of intertest 2" />
 		<property name="description" value="This poi was created by a test." />
 		<property name="longitude" value="0.2345" />
@@ -41,7 +41,7 @@
 		<property name="groupIds" ref="groupIds" />
 	</bean>
 
-	<bean id="groupIds" class="edu.kit.cm.kitcampusguide.ws.poi.type.Strings">
+	<bean id="groupIds" class="edu.kit.tm.cm.kitcampusguide.poiservice.Strings">
 		<property name="id">
 			<list>
 				<value>group1</value>

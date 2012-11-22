@@ -13,6 +13,7 @@
 	<!-- <import resource="applicationContext-security.xml" /> -->
 
 	<context:component-scan base-package="edu.kit.cm.kitcampusguide.ws.poi" />
+	<context:component-scan base-package="edu.kit.cm.kitcampusguide.poiservice" />
 	<context:component-scan base-package="edu.kit.cm.kitcampusguide.jaxws.callback" />
 	<!-- Enable transaction handling through annotations -->
 	<tx:annotation-driven />

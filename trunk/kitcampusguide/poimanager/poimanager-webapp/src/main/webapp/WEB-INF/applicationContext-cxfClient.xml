@@ -6,7 +6,7 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
-	<bean id="poiService" class="edu.kit.cm.kitcampusguide.ws.poi.PoiService"
+	<bean id="poiService" class="edu.kit.tm.cm.kitcampusguide.poiservice.PoiService"
 		factory-bean="clientFactory" factory-method="create" />
 
 	<bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
