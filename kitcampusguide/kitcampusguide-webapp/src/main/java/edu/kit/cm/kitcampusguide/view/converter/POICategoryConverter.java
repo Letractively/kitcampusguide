@@ -5,11 +5,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
-import edu.kit.cm.kitcampusguide.model.POI;
-import edu.kit.cm.kitcampusguide.model.POICategory;
+import edu.kit.cm.kitcampusguide.model.Poi;
+import edu.kit.cm.kitcampusguide.model.PoiCategory;
 
 /**
- * This class represents a converter for a {@link POICategory} due to the Converter technology of
+ * This class represents a converter for a {@link PoiCategory} due to the Converter technology of
  * the JavaServer Faces framework.
  * @author Haoqian Zheng
  *
@@ -36,10 +36,10 @@ public class POICategoryConverter implements Converter {
 		if (arg2 == null) {
 			return "";
 		}
-		if (!(arg2 instanceof POI)) {
+		if (!(arg2 instanceof Poi)) {
 			throw new ConverterException();
 		}
-		return JSONConverter.convertPOICategory((POICategory) arg2).toJSONString();
+		return JSONConverter.convertPOICategory((PoiCategory) arg2).toJSONString();
 	}
 
 }

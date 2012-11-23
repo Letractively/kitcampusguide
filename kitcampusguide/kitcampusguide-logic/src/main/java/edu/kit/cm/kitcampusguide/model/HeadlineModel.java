@@ -17,14 +17,14 @@ public class HeadlineModel {
 	private String search;
 
 	/* The suggestions for the input. */
-	private List<POI> suggestions;
+	private List<Poi> suggestions;
 
 	/**
 	 * Creates a new headline which contains a search input field.
 	 */
 	public HeadlineModel() {
 		this.search = null;
-		this.suggestions = new ArrayList<POI>();
+		this.suggestions = new ArrayList<Poi>();
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class HeadlineModel {
 	 * @param list
 	 *            the suggestions for the input.
 	 */
-	public void setSuggestions(List<POI> list) {
+	public void setSuggestions(List<Poi> list) {
 		this.suggestions = list;
 	}
 
@@ -61,7 +61,7 @@ public class HeadlineModel {
 	 * 
 	 * @return the suggestions for the input.
 	 */
-	public List<POI> getSuggestions() {
+	public List<Poi> getSuggestions() {
 		return this.suggestions;
 	}
 }

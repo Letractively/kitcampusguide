@@ -16,7 +16,7 @@ import edu.kit.tm.cm.kitcampusguide.poiservice.PoiService;
  * Generated source version: 2.4.1
  * 
  */
-@WebServiceClient(name = "PoiService", wsdlLocation = "http://localhost:8080/poi/poiservice/?wsdl", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/")
+@WebServiceClient(name = "PoiService", wsdlLocation = "http://localhost:8080/poimanager-service/poiservice/?wsdl", targetNamespace = "http://cm.tm.kit.edu/kitcampusguide/poiservice/")
 public class PoiServiceClient extends Service {
 
 	public final static URL WSDL_LOCATION;

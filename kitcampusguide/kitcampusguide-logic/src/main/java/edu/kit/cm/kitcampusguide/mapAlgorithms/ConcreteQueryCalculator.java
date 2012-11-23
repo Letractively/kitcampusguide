@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 import edu.kit.cm.kitcampusguide.data.ConcretePOILoader;
 import edu.kit.cm.kitcampusguide.data.POILoader;
-import edu.kit.cm.kitcampusguide.model.POI;
+import edu.kit.cm.kitcampusguide.model.Poi;
 
 /**
  * This class is the concrete implementation of the QueryCalculator interface.
@@ -56,42 +56,42 @@ public class ConcreteQueryCalculator implements QueryCalculator {
 		return singleton;
 	}
 
-	public List<POI> getSuggestions(String name) {
-		List<POI> poiList = POI_LOADER.getAllPOIs();
-		final Map<POI, Double> similarity = new HashMap<POI, Double>();
-		for (POI poi : poiList) {
+	public List<Poi> getSuggestions(String name) {
+		List<Poi> poiList = POI_LOADER.getAllPOIs();
+		final Map<Poi, Double> similarity = new HashMap<Poi, Double>();
+		for (Poi poi : poiList) {
 			similarity.put(poi, getSimilarity(name, new String[] {poi.getName(), poi.getDescription()}));
 		}
-		PriorityQueue<POI> suggestions = new PriorityQueue<POI>(poiList.size(), new Comparator<POI>() {
+		PriorityQueue<Poi> suggestions = new PriorityQueue<Poi>(poiList.size(), new Comparator<Poi>() {
 
 			@Override
-			public int compare(POI poi1, POI poi2) {
+			public int compare(Poi poi1, Poi poi2) {
 				return (int) Math.signum(similarity.get(poi1) - similarity.get(poi2));
 			}
 			
 		});
-		for (POI poi : poiList) {
+		for (Poi poi : poiList) {
 			if (similarity.get(poi) >= SIGNIFICANT_SIMILARITY) {
 				suggestions.add(poi);
 			}
 		}
-		return new LinkedList<POI>(suggestions);
+		return new LinkedList<Poi>(suggestions);
 	}
 
 	public List<String> getSuggestionsNames(String name) {
-		List<POI> pois = getSuggestions(name);
+		List<Poi> pois = getSuggestions(name);
 		List<String> result = new LinkedList<String>();
-		for (POI poi : pois) {
+		for (Poi poi : pois) {
 			result.add(poi.getName());
 		}
 		return result;
 	}
 
-	public POI searchPOI(String name) {
-		List<POI> poiList = POI_LOADER.getAllPOIs();
-		POI reply = null;
+	public Poi searchPOI(String name) {
+		List<Poi> poiList = POI_LOADER.getAllPOIs();
+		Poi reply = null;
 		double similarity = -Double.MAX_VALUE;
-		for (POI poi : poiList) {
+		for (Poi poi : poiList) {
 			double poiSimilarity = getSimilarity(name, new String[] {poi.getName(), poi.getDescription()});
 			if (poiSimilarity > similarity) {
 				reply = poi;

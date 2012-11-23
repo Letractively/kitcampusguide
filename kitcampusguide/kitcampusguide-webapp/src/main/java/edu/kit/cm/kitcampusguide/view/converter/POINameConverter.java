@@ -7,10 +7,10 @@ import javax.faces.convert.ConverterException;
 
 import edu.kit.cm.kitcampusguide.data.ConcretePOILoader;
 import edu.kit.cm.kitcampusguide.data.POILoader;
-import edu.kit.cm.kitcampusguide.model.POI;
+import edu.kit.cm.kitcampusguide.model.Poi;
 
 /**
- * This class represents a converter for a {@link POI} due to the Converter
+ * This class represents a converter for a {@link Poi} due to the Converter
  * technology of the JavaServer Faces framework.
  * 
  * It converts a POI to its name and vice versa.
@@ -31,9 +31,9 @@ public class POINameConverter implements Converter {
             return null;
         }
         POILoader pl = new ConcretePOILoader();
-        for (POI p : pl.getAllPOIs()) {
+        for (Poi p : pl.getAllPOIs()) {
             if (p.getName().equals(arg2)) {
-                return new POI(p.getName(), p.getId(), p.getIcon(), p.getDescription(), p.getLongitude(),
+                return new Poi(p.getName(), p.getId(), p.getIcon(), p.getDescription(), p.getLongitude(),
                         p.getLatitude(), null, null);
             }
         }
@@ -50,10 +50,10 @@ public class POINameConverter implements Converter {
         if (arg2 == null) {
             return "";
         }
-        if (!(arg2 instanceof POI)) {
+        if (!(arg2 instanceof Poi)) {
             throw new ConverterException();
         }
-        return ((POI) arg2).getName();
+        return ((Poi) arg2).getName();
     }
 
 }

@@ -2,7 +2,7 @@ package edu.kit.cm.kitcampusguide.mapAlgorithms;
 
 import java.util.List;
 
-import edu.kit.cm.kitcampusguide.model.POI;
+import edu.kit.cm.kitcampusguide.model.Poi;
 import edu.kit.cm.kitcampusguide.model.Point;
 import edu.kit.cm.kitcampusguide.model.Route;
 
@@ -26,7 +26,7 @@ public class ConcreteMapAlgorithms implements MapAlgorithms {
 	private RouteCalculator routeCalculator = AStar.getSingleton();
 
 	@Override
-	public List<POI> getSuggestions(String name) {
+	public List<Poi> getSuggestions(String name) {
 		return queryCalculator.getSuggestions(name);
 	}
 
@@ -37,7 +37,7 @@ public class ConcreteMapAlgorithms implements MapAlgorithms {
 	}
 
 	@Override
-	public POI searchPOI(String name) {
+	public Poi searchPOI(String name) {
 		return queryCalculator.searchPOI(name);
 	}
 

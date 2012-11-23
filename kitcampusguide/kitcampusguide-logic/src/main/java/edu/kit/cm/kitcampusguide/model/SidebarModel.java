@@ -14,10 +14,10 @@ import java.util.List;
 public class SidebarModel {
 
 	/* The starting point. */
-	private POI from;
+	private Poi from;
 
 	/* The ending point. */
-	private POI to;
+	private Poi to;
 
 	/* Visibility of the selection of the categories of POI within a sidebar. */
 	private boolean filterVisible;
@@ -26,19 +26,19 @@ public class SidebarModel {
 	private boolean extended;
 
 	/* Categories of POI which must be shown on the map. */
-	private List<POICategory> categories;
+	private List<PoiCategory> categories;
 
 	/*
 	 * Textual suggestions of POI which must be shown if no matching POI are
 	 * found.
 	 */
-	private List<POI> suggestions;
+	private List<Poi> suggestions;
 
 	/* Suggestions for the starting point. */
-	private List<POI> suggestionsFrom;
+	private List<Poi> suggestionsFrom;
 
 	/* Suggestions for the ending point. */
-	private List<POI> suggestionsTo;
+	private List<Poi> suggestionsTo;
 
 	/* An error message which can be shown within the sidebar. */
 	private String errorMessage;
@@ -52,10 +52,10 @@ public class SidebarModel {
 		this.setTo(null);
 		this.setFilterVisible(false);
 		this.setExtended(true);
-		this.categories = new ArrayList<POICategory>();
-		this.suggestions = new ArrayList<POI>();
-		this.suggestionsFrom = new ArrayList<POI>();
-		this.suggestionsTo = new ArrayList<POI>();
+		this.categories = new ArrayList<PoiCategory>();
+		this.suggestions = new ArrayList<Poi>();
+		this.suggestionsFrom = new ArrayList<Poi>();
+		this.suggestionsTo = new ArrayList<Poi>();
 		this.errorMessage = null;
 	}
 
@@ -65,7 +65,7 @@ public class SidebarModel {
 	 * @param from
 	 *            the starting point.
 	 */
-	public void setFrom(POI from) {
+	public void setFrom(Poi from) {
 		this.from = from;
 	}
 
@@ -75,7 +75,7 @@ public class SidebarModel {
 	 * @param to
 	 *            the ending point.
 	 */
-	public void setTo(POI to) {
+	public void setTo(Poi to) {
 		this.to = to;
 	}
 
@@ -85,7 +85,7 @@ public class SidebarModel {
 	 * @param categories
 	 *            categories of POI which must be shown on the map.
 	 */
-	public void setCategories(List<POICategory> categories) {
+	public void setCategories(List<PoiCategory> categories) {
 		this.categories = categories;
 	}
 
@@ -97,7 +97,7 @@ public class SidebarModel {
 	 *            the textual suggestions of POI which must be shown during the
 	 *            input.
 	 */
-	public void setSuggestions(List<POI> suggestions) {
+	public void setSuggestions(List<Poi> suggestions) {
 		this.suggestions = suggestions;
 	}
 
@@ -109,7 +109,7 @@ public class SidebarModel {
 	 *            the textual suggestions of POI which must be shown during the
 	 *            input of the starting point.
 	 */
-	public void setSuggestionsFrom(ArrayList<POI> suggestionsFrom) {
+	public void setSuggestionsFrom(ArrayList<Poi> suggestionsFrom) {
 		this.suggestionsFrom = suggestionsFrom;
 	}
 
@@ -121,7 +121,7 @@ public class SidebarModel {
 	 *            the textual suggestions of POI which must be shown during the
 	 *            input of the ending point.
 	 */
-	public void setSuggestionsTo(List<POI> suggestionsTo) {
+	public void setSuggestionsTo(List<Poi> suggestionsTo) {
 		this.suggestionsTo = suggestionsTo;
 	}
 
@@ -163,7 +163,7 @@ public class SidebarModel {
 	 * 
 	 * @return the starting point.
 	 */
-	public POI getFrom() {
+	public Poi getFrom() {
 		return this.from;
 	}
 
@@ -172,7 +172,7 @@ public class SidebarModel {
 	 * 
 	 * @return the ending point.
 	 */
-	public POI getTo() {
+	public Poi getTo() {
 		return this.to;
 	}
 
@@ -202,7 +202,7 @@ public class SidebarModel {
 	 * 
 	 * @return the categories of POI which must be shown on the map.
 	 */
-	public List<POICategory> getCategories() {
+	public List<PoiCategory> getCategories() {
 		return this.categories;
 	}
 
@@ -213,7 +213,7 @@ public class SidebarModel {
 	 * @return the textual suggestions of POI which must be shown if no matching
 	 *         POI are found.
 	 */
-	public List<POI> getSuggestions() {
+	public List<Poi> getSuggestions() {
 		return this.suggestions;
 	}
 
@@ -222,7 +222,7 @@ public class SidebarModel {
 	 * 
 	 * @return the suggestions for the starting point.
 	 */
-	public List<POI> getSuggestionsFrom() {
+	public List<Poi> getSuggestionsFrom() {
 		return this.suggestionsFrom;
 	}
 
@@ -231,7 +231,7 @@ public class SidebarModel {
 	 * 
 	 * @return the suggestions for the ending point.
 	 */
-	public List<POI> getSuggestionsTo() {
+	public List<Poi> getSuggestionsTo() {
 		return this.suggestionsTo;
 	}
 

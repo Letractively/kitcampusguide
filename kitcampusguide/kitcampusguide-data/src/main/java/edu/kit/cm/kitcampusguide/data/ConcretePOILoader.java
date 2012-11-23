@@ -3,8 +3,8 @@ package edu.kit.cm.kitcampusguide.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.kit.cm.kitcampusguide.model.POI;
-import edu.kit.cm.kitcampusguide.model.POICategory;
+import edu.kit.cm.kitcampusguide.model.Poi;
+import edu.kit.cm.kitcampusguide.model.PoiCategory;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -21,12 +21,12 @@ public class ConcretePOILoader implements POILoader {
     /**
      * {@inheritDoc}
      */
-    public POI getPOI(Integer id) {
+    public Poi getPOI(Integer id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException();
         }
 
-        POI result = null;
+        Poi result = null;
 
         Connection connection = Config.getPgSQLJDBCConnection();
         String sqlquery = "SELECT * FROM cg_pois WHERE poi_id=" + id;
@@ -48,12 +48,12 @@ public class ConcretePOILoader implements POILoader {
     /**
      * {@inheritDoc}
      */
-    public List<POI> getPOIsByName(String name) {
+    public List<Poi> getPOIsByName(String name) {
         if (name == null || name.length() <= 0) {
             throw new IllegalArgumentException();
         }
 
-        ArrayList<POI> result = new ArrayList<POI>();
+        ArrayList<Poi> result = new ArrayList<Poi>();
 
         Connection connection = Config.getPgSQLJDBCConnection();
         String sqlquery = "SELECT * FROM cg_pois WHERE poi_name LIKE '%" + name + "%'";
@@ -75,9 +75,9 @@ public class ConcretePOILoader implements POILoader {
     /**
      * {@inheritDoc}
      */
-    public List<POI> getAllPOIs() {
+    public List<Poi> getAllPOIs() {
 
-        ArrayList<POI> result = new ArrayList<POI>();
+        ArrayList<Poi> result = new ArrayList<Poi>();
 
         Connection connection = Config.getPgSQLJDBCConnection();
         String sqlquery = "SELECT * FROM cg_pois";
@@ -99,12 +99,12 @@ public class ConcretePOILoader implements POILoader {
     /**
      * {@inheritDoc}
      */
-    public POICategory getPOICategory(Integer id) {
+    public PoiCategory getPOICategory(Integer id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException();
         }
 
-        POICategory result = null;
+        PoiCategory result = null;
 
         Connection connection = Config.getPgSQLJDBCConnection();
         String sqlquery = "SELECT * FROM cg_poicategory WHERE poicat_id='" + id + "'";
@@ -125,12 +125,12 @@ public class ConcretePOILoader implements POILoader {
     /**
      * {@inheritDoc}
      */
-    public List<POICategory> getPOICategoryByName(String name) {
+    public List<PoiCategory> getPOICategoryByName(String name) {
         if (name == null || name.length() <= 0) {
             throw new IllegalArgumentException();
         }
 
-        ArrayList<POICategory> result = new ArrayList<POICategory>();
+        ArrayList<PoiCategory> result = new ArrayList<PoiCategory>();
 
         Connection connection = Config.getPgSQLJDBCConnection();
         String sqlquery = "SELECT * FROM cg_poicategory WHERE poicat_name LIKE '%" + name + "%'";
@@ -152,8 +152,8 @@ public class ConcretePOILoader implements POILoader {
     /**
      * {@inheritDoc}
      */
-    public List<POICategory> getAllPOICategory() {
-        ArrayList<POICategory> result = new ArrayList<POICategory>();
+    public List<PoiCategory> getAllPOICategory() {
+        ArrayList<PoiCategory> result = new ArrayList<PoiCategory>();
 
         Connection connection = Config.getPgSQLJDBCConnection();
         String sqlquery = "SELECT * FROM cg_poicategory";
@@ -176,8 +176,8 @@ public class ConcretePOILoader implements POILoader {
      * Supporting-method to save a POI of the database in a POI object by using
      * a given ResultSet.
      */
-    private POI savePOI(ResultSet resultset) throws SQLException {
-        POI poi = null;
+    private Poi savePOI(ResultSet resultset) throws SQLException {
+        Poi poi = null;
 
         if (resultset != null) {
             int poiID = resultset.getInt("poi_id");
@@ -186,7 +186,7 @@ public class ConcretePOILoader implements POILoader {
             double poiY = resultset.getDouble("poi_longitude");
             String poiIcon = resultset.getString("poi_icon");
             String poiDescription = resultset.getString("poi_description");
-            poi = new POI(poiName, poiID, poiIcon, poiDescription, poiX, poiY, null, null);
+            poi = new Poi(poiName, poiID, poiIcon, poiDescription, poiX, poiY, null, null);
         }
 
         return poi;
@@ -196,8 +196,8 @@ public class ConcretePOILoader implements POILoader {
      * Supporting-method to save a list of POIs of the database into a List of
      * POIs.
      */
-    private ArrayList<POI> savePOIs(ResultSet resultset) throws SQLException {
-        ArrayList<POI> result = new ArrayList<POI>();
+    private ArrayList<Poi> savePOIs(ResultSet resultset) throws SQLException {
+        ArrayList<Poi> result = new ArrayList<Poi>();
 
         while (resultset.next()) {
             result.add(savePOI(resultset));
@@ -210,15 +210,15 @@ public class ConcretePOILoader implements POILoader {
      * Supporting-method to save a POICategory of the database in a POICategory
      * object.
      */
-    private POICategory savePOICategory(ResultSet resultset) throws SQLException {
-        POICategory poiCat = null;
+    private PoiCategory savePOICategory(ResultSet resultset) throws SQLException {
+        PoiCategory poiCat = null;
 
         if (resultset != null) {
             int poiCatID = resultset.getInt(1);
             String poiCatName = resultset.getString(2);
             String poiCatIcon = resultset.getString(3);
             String poiCatDescription = resultset.getString(4);
-            poiCat = new POICategory(poiCatName, poiCatID, poiCatIcon, poiCatDescription);
+            poiCat = new PoiCategory(poiCatName, poiCatID, poiCatIcon, poiCatDescription);
         }
         addPOIsToCategory(poiCat);
         return poiCat;
@@ -229,8 +229,8 @@ public class ConcretePOILoader implements POILoader {
      * Supporting-method to save a list of POICategory of the database in a list
      * of POICategory objects.
      */
-    private ArrayList<POICategory> savePOICategories(ResultSet resultset) throws SQLException {
-        ArrayList<POICategory> result = new ArrayList<POICategory>();
+    private ArrayList<PoiCategory> savePOICategories(ResultSet resultset) throws SQLException {
+        ArrayList<PoiCategory> result = new ArrayList<PoiCategory>();
         while (resultset.next()) {
             result.add(savePOICategory(resultset));
         }
@@ -240,7 +240,7 @@ public class ConcretePOILoader implements POILoader {
     /*
      * Supporting-method to add all found POIs to a given POICategory.
      */
-    private void addPOIsToCategory(POICategory poicat) {
+    private void addPOIsToCategory(PoiCategory poicat) {
         if (poicat == null) {
             throw new IllegalArgumentException("poicat cannot be null.");
         }
