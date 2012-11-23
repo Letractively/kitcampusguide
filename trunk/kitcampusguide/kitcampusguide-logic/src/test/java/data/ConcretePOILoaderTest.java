@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import edu.kit.cm.kitcampusguide.data.ConcretePOILoader;
 import edu.kit.cm.kitcampusguide.data.POILoader;
-import edu.kit.cm.kitcampusguide.model.POI;
-import edu.kit.cm.kitcampusguide.model.POICategory;
+import edu.kit.cm.kitcampusguide.model.Poi;
+import edu.kit.cm.kitcampusguide.model.PoiCategory;
 
 /**
  * This class tests the ConcretePOILoader.
@@ -88,12 +88,12 @@ public class ConcretePOILoaderTest {
 	 */
 	@Test
 	public void testgetPOI() {
-		POI expectedPOI1 = new POI("Gerthsen Hörsaal", 1, "../images/icons/hoersaal.jpg",
+		Poi expectedPOI1 = new Poi("Gerthsen Hörsaal", 1, "../images/icons/hoersaal.jpg",
 				"Gerthsen Hörsaal, 400 Sitzplätze, 3 Beamer, Physiker-Hörsaal, ...", 8.41152, 49.01258);
 
 		POILoader poiloader = new ConcretePOILoader();
 
-		POI testPOI1 = poiloader.getPOI(1);
+		Poi testPOI1 = poiloader.getPOI(1);
 
 		Assert.assertEquals(expectedPOI1.getLongitude(), testPOI1.getLongitude(), 0.00001);
 		Assert.assertEquals(expectedPOI1.getLatitude(), testPOI1.getLatitude(), 0.00001);
@@ -101,10 +101,10 @@ public class ConcretePOILoaderTest {
 		Assert.assertEquals(expectedPOI1.getIcon(), testPOI1.getIcon());
 		Assert.assertEquals(expectedPOI1.getDescription(), testPOI1.getDescription());
 
-		POI expectedPOI2 = new POI("Mensa am Adenauerring", 2, "../images/icons/mensa.jpg",
+		Poi expectedPOI2 = new Poi("Mensa am Adenauerring", 2, "../images/icons/mensa.jpg",
 				"Das ist die Mensa. Freßtempel für alle Studenten.", 8.41684, 49.01198);
 
-		POI testPOI2 = poiloader.getPOI(2);
+		Poi testPOI2 = poiloader.getPOI(2);
 
 		Assert.assertEquals(expectedPOI2.getLongitude(), testPOI2.getLongitude(), 0.0001);
 		Assert.assertEquals(expectedPOI2.getLatitude(), testPOI2.getLatitude(), 0.0001);
@@ -112,11 +112,11 @@ public class ConcretePOILoaderTest {
 		Assert.assertEquals(expectedPOI2.getIcon(), testPOI2.getIcon());
 		Assert.assertEquals(expectedPOI2.getDescription(), testPOI2.getDescription());
 
-		POI expectedPOI3 = new POI("Audimax", 3, "../hoersaal/audimax.jpg",
+		Poi expectedPOI3 = new Poi("Audimax", 3, "../hoersaal/audimax.jpg",
 				"Der größte Hörsaal am KIT. Fasst etwa 750 Studenten. Die Sitzplätze sind in zwei Halbkreisen angeordnet. "
 						+ "Der Hörsaal hat zwei Beamerflächen.", 8.41583, 49.01272);
 
-		POI testPOI3 = poiloader.getPOI(3);
+		Poi testPOI3 = poiloader.getPOI(3);
 
 		Assert.assertEquals(expectedPOI3.getLongitude(), testPOI3.getLongitude(), 0.0001);
 		Assert.assertEquals(expectedPOI3.getLatitude(), testPOI3.getLatitude(), 0.0001);
@@ -124,10 +124,10 @@ public class ConcretePOILoaderTest {
 		Assert.assertEquals(expectedPOI3.getIcon(), testPOI3.getIcon());
 		Assert.assertEquals(expectedPOI3.getDescription(), testPOI3.getDescription());
 
-		POI expectedPOI4 = new POI("Hörsaal am Fasanengarten", 4, "../icons/hsaf.jpg",
+		Poi expectedPOI4 = new Poi("Hörsaal am Fasanengarten", 4, "../icons/hsaf.jpg",
 				"Der Hörsaal am Fasanengarten war früher eine Turnhalle.", 8.42036, 49.01481);
 
-		POI testPOI4 = poiloader.getPOI(4);
+		Poi testPOI4 = poiloader.getPOI(4);
 
 		Assert.assertEquals(expectedPOI4.getLongitude(), testPOI4.getLongitude(), 0.0001);
 		Assert.assertEquals(expectedPOI4.getLatitude(), testPOI4.getLatitude(), 0.0001);
@@ -145,20 +145,20 @@ public class ConcretePOILoaderTest {
 	 */
 	@Test
 	public void testgetPOIsByName() {
-		POI poi1 = new POI("Gerthsen Hörsaal", 1, "../images/icons/hoersaal.jpg",
+		Poi poi1 = new Poi("Gerthsen Hörsaal", 1, "../images/icons/hoersaal.jpg",
 				"Gerthsen Hörsaal, 400 Sitzplätze, 3 Beamer, Physiker-Hörsaal, ...", 8.41152, 49.01258);
 
-		POI poi2 = new POI("Hörsaal am Fasanengarten", 4, "../icons/hsaf.jpg",
+		Poi poi2 = new Poi("Hörsaal am Fasanengarten", 4, "../icons/hsaf.jpg",
 				"Der Hörsaal am Fasanengarten war früher eine Turnhalle.", 8.42036, 49.01481);
 
-		List<POI> expectedPOIList = new ArrayList<POI>();
+		List<Poi> expectedPOIList = new ArrayList<Poi>();
 
 		expectedPOIList.add(poi1);
 		expectedPOIList.add(poi2);
 
 		POILoader poiloader = new ConcretePOILoader();
 
-		List<POI> testPOIList = poiloader.getPOIsByName("Hörsaal");
+		List<Poi> testPOIList = poiloader.getPOIsByName("Hörsaal");
 
 		Assert.assertEquals(expectedPOIList.size(), testPOIList.size());
 
@@ -184,20 +184,20 @@ public class ConcretePOILoaderTest {
 	@Test
 	public void testgetAllPOIs() {
 
-		POI poi1 = new POI("Gerthsen Hörsaal", 1, "../images/icons/hoersaal.jpg",
+		Poi poi1 = new Poi("Gerthsen Hörsaal", 1, "../images/icons/hoersaal.jpg",
 				"Gerthsen Hörsaal, 400 Sitzplätze, 3 Beamer, Physiker-Hörsaal, ...", 8.41152, 49.01258);
 
-		POI poi2 = new POI("Mensa am Adenauerring", 2, "../images/icons/mensa.jpg",
+		Poi poi2 = new Poi("Mensa am Adenauerring", 2, "../images/icons/mensa.jpg",
 				"Das ist die Mensa. Freßtempel f�r alle Studenten.", 8.41684, 49.01198);
 
-		POI poi3 = new POI("Audimax", 3, "../hoersaal/audimax.jpg",
+		Poi poi3 = new Poi("Audimax", 3, "../hoersaal/audimax.jpg",
 				"Der größte Hörsaal am KIT. Fasst etwa 750 Studenten. Die Sitzplätze sind in zwei Halbkreisen angeordnet. "
 						+ "Der Hörsaal hat zwei Beamerflächen.", 8.41583, 49.01272);
 
-		POI poi4 = new POI("Hörsaal am Fasanengarten", 4, "../icons/hsaf.jpg",
+		Poi poi4 = new Poi("Hörsaal am Fasanengarten", 4, "../icons/hsaf.jpg",
 				"Der Hörsaal am Fasanengarten war früher eine Turnhalle.", 8.42036, 49.01481);
 
-		List<POI> expectedPOIList = new ArrayList<POI>();
+		List<Poi> expectedPOIList = new ArrayList<Poi>();
 
 		expectedPOIList.add(poi1);
 		expectedPOIList.add(poi2);
@@ -206,7 +206,7 @@ public class ConcretePOILoaderTest {
 
 		POILoader poiloader = new ConcretePOILoader();
 
-		List<POI> testPOIList = poiloader.getAllPOIs();
+		List<Poi> testPOIList = poiloader.getAllPOIs();
 
 		Assert.assertEquals(expectedPOIList.size(), testPOIList.size());
 
@@ -243,21 +243,21 @@ public class ConcretePOILoaderTest {
 	 */
 	@Test
 	public void getPOICategory() {
-		POICategory poicat1 = new POICategory("Mensen", 1, "../images/icons/mensa.jpg",
+		PoiCategory poicat1 = new PoiCategory("Mensen", 1, "../images/icons/mensa.jpg",
 				"Mensen die es auf dem Campus gibt.");
 
 		POILoader poiloader = new ConcretePOILoader();
 
-		POICategory testPOI1 = poiloader.getPOICategory(1);
+		PoiCategory testPOI1 = poiloader.getPOICategory(1);
 
 		Assert.assertEquals(testPOI1.getId(), poicat1.getId());
 		Assert.assertEquals(testPOI1.getName(), poicat1.getName());
 		Assert.assertEquals(testPOI1.getIcon(), poicat1.getIcon());
 		Assert.assertEquals(testPOI1.getDescription(), poicat1.getDescription());
 
-		POICategory poicat2 = new POICategory("Hörsäle", 2, "../images/icons/hoersaal.jpg", "Alle Hörsäle des KIT.");
+		PoiCategory poicat2 = new PoiCategory("Hörsäle", 2, "../images/icons/hoersaal.jpg", "Alle Hörsäle des KIT.");
 
-		POICategory testPOI2 = poiloader.getPOICategory(2);
+		PoiCategory testPOI2 = poiloader.getPOICategory(2);
 
 		Assert.assertEquals(testPOI2.getId(), poicat2.getId());
 		Assert.assertEquals(testPOI2.getName(), poicat2.getName());
@@ -275,15 +275,15 @@ public class ConcretePOILoaderTest {
 	 */
 	@Test
 	public void testgetPOICategoryByName() {
-		POICategory poicat1 = new POICategory("Mensen", 1, "../images/icons/mensa.jpg",
+		PoiCategory poicat1 = new PoiCategory("Mensen", 1, "../images/icons/mensa.jpg",
 				"Mensen die es auf dem Campus gibt.");
 
-		List<POICategory> expectedPOICatList1 = new ArrayList<POICategory>();
+		List<PoiCategory> expectedPOICatList1 = new ArrayList<PoiCategory>();
 		expectedPOICatList1.add(poicat1);
 
 		POILoader poiloader = new ConcretePOILoader();
 
-		List<POICategory> testPOICatList1 = poiloader.getPOICategoryByName("Mens");
+		List<PoiCategory> testPOICatList1 = poiloader.getPOICategoryByName("Mens");
 
 		Assert.assertEquals(expectedPOICatList1.size(), testPOICatList1.size());
 
@@ -292,13 +292,13 @@ public class ConcretePOILoaderTest {
 		Assert.assertEquals(expectedPOICatList1.get(0).getIcon(), testPOICatList1.get(0).getIcon());
 		Assert.assertEquals(expectedPOICatList1.get(0).getDescription(), testPOICatList1.get(0).getDescription());
 
-		POICategory poicat2 = new POICategory("Hörsäle", 2, "../images/icons/hoersaal.jpg", "Alle Hörsäle des KIT.");
+		PoiCategory poicat2 = new PoiCategory("Hörsäle", 2, "../images/icons/hoersaal.jpg", "Alle Hörsäle des KIT.");
 
-		List<POICategory> expectedPOICatList2 = new ArrayList<POICategory>();
+		List<PoiCategory> expectedPOICatList2 = new ArrayList<PoiCategory>();
 
 		expectedPOICatList2.add(poicat2);
 
-		List<POICategory> testPOICatList2 = poiloader.getPOICategoryByName("Hör");
+		List<PoiCategory> testPOICatList2 = poiloader.getPOICategoryByName("Hör");
 
 		Assert.assertEquals(expectedPOICatList2.size(), testPOICatList2.size());
 
@@ -316,19 +316,19 @@ public class ConcretePOILoaderTest {
 	 */
 	@Test
 	public void testgetAllPOICategory() {
-		POICategory poicat1 = new POICategory("Mensen", 1, "../images/icons/mensa.jpg",
+		PoiCategory poicat1 = new PoiCategory("Mensen", 1, "../images/icons/mensa.jpg",
 				"Mensen die es auf dem Campus gibt.");
 
-		POICategory poicat2 = new POICategory("H�rs�le", 2, "../images/icons/hoersaal.jpg", "Alle H�rs�le des KIT.");
+		PoiCategory poicat2 = new PoiCategory("H�rs�le", 2, "../images/icons/hoersaal.jpg", "Alle H�rs�le des KIT.");
 
-		List<POICategory> expectedPOICatList = new ArrayList<POICategory>();
+		List<PoiCategory> expectedPOICatList = new ArrayList<PoiCategory>();
 
 		expectedPOICatList.add(poicat1);
 		expectedPOICatList.add(poicat2);
 
 		POILoader poiloader = new ConcretePOILoader();
 
-		List<POICategory> testPOICatList = poiloader.getAllPOICategory();
+		List<PoiCategory> testPOICatList = poiloader.getAllPOICategory();
 
 		Assert.assertEquals(expectedPOICatList.size(), testPOICatList.size());
 

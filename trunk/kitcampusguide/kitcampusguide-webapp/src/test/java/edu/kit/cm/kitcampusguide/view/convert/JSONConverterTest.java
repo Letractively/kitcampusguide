@@ -8,8 +8,8 @@ import org.json.simple.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 
-import edu.kit.cm.kitcampusguide.model.POI;
-import edu.kit.cm.kitcampusguide.model.POICategory;
+import edu.kit.cm.kitcampusguide.model.Poi;
+import edu.kit.cm.kitcampusguide.model.PoiCategory;
 import edu.kit.cm.kitcampusguide.model.Point;
 import edu.kit.cm.kitcampusguide.model.Route;
 import edu.kit.cm.kitcampusguide.view.converter.JSONConverter;
@@ -27,7 +27,7 @@ public class JSONConverterTest {
     @Test
     public void testConvertPOI() {
 
-        POI poi = new POI("name", 0, "icon", "description", 10.0, 20.0, null, true);
+        Poi poi = new Poi("name", 0, "icon", "description", 10.0, 20.0, null, true);
         JSONObject converted = JSONConverter.convertPOI(poi);
 
         Assert.assertNotNull(converted);
@@ -63,9 +63,9 @@ public class JSONConverterTest {
      */
     @Test
     public void testConvertPOIs() {
-        List<POI> pois = new LinkedList<POI>();
+        List<Poi> pois = new LinkedList<Poi>();
         for (int i = 0; i < 10; i++) {
-            pois.add(new POI("name" + i, i, "icon" + i, "description" + i, i + 10.0, i + 20.0, null, true));
+            pois.add(new Poi("name" + i, i, "icon" + i, "description" + i, i + 10.0, i + 20.0, null, true));
         }
 
         JSONArray converted = JSONConverter.convertPOIs(pois);
@@ -119,14 +119,14 @@ public class JSONConverterTest {
     @Test
     public void testConvertPOICategory() {
 
-        POICategory poiCategoryWithoutPoi = new POICategory("name_1", 0, "icon_1", "description_1");
+        PoiCategory poiCategoryWithoutPoi = new PoiCategory("name_1", 0, "icon_1", "description_1");
 
-        List<POI> pois = new LinkedList<POI>();
+        List<Poi> pois = new LinkedList<Poi>();
         for (int i = 0; i < 10; i++) {
-            pois.add(new POI("name" + i, i, "icon" + i, "description" + i, i + 10.0, i + 20.0, null, true));
+            pois.add(new Poi("name" + i, i, "icon" + i, "description" + i, i + 10.0, i + 20.0, null, true));
         }
 
-        POICategory poiCategoryWithPoi = new POICategory("name_2", 1, "icon_2", "description_2", pois);
+        PoiCategory poiCategoryWithPoi = new PoiCategory("name_2", 1, "icon_2", "description_2", pois);
 
         JSONObject convertedWithoutPoi = JSONConverter.convertPOICategory(poiCategoryWithoutPoi);
         JSONObject convertedWithPoi = JSONConverter.convertPOICategory(poiCategoryWithPoi);
@@ -202,14 +202,14 @@ public class JSONConverterTest {
      */
     @Test
     public void testConvertPOICategories() {
-        List<POI> pois = new LinkedList<POI>();
+        List<Poi> pois = new LinkedList<Poi>();
         for (int i = 0; i < 10; i++) {
-            pois.add(new POI("name" + i, i, "icon" + i, "description" + i, i + 10.0, i + 20.0, null, true));
+            pois.add(new Poi("name" + i, i, "icon" + i, "description" + i, i + 10.0, i + 20.0, null, true));
         }
 
-        List<POICategory> poiCategories = new LinkedList<POICategory>();
+        List<PoiCategory> poiCategories = new LinkedList<PoiCategory>();
         for (int i = 0; i < 10; i++) {
-            poiCategories.add(new POICategory("name" + i, i, "icon" + i, "description" + i, pois));
+            poiCategories.add(new PoiCategory("name" + i, i, "icon" + i, "description" + i, pois));
         }
 
         JSONArray converted = JSONConverter.convertPOICategories(poiCategories);

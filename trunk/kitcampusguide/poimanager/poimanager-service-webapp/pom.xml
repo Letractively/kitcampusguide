@@ -12,6 +12,7 @@
 	<name>POI Manager Service Webapp</name>
 
 	<build>
+		<finalName>poimanager-service</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>

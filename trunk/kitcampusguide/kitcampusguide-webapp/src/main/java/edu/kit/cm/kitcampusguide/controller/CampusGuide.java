@@ -11,7 +11,7 @@ import javax.faces.event.ValueChangeEvent;
 import edu.kit.cm.kitcampusguide.mapAlgorithms.ConcreteMapAlgorithms;
 import edu.kit.cm.kitcampusguide.mapAlgorithms.MapAlgorithms;
 import edu.kit.cm.kitcampusguide.model.HeadlineModel;
-import edu.kit.cm.kitcampusguide.model.POI;
+import edu.kit.cm.kitcampusguide.model.Poi;
 import edu.kit.cm.kitcampusguide.model.Route;
 import edu.kit.cm.kitcampusguide.model.SidebarModel;
 
@@ -57,10 +57,10 @@ public class CampusGuide {
     private Locale locale;
 
     /**
-     * The last {@link POI} that the map was centered on during the current
+     * The last {@link Poi} that the map was centered on during the current
      * session.
      */
-    private POI currentPOI;
+    private Poi currentPOI;
 
     /**
      * The last {@link Route} that has been calculated during the current
@@ -138,21 +138,21 @@ public class CampusGuide {
     }
 
     /**
-     * Returns the current {@link POI}.
+     * Returns the current {@link Poi}.
      * 
      * @return the current POI.
      */
-    public POI getCurrentPOI() {
+    public Poi getCurrentPOI() {
         return currentPOI;
     }
 
     /**
-     * Sets the current {@link POI}.
+     * Sets the current {@link Poi}.
      * 
      * @param currentPOI
      *            the new POI.
      */
-    public void setCurrentPOI(POI currentPOI) {
+    public void setCurrentPOI(Poi currentPOI) {
         this.currentPOI = currentPOI;
     }
 
@@ -192,7 +192,7 @@ public class CampusGuide {
      * This method updates the model components if the user of KITCampusGuide
      * changes the input of the search field of the headline.
      * 
-     * It stores the search string and searches for a proper {@link POI} storing
+     * It stores the search string and searches for a proper {@link Poi} storing
      * it as current POI and updates the suggestions concerning the search
      * string.
      * 
@@ -207,7 +207,7 @@ public class CampusGuide {
             if (this.currentPOI == null) {
                 this.hlm.setSuggestions(this.mapAlgorithms.getSuggestions(this.hlm.getSearch()));
             } else {
-                this.hlm.setSuggestions(new ArrayList<POI>());
+                this.hlm.setSuggestions(new ArrayList<Poi>());
             }
         }
         FacesContext.getCurrentInstance().renderResponse();
@@ -218,7 +218,7 @@ public class CampusGuide {
      * changes the value of the from-field of the sidebar.
      * 
      * It stores the value of the from-field and searches for a proper
-     * {@link POI} storing it in the SidebarModel and updates the current route
+     * {@link Poi} storing it in the SidebarModel and updates the current route
      * due the new value.
      * 
      * @param ev
@@ -226,7 +226,7 @@ public class CampusGuide {
      */
     public void fromChanged(ValueChangeEvent ev) {
         String newFrom = (String) ev.getNewValue();
-        POI newPOI = newFrom.matches(COORDINATES) ? generateMarker(newFrom) : this.mapAlgorithms.searchPOI(newFrom);
+        Poi newPOI = newFrom.matches(COORDINATES) ? generateMarker(newFrom) : this.mapAlgorithms.searchPOI(newFrom);
         this.sbm.setFrom(newPOI);
         this.updateRoute();
         FacesContext.getCurrentInstance().renderResponse();
@@ -236,7 +236,7 @@ public class CampusGuide {
      * This method updates the model components if the user of KITCampusGuide
      * changes the value of the to-field of the sidebar.
      * 
-     * It stores the value of the to-field and searches for a proper {@link POI}
+     * It stores the value of the to-field and searches for a proper {@link Poi}
      * storing it in the SidebarModel and updates the current route due the new
      * value.
      * 
@@ -245,7 +245,7 @@ public class CampusGuide {
      */
     public void toChanged(ValueChangeEvent ev) {
         String newTo = (String) ev.getNewValue();
-        POI newPOI = newTo.matches(COORDINATES) ? generateMarker(newTo) : this.mapAlgorithms.searchPOI(newTo);
+        Poi newPOI = newTo.matches(COORDINATES) ? generateMarker(newTo) : this.mapAlgorithms.searchPOI(newTo);
         this.sbm.setTo(newPOI);
         this.updateRoute();
         FacesContext.getCurrentInstance().renderResponse();
@@ -258,12 +258,12 @@ public class CampusGuide {
      *            a String containing the coordinates of the Marker
      * @return a POI representing the coordinates specified in text
      */
-    private POI generateMarker(String text) {
+    private Poi generateMarker(String text) {
         if (!text.matches(COORDINATES)) {
             throw new IllegalArgumentException();
         }
         String[] coordinates = text.substring(text.indexOf('(') + 1, text.indexOf(')')).split("\\, ");
-        return new POI(text, 42, null, "", new Double(coordinates[0]), new Double(coordinates[1]), null, null);
+        return new Poi(text, 42, null, "", new Double(coordinates[0]), new Double(coordinates[1]), null, null);
     }
 
     /**

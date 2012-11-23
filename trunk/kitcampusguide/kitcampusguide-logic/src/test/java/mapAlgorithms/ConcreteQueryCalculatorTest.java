@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import edu.kit.cm.kitcampusguide.mapAlgorithms.ConcreteQueryCalculator;
 import edu.kit.cm.kitcampusguide.mapAlgorithms.QueryCalculator;
-import edu.kit.cm.kitcampusguide.model.POI;
+import edu.kit.cm.kitcampusguide.model.Poi;
 
 /**
  * 
@@ -47,7 +47,7 @@ public class ConcreteQueryCalculatorTest {
 	@Test
 	public void getSuggestionsTest() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
-		List<POI> suggestions = queryCalculator.getSuggestions("Hö");
+		List<Poi> suggestions = queryCalculator.getSuggestions("Hö");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
@@ -63,7 +63,7 @@ public class ConcreteQueryCalculatorTest {
 	@Test
 	public void getSuggestionsWithSmallCapsTest() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
-		List<POI> suggestions = queryCalculator.getSuggestions("hö");
+		List<Poi> suggestions = queryCalculator.getSuggestions("hö");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
@@ -79,7 +79,7 @@ public class ConcreteQueryCalculatorTest {
 	@Test
 	public void getSuggestionsWithNoResultTest() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
-		List<POI> suggestions = queryCalculator.getSuggestions("Y");
+		List<Poi> suggestions = queryCalculator.getSuggestions("Y");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(1, suggestions.size());
@@ -93,7 +93,7 @@ public class ConcreteQueryCalculatorTest {
 	@Test
 	public void getSuggestionsWithOneLetter() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
-		List<POI> suggestions = queryCalculator.getSuggestions("G");
+		List<Poi> suggestions = queryCalculator.getSuggestions("G");
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(4, suggestions.size());
 
@@ -111,7 +111,7 @@ public class ConcreteQueryCalculatorTest {
 	@Test
 	public void getSuggestionsWithEmptyString() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
-		List<POI> suggestions = queryCalculator.getSuggestions("");
+		List<Poi> suggestions = queryCalculator.getSuggestions("");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(4, suggestions.size());
@@ -223,7 +223,7 @@ public class ConcreteQueryCalculatorTest {
 	@Test
 	public void searchPOITest() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
-		POI searchedPOI = queryCalculator.searchPOI("Audi");
+		Poi searchedPOI = queryCalculator.searchPOI("Audi");
 		Assert.assertNotNull(searchedPOI);
 		Assert.assertEquals(Integer.valueOf(3), searchedPOI.getId());
 	}
@@ -236,7 +236,7 @@ public class ConcreteQueryCalculatorTest {
 	public void searchPOIWithEmptyStringTest() {
 		QueryCalculator queryCalculator = ConcreteQueryCalculator.getSingleton();
 
-		POI poi = queryCalculator.searchPOI("");
+		Poi poi = queryCalculator.searchPOI("");
 		Assert.assertNotNull(poi);
 		Assert.assertEquals(Integer.valueOf(3), poi.getId());
 	}

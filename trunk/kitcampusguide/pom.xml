@@ -76,7 +76,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.0.6.RELEASE</spring.version>
-		<spring.security.version>3.1.0.M2</spring.security.version>
+		<spring.security.version>3.1.0.RELEASE</spring.security.version>
 		<spring.ws.version>2.0.2.RELEASE</spring.ws.version>
 	</properties>
 	<url>http://code.google.com/p/kitcampusguide/</url>

@@ -1,7 +1,7 @@
 package edu.kit.cm.kitcampusguide.data;
 
-import edu.kit.cm.kitcampusguide.model.POI;
-import edu.kit.cm.kitcampusguide.model.POICategory;
+import edu.kit.cm.kitcampusguide.model.Poi;
+import edu.kit.cm.kitcampusguide.model.PoiCategory;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface POILoader {
 	 * @param id id of the POI to search for.
 	 * @return the found POI or null if none POI was found.
 	 */
-	POI getPOI(Integer id);	
+	Poi getPOI(Integer id);	
 	
 	/**
 	 * Returns the POIs with the given name in his name.
@@ -28,7 +28,7 @@ public interface POILoader {
 	 * @param name name of the POIs to search for.
 	 * @return the found POIs or null if none POI was found.
 	 */
-	List<POI> getPOIsByName(String name);
+	List<Poi> getPOIsByName(String name);
 	
 	/**
 	 * Returns all POIs of the database in a List of POIs.
@@ -37,7 +37,7 @@ public interface POILoader {
 	 * @return all POIs of the database in a List of POIs or
 	 * 		   null if none POI was found.
 	 */
-	List<POI> getAllPOIs();
+	List<Poi> getAllPOIs();
 	
 	/**
 	 * Returns the POICategory with added POIs with the given Integer id,
@@ -47,7 +47,7 @@ public interface POILoader {
 	 * @return POICategory with added POIs with the given Integer id or null
 	 *         if none POICategory was found with that id.
 	 */
-	POICategory getPOICategory(Integer id);
+	PoiCategory getPOICategory(Integer id);
 	
 	/**
 	 * Returns the POICategorys with added POIS with the given String name
@@ -57,7 +57,7 @@ public interface POILoader {
 	 * @return POICategorys with added POIs with the given String name or null
 	 *         if non POICategory was found with that name.
 	 */
-	List<POICategory> getPOICategoryByName(String name);
+	List<PoiCategory> getPOICategoryByName(String name);
 	
 	/**
 	 * Returns all POICategorys of the database in a List of POICategorys.
@@ -66,6 +66,6 @@ public interface POILoader {
 	 * @return all POICategorys of the database in a List of POICategorys
 	 * 		   or null if none POICategory was found.
 	 */
-	List<POICategory> getAllPOICategory();
+	List<PoiCategory> getAllPOICategory();
 	
 }

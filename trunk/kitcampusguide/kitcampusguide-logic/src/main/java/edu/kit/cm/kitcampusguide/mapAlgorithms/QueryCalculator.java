@@ -2,7 +2,7 @@ package edu.kit.cm.kitcampusguide.mapAlgorithms;
 
 import java.util.List;
 
-import edu.kit.cm.kitcampusguide.model.POI;
+import edu.kit.cm.kitcampusguide.model.Poi;
 
 /**
  * This interface encapsulates the functionality of searching for points of
@@ -25,7 +25,7 @@ public interface QueryCalculator {
 	 * @return a collection containing all POI corresponding to the specified
 	 *         String
 	 */
-	List<POI> getSuggestions(String name);
+	List<Poi> getSuggestions(String name);
 
 	/**
 	 * Searches through the entire POI database and compares each POI-name and
@@ -51,6 +51,6 @@ public interface QueryCalculator {
 	 *            the String to search for
 	 * @return the POI with the highest correspondence to the specified String
 	 */
-	POI searchPOI(String name);
+	Poi searchPOI(String name);
 
 }

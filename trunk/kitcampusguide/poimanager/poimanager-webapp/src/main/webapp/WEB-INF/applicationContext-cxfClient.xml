@@ -10,8 +10,8 @@
 		factory-bean="clientFactory" factory-method="create" />
 
 	<bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
-		<property name="serviceClass" value="edu.kit.cm.kitcampusguide.ws.poi.PoiService" />
-		<property name="address" value="http://localhost:8080/poi/poiservice" />
+		<property name="serviceClass" value="edu.kit.tm.cm.kitcampusguide.poiservice.PoiService" />
+		<property name="address" value="http://localhost:8080/poimanager-service/poiservice" />
 		<!-- <property name="wsdlLocation" value="WEB-INF/PoiService.wsdl" /> -->
 		<property name="features">
 			<list>

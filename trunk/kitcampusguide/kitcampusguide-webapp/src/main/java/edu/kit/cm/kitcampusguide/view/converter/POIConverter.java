@@ -4,10 +4,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
-import edu.kit.cm.kitcampusguide.model.POI;
+import edu.kit.cm.kitcampusguide.model.Poi;
 
 /**
- * This class represents a converter for a {@link POI} due to the Converter technology of the 
+ * This class represents a converter for a {@link Poi} due to the Converter technology of the 
  * JavaServer Faces framework.
  * @author Haoqian Zheng
  *
@@ -34,10 +34,10 @@ public class POIConverter implements Converter {
 		if (arg2 == null) {
 			return "";
 		}
-		if (!(arg2 instanceof POI)) {
+		if (!(arg2 instanceof Poi)) {
 			throw new ConverterException();
 		}
-		return JSONConverter.convertPOI((POI) arg2).toJSONString();
+		return JSONConverter.convertPOI((Poi) arg2).toJSONString();
 	}
 
 }

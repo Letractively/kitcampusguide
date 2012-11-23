@@ -2,7 +2,7 @@ package edu.kit.cm.kitcampusguide.mapAlgorithms;
 
 import java.util.List;
 
-import edu.kit.cm.kitcampusguide.model.POI;
+import edu.kit.cm.kitcampusguide.model.Poi;
 import edu.kit.cm.kitcampusguide.model.Point;
 import edu.kit.cm.kitcampusguide.model.Route;
 
@@ -27,7 +27,7 @@ public interface MapAlgorithms {
 	 * @return a collection containing all POI corresponding to the specified
 	 *         String
 	 */
-	List<POI> getSuggestions(String name);
+	List<Poi> getSuggestions(String name);
 
 	/**
 	 * Searches through the entire POI database and compares each POI-name and
@@ -52,7 +52,7 @@ public interface MapAlgorithms {
 	 *            the String to search for
 	 * @return the POI with the highest correspondence to the specified String
 	 */
-	POI searchPOI(String name);
+	Poi searchPOI(String name);
 
 	/**
 	 * Calculates and Returns the shortest route between the two specified

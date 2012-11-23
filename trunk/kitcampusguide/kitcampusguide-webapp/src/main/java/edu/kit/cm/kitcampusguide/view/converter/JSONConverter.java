@@ -5,8 +5,8 @@ import java.util.Collection;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import edu.kit.cm.kitcampusguide.model.POI;
-import edu.kit.cm.kitcampusguide.model.POICategory;
+import edu.kit.cm.kitcampusguide.model.Poi;
+import edu.kit.cm.kitcampusguide.model.PoiCategory;
 import edu.kit.cm.kitcampusguide.model.Point;
 import edu.kit.cm.kitcampusguide.model.Route;
 
@@ -27,13 +27,13 @@ public final class JSONConverter {
 	}
 
 	/**
-	 * Converts a {@link POI} to a JSONObject.
+	 * Converts a {@link Poi} to a JSONObject.
 	 * 
 	 * @param p
 	 *            the POI to be converted.
 	 * @return the JSONObject the POI was converted to.
 	 */
-	public static JSONObject convertPOI(POI p) {
+	public static JSONObject convertPOI(Poi p) {
 		JSONObject poi = new JSONObject();
 		poi.put("id", p.getId());
 		poi.put("lon", p.getLongitude());
@@ -46,31 +46,31 @@ public final class JSONConverter {
 	}
 
 	/**
-	 * Converts a collection of {@link POI} to a JSONArray.
+	 * Converts a collection of {@link Poi} to a JSONArray.
 	 * 
 	 * @param p
 	 *            the collection to be converted.
 	 * @return the JSONArray the collection was converted to.
 	 */
-	public static JSONArray convertPOIs(Collection<POI> p) {
+	public static JSONArray convertPOIs(Collection<Poi> p) {
 		if (p == null) {
 			return null;
 		}
 		JSONArray result = new JSONArray();
-		for (POI poi : p) {
+		for (Poi poi : p) {
 			result.add(convertPOI(poi));
 		}
 		return result;
 	}
 
 	/**
-	 * Converts a {@link POICategory} to a JSONObject.
+	 * Converts a {@link PoiCategory} to a JSONObject.
 	 * 
 	 * @param pc
 	 *            the POICategory to be converted.
 	 * @return the JSONObject the POICategory was converted to.
 	 */
-	public static JSONObject convertPOICategory(POICategory pc) {
+	public static JSONObject convertPOICategory(PoiCategory pc) {
 		JSONObject result = new JSONObject();
 		result.put("id", pc.getId());
 		result.put("icon", pc.getIcon());
@@ -82,18 +82,18 @@ public final class JSONConverter {
 	}
 
 	/**
-	 * Converts a collection of {@link POICategory} to a JSONArray.
+	 * Converts a collection of {@link PoiCategory} to a JSONArray.
 	 * 
 	 * @param pc
 	 *            the collection to be converted.
 	 * @return the JSONArray the collection was converted to.
 	 */
-	public static JSONArray convertPOICategories(Collection<POICategory> pc) {
+	public static JSONArray convertPOICategories(Collection<PoiCategory> pc) {
 		if (pc == null) {
 			return null;
 		}
 		JSONArray result = new JSONArray();
-		for (POICategory p : pc) {
+		for (PoiCategory p : pc) {
 			result.add(convertPOICategory(p));
 		}
 		return result;

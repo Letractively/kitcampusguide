@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.kit.cm.kitcampusguide.model.Graph;
-import edu.kit.cm.kitcampusguide.model.POI;
-import edu.kit.cm.kitcampusguide.model.POICategory;
+import edu.kit.cm.kitcampusguide.model.Poi;
+import edu.kit.cm.kitcampusguide.model.PoiCategory;
 
 /**
  * An instance of this class is created at the start of the containing server due to the 
@@ -25,7 +25,7 @@ public class ConstantData {
 	/**
 	 * The list of all POI from the database.
 	 */
-	private List<POI> allPOI;
+	private List<Poi> allPOI;
 	
 	/**
 	 * The list of the names of all POI categories from the database.
@@ -35,7 +35,7 @@ public class ConstantData {
 	/**
 	 * The list of all POI categories from the database.
 	 */
-	private List<POICategory> categories;
+	private List<PoiCategory> categories;
 	
 	/**
 	 * The street graph from the database.
@@ -51,12 +51,12 @@ public class ConstantData {
 		POILoader pLoader = new ConcretePOILoader();
 		this.categories = pLoader.getAllPOICategory();
 		this.categoriesName = new ArrayList<String>();
-		for (POICategory p : categories) {
+		for (PoiCategory p : categories) {
 			this.categoriesName.add(p.getName());
 		}		
 		this.allPOI = pLoader.getAllPOIs();
 		this.allPOIName = new ArrayList<String>();
-		for (POI p : allPOI) {
+		for (Poi p : allPOI) {
 			this.allPOIName.add(p.getName());
 		}
 	}
@@ -81,7 +81,7 @@ public class ConstantData {
 	 * Returns a list of all POI.
 	 * @return a list of all POI.
 	 */
-	public List<POI> getAllPOI() {
+	public List<Poi> getAllPOI() {
 		return allPOI;
 	}
 	
@@ -89,7 +89,7 @@ public class ConstantData {
 	 * Sets the attribute allPOI to a new value.
 	 * @param allPOI the new list of all POI.
 	 */
-	public void setAllPOI(List<POI> allPOI) {
+	public void setAllPOI(List<Poi> allPOI) {
 		this.allPOI = allPOI;
 	}
 	
@@ -130,7 +130,7 @@ public class ConstantData {
 	 * Sets the attribute categories.
 	 * @param categories the new list of all POI categories.
 	 */
-	public void setCategories(List<POICategory> categories) {
+	public void setCategories(List<PoiCategory> categories) {
 		this.categories = categories;
 	}
 	
@@ -138,7 +138,7 @@ public class ConstantData {
 	 * Returns a list of all POI categories.
 	 * @return a list of all POI categories.
 	 */
-	public List<POICategory> getCategories() {
+	public List<PoiCategory> getCategories() {
 		return categories;
 	}	
 }

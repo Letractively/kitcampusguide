@@ -7,10 +7,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
-import edu.kit.cm.kitcampusguide.model.POICategory;
+import edu.kit.cm.kitcampusguide.model.PoiCategory;
 
 /**
- * This class represents a converter a list of {@link POICategory} due to the Converter technology of
+ * This class represents a converter a list of {@link PoiCategory} due to the Converter technology of
  * the JavaServer Faces framework.
  * @author Haoqian Zheng
  *
@@ -39,7 +39,7 @@ public class POICategoryListConverter implements Converter {
 		if (!(arg2 instanceof Collection<?>)) {
 			throw new ConverterException();
 		}
-		return JSONConverter.convertPOICategories((Collection<POICategory>) arg2).toJSONString();
+		return JSONConverter.convertPOICategories((Collection<PoiCategory>) arg2).toJSONString();
 	}
 
 }

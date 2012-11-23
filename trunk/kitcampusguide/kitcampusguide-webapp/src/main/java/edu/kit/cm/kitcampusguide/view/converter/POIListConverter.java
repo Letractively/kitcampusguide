@@ -7,10 +7,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
-import edu.kit.cm.kitcampusguide.model.POI;
+import edu.kit.cm.kitcampusguide.model.Poi;
 
 /**
- * This class represents a converter for a list of {@link POI} due to the Converter technology of the
+ * This class represents a converter for a list of {@link Poi} due to the Converter technology of the
  * JavaServer Faces framework.
  * @author Haoqian Zheng
  *
@@ -41,7 +41,7 @@ public class POIListConverter implements Converter {
 		if (!(arg2 instanceof Collection<?>)) {
 			throw new ConverterException();
 		}
-		return JSONConverter.convertPOIs((Collection<POI>) arg2).toJSONString();
+		return JSONConverter.convertPOIs((Collection<Poi>) arg2).toJSONString();
 	}
 
 }

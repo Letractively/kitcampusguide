@@ -10,7 +10,7 @@ import edu.kit.cm.kitcampusguide.data.ConcreteMapLoader;
 import edu.kit.cm.kitcampusguide.data.MapLoader;
 import edu.kit.cm.kitcampusguide.mapAlgorithms.ConcreteMapAlgorithms;
 import edu.kit.cm.kitcampusguide.mapAlgorithms.MapAlgorithms;
-import edu.kit.cm.kitcampusguide.model.POI;
+import edu.kit.cm.kitcampusguide.model.Poi;
 import edu.kit.cm.kitcampusguide.model.Point;
 import edu.kit.cm.kitcampusguide.model.Route;
 
@@ -40,7 +40,7 @@ public class ConcreteMapAlgorithmsTest {
 	@Test
 	public void getSuggestionsTest() {
 		MapAlgorithms concreteMapAlgorithms = new ConcreteMapAlgorithms();
-		List<POI> suggestions = concreteMapAlgorithms.getSuggestions("H");
+		List<Poi> suggestions = concreteMapAlgorithms.getSuggestions("H");
 
 		Assert.assertNotNull(suggestions);
 		Assert.assertEquals(3, suggestions.size());
@@ -50,10 +50,10 @@ public class ConcreteMapAlgorithmsTest {
 		Assert.assertTrue("The Poi with id 1 was not loaded", isInList(suggestions, "1"));
 	}
 
-	private boolean isInList(List<POI> suggestions, String i) {
+	private boolean isInList(List<Poi> suggestions, String i) {
 		boolean found = false;
 
-		for (POI poi : suggestions) {
+		for (Poi poi : suggestions) {
 			if (i.equals(poi.getId())) {
 				found = true;
 			}
@@ -69,7 +69,7 @@ public class ConcreteMapAlgorithmsTest {
 	public void getSuggestionsWithEmptyStringTest() {
 		MapAlgorithms concreteMapAlgorithms = new ConcreteMapAlgorithms();
 
-		List<POI> suggestions = concreteMapAlgorithms.getSuggestions("");
+		List<Poi> suggestions = concreteMapAlgorithms.getSuggestions("");
 
 		Assert.assertEquals(4, suggestions.size());
 
@@ -107,7 +107,7 @@ public class ConcreteMapAlgorithmsTest {
 	@Test
 	public void searchPOITest() {
 		MapAlgorithms concreteMapAlgorithms = new ConcreteMapAlgorithms();
-		POI searchedPOI = concreteMapAlgorithms.searchPOI("Ger");
+		Poi searchedPOI = concreteMapAlgorithms.searchPOI("Ger");
 		Assert.assertNotNull(searchedPOI);
 		Assert.assertEquals(Integer.valueOf(1), searchedPOI.getId());
 	}

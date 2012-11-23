@@ -13,7 +13,7 @@ public class InfoboxModel {
 	private boolean extendedView;
 	
 	/* The POI which is corresponding to the infobox. */
-	private POI dedicatedPOI;
+	private Poi dedicatedPOI;
 	
 	/**
 	 * Creates a new infobox which contains the information about a POI.
@@ -47,7 +47,7 @@ public class InfoboxModel {
 	 * 
 	 * @return a POI which is corresponding to the infobox.
 	 */
-	public POI getDedicatedPOI() {
+	public Poi getDedicatedPOI() {
 		return this.dedicatedPOI;
 	}
 		
@@ -56,7 +56,7 @@ public class InfoboxModel {
 	 * 
 	 * @param dedicatedPOI a POI which must be set as a POI which is corresponding to the infobox.
 	 */
-	public void setDedicatedPOI(POI dedicatedPOI) {
+	public void setDedicatedPOI(Poi dedicatedPOI) {
 		this.dedicatedPOI = dedicatedPOI; 
 	}	
 }
