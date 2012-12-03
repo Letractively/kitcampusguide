@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xwss="http://java.sun.com/xml/ns/xwss/config"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<context:component-scan base-package="edu.kit.tm.cm.kitcampusguide.service.user" />
+	<context:component-scan base-package="edu.kit.tm.cm.kitcampusguide.service.security" />
+
+	<!-- <import resource="applicationContext-dummyBeans.xml" /> -->
+
+
+	<bean id="authenticationManager" name="authenticationManager"
+		class="org.springframework.security.authentication.ProviderManager">
+		<property name="providers">
+			<list>
+				<ref bean="inMemoryAuthenticationProvider" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="inMemoryAuthenticationProvider"
+		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="inMemoryUserDetailService" />
+	</bean>
+
+	<bean id="inMemoryUserDetailService"
+		class="edu.kit.cm.kitcampusguide.service.user.MemberUserDetailsService"
+		autowire="byType">
+	</bean>
+
+	<bean id="expressionHandler"
+		class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+		<property name="permissionEvaluator" ref="roleOfMemberInGroupEvaluator" />
+	</bean>
+
+	<bean id="roleOfMemberInGroupEvaluator"
+		class="edu.kit.cm.kitcampusguide.access.evaluate.RoleOfMemberInGroupEvaluator" />
+</beans>

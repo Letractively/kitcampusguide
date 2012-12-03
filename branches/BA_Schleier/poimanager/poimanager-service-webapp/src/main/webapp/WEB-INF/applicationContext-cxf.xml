@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:ssec="http://cxf.apache.org/spring-security" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://cxf.apache.org/spring-security http://cxf-spring-security.googlecode.com/svn/trunk/cxf-spring-security/src/main/resources/schemas/spring-security.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- <import resource="applicationContext-beans.xml" /> -->
+	<!-- <import resource="applicationContext-security.xml" /> -->
+
+	<context:component-scan base-package="edu.kit.cm.kitcampusguide.ws.poi" />
+	<context:component-scan base-package="edu.kit.cm.kitcampusguide.poiservice" />
+	<context:component-scan base-package="edu.kit.cm.kitcampusguide.jaxws.callback" />
+	<!-- Enable transaction handling through annotations -->
+	<tx:annotation-driven />
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+
+	<jaxws:endpoint xmlns:tns="http://cm.tm.kit.edu/kitcampusguide/poiservice/"
+		id="poiservice" implementor="#poiServiceImpl" wsdlLocation="wsdl/PoiService.wsdl"
+		endpointName="tns:PoiServiceSOAP" serviceName="tns:PoiService"
+		address="/poiservice">
+		<jaxws:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+		</jaxws:features>
+		<jaxws:inInterceptors>
+			<bean class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor" />
+			<bean id="wsSecurityInterceptor" class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+				<constructor-arg>
+					<map>
+						<entry key="action" value="UsernameToken" />
+						<entry key="passwordType" value="PasswordDigest" />
+						<entry key="passwordCallbackRef" value-ref="passwordInCallbackHandler" />
+					</map>
+				</constructor-arg>
+			</bean>
+			<ref bean="rmLogicalIn" />
+			<ref bean="rmCodec" />
+		</jaxws:inInterceptors>
+		<jaxws:outInterceptors>
+			<ref bean="rmLogicalOut" />
+			<ref bean="rmCodec" />
+			<bean class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
+		</jaxws:outInterceptors>
+		<jaxws:outFaultInterceptors>
+			<ref bean="rmLogicalOut" />
+			<ref bean="rmCodec" />
+		</jaxws:outFaultInterceptors>
+		<jaxws:inFaultInterceptors>
+			<ref bean="rmLogicalIn" />
+			<ref bean="rmCodec" />
+		</jaxws:inFaultInterceptors>
+	</jaxws:endpoint>
+
+	<!-- <bean id="passwordInCallbackHandler" -->
+	<!-- class="edu.kit.cm.kitcampusguide.jaxws.callback.UserPasswordInCallbackHandler"> -->
+	<!-- <property name="providerManager" ref="authenticationManager" /> -->
+	<!-- </bean> -->
+
+	<bean id="passwordInCallbackHandler"
+		class="org.springframework.ws.soap.security.wss4j.callback.SpringDigestPasswordValidationCallbackHandler">
+		<property name="userDetailsService" ref="inMemoryUserDetailService" />
+	</bean>
+
+	<bean id="rmLogicalOut" class="org.apache.cxf.ws.rm.RMOutInterceptor" />
+	<bean id="rmLogicalIn" class="org.apache.cxf.ws.rm.RMInInterceptor" />
+	<bean id="rmCodec" class="org.apache.cxf.ws.rm.soap.RMSoapInterceptor" />
+
+</beans>

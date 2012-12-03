@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://cm.tm.kit.edu/kitcampusguide/poiservice/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="PoiService"
+	targetNamespace="http://cm.tm.kit.edu/kitcampusguide/poiservice/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://cm.tm.kit.edu/kitcampusguide/poiservice/"
+			xmlns:kitcg="http://cm.tm.kit.edu/kitcampusguide/">
+			<xsd:element name="ExecuteRequest" type="tns:ExecuteRequestComplexType" />
+			<xsd:element name="ExecuteResponse" type="tns:ExecuteResponseComplexType" />
+			<xsd:element name="ExecuteFault" type="tns:ExecuteFaultComplexType" />
+
+			<xsd:complexType name="ExecuteResponseComplexType">
+				<xsd:sequence maxOccurs="unbounded" minOccurs="0">
+					<xsd:choice>
+						<xsd:element name="createResponses" type="tns:CreateResponseComplexType" />
+						<xsd:element name="readResponses" type="tns:ReadResponseComplexType" />
+						<xsd:element name="updateResponses" type="tns:UpdateResponseComplexType" />
+						<xsd:element name="deleteResponses" type="tns:DeleteResponseComplexType" />
+						<xsd:element name="selectResponses" type="tns:SelectResponseComplexType" />
+					</xsd:choice>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="ExecuteFaultComplexType">
+				<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+					<xsd:choice>
+						<xsd:element name="createFaults" type="tns:CreateFaultComplexType" />
+						<xsd:element name="readFaults" type="tns:ReadFaultComplexType" />
+						<xsd:element name="updateFaults" type="tns:UpdateFaultComplexType" />
+						<xsd:element name="deleteFaults" type="tns:DeleteFaultComplexType" />
+						<xsd:element name="selectFaults" type="tns:SelectFaultComplexType" />
+					</xsd:choice>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="ExecuteRequestComplexType">
+				<xsd:sequence maxOccurs="unbounded" minOccurs="0">
+					<xsd:choice>
+						<xsd:element name="createRequests" type="tns:CreateRequestComplexType" />
+						<xsd:element name="readRequests" type="tns:ReadRequestComplexType" />
+						<xsd:element name="updateRequests" type="tns:UpdateRequestComplexType" />
+						<xsd:element name="deleteRequests" type="tns:DeleteRequestComplexType" />
+						<xsd:element name="selectRequests" type="tns:SelectRequestComplexType" />
+					</xsd:choice>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="Names">
+				<xsd:sequence minOccurs="1" maxOccurs="unbounded">
+					<xsd:element name="name" type="xsd:string"></xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="Ids">
+				<xsd:sequence minOccurs="1" maxOccurs="unbounded">
+					<xsd:element name="id" type="xsd:int"></xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="Strings">
+				<xsd:sequence minOccurs="1" maxOccurs="unbounded">
+					<xsd:element name="id" type="xsd:string"></xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="Poi">
+				<xsd:all maxOccurs="1" minOccurs="1">
+					<xsd:element name="name" type="xsd:string"></xsd:element>
+					<xsd:element name="categoryName" type="xsd:string">
+					</xsd:element>
+					<xsd:element name="description" type="xsd:string"></xsd:element>
+					<xsd:element name="longitude" type="xsd:double"></xsd:element>
+					<xsd:element name="latitude" type="xsd:double"></xsd:element>
+					<xsd:element name="groupIds" type="tns:Strings"></xsd:element>
+					<xsd:element name="publicly" type="xsd:boolean"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="PoiWithId">
+				<xsd:all maxOccurs="1" minOccurs="1">
+					<xsd:element name="uid" type="xsd:int"></xsd:element>
+					<xsd:element name="name" type="xsd:string"></xsd:element>
+					<xsd:element name="categoryName" type="xsd:string">
+					</xsd:element>
+					<xsd:element name="description" type="xsd:string"></xsd:element>
+					<xsd:element name="longitude" type="xsd:double"></xsd:element>
+					<xsd:element name="latitude" type="xsd:double"></xsd:element>
+					<xsd:element name="groupIds" type="tns:Strings"></xsd:element>
+					<xsd:element name="publicly" type="xsd:boolean"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="CreateRequestComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="poi" type="tns:Poi"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="CreateResponseComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element minOccurs="1" maxOccurs="1" name="poi"
+						type="tns:PoiWithId">
+					</xsd:element>
+					<xsd:element name="successMessage" type="xsd:string">
+					</xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="CreateFaultComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="faultMessage" type="xsd:string">
+					</xsd:element>
+					<xsd:element name="poi" type="tns:Poi"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="DeleteFaultComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="faultMessage" type="xsd:string">
+					</xsd:element>
+					<xsd:element name="id" type="xsd:int"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="DeleteRequestComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="id" type="xsd:int"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="DeleteResponseComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="successMessage" type="xsd:string">
+					</xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="ReadFaultComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="id" type="xsd:int"></xsd:element>
+					<xsd:element name="faultMessage" type="xsd:string">
+					</xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="ReadRequestComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="id" type="xsd:int"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="ReadResponseComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="poi" type="tns:PoiWithId"></xsd:element>
+					<xsd:element name="successMessage" type="xsd:string">
+					</xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="SelectFaultComplexType">
+				<xsd:sequence minOccurs="1" maxOccurs="1">
+					<xsd:element name="faultMessage" type="xsd:string">
+					</xsd:element>
+					<xsd:choice minOccurs="1" maxOccurs="1">
+						<xsd:element name="findByNamesLike" type="tns:Names">
+						</xsd:element>
+						<xsd:element name="findByNames" type="tns:Names">
+						</xsd:element>
+						<xsd:element name="findByNameSuffixes" type="tns:Names">
+						</xsd:element>
+						<xsd:element name="findByNamePrefixes" type="tns:Names">
+						</xsd:element>
+						<xsd:element name="findByIds" type="tns:Ids"></xsd:element>
+					</xsd:choice>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="SelectRequestComplexType">
+				<xsd:choice minOccurs="1" maxOccurs="1">
+					<xsd:element name="findByNamesLike" type="tns:Names">
+					</xsd:element>
+					<xsd:element name="findByNames" type="tns:Names"></xsd:element>
+					<xsd:element name="findByNameSuffixes" type="tns:Names">
+					</xsd:element>
+					<xsd:element name="findByNamePrefixes" type="tns:Names">
+					</xsd:element>
+					<xsd:element name="findByIds" type="tns:Ids"></xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+			<xsd:complexType name="SelectResponseComplexType">
+				<xsd:sequence>
+					<xsd:element minOccurs="1" maxOccurs="1" name="successMessage"
+						type="xsd:string">
+					</xsd:element>
+					<xsd:element minOccurs="0" maxOccurs="unbounded" name="poi"
+						type="tns:PoiWithId">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="UpdateFaultComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="faultMessage" type="xsd:string">
+					</xsd:element>
+					<xsd:element name="poi" type="tns:PoiWithId"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="UpdateRequestComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="poi" type="tns:PoiWithId"></xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="UpdateResponseComplexType">
+				<xsd:all minOccurs="1" maxOccurs="1">
+					<xsd:element name="poi" type="tns:PoiWithId"></xsd:element>
+					<xsd:element name="successMessage" type="xsd:string">
+					</xsd:element>
+				</xsd:all>
+			</xsd:complexType>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="ExecuteRequest">
+		<wsdl:part name="parameters" element="tns:ExecuteRequest"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="ExecuteResponse">
+		<wsdl:part name="parameters" element="tns:ExecuteResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="ExecuteFault">
+		<wsdl:part name="parameters" element="tns:ExecuteFault"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="PoiService">
+		<wsdl:operation name="Execute">
+			<wsdl:input message="tns:ExecuteRequest"></wsdl:input>
+			<wsdl:output message="tns:ExecuteResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:ExecuteFault"></wsdl:fault>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="PoiServiceSOAP" type="tns:PoiService">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="Execute">
+			<soap:operation
+				soapAction="http://cm.tm.kit.edu/kitcampusguide/poiservice/Execute" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="PoiService">
+		<wsdl:port binding="tns:PoiServiceSOAP" name="PoiServiceSOAP">
+			<soap:address location="http://www.example.org/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

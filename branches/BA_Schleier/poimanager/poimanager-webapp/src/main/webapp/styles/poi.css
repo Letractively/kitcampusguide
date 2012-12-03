@@ -1,0 +1,23 @@
+
+body {
+	font-family: sans-serif;
+	font-size: 12px;
+}
+#header {
+	clear: both;
+	border-bottom: 1px solid black;
+}
+#content {
+	clear: both;
+}
+.label {
+	width: 140px;
+	display: block;
+	float: left;
+}
+.field {
+	font-family: sans-serif;
+	font-size: 12px;
+ 	width: 200px;
+ 	display: block; 
+}
