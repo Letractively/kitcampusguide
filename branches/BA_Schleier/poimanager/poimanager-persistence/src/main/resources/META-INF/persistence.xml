@@ -19,7 +19,9 @@
 				value="org.hibernate.hql.classic.ClassicQueryTranslatorFactory" />
 			<property name="hibernate.query.substitutions" value="true 1, false 0" />
 			<property name="hibernate.show_sql" value="true" />
+			<!-- 
 			<property name="hibernate.hbm2ddl.auto" value="create" />
+			 -->
 		</properties>
 	</persistence-unit>
 </persistence>
