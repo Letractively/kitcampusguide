@@ -31,10 +31,10 @@ public interface PoiFacade extends PoiService {
     @PreAuthorize("hasRole('RIGHT_UPDATE_POI')")
     UpdateResponseComplexType update(UpdateRequestComplexType updateRequest) throws ExecuteFault;
 
-    @PreAuthorize("hasRole('RIGHT_READ_POI')")
+    @PreAuthorize("isAuthenticated()")
     ReadResponseComplexType read(ReadRequestComplexType readRequest) throws ExecuteFault;
 
-    @PreAuthorize("hasRole('RIGHT_READ_POI')")
+    @PreAuthorize("isAuthenticated()")
     SelectResponseComplexType select(SelectRequestComplexType selectRequest) throws ExecuteFault;
 
 }
