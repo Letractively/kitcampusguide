@@ -164,7 +164,7 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
         return response;
     }
 
-    @PreAuthorize("hasRole('RIGHT_READ_POI')")
+    @PreAuthorize("isAuthenticated()")
     public ReadResponseComplexType read(ReadRequestComplexType readRequest) throws ExecuteFault {
         log.debug("Processing read request.");
         int idToRead = readRequest.getId();
@@ -182,8 +182,8 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
         	PoiWithId pwi = new PoiWithId();
         	pwi.setUid(foundPoi.getId());
         	pwi.setName(foundPoi.getName());
-        	pwi.setLongitude(foundPoi.getLongitude());
-        	pwi.setLatitude(foundPoi.getLatitude());
+//        	pwi.setLongitude(foundPoi.getLongitude());
+//        	pwi.setLatitude(foundPoi.getLatitude());
         	pwi.setDescription(foundPoi.getDescription());
         	pwi.setCategoryName(foundPoi.getCategoryName());
         	//pwi.setGroupIds(foundPoi.getGroupIds());
@@ -196,7 +196,7 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
         return response;
     }
 
-    @PreAuthorize("hasRole('RIGHT_READ_POI')")
+    @PreAuthorize("isAuthenticated()")
     public SelectResponseComplexType select(SelectRequestComplexType selectRequest) throws ExecuteFault {
         log.debug("Processing select request.");
         List<POI> foundPois = new ArrayList<POI>();
