@@ -22,13 +22,13 @@ import edu.kit.tm.cm.kitcampusguide.poiservice.UpdateResponseComplexType;
  */
 public interface PoiFacade extends PoiService {
 
-    @PreAuthorize("hasRole('RIGHT_CREATE_POI')")
+	@PreAuthorize("isAuthenticated()")
     CreateResponseComplexType create(CreateRequestComplexType createRequest) throws ExecuteFault;
 
-    @PreAuthorize("hasRole('RIGHT_DELETE_POI')")
+    @PreAuthorize("isAuthenticated()")
     DeleteResponseComplexType delete(DeleteRequestComplexType deleteRequest) throws ExecuteFault;
 
-    @PreAuthorize("hasRole('RIGHT_UPDATE_POI')")
+    @PreAuthorize("isAuthenticated()")
     UpdateResponseComplexType update(UpdateRequestComplexType updateRequest) throws ExecuteFault;
 
     @PreAuthorize("isAuthenticated()")

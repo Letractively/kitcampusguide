@@ -112,7 +112,7 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
         return response;
     }
 
-    @PreAuthorize("hasRole('RIGHT_CREATE_POI')")
+    @PreAuthorize("isAuthenticated()")
     public CreateResponseComplexType create(CreateRequestComplexType createRequest) throws ExecuteFault {
         log.debug("Processing create request.");
         POI poiFromRequest = PoiConverter.convertToPojo(createRequest.getPoi());
@@ -131,7 +131,7 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
         return response;
     }
 
-    @PreAuthorize("hasRole('RIGHT_DELETE_POI')")
+    @PreAuthorize("isAuthenticated()")
     public DeleteResponseComplexType delete(DeleteRequestComplexType deleteRequest) throws ExecuteFault {
         log.debug("Processing delete request.");
 
@@ -147,7 +147,7 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
         return response;
     }
 
-    @PreAuthorize("hasRole('RIGHT_UPDATE_POI')")
+    @PreAuthorize("isAuthenticated()")
     public UpdateResponseComplexType update(UpdateRequestComplexType updateRequest) throws ExecuteFault {
         log.debug("Processing update request.");
         POI poiFromRequest = PoiConverter.convertToPojo(updateRequest.getPoi());
