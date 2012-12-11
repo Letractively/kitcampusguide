@@ -28,7 +28,7 @@ public interface PoiFacade extends PoiService {
     @PreAuthorize("isAuthenticated()")
     DeleteResponseComplexType delete(DeleteRequestComplexType deleteRequest) throws ExecuteFault;
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasPermission(#poi, 'RIGHT_UPDATE_POI')")
     UpdateResponseComplexType update(UpdateRequestComplexType updateRequest) throws ExecuteFault;
 
     @PreAuthorize("isAuthenticated()")
