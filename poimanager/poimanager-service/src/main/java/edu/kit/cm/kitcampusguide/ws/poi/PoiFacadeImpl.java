@@ -147,7 +147,7 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
         return response;
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasPermission(#poi, 'RIGHT_UPDATE_POI')")
     public UpdateResponseComplexType update(UpdateRequestComplexType updateRequest) throws ExecuteFault {
         log.debug("Processing update request.");
         POI poiFromRequest = PoiConverter.convertToPojo(updateRequest.getPoi());
