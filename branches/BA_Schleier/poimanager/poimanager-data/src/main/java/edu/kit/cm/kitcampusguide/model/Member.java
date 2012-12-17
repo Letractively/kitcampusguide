@@ -9,7 +9,7 @@ import java.util.List;
  * @author Roland Steinegger, Karlsruhe Institute of Technology
  */
 public class Member {
-
+	// I changed something (svn test)
     private final List<MemberToGroupMapping> groupMapping = new ArrayList<MemberToGroupMapping>();
 
     private String name = null;
