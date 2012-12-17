@@ -86,18 +86,18 @@
 	<bean id="mitarbeiterGruppe1" class="edu.kit.cm.kitcampusguide.model.MemberToGroupMapping">
 		<property name="group" ref="institute" />
 		<property name="member" ref="mitarbeiter" />
-		<property name="role" value="ROLE_USER" />
+		<property name="role" value="ROLE_MITARBEITER" />
 	</bean>
 
 	<bean id="institutsleiterGruppe1" class="edu.kit.cm.kitcampusguide.model.MemberToGroupMapping">
 		<property name="group" ref="institute" />
 		<property name="member" ref="institutsleiter" />
-		<property name="role" value="ROLE_ADMIN" />
+		<property name="role" value="ROLE_INSTITUTSLEITER" />
 	</bean>
 
 	<bean id="institutsleiter2Gruppe2" class="edu.kit.cm.kitcampusguide.model.MemberToGroupMapping">
 		<property name="group" ref="institute2" />
 		<property name="member" ref="institutsleiter2" />
-		<property name="role" value="ROLE_ADMIN" />
+		<property name="role" value="ROLE_INSTITUTSLEITER" />
 	</bean>
 </beans>
