@@ -32,11 +32,4 @@
 		autowire="byType">
 	</bean>
 
-	<bean id="expressionHandler"
-		class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
-		<property name="permissionEvaluator" ref="roleOfMemberInGroupEvaluator" />
-	</bean>
-
-	<bean id="roleOfMemberInGroupEvaluator"
-		class="edu.kit.cm.kitcampusguide.access.evaluate.RoleOfMemberInGroupEvaluator" />
 </beans>
