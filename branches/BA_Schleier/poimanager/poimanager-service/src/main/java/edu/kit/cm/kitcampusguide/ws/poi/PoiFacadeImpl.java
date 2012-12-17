@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.kit.cm.kitcampusguide.access.evaluate.RoleOfMemberInGroupEvaluator;
 import edu.kit.cm.kitcampusguide.dao.PoiDao;
 import edu.kit.cm.kitcampusguide.dao.exception.PoiDaoException;
 import edu.kit.cm.kitcampusguide.model.POI;
@@ -87,21 +88,44 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
     }
 
     private Object handleRequestAndGetResponse(Object request) throws ExecuteFault {
-        Object response;
+    	Object response;
+    	
+    	RoleOfMemberInGroupEvaluator eval = new RoleOfMemberInGroupEvaluator();
+    	boolean permission;
+        
         if (request instanceof CreateRequestComplexType) {
-
+        	permission = eval.hasPermission(request);
+        	if(permission == false)
+        		return new CreateResponseComplexType();
+        	
             response = create((CreateRequestComplexType) request);
+            
         } else if (request instanceof ReadRequestComplexType) {
-
+        	permission = eval.hasPermission(request);
+        	if(permission == false)
+        		return new ReadResponseComplexType();
+        	
             response = read((ReadRequestComplexType) request);
+            
         } else if (request instanceof UpdateRequestComplexType) {
-
+        	permission = eval.hasPermission(request);
+        	if(permission == false)
+        		return new UpdateResponseComplexType();
+        	
             response = update((UpdateRequestComplexType) request);
+            
         } else if (request instanceof DeleteRequestComplexType) {
-
+        	permission = eval.hasPermission(request);
+        	if(permission == false)
+        		return new DeleteResponseComplexType();
+        	
             response = delete((DeleteRequestComplexType) request);
+            
         } else if (request instanceof SelectRequestComplexType) {
-
+        	permission = eval.hasPermission(request);
+        	if(permission == false)
+        		return new SelectResponseComplexType();
+        	
             response = select((SelectRequestComplexType) request);
         } else {
 
