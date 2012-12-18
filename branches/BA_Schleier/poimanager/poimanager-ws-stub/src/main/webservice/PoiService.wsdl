@@ -68,6 +68,7 @@
 					<xsd:element name="latitude" type="xsd:double"></xsd:element>
 					<xsd:element name="groupIds" type="tns:Strings"></xsd:element>
 					<xsd:element name="publicly" type="xsd:boolean"></xsd:element>
+					<xsd:element name="parentId" type="xsd:int"></xsd:element>
 				</xsd:all>
 			</xsd:complexType>
 			<xsd:complexType name="PoiWithId">
@@ -81,6 +82,7 @@
 					<xsd:element name="latitude" type="xsd:double"></xsd:element>
 					<xsd:element name="groupIds" type="tns:Strings"></xsd:element>
 					<xsd:element name="publicly" type="xsd:boolean"></xsd:element>
+					<xsd:element name="parentId" type="xsd:int"></xsd:element>
 				</xsd:all>
 			</xsd:complexType>
 			<xsd:complexType name="CreateRequestComplexType">

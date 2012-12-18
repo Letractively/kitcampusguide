@@ -28,6 +28,7 @@
 			<basic name="longitude" />
 			<basic name="latitude" />
 			<basic name="publicly" />
+			<basic name="parentId" />
 			<!-- collection of primitives is supported in jpa v2.0, but spring just 
 				supports v1.0 -->
 			<!-- <element-collection name="groupIds" fetch="EAGER" /> -->

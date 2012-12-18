@@ -21,6 +21,7 @@ public class POI extends Point implements Cloneable, Entity {
 	private String description;
 	private POICategory category;
 	private Boolean publicly;
+	private int parentId;
 	/**
 	 * This field is an workaround because jpa 1.0 is not supporting collections
 	 * of primitives. Thus the group ids are saved in one field seperated by
@@ -62,6 +63,13 @@ public class POI extends Point implements Cloneable, Entity {
 		this.setId(id);
 	}
 
+	public int getParentId() {
+		return this.parentId;
+	}
+	
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
+	}
 
 	public String getName() {
 		return this.name;

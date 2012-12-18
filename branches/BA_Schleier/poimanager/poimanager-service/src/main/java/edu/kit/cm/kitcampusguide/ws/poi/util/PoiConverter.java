@@ -19,6 +19,7 @@ public class PoiConverter {
         convertion.setLatitude(poi.getLatitude());
         convertion.setLongitude(poi.getLongitude());
         convertion.setPublicly(poi.isPublicly());
+        convertion.setParentId(poi.getParentId());
         if (poi.getGroupIds() != null) {
             convertion.setGroupIds(poi.getGroupIds().getId());
         } else {
@@ -37,6 +38,7 @@ public class PoiConverter {
         convertion.setLatitude(pwi.getLatitude());
         convertion.setLongitude(pwi.getLongitude());
         convertion.setPublicly(pwi.isPublicly());
+        convertion.setParentId(pwi.getParentId());
         if (pwi.getGroupIds() == null) {
             convertion.setGroupIds(new HashSet<String>());
         } else {
@@ -66,6 +68,7 @@ public class PoiConverter {
         result.setGroupIds(groupIds);
         result.setPublicly(poi.isPublicly());
         result.setCategoryName(poi.getCategoryName());
+        result.setParentId(poi.getParentId());
         return result;
 	}
 	
@@ -86,6 +89,7 @@ public class PoiConverter {
 		poi.setLongitude(poi.getLongitude());
 		poi.setName(obj.getName());
 		poi.setPublicly(obj.isPublicly());
+		poi.setParentId(obj.getParentId());
 		return poi;
 	}
 }
