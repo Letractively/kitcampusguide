@@ -32,7 +32,6 @@ import edu.kit.tm.cm.kitcampusguide.poiservice.ReadRequestComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.ReadResponseComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.SelectRequestComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.SelectResponseComplexType;
-import edu.kit.tm.cm.kitcampusguide.poiservice.Strings;
 import edu.kit.tm.cm.kitcampusguide.poiservice.UpdateRequestComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.UpdateResponseComplexType;
 

@@ -27,15 +27,13 @@ public class RoleOfMemberInGroupEvaluator {
     
     public boolean hasPermission(Object targetDomainObject) {
     	boolean decision = false;
-    	SecurityContext authentication = SecurityContextHolder.getContext();
-    	/*if(authentication.isAuthenticated())
-    		log.info("ABC AUTHOK");
-    	else
-    		log.info("ABC AUTHNOKE");
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	MemberUserDetails user = (MemberUserDetails) auth.getPrincipal();
     	
-    	MemberUserDetails user = (MemberUserDetails) authentication.getPrincipal();
     	
-    	log.info("XACML: Build request for: " + targetDomainObject.getClass().getName());
+    	log.info("ACHTUNG! "+user.getName());
+    	
+    	log.info("XACML: START REQUEST: " + targetDomainObject.getClass().getName());
     	if(targetDomainObject instanceof UpdateRequestComplexType) {
     		//PoiWithId poi = ((UpdateRequestComplexType) targetDomainObject).getPoi();
     		decision = pdpRequest(user, "update");
@@ -47,7 +45,7 @@ public class RoleOfMemberInGroupEvaluator {
     		decision = pdpRequest(user, "delete");
     	} else if(targetDomainObject instanceof ReadRequestComplexType) {
     		decision = pdpRequest(user, "read");
-    	}*/
+    	}
     	return decision;
     }
     
