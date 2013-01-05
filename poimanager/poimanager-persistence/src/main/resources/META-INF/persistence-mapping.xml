@@ -33,7 +33,7 @@
 				supports v1.0 -->
 			<!-- <element-collection name="groupIds" fetch="EAGER" /> -->
 			<!-- as workaround all group ids are saved in one field -->
-			<basic name="separatedGroupIds" />
+			<basic name="groupId" />
 
 
 			<many-to-one name="category"

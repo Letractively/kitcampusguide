@@ -2,6 +2,7 @@ package edu.kit.cm.kitcampusguide.ws.poi;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import edu.kit.cm.kitcampusguide.dao.PoiDao;
 import edu.kit.tm.cm.kitcampusguide.poiservice.CreateRequestComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.CreateResponseComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.DeleteRequestComplexType;
@@ -37,4 +38,5 @@ public interface PoiFacade extends PoiService {
     @PreAuthorize("isAuthenticated()")
     SelectResponseComplexType select(SelectRequestComplexType selectRequest) throws ExecuteFault;
 
+    PoiDao getPoiDao();
 }

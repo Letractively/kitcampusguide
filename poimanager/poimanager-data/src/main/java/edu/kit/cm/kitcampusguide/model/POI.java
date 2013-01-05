@@ -1,8 +1,5 @@
 package edu.kit.cm.kitcampusguide.model;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -14,7 +11,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @author Monica Haurilet
  * @author Roland Steinegger, Karlsruhe Institute of Technology
  */
-public class POI extends Point implements Cloneable, Entity {
+public class POI extends AbstractEntity implements Cloneable, Entity {
 
 	private String name;
 	private String icon;
@@ -22,28 +19,26 @@ public class POI extends Point implements Cloneable, Entity {
 	private POICategory category;
 	private Boolean publicly;
 	private int parentId;
-	/**
-	 * This field is an workaround because jpa 1.0 is not supporting collections
-	 * of primitives. Thus the group ids are saved in one field seperated by
-	 */
-	private String separatedGroupIds;
-	private static final String SEPARATOR = "###";
+	private String groupId;
+	private Double longitude;
+	private Double latitude;
 
 	public POI(String name, Integer id, String icon, String description,
-			Double longitude, Double latitude, Collection<String> groupIds,
+			Double longitude, Double latitude, String groupId,
 			Boolean publicly) {
-		super(longitude, latitude);
 		this.description = description;
 		this.icon = icon;
 		this.name = name;
-		setGroupIds(groupIds);
+		this.groupId = groupId;
 		this.setId(id);
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	public POI(String name, Integer uid, String icon, String description,
-			Double longitude, Double latitude, Collection<String> groupIds,
+			Double longitude, Double latitude, String groupId,
 			Boolean publicly, POICategory category) {
-		this(name, uid, icon, description, longitude, latitude, groupIds,
+		this(name, uid, icon, description, longitude, latitude, groupId,
 				publicly);
 
 		this.category = category;
@@ -56,11 +51,12 @@ public class POI extends Point implements Cloneable, Entity {
 
 	public POI(String name, int id, String icon, String description, double longitude,
 			double latitude) {
-		super(longitude, latitude);
 		this.name = name;
 		this.description = description;
 		this.icon = icon;
 		this.setId(id);
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	public int getParentId() {
@@ -95,6 +91,10 @@ public class POI extends Point implements Cloneable, Entity {
 		this.description = description;
 	}
 
+	public Boolean getPublicly() {
+		return this.publicly;
+	}
+	
 	public void setPublicly(Boolean publicly) {
 		this.publicly = publicly;
 	}
@@ -114,46 +114,16 @@ public class POI extends Point implements Cloneable, Entity {
 		return categoryName;
 	}
 
-	public void setGroupIds(Collection<String> groupIds) {
-		final StringBuilder separatedGroupIdsBuilder = new StringBuilder();
-		if (groupIds != null) {
-			for (String groupId : groupIds) {
-				separatedGroupIdsBuilder
-						.append(getStrippedGroupIdWithSeparator(groupId));
-			}
-			removeLastSeparator(separatedGroupIdsBuilder);
-		}
-		this.separatedGroupIds = separatedGroupIdsBuilder.toString();
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
 	}
-
-	private void removeLastSeparator(
-			final StringBuilder separatedGroupIdsBuilder) {
-		if (separatedGroupIdsBuilder.length() > POI.SEPARATOR.length()) {
-			separatedGroupIdsBuilder
-					.delete(separatedGroupIdsBuilder.length()
-							- POI.SEPARATOR.length(),
-							separatedGroupIdsBuilder.length());
-		}
-	}
-
-	private String getStrippedGroupIdWithSeparator(String groupId) {
-		return groupId.replaceAll(POI.SEPARATOR, "") + POI.SEPARATOR;
-	}
-
-	public Collection<String> getGroupIds() {
-		return Arrays.asList(this.separatedGroupIds.split(POI.SEPARATOR));
+	
+	public String getGroupId() {
+		return groupId;
 	}
 
 	public POICategory getCategory() {
 		return category;
-	}
-
-	public void setSeparatedGroupIds(String separatedGroupIds) {
-		this.separatedGroupIds = separatedGroupIds;
-	}
-
-	public String getSeparatedGroupIds() {
-		return this.separatedGroupIds;
 	}
 
 	public void setCategory(POICategory category) {
@@ -167,6 +137,22 @@ public class POI extends Point implements Cloneable, Entity {
 						.contains(this)))) {
 			category.add(this);
 		}
+	}
+	
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+	
+	public Double getLatitude() {
+		return this.latitude;
+	}
+	
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+	
+	public Double getLongitude() {
+		return this.longitude;
 	}
 
 	@Override
@@ -219,6 +205,9 @@ public class POI extends Point implements Cloneable, Entity {
 		clone.description = this.description;
 		clone.icon = this.icon;
 		clone.name = this.name;
+		clone.groupId = this.groupId;
+		clone.longitude = this.longitude;
+		clone.latitude = this.latitude;
 		return clone;
 	}
 

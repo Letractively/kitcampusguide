@@ -18,7 +18,7 @@
 			<bean
 				class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager" />
 		</property>
-		<!-- <property name="jpaProperties">
+		<property name="jpaProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
 				<prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
@@ -28,14 +28,15 @@
 				<prop key="hibernate.connection.username">poimanager</prop>
 				<prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>
 			</props>
-		</property> -->
+		</property>
+		<!--
 		<property name="jpaProperties"> <props> <prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop> 
 			<prop key="hibernate.connection.driver_class">org.apache.derby.jdbc.EmbeddedDriver</prop> 
 			<prop key="hibernate.connection.password">kitcampusguide</prop> <prop key="hibernate.connection.url">jdbc:derby:embeddedDB;create=true</prop> 
 			<prop key="hibernate.connection.username">kitcampusguide</prop> <prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop> 
 			</props> 
 		</property>
-		
+		-->
 	</bean>
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">

@@ -18,8 +18,12 @@ import edu.kit.cm.kitcampusguide.service.user.MemberService;
 import edu.kit.cm.kitcampusguide.validator.PoiValidator;
 import edu.kit.cm.kitcampusguide.ws.poi.PoiFacade;
 import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteFault;
+import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.Names;
 import edu.kit.tm.cm.kitcampusguide.poiservice.PoiWithId;
 import edu.kit.tm.cm.kitcampusguide.poiservice.ReadRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.SelectRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.SelectResponseComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.UpdateRequestComplexType;
 
 /**
@@ -61,6 +65,22 @@ public class UpdatePoiForm {
             tryToLoadPoiAndSetToModel(uid, model);
             tryToLoadGroupsAndSetToModel(model);
             viewName = "poi/form";
+            
+            /**
+             * Load Pois
+             */
+            SelectRequestComplexType selectRequest = new SelectRequestComplexType();
+            Names names = new Names();
+            names.getName().add("%");
+            selectRequest.setFindByNamesLike(names);
+            final ExecuteRequestComplexType executeRequest = new ExecuteRequestComplexType();
+            executeRequest.getCreateRequestsOrReadRequestsOrUpdateRequests().add(selectRequest);
+            model.addAttribute("pois", ((SelectResponseComplexType) poiFacade.execute(executeRequest)
+    		        .getCreateResponsesOrReadResponsesOrUpdateResponses().get(0)).getPoi());            
+            /**
+             * End Load Pois
+             */
+            
         } catch (ExecuteFault e) {
 
             handleReadExceptionAndSetErrorView(model, e);

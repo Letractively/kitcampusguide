@@ -30,7 +30,7 @@ public class RoleOfMemberInGroupEvaluator {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	MemberUserDetails user = (MemberUserDetails) auth.getPrincipal();
     	
-    	
+    	return true; /*
     	log.info("ACHTUNG! "+user.getName());
     	
     	log.info("XACML: START REQUEST: " + targetDomainObject.getClass().getName());
@@ -46,7 +46,7 @@ public class RoleOfMemberInGroupEvaluator {
     	} else if(targetDomainObject instanceof ReadRequestComplexType) {
     		decision = pdpRequest(user, "read");
     	}
-    	return decision;
+    	return decision;*/
     }
     
     private boolean pdpRequest(MemberUserDetails user, String action) {

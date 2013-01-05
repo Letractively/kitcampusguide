@@ -10,7 +10,7 @@
 
 		<class>edu.kit.cm.kitcampusguide.model.POI</class>
 		<class>edu.kit.cm.kitcampusguide.model.POICategory</class>
-		<class>edu.kit.cm.kitcampusguide.model.Point</class>
+		
 
 		<properties>
 			<property name="cache.provider_class" value="org.hibernate.cache.NoCacheProvider" />
@@ -19,9 +19,9 @@
 				value="org.hibernate.hql.classic.ClassicQueryTranslatorFactory" />
 			<property name="hibernate.query.substitutions" value="true 1, false 0" />
 			<property name="hibernate.show_sql" value="true" />
-			<!-- 
+			
 			<property name="hibernate.hbm2ddl.auto" value="create" />
-			 -->
+			
 		</properties>
 	</persistence-unit>
 </persistence>
