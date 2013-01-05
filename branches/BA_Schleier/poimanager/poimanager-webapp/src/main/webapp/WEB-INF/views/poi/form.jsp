@@ -80,12 +80,19 @@
 				<form:checkbox path="publicly" cssClass="publicly field" />
 				<form:errors path="publicly" cssClass="publicly error" />
 			</div>
-			<div class="field groupIds">
-				<label class="label" for="groupIds"> <fmt:message
-						key="groupIds" /> </label>
-				<form:select multiple="true" path="groupIds.id" items="${groups}"
-					itemValue="id" itemLabel="name" cssClass="groupIds field" />
-				<form:errors path="groupIds.id" cssClass="groupIds error" />
+			<div class="field groupId">
+				<label class="label" for="groupId"> <fmt:message
+						key="groupId" /> </label>
+				<form:select multiple="false" path="groupId" items="${groups}"
+					itemValue="id" itemLabel="name" cssClass="groupId field" />
+				<form:errors path="groupId" cssClass="groupId error" />
+			</div>
+			<div class="field parentId">
+				<label class="label" for="parentId"> <fmt:message
+						key="parentId" /> </label>
+				<form:select multiple="false" path="parentId" items="${pois}"
+					itemValue="id" itemLabel="name" cssClass="parentId field" />
+				<form:errors path="parentId" cssClass="parentId error" />
 			</div>
 
 			<input type='submit' value='<fmt:message key="save" />'>

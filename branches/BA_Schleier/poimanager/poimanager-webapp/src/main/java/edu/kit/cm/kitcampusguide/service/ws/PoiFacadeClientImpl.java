@@ -2,6 +2,7 @@ package edu.kit.cm.kitcampusguide.service.ws;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import edu.kit.cm.kitcampusguide.dao.PoiDao;
 import edu.kit.cm.kitcampusguide.ws.poi.PoiFacade;
 import edu.kit.tm.cm.kitcampusguide.poiservice.CreateRequestComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.CreateResponseComplexType;
@@ -78,4 +79,7 @@ public class PoiFacadeClientImpl implements PoiFacade, PoiService {
         return this.poiService.execute(parameters);
     }
 
+    public PoiDao getPoiDao() {
+    	return null;
+    }
 }

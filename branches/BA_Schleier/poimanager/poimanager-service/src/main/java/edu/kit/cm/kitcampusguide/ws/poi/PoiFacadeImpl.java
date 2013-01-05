@@ -205,11 +205,13 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
         	PoiWithId pwi = new PoiWithId();
         	pwi.setUid(foundPoi.getId());
         	pwi.setName(foundPoi.getName());
-//        	pwi.setLongitude(foundPoi.getLongitude());
-//        	pwi.setLatitude(foundPoi.getLatitude());
+        	pwi.setLongitude(foundPoi.getLongitude());
+        	pwi.setLatitude(foundPoi.getLatitude());
         	pwi.setDescription(foundPoi.getDescription());
         	pwi.setCategoryName(foundPoi.getCategoryName());
         	//pwi.setGroupIds(foundPoi.getGroupIds());
+        	pwi.setGroupId(foundPoi.getGroupId());
+        	pwi.setPublicly(foundPoi.getPublicly());
             response.setPoi(pwi);
             response.setSuccessMessage("Successfully retrieved the point of interest.");
         } else {
@@ -304,5 +306,7 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
 
         return pois;
     }
-
+    public PoiDao getPoiDao() {
+    	return this.dao;
+    }
 }

@@ -51,7 +51,7 @@
 				</th>
 				<th class="publicly field title"><fmt:message key="publicly" />
 				</th>
-				<th class="groupIds field title"><fmt:message key="groupIds" />
+				<th class="groupId field title"><fmt:message key="groupId" />
 				</th>
 				<th class="poiFunctions field title"><fmt:message
 						key="poiFunctions" />
@@ -65,7 +65,7 @@
 					<td class="longitude field">${poi.longitude}</td>
 					<td class="latitude field">${poi.latitude}</td>
 					<td class="publicly field">${poi.publicly}</td>
-					<td class="groupIds field">${poi.groupIds.id}</td>
+					<td class="groupId field">${poi.groupId}</td>
 					<td class="poiFunctions"><a href="poi/${poi.uid}/update.htm">update</a>
 						<a href="poi/${poi.uid}/delete.htm">delete</a>
 					</td>

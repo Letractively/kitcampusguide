@@ -1,6 +1,8 @@
 package edu.kit.cm.kitcampusguide.controller.form;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import edu.kit.cm.kitcampusguide.model.Group;
+import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.service.user.MemberService;
 import edu.kit.cm.kitcampusguide.validator.PoiValidator;
 import edu.kit.cm.kitcampusguide.ws.poi.PoiFacade;
 import edu.kit.tm.cm.kitcampusguide.poiservice.CreateRequestComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteFault;
 import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.Names;
 import edu.kit.tm.cm.kitcampusguide.poiservice.Poi;
+import edu.kit.tm.cm.kitcampusguide.poiservice.SelectRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.SelectResponseComplexType;
 
 @Controller
 @RequestMapping(value = "poi/create.htm")
@@ -48,8 +54,24 @@ public class CreatePoiForm {
         log.debug("Setting up form for creating poi.");
 
         Poi poi = new Poi();
+        poi.setParentId(0);
         model.addAttribute(poi);
 
+        /**
+         * Load Pois
+         */
+        List<POI> pois = new ArrayList<POI>();
+        POI zero = new POI();
+        zero.setId(0);
+        zero.setName("No parent POI");
+        pois.add(zero);
+        pois.addAll(poiFacade.getPoiDao().findByNameLike("%"));
+        System.out.println("POILISTSIEZ:"+pois.size());
+		model.addAttribute("pois", pois);
+        /**
+         * End Load Pois
+         */
+        
         Collection<Group> groups = this.memberService.getGroups();
         model.addAttribute("groups", groups);
 
@@ -58,6 +80,7 @@ public class CreatePoiForm {
 
     @RequestMapping(method = RequestMethod.POST)
     protected String onSubmit(@ModelAttribute Poi poi, BindingResult result, Model model) {
+    	System.out.println("GID ACHTUNG:"+poi.getLatitude());
         log.debug("Create request for poi. Data: " + poi);
         String viewName;
         new PoiValidator().validate(poi, result);

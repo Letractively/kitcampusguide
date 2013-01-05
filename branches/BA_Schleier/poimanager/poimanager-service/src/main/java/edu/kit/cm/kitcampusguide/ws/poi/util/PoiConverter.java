@@ -20,11 +20,12 @@ public class PoiConverter {
         convertion.setLongitude(poi.getLongitude());
         convertion.setPublicly(poi.isPublicly());
         convertion.setParentId(poi.getParentId());
-        if (poi.getGroupIds() != null) {
+        /*if (poi.getGroupIds() != null) {
             convertion.setGroupIds(poi.getGroupIds().getId());
         } else {
             convertion.setGroupIds(new HashSet<String>());
-        }
+        }*/
+        convertion.setGroupId(poi.getGroupId());
 
         return convertion;
     }
@@ -39,11 +40,13 @@ public class PoiConverter {
         convertion.setLongitude(pwi.getLongitude());
         convertion.setPublicly(pwi.isPublicly());
         convertion.setParentId(pwi.getParentId());
-        if (pwi.getGroupIds() == null) {
+        /*if (pwi.getGroupIds() == null) {
             convertion.setGroupIds(new HashSet<String>());
         } else {
             convertion.setGroupIds(pwi.getGroupIds().getId());
-        }
+        }*/
+        
+        convertion.setGroupId(pwi.getGroupId());
 
         return convertion;
     }
@@ -63,9 +66,10 @@ public class PoiConverter {
         } else {
         	result.setLongitude(poi.getLongitude());
         }
-        Strings groupIds = new Strings();
+        /*Strings groupIds = new Strings();
         groupIds.getId().addAll(poi.getGroupIds());
-        result.setGroupIds(groupIds);
+        result.setGroupIds(groupIds);*/
+        result.setGroupId(poi.getGroupId());
         result.setPublicly(poi.isPublicly());
         result.setCategoryName(poi.getCategoryName());
         result.setParentId(poi.getParentId());
@@ -84,7 +88,8 @@ public class PoiConverter {
 		Poi poi = new Poi();
 		poi.setCategoryName(obj.getCategoryName());
 		poi.setDescription(obj.getDescription());
-		poi.setGroupIds(obj.getGroupIds());
+		//poi.setGroupIds(obj.getGroupIds());
+		poi.setGroupId(obj.getGroupId());
 		poi.setLatitude(obj.getLatitude());
 		poi.setLongitude(poi.getLongitude());
 		poi.setName(obj.getName());
