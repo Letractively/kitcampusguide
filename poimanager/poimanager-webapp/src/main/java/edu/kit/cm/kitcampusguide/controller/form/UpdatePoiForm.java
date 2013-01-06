@@ -1,6 +1,8 @@
 package edu.kit.cm.kitcampusguide.controller.form;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,10 @@ import edu.kit.cm.kitcampusguide.model.Group;
 import edu.kit.cm.kitcampusguide.service.user.MemberService;
 import edu.kit.cm.kitcampusguide.validator.PoiValidator;
 import edu.kit.cm.kitcampusguide.ws.poi.PoiFacade;
+import edu.kit.cm.kitcampusguide.ws.poi.util.PoiConverter;
 import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteFault;
 import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.Ids;
 import edu.kit.tm.cm.kitcampusguide.poiservice.Names;
 import edu.kit.tm.cm.kitcampusguide.poiservice.PoiWithId;
 import edu.kit.tm.cm.kitcampusguide.poiservice.ReadRequestComplexType;
@@ -66,20 +70,30 @@ public class UpdatePoiForm {
             tryToLoadGroupsAndSetToModel(model);
             viewName = "poi/form";
             
-            /**
-             * Load Pois
-             */
-            SelectRequestComplexType selectRequest = new SelectRequestComplexType();
-            Names names = new Names();
-            names.getName().add("%");
-            selectRequest.setFindByNamesLike(names);
+            List<PoiWithId> pois = new ArrayList<PoiWithId>();
+            /* zero poi */
+            PoiWithId zero = new PoiWithId();
+            zero.setUid(0);
+            zero.setName("No parent POI");
+            pois.add(zero);
+            
+            /* Load Pois */
+    		SelectRequestComplexType selectRequest = new SelectRequestComplexType();
+            Ids ids = new Ids();
+            ids.getId().add(0);
+            selectRequest.setFindByParentIds(ids);
+            
             final ExecuteRequestComplexType executeRequest = new ExecuteRequestComplexType();
             executeRequest.getCreateRequestsOrReadRequestsOrUpdateRequests().add(selectRequest);
-            model.addAttribute("pois", ((SelectResponseComplexType) poiFacade.execute(executeRequest)
-    		        .getCreateResponsesOrReadResponsesOrUpdateResponses().get(0)).getPoi());            
-            /**
-             * End Load Pois
-             */
+            
+    		try {
+    			pois.addAll(PoiConverter.flattenPoiWithIdList(((SelectResponseComplexType) poiFacade.execute(executeRequest)
+    			        .getCreateResponsesOrReadResponsesOrUpdateResponses().get(0)).getPoi()));
+    		} catch (ExecuteFault e) {
+    			e.printStackTrace();
+    		}
+            
+            model.addAttribute("pois", pois);
             
         } catch (ExecuteFault e) {
 
