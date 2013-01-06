@@ -13,6 +13,7 @@ import edu.kit.cm.kitcampusguide.ws.poi.PoiFacade;
 import edu.kit.tm.cm.kitcampusguide.poiservice.DeleteRequestComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteFault;
 import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.Ids;
 import edu.kit.tm.cm.kitcampusguide.poiservice.Names;
 import edu.kit.tm.cm.kitcampusguide.poiservice.SelectRequestComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.SelectResponseComplexType;
@@ -39,14 +40,15 @@ public class PoisController {
     public String setUpPoiList(Model model) throws Exception {
         log.debug("Request for pois.");
         SelectRequestComplexType selectRequest = new SelectRequestComplexType();
-        Names names = new Names();
-        names.getName().add("%");
-        selectRequest.setFindByNamesLike(names);
+        Ids ids = new Ids();
+        ids.getId().add(0);
+        selectRequest.setFindByParentIds(ids);
+        
         final ExecuteRequestComplexType executeRequest = new ExecuteRequestComplexType();
         executeRequest.getCreateRequestsOrReadRequestsOrUpdateRequests().add(selectRequest);
         model.addAttribute("pois", ((SelectResponseComplexType) poiFacade.execute(executeRequest)
                 .getCreateResponsesOrReadResponsesOrUpdateResponses().get(0)).getPoi());
-
+        
         return "poi/list";
     }
 

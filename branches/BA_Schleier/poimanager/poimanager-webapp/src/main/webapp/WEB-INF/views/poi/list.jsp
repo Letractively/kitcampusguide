@@ -7,6 +7,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="tag"%>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -41,7 +42,9 @@
 		</legend>
 		<table>
 			<tr class="poi header">
+				<th class="hierarchy field title"><fmt:message key="hierarchy" /></th>
 				<th class="uid field title"><fmt:message key="uid" /></th>
+				<th class="parentId field title"><fmt:message key="parentId" /></th>
 				<th class="name field title"><fmt:message key="name" /></th>
 				<th class="description fieldtitle"><fmt:message
 						key="description" /></th>
@@ -57,7 +60,8 @@
 						key="poiFunctions" />
 				</th>
 			</tr>
-			<c:forEach var="poi" items="${pois}">
+			<tag:treePrinter pois="${pois}" level="1"/>
+			<!--<c:forEach var="poi" items="${pois}">
 				<tr class="poi">
 					<td class="uid field">${poi.uid}</td>
 					<td class="name field">${poi.name}</td>
@@ -70,7 +74,10 @@
 						<a href="poi/${poi.uid}/delete.htm">delete</a>
 					</td>
 				</tr>
-			</c:forEach>
+				<c:if test="${not empty poi.children}">  
+    			  
+				</c:if>  
+			</c:forEach>-->
 		</table>
 
 		<br /> <a href="poi/create.htm"><fmt:message key="newPoiLink" />

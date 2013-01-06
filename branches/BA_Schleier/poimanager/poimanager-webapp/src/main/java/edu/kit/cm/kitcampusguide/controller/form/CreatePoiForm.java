@@ -18,11 +18,14 @@ import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.service.user.MemberService;
 import edu.kit.cm.kitcampusguide.validator.PoiValidator;
 import edu.kit.cm.kitcampusguide.ws.poi.PoiFacade;
+import edu.kit.cm.kitcampusguide.ws.poi.util.PoiConverter;
 import edu.kit.tm.cm.kitcampusguide.poiservice.CreateRequestComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteFault;
 import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.Ids;
 import edu.kit.tm.cm.kitcampusguide.poiservice.Names;
 import edu.kit.tm.cm.kitcampusguide.poiservice.Poi;
+import edu.kit.tm.cm.kitcampusguide.poiservice.PoiWithId;
 import edu.kit.tm.cm.kitcampusguide.poiservice.SelectRequestComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.SelectResponseComplexType;
 
@@ -57,26 +60,38 @@ public class CreatePoiForm {
         poi.setParentId(0);
         model.addAttribute(poi);
 
-        /**
-         * Load Pois
-         */
-        List<POI> pois = new ArrayList<POI>();
-        POI zero = new POI();
-        zero.setId(0);
+        List<PoiWithId> pois = new ArrayList<PoiWithId>();
+        
+        /* zero poi */
+        PoiWithId zero = new PoiWithId();
+        zero.setUid(0);
         zero.setName("No parent POI");
         pois.add(zero);
-        pois.addAll(poiFacade.getPoiDao().findByNameLike("%"));
-        System.out.println("POILISTSIEZ:"+pois.size());
-		model.addAttribute("pois", pois);
-        /**
-         * End Load Pois
-         */
+        
+        /* Load Pois */
+		SelectRequestComplexType selectRequest = new SelectRequestComplexType();
+        Ids ids = new Ids();
+        ids.getId().add(0);
+        selectRequest.setFindByParentIds(ids);
+        
+        final ExecuteRequestComplexType executeRequest = new ExecuteRequestComplexType();
+        executeRequest.getCreateRequestsOrReadRequestsOrUpdateRequests().add(selectRequest);
+        
+		try {
+			pois.addAll(PoiConverter.flattenPoiWithIdList(((SelectResponseComplexType) poiFacade.execute(executeRequest)
+			        .getCreateResponsesOrReadResponsesOrUpdateResponses().get(0)).getPoi()));
+		} catch (ExecuteFault e) {
+			e.printStackTrace();
+		}
+        
+        model.addAttribute("pois", pois);
         
         Collection<Group> groups = this.memberService.getGroups();
         model.addAttribute("groups", groups);
 
         return "poi/form";
     }
+    
 
     @RequestMapping(method = RequestMethod.POST)
     protected String onSubmit(@ModelAttribute Poi poi, BindingResult result, Model model) {

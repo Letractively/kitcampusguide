@@ -91,7 +91,7 @@
 				<label class="label" for="parentId"> <fmt:message
 						key="parentId" /> </label>
 				<form:select multiple="false" path="parentId" items="${pois}"
-					itemValue="id" itemLabel="name" cssClass="parentId field" />
+					itemValue="uid" itemLabel="name" cssClass="parentId field" />
 				<form:errors path="parentId" cssClass="parentId error" />
 			</div>
 
