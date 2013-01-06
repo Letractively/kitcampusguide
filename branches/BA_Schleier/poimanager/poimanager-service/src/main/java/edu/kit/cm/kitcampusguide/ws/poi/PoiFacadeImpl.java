@@ -235,6 +235,8 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
         foundPois.addAll(findPoisByNamesLike(selectRequest.getFindByNamesLike()));
 
         foundPois.addAll(findPoisByNameSuffixes(selectRequest.getFindByNameSuffixes()));
+        
+        foundPois.addAll(findPoisByParentIds(selectRequest.getFindByParentIds()));
 
         SelectResponseComplexType response = new SelectResponseComplexType();
         response.getPoi().addAll(PoiConverter.convertPoisForResponse(foundPois));
@@ -301,6 +303,26 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
                 } catch (PoiDaoException e) {
                     throw new ExecuteFault(e.getMessage(), e);
                 }
+            }
+        }
+
+        return pois;
+    }
+    @SuppressWarnings("unchecked")
+	private Collection<? extends POI> findPoisByParentIds(Ids ids) throws ExecuteFault {
+        List<POI> pois = new ArrayList<POI>();
+
+        if (ids != null) {
+            for (int pid : ids.getId()) {
+            	pois.addAll(this.dao.findByParentId(pid));
+            	for(POI poi : pois) {
+            		Ids cIds = new Ids();
+            		cIds.getId().add(poi.getId());
+            		poi.setChildren((ArrayList<POI>) findPoisByParentIds(cIds));
+            		for(POI cPoi : poi.getChildren()) {
+            			cPoi.setParent(poi);
+            		}
+            	}
             }
         }
 
