@@ -53,6 +53,11 @@
 					<xsd:element name="id" type="xsd:int"></xsd:element>
 				</xsd:sequence>
 			</xsd:complexType>
+			<xsd:complexType name="PoisWithId">
+				<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+					<xsd:element name="pois" type="tns:PoiWithId"></xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
 			<xsd:complexType name="Strings">
 				<xsd:sequence minOccurs="1" maxOccurs="unbounded">
 					<xsd:element name="id" type="xsd:string"></xsd:element>
@@ -68,6 +73,7 @@
 					<xsd:element name="latitude" type="xsd:double"></xsd:element>
 					<xsd:element name="groupId" type="xsd:string"></xsd:element>
 					<xsd:element name="publicly" type="xsd:boolean"></xsd:element>
+					<xsd:element name="parentId" type="xsd:int"></xsd:element>
 				</xsd:all>
 			</xsd:complexType>
 			<xsd:complexType name="PoiWithId">
@@ -81,6 +87,9 @@
 					<xsd:element name="latitude" type="xsd:double"></xsd:element>
 					<xsd:element name="groupId" type="xsd:string"></xsd:element>
 					<xsd:element name="publicly" type="xsd:boolean"></xsd:element>
+					<xsd:element name="parentId" type="xsd:int"></xsd:element>
+					<xsd:element name="children" type="tns:PoisWithId"></xsd:element>
+					<xsd:element name="parent" type="tns:PoiWithId"></xsd:element>
 				</xsd:all>
 			</xsd:complexType>
 			<xsd:complexType name="CreateRequestComplexType">
@@ -168,6 +177,7 @@
 					<xsd:element name="findByNamePrefixes" type="tns:Names">
 					</xsd:element>
 					<xsd:element name="findByIds" type="tns:Ids"></xsd:element>
+					<xsd:element name="findByParentIds" type="tns:Ids"></xsd:element>
 				</xsd:choice>
 			</xsd:complexType>
 			<xsd:complexType name="SelectResponseComplexType">
