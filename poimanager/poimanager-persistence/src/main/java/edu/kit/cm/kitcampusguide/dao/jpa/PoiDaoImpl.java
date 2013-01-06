@@ -8,6 +8,7 @@ import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.stereotype.Repository;
 
 import edu.kit.cm.kitcampusguide.dao.PoiDao;
+import edu.kit.cm.kitcampusguide.model.Entity;
 import edu.kit.cm.kitcampusguide.model.POI;
 
 @Repository
@@ -29,6 +30,11 @@ public class PoiDaoImpl extends PersistentEntityDaoImpl<POI> implements PoiDao {
     public List<POI> findByNameLike(String pattern) {
         return convertResultListToPois(findByNamedQueryAndParams("poi.findByNameLike", pattern));
     }
+
+	public List<POI> findByParentId(Integer pid) {
+		return convertResultListToPois(findByNamedQueryAndParams("poi.findByParentId", pid));
+	}
+
 
     @SuppressWarnings("rawtypes")
     private List<POI> convertResultListToPois(List result) {

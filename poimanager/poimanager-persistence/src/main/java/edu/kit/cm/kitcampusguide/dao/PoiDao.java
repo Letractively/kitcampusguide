@@ -16,4 +16,6 @@ public interface PoiDao extends PersistentEntityDao {
     List<POI> findByNameWithSuffix(String suffix);
 
     List<POI> findByNameLike(String pattern);
+    
+    List<POI> findByParentId(Integer pid);
 }

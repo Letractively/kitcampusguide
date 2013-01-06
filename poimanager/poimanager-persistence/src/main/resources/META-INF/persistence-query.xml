@@ -26,4 +26,10 @@
             WHERE c.name LIKE ?
         </query>
 	</named-query>
+	<named-query name="poi.findByParentId">
+		<query>
+			FROM poi p
+			WHERE p.parentId = ?
+		</query>
+	</named-query>
 </entity-mappings>
