@@ -1,5 +1,10 @@
 package edu.kit.cm.kitcampusguide.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Transient;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -22,6 +27,8 @@ public class POI extends AbstractEntity implements Cloneable, Entity {
 	private String groupId;
 	private Double longitude;
 	private Double latitude;
+	@Transient private List<POI> children;
+	@Transient private POI parent;
 
 	public POI(String name, Integer id, String icon, String description,
 			Double longitude, Double latitude, String groupId,
@@ -153,6 +160,25 @@ public class POI extends AbstractEntity implements Cloneable, Entity {
 	
 	public Double getLongitude() {
 		return this.longitude;
+	}
+
+	public List<POI> getChildren() {
+		if(children == null) {
+			children = new ArrayList<POI>();
+		}
+		return children;
+	}
+
+	public void setChildren(List<POI> children) {
+		this.children = children;
+	}
+
+	public POI getParent() {
+		return parent;
+	}
+
+	public void setParent(POI parent) {
+		this.parent = parent;
 	}
 
 	@Override
