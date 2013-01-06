@@ -7,6 +7,7 @@ import java.util.List;
 import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.tm.cm.kitcampusguide.poiservice.Poi;
 import edu.kit.tm.cm.kitcampusguide.poiservice.PoiWithId;
+import edu.kit.tm.cm.kitcampusguide.poiservice.PoisWithId;
 import edu.kit.tm.cm.kitcampusguide.poiservice.Strings;
 
 public class PoiConverter {
@@ -79,7 +80,10 @@ public class PoiConverter {
 	public static List<PoiWithId> convertPoisForResponse(List<POI> foundPois) {
 		List<PoiWithId> pwis = new ArrayList<PoiWithId>();
         for (POI poi : foundPois) {
-            pwis.add(PoiConverter.createPoiWithId(poi));
+        	PoiWithId pwi = PoiConverter.createPoiWithId(poi);
+        	pwi.setChildren(new PoisWithId());
+        	pwi.getChildren().getPois().addAll(convertPoisForResponse(poi.getChildren()));
+            pwis.add(pwi);
         }
         return pwis;
     }
@@ -96,5 +100,23 @@ public class PoiConverter {
 		poi.setPublicly(obj.isPublicly());
 		poi.setParentId(obj.getParentId());
 		return poi;
+	}
+	
+	public static List<PoiWithId> flattenPoiWithIdList(List<PoiWithId> in) {
+		return flattenPoiWithIdList(in, 1);
+		
+	}
+	private static List<PoiWithId> flattenPoiWithIdList(List<PoiWithId> in, Integer lvl) {
+		List<PoiWithId> out = new ArrayList<PoiWithId>();
+		
+		for(PoiWithId poi : in) {
+			for(int i = 1; i < lvl; i++) {
+				poi.setName("+"+poi.getName());
+			}
+			out.add(poi);
+			out.addAll(flattenPoiWithIdList(poi.getChildren().getPois(), lvl+1));
+		}
+		return out;
+		
 	}
 }
