@@ -60,6 +60,7 @@ public class RoleOfMemberInGroupEvaluator {
     	
     }
 
+    /* create and evaluate a pdp request for the respective action */
 	private boolean pdpRequest(Object targetDomainObject, MemberUserDetails user, String action) {
     	SDKResponseWithTrace resp = null;
     	try {
@@ -97,6 +98,7 @@ public class RoleOfMemberInGroupEvaluator {
     	
     }
 
+	/* adds resource attributes to the request for the respective action */
 	private void addResourcesToRequest(Object targetDomainObject, XacmlRequestBuilder reqBuild) {
 		try {
 			if (targetDomainObject instanceof CreateRequestComplexType) {
