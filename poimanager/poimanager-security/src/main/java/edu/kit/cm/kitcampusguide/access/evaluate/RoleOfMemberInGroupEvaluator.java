@@ -4,12 +4,12 @@ import java.io.InputStream;
 
 import org.apache.log4j.Logger;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.axiomatics.sdk.connections.PDPConnection;
 import com.axiomatics.sdk.connections.PDPConnectionFactory;
 import com.axiomatics.sdk.context.SDKResponseWithTrace;
+import com.axiomatics.sdk.context.XacmlObjectStateException;
 import com.axiomatics.sdk.context.XacmlRequestBuilder;
 import com.axiomatics.xacml.Constants;
 import com.axiomatics.xacml.reqresp.Request;
@@ -18,7 +18,10 @@ import edu.kit.cm.kitcampusguide.model.MemberToGroupMapping;
 import edu.kit.cm.kitcampusguide.service.user.MemberUserDetails;
 import edu.kit.tm.cm.kitcampusguide.poiservice.CreateRequestComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.DeleteRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.Poi;
+import edu.kit.tm.cm.kitcampusguide.poiservice.PoiWithId;
 import edu.kit.tm.cm.kitcampusguide.poiservice.ReadRequestComplexType;
+import edu.kit.tm.cm.kitcampusguide.poiservice.SelectRequestComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.UpdateRequestComplexType;
 
 public class RoleOfMemberInGroupEvaluator {
@@ -30,63 +33,102 @@ public class RoleOfMemberInGroupEvaluator {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	MemberUserDetails user = (MemberUserDetails) auth.getPrincipal();
     	
-    	return true; /*
     	log.info("ACHTUNG! "+user.getName());
-    	
     	log.info("XACML: START REQUEST: " + targetDomainObject.getClass().getName());
-    	if(targetDomainObject instanceof UpdateRequestComplexType) {
-    		//PoiWithId poi = ((UpdateRequestComplexType) targetDomainObject).getPoi();
-    		decision = pdpRequest(user, "update");
-    	} else if(targetDomainObject instanceof CreateRequestComplexType) {
-    		// Returns Poi instead of PoiWithId :-(
-    		decision = pdpRequest(user, "create");
-    	} else if(targetDomainObject instanceof DeleteRequestComplexType) {
-    		// Doesn't have any method to get poi. Only knows the ID (need the groups)
-    		decision = pdpRequest(user, "delete");
-    	} else if(targetDomainObject instanceof ReadRequestComplexType) {
-    		decision = pdpRequest(user, "read");
+    	
+    	// TODO
+    	if (targetDomainObject instanceof CreateRequestComplexType) {
+    		decision = pdpRequest(targetDomainObject, user, "create");
+    		
+    	// TODO
+    	} else if (targetDomainObject instanceof ReadRequestComplexType) {
+    		decision = pdpRequest(targetDomainObject, user, "read");
+
+    	} else if (targetDomainObject instanceof UpdateRequestComplexType) {
+    		decision = pdpRequest(targetDomainObject, user, "update");
+    	
+    	// TODO
+    	} else if (targetDomainObject instanceof DeleteRequestComplexType) {
+    		decision = pdpRequest(targetDomainObject, user, "delete");
+    		
+    	// TODO
+    	} else if (targetDomainObject instanceof SelectRequestComplexType) {
+    		decision = pdpRequest(targetDomainObject, user, "select");
+    		
     	}
-    	return decision;*/
+    	return decision;
+    	
     }
-    
-    private boolean pdpRequest(MemberUserDetails user, String action) {
+
+	private boolean pdpRequest(Object targetDomainObject, MemberUserDetails user, String action) {
     	SDKResponseWithTrace resp = null;
     	try {
 			InputStream props = Thread.currentThread().getContextClassLoader().getResourceAsStream("pdp.properties");
-			
     		PDPConnection pdpConnection = PDPConnectionFactory.getPDPConnection(props);
-			XacmlRequestBuilder reqBuild = new XacmlRequestBuilder();
+    		XacmlRequestBuilder reqBuild = new XacmlRequestBuilder();
     		
-			log.info("XACML: Adding action-id \"" + action + "\"");
-			reqBuild.addActionAttribute(Constants.ACTION_ID, action);
-			
-    		for(MemberToGroupMapping mapping : user.getGroupMappings()) {
+			// add subject (roles in groups)
+    		for (MemberToGroupMapping mapping : user.getGroupMappings()) {
     			String role = mapping.getRole();
     			String group = mapping.getGroup().getName();
     			log.info("XACML: Adding group \"" + group + "\" to role " + role);
-    			//reqBuild.addSubjectAttribute("urn:kit:roles:"+role, group);
-    			reqBuild.addSubjectAttribute("urn:kit:roles:"+role, "hasRole");
+    			reqBuild.addSubjectAttribute("urn:kit:roles:"+role, group);
+    			
     		}
     		
-    		/*Strings groupIds = poi.getGroupIds();
-    		for(String groupId : groupIds.getId()) {
-    			System.out.println("adding resource group: " + groupId);
-    			reqBuild.addResourceAttribute(Constants.RESOURCE_ID, groupId);
-    		}*/
-
-			Request req = reqBuild.buildRequest();
-							
-			resp = pdpConnection.evaluateWithTrace(req);
-
-			log.info("XACML: Answer = "+resp.getResponse().toString());
+    		// add action (CRUDS)
+			log.info("XACML: Adding action-id \"" + action + "\"");
+			reqBuild.addActionAttribute("urn:kit:action", action);
+    		
+			// add resources (dependent on action)
+			addResourcesToRequest(targetDomainObject, reqBuild);
 			
+			// build request and evaluate
+    		Request req = reqBuild.buildRequest();			
+			resp = pdpConnection.evaluateWithTrace(req);
+			log.info("XACML: Answer = "+resp.getResponse().toString());
 	    	return resp.getBiasedDecision();
 
     	} catch(Exception e) {
 			e.printStackTrace();
+			
 		}
-    	
     	return false;
+    	
     }
 
+	private void addResourcesToRequest(Object targetDomainObject, XacmlRequestBuilder reqBuild) {
+		try {
+			if (targetDomainObject instanceof CreateRequestComplexType) {
+	    		Poi poi = ((CreateRequestComplexType) targetDomainObject).getPoi();
+	    		
+	    		// TODO get parent poi and its groupId
+	    		
+//	    		log.info("XACML: Adding parentId \"" + parentId + "\"");
+//	    		reqBuild.addResourceAttribute("urn:kit:parentId", parentId);
+//	    		log.info("XACML: Adding parentGroupId \"" + parentGroupId + "\"");
+//	    		reqBuild.addResourceAttribute("urn:kit:parentGroupId", parentGroupId);
+	    		
+			} else if (targetDomainObject instanceof UpdateRequestComplexType) {
+				// TODO get poi groupId and publicly attr
+				
+			} else if (targetDomainObject instanceof UpdateRequestComplexType) {
+				PoiWithId poi = ((UpdateRequestComplexType) targetDomainObject).getPoi();
+	    		String groupId = poi.getGroupId();
+	    		log.info("XACML: Adding poi-group-id \"" + groupId + "\"");
+	    		reqBuild.addResourceAttribute("urn:kit:poigroupid", groupId);
+	    	
+	    	} else if (targetDomainObject instanceof DeleteRequestComplexType) {
+	    		// TODO eeeehrmm... now let me think
+	    	
+	    	} else if (targetDomainObject instanceof SelectRequestComplexType) {
+	    		// TODO something
+	    		
+	    	}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			
+		}
+	}
 }
