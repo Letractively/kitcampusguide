@@ -159,7 +159,7 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
         log.debug("Processing delete request.");
 
         try {
-            this.dao.remove(this.dao.findByUid(deleteRequest.getId()));
+            this.dao.remove(this.dao.findByUid(deleteRequest.getPoi().getUid()));
         } catch (PoiDaoException e) {
             throw new ExecuteFault(e.getMessage(), e);
         }
@@ -190,7 +190,7 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
     @PreAuthorize("isAuthenticated()")
     public ReadResponseComplexType read(ReadRequestComplexType readRequest) throws ExecuteFault {
         log.debug("Processing read request.");
-        int idToRead = readRequest.getId();
+        int idToRead = readRequest.getPoi().getUid();
 
         POI foundPoi;
         try {

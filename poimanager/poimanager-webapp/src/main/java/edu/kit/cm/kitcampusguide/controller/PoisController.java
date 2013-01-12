@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.kit.cm.kitcampusguide.controller.form.UpdatePoiForm;
+import edu.kit.cm.kitcampusguide.dao.PoiDao;
 import edu.kit.cm.kitcampusguide.ws.poi.PoiFacade;
 import edu.kit.tm.cm.kitcampusguide.poiservice.DeleteRequestComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteFault;
 import edu.kit.tm.cm.kitcampusguide.poiservice.ExecuteRequestComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.Ids;
 import edu.kit.tm.cm.kitcampusguide.poiservice.Names;
+import edu.kit.tm.cm.kitcampusguide.poiservice.PoiWithId;
 import edu.kit.tm.cm.kitcampusguide.poiservice.SelectRequestComplexType;
 import edu.kit.tm.cm.kitcampusguide.poiservice.SelectResponseComplexType;
 
@@ -22,7 +24,6 @@ import edu.kit.tm.cm.kitcampusguide.poiservice.SelectResponseComplexType;
 public class PoisController {
 
     private static final Logger log = Logger.getLogger(UpdatePoiForm.class);
-
     @Autowired
     private PoiFacade poiFacade;
 
@@ -75,7 +76,7 @@ public class PoisController {
 
     private void tryToDeletePoiWithId(Integer uid, ModelAndView mv) throws ExecuteFault {
         DeleteRequestComplexType deleteRequest = new DeleteRequestComplexType();
-        deleteRequest.setId(uid);
+        deleteRequest.setPoi(new PoiWithId(uid));
         ExecuteRequestComplexType executeRequest = new ExecuteRequestComplexType();
         executeRequest.getCreateRequestsOrReadRequestsOrUpdateRequests().add(deleteRequest);
         poiFacade.execute(executeRequest);

@@ -117,7 +117,7 @@ public class PoiFacadeTest {
     @Test
     public void testReadingPoi() throws ExecuteFault {
         final ReadRequestComplexType request = new ReadRequestComplexType();
-        request.setId(this.poiCopyFromDb.getId());
+        request.setPoi(PoiConverter.createPoiWithId(this.poiCopyFromDb));
         final ExecuteRequestComplexType execRequest = new ExecuteRequestComplexType();
         execRequest.getCreateRequestsOrReadRequestsOrUpdateRequests().add(request);
 
@@ -131,7 +131,7 @@ public class PoiFacadeTest {
     @Test
     public void testDeletingPoi() throws ExecuteFault, PoiDaoException {
         final DeleteRequestComplexType request = new DeleteRequestComplexType();
-        request.setId(this.poiCopyFromDb.getId());
+        request.setPoi(new PoiWithId(poiCopyFromDb.getId()));
         final ExecuteRequestComplexType execRequest = new ExecuteRequestComplexType();
         execRequest.getCreateRequestsOrReadRequestsOrUpdateRequests().add(request);
 
