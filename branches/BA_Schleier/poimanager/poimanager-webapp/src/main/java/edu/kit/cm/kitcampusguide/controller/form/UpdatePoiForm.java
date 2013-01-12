@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import edu.kit.cm.kitcampusguide.model.Group;
+import edu.kit.cm.kitcampusguide.model.POI;
 import edu.kit.cm.kitcampusguide.service.user.MemberService;
 import edu.kit.cm.kitcampusguide.validator.PoiValidator;
 import edu.kit.cm.kitcampusguide.ws.poi.PoiFacade;
@@ -106,7 +107,7 @@ public class UpdatePoiForm {
 
     private void tryToLoadPoiAndSetToModel(int uid, Model model) throws ExecuteFault {
         ReadRequestComplexType readRequest = new ReadRequestComplexType();
-        readRequest.setId(uid);
+        readRequest.setPoi(new PoiWithId(uid));
         PoiWithId poi = (poiFacade.read(readRequest).getPoi());
         model.addAttribute("poi", poi);
     }
