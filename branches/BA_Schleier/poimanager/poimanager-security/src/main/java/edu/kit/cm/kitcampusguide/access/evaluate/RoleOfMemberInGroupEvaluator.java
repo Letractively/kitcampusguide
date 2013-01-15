@@ -36,10 +36,6 @@ public class RoleOfMemberInGroupEvaluator {
     public RoleOfMemberInGroupEvaluator(PoiDao dao) {
     	this.dao = dao;
     }
-    public RoleOfMemberInGroupEvaluator() {
-    }
-    
-  
     
     public boolean hasPermission(Object targetDomainObject) {
     	boolean decision = false;
@@ -71,7 +67,31 @@ public class RoleOfMemberInGroupEvaluator {
 
     	// TODO
     	} else if (targetDomainObject instanceof ReadRequestComplexType) {
-    		//decision = pdpRequest(resourceAttributes, user, "read");
+    		ReadRequestComplexType request = (ReadRequestComplexType) targetDomainObject;
+    		Poi poi = new Poi();
+			try {
+				poi = (Poi) this.dao.findByUid(request.getId());
+			} catch (PoiDaoException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+    		
+    		resourceAttributes.put("urn:poimanager:poi:group", new StringAttribute(poi.getGroupId()));
+    		if(poi.getParentId() == 0) {
+    			resourceAttributes.put("urn:poimanager:poi:parent", BooleanAttribute.getFalseInstance());
+    		} else {
+    			POI parent;
+				try {
+					parent = (POI) this.dao.findByUid(poi.getParentId());
+					resourceAttributes.put("urn:poimanager:poi:parent", BooleanAttribute.getTrueInstance());
+	    			resourceAttributes.put("urn:poimanager:poi:parent:group", new StringAttribute(parent.getGroupId()));
+				} catch (PoiDaoException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
+    		
+    		decision = pdpRequest(resourceAttributes, user, "read");
 
     	} else if (targetDomainObject instanceof UpdateRequestComplexType) {
     		UpdateRequestComplexType request = (UpdateRequestComplexType) targetDomainObject;
@@ -97,7 +117,15 @@ public class RoleOfMemberInGroupEvaluator {
     	// TODO
     	} else if (targetDomainObject instanceof DeleteRequestComplexType) {
     		DeleteRequestComplexType request = (DeleteRequestComplexType) targetDomainObject;
-    		PoiWithId poi = request.getPoi();
+    		
+    		Poi poi = new Poi();
+			
+    		try {
+				poi = (Poi) this.dao.findByUid(request.getId());
+			} catch (PoiDaoException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
     		
     		resourceAttributes.put("urn:poimanager:poi:group", new StringAttribute(poi.getGroupId()));
     		if(poi.getParentId() == 0) {
@@ -118,9 +146,31 @@ public class RoleOfMemberInGroupEvaluator {
     		
     	// TODO
     	} else if (targetDomainObject instanceof SelectRequestComplexType) {
-    		
-    		decision = true;
-    		//decision = pdpRequest(resourceAttributes, user, "select");
+//    		SelectRequestComplexType request = (SelectRequestComplexType) targetDomainObject;
+//    		Poi poi = new Poi();
+//			try {
+//				poi = (Poi)this.dao.findByUid(request.getFindByIds().getId().get(0));
+//			} catch (PoiDaoException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//    		
+//    		resourceAttributes.put("urn:poimanager:poi:group", new StringAttribute(poi.getGroupId()));
+//    		if(poi.getParentId() == 0) {
+//    			resourceAttributes.put("urn:poimanager:poi:parent", BooleanAttribute.getFalseInstance());
+//    		} else {
+//    			POI parent;
+//				try {
+//					parent = (POI) this.dao.findByUid(poi.getParentId());
+//					resourceAttributes.put("urn:poimanager:poi:parent", BooleanAttribute.getTrueInstance());
+//	    			resourceAttributes.put("urn:poimanager:poi:parent:group", new StringAttribute(parent.getGroupId()));
+//				} catch (PoiDaoException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//    		}
+//    		
+//    		decision = pdpRequest(resourceAttributes, user, "select");
     		
     	}
     	return decision;
