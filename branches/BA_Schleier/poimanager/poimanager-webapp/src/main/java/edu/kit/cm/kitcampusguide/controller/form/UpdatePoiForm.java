@@ -107,7 +107,7 @@ public class UpdatePoiForm {
 
     private void tryToLoadPoiAndSetToModel(int uid, Model model) throws ExecuteFault {
         ReadRequestComplexType readRequest = new ReadRequestComplexType();
-        readRequest.setPoi(new PoiWithId(uid));
+        readRequest.setId(uid);
         PoiWithId poi = (poiFacade.read(readRequest).getPoi());
         model.addAttribute("poi", poi);
     }
