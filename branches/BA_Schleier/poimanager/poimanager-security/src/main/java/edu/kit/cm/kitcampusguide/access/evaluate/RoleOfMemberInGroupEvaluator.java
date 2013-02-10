@@ -36,6 +36,7 @@ public class RoleOfMemberInGroupEvaluator {
 
     private static final Logger log = Logger.getLogger(RoleOfMemberInGroupEvaluator.class);
     private PoiDao dao;
+    private MemberUserDetails user;
     
     public RoleOfMemberInGroupEvaluator(PoiDao dao) {
     	this.dao = dao;
@@ -44,7 +45,7 @@ public class RoleOfMemberInGroupEvaluator {
     public boolean hasPermission(Object targetDomainObject) {
     	boolean decision = false;
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    	MemberUserDetails user = (MemberUserDetails) auth.getPrincipal();
+    	user = (MemberUserDetails) auth.getPrincipal();
     	
     	log.info("XACML: START REQUEST: " + targetDomainObject.getClass().getName());
     	HashMap<String, AttributeValue> resourceAttributes = new HashMap<String, AttributeValue>();
@@ -165,7 +166,9 @@ public class RoleOfMemberInGroupEvaluator {
 	    				}
 	    			}
 	    		}
-	    		request.setFindByNamesLike(tmp);
+	    		Names names = new Names();
+	    		names.getName().addAll(tmp);
+	    		request.setFindByNamesLike(names);
     		} else {
     			log.fatal("null @ findnameslike");
     		}
@@ -179,7 +182,9 @@ public class RoleOfMemberInGroupEvaluator {
 	    				}
 	    			}
 	    		}
-	    		request.setFindByNamePrefixes(tmp);
+	    		Names names = new Names();
+	    		names.getName().addAll(tmp);
+	    		request.setFindByNamePrefixes(names);
     		}else {
     			log.fatal("null @ findnamesprefix");
     		}
@@ -193,7 +198,9 @@ public class RoleOfMemberInGroupEvaluator {
 	    				}
 	    			}
 	    		}
-	    		request.setFindByNames(tmp);
+	    		Names names = new Names();
+	    		names.getName().addAll(tmp);
+	    		request.setFindByNames(names);
     		}else {
     			log.fatal("null @ findbynames");
     		}
@@ -207,17 +214,27 @@ public class RoleOfMemberInGroupEvaluator {
 	    				}
 	    			}
 	    		}
-	    		request.setFindByNameSuffixes(tmp);
+	    		Names names = new Names();
+	    		names.getName().addAll(tmp);
+	    		request.setFindByNameSuffixes(names);
     		} else {
     			log.fatal("null @ suffixes");
     		}
     		
     		if (request.getFindByParentIds() != null) {
     			List<Integer> newList = new ArrayList<Integer>();
-    			newList.addAll(request.getFindByParentIds().getId());
+
     			for(Integer id : request.getFindByParentIds().getId()) {
-    				for(POI poi : this.dao.findByParentId(id)) {
+    		    	for(POI poi : this.dao.findByParentId(id)) {
     					resourceAttributes.put("urn:poimanager:poi:group", new StringAttribute(poi.getGroupId()));
+    					
+    					
+    					if(poi.getPublicly())
+    						resourceAttributes.put("urn:poimanager:poi:public", BooleanAttribute.getTrueInstance());
+    					else
+    						resourceAttributes.put("urn:poimanager:poi:public", BooleanAttribute.getFalseInstance());
+    					
+    					
     					if(poi.getParentId() == 0) {
     						resourceAttributes.put("urn:poimanager:poi:parent", BooleanAttribute.getFalseInstance());
     					} else {
@@ -231,12 +248,15 @@ public class RoleOfMemberInGroupEvaluator {
     							e.printStackTrace();
     						}
     					}
-    					if(!pdpRequest(resourceAttributes, user, "select")) {
-    						newList.remove(id);
+    					if(pdpRequest(resourceAttributes, user, "select")) {
+    						newList.add(poi.getId());
     					}
     				}
     			}
-    			request.setFindByParentIds(newList);
+    			Ids ids = new Ids();
+	    		ids.getId().addAll(newList);
+    			request.setFindByParentIds(null);
+    			request.setFindByIds(ids);
     		}
     		decision = true;
     	}
@@ -292,7 +312,7 @@ public class RoleOfMemberInGroupEvaluator {
     			} else {
 	    			log.info("XACML.SUBJECT: Adding \"" + group + "\" to role " + role);
 	    			reqBuild.addSubjectAttribute("urn:poimanager:roles", role);
-	    			reqBuild.addSubjectAttribute("urn:poimanager:roles:"+role, group);
+	    			reqBuild.addSubjectAttribute("urn:poimanager:groups", group);
     			}
     		}
     		// User belongs to no groups => Student role

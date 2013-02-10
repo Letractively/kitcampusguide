@@ -153,7 +153,12 @@ public class UpdatePoiForm {
     private void tryToUpdatePoiAndAddSuccessMessage(PoiWithId poi, Model model) throws ExecuteFault {
         UpdateRequestComplexType updateRequest = new UpdateRequestComplexType();
         updateRequest.setPoi(poi);
-        poiFacade.update(updateRequest);
+        
+        ExecuteRequestComplexType executeRequest = new ExecuteRequestComplexType();
+        executeRequest.getCreateRequestsOrReadRequestsOrUpdateRequests().add(updateRequest);
+        poiFacade.execute(executeRequest);
+
+        //poiFacade.update(updateRequest);
         model.addAttribute("successMessage", "success.updatingPoi");
     }
 }
