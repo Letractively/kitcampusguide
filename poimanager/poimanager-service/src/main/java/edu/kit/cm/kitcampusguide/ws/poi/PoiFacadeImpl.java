@@ -293,16 +293,25 @@ public class PoiFacadeImpl implements PoiService, PoiFacade {
         return pois;
     }
 
-    private Collection<? extends POI> findPoisByIds(Ids ids) throws ExecuteFault {
+    @SuppressWarnings("unchecked")
+	private Collection<? extends POI> findPoisByIds(Ids ids) throws ExecuteFault {
         List<POI> pois = new ArrayList<POI>();
 
         if (ids != null) {
-            for (int uid : ids.getId()) {
-                try {
-                    pois.add((POI) this.dao.findByUid(uid));
-                } catch (PoiDaoException e) {
-                    throw new ExecuteFault(e.getMessage(), e);
-                }
+        	for (int pid : ids.getId()) {
+        		try {
+        			POI poi = (POI) this.dao.findByUid(pid);
+					pois.add(poi);
+            		Ids cIds = new Ids();
+            		cIds.getId().add(poi.getId());
+            		poi.setChildren((ArrayList<POI>) findPoisByParentIds(cIds));
+            		for(POI cPoi : poi.getChildren()) {
+            			cPoi.setParent(poi);
+            		}
+				} catch (PoiDaoException e) {
+					e.printStackTrace();
+				}
+            	
             }
         }
 

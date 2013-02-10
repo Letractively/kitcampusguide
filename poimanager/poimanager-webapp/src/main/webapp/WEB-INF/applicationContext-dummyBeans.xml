@@ -9,6 +9,7 @@
 		<property name="users">
 			<list value-type="edu.kit.cm.kitcampusguide.model.Member">
 				<ref bean="institutsleiter" />
+				<ref bean="institutsleiter2" />
 				<ref bean="mitarbeiter" />
 				<ref bean="student" />
 			</list>
