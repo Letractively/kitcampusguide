@@ -10,6 +10,7 @@
 			<list value-type="edu.kit.cm.kitcampusguide.model.Member">
 				<ref bean="institutsleiter" />
 				<ref bean="institutsleiter2" />
+				<ref bean="institutsupdater" />
 				<ref bean="mitarbeiter" />
 				<ref bean="student" />
 			</list>
@@ -42,6 +43,16 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="institutsupdater" class="edu.kit.cm.kitcampusguide.model.Member">
+		<property name="name" value="institutsupdater" />
+		<property name="password" value="institutsupdater" />
+		<property name="groupMappings">
+			<list value-type="edu.kit.cm.kitcampusguide.model.MemberToGroupMapping">
+				<ref bean="institutsupdaterGruppe1" />
+			</list>
+		</property>
+	</bean>
 
 	<bean id="mitarbeiter" class="edu.kit.cm.kitcampusguide.model.Member">
 		<property name="name" value="mitarbeiter" />
@@ -63,6 +74,7 @@
 		<property name="memberMappings">
 			<list value-type="edu.kit.cm.kitcampusguide.model.MemberToGroupMapping">
 				<ref bean="mitarbeiterGruppe1" />
+				<ref bean="institutsupdaterGruppe1" />
 				<ref bean="institutsleiterGruppe1" />
 			</list>
 		</property>
@@ -101,4 +113,12 @@
 		<property name="member" ref="institutsleiter2" />
 		<property name="role" value="ROLE_INSTITUTSLEITER" />
 	</bean>
+	
+	<bean id="institutsupdaterGruppe1" class="edu.kit.cm.kitcampusguide.model.MemberToGroupMapping">
+		<property name="group" ref="institute" />
+		<property name="member" ref="institutsupdater" />
+		<property name="role" value="ROLE_INSTITUTSUPDATER" />
+	</bean>
+	
+	
 </beans>
